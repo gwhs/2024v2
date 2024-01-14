@@ -53,6 +53,10 @@ public class IntakeSubsystem extends SubsystemBase {
      m_spinIntake1.setControl(new VoltageOut(0));
   }
 
+  public int getIntakePos() {
+    return m_lowerIntake
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

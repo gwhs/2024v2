@@ -7,6 +7,11 @@ package frc.robot;
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.testcontainers.ArmContainer;
+import frc.robot.testcontainers.ClimbContainer;
+import frc.robot.testcontainers.DriveContainer;
+import frc.robot.testcontainers.IntakeContainer;
+import frc.robot.testcontainers.VisionContainer;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -15,9 +20,20 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
  * project.
  */
 public class Robot extends TimedRobot {
+
+  public static final String GAME = "Game"; 
+  public static final String INTAKE = "Intake";
+  public static final String DRIVE = "Drive";
+  public static final String ARM = "Arm";
+  public static final String CLIMB = "Climb";
+  public static final String VISION = "Vision";
+
+  // change this to match the subsystem container you want to use, or GAME for complete robot
+  public static final String container = DRIVE;
+
   private Command m_autonomousCommand;
 
-  private RobotContainer m_robotContainer;
+  private BaseContainer m_baseContainer;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -25,9 +41,31 @@ public class Robot extends TimedRobot {
    */
   @Override
   public void robotInit() {
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and put our
-    // autonomous chooser on the dashboard.
-    m_robotContainer = new RobotContainer();
+    // Instantiate our RobotContainer.  This will perform all our button bindings, and use the subsystems needed
+    // for the specific robot
+
+    switch (container){
+      case GAME:
+        m_baseContainer = new GameRobotContainer();
+        break;
+      case INTAKE:
+        m_baseContainer = new IntakeContainer();
+        break;
+      default:
+      case DRIVE:
+        m_baseContainer = new DriveContainer();
+        break;
+      case CLIMB:
+        m_baseContainer = new ClimbContainer();
+        break;
+      case ARM:
+        m_baseContainer = new ArmContainer();
+        break;
+      case VISION:
+        m_baseContainer = new VisionContainer();
+        break;
+    }  
+   
   }
 
   /**
@@ -56,7 +94,7 @@ public class Robot extends TimedRobot {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_autonomousCommand = m_robotContainer.getAutonomousCommand();
+    m_autonomousCommand = m_baseContainer.getAutonomousCommand();
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {

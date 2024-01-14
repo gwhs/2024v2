@@ -16,4 +16,17 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
+
+  public static final class LimeLightConstants {
+
+    // for ryker
+    public static final double MAX_LIMELIGHT_ERROR_DEGREES =
+        1; // limelight max degrees off, max degrees error
+    public static final double CAMERA_HEIGHT = 84.5;
+    public static final double TARGET_HEIGHT = 61;
+    public static final double MOUNTING_ANGLE = -10;
+    public static final double LOWER_DISTANCE_SHOOT = 114;
+    public static final double MID_DISTANCE_SHOOT = 76;
+    public static final double TOP_DISTANCE_SHOOT = 42;
+  }
 }

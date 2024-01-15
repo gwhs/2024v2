@@ -8,7 +8,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class LowerIntake extends Command {
+public class UpperIntake extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private IntakeSubsystem intakeSubsystem;
 
@@ -22,7 +22,7 @@ public class LowerIntake extends Command {
    * @param subsystem The subsystem used by this command.
    */
 
-  public LowerIntake(IntakeSubsystem intakeSubsystem, double angle, double tolerance) {
+  public UpperIntake(IntakeSubsystem intakeSubsystem, double angle, double tolerance) {
     this.intakeSubsystem = intakeSubsystem;
     this.angle = angle;
     this.tolerance = tolerance;

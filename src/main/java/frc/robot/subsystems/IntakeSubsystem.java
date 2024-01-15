@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 
+import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -31,9 +32,7 @@ public class IntakeSubsystem extends SubsystemBase {
   //Sets the angle for the intake motor
   //TODO: Limit the maximum angle
   public void setIntakeAngle(double angle) {
-
     m_lowerIntake.setPosition(angle);
-
   }
 
   // double vel: sets the velocity 
@@ -50,11 +49,12 @@ public class IntakeSubsystem extends SubsystemBase {
 
   // Stops motors
   public void stopIntakeMotor() {
-     m_spinIntake1.setControl(new VoltageOut(0));
+     m_spinIntake1.stopMotor();
   }
 
-  public int getIntakePos() {
-    return m_lowerIntake
+  // returns the position of the angle of the lowering motor
+  public double getIntakePos() {
+    return m_lowerIntake.getPosition().getValue();
   }
 
   @Override

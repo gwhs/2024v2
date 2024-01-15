@@ -51,17 +51,17 @@ public class LimeLightSub extends SubsystemBase {
   public void periodic() {
 
     counter++;
-    // System.out.println(counter);
+    System.out.println(counter);
 
-    // double current = getTx();
-    // double difference = Math.abs(current - temp);
+    double current = getTx();
+    double difference = Math.abs(current - temp);
 
-    // if (difference > .01)
-    // {
-    //   System.out.println(counter);
-    //   System.out.println(current);
-    // }
-    // temp = current;
+    if (difference > .01)
+    {
+      System.out.println(counter);
+      System.out.println(current);
+    }
+    temp = current;
 
     System.out.println(tx.getDouble(0));
 

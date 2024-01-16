@@ -44,33 +44,18 @@ public class LimeLightSub extends SubsystemBase {
     limelight_comm.set_entry_double("ledMode", 3);
   }
 
-  private int counter;
-  private double temp = 0;
-
   @Override
   public void periodic() {
 
-    counter++;
-    System.out.println(counter);
+    ta = networkTable.getEntry("ta");
+    System.out.println("ta: " + ta.getDouble(-1));
 
-    double current = getTx();
-    double difference = Math.abs(current - temp);
-
-    if (difference > .01)
-    {
-      System.out.println(counter);
-      System.out.println(current);
-    }
-    temp = current;
-
-    System.out.println(tx.getDouble(0));
-
-    SmartDashboard.putNumber("tv", tv.getDouble(0));
+    // SmartDashboard.putNumber("tv", tv.getDouble(0));
     SmartDashboard.putNumber("tx", tx.getDouble(0));
-    SmartDashboard.putNumber("ty", ty.getDouble(0));
-    SmartDashboard.putNumber("ta", ta.getDouble(0));
-    SmartDashboard.putNumber("theta", getTheta());
-    SmartDashboard.putNumber("AngleToTarget", getAngle());
+    // SmartDashboard.putNumber("ty", ty.getDouble(0));
+    // SmartDashboard.putNumber("ta", ta.getDouble(0));
+    // SmartDashboard.putNumber("theta", getTheta());
+    // SmartDashboard.putNumber("AngleToTarget", getAngle());
 
     // This method will be called once per scheduler run
     // double currTx = limelight_comm.get_entry_double("tx");

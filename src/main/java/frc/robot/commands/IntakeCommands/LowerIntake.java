@@ -13,8 +13,10 @@ public class LowerIntake extends Command {
   private IntakeSubsystem intakeSubsystem;
 
   private double motorAng;
-  private double tolerance;
   private double angle;
+  private double velocity;
+  private double acceleration;
+  private double tolerance;
 
   /**
    * Creates a new ExampleCommand.
@@ -22,9 +24,11 @@ public class LowerIntake extends Command {
    * @param subsystem The subsystem used by this command.
    */
 
-  public LowerIntake(IntakeSubsystem intakeSubsystem, double angle, double tolerance) {
+  public LowerIntake(IntakeSubsystem intakeSubsystem, double angle, double velocity, double acceleration, double tolerance) {
     this.intakeSubsystem = intakeSubsystem;
     this.angle = angle;
+    this.velocity = velocity;
+    this.acceleration = acceleration;
     this.tolerance = tolerance;
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -33,7 +37,9 @@ public class LowerIntake extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    intakeSubsystem.spinIntakeMotor(velocity, acceleration);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override

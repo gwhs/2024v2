@@ -22,9 +22,9 @@ public class UpperIntake extends Command {
    * @param subsystem The subsystem used by this command.
    */
 
-  public UpperIntake(IntakeSubsystem intakeSubsystem, double angle, double tolerance) {
+  public UpperIntake(IntakeSubsystem intakeSubsystem, double tolerance) {
     this.intakeSubsystem = intakeSubsystem;
-    this.angle = angle;
+    this.angle = 0;
     this.tolerance = tolerance;
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -38,7 +38,7 @@ public class UpperIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.setIntakeAngle(angle);
+    intakeSubsystem.setIntakeAngle(intakeSubsystem.getIntakePos());
   }
 
   // Called once the command ends or is interrupted.

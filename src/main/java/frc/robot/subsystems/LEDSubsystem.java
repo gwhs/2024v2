@@ -1,56 +1,112 @@
-package frc.robot.subsystems;
+// // Copyright (c) FIRST and other WPILib contributors.
+// // Open Source Software; you can modify and/or share it under the terms of
+// // the WPILib BSD license file in the root directory of this project.
+
+// package frc.robot.subsystems;
+
+// import edu.wpi.first.wpilibj2.command.Command;
+// import edu.wpi.first.wpilibj2.command.SubsystemBase;
+// import edu.wpi.first.wpilibj.AddressableLED;
+// import edu.wpi.first.wpilibj.AddressableLEDBuffer;  
 
 
-// public class LEDSubsystem {
-    
+// public class LEDSubsystem extends SubsystemBase {
+//   /** Creates a new ExampleSubsystem. */
+//     private final AddressableLED m_led;
+//     private final AddressableLEDBuffer m_ledBuffer; 
+
+//     private final int NUMBER_LED = 24;
+
+//     private double m_brightness = 1;
+
+//   public LEDSubsystem() {
+//      m_led = new AddressableLED(9);
+
+//     // Reuse buffer
+//     // Default to a length of 60, start empty output
+//     // Length is expensive to set, so only set it once, 
+//     // then just update data
+//     m_ledBuffer = new AddressableLEDBuffer(NUMBER_LED);
+//     m_led.setLength(m_ledBuffer.getLength());
+
+//     // Set the data
+//     m_led.setData(m_ledBuffer);
+//     m_led.start();
+
+//   }
+
+//   public void orange() {
+//     m_brightness += .05;
+
+//     if (m_brightness > 1) {
+//       m_brightness = 0.01;
+//     }
+//     generalLED(0, NUMBER_LED, 255, 50, 0);
+//   }
+
+//       public void generalLED(int startLED, int endLED, int redColor, int greenColor, int blueColor) {
+//         for (var i = startLED; i < endLED; i++) {
+//           m_ledBuffer.setRGB(
+//               i,
+//               (int) (redColor * m_brightness),
+//               (int) (blueColor * m_brightness),
+//               (int) (greenColor * m_brightness));
+//         }
+//       }
+
+// @Override
+// public void periodic() {
+//   // This method will be called once per scheduler run
+//   orange();
+//   }
 // }
+
+
 
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-// package frc.robot.subsystems;
+package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-//import frc.robot.subsystems.ArmSubsystems.BoreEncoder;
-//import frc.robot.subsystems.ArmSubsystems.MagicMotion;
+
 
 public class LEDSubsystem extends SubsystemBase {
 
-  public enum LEDMode {
-    GREEN,
-    RED,
-    YELLOW,
-    PURPLE,
-    TEAMCOLOR,
-    BLUE,
-    // auto
-    WHITE,
-  }
+  // public enum LEDMode {
+  //   RAINBOW,
+  //   EMERGENCY,
+  //   YELLOW,
+  //   PURPLE,
+  //   // TEAMCOLOR,
+  //   BLUE,
+  //   // PINK,
+  //   // auto
+  //   GREEN,
+  //   // ORANGE,
+  //   RED,
+  // }
 
   private final AddressableLED m_led;
   private final AddressableLEDBuffer m_ledBuffer;
   private int NUMBER_LED = 100;
   // Store what the last hue of the first pixel is
-//   private int m_rainbowFirstPixelHue;
+  private int m_rainbowFirstPixelHue;
   private double m_brightness = 1;
 
   // Change for different PWM ports
   private int ledPortNumber = 0;
 
-  private LEDMode ledMode;
+  // private LEDMode ledMode;
 
   // moving pixel
   private int m_pixelCounter;
   private int m_loopCounter;
 
-  // auto
-//   private DrivetrainSubsystem drivetrainSubsystem;
-//   private PoseEstimatorSubsystem poseEstimator;
-//   private BoreEncoder shaftEncoder;
-//   private MagicMotion mainArm;
+
 
   public LEDSubsystem() {
     // PWM port 9
@@ -66,23 +122,21 @@ public class LEDSubsystem extends SubsystemBase {
     // Set the data
     m_led.setData(m_ledBuffer);
     m_led.start();
-
-    ledMode = LEDMode.TEAMCOLOR;
   }
 
-  public void setLedMode(LEDMode ledMode) {
-    this.ledMode = ledMode;
-  }
+  // public void setLedMode(LEDMode ledMode) {
+  //   this.ledMode = ledMode;
+  // }
 
-  public LEDMode getLedMode() {
-    return ledMode;
-  }
+  // public LEDMode getLedMode() {
+  //   return ledMode;
+  // }
 
-   public int transformColor(int colorOne, int colorTwo, double multiplier) {
-//     // hwne multiplier is 0, get color one, when color one is on color two
-     int value = (int) ((colorOne * multiplier) + (colorTwo * (1 - multiplier + 10)));
+  public int transformColor(int colorOne, int colorTwo, double multiplier) {
+    // hwne multiplier is 0, get color one, when color one is on color two
+    int value = (int) ((colorOne * multiplier) + (colorTwo * (1 - multiplier + 10)));
 
-     if (value > 255) {
+    if (value > 255) {
       return 255;
     } else if (value < 0) {
       return 0;
@@ -95,23 +149,32 @@ public class LEDSubsystem extends SubsystemBase {
   // if (drivetrainSubsystem
   // }
 
-  public void blue() {
-    m_brightness += .05;
-
-    if (m_brightness > 1) {
-      m_brightness = 0.01;
+  public void rainbow() {
+    // For every pixel
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      // Calculate the hue - hue is easier for rainbows because the color
+      // shape is a circle so only one value needs to precess
+      final var hue = (m_rainbowFirstPixelHue + (i * 180 / m_ledBuffer.getLength())) % 180;
+      // Set the value
+      m_ledBuffer.setHSV(i, hue, 255, 128);
     }
-    generalLED(0, NUMBER_LED, 0, 0, 255);
+
+    // Increase by to make the rainbow "move"
+    m_rainbowFirstPixelHue += 240; // speed of rainbow color movement
+    // Check bounds
+    m_rainbowFirstPixelHue %= 180;
   }
 
-//   public void pink() {
-//     m_brightness += .05;
+ 
 
-//     if (m_brightness > 1) {
-//       m_brightness = 0.01;
-//     }
-//     generalLED(0, NUMBER_LED, 255, 192, 203);
-//   }
+  // public void pink() {
+  //   m_brightness += .05;
+
+  //   if (m_brightness > 1) {
+  //     m_brightness = 0.01;
+  //   }
+  //   generalLED(0, NUMBER_LED, 255, 192, 203);
+  // // }
 
   public void yellow() {
     m_brightness += .05;
@@ -122,65 +185,68 @@ public class LEDSubsystem extends SubsystemBase {
     generalLED(0, NUMBER_LED, 255, 70, 0);
   }
 
-  public void purple() {
-    m_brightness += .05;
+  
 
-    if (m_brightness > 1) {
-      m_brightness = 0.01;
-    }
+  // public void teamColor() {
+  //   // For every pixel
+  //   final int r1 = 255;
+  //   final int g1 = 0;
+  //   final int b1 = 0;
 
-    generalLED(0, NUMBER_LED, 255, 0, 255);
-  }
+  //   final int r2 = 0;
+  //   final int g2 = 0;
+  //   final int b2 = 255;
 
- public void red() {
-    m_brightness += .02;
+  //   // boolean finish = false;
 
-    if (m_brightness > 1) {
-      m_brightness = 0.01;
-    }
-    generalLED(0, NUMBER_LED, 255, 0, 0);
-  }
+  //   int r3;
+  //   int g3;
+  //   int b3;
 
-  public void clear() {
-    generalLED(0, NUMBER_LED, 0, 0, 0);
-  }
+  //   // front
+  //   for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+  //     double t = (double) (i / (m_ledBuffer.getLength() - 5.0));
 
-  public void teamColor() {
-    // For every pixel
-    final int r1 = 255;
-    final int g1 = 0;
-    final int b1 = 0;
+  //     r3 = transformColor(r1, r2, t);
+  //     g3 = transformColor(g1, g2, t);
+  //     b3 = transformColor(b1, b2, t);
 
-    final int r2 = 0;
-    final int g2 = 0;
-    final int b2 = 255;
+  //     // generalLED(i, i + 1, r3, g3, b3);
+  //     m_ledBuffer.setRGB(i, (int) (r3), (int) (b3), (int) (g3));
 
-    boolean finish = false;
+  //     if (i == (m_ledBuffer.getLength() - 1)) {
+  //       r3 = 0;
+  //       g3 = 0;
+  //       b3 = 0;
+  //       // generalLED(0, NUMBER_LED, r1, g2, b3);
+  //       // finish = true;
+  //     }
+  //   }
 
-    int r3;
-    int g3;
-    int b3;
+    // reverse
+    // if (finish) {
+    // for (var i = NUMBER_LED; i > 0; i--) {
+    // double t = (double) (i / (m_ledBuffer.getLength() - 1.0));
 
-    // front
-    for (int i = 0; i < m_ledBuffer.getLength(); i++) {
-      double t = (double) (i / (m_ledBuffer.getLength() - 5.0));
+    // r3 = transformColor(r2, r1, t);
+    // g3 = transformColor(g2, g1, t);
+    // b3 = transformColor(b2, b1, t);
 
-      r3 = transformColor(r1, r2, t);
-      g3 = transformColor(g1, g2, t);
-      b3 = transformColor(b1, b2, t);
+    // // generalLED(i, i + 1, r3, g3, b3);
+    // m_ledBuffer.setRGB(i, (int) (r3), (int) (b3), (int) (g3));
 
-      // generalLED(i, i + 1, r3, g3, b3);
-      m_ledBuffer.setRGB(i, (int) (r3), (int) (b3), (int) (g3));
+    // if (i == 1) {
+    // System.out.println("loop 2");
+    // r3 = 0;
+    // g3 = 0;
+    // b3 = 0;
+    // // generalLED(0, NUMBER_LED, r1, g2, b3);
+    // finish = false;
+    // }
+    // }
+  //}
 
-      if (i == (m_ledBuffer.getLength() - 1)) {
-        r3 = 0;
-        g3 = 0;
-        b3 = 0;
-        // generalLED(0, NUMBER_LED, r1, g2, b3);
-        // finish = true;
-      }
-    }
-   } 
+  // experiment
 
   public void movingPixel() {
     m_ledBuffer.setRGB(m_pixelCounter, 0, 255, 0);
@@ -193,71 +259,46 @@ public class LEDSubsystem extends SubsystemBase {
     }
   }
 
-  // auto
-  public void white() {
-    m_brightness += .05;
-
-    if (m_brightness > 1) {
-      m_brightness = 0.01;
-    }
-    generalLED(0, NUMBER_LED, 255, 255, 255);
-  }
-
-//   public void orange() {
-//     m_brightness += .05;
-
-//     if (m_brightness > 1) {
-//       m_brightness = 0.01;
-//     }
-//     generalLED(0, NUMBER_LED, 255, 50, 0);
-//   }
-
-//   public void red() {
-//     m_brightness += .05;
-
-//     if (m_brightness > 1) {
-//       m_brightness = 0.01;
-//     }
-//     generalLED(0, NUMBER_LED, 255, 0, 0);
-//   }
 
   @Override
   public void periodic() {
     // System.out.println(ledMode);
-    switch (ledMode) {
+    // switch (ledMode) {
     //   case RAINBOW:
     //     rainbow();
     //     break;
-      case RED:
-        red();
-        break;
-      case YELLOW:
-        yellow();
-        break;
-      case PURPLE:
-        purple();
-        break;
-      case TEAMCOLOR:
-        teamColor();
-        break;
-      case BLUE:
-        blue();
-        break;
-    //   case PINK:
-    //     pink();
+    //   // case EMERGENCY:
+    //   //   emergency();
+    //   //   break;
+    //   case YELLOW:
+    //     yellow();
     //     break;
+      //case PURPLE:
+      //   purple();
+      //   break;
+      // // case TEAMCOLOR:
+      // //   teamColor();
+      // //   break;
+      // case BLUE:
+      //   blue();
+      //   break;
+      // // case PINK:
+      // //   pink();
+      // //   break;
 
-        // auto
-      case WHITE:
-        white();
-        break;
-    //   case ORANGE:
-    //     orange();
-    //     break;
-    //   case RED:
-    //     red();
-    //     break;
-    }
+      //   // auto
+      // case GREEN:
+      //   green();
+      //   break;
+      // // case ORANGE:
+      // //   orange();
+      // //   break;
+      // case RED:
+      //   red();
+      //   break;
+  // }
+
+  yellow();
 
     m_led.setData(m_ledBuffer);
   }
@@ -272,19 +313,19 @@ public class LEDSubsystem extends SubsystemBase {
     }
   }
 
-  public void toggleLED() {
-    if (getLedMode() == LEDMode.YELLOW) {
-      setLedMode(LEDMode.PURPLE);
-    } else {
-      setLedMode(LEDMode.YELLOW);
-    }
-  }
+  // public void toggleLED() {
+  //   if (getLedMode() == LEDMode.YELLOW) {
+  //     setLedMode(LEDMode.PURPLE);
+  //   } else {
+  //     setLedMode(LEDMode.YELLOW);
+  //   }
+  // }
 
-  public void setPurple() {
-    this.setLedMode(LEDMode.PURPLE);
-  }
+  // public void setPurple() {
+  //   this.setLedMode(LEDMode.PURPLE);
+  // }
 
-  public void setYellow() {
-    this.setLedMode(LEDMode.YELLOW);
-  }
+  // public void setYellow() {
+  //   this.setLedMode(LEDMode.YELLOW);
+  // }
 }

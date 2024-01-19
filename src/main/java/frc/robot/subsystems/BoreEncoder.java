@@ -1,4 +1,4 @@
-package frc.robot.subsystems.ArmSubsystems;
+package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Encoder;

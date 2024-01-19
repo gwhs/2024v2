@@ -6,8 +6,37 @@ package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import com.ctre.phoenix6.controls.MotionMagicVoltage;
+import com.ctre.phoenix6.hardware.TalonFX;
+//import com.ctre.phoenix6.hardware.core.CoreTalonFX; //Core?
+
 
 public class ArmSubsystem extends SubsystemBase {
+  private TalonFX m_arm;
+
+  public ArmSubsystem(int armId, String canbus)
+  {
+    m_arm = new TalonFX(armID, canbus);
+  }
+
+  public void setArmAngle(double angle) {
+    m_arm.setPosition(angle);
+  }
+
+  public spinArmMotor (double pos, double feedForward)
+  {
+    MotionMagicVoltage armSpinRequest = new MotionMagicVoltage​(pos, true, feedForward, 0, false, true, false);
+    m_arm.setControl(armSpinRequest);
+  }
+
+  public void stopArmMotor() {
+    m_arm.stopMotor();
+ }
+
+  public double getArmPos() {
+    return m_arm.getPosition().getValue();
+  }
+
   /** Creates a new ExampleSubsystem. */
   public ArmSubsystem() {}
 

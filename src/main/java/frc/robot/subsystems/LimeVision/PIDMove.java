@@ -14,28 +14,18 @@ import frc.robot.subsystems.LimeVision.LimeLightSub;
 public class PIDMove extends SubsystemBase {
 
 private PIDController controller;
-private LimeLightSub limeLightSub;
+
+// private LimeLightSub limeLightSub = new LimeLightSub("limelight");
 
   public PIDMove(double kP, double Ki, double kD, double setPoint) {
     controller = new PIDController(kP, Ki, kD);
-    limeLightSub = new LimeLightSub("limelight");
 
     controller.setSetpoint(setPoint);
 
   }
 
-  public double getError() {
-    return controller.calculate(limeLightSub.getTx());
+  public double getError(double tx) {
+    return controller.calculate(tx);
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-
-  }
-
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run duriney simulation
-  }
 }

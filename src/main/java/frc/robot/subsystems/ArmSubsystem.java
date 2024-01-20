@@ -16,16 +16,17 @@ public class ArmSubsystem extends SubsystemBase {
 
   public ArmSubsystem(int armId, String canbus)
   {
-    m_arm = new TalonFX(armID, canbus);
+    m_arm = new TalonFX(armId, canbus);
   }
 
   public void setArmAngle(double angle) {
     m_arm.setPosition(angle);
   }
 
-  public spinArmMotor (double pos, double feedForward)
+  //MotionMagicVoltage​(double Position, boolean EnableFOC, double FeedForward, int Slot, boolean OverrideBrakeDurNeutral, boolean LimitForwardMotion, boolean LimitReverseMotion)
+  public void spinArmMotor (double pos, double feedForward)
   {
-    MotionMagicVoltage armSpinRequest = new MotionMagicVoltage​(pos, true, feedForward, 0, false, true, false);
+    MotionMagicVoltage armSpinRequest = new MotionMagicVoltage(pos, true, feedForward, 0, false, true, false);
     m_arm.setControl(armSpinRequest);
   }
 

@@ -47,15 +47,19 @@ public class LimeLightSub extends SubsystemBase {
   @Override
   public void periodic() {
 
-    ta = networkTable.getEntry("ta");
-    System.out.println("ta: " + ta.getDouble(-1));
-
-    // SmartDashboard.putNumber("tv", tv.getDouble(0));
+    SmartDashboard.putNumber("tv", tv.getDouble(0));
     SmartDashboard.putNumber("tx", tx.getDouble(0));
-    // SmartDashboard.putNumber("ty", ty.getDouble(0));
-    // SmartDashboard.putNumber("ta", ta.getDouble(0));
-    // SmartDashboard.putNumber("theta", getTheta());
-    // SmartDashboard.putNumber("AngleToTarget", getAngle());
+    SmartDashboard.putNumber("ty", ty.getDouble(0));
+    SmartDashboard.putNumber("ta", ta.getDouble(0));
+    SmartDashboard.putNumber("theta", getTheta());
+    SmartDashboard.putNumber("AngleToTarget", getAngle());
+
+    
+
+    if (getTx() < 0.5 && getTx() > -0.5)
+    {
+      System.out.println("stops");
+    }
 
     // This method will be called once per scheduler run
     // double currTx = limelight_comm.get_entry_double("tx");

@@ -60,6 +60,8 @@ public class TeleopDrive extends Command
     SmartDashboard.putNumber("vY", yVelocity);
     SmartDashboard.putNumber("omega", angVelocity);
     SmartDashboard.putNumber("rawX", xVelocity *swerve.maximumSpeed);
+    SmartDashboard.putNumber("rawY", yVelocity *swerve.maximumSpeed);
+    SmartDashboard.putNumber("rawAng", angVelocity * controller.config.maxAngularVelocity);
 
     
 

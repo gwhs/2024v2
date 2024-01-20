@@ -40,7 +40,7 @@ public class DriveContainer implements BaseContainer
   XboxController driverXbox = new XboxController(0);
 
   public String getDriveTrainName(){
-    return "ryker_falcon";
+    return "swerve/ryker_falcon";
   }
 
   /**
@@ -48,11 +48,12 @@ public class DriveContainer implements BaseContainer
    */
   public DriveContainer()
   {
+    drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
+                                                                         getDriveTrainName()));
+
     // Configure the trigger bindings
     configureBindings();
-     drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
-                                                                         "ryker_falcon"));
-
+     
     AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase,
                                                           // Applies deadbands and inverts controls because joysticks
                                                           // are back-right positive while robot

@@ -6,7 +6,6 @@ package frc.robot.testcontainers;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
@@ -52,7 +51,7 @@ public class DriveContainer implements BaseContainer
     // Configure the trigger bindings
     configureBindings();
      drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
-                                                                         getDriveTrainName()));
+                                                                         "ryker_falcon"));
 
     AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase,
                                                           // Applies deadbands and inverts controls because joysticks

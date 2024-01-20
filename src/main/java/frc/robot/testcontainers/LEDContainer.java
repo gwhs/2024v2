@@ -1,16 +1,19 @@
 package frc.robot.testcontainers;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ledcommands.ChangeLEDToBlue;
 import frc.robot.subsystems.LEDSubsystem;
 import edu.wpi.first.wpilibj.XboxController;
+import edu.wpi.first.wpilibj.event.BooleanEvent;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
 
 public class LEDContainer implements BaseContainer {
   
-    private final XboxController xboxController = new XboxController(0);
+    private final CommandXboxController xboxController = new CommandXboxController(0);
     LEDSubsystem led = new LEDSubsystem(9);
     
     // todo: add intake subsystem
@@ -22,8 +25,9 @@ public class LEDContainer implements BaseContainer {
     }
 
 
-    private void configureBindings() {}
-
-    if ()
+    private void configureBindings() {
+        xboxController.x().onTrue(new ChangeLEDToBlue(led));
+        // onTrue(new ChangeLEDToBlue(ledSubsystem));
+    }
 
 }

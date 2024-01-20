@@ -9,7 +9,7 @@ import frc.robot.subsystems.LEDSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class ChangeLEDToBlue extends Command {
+public class ChangeLEDToGreen extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final LEDSubsystem ledSubsystem;
 
@@ -18,7 +18,7 @@ public class ChangeLEDToBlue extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public ChangeLEDToBlue(LEDSubsystem ledSubsystem) {
+  public ChangeLEDToGreen(LEDSubsystem ledSubsystem) {
     this.ledSubsystem = ledSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(ledSubsystem);
@@ -31,7 +31,7 @@ public class ChangeLEDToBlue extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ledSubsystem.setColor​(0, 0, 255);
+    ledSubsystem.setColor​(0, 255, 0);
   }
 
   // Called once the command ends or is interrupted.

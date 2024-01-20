@@ -28,5 +28,7 @@ public final class Constants {
     public static final double LOWER_DISTANCE_SHOOT = 114;
     public static final double MID_DISTANCE_SHOOT = 76;
     public static final double TOP_DISTANCE_SHOOT = 42;
+
+    private static final int PIGEON_ID = 30;
   }
 }

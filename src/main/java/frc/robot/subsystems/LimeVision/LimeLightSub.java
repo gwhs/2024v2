@@ -22,7 +22,6 @@ public class LimeLightSub extends SubsystemBase {
   
   private double setPoint = 0;
 
-
   private PIDMove PID = new PIDMove(kP,kD,kI,setPoint);
 
   // set up a new instance of NetworkTables (the api/library used to read values from limelight)
@@ -66,12 +65,10 @@ public class LimeLightSub extends SubsystemBase {
     SmartDashboard.putNumber("AngleToTarget", getAngle());
     SmartDashboard.putNumber("Error TX", PID.getError(getTx()));
 
-    
-
     if (getTx() < 0.5 && getTx() > -0.5)
     {
       System.out.println("stops");
-    }
+    } 
 
     // This method will be called once per scheduler run
     // double currTx = limelight_comm.get_entry_double("tx");

@@ -119,6 +119,8 @@ public class AbsoluteDriveAdv extends Command
                                            swerve.getSwerveDriveConfiguration());
     SmartDashboard.putNumber("LimitedTranslation", translation.getX());
     SmartDashboard.putString("Translation", translation.toString());
+    SmartDashboard.putString("desiredSpeed", desiredSpeeds.toString());
+    
 
     // Make the robot move
     if(headingX == 0 && headingY == 0 && Math.abs(headingAdjust.getAsDouble()) > 0){

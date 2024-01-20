@@ -4,6 +4,8 @@ import  edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj.util.Color8Bit;
+
 
 public class LEDSubsystem extends SubsystemBase {
 
@@ -12,21 +14,23 @@ public class LEDSubsystem extends SubsystemBase {
   // Store what the last hue of the first pixel is
   private int m_rainbowFirstPixelHue;
 
-  public LEDSubsystem() {
+  public LEDSubsystem(int id) {
 
-    m_led = new AddressableLED(0);
+    m_led = new AddressableLED(id);
     // Reuse buffer
     // Default to a length of 60, start empty output
     // Length is expensive to set, so only set it once, then just update data
     m_ledBuffer = new AddressableLEDBuffer(60);
     m_led.setLength(m_ledBuffer.getLength());
 
+  }
+
+  public void setColor(Color c)
+  {
     for (var i = 0; i < m_ledBuffer.getLength(); i++) 
     {
-      m_ledBuffer.setLED(i, Color.kGold);
+      m_ledBuffer.setLED(i, c);
     }
-
-    // Set the data
     m_led.setData(m_ledBuffer);
     m_led.start();
   }

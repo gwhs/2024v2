@@ -2,6 +2,7 @@ package frc.robot.subsystems;
 
 import  edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class LEDSubsystem extends SubsystemBase {
@@ -13,12 +14,17 @@ public class LEDSubsystem extends SubsystemBase {
 
   public LEDSubsystem() {
 
-    m_led = new AddressableLED(9);
+    m_led = new AddressableLED(0);
     // Reuse buffer
     // Default to a length of 60, start empty output
     // Length is expensive to set, so only set it once, then just update data
     m_ledBuffer = new AddressableLEDBuffer(60);
     m_led.setLength(m_ledBuffer.getLength());
+
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) 
+    {
+      m_ledBuffer.setLED(i, Color.kGold);
+    }
 
     // Set the data
     m_led.setData(m_ledBuffer);

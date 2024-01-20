@@ -32,14 +32,17 @@ public class DriveContainer implements BaseContainer
 {
 
   // The robot's subsystems and commands are defined here...
-  private final SwerveSubsystem drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
-                                                                         "swerve/falcon"));
+  private final SwerveSubsystem drivebase;
   // CommandJoystick rotationController = new CommandJoystick(1);
   // Replace with CommandPS4Controller or CommandJoystick if needed
   CommandJoystick driverController = new CommandJoystick(1);
 
   // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
   XboxController driverXbox = new XboxController(0);
+
+  public String getDriveTrainName(){
+    return "ryker_falcon";
+  }
 
   /**
    * The container for the robot. Contains subsystems, OI devices, and commands.
@@ -48,6 +51,8 @@ public class DriveContainer implements BaseContainer
   {
     // Configure the trigger bindings
     configureBindings();
+     drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
+                                                                         getDriveTrainName()));
 
     AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase,
                                                           // Applies deadbands and inverts controls because joysticks
@@ -92,7 +97,7 @@ public class DriveContainer implements BaseContainer
         () -> MathUtil.applyDeadband(driverXbox.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
         () -> driverXbox.getRightTriggerAxis() - driverXbox.getLeftTriggerAxis(), () -> true);
 
-    drivebase.setDefaultCommand(closedFieldRel);
+    drivebase.setDefaultCommand(closedFieldRel);  //TO CHANGE DRIVE BASE
   }
 
   /**

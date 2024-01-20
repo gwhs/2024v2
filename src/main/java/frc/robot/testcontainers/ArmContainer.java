@@ -3,6 +3,7 @@ package frc.robot.testcontainers;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.subsystems.ArmSubsystem;
 
 public class ArmContainer implements BaseContainer {
   

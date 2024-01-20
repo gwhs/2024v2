@@ -2,6 +2,9 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+
+  //Bore encoder, Talonfx motor, Magic motion?, 
+  //Functions: getCurrentPosition/getCurrentAngle, setTargetPosition, getTorqueVelocity, setVelocity, 
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -9,14 +12,36 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 //import com.ctre.phoenix6.hardware.core.CoreTalonFX; //Core?
+//import edu.wpi.first.wpilibj.CounterBase;
+import edu.wpi.first.wpilibj.Counter;
+import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import org.littletonrobotics.junction.Logger;
+//import org.littletonrobotics.akit.junction;
 
 
 public class ArmSubsystem extends SubsystemBase {
   private TalonFX m_arm;
+  private final Encoder m_encoder;
 
-  public ArmSubsystem(int armId, String canbus)
+  // private ShuffleboardTab tab = Shuffleboard.getTab("Encoder");
+  // private GenericEntry encoderPosition = tab.add("Encoder Position", 0).getEntry();
+  // private GenericEntry encoderRate =
+  //     tab.add("Encoder Rate", 0)
+  //         .withWidget(BuiltInWidgets.kDial)
+  //         .withProperties(Map.of("min", -500, "max", 500))
+  //         .getEntry();
+
+  public ArmSubsystem(int armId, String canbus, int channel1, int channel2)
   {
-    m_arm = new TalonFX(armId, canbus);
+      m_arm = new TalonFX(armId, canbus);
+      m_encoder = new Encoder(channel1, channel2, false, Counter.EncodingType.k4X);
+  
+      m_encoder.reset();
+      m_encoder.setSamplesToAverage(5);
+      m_encoder.setDistancePerPulse(1. / 256.);
+      m_encoder.setMinRate(1.0);
+    
   }
 
   public void setArmAngle(double angle) {
@@ -38,36 +63,46 @@ public class ArmSubsystem extends SubsystemBase {
     return m_arm.getPosition().getValue();
   }
 
-  /** Creates a new ExampleSubsystem. */
-  public ArmSubsystem() {}
-
-  /**
-   * Example command factory method.
-   *
-   * @return a command
-   */
-  public Command exampleMethodCommand() {
-    // Inline construction of command goes here.
-    // Subsystem::RunOnce implicitly requires `this` subsystem.
-    return runOnce(
-        () -> {
-          /* one-time action goes here */
-        });
+  public double getDistance() {
+    return m_encoder.getDistance();
   }
 
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
+  public double getRaw() {
+
+    return m_encoder.getRaw();
+  }
+
+  public boolean posDown() {
+    double rawAngle = (-m_encoder.getRaw() / 8192. * 360.);
+    return Math.abs(rawAngle) < 57;
+  }
+
+  public boolean posDown2() {
+    double rawAngle = (-m_encoder.getRaw() / 8192. * 360.);
+    return Math.abs(rawAngle) < 20;
+  }
+
+  public void reset() {
+    m_encoder.reset();
+  }
+
+  public boolean getStopped() {
+    return m_encoder.getStopped();
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    double ticks = m_encoder.get();
+
+    double rawAngle = (-m_encoder.getRaw() / 8192. * 360.);
+    Logger.getInstance().recordOutput("/Angle", rawAngle);
+
+    //  SmartDashboard.putNumber("Encoder ticks", ticks);
+    //  SmartDashboard.putNumber("Encoder Rate", m_encoder.getRate());
+    //  SmartDashboard.putNumber("Encoder Distance", m_encoder.getDistance());
+    //  encoderPosition.setDouble(ticks);
+    //  encoderRate.setDouble(m_encoder.getRate());
   }
 
   @Override

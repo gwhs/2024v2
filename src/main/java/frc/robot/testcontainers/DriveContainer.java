@@ -6,15 +6,13 @@ package frc.robot.testcontainers;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.XboxController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import edu.wpi.first.wpilibj2.command.button.CommandJoystick;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.JoystickButton;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Robot;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
@@ -32,12 +30,9 @@ public class DriveContainer implements BaseContainer
 
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase;
-  // CommandJoystick rotationController = new CommandJoystick(1);
-  // Replace with CommandPS4Controller or CommandJoystick if needed
-  CommandJoystick driverController = new CommandJoystick(1);
 
-  // CommandJoystick driverController   = new CommandJoystick(3);//(OperatorConstants.DRIVER_CONTROLLER_PORT);
-  XboxController driverXbox = new XboxController(0);
+  CommandXboxController driverController = new CommandXboxController(1);
+  CommandXboxController driverXbox = new CommandXboxController(0);
 
   public String getDriveTrainName(){
     return "swerve/ryker_falcon";
@@ -80,10 +75,10 @@ public class DriveContainer implements BaseContainer
                                                                                                   OperatorConstants.LEFT_X_DEADBAND),
                                                                       () -> MathUtil.applyDeadband(driverXbox.getRightX(),
                                                                                                   OperatorConstants.RIGHT_X_DEADBAND), 
-                                                                      driverXbox::getYButtonPressed, 
-                                                                      driverXbox::getAButtonPressed, 
-                                                                      driverXbox::getXButtonPressed, 
-                                                                      driverXbox::getBButtonPressed);
+                                                                      () -> driverXbox.y().getAsBoolean(), 
+                                                                      () -> driverXbox.a().getAsBoolean(),
+                                                                      () -> driverXbox.x().getAsBoolean(),
+                                                                      () -> driverXbox.b().getAsBoolean());
 
     TeleopDrive simClosedFieldRel = new TeleopDrive(drivebase,
                                                     () -> MathUtil.applyDeadband(driverXbox.getLeftY(),
@@ -110,10 +105,8 @@ public class DriveContainer implements BaseContainer
   private void configureBindings()
   {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    new JoystickButton(driverXbox, 8).toggleOnTrue(new InstantCommand(drivebase::zeroGyro));
-   // new JoystickButton(driverXbox, 1).OnTrue((new InstantCommand(drivebase::zeroGyro)));
-    new JoystickButton(driverXbox, 3).onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-//    new JoystickButton(driverXbox, 3).whileTrue(new RepeatCommand(new InstantCommand(drivebase::lock, drivebase)));
+    driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
+    driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
   }
 
   /**

@@ -25,7 +25,7 @@ public class LEDSubsystem extends SubsystemBase {
 
   }
 
-  public void setColor​(int red, int green, int blue)
+  public void setColor(int red, int green, int blue)
   {
     Color color = new Color(red, green, blue);
     for (var i = 0; i < m_ledBuffer.getLength(); i++) 

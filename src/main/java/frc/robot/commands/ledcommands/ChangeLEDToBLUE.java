@@ -6,7 +6,7 @@ package frc.robot.commands.ledcommands;
 
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;s
+import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
 public class ChangeLEDToBlue extends Command {
@@ -31,7 +31,7 @@ public class ChangeLEDToBlue extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ledSubsystem.setColor​(0, 0, 255);
+    ledSubsystem.setColor(0, 0, 255);
   }
 
   // Called once the command ends or is interrupted.

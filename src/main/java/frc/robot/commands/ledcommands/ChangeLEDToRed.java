@@ -6,6 +6,7 @@ package frc.robot.commands.ledcommands;
 
 import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
+import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
@@ -41,6 +42,6 @@ public class ChangeLEDToRed extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return ledSubsystem.getColor(1).equals(new Color(255, 0, 0));
   }
 }

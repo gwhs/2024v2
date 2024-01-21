@@ -35,6 +35,11 @@ public class LEDSubsystem extends SubsystemBase {
     m_led.start();
   }
 
+  public Color getColor(int index)
+  {
+    return m_ledBuffer.getLED(index);
+  }
+
   /**
    * An example method querying a boolean state of the subsystem (for example, a digital sensor).
    *

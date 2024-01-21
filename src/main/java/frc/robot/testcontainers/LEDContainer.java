@@ -17,7 +17,7 @@ import edu.wpi.first.wpilibj.util.Color8Bit;
 public class LEDContainer implements BaseContainer {
   
     private final CommandXboxController xboxController = new CommandXboxController(0);
-    
+
     LEDSubsystem led = new LEDSubsystem(9);
     
     // todo: add intake subsystem
@@ -30,10 +30,10 @@ public class LEDContainer implements BaseContainer {
 
 
     private void configureBindings() {
-        // xboxController.x().onTrue(new ChangeLEDToBlue(led));
+        xboxController.x().onTrue(new ChangeLEDToBlue(led));//pressing x on the controller runs a
         xboxController.y().onTrue(new ChangeLEDToRed(led));
-        // xboxController.a().onTrue(new ChangeLEDToGreen(led));
-        xboxController.a().onTrue(new ChangeLEDColor(led, 255, 50, 0));
+        xboxController.b().onTrue(new ChangeLEDToGreen(led));
+        xboxController.a().onTrue(new ChangeLEDColor(led, 255, 0, 255));
     }
 
 }

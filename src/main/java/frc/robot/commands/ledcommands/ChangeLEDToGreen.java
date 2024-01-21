@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 /** An example command that uses an example subsystem. */
 public class ChangeLEDToGreen extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  
+
   private final LEDSubsystem ledSubsystem;
 
   public ChangeLEDToGreen(LEDSubsystem ledSubsystem) {
@@ -38,6 +38,6 @@ public class ChangeLEDToGreen extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ledSubsystem.getColor(1).equals(new Color(255, 0, 0));
+    return ledSubsystem.getColor(1).equals(new Color(0, 0, 255));
   }
 }

@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import  edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -12,7 +11,7 @@ public class LEDSubsystem extends SubsystemBase {
   private AddressableLED m_led;
   private AddressableLEDBuffer m_ledBuffer;
   // Store what the last hue of the first pixel is
-  private int m_rainbowFirstPixelHue;
+  // private int m_rainbowFirstPixelHue;
 
   public LEDSubsystem(int id) {
 
@@ -25,9 +24,9 @@ public class LEDSubsystem extends SubsystemBase {
 
   }
 
-  public void setColor(int red, int green, int blue)
+  public void setColor(int red, int blue, int green)
   {
-    Color color = new Color(red, green, blue);
+    Color color = new Color(red, blue, green);
     for (var i = 0; i < m_ledBuffer.getLength(); i++) 
     {
       m_ledBuffer.setLED(i, color);

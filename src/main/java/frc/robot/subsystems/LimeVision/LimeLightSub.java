@@ -11,7 +11,6 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimeLightConstants;
-import frc.robot.subsystems.LimeVision.PIDMove;
 
 public class LimeLightSub extends SubsystemBase {
 
@@ -21,8 +20,6 @@ public class LimeLightSub extends SubsystemBase {
   private final double kI = 0;
   
   private double setPoint = 0;
-
-  private PIDMove PID = new PIDMove(kP,kD,kI,setPoint);
 
   // set up a new instance of NetworkTables (the api/library used to read values from limelight)
   NetworkTable networkTable = NetworkTableInstance.getDefault().getTable("limelight");
@@ -63,7 +60,6 @@ public class LimeLightSub extends SubsystemBase {
     SmartDashboard.putNumber("ta", ta.getDouble(0));
     SmartDashboard.putNumber("theta", getTheta());
     SmartDashboard.putNumber("AngleToTarget", getAngle());
-    SmartDashboard.putNumber("Error TX", PID.getError(getTx()));
 
     if (getTx() < 0.5 && getTx() > -0.5)
     {

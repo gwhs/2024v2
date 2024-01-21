@@ -5,10 +5,11 @@
 package frc.robot.commands.IntakeCommands;
 
 import frc.robot.subsystems.IntakeSubsystem;
+import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class UpperIntake extends Command {
+public class UpperArmIntake extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private IntakeSubsystem intakeSubsystem;
 
@@ -22,9 +23,9 @@ public class UpperIntake extends Command {
    * @param subsystem The subsystem used by this command.
    */
 
-  public UpperIntake(IntakeSubsystem intakeSubsystem, double tolerance) {
+  public UpperArmIntake(IntakeSubsystem intakeSubsystem, double tolerance, Encoder m_encoder) {
     this.intakeSubsystem = intakeSubsystem;
-    this.angle = 0;
+    this.angle = m_encoder.getDistance();
     this.tolerance = tolerance;
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -38,7 +39,7 @@ public class UpperIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.setIntakeAngle(intakeSubsystem.getIntakePos());
+    intakeSubsystem.setArmAngle(intakeSubsystem.getArmPos());
   }
 
   // Called once the command ends or is interrupted.
@@ -48,7 +49,7 @@ public class UpperIntake extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    motorAng = intakeSubsystem.getIntakePos();
+    motorAng = intakeSubsystem.getArmPos();
     return Math.abs(motorAng - angle) < tolerance;
   }
 }

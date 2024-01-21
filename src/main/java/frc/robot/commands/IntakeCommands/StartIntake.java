@@ -5,56 +5,58 @@
 package frc.robot.commands.IntakeCommands;
 
 import frc.robot.subsystems.IntakeSubsystem;
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class LowerIntake extends Command {
+public class StartIntake extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private IntakeSubsystem intakeSubsystem;
 
-  private double motorAng;
-  private double angle;
+  private IntakeSubsystem IntakeSubsystem;
   private double velocity;
   private double acceleration;
-  private double tolerance;
-
+  private DigitalInput toplimitSwitch;
+  
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-
-  public LowerIntake(IntakeSubsystem intakeSubsystem, double angle, double velocity, double acceleration, double tolerance) {
-    this.intakeSubsystem = intakeSubsystem;
-    this.angle = angle;
-    this.velocity = velocity;
-    this.acceleration = acceleration;
-    this.tolerance = tolerance;
+  public StartIntake(IntakeSubsystem subsystem, double vel, double acc, int encoderID) {
+    IntakeSubsystem = subsystem;
+    velocity = vel;
+    acceleration = acc;
+    toplimitSwitch = new DigitalInput(encoderID);
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intakeSubsystem);
+    addRequirements(subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intakeSubsystem.spinIntakeMotor(velocity, acceleration);
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.setIntakeAngle(angle);
+    IntakeSubsystem.spinIntakeMotor(velocity, acceleration);
   }
 
   // Called once the command ends or is interrupted.
+  //using limit switches
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    // top limit is tripped so stop
+    IntakeSubsystem.stopArmMotor();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    motorAng = intakeSubsystem.getIntakePos();
-    return Math.abs(motorAng - angle) < tolerance;
+    return toplimitSwitch.get();
   }
+
+  //button to stop isFinished command
 }

@@ -6,31 +6,38 @@
   //Bore encoder, Talonfx motor, Magic motion?, 
   //Functions: getCurrentPosition/getCurrentAngle, setTargetPosition, getTorqueVelocity, setVelocity, 
 package frc.robot.subsystems;
+//
+import frc.robot.Constants;
+//
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 //import com.ctre.phoenix6.hardware.core.CoreTalonFX; //Core?
+import com.ctre.phoenix6.configs.MotionMagicConfigs; //Maybe needed?
+
 //import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
 //import org.littletonrobotics.akit.junction;
+//TEST
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 
 public class ArmSubsystem extends SubsystemBase {
   private TalonFX m_arm;
   private final Encoder m_encoder;
 
-  // private ShuffleboardTab tab = Shuffleboard.getTab("Encoder");
-  // private GenericEntry encoderPosition = tab.add("Encoder Position", 0).getEntry();
-  // private GenericEntry encoderRate =
-  //     tab.add("Encoder Rate", 0)
-  //         .withWidget(BuiltInWidgets.kDial)
-  //         .withProperties(Map.of("min", -500, "max", 500))
-  //         .getEntry();
+  //private ShuffleboardTab tab = Shuffleboard.getTab("Encoder");
+  //private GenericEntry encoderPosition = tab.add("Encoder Position", 0).getEntry();
+  //private GenericEntry encoderRate =
+      // tab.add("Encoder Rate", 0)
+      //     .withWidget(BuiltInWidgets.kDial)
+      //     .withProperties(Map.of("min", -500, "max", 500))
+      //     .getEntry();
 
   public ArmSubsystem(int armId, String canbus, int channel1, int channel2)
   {
@@ -89,7 +96,23 @@ public class ArmSubsystem extends SubsystemBase {
   public boolean getStopped() {
     return m_encoder.getStopped();
   }
+  //
 
+  // public void setAng(double angle, double vel, double accel) {
+
+  //   m_arm.configMotionCruiseVelocity(
+  //       vel / 360. * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10,
+  //       Constants.Arm.kTimeoutMs);
+  //   m_arm.configMotionAcceleration(
+  //       accel / 360. * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10,
+  //       Constants.Arm.kTimeoutMs);
+
+  //   m_arm.set(
+  //       ControlMode.MotionMagic,
+  //       angle / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO);
+  // }
+
+  //
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

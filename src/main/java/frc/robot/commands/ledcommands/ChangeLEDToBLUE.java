@@ -14,11 +14,6 @@ public class ChangeLEDToBlue extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final LEDSubsystem ledSubsystem;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
   public ChangeLEDToBlue(LEDSubsystem ledSubsystem) {
     this.ledSubsystem = ledSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.

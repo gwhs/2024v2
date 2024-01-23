@@ -98,7 +98,7 @@ public class DriveContainer implements BaseContainer
     drivebase.setDefaultCommand(closedFieldRel);  //TO CHANGE DRIVE BASE
     final ShuffleboardTab tab = Shuffleboard.getTab("Drive");
       ShuffleboardLayout position = tab.getLayout("Swere Drive Position");
-      position.add(drivebase.getPose()); //FINISH THIS ON THURSDAY
+      position.addString("Swere Drive Position", () -> drivebase.getPose().toString()); //FINISH THIS ON THURSDAY
   }
 
   /**

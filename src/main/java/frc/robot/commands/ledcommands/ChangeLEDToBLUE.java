@@ -27,6 +27,7 @@ public class ChangeLEDToBlue extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println("blue leds have succesfully executed");
     ledSubsystem.setColor(0, 0, 255);
   }
 
@@ -37,6 +38,6 @@ public class ChangeLEDToBlue extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ledSubsystem.getColor(1).equals(new Color(0, 255, 0));
+    return ledSubsystem.getColor(1).equals(new Color(0, 0, 255));
   }
 }

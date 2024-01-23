@@ -12,6 +12,8 @@ import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 
 public class IntakeSubsystem extends SubsystemBase {
@@ -19,6 +21,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private TalonFX m_spinIntake1;
   private TalonFX m_spinIntake2;
   private Encoder m_Encoder;
+  private DigitalInput m_sensor; 
   
   // int lowerIntakeId: Id for lowerng motors for the intake
   // int spinIntake1Id: Id for spining first intake motor 
@@ -71,6 +74,13 @@ public class IntakeSubsystem extends SubsystemBase {
   // returns the position of the angle of the lowering motor
   public double getArmPos() {
     return m_lowerIntake.getPosition().getValue();
+  }
+
+  // stops motor once note is in place
+  public void tempStopIntake(){
+    if(!m_sensor.get()){
+      stopIntakeMotors(); 
+    }
   }
 
   @Override

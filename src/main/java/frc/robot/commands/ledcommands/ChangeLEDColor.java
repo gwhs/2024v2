@@ -34,7 +34,7 @@ public class ChangeLEDColor extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("purple leds have succesfully executed");
+    System.out.println("custom color have succesfully executed");
     ledSubsystem.setColor(red, blue, green);
   }
 
@@ -45,6 +45,6 @@ public class ChangeLEDColor extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ledSubsystem.getColor(1).equals(new Color(255, 0, 255));
+    return ledSubsystem.getColor(1).equals(new Color(red, green, blue));
   }
 }

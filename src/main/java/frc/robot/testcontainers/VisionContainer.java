@@ -32,7 +32,6 @@ public class VisionContainer implements BaseContainer
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase;
 
-  CommandXboxController driverController = new CommandXboxController(1);
   CommandXboxController driverXbox = new CommandXboxController(0);
 
   // limelight

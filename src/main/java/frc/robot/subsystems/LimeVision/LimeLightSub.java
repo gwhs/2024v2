@@ -68,12 +68,7 @@ public class LimeLightSub extends SubsystemBase {
     SmartDashboard.putNumber("AngleToTarget", getAngle());
     
     // displaying error values
-    SmartDashboard.putNumber("Error", getError());
-
-    if (getTx() < 0.5 && getTx() > -0.5)
-    {
-      System.out.println(getError());
-    } 
+    SmartDashboard.putNumber("Error Angle", getError());
 
     // This method will be called once per scheduler run
     // double currTx = limelight_comm.get_entry_double("tx");

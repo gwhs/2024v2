@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -36,6 +37,8 @@ public class DriveContainer implements BaseContainer
 
   CommandXboxController driverController = new CommandXboxController(1);
   CommandXboxController driverXbox = new CommandXboxController(0);
+
+  private final SendableChooser<Command> autoChooser;
 
   public String getDriveTrainName(){
     return "swerve/ryker_falcon";

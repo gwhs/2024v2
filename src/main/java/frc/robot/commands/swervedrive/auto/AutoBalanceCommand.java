@@ -6,6 +6,8 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import frc.robot.subsystems.LimeVision.PIDMove;
+import frc.robot.subsystems.LimeVision.LimeLightSub;
 
 
 /**
@@ -17,11 +19,13 @@ public class AutoBalanceCommand extends Command
 
   private final SwerveSubsystem swerveSubsystem;
   private final PIDController   controller;
+  private PIDMove PIDMove;
 
   public AutoBalanceCommand(SwerveSubsystem swerveSubsystem)
   {
     this.swerveSubsystem = swerveSubsystem;
     controller = new PIDController(1.0, 0.0, 0.0);
+    PIDMove = new PIDMove(new LimeLightSub("limelight"), 1, 0, 0, 0);
     controller.setTolerance(1);
     controller.setSetpoint(0.0);
     // each subsystem used by the command must be passed into the
@@ -49,7 +53,7 @@ public class AutoBalanceCommand extends Command
 
     double translationVal = MathUtil.clamp(controller.calculate(swerveSubsystem.getPitch().getDegrees(), 0.0), -0.5,
                                            0.5);
-    swerveSubsystem.drive(new Translation2d(translationVal, 0.0), 0.0, true);
+    swerveSubsystem.drive(new Translation2d(translationVal, 0.0), PIDMove.getError(), true);
   }
 
   /**

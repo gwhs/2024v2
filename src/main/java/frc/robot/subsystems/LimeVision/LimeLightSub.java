@@ -61,10 +61,10 @@ public class LimeLightSub extends SubsystemBase {
     SmartDashboard.putNumber("theta", getTheta());
     SmartDashboard.putNumber("AngleToTarget", getAngle());
 
-    if (getTx() < 0.5 && getTx() > -0.5)
-    {
-      System.out.println("stops");
-    } 
+    // if (getTx() < 0.5 && getTx() > -0.5)
+    // {
+    //   System.out.println("stops");
+    // } 
 
     // This method will be called once per scheduler run
     // double currTx = limelight_comm.get_entry_double("tx");

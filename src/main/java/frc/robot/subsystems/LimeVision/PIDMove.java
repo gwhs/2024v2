@@ -17,22 +17,20 @@ import swervelib.parser.SwerveDriveConfiguration;
 public class PIDMove extends SubsystemBase {
 
 private PIDController controller;
-private SwerveSubsystem swerveSubsystem;
 private LimeLightSub limeLightSub;
 
 // private LimeLightSub limeLightSub = new LimeLightSub("limelight");
 
-  public PIDMove(SwerveSubsystem swerveSystem, LimeLightSub limeLightSub, double kP, double Ki, double kD, double setPoint) {
+  public PIDMove(LimeLightSub limeLightSub, double kP, double Ki, double kD, double setPoint) {
     this.limeLightSub = limeLightSub;
-    this.swerveSubsystem = swerveSystem;
     
     controller = new PIDController(kP, Ki, kD);
     controller.setSetpoint(setPoint);
 
   }
 
-  public double getError(LimeLightSub limeLightSub) {
-    return controller.calculate(limeLightSub.getTx());
+  public double getError() {
+    return controller.calculate(this.limeLightSub.getTx());
   }
 
 }

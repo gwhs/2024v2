@@ -6,6 +6,9 @@ package frc.robot.testcontainers;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -93,6 +96,36 @@ public class DriveContainer implements BaseContainer
         () -> driverXbox.getRightTriggerAxis() - driverXbox.getLeftTriggerAxis(), () -> true);
 
     drivebase.setDefaultCommand(closedFieldRel);  //TO CHANGE DRIVE BASE
+
+
+    ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
+    
+    driveTrainShuffleboardTab.addDouble("X Position", ()->drivebase.getPose().getX())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(0, 0);
+    driveTrainShuffleboardTab.addDouble("Y Position", ()->drivebase.getPose().getY())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(3, 0);
+    driveTrainShuffleboardTab.addDouble("Angel", ()->drivebase.getPose().getRotation().getDegrees())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(6, 0);
+
+
+    driveTrainShuffleboardTab.addDouble("X Velocity (m)", ()->drivebase.getFieldVelocity().vxMetersPerSecond)
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(0, 3);
+    driveTrainShuffleboardTab.addDouble("Y Velocity (m)", ()->drivebase.getFieldVelocity().vyMetersPerSecond)
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(3, 3);
+    driveTrainShuffleboardTab.addDouble("Angular Velocity (degree)", ()->drivebase.getFieldVelocity().omegaRadiansPerSecond * 180/Math.PI)
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(6, 3);
   }
 
   /**

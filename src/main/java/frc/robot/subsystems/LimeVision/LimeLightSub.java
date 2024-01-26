@@ -11,15 +11,18 @@ import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimeLightConstants;
+import edu.wpi.first.math.controller.PIDController;
 
 public class LimeLightSub extends SubsystemBase {
 
   // PID constants
-  private final double kP = 1;
+  private final double kP = 0.05;
   private final double kD = 0;
   private final double kI = 0;
-  
-  private double setPoint = 0;
+  // Set target point
+  private static double setPoint = 0;
+
+  PIDController PIDVision = new PIDController(kP, kI, kD);
 
   // set up a new instance of NetworkTables (the api/library used to read values from limelight)
   NetworkTable networkTable = NetworkTableInstance.getDefault().getTable("limelight");
@@ -49,6 +52,9 @@ public class LimeLightSub extends SubsystemBase {
   public LimeLightSub(String limelight_networktable_name) {
     limelight_comm = new LimeLightComms(limelight_networktable_name);
     limelight_comm.set_entry_double("ledMode", 3);
+    
+    // setting target point for PID
+    PIDVision.setSetpoint(setPoint);
   }
 
   @Override
@@ -60,11 +66,14 @@ public class LimeLightSub extends SubsystemBase {
     SmartDashboard.putNumber("ta", ta.getDouble(0));
     SmartDashboard.putNumber("theta", getTheta());
     SmartDashboard.putNumber("AngleToTarget", getAngle());
+    
+    // displaying error values
+    SmartDashboard.putNumber("Error", getError());
 
-    // if (getTx() < 0.5 && getTx() > -0.5)
-    // {
-    //   System.out.println("stops");
-    // } 
+    if (getTx() < 0.5 && getTx() > -0.5)
+    {
+      System.out.println(getError());
+    } 
 
     // This method will be called once per scheduler run
     // double currTx = limelight_comm.get_entry_double("tx");
@@ -107,5 +116,10 @@ public class LimeLightSub extends SubsystemBase {
 
   public boolean checkPipe() {
     return !(limelight_comm.get_entry_double("pipeline") < .5);
+  }
+
+  // calculates error from target
+  public double getError() {
+    return PIDVision.calculate(getTx() / 2);
   }
 }

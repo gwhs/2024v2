@@ -16,7 +16,7 @@ import edu.wpi.first.math.controller.PIDController;
 public class LimeLightSub extends SubsystemBase {
 
   // PID constants
-  private final double kP = 0.05;
+  private final double kP = 0.04;
   private final double kD = 0;
   private final double kI = 0;
   // Set target point
@@ -120,6 +120,6 @@ public class LimeLightSub extends SubsystemBase {
 
   // calculates error from target
   public double getError() {
-    return PIDVision.calculate(getTx() / 2);
+    return PIDVision.calculate(getTx());
   }
 }

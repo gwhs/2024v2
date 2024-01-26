@@ -34,7 +34,6 @@ public class ChangeLEDColor extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("custom color have succesfully executed");
     ledSubsystem.setColor(red, blue, green);
   }
 

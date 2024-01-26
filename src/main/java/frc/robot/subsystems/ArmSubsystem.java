@@ -14,11 +14,12 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix.motorcontrol.ControlMode;
+//import com.ctre.phoenix.motorcontrol.ControlMode;
 
 //import com.ctre.phoenix6.hardware.core.CoreTalonFX; //Core?
 import com.ctre.phoenix6.configs.MotionMagicConfigs;//Maybe needed?
 import com.ctre.phoenix6.configs.TalonFXConfiguration; //Maybe needed?
+import com.ctre.phoenix6.signals.ControlModeValue; //Maybe needed
 
 
 //import edu.wpi.first.wpilibj.CounterBase;
@@ -35,6 +36,8 @@ public class ArmSubsystem extends SubsystemBase {
   private TalonFX m_arm;
   private final Encoder m_encoder;
   TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
+  final MotionMagicVoltage m_smoothArmMovement = new MotionMagicVoltage(0, true, 0, 0, false, true, false);
+
 
 
   //private ShuffleboardTab tab = Shuffleboard.getTab("Encoder");
@@ -57,15 +60,46 @@ public class ArmSubsystem extends SubsystemBase {
     
   }
 
-  public void setArmAngle(double angle) {
-    m_arm.setPosition(angle);
+  /*
+    
+    public void setArmAngle(double angle) {
+         m_arm.setPosition(angle);
+        }
+       
+     //MotionMagicVoltage​(double Position, boolean EnableFOC, double FeedForward, int Slot, boolean OverrideBrakeDurNeutral, boolean LimitForwardMotion, boolean LimitReverseMotion)
+   public void spinArmMotor (double pos)
+   {
+      MotionMagicVoltage armSpinRequest = new MotionMagicVoltage(pos, true, 0, 0, false, true, false);
+      m_arm.setControl(armSpinRequest.withPosition(pos));
+
+    //m_arm.setControl(armSpinRequest);
+  }
+    
+    
+   */
+
+  //vel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10
+  //accel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10
+  public void setAng(double angle, double vel, double accel) {
+
+    var motionMagicConfigs = talonFXConfigs.MotionMagic;
+    motionMagicConfigs.MotionMagicCruiseVelocity = vel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10;
+    motionMagicConfigs.MotionMagicAcceleration = accel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10; 
+
+    m_arm.getConfigurator().apply(talonFXConfigs, 0.03);
+
+    m_arm.setControl(m_smoothArmMovement.withPosition(1));
+
+    // m_arm.set(
+    //     ControlMode.MotionMagic,
+    //     angle / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO);
+    //m_motor.setControl(m_motmag.withPosition(200));
+
+
   }
 
-  //MotionMagicVoltage​(double Position, boolean EnableFOC, double FeedForward, int Slot, boolean OverrideBrakeDurNeutral, boolean LimitForwardMotion, boolean LimitReverseMotion)
-  public void spinArmMotor (double pos, double feedForward)
-  {
-    MotionMagicVoltage armSpinRequest = new MotionMagicVoltage(pos, true, feedForward, 0, false, true, false);
-    m_arm.setControl(armSpinRequest);
+  public void resetPosition() {
+    m_arm.setPosition(0);
   }
 
   public void stopArmMotor() {
@@ -103,22 +137,6 @@ public class ArmSubsystem extends SubsystemBase {
     return m_encoder.getStopped();
   }
   //
-
-  //vel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10
-  //accel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10
-  public void setAng(double angle, double vel, double accel) {
-
-    var motionMagicConfigs = talonFXConfigs.MotionMagic;
-    motionMagicConfigs.MotionMagicCruiseVelocity = vel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10;
-    motionMagicConfigs.MotionMagicAcceleration = accel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10; 
-
-    m_arm.getConfigurator().apply(talonFXConfigs, 0.03);
-
-    // m_arm.set(
-    //     ControlMode.MotionMagic,
-    //     angle / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO);
-  }
-
   
   @Override
   public void periodic() {

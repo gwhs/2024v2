@@ -38,7 +38,7 @@ public class SwingBack extends Command{
   //NOTE : potentially needs to swing 270 degrees 
   @Override
   public void execute() {
-    //armSubsystem.setAng(angle, velocity, acceleration);
+    armSubsystem.setAng(angle, velocity, acceleration);
   }
 
   // Called once the command ends or is interrupted.
@@ -48,6 +48,6 @@ public class SwingBack extends Command{
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return true;
+    return Math.abs(motorAng - angle) < tolerance;
   }
 }

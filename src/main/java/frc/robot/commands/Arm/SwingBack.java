@@ -6,7 +6,10 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class SwingBack extends Command{
 
   //setArmPosition(startAngle, goalAngle), velocity
-
+/*
+ * Goal - Reset the arm back to neutral position to intake from ground
+ * What we ant to do: Set arm angle to be back at 0. NOT just encoder angle. 
+ */
   private double motorAng;
   private double angle;
   private double velocity;
@@ -38,7 +41,7 @@ public class SwingBack extends Command{
   //NOTE : potentially needs to swing 270 degrees 
   @Override
   public void execute() {
-    armSubsystem.setAng(angle, velocity, acceleration);
+    armSubsystem.setAngle(angle, velocity, acceleration);
   }
 
   // Called once the command ends or is interrupted.

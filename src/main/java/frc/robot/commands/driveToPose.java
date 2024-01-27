@@ -6,17 +6,20 @@ package frc.robot.commands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 
 
 public class driveToPose extends Command {
   /** Creates a new driveToPose. */
   private final SwerveSubsystem m_Subsystem;
+  private final Pose2d posObj;
   public driveToPose(double x, double y, Rotation2d rotation, SwerveSubsystem swerveSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     double xPos = x;
     double yPos = y;
     Rotation2d rot = rotation;
+    posObj = new Pose2d(xPos, yPos, rot);
     m_Subsystem = swerveSubsystem;
     addRequirements(swerveSubsystem);
   }
@@ -30,7 +33,7 @@ public class driveToPose extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Subsystem.driveToPose();
+    m_Subsystem.driveToPose(posObj);
   }
 
   // Called once the command ends or is interrupted.
@@ -40,6 +43,7 @@ public class driveToPose extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    
     return false;
   }
 }

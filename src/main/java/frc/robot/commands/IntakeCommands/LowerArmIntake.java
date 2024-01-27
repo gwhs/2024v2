@@ -36,7 +36,6 @@ public class LowerArmIntake extends Command {
   }
 
   // Called when the command is initially scheduled.
-  //spinning the Arm Motor
   @Override
   public void initialize() {}
 

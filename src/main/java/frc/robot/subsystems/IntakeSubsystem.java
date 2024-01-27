@@ -19,7 +19,6 @@ import edu.wpi.first.wpilibj.Encoder;
 public class IntakeSubsystem extends SubsystemBase {
   private TalonFX m_lowerIntake;
   private TalonFX m_spinIntake1;
-  private TalonFX m_spinIntake2;
   private Encoder m_Encoder;
   private DigitalInput m_sensor; 
   
@@ -28,18 +27,27 @@ public class IntakeSubsystem extends SubsystemBase {
   // int spinIntake2Id: Id for spining second intake motor 
   // initialized the encoder 
   // String can: String ID of canivore  
-  public IntakeSubsystem(int lowerIntakeId, int spinIntake1Id, int spinIntake2Id, int channel1, int channel2, String can) {
+  public IntakeSubsystem(int lowerIntakeId, int spinIntake1Id, int spinIntake2Id, int channel1, int channel2, int channel3, String can) {
     // init motor 
     m_lowerIntake = new TalonFX(lowerIntakeId, can); 
     m_spinIntake1 = new TalonFX(spinIntake1Id, can);
-    m_spinIntake2 = new TalonFX(spinIntake2Id, can);
     m_Encoder = new Encoder(channel1, channel2);
+    m_sensor = new DigitalInput(channel3);
   }
 
   //Sets the angle for the intake motor
   //TODO: Limit the maximum angle
   public void setArmAngle(double angle) {
+
+    if(angle < 0) { //minimum angle
+      angle = 0;
+    }
+    else if (angle > 120) { //maximum angle
+      angle = 120;
+    }
     m_lowerIntake.setPosition(angle);
+
+    //gear box ? angles or radians (units double check)
   }
 
   // double vel: sets the velocity 
@@ -48,23 +56,12 @@ public class IntakeSubsystem extends SubsystemBase {
   public void spinIntakeMotor(double vel, double acc) {
     VelocityVoltage spinRequest1 = new VelocityVoltage(
     vel, acc, false, 0, 0,false, false, false);
-    VelocityVoltage spinRequest2 = new VelocityVoltage(
-    -vel, acc, false, 0, 0,false, false, false);
     m_spinIntake1.setControl(spinRequest1);
-    m_spinIntake2.setControl(spinRequest2);
-  }
-
-  //spins the ARM motor
-  public void spinArmMotor(double vel, double acc) {
-    VelocityVoltage spinRequest3 = new VelocityVoltage(
-    vel, acc, false, 0, 0,false, false, false);
-    m_lowerIntake.setControl(spinRequest3);
   }
 
   // Stops intake motors
   public void stopIntakeMotors() {
      m_spinIntake1.stopMotor();
-     m_spinIntake2.stopMotor();
   }
 
   public void stopArmMotor() {

@@ -25,6 +25,8 @@ import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 
+import com.pathplanner.lib.auto.AutoBuilder;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
  * little robot logic should actually be handled in the {@link Robot} periodic methods (other than the scheduler calls).
@@ -55,6 +57,11 @@ public class DriveContainer implements BaseContainer
 
     // Configure the trigger bindings
     configureBindings();
+
+    autoChooser = AutoBuilder.buildAutoChooser("Default Auto");
+    Shuffleboard.getTab("Autonomous").add("Autonomous Chooser", autoChooser).withSize(2, 1);
+    
+    
      
     AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase,
                                                           // Applies deadbands and inverts controls because joysticks
@@ -117,6 +124,9 @@ public class DriveContainer implements BaseContainer
       .withSize(3,3)
       .withPosition(6, 0);
 
+      driveTrainShuffleboardTab.addDouble("IMU Heading", ()->drivebase.getHeading().getDegrees());
+      
+
 
     driveTrainShuffleboardTab.addDouble("X Velocity (m)", ()->drivebase.getFieldVelocity().vxMetersPerSecond)
       .withWidget(BuiltInWidgets.kGraph)
@@ -154,7 +164,8 @@ public class DriveContainer implements BaseContainer
   public Command getAutonomousCommand()
   {
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("New Path", true);
+    //return drivebase.getAutonomousCommand("New Path", true);
+    return autoChooser.getSelected();
   }
 
   public void setDriveMode()

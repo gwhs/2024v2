@@ -5,7 +5,7 @@
       "x": 0.0,
       "y": 2
     },
-    "rotation": 0.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "New Path"
+            "pathName": "default path"
           }
         }
       ]

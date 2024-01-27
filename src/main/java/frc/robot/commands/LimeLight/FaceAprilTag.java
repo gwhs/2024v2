@@ -70,6 +70,6 @@ public class FaceAprilTag extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (limeLightSub.getError() > -0.25 && limeLightSub.getError() < 0.25);
   }
 }

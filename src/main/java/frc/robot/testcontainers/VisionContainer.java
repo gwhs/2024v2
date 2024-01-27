@@ -37,10 +37,10 @@ public class VisionContainer implements BaseContainer
   CommandXboxController driverXbox = new CommandXboxController(0);
 
   // limelight
-  LimeLightSub limeLightSub = new LimeLightSub("limelight");
+  private final LimeLightSub limeLightSub;
 
   public String getDriveTrainName(){
-    return "swerve/ryker_ falcon";
+    return "swerve/ryker_falcon";
   }
 
   /**
@@ -51,6 +51,7 @@ public class VisionContainer implements BaseContainer
     drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          getDriveTrainName()));
 
+    limeLightSub = new LimeLightSub(drivebase.getSwerveDrive(), "limelight");                                                                   
     // Configure the trigger bindings
     configureBindings();
 
@@ -82,6 +83,8 @@ public class VisionContainer implements BaseContainer
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+
+    driverXbox.b().onTrue(new InstantCommand(limeLightSub::addVisionReading));
     driverXbox.a().onTrue(new FaceAprilTag(drivebase, limeLightSub, () -> false));
   }
 

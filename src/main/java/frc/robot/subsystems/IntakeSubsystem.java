@@ -21,6 +21,9 @@ public class IntakeSubsystem extends SubsystemBase {
   private TalonFX m_spinIntake1;
   private Encoder m_Encoder;
   private DigitalInput m_sensor; 
+  private VelocityVoltage spinRequest1;
+  private double vel1 ; 
+  private double accel ; 
   
   // int lowerIntakeId: Id for lowerng motors for the intake
   // int spinIntake1Id: Id for spining first intake motor 
@@ -54,7 +57,9 @@ public class IntakeSubsystem extends SubsystemBase {
   // double acc: sets the acceleration 
   // spins the intake motors
   public void spinIntakeMotor(double vel, double acc) {
-    VelocityVoltage spinRequest1 = new VelocityVoltage(
+    vel1 = vel ; 
+    accel = acc ; 
+    spinRequest1 = new VelocityVoltage(
     vel, acc, false, 0, 0,false, false, false);
     m_spinIntake1.setControl(spinRequest1);
   }
@@ -73,11 +78,9 @@ public class IntakeSubsystem extends SubsystemBase {
     return m_lowerIntake.getPosition().getValue();
   }
 
-  // stops motor once note is in place
-  public void tempStopIntake(){
-    if(!m_sensor.get()){
-      stopIntakeMotors(); 
-    }
+  // stops motor once note is in place, starts again once the arm position is brought up
+  public boolean getSensor(){
+    return m_sensor.get();
   }
 
   @Override

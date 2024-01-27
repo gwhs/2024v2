@@ -15,28 +15,24 @@ public class StartIntake extends Command {
   private IntakeSubsystem IntakeSubsystem;
   private double velocity;
   private double acceleration;
-  private DigitalInput toplimitSwitch;
   
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public StartIntake(IntakeSubsystem subsystem, double vel, double acc, int encoderID) {
+  public StartIntake(IntakeSubsystem subsystem, double vel, double acc) {
     IntakeSubsystem = subsystem;
     velocity = vel;
     acceleration = acc;
-    toplimitSwitch = new DigitalInput(encoderID);
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(subsystem);
+    addRequirements(IntakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {
-    
-  }
+  public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -49,13 +45,19 @@ public class StartIntake extends Command {
   @Override
   public void end(boolean interrupted) {
     // top limit is tripped so stop
-    IntakeSubsystem.stopArmMotor();
+    IntakeSubsystem.stopIntakeMotors();
+  }
+
+  public void tempStop(){
+    if(!IntakeSubsystem.getSensor()) {
+      IntakeSubsystem.stopIntakeMotors();
+    }
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return toplimitSwitch.get();
+    return IntakeSubsystem.getSensor(); 
   }
 
   //button to stop isFinished command

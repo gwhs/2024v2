@@ -6,6 +6,7 @@ package frc.robot.commands.IntakeCommands;
 
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /** An example command that uses an example subsystem. */
 public class LowerArmIntake extends Command {
@@ -14,8 +15,6 @@ public class LowerArmIntake extends Command {
 
   private double motorAng;
   private double angle;
-  private double velocity;
-  private double acceleration;
   private double tolerance;
 
   /**
@@ -24,11 +23,9 @@ public class LowerArmIntake extends Command {
    * @param subsystem The subsystem used by this command.
    */
 
-  public LowerArmIntake(IntakeSubsystem intakeSubsystem, double angle, double velocity, double acceleration, double tolerance) {
+  public LowerArmIntake(IntakeSubsystem intakeSubsystem, double angle, double tolerance) {
     this.intakeSubsystem = intakeSubsystem;
     this.angle = angle;
-    this.velocity = velocity;
-    this.acceleration = acceleration;
     this.tolerance = tolerance;
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -37,7 +34,9 @@ public class LowerArmIntake extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    CommandScheduler.getInstance().schedule(new StartIntake(intakeSubsystem));
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   //setting the angle of the arm motor

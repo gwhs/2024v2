@@ -15,7 +15,6 @@ public class UpperArmIntake extends Command {
 
   private double motorAng;
   private double tolerance;
-  private double angle;
 
   /**
    * Creates a new ExampleCommand.
@@ -23,9 +22,8 @@ public class UpperArmIntake extends Command {
    * @param subsystem The subsystem used by this command.
    */
 
-  public UpperArmIntake(IntakeSubsystem intakeSubsystem, double tolerance, Encoder m_encoder) {
+  public UpperArmIntake(IntakeSubsystem intakeSubsystem, double tolerance) {
     this.intakeSubsystem = intakeSubsystem;
-    this.angle = m_encoder.getDistance();
     this.tolerance = tolerance;
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -39,7 +37,7 @@ public class UpperArmIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.setArmAngle(angle);
+    intakeSubsystem.setArmAngle();
   }
 
   // Called once the command ends or is interrupted.

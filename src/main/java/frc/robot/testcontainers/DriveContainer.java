@@ -108,7 +108,7 @@ public class DriveContainer implements BaseContainer
       .withWidget(BuiltInWidgets.kGraph)
       .withSize(3,3)
       .withPosition(3, 0);
-    driveTrainShuffleboardTab.addDouble("Angel", ()->drivebase.getPose().getRotation().getDegrees())
+    driveTrainShuffleboardTab.addDouble("Angle", ()->drivebase.getPose().getRotation().getDegrees())
       .withWidget(BuiltInWidgets.kGraph)
       .withSize(3,3)
       .withPosition(6, 0);

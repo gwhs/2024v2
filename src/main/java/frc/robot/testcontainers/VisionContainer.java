@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Robot;
+import frc.robot.commands.LimeLight.FaceAprilTag;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
@@ -20,6 +21,7 @@ import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import frc.robot.subsystems.LimeVision.LimeLightSub;
+import frc.robot.commands.LimeLight.FaceAprilTag;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -38,7 +40,7 @@ public class VisionContainer implements BaseContainer
   LimeLightSub limeLightSub = new LimeLightSub("limelight");
 
   public String getDriveTrainName(){
-    return "swerve/vision";
+    return "swerve/ryker_ falcon";
   }
 
   /**
@@ -64,7 +66,7 @@ public class VisionContainer implements BaseContainer
         () -> 0,
         () -> -limeLightSub.getError(), () -> true);
 
-    drivebase.setDefaultCommand(autoAlignVision);  //TO CHANGE DRIVE BASE
+    drivebase.setDefaultCommand(closedFieldRel);  //TO CHANGE DRIVE BASE
 
   }
 
@@ -80,6 +82,7 @@ public class VisionContainer implements BaseContainer
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+    driverXbox.a().onTrue(new FaceAprilTag(drivebase, limeLightSub, () -> false));
   }
 
   /**

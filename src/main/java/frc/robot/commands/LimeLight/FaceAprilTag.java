@@ -5,28 +5,45 @@
 package frc.robot.commands.LimeLight;
 
 import frc.robot.Robot;
-import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
+// drivetrain
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import java.util.function.BooleanSupplier;
+import java.util.function.DoubleSupplier;
+import swervelib.SwerveController;
+
 /** An example command that uses an example subsystem. */
 public class FaceAprilTag extends Command {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final SwerveSubsystem driSwerveSubsystem;
+
   private final LimeLightSub limeLightSub;
+
+  private final SwerveSubsystem  swerve;
+  private final BooleanSupplier  driveMode;
+  private final SwerveController controller;
+
+
   /**
    * Creates a new ExampleCommand.
    *
-   * @param subsystem The subsystem used by this command.
+   * @param swerve The subsystem used by this command.
    */
-  public FaceAprilTag(SwerveSubsystem driSwerveSubsystem, LimeLightSub limeLightSub) {
-    this.driSwerveSubsystem = driSwerveSubsystem;
+ 
+  public FaceAprilTag(SwerveSubsystem swerve, LimeLightSub limeLightSub, BooleanSupplier driveMode) {
+    this.swerve = swerve;
     this.limeLightSub = limeLightSub;
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(driSwerveSubsystem, limeLightSub);
-  }
+    this.driveMode = driveMode;
 
+    this.controller = swerve.getSwerveController();
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(swerve, limeLightSub);
+  }  
+ 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
@@ -36,7 +53,13 @@ public class FaceAprilTag extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // driSwerveSubsystem.drive((0), limeLightSub.getTx(), false);
+    System.out.println("works");
+    double error = limeLightSub.getError();
+
+    // Drive using raw values.
+    swerve.drive(new Translation2d(0 * swerve.maximumSpeed, 0 * swerve.maximumSpeed),
+                 error * controller.config.maxAngularVelocity,
+                 driveMode.getAsBoolean());
 
   }
 

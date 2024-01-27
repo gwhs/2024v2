@@ -40,6 +40,9 @@ public class LimeLightSub extends SubsystemBase {
   NetworkTableEntry ts = networkTable.getEntry("ts"); // Skew or rotation (-90 degrees to 0 degrees)
   NetworkTableEntry pipe = networkTable.getEntry("getpipe");
 
+  // botpose megatag
+  NetworkTableEntry botpose = networkTable.getEntry("botpose");
+
   // may be useful later
   private double kCameraHeight =
       LimeLightConstants.CAMERA_HEIGHT; // LimelightConstants.kCameraHeight;
@@ -99,6 +102,16 @@ public class LimeLightSub extends SubsystemBase {
     double angle = Math.toRadians(getTx());
     return angle;
   }
+
+  public double[] botPose() {
+    double[] botPose = null;
+    //SmartDashboard.putBoolean("Limelight Inititialized", isInitialized());
+    if (hasTarget()) {
+      botPose = botpose.getDoubleArray(new double[7]);
+    }
+    return botPose;
+  }
+
 
   public double getPipeline() {
     double Pipeline = limelight_comm.get_entry_double("pipeline");

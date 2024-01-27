@@ -18,6 +18,4 @@ public class VisionContainer implements BaseContainer {
     private void configureBindings() {
         
     }
-
-    
 }

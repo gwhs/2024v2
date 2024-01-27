@@ -3,7 +3,6 @@ package frc.robot.subsystems;
 import  edu.wpi.first.wpilibj.AddressableLED;
 import edu.wpi.first.wpilibj.AddressableLEDBuffer;
 import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj.util.Color8Bit;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -11,8 +10,10 @@ public class LEDSubsystem extends SubsystemBase {
 
   private AddressableLED m_led;
   private AddressableLEDBuffer m_ledBuffer;
-  // Store what the last hue of the first pixel is
   private int m_rainbowFirstPixelHue;
+
+  // Store what the last hue of the first pixel is
+  // private int m_rainbowFirstPixelHue;
 
   public LEDSubsystem(int id) {
 
@@ -25,7 +26,7 @@ public class LEDSubsystem extends SubsystemBase {
 
   }
 
-  public void setColor​(int red, int green, int blue)
+  public void setColor(int red, int green, int blue)
   {
     Color color = new Color(red, green, blue);
     for (var i = 0; i < m_ledBuffer.getLength(); i++) 
@@ -36,23 +37,9 @@ public class LEDSubsystem extends SubsystemBase {
     m_led.start();
   }
 
-  /**
-   * An example method querying a boolean state of the subsystem (for example, a digital sensor).
-   *
-   * @return value of some boolean subsystem state, such as a digital sensor.
-   */
-  public boolean exampleCondition() {
-    // Query some boolean state, such as a digital sensor.
-    return false;
+  public Color getColor(int index)
+  {
+    return m_ledBuffer.getLED(index);
   }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
-
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
-  }
 }

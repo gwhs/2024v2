@@ -4,17 +4,17 @@
 
 package frc.robot.commands.ledcommands;
 
+import frc.robot.subsystems.ExampleSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class ChangeLEDToRed extends Command {
+public class ChangeLEDToBlue extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-
   private final LEDSubsystem ledSubsystem;
 
-  public ChangeLEDToRed(LEDSubsystem ledSubsystem) {
+  public ChangeLEDToBlue(LEDSubsystem ledSubsystem) {
     this.ledSubsystem = ledSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(ledSubsystem);
@@ -27,7 +27,7 @@ public class ChangeLEDToRed extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ledSubsystem.setColor(255, 0, 0);
+    ledSubsystem.setColor(0, 0, 255);
   }
 
   // Called once the command ends or is interrupted.
@@ -37,6 +37,6 @@ public class ChangeLEDToRed extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ledSubsystem.getColor(1).equals(new Color(255, 0, 0));
+    return ledSubsystem.getColor(1).equals(new Color(0, 0, 255));
   }
 }

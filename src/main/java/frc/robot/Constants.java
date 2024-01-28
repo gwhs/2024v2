@@ -64,5 +64,21 @@ public final class Constants
     public static final double MID_DISTANCE_SHOOT = 76;
     public static final double TOP_DISTANCE_SHOOT = 42;
   }
+
+  public static final class ClimbConstants {
+    //might need to cahnge these 4
+  public static final double CLIMBER_RATIO = 36;
+  public static final int TICKS_PER_REVOLUTION = 2048;
+  public static final double INCHES_PER_REVOLUTION = 4.55;
+  public static final double PITCH_DIAMETER_30 = 1.5;
+
+  public static final double CLIMB_DISTANCE = 0;
+  public static final double CLIMB_MOTOR_SPEED = 0;
+
+  public static final int MOTOR_LEFT_ID = 0;
+  public static final boolean MOTOR_LEFT_INVERTED = false;
+  public static final boolean MOTOR_RIGHT_INVERTED = false;
+  public static final int MOTOR_RIGHT_ID = 0;
+  }
   
 }

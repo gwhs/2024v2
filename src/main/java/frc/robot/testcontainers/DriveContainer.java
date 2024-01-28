@@ -5,6 +5,7 @@
 package frc.robot.testcontainers;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -141,7 +142,10 @@ public class DriveContainer implements BaseContainer
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    driverXbox.a().whileTrue(new driveToPose(0, 0, null, drivebase));
+    Rotation2d rotObj = new Rotation2d(Math.PI/2);
+    driveToPose drivepos = new driveToPose(drivebase.getPose().getX(), drivebase.getPose().getY(), drivebase.getHeading().plus(rotObj), drivebase);
+    
+    driverXbox.a().whileTrue(new driveToPose(0, 0, rotObj, drivebase));
   }
 
   /**

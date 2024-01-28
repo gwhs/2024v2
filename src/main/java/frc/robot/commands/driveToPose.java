@@ -14,6 +14,7 @@ public class driveToPose extends Command {
   /** Creates a new driveToPose. */
   private final SwerveSubsystem m_Subsystem;
   private final Pose2d posObj;
+
   public driveToPose(double x, double y, Rotation2d rotation, SwerveSubsystem swerveSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     double xPos = x;
@@ -34,6 +35,11 @@ public class driveToPose extends Command {
   @Override
   public void execute() {
     m_Subsystem.driveToPose(posObj);
+  }
+
+  public Command driveToPoseCommand()
+  {
+    return m_Subsystem.driveToPose(posObj);
   }
 
   // Called once the command ends or is interrupted.

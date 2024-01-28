@@ -160,7 +160,7 @@ public class SwerveSubsystem extends SubsystemBase
     PathConstraints constraints = new PathConstraints(
         swerveDrive.getMaximumVelocity(), 4.0,
         swerveDrive.getMaximumAngularVelocity(), Units.degreesToRadians(720));
-
+System.out.println(pose);
 // Since AutoBuilder is configured, we can use it to build pathfinding commands
     return AutoBuilder.pathfindToPose(
         pose,
@@ -168,6 +168,7 @@ public class SwerveSubsystem extends SubsystemBase
         0.0, // Goal end velocity in meters/sec
         0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
                                      );
+    
   }
 
   /**

@@ -29,14 +29,12 @@ public class driveToPose extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    CommandScheduler.getInstance().schedule(m_Subsystem.driveToPose(posObj));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-   
-
+    CommandScheduler.getInstance().schedule(m_Subsystem.driveToPose(posObj));
   }
 
 

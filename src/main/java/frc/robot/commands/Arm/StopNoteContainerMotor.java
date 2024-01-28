@@ -7,7 +7,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class SpinNoteContainerMotor extends Command {
+public class StopNoteContainerMotor extends Command {
 
   private double velocity;
   private double acceleration;
@@ -15,7 +15,7 @@ public class SpinNoteContainerMotor extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ArmSubsystem armSubsystem;
 
-  public SpinNoteContainerMotor(ArmSubsystem armSubsystem, double velocity, double acceleration) {
+  public StopNoteContainerMotor(ArmSubsystem armSubsystem, double velocity, double acceleration) {
     this.armSubsystem = armSubsystem;
     this.velocity = velocity;
     this.acceleration = acceleration;
@@ -29,7 +29,7 @@ public class SpinNoteContainerMotor extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSubsystem.spinPizzaBoxMotor(velocity, acceleration);
+    armSubsystem.spinPizzaBoxMotor(0, acceleration);
   }
 
   // Called once the command ends or is interrupted.

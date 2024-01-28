@@ -38,10 +38,9 @@ public class ArmSubsystem extends SubsystemBase {
   //Pizza Box Motor
   private TalonFX m_pizzaBox;
   private double pizzaBoxVel;
+  private double pizzaBoxAcc;
   private VelocityVoltage spinPizzaBoxMotorRequest;  
   TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
-  
-
 
 
   //private ShuffleboardTab tab = Shuffleboard.getTab("Encoder");
@@ -58,8 +57,11 @@ public class ArmSubsystem extends SubsystemBase {
       m_pizzaBox = new TalonFX(pizzaBoxId, pizzaBoxCanbus);
       m_encoder = new Encoder(channel1, channel2, false, Counter.EncodingType.k4X);
 
+
+
       m_arm.getPosition().setUpdateFrequency(5);
-      var slot0Configs = new Slot0Configs();
+      //Try to get it related to the TalonFXConfiguration
+      var slot0Configs = new Slot0Configs(); 
       //Draft
       slot0Configs.kS = 0.24; // add 0.24 V to overcome friction
       slot0Configs.kV = 0.12; // apply 12 V for a target velocity of 100 rps
@@ -127,9 +129,10 @@ public class ArmSubsystem extends SubsystemBase {
 
   }
 
-  public void spinPizzaBoxMotor(double velocity){
+  public void spinPizzaBoxMotor(double velocity, double acceleration){
     pizzaBoxVel = velocity;
-    spinPizzaBoxMotorRequest = new VelocityVoltage(velocity);
+    pizzaBoxAcc = acceleration;
+    spinPizzaBoxMotorRequest = new VelocityVoltage(velocity, acceleration, true, 0, 0, false, false, false);
     m_pizzaBox.setControl(spinPizzaBoxMotorRequest);
   }
 

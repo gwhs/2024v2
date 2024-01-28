@@ -34,11 +34,11 @@ public class ClimbDown extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    final ShuffleboardTab tab = Shuffleboard.getTab("Drive");
-    ShuffleboardLayout climb =
-        tab.getLayout("Climb Distance", BuiltInLayouts.kList).withSize(2, 4).withPosition(0, 0);
+    // final ShuffleboardTab tab = Shuffleboard.getTab("Drive");
+    // ShuffleboardLayout climb =
+    //     tab.getLayout("Climb Distance", BuiltInLayouts.kList).withSize(2, 4).withPosition(0, 0);
 
-    climb.addNumber("Distance", () -> climbersubsystem.ticksToInches(climbersubsystem.getPositionLeft()));
+    // climb.addNumber("Distance", () -> climbersubsystem.ticksToInches(climbersubsystem.getPositionLeft()));
   }
 
   // Called once the command ends or is interrupted.

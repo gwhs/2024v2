@@ -105,9 +105,9 @@ public class SwerveSubsystem extends SubsystemBase
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
                                          new PIDConstants(5.0, 0.0, 0.0),
                                          // Translation PID constants
-                                         new PIDConstants(swerveDrive.swerveController.config.headingPIDF.p,
-                                                          swerveDrive.swerveController.config.headingPIDF.i,
-                                                          swerveDrive.swerveController.config.headingPIDF.d),
+                                         new PIDConstants(50,
+                                                          0.32,
+                                                          0),
                                          // Rotation PID constants
                                          4.5,
                                          // Max module speed, in m/s
@@ -160,15 +160,16 @@ public class SwerveSubsystem extends SubsystemBase
     PathConstraints constraints = new PathConstraints(
         swerveDrive.getMaximumVelocity(), 4.0,
         swerveDrive.getMaximumAngularVelocity(), Units.degreesToRadians(720));
-System.out.println(pose);
+
 // Since AutoBuilder is configured, we can use it to build pathfinding commands
+System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
+
     return AutoBuilder.pathfindToPose(
         pose,
         constraints,
         0.0, // Goal end velocity in meters/sec
         0.0 // Rotation delay distance in meters. This is how far the robot should travel before attempting to rotate.
                                      );
-    
   }
 
   /**

@@ -143,9 +143,9 @@ public class DriveContainer implements BaseContainer
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     Rotation2d rotObj = new Rotation2d(Math.PI/2);
-    driveToPose drivepos = new driveToPose(drivebase.getPose().getX(), drivebase.getPose().getY(), drivebase.getHeading().plus(rotObj), drivebase);
+    driveToPose drivepos = new driveToPose(2, 2, rotObj, drivebase);
     
-    driverXbox.a().whileTrue(new driveToPose(0, 0, rotObj, drivebase));
+    driverXbox.a().whileTrue(drivepos);
   }
 
   /**

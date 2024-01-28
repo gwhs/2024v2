@@ -64,4 +64,5 @@ public final class Constants
     public static final double MID_DISTANCE_SHOOT = 76;
     public static final double TOP_DISTANCE_SHOOT = 42;
   }
+  
 }

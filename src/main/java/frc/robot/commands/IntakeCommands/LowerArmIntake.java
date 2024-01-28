@@ -4,6 +4,7 @@
 
 package frc.robot.commands.IntakeCommands;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -15,7 +16,6 @@ public class LowerArmIntake extends Command {
 
   private double motorAng;
   private double angle;
-  private double tolerance;
 
   /**
    * Creates a new ExampleCommand.
@@ -23,10 +23,9 @@ public class LowerArmIntake extends Command {
    * @param subsystem The subsystem used by this command.
    */
 
-  public LowerArmIntake(IntakeSubsystem intakeSubsystem, double angle, double tolerance) {
+  public LowerArmIntake(IntakeSubsystem intakeSubsystem, double angle) {
     this.intakeSubsystem = intakeSubsystem;
     this.angle = angle;
-    this.tolerance = tolerance;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem);
@@ -53,6 +52,6 @@ public class LowerArmIntake extends Command {
   @Override
   public boolean isFinished() {
     motorAng = intakeSubsystem.getArmPos();
-    return Math.abs(motorAng - angle) < tolerance;
+    return Math.abs(motorAng - angle) < Constants.IntakeConstants.TOLERANCE;
   }
 }

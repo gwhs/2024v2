@@ -4,8 +4,8 @@
 
 package frc.robot.commands.IntakeCommands;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
@@ -14,7 +14,6 @@ public class UpperArmIntake extends Command {
   private IntakeSubsystem intakeSubsystem;
 
   private double motorAng;
-  private double tolerance;
 
   /**
    * Creates a new ExampleCommand.
@@ -22,9 +21,8 @@ public class UpperArmIntake extends Command {
    * @param subsystem The subsystem used by this command.
    */
 
-  public UpperArmIntake(IntakeSubsystem intakeSubsystem, double tolerance) {
+  public UpperArmIntake(IntakeSubsystem intakeSubsystem) {
     this.intakeSubsystem = intakeSubsystem;
-    this.tolerance = tolerance;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem);
@@ -37,21 +35,18 @@ public class UpperArmIntake extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.setArmAngle();
+    intakeSubsystem.setArmAngle(0);
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {
-    
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     motorAng = intakeSubsystem.getArmPos();
-    return Math.abs(motorAng - angle) < tolerance;
+    return Math.abs(motorAng - 0) < Constants.IntakeConstants.TOLERANCE;
   }
-
 
 }

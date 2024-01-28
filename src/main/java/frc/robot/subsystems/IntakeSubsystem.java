@@ -30,23 +30,21 @@ public class IntakeSubsystem extends SubsystemBase {
   // int spinIntake2Id: Id for spining second intake motor 
   // initialized the encoder 
   // String can: String ID of canivore  
-  public IntakeSubsystem(int lowerIntakeId, int spinIntake1Id, int spinIntake2Id, int channel1, int channel2, int channel3, String can, double vel, double acc)  {
+  public IntakeSubsystem(int lowerIntakeId, int spinIntake1Id, int spinIntake2Id, int channel1, int channel2, int channel3, String can)  {
     // init motor 
     m_lowerIntake = new TalonFX(lowerIntakeId, can); 
     m_spinIntake1 = new TalonFX(spinIntake1Id, can);
     m_Encoder = new Encoder(channel1, channel2);
     m_sensor = new DigitalInput(channel3);
-    this.intakeMotorVelocity = vel;
-    this.intakeMotorAcceleration = acc;
+    this.intakeMotorVelocity = Constants.IntakeConstants.INTAKE_MOTOR_VELOCITY;
+    this.intakeMotorAcceleration = Constants.IntakeConstants.INTAKE_MOTOR_ACCELERATION;
   }
-
+ 
   //Sets the angle for the intake motor
-  //TODO: Limit the maximum angle
   public void setArmAngle(double angle) {
-
     if(angle < 0) { //minimum angle
       angle = 0;
-    }
+    } 
     else if (angle > 120) { //maximum angle
       angle = 120;
     }

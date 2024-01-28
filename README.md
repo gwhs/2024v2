@@ -12,3 +12,10 @@ Available setups are
   ARM // robot with the delivery arm
   CLIMB // robot with the climber
   VISION // robot with the limelight vision system
+
+
+When creating new profiles for different robots, use index.html in the docs directory
+
+Add the file in the deploy/swerve directory
+
+To use different drivetrain profile change the return string inside getDriveTrainName method.

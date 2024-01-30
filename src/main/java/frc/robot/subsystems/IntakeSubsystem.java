@@ -49,7 +49,8 @@ public class IntakeSubsystem extends SubsystemBase {
       angle = 120;
     }
 
-    double setAngle = m_Encoder.getRaw() / 8192. * 360. + m_spinIntake1.getPosition().getValue();
+    // check falcon ticks
+    double setAngle = m_Encoder.getRaw() / 360 * Constants.IntakeConstants.FALCON_TICKS * Constants.IntakeConstants.GEAR_RATIO + m_spinIntake1.getPosition().getValue();
     angle = angle - setAngle;
 
     m_lowerIntake.setPosition(angle);
@@ -64,8 +65,15 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeMotorVelocity, intakeMotorAcceleration, false, 0, 0,false, false, false);
     m_spinIntake1.setControl(spinRequest1);
   }
+  
+  //spin intake motors the opposite way
+  public void rejectIntake() {
+    spinRequest1 = new VelocityVoltage(
+      intakeMotorVelocity * -1, intakeMotorAcceleration * -1, false, 0, 0,false, false, false);
+      m_spinIntake1.setControl(spinRequest1);
+  }
 
-  // Stops intake motors
+  // Stops intake motorsss
   public void stopIntakeMotors() {
      m_spinIntake1.stopMotor();
   }
@@ -76,7 +84,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
   // returns the position of the angle of the lowering motor
   public double getArmPos() {
-    return m_lowerIntake.getPosition().getValue();
+    return m_Encoder.getDistance();
+    //return m_lowerIntake.getPosition().getValue();
   }
 
   // stops motor once note is in place, starts again once the arm position is brought up

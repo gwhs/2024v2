@@ -28,7 +28,6 @@ public class rotateinPlace extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    m_Subsystem.zeroGyro();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -44,7 +43,7 @@ public class rotateinPlace extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(m_Subsystem.getHeading().getDegrees()==spin)
+    if(spin - m_Subsystem.getHeading().getRadians() <= 0.5)
     {
       return true;
     }

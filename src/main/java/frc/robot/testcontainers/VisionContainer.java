@@ -22,6 +22,7 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.commands.LimeLight.FaceAprilTag;
+import frc.robot.commands.LimeLight.Sideways;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -51,7 +52,7 @@ public class VisionContainer implements BaseContainer
     drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          getDriveTrainName()));
 
-    limeLightSub = new LimeLightSub(drivebase.getSwerveDrive(), "limelight");                                                                   
+    limeLightSub = new LimeLightSub("limelight");                                                                   
     // Configure the trigger bindings
     configureBindings();
 
@@ -83,9 +84,9 @@ public class VisionContainer implements BaseContainer
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-
-    driverXbox.b().onTrue(new InstantCommand(limeLightSub::addVisionReading));
-    driverXbox.a().onTrue(new FaceAprilTag(drivebase, limeLightSub, () -> false));
+    
+    // points to AprilTag
+    driverXbox.a().onTrue(new Sideways(drivebase, limeLightSub, () -> false));
   }
 
   /**

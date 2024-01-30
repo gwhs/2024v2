@@ -15,21 +15,17 @@ import frc.robot.Constants.LimeLightConstants;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.subsystems.swervedrive.SwerveSubsystem;
-import swervelib.SwerveDrive;
 
 public class LimeLightSub extends SubsystemBase {
 
   // PID constants
-  private final double kP = 0.04;
-  private final double kD = 0;
+  private final double kP = 0.02;
+  private final double kD = 0.35;
   private final double kI = 0;
   // Set target point
   private static double setPoint = 0;
 
   PIDController PIDVision = new PIDController(kP, kI, kD);
-
-  private SwerveDrive swerveDrive;
 
   // set up a new instance of NetworkTables (the api/library used to read values from limelight)
   NetworkTable networkTable = NetworkTableInstance.getDefault().getTable("limelight");
@@ -67,17 +63,6 @@ public class LimeLightSub extends SubsystemBase {
     PIDVision.setSetpoint(setPoint);
   }
 
-    public LimeLightSub(SwerveDrive swerve, String limelight_networktable_name) {
-    limelight_comm = new LimeLightComms(limelight_networktable_name);
-    limelight_comm.set_entry_double("ledMode", 3);
-    
-    // swerve
-    this.swerveDrive = swerve;
-    
-    // setting target point for PID
-    PIDVision.setSetpoint(setPoint);
-  }
-
   @Override
   public void periodic() {
 
@@ -94,6 +79,7 @@ public class LimeLightSub extends SubsystemBase {
     // botpose
     if (hasTarget())
     {
+    System.out.println(getBotPose()[0]);
     SmartDashboard.putNumber("BotPose X", getBotPose()[0]);
     SmartDashboard.putNumber("BotPose Y", getBotPose()[1]);
     SmartDashboard.putNumber("BotPose Z", getBotPose()[2]);
@@ -142,6 +128,10 @@ public class LimeLightSub extends SubsystemBase {
     return botPose;
   }
 
+  public double getPoseX() {
+    return getBotPose()[0];
+  }
+
   public double getPipeline() {
     double Pipeline = limelight_comm.get_entry_double("pipeline");
     return Pipeline;
@@ -160,11 +150,8 @@ public class LimeLightSub extends SubsystemBase {
     return PIDVision.calculate(getTx());
   }
 
-  /**
-   * Add a vision reading for REAL purposes.
-   */
-  public void addVisionReading()
-  {
-    swerveDrive.addVisionMeasurement(new Pose2d(getBotPose()[0], getBotPose()[1], Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
+// megatag tx and ty, units in meters
+  public Pose2d getPose2D() {
+    return new Pose2d(Math.abs(getBotPose()[0]), Math.abs(getBotPose()[1]), Rotation2d.fromDegrees(getBotPose()[5]));
   }
 }

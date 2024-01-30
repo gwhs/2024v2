@@ -23,13 +23,15 @@ import java.util.function.DoubleSupplier;
 import swervelib.SwerveController;
 
 /** An example command that uses an example subsystem. */
-public class FaceAprilTag extends Command {
+public class Sideways extends Command {
 
   private final LimeLightSub limeLightSub;
 
   private final SwerveSubsystem  swerve;
   private final BooleanSupplier  driveMode;
   private final SwerveController controller;
+
+  private boolean isFinished = false;
 
 
   /**
@@ -38,7 +40,7 @@ public class FaceAprilTag extends Command {
    * @param swerve The subsystem used by this command.
    */
  
-  public FaceAprilTag(SwerveSubsystem swerve, LimeLightSub limeLightSub, BooleanSupplier driveMode) {
+  public Sideways(SwerveSubsystem swerve, LimeLightSub limeLightSub, BooleanSupplier driveMode) {
     this.swerve = swerve;
     this.limeLightSub = limeLightSub;
     this.driveMode = driveMode;
@@ -58,10 +60,30 @@ public class FaceAprilTag extends Command {
   @Override
   public void execute() {
     System.out.println("works");
+    double speedX = 0;
+    double speedY = 0;
     double error = limeLightSub.getError();
 
+    if (-limeLightSub.getBotPose()[0] < 5) {
+      speedX = 2;
+    } else {
+      speedX = 0;
+    }
+
+    if (limeLightSub.getBotPose()[1] > 0.5) {
+      speedY = 2;
+    } else {
+      speedY = 0;
+    }
+
+    if (!(-limeLightSub.getBotPose()[0] < 5) || !(limeLightSub.getBotPose()[1] > 0.5)) {
+      isFinished = true;
+    } else {
+      isFinished = false;
+    }
+
     // Drive using raw values.
-    swerve.drive(new Translation2d(0 * swerve.maximumSpeed, 0 * swerve.maximumSpeed),
+    swerve.drive(new Translation2d(speedX * swerve.maximumSpeed, speedY * swerve.maximumSpeed),
                  error * controller.config.maxAngularVelocity,
                  driveMode.getAsBoolean());
 
@@ -74,6 +96,6 @@ public class FaceAprilTag extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (limeLightSub.getError() > -0.25 && limeLightSub.getError() < 0.25);
+    return isFinished;
   }
 }

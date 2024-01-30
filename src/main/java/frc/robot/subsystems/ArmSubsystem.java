@@ -1,10 +1,6 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-
-
-  //Bore encoder, Talonfx motor, Magic motion?, 
-  //Functions: getCurrentPosition/getCurrentAngle, setTargetPosition, getTorqueVelocity, setVelocity, 
 package frc.robot.subsystems;
 import frc.robot.Constants;
 
@@ -13,22 +9,14 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-//import com.ctre.phoenix.motorcontrol.ControlMode;
-
-//import com.ctre.phoenix6.hardware.core.CoreTalonFX; //Core?
-import com.ctre.phoenix6.configs.MotionMagicConfigs;//Maybe needed?
-import com.ctre.phoenix6.configs.TalonFXConfiguration; //Maybe needed?
-import com.ctre.phoenix6.signals.ControlModeValue; //Maybe needed
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration; 
+import com.ctre.phoenix6.signals.ControlModeValue; 
 import com.ctre.phoenix6.configs.Slot0Configs;
-
-
-//import edu.wpi.first.wpilibj.CounterBase;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import org.littletonrobotics.junction.Logger;
-//import org.littletonrobotics.akit.junction;
-//TEST
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 
@@ -41,15 +29,6 @@ public class ArmSubsystem extends SubsystemBase {
   private double pizzaBoxAcc;
   private VelocityVoltage spinPizzaBoxMotorRequest;  
   TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
-
-
-  //private ShuffleboardTab tab = Shuffleboard.getTab("Encoder");
-  //private GenericEntry encoderPosition = tab.add("Encoder Position", 0).getEntry();
-  //private GenericEntry encoderRate =
-      // tab.add("Encoder Rate", 0)
-      //     .withWidget(BuiltInWidgets.kDial)
-      //     .withProperties(Map.of("min", -500, "max", 500))
-      //     .getEntry();
 
   public ArmSubsystem(int armId, String armCanbus, int pizzaBoxId, String pizzaBoxCanbus, int channel1, int channel2)
   {
@@ -80,33 +59,15 @@ public class ArmSubsystem extends SubsystemBase {
     
   }
 
-  /*
-    
-    public void setArmAngle(double angle) {
-         m_arm.setPosition(angle);
-        }
-       
-     //MotionMagicVoltage​(double Position, boolean EnableFOC, double FeedForward, int Slot, boolean OverrideBrakeDurNeutral, boolean LimitForwardMotion, boolean LimitReverseMotion)
-   public void spinArmMotor (double pos)
-   {
-      MotionMagicVoltage armSpinRequest = new MotionMagicVoltage(pos, true, 0, 0, false, true, false);
-      m_arm.setControl(armSpinRequest.withPosition(pos));
-
-    //m_arm.setControl(armSpinRequest);
-  }
-    
-  
-   */
-  //vel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10
-  //accel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10
+  // Sets arm angle with given velocity and acceleration
   public void setAngle(double angle, double vel, double accel) {
     //Pos will be based on motor 
     //Make sure angle is between 0 and 270 degrees!
 
-    if(angle < 0) { //minimum angle
+    if(angle < 0) { //Will not be less than minimum angle
       angle = 0;
     }
-    else if (angle > 270) { //maximum angle
+    else if (angle > 270) { // Will not be greater than maximum angle
       angle = 270;
     }
 
@@ -120,15 +81,9 @@ public class ArmSubsystem extends SubsystemBase {
     // m_arm.getConfigurator().apply(talonFXConfigs, 0.03); 
 
     m_arm.setControl(m_smoothArmMovement);
-
-    // m_arm.set(
-    //     ControlMode.MotionMagic,
-    //     angle / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO);
-    //m_motor.setControl(m_motmag.withPosition(200));
-
-
   }
 
+  //Spins "Pizzabox" motor
   public void spinPizzaBoxMotor(double velocity, double acceleration){
     pizzaBoxVel = velocity;
     pizzaBoxAcc = acceleration;
@@ -136,14 +91,17 @@ public class ArmSubsystem extends SubsystemBase {
     m_pizzaBox.setControl(spinPizzaBoxMotorRequest);
   }
 
+  //Resets arm angle back to 0
   public void resetPosition() {
     setAngle(0.0, 0.0, 0.0); 
   }
 
+  //Stops arm motor
   public void stopArmMotor() {
     m_arm.stopMotor();
  }
 
+ //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])
   public double encoderGetAngle() {
 
     return m_encoder.getRaw()/8132 * 360;
@@ -157,11 +115,7 @@ public class ArmSubsystem extends SubsystemBase {
     return m_encoder.getStopped();
   }
 
-  // public double getAng() {
-  //   return m_arm.getPosition();
-  // }
  
-  //
   
   @Override
   public void periodic() {
@@ -170,12 +124,6 @@ public class ArmSubsystem extends SubsystemBase {
 
     double rawAngle = (-m_encoder.getRaw() / 8192. * 360.);
     Logger.getInstance().recordOutput("/Angle", rawAngle);
-
-    //  SmartDashboard.putNumber("Encoder ticks", ticks);
-    //  SmartDashboard.putNumber("Encoder Rate", m_encoder.getRate());
-    //  SmartDashboard.putNumber("Encoder Distance", m_encoder.getDistance());
-    //  encoderPosition.setDouble(ticks);
-    //  encoderRate.setDouble(m_encoder.getRate());
   }
 
   @Override

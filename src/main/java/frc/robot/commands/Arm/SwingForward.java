@@ -22,7 +22,7 @@ public class SwingForward extends Command{
   private final ArmSubsystem armSubsystem;
     // Called when the command is initially scheduled.
     
-//  OLD CONSTRUCTOR HEADING : public SwingForward(ArmSubsystem armSubsystem) {
+
   public SwingForward(ArmSubsystem armSubsystem, double angle, double velocity, double acceleration, double tolerance)
   {
     this.armSubsystem = armSubsystem;

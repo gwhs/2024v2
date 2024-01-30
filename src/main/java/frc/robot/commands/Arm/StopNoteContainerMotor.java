@@ -6,7 +6,6 @@ package frc.robot.commands;
 import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
-/** An example command that uses an example subsystem. */
 public class StopNoteContainerMotor extends Command {
 
   private double velocity;

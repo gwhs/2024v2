@@ -17,21 +17,18 @@ import frc.robot.subsystems.Climbsubsystem;
 
 public class ClimbContainer implements BaseContainer {
 
-    Climbsubsystem climbsubsystem = new Climbsubsystem(ClimbConstants.MOTOR_LEFT_ID, ClimbConstants.MOTOR_RIGHT_ID, ClimbConstants.MOTOR_LEFT_INVERTED, ClimbConstants.MOTOR_RIGHT_INVERTED); //change arguments
+    Climbsubsystem climbsubsystem = new Climbsubsystem(ClimbConstants.MOTOR_LEFT_ID, ClimbConstants.MOTOR_RIGHT_ID, ClimbConstants.MOTOR_LEFT_INVERTED, ClimbConstants.MOTOR_RIGHT_INVERTED, "rio"); //change arguments
   
     // NEED TO DO: climb command should autoalign then climb then shoot and then maybe climb back down
     private final CommandXboxController m_driverController =
         new CommandXboxController(0);
 
-    private final ShuffleboardTab tab = Shuffleboard.getTab("Drive");
-
     
 
 
     public ClimbContainer() {
+        
         configureBindings();
-
-    Shuffleboard.selectTab("Drive");
     
     }
 
@@ -40,5 +37,9 @@ public class ClimbContainer implements BaseContainer {
         m_driverController.a().whileTrue(new ClimbDown(climbsubsystem));
         m_driverController.b().whileTrue(new ClimbUp(climbsubsystem));
         //m_driverController.x().onTrue(new Trap());
+
+        Shuffleboard.getTab("Climb").add("climb up", new ClimbUp(climbsubsystem));
+        Shuffleboard.getTab("Climb").add("climb down", new ClimbDown(climbsubsystem));
+                
     }
 }

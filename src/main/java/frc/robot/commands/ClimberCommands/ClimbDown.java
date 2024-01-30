@@ -28,7 +28,7 @@ public class ClimbDown extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climbersubsystem.setSpeed(-ClimbConstants.CLIMB_MOTOR_SPEED);
+    System.out.print("clib down initialize");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,17 +39,20 @@ public class ClimbDown extends Command {
     //     tab.getLayout("Climb Distance", BuiltInLayouts.kList).withSize(2, 4).withPosition(0, 0);
 
     // climb.addNumber("Distance", () -> climbersubsystem.ticksToInches(climbersubsystem.getPositionLeft()));
+    climbersubsystem.setSpeed(-ClimbConstants.CLIMB_MOTOR_SPEED);
+    System.out.print("e");
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     climbersubsystem.setSpeed(0);
+    System.out.print("e");
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return climbersubsystem.getPositionLeft() < targetPositionTicks || climbersubsystem.getPositionLeft() < -20000; //change the big number
+    return false;//climbersubsystem.getPositionLeft() < targetPositionTicks || climbersubsystem.getPositionLeft() < -20000; //change the big number
   }
 }

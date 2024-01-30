@@ -1,0 +1,12 @@
+{
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Climb/climb down": "Command",
+      "/Shuffleboard/Climb/climb up": "Command"
+    }
+  },
+  "NetworkTables Info": {
+    "visible": true
+  }
+}

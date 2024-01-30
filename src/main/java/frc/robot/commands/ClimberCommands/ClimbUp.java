@@ -28,7 +28,7 @@ public class ClimbUp extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    climbersubsystem.setSpeed(ClimbConstants.CLIMB_MOTOR_SPEED);
+    System.out.print("climb up initialize");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,12 +39,17 @@ public class ClimbUp extends Command {
     //     tab.getLayout("Climb Distance", BuiltInLayouts.kList).withSize(2, 4).withPosition(0, 0);
 
     // climb.addNumber("Distance", () -> climbersubsystem.ticksToInches(climbersubsystem.getPositionLeft()));
+    climbersubsystem.setSpeed(ClimbConstants.CLIMB_MOTOR_SPEED);
+    System.out.print("E");
+    
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
     climbersubsystem.setSpeed(0);
+    System.out.print("E");
   }
 
   // Returns true when the command should end.

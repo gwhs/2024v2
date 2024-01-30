@@ -5,6 +5,7 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
+import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.ControlModeValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -19,11 +20,11 @@ public class Climbsubsystem extends SubsystemBase {
   /** Creates a new Climbsubsystem. */
   private TalonFX climberArmLeft;
   private TalonFX climberArmRight;
+  //set canBus to the name of the canivore of the robot
+  public Climbsubsystem(int motorIDLeft, int motorIDRight, boolean invertedLeft, boolean invertedRight, String canBus) {
 
-  public Climbsubsystem(int motorIDLeft, int motorIDRight, boolean invertedLeft, boolean invertedRight) {
-
-    this.climberArmLeft = new TalonFX(motorIDRight);
-    this.climberArmRight = new TalonFX(motorIDRight);
+    this.climberArmLeft = new TalonFX(motorIDLeft, canBus);
+    this.climberArmRight = new TalonFX(motorIDRight, canBus);
     //for inversions
     climberArmLeft.setInverted(invertedLeft);
     climberArmRight.setInverted(invertedRight);
@@ -31,7 +32,6 @@ public class Climbsubsystem extends SubsystemBase {
     climberArmLeft.setNeutralMode(NeutralModeValue.Brake);
     climberArmRight.setNeutralMode(NeutralModeValue.Brake);
 
-    this.setZero();
   } 
 
   public double inchesToTicks(double inches){
@@ -42,21 +42,31 @@ public class Climbsubsystem extends SubsystemBase {
     return d / ClimbConstants.CLIMBER_RATIO / ClimbConstants.TICKS_PER_REVOLUTION * (ClimbConstants.PITCH_DIAMETER_30* Math.PI); 
   }
 
-  public void setSpeed(double speed){ // not sure about this
-    climberArmLeft.setControl(new VelocityTorqueCurrentFOC(speed));
-    climberArmRight.setControl(new VelocityTorqueCurrentFOC(speed));
+  public void setSpeed(double speed){ // change to foc later
+    double leftSpeed = speed;
+    double rightSpeed = speed;
+    climberArmLeft.setControl(new VelocityVoltage(leftSpeed, 
+                                                  5, 
+                                                  false, 
+                                                  0, 
+                                                  0,
+                                                  false, 
+                                                  false, 
+                                                  false));
+    climberArmRight.setControl(new VelocityVoltage(rightSpeed, 
+                                                  5, 
+                                                  false, 
+                                                  0, 
+                                                  0, 
+                                                  false, 
+                                                  false, 
+                                                  false));
   }
 
-  public void setBrake(){
-    climberArmLeft.setNeutralMode(NeutralModeValue.Brake);
-    climberArmRight.setNeutralMode(NeutralModeValue.Brake);
+  public void stopClimb(){
+    climberArmLeft.stopMotor();
+    climberArmRight.stopMotor();
     
-  }
-
-  public void setZero(){
-    climberArmLeft.setPosition(0);
-    climberArmRight.setPosition(0);
-
   }
 
   public double getPositionLeft(){

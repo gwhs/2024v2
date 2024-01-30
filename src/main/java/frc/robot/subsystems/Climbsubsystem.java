@@ -45,22 +45,24 @@ public class Climbsubsystem extends SubsystemBase {
   public void setSpeed(double speed){ // change to foc later
     double leftSpeed = speed;
     double rightSpeed = speed;
-    climberArmLeft.setControl(new VelocityVoltage(leftSpeed, 
-                                                  5, 
-                                                  false, 
-                                                  0, 
-                                                  0,
-                                                  false, 
-                                                  false, 
-                                                  false));
-    climberArmRight.setControl(new VelocityVoltage(rightSpeed, 
-                                                  5, 
-                                                  false, 
-                                                  0, 
-                                                  0, 
-                                                  false, 
-                                                  false, 
-                                                  false));
+    // climberArmLeft.setControl(new VelocityVoltage(leftSpeed, 
+    //                                               5, 
+    //                                               false, 
+    //                                               0, 
+    //                                               0,
+    //                                               false, 
+    //                                               false, 
+    //                                               false));
+    // climberArmRight.setControl(new VelocityVoltage(rightSpeed, 
+    //                                               5, 
+    //                                               false, 
+    //                                               0, 
+    //                                               0, 
+    //                                               false, 
+    //                                               false, 
+    //                                               false));
+    climberArmRight.setControl(new VelocityTorqueCurrentFOC(rightSpeed, 5, 0, 0, false, false, false));
+    climberArmLeft.setControl(new VelocityTorqueCurrentFOC(leftSpeed, 5, 0, 0, false, false, false));
   }
 
   public void stopClimb(){

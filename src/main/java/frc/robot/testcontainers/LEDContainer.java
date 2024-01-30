@@ -8,7 +8,10 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ledcommands.ChangeLEDColor;
 import frc.robot.commands.ledcommands.ChangeLEDToBlue;
 import frc.robot.commands.ledcommands.ChangeLEDToGreen;
+import frc.robot.commands.ledcommands.ChangeLEDToRainbow;
 import frc.robot.commands.ledcommands.ChangeLEDToRed;
+import frc.robot.commands.ledcommands.ChangeLEDToYellowWave;
+import frc.robot.commands.ledcommands.TurnOffLED;
 import frc.robot.subsystems.LEDSubsystem;
 
 public class LEDContainer implements BaseContainer {
@@ -32,13 +35,17 @@ public class LEDContainer implements BaseContainer {
         xboxController.y().onTrue(new ChangeLEDToRed(led));
         xboxController.b().onTrue(new ChangeLEDToGreen(led));
         xboxController.a().onTrue(new ChangeLEDColor(led, 255, 0, 255));
-        xboxController.rightBumper().onTrue(new ChangeLEDColor(led, 0, 0, 0));
+        xboxController.rightBumper().onTrue(new TurnOffLED(led));
+        xboxController.leftBumper().onTrue(new ChangeLEDToRainbow(led));
+        xboxController.start().onTrue(new ChangeLEDToYellowWave(led));
+       
+
     }
 
 
-    private Command ChangeLEDColor(LEDSubsystem led2, int i, int j, int k) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'ChangeLEDColor'");
-    }
+    // private Command ChangeLEDColor(LEDSubsystem led2, int i, int j, int k) {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'ChangeLEDColor'");
+    // }
 
 }

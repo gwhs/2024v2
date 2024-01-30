@@ -31,7 +31,7 @@ public class ChangeLEDToBlue extends Command {
   }
 
   // Called once the command ends or is interrupted.
-  @Override
+  @Override 
   public void end(boolean interrupted) {}
 
   // Returns true when the command should end.

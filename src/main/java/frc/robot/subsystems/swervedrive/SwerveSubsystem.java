@@ -476,6 +476,8 @@ System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
    */
   public void addFakeVisionReading()
   {
-    swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
+    swerveDrive.addVisionMeasurement(new Pose2d(2, 2, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
   }
+
+  
 }

@@ -12,14 +12,15 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 public class rotateinPlace extends Command {
   /** Creates a new rotateinPlace. */
   private final SwerveSubsystem m_Subsystem;
-  private final Rotation2d rot;
+  private final Translation2d pose;
   private final double spin;
   private final boolean isFieldRel;
-  private final Pose2d pose;
   public rotateinPlace(double rotation, boolean fieldRelative, SwerveSubsystem subsystem ) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_Subsystem = subsystem;
+    this.spin = rotation;
     this.isFieldRel = fieldRelative;
+    pose = new Translation2d();
 
     addRequirements(m_Subsystem);
   }
@@ -33,7 +34,7 @@ public class rotateinPlace extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Subsystem.drive(plot, rot, isFieldRel);
+    m_Subsystem.drive(pose, spin, isFieldRel);
   }
 
   // Called once the command ends or is interrupted.
@@ -43,7 +44,7 @@ public class rotateinPlace extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(m_Subsystem.getHeading()==rot)
+    if(m_Subsystem.getHeading().getDegrees()==spin)
     {
       return true;
     }

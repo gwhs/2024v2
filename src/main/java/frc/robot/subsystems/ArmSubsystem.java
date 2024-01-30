@@ -110,14 +110,14 @@ public class ArmSubsystem extends SubsystemBase {
       angle = 270;
     }
 
-    double adjustedAngle = ((angle - encoderGetAngle() + m_arm.getPosition().getValue())) * Constants.Arm.GEAR_RATIO / Constants.Arm.FALCON_TICKS; //multiply by gearbox and divide by ticks? (times 64 divided by 2048?)
-    MotionMagicVoltage m_smoothArmMovement = new MotionMagicVoltage(adjustedAngle, true, 0, 0, false, true, false);
+    double adjustedAngle = ((angle - encoderGetAngle() + m_arm.getPosition().getValue())) * Constants.Arm.GEAR_RATIO;
+    MotionMagicVoltage m_smoothArmMovement = new MotionMagicVoltage(adjustedAngle/360, true, 0, 0, false, true, false);
 
-    var motionMagicConfigs = talonFXConfigs.MotionMagic;
-    motionMagicConfigs.MotionMagicCruiseVelocity = vel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10;
-    motionMagicConfigs.MotionMagicAcceleration = accel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10; 
+    // var motionMagicConfigs = talonFXConfigs.MotionMagic;
+    // motionMagicConfigs.MotionMagicCruiseVelocity = vel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10;
+    // motionMagicConfigs.MotionMagicAcceleration = accel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10; 
 
-    m_arm.getConfigurator().apply(talonFXConfigs, 0.03); 
+    // m_arm.getConfigurator().apply(talonFXConfigs, 0.03); 
 
     m_arm.setControl(m_smoothArmMovement);
 

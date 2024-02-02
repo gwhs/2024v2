@@ -2,6 +2,7 @@ package frc.robot.testcontainers;
 
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
@@ -17,6 +18,7 @@ public class ArmContainer implements BaseContainer {
     // todo: add intake subsystem
     private final CommandXboxController m_driverController =
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
+        ArmSubsystem arm = new ArmSubsystem(0, "testCan", 0, "testCan", 0, 0); 
 
     public ArmContainer() {
         configureBindings();
@@ -25,7 +27,7 @@ public class ArmContainer implements BaseContainer {
 
 
     private void configureBindings() {
-       xboxController.x().onTrue(new );
+       m_driverController.x().onTrue(new SpinNoteContainerMotor(arm, .001, .001));
         
     }
 }

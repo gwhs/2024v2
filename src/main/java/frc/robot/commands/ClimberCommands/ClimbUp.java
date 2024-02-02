@@ -4,23 +4,23 @@
 
 package frc.robot.commands.ClimberCommands;
 
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ClimbConstants;
 import frc.robot.subsystems.Climbsubsystem;
+import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 public class ClimbUp extends Command {
   /** Creates a new ClimbUp. */
-  private Climbsubsystem climbersubsystem;
-  private double targetPositionTicks;
 
-  public ClimbUp(Climbsubsystem c) {
+  private Climbsubsystem climbersubsystem;
+  private SwerveSubsystem swerve;
+
+  //constructor that takes in a Climbsubsystem object and a SwerveSubsystem obj
+  public ClimbUp(Climbsubsystem c, SwerveSubsystem s) {
 
     climbersubsystem = c;
-    targetPositionTicks = c.inchesToTicks(ClimbConstants.CLIMB_DISTANCE);
+    swerve = s;
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.climbersubsystem);
   }
@@ -28,33 +28,34 @@ public class ClimbUp extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.print("climb up initialize");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // final ShuffleboardTab tab = Shuffleboard.getTab("Drive");
-    // ShuffleboardLayout climb =
-    //     tab.getLayout("Climb Distance", BuiltInLayouts.kList).withSize(2, 4).withPosition(0, 0);
+    double leftSpeed = ClimbConstants.CLIMB_MOTOR_SPEED;
+    double rightSpeed = ClimbConstants.CLIMB_MOTOR_SPEED;
 
-    // climb.addNumber("Distance", () -> climbersubsystem.ticksToInches(climbersubsystem.getPositionLeft()));
-    climbersubsystem.setSpeed(ClimbConstants.CLIMB_MOTOR_SPEED);
-    System.out.print("E");
-    
-
+    //TEST THIS LATER
+    if (swerve.getRoll().getDegrees() > 0) {
+      leftSpeed += 1;
+    } else if (swerve.getRoll().getDegrees() < 0) {
+      rightSpeed += 1;
+    }
+    climbersubsystem.setSpeed(-leftSpeed, -rightSpeed); //sets the speed (in rotations/sec) to the value set in Constants file 
+    //robot goes up but motors go down so negative velocity
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    climbersubsystem.setSpeed(0);
-    System.out.print("E");
+    climbersubsystem.stopClimb();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;//(climbersubsystem.getPositionLeft() > targetPositionTicks || climbersubsystem.getPositionLeft() > climbersubsystem.inchesToTicks(29)); //change the inches
+    return (climbersubsystem.getPositionLeft() <= 0 
+            || climbersubsystem.getPositionLeft() <= 0); 
   }
 }

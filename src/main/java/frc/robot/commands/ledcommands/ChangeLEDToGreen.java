@@ -38,6 +38,7 @@ public class ChangeLEDToGreen extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    System.out.println("Green");
     return ledSubsystem.getColor(1).equals(new Color(0, 255, 0));
   }
 }

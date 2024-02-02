@@ -72,14 +72,16 @@ public class LEDSubsystem extends SubsystemBase {
   }
 
   public void yellowWave() {
-    Color yellow = new Color(255,0,255);
+    Color yellow = new Color(209,0,3);
     Color off = new Color(0,0,0);
-      for (var i = 1; i < m_ledBuffer.getLength(); i++) 
+    Color medium = new Color(143,173,9);
+      for (var i = 2; i < m_ledBuffer.getLength(); i++) 
     {
       if(i < m_ledBuffer.getLength())
       {
         m_ledBuffer.setLED(i, yellow);
-        m_ledBuffer.setLED(i - 1, off); 
+        m_ledBuffer.setLED(i - 1, medium);
+        m_ledBuffer.setLED(i - 2, off); 
       }
     m_led.setData(m_ledBuffer);
     m_led.start();

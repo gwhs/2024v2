@@ -37,6 +37,7 @@ public class ChangeLEDToRainbow extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ledSubsystem.getColor(1).equals(new Color(255, 0, 0));
+    System.out.println("rainbow");
+    return true;
   }
 }

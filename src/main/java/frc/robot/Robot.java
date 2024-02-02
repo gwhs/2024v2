@@ -12,6 +12,7 @@ import frc.robot.testcontainers.ClimbContainer;
 import frc.robot.testcontainers.DriveContainer;
 import frc.robot.testcontainers.IntakeContainer;
 import frc.robot.testcontainers.VisionContainer;
+import frc.robot.testcontainers.LEDContainer;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -27,6 +28,7 @@ public class Robot extends TimedRobot {
   public static final String ARM = "Arm";
   public static final String CLIMB = "Climb";
   public static final String VISION = "Vision";
+  public static final String LED = "LED";
 
   // change this to match the subsystem container you want to use, or GAME for complete robot
   public static final String container = VISION;
@@ -63,6 +65,9 @@ public class Robot extends TimedRobot {
         break;
       case VISION:
         m_baseContainer = new VisionContainer();
+        break;
+      case LED:
+        m_baseContainer = new LEDContainer();
         break;
     }  
    

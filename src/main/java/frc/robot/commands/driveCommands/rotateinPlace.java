@@ -13,12 +13,13 @@ public class rotateinPlace extends Command {
   /** Creates a new rotateinPlace. */
   private final SwerveSubsystem m_Subsystem;
   private final Translation2d pose;
-  private final double spin;
+  private double spinRate = Math.PI/3;
+  private double targetAngle;
   private final boolean isFieldRel;
   public rotateinPlace(double rotation, boolean fieldRelative, SwerveSubsystem subsystem ) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_Subsystem = subsystem;
-    this.spin = rotation;
+    this.targetAngle = rotation;
     this.isFieldRel = fieldRelative;
     pose = new Translation2d();
 
@@ -28,12 +29,19 @@ public class rotateinPlace extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+   
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    m_Subsystem.drive(pose, spin, isFieldRel);
+    
+    if(targetAngle-m_Subsystem.getHeading().getDegrees() > 180)
+    {
+      targetAngle = 360 - targetAngle;
+      this.spinRate *= -1;
+    }
+    m_Subsystem.drive(pose, spinRate, false);
   }
 
   // Called once the command ends or is interrupted.
@@ -43,11 +51,17 @@ public class rotateinPlace extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(spin - m_Subsystem.getHeading().getRadians() <= 0.5)
+    if(targetAngle == 180 && (m_Subsystem.getHeading().getDegrees() <= -175 || m_Subsystem.getHeading().getDegrees() >= 175))
+    {
+      return true;
+    }
+    else if(m_Subsystem.getHeading().getDegrees() <= 5)
     {
       return true;
     }
     
     return false;
   }
+
+
 }

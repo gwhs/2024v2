@@ -142,7 +142,7 @@ public class DriveContainer implements BaseContainer
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
 
-    driverXbox.a().onTrue(new rotateinPlace(Math.PI, true, drivebase));
+    driverXbox.a().onTrue(new rotateinPlace(180, true, drivebase));
   }
 
   /**

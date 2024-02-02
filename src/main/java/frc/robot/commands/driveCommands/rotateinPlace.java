@@ -13,14 +13,14 @@ public class rotateinPlace extends Command {
   /** Creates a new rotateinPlace. */
   private final SwerveSubsystem m_Subsystem;
   private final Translation2d pose;
-  private double spinRate = Math.PI/3;
-  private double targetAngle;
-  private final boolean isFieldRel;
-  public rotateinPlace(double rotation, boolean fieldRelative, SwerveSubsystem subsystem ) {
+  private final double spinRate = Math.PI/3;
+  private final double targetTheta;
+  private double currTheta;
+
+  public rotateinPlace(double rotation, SwerveSubsystem subsystem ) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_Subsystem = subsystem;
-    this.targetAngle = rotation;
-    this.isFieldRel = fieldRelative;
+    this.targetTheta = rotation;
     pose = new Translation2d();
 
     addRequirements(m_Subsystem);
@@ -35,14 +35,18 @@ public class rotateinPlace extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
-    if(targetAngle-m_Subsystem.getHeading().getDegrees() > 180)
-    {
-      targetAngle = 360 - targetAngle;
-      this.spinRate *= -1;
+     currTheta = m_Subsystem.getHeading().getDegrees();
+     double dif = Math.abs(currTheta) + targetTheta;
+    if(dif < 180 ){
+        m_Subsystem.drive(pose, -spinRate, false);
+      }
+      else
+      {
+        m_Subsystem.drive(pose, spinRate, false);
+      }
     }
-    m_Subsystem.drive(pose, spinRate, false);
-  }
+    
+  
 
   // Called once the command ends or is interrupted.
   @Override
@@ -51,17 +55,23 @@ public class rotateinPlace extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(targetAngle == 180 && (m_Subsystem.getHeading().getDegrees() <= -175 || m_Subsystem.getHeading().getDegrees() >= 175))
+    if(targetTheta == 180 && (m_Subsystem.getHeading().getDegrees() >= 175 || m_Subsystem.getHeading().getDegrees() <= -175))
     {
       return true;
     }
-    else if(m_Subsystem.getHeading().getDegrees() <= 5)
+    else if(targetTheta == 0 && (m_Subsystem.getHeading().getDegrees() <= 5 || m_Subsystem.getHeading().getDegrees() >= -5))
     {
       return true;
     }
-    
+    else
+    {
+      if((currTheta - targetTheta >= -5 && currTheta - targetTheta <= 0) || (currTheta - targetTheta <=  5 && currTheta - targetTheta > 0))
+      {
+        System.out.print(currTheta- targetTheta);
+        return true;
+      }
+      
+    }
     return false;
   }
-
-
 }

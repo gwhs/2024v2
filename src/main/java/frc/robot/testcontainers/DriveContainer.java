@@ -142,7 +142,7 @@ public class DriveContainer implements BaseContainer
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
 
-    driverXbox.a().onTrue(new rotateinPlace(180, true, drivebase));
+    driverXbox.a().onTrue(new rotateinPlace(70, drivebase));
   }
 
   /**
@@ -165,4 +165,11 @@ public class DriveContainer implements BaseContainer
   {
     drivebase.setMotorBrake(brake);
   }
+
+    /** This function is called once when the robot is first started up. */
+    
+    public void simulationInit() {}
+  
+    /** This function is called periodically whilst in simulation. */
+    public void simulationPeriodic() {}
 }

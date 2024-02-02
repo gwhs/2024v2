@@ -16,8 +16,7 @@ public final class Constants {
   public static class OperatorConstants {
     public static final int kDriverControllerPort = 0;
   }
-//Draft
-  public static final class Arm {
+    public static final class Arm {
     public static final int kSlotIdx = 0;
     public static final int kPIDLoopIdx = 0;
     public static final int kTimeoutMs = 30;
@@ -25,5 +24,4 @@ public final class Constants {
     public static final int FALCON_TICKS = 2048;
     public static final int GEAR_RATIO = 64;
   }
-//Draft
 }

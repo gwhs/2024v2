@@ -59,7 +59,7 @@ public class ArmSubsystem extends SubsystemBase {
     
   }
 
-  // Sets arm angle with given velocity and acceleration
+  // Sets arm angle in degrees with given velocity and acceleration
   public void setAngle(double angle, double vel, double accel) {
     //Pos will be based on motor 
     //Make sure angle is between 0 and 270 degrees!
@@ -83,7 +83,7 @@ public class ArmSubsystem extends SubsystemBase {
     m_arm.setControl(m_smoothArmMovement);
   }
 
-  //Spins "Pizzabox" motor
+  //Spins "Pizzabox" motor: velocity in rotations/sec and acceleration in rotations/sec^2
   public void spinPizzaBoxMotor(double velocity, double acceleration){
     pizzaBoxVel = velocity;
     pizzaBoxAcc = acceleration;
@@ -110,7 +110,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void encoderReset() {
     m_encoder.reset();
   }
-
+//Check
   public boolean encoderGetStopped() {
     return m_encoder.getStopped();
   }

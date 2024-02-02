@@ -14,14 +14,8 @@ public class LowerArmIntake extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private IntakeSubsystem intakeSubsystem;
 
-  private double motorAng;
+  private double motorAngle;
   private double angle;
-
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
 
   public LowerArmIntake(IntakeSubsystem intakeSubsystem, double angle) {
     this.intakeSubsystem = intakeSubsystem;
@@ -52,7 +46,7 @@ public class LowerArmIntake extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    motorAng = intakeSubsystem.getArmPos();
-    return Math.abs(motorAng - angle) < Constants.IntakeConstants.TOLERANCE;
+    motorAngle = intakeSubsystem.getArmPos();
+    return Math.abs(motorAngle - angle) < Constants.IntakeConstants.TOLERANCE;
   }
 }

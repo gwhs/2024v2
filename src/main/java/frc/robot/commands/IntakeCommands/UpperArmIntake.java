@@ -13,7 +13,7 @@ public class UpperArmIntake extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private IntakeSubsystem intakeSubsystem;
 
-  private double motorAng;
+  private double motorAngle;
 
   public UpperArmIntake(IntakeSubsystem intakeSubsystem) {
     this.intakeSubsystem = intakeSubsystem;
@@ -40,8 +40,8 @@ public class UpperArmIntake extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    motorAng = intakeSubsystem.getArmPos();
-    return Math.abs(motorAng - 0) < Constants.IntakeConstants.TOLERANCE;
+    motorAngle = intakeSubsystem.getArmPos();
+    return Math.abs(motorAngle - 0) < Constants.IntakeConstants.TOLERANCE;
   }
 
 }

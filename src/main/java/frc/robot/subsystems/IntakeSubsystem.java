@@ -19,8 +19,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private TalonFX m_lowerIntake; // motor of arm
-  private TalonFX m_spinIntake1; // motor of intake
+  private TalonFX m_moveIntakeArm; // motor of arm
+  private TalonFX m_spinIntake; // motor of intake
   private Encoder m_Encoder;
   private DigitalInput m_sensor; 
   private VelocityVoltage spinRequest1;
@@ -33,8 +33,8 @@ public class IntakeSubsystem extends SubsystemBase {
   // initialized the encoder 
   // String can: String ID of canivore  
   public IntakeSubsystem(int lowerIntakeId, int spinIntake1Id, int spinIntake2Id, int channel1, int channel2, int channel3, String can)  {
-    m_lowerIntake = new TalonFX(lowerIntakeId, can); 
-    m_spinIntake1 = new TalonFX(spinIntake1Id, can);
+    m_moveIntakeArm = new TalonFX(lowerIntakeId, can); 
+    m_spinIntake = new TalonFX(spinIntake1Id, can);
     m_Encoder = new Encoder(channel1, channel2);
     m_sensor = new DigitalInput(channel3);
     this.intakeMotorVelocity = Constants.IntakeConstants.INTAKE_MOTOR_VELOCITY;
@@ -51,36 +51,34 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     // check falcon ticks
-    double setAngle = m_Encoder.getRaw() / 360 * Constants.IntakeConstants.FALCON_TICKS * Constants.IntakeConstants.GEAR_RATIO + m_spinIntake1.getPosition().getValue();
+    double setAngle = m_Encoder.getRaw() / 360 * Constants.IntakeConstants.FALCON_TICKS * Constants.IntakeConstants.GEAR_RATIO + m_spinIntake.getPosition().getValue();
     angle = angle - setAngle;
 
-    m_lowerIntake.setPosition(angle);
+    m_moveIntakeArm.setPosition(angle);
 
   }
 
-  // double vel: sets the velocity 
-  // double acc: sets the acceleration 
-  // spins the intake motors
+  // spin the intake motors
   public void spinIntakeMotor() {
     spinRequest1 = new VelocityVoltage(
     intakeMotorVelocity, intakeMotorAcceleration, false, 0, 0,false, false, false);
-    m_spinIntake1.setControl(spinRequest1);
+    m_spinIntake.setControl(spinRequest1);
   }
   
-  //spin intake motors the opposite way
+  // spin intake motors the opposite way
   public void rejectIntake() {
     spinRequest1 = new VelocityVoltage(
       intakeMotorVelocity * -1, intakeMotorAcceleration * -1, false, 0, 0,false, false, false);
-      m_spinIntake1.setControl(spinRequest1);
+      m_spinIntake.setControl(spinRequest1);
   }
 
   // Stops intake motors
   public void stopIntakeMotors() {
-     m_spinIntake1.stopMotor();
+    m_spinIntake.stopMotor();
   }
 
   public void stopArmMotor() {
-    m_lowerIntake.stopMotor();
+    m_moveIntakeArm.stopMotor();
  }
 
   // returns the position of the angle of the lowering motor

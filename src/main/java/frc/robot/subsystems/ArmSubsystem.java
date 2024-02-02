@@ -16,8 +16,6 @@ import com.ctre.phoenix6.configs.Slot0Configs;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import org.littletonrobotics.junction.Logger;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 
 
 public class ArmSubsystem extends SubsystemBase {
@@ -74,21 +72,23 @@ public class ArmSubsystem extends SubsystemBase {
     double adjustedAngle = ((angle - encoderGetAngle() + m_arm.getPosition().getValue())) * Constants.Arm.GEAR_RATIO;
     MotionMagicVoltage m_smoothArmMovement = new MotionMagicVoltage(adjustedAngle/360, true, 0, 0, false, true, false);
 
-    // var motionMagicConfigs = talonFXConfigs.MotionMagic;
-    // motionMagicConfigs.MotionMagicCruiseVelocity = vel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10;
-    // motionMagicConfigs.MotionMagicAcceleration = accel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10; 
+    var motionMagicConfigs = talonFXConfigs.MotionMagic;
+    motionMagicConfigs.MotionMagicCruiseVelocity = vel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10;
+    motionMagicConfigs.MotionMagicAcceleration = accel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10; 
 
-    // m_arm.getConfigurator().apply(talonFXConfigs, 0.03); 
+     m_arm.getConfigurator().apply(talonFXConfigs, 0.03); 
 
     m_arm.setControl(m_smoothArmMovement);
+    //m_arm.set(10);
   }
 
   //Spins "Pizzabox" motor: velocity in rotations/sec and acceleration in rotations/sec^2
   public void spinPizzaBoxMotor(double velocity, double acceleration){
-    pizzaBoxVel = velocity;
+    pizzaBoxVel = velocity * 36;
     pizzaBoxAcc = acceleration;
-    spinPizzaBoxMotorRequest = new VelocityVoltage(velocity, acceleration, true, 0, 0, false, false, false);
-    m_pizzaBox.setControl(spinPizzaBoxMotorRequest);
+    // spinPizzaBoxMotorRequest = new VelocityVoltage(pizzaBoxVel, pizzaBoxAcc, false, 0, 0, false, false, false);
+    // m_pizzaBox.setControl(spinPizzaBoxMotorRequest);
+    m_pizzaBox.set(pizzaBoxVel);
   }
 
   //Resets arm angle back to 0
@@ -120,10 +120,6 @@ public class ArmSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    double ticks = m_encoder.get();
-
-    double rawAngle = (-m_encoder.getRaw() / 8192. * 360.);
-    Logger.getInstance().recordOutput("/Angle", rawAngle);
   }
 
   @Override

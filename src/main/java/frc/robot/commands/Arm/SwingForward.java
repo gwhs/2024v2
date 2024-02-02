@@ -42,6 +42,8 @@ public class SwingForward extends Command{
   @Override
   public void execute() {
     armSubsystem.setAngle(angle, velocity, acceleration);
+    System.out.println("Swing Forward successful ");
+    //System.out.println("Encoder pos: ");
   }
 
   // Called once the command ends or is interrupted.

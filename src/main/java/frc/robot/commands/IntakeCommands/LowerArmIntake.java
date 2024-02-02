@@ -9,7 +9,6 @@ import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-/** An example command that uses an example subsystem. */
 public class LowerArmIntake extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private IntakeSubsystem intakeSubsystem;
@@ -33,11 +32,8 @@ public class LowerArmIntake extends Command {
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-  //setting the angle of the arm motor to lower
   @Override
-  public void execute() {
-  
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override

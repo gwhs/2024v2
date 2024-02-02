@@ -28,20 +28,19 @@ public class IntakeSubsystem extends SubsystemBase {
   private double intakeMotorAcceleration; 
   
   // int lowerIntakeId: Id for lowerng motors for the intake
-  // int spinIntake1Id: Id for spining first intake motor 
-  // int spinIntake2Id: Id for spining second intake motor 
+  // int spinIntakeId: Id for spining first intake motor 
   // initialized the encoder 
   // String can: String ID of canivore  
-  public IntakeSubsystem(int lowerIntakeId, int spinIntake1Id, int spinIntake2Id, int channel1, int channel2, int channel3, String can)  {
+  public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, int channel1, int channel2, int channel3, String can)  {
     m_moveIntakeArm = new TalonFX(lowerIntakeId, can); 
-    m_spinIntake = new TalonFX(spinIntake1Id, can);
+    m_spinIntake = new TalonFX(spinIntakeId, can);
     m_Encoder = new Encoder(channel1, channel2);
     m_sensor = new DigitalInput(channel3);
     this.intakeMotorVelocity = Constants.IntakeConstants.INTAKE_MOTOR_VELOCITY;
     this.intakeMotorAcceleration = Constants.IntakeConstants.INTAKE_MOTOR_ACCELERATION;
   }
  
-  //Sets the angle for the intake motor
+  // sets the angle of the intake motor
   public void setArmAngle(double angle) {
     if(angle < 0) { // minimum angle
       angle = 0;
@@ -61,7 +60,7 @@ public class IntakeSubsystem extends SubsystemBase {
   // spin the intake motors
   public void spinIntakeMotor() {
     spinRequest1 = new VelocityVoltage(
-    intakeMotorVelocity, intakeMotorAcceleration, false, 0, 0,false, false, false);
+      intakeMotorVelocity, intakeMotorAcceleration, false, 0, 0,false, false, false);
     m_spinIntake.setControl(spinRequest1);
   }
   
@@ -72,11 +71,12 @@ public class IntakeSubsystem extends SubsystemBase {
       m_spinIntake.setControl(spinRequest1);
   }
 
-  // Stops intake motors
+  // stop intake motor
   public void stopIntakeMotors() {
     m_spinIntake.stopMotor();
   }
 
+  // stop arm motor
   public void stopArmMotor() {
     m_moveIntakeArm.stopMotor();
  }
@@ -87,8 +87,8 @@ public class IntakeSubsystem extends SubsystemBase {
     //return m_lowerIntake.getPosition().getValue();
   }
 
-  // stops motor once note is in place, starts again once the arm position is brought up
-  public boolean getSensor(){
+  // stop motor once note is in place, starts again once the arm position is brought up
+  public boolean getSensor() {
     return m_sensor.get();
   }
 

@@ -22,10 +22,11 @@ public class LimeLightSub extends SubsystemBase {
   private final double kP = 0.02;
   private final double kD = 0.35;
   private final double kI = 0;
-  // Set target point
-  private static double setPoint = 0;
 
-  PIDController PIDVision = new PIDController(kP, kI, kD);
+  private PIDController PIDVision = new PIDController(kP, kI, kD);
+  private PIDController PIDVisionY = new PIDController(kP, kI, kD);
+  private PIDController PIDVisionTheta = new PIDController(kP, kI, kD);
+  
 
   // set up a new instance of NetworkTables (the api/library used to read values from limelight)
   NetworkTable networkTable = NetworkTableInstance.getDefault().getTable("limelight");
@@ -58,28 +59,25 @@ public class LimeLightSub extends SubsystemBase {
   public LimeLightSub(String limelight_networktable_name) {
     limelight_comm = new LimeLightComms(limelight_networktable_name);
     limelight_comm.set_entry_double("ledMode", 3);
-    
-    // setting target point for PID
-    PIDVision.setSetpoint(setPoint);
   }
 
   @Override
   public void periodic() {
 
-    SmartDashboard.putNumber("tv", tv.getDouble(0));
-    SmartDashboard.putNumber("tx", tx.getDouble(0));
-    SmartDashboard.putNumber("ty", ty.getDouble(0));
-    SmartDashboard.putNumber("ta", ta.getDouble(0));
-    SmartDashboard.putNumber("theta", getTheta());
-    SmartDashboard.putNumber("AngleToTarget", getAngle());
+    // SmartDashboard.putNumber("tv", tv.getDouble(0));
+    // SmartDashboard.putNumber("tx", tx.getDouble(0));
+    // SmartDashboard.putNumber("ty", ty.getDouble(0));
+    // SmartDashboard.putNumber("ta", ta.getDouble(0));
+    // SmartDashboard.putNumber("theta", getTheta());
+    // SmartDashboard.putNumber("AngleToTarget", getAngle());
     
-    // displaying error values
-    SmartDashboard.putNumber("Error Angle", getError());
+    // // displaying error values
+    // SmartDashboard.putNumber("Error Angle", getError());
 
     // botpose
     if (hasTarget())
     {
-    System.out.println(getBotPose()[0]);
+    // System.out.println(getBotPose()[0]);
     SmartDashboard.putNumber("BotPose X", getBotPose()[0]);
     SmartDashboard.putNumber("BotPose Y", getBotPose()[1]);
     SmartDashboard.putNumber("BotPose Z", getBotPose()[2]);
@@ -132,6 +130,14 @@ public class LimeLightSub extends SubsystemBase {
     return getBotPose()[0];
   }
 
+  public double getPoseY() {
+    return getBotPose()[1];
+  }
+
+  public double getThetaZ() {
+    return Math.abs(getBotPose()[5]);
+  }
+
   public double getPipeline() {
     double Pipeline = limelight_comm.get_entry_double("pipeline");
     return Pipeline;
@@ -148,6 +154,33 @@ public class LimeLightSub extends SubsystemBase {
   // calculates error from target
   public double getError() {
     return PIDVision.calculate(getTx());
+  }
+
+  // calculates x-distance error
+  public double getErrorFromMegaTagX() {
+    return PIDVision.calculate(getPoseX());
+  }
+
+  // calculates y-distance error
+  public double getErrorFromMegaTagY() {
+    return PIDVisionY.calculate(getPoseY());
+  }
+
+  // calculates y-distance error
+  public double getThetaErrorFromMegaTag() {
+    return PIDVisionTheta.calculate(getThetaZ());
+  }
+
+  public void setSetpointX(double point) {
+    PIDVision.setSetpoint(point);
+  }
+
+  public void setSetpointY(double point) {
+    PIDVisionY.setSetpoint(point);
+  }
+
+  public void setSetpointTheta(double point) {
+    PIDVisionTheta.setSetpoint(point);
   }
 
 // megatag tx and ty, units in meters

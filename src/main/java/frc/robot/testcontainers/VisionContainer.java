@@ -23,6 +23,7 @@ import java.io.File;
 import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.commands.LimeLight.FaceAprilTag;
 import frc.robot.commands.LimeLight.Sideways;
+import frc.robot.commands.LimeLight.DriveToTag;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -86,7 +87,7 @@ public class VisionContainer implements BaseContainer
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     
     // points to AprilTag
-    driverXbox.a().onTrue(new Sideways(drivebase, limeLightSub, () -> false));
+    driverXbox.a().onTrue(new DriveToTag(drivebase, limeLightSub, () -> false));
   }
 
   /**

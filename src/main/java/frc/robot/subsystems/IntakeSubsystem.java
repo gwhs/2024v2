@@ -2,6 +2,8 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
+/* starting position of arm is 0 */
+
 package frc.robot.subsystems;
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -17,8 +19,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private TalonFX m_lowerIntake;
-  private TalonFX m_spinIntake1;
+  private TalonFX m_lowerIntake; // motor of arm
+  private TalonFX m_spinIntake1; // motor of intake
   private Encoder m_Encoder;
   private DigitalInput m_sensor; 
   private VelocityVoltage spinRequest1;
@@ -31,7 +33,6 @@ public class IntakeSubsystem extends SubsystemBase {
   // initialized the encoder 
   // String can: String ID of canivore  
   public IntakeSubsystem(int lowerIntakeId, int spinIntake1Id, int spinIntake2Id, int channel1, int channel2, int channel3, String can)  {
-    // init motor 
     m_lowerIntake = new TalonFX(lowerIntakeId, can); 
     m_spinIntake1 = new TalonFX(spinIntake1Id, can);
     m_Encoder = new Encoder(channel1, channel2);
@@ -42,10 +43,10 @@ public class IntakeSubsystem extends SubsystemBase {
  
   //Sets the angle for the intake motor
   public void setArmAngle(double angle) {
-    if(angle < 0) { //minimum angle
+    if(angle < 0) { // minimum angle
       angle = 0;
     } 
-    else if (angle > 120) { //maximum angle
+    else if (angle > 120) { // maximum angle, need to update
       angle = 120;
     }
 
@@ -73,7 +74,7 @@ public class IntakeSubsystem extends SubsystemBase {
       m_spinIntake1.setControl(spinRequest1);
   }
 
-  // Stops intake motorsss
+  // Stops intake motors
   public void stopIntakeMotors() {
      m_spinIntake1.stopMotor();
   }

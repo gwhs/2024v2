@@ -15,12 +15,6 @@ public class UpperArmIntake extends Command {
 
   private double motorAng;
 
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-
   public UpperArmIntake(IntakeSubsystem intakeSubsystem) {
     this.intakeSubsystem = intakeSubsystem;
 
@@ -33,9 +27,10 @@ public class UpperArmIntake extends Command {
   public void initialize() {}
 
   // Called every time the scheduler runs while the command is scheduled.
+  // moving arm motor back up to original position (0)
   @Override
   public void execute() {
-    intakeSubsystem.setArmAngle(0);
+      intakeSubsystem.setArmAngle(0);
   }
 
   // Called once the command ends or is interrupted.

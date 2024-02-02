@@ -34,14 +34,15 @@ public class LowerArmIntake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    intakeSubsystem.setArmAngle(angle);
     CommandScheduler.getInstance().schedule(new StartIntake(intakeSubsystem));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-  //setting the angle of the arm motor
+  //setting the angle of the arm motor to lower
   @Override
   public void execute() {
-    intakeSubsystem.setArmAngle(angle);
+  
   }
 
   // Called once the command ends or is interrupted.

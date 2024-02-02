@@ -18,7 +18,7 @@ public class ArmContainer implements BaseContainer {
     // todo: add intake subsystem
     private final CommandXboxController m_driverController =
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
-        ArmSubsystem arm = new ArmSubsystem(45, "rio", 0, "rio", 0, 1); 
+        ArmSubsystem arm = new ArmSubsystem(0, "rio", 45, "rio", 0, 1); 
 
     public ArmContainer() {
         configureBindings();
@@ -27,8 +27,9 @@ public class ArmContainer implements BaseContainer {
 
 
     private void configureBindings() {
-       m_driverController.x().onTrue(new SwingForward(arm, 2, 2, 2, 2));
-       //m_driverController.y().onTrue(new SpinNoteContainerMotor(arm, 2, 1));
+       //m_driverController.x().onTrue(new SwingForward(arm, 2, 1, 1, 1));
+       SpinNoteContainerMotor army = new SpinNoteContainerMotor (arm, 2, 10);
+       m_driverController.y().onTrue(army);
 
         
     }

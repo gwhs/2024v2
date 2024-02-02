@@ -86,9 +86,9 @@ public class ArmSubsystem extends SubsystemBase {
   public void spinPizzaBoxMotor(double velocity, double acceleration){
     pizzaBoxVel = velocity * 36;
     pizzaBoxAcc = acceleration;
-    // spinPizzaBoxMotorRequest = new VelocityVoltage(pizzaBoxVel, pizzaBoxAcc, false, 0, 0, false, false, false);
-    // m_pizzaBox.setControl(spinPizzaBoxMotorRequest);
-    m_pizzaBox.set(pizzaBoxVel);
+    spinPizzaBoxMotorRequest = new VelocityVoltage(pizzaBoxVel, pizzaBoxAcc, true, 0, 0, false, false, false);
+    m_pizzaBox.setControl(spinPizzaBoxMotorRequest);
+    //m_pizzaBox.set(pizzaBoxVel);
   }
 
   //Resets arm angle back to 0

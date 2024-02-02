@@ -16,7 +16,7 @@ public class SpinNoteContainerMotor extends Command {
 
   public SpinNoteContainerMotor(ArmSubsystem armSubsystem, double velocity, double acceleration) {
     this.armSubsystem = armSubsystem;
-    this.velocity = velocity;
+    this.velocity = velocity * 36;
     this.acceleration = acceleration;
     addRequirements(armSubsystem);
   }

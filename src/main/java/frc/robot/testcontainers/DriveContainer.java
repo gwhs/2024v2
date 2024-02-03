@@ -101,6 +101,7 @@ public class DriveContainer implements BaseContainer
 
 
     ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
+    ShuffleboardTab driveTrainAngleTab = Shuffleboard.getTab("Angle");
     
     driveTrainShuffleboardTab.addDouble("X Position", ()->drivebase.getPose().getX())
       .withWidget(BuiltInWidgets.kGraph)
@@ -128,7 +129,9 @@ public class DriveContainer implements BaseContainer
       .withWidget(BuiltInWidgets.kGraph)
       .withSize(3,3)
       .withPosition(6, 3);
-  }
+
+    driveTrainAngleTab.addDouble("Estimated Speaker theta", ()->UtilMath.SpeakerTheta(drivebase.getPose()));
+    }
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the

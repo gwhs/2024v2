@@ -16,6 +16,7 @@ public class rotateinPlace extends Command {
   private double spinRate = Math.PI/3;
   private final double targetTheta;
   private double currTheta;
+  private double diff;
 
   public rotateinPlace(double rotation, SwerveSubsystem subsystem ) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -35,7 +36,7 @@ public class rotateinPlace extends Command {
   public void initialize() {
     currTheta = m_Subsystem.getHeading().getDegrees();
      double dif = Math.abs(currTheta) + targetTheta;
-      if(dif >= 180 ){
+      if(targetTheta < 0 ){
         spinRate *= -1;
       }
   }
@@ -43,7 +44,9 @@ public class rotateinPlace extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    currTheta = m_Subsystem.getHeading().getDegrees();
      m_Subsystem.drive(pose, spinRate, false);
+    diff = Math.abs(currTheta - targetTheta);
     }
     
   
@@ -65,13 +68,15 @@ public class rotateinPlace extends Command {
     }
     else
     {
-      double diff = Math.abs(currTheta - targetTheta);
-      if((diff >= 0 ))
+      
+      System.out.println(diff);
+      if((diff <= 5 && diff >= 0 ))
       {
         return true;
       }
 
     }
     return false;
+
   }
 }

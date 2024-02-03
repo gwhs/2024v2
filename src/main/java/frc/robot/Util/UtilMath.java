@@ -12,9 +12,15 @@ public class UtilMath {
     public static final double SPEAKER_Y = -0.0254; //in meters
 
     public static double caclucateRotateTheta(Pose2d pose, double targetX, double targetY){
-        Math.atan((pose.getX()+targetX)/(targetY-pose.getY()));
-        return  Math.atan((pose.getX()+targetX)/(targetY-pose.getY()));
-    }
+        try {
+            return (Math.atan((targetX-pose.getX())/(targetY-pose.getY())) * 180 / Math.PI) * -1;
+
+          } 
+          catch (Exception e) 
+          {
+            return 0;
+          }
+        }
 
     public static double SpeakerTheta(Pose2d pose)
     {

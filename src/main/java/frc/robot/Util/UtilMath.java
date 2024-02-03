@@ -11,9 +11,15 @@ public class UtilMath {
     public static final double SPEAKER_X = 5.5479; //in meters
     public static final double SPEAKER_Y = -0.0254; //in meters
 
+    public static double radToDeg(double val)
+    {
+        double conversionFactor = 180 / Math.PI;
+        return val * conversionFactor;
+    }
+
     public static double caclucateRotateTheta(Pose2d pose, double targetX, double targetY){
         try {
-            return (Math.atan((targetX-pose.getX())/(targetY-pose.getY())) * 180 / Math.PI) * -1;
+            return radToDeg((Math.atan((targetX-pose.getX())/(targetY-pose.getY())))) * -1;
 
           } 
           catch (Exception e) 

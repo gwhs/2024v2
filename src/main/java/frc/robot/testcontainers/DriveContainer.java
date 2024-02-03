@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Util.UtilMath;
 import frc.robot.Robot;
 import frc.robot.commands.driveCommands.rotateinPlace;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
@@ -142,7 +143,7 @@ public class DriveContainer implements BaseContainer
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
 
-    driverXbox.a().onTrue(new rotateinPlace(drivebase.rotSpeaker(), drivebase));
+    driverXbox.a().onTrue(new rotateinPlace(UtilMath.SpeakerTheta(drivebase.getPose()), drivebase));
   }
 
   /**

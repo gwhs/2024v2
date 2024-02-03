@@ -64,4 +64,9 @@ public final class Constants
     public static final double MID_DISTANCE_SHOOT = 76;
     public static final double TOP_DISTANCE_SHOOT = 42;
   }
+
+  public static final class UtilConstants {
+    public static final double xSpeaker = 5.5479; //in meters
+    
+  }
 }

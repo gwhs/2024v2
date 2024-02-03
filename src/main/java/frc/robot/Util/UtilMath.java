@@ -13,7 +13,7 @@ public class UtilMath {
 
     public static double caclucateRotateTheta(Pose2d pose, double targetX, double targetY){
         Math.atan((pose.getX()+targetX)/(targetY-pose.getY()));
-        return 0;
+        return  Math.atan((pose.getX()+targetX)/(targetY-pose.getY()));
     }
 
     public static double SpeakerTheta(Pose2d pose)

@@ -12,6 +12,7 @@ import frc.robot.Robot;
 import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.commands.LimeLight.FaceAprilTag;
 
 // drivetrain
 import edu.wpi.first.math.geometry.Translation2d;
@@ -35,6 +36,8 @@ public class DriveToTag extends Command {
   private double targetDistanceFromY;
   private double targetDistanceFromRZ;
 
+  private static boolean isFinished;
+
   /**
    * Creates a new ExampleCommand.
    *
@@ -54,13 +57,11 @@ public class DriveToTag extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    targetDistanceFromX = limeLightSub.getPoseX() + 1;
+    targetDistanceFromX = limeLightSub.getPoseX() - 1;
     targetDistanceFromY = 0;
-    targetDistanceFromRZ = 180;
 
     limeLightSub.setSetpointX(targetDistanceFromX);
     limeLightSub.setSetpointY(targetDistanceFromY);
-    limeLightSub.setSetpointTheta(targetDistanceFromRZ);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -71,9 +72,11 @@ public class DriveToTag extends Command {
 
     // Drive using raw values.
     swerve.drive(new Translation2d(limeLightSub.getErrorFromMegaTagX() * swerve.maximumSpeed, limeLightSub.getErrorFromMegaTagY() * swerve.maximumSpeed),
-                 limeLightSub.getThetaErrorFromMegaTag() * controller.config.maxAngularVelocity,
+                 0 * controller.config.maxAngularVelocity,
                  driveMode.getAsBoolean());
-
+    
+    isFinished = true;
+    
   }
 
   // Called once the command ends or is interrupted.
@@ -83,9 +86,6 @@ public class DriveToTag extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (limeLightSub.getPoseX() == targetDistanceFromX && limeLightSub.getPoseY() == targetDistanceFromY && (limeLightSub.getThetaZ() > targetDistanceFromRZ - 10 && limeLightSub.getThetaZ() < targetDistanceFromRZ + 10)) {
-      return true;
-    }
-    return false;
+    return isFinished;
   }
 }

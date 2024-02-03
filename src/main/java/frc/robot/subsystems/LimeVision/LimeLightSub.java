@@ -64,7 +64,7 @@ public class LimeLightSub extends SubsystemBase {
   @Override
   public void periodic() {
 
-    // SmartDashboard.putNumber("tv", tv.getDouble(0));
+    SmartDashboard.putNumber("tv", tv.getDouble(0));
     // SmartDashboard.putNumber("tx", tx.getDouble(0));
     // SmartDashboard.putNumber("ty", ty.getDouble(0));
     // SmartDashboard.putNumber("ta", ta.getDouble(0));
@@ -120,9 +120,9 @@ public class LimeLightSub extends SubsystemBase {
   public double[] getBotPose() {
     double[] botPose = null;
     //SmartDashboard.putBoolean("Limelight Inititialized", isInitialized());
-    if (hasTarget()) {
+    // if (hasTarget()) {
       botPose = botpose.getDoubleArray(new double[7]);
-    }
+    // }
     return botPose;
   }
 

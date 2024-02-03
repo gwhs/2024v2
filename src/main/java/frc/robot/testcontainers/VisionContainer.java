@@ -25,6 +25,8 @@ import frc.robot.commands.LimeLight.FaceAprilTag;
 import frc.robot.commands.LimeLight.Sideways;
 import frc.robot.commands.LimeLight.DriveToTag;
 
+import frc.robot.commands.LimeLight.DriveThere;
+
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
  * little robot logic should actually be handled in the {@link Robot} periodic methods (other than the scheduler calls).
@@ -87,7 +89,7 @@ public class VisionContainer implements BaseContainer
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     
     // points to AprilTag
-    driverXbox.a().onTrue(new DriveToTag(drivebase, limeLightSub, () -> false));
+    driverXbox.a().onTrue(new DriveThere(drivebase, limeLightSub));
   }
 
   /**

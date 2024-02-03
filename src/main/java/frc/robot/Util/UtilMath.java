@@ -18,15 +18,8 @@ public class UtilMath {
     }
 
     public static double caclucateRotateTheta(Pose2d pose, double targetX, double targetY){
-        try {
-            return radToDeg((Math.atan((targetX-pose.getX())/(targetY-pose.getY())))) * -1;
-
-          } 
-          catch (Exception e) 
-          {
-            return 0;
-          }
-        }
+        return  radToDeg(Math.atan2((targetY-pose.getY()), (targetX-pose.getX())));
+    }
 
     public static double SpeakerTheta(Pose2d pose)
     {

@@ -13,13 +13,17 @@ public class rotateinPlace extends Command {
   /** Creates a new rotateinPlace. */
   private final SwerveSubsystem m_Subsystem;
   private final Translation2d pose;
-  private final double spinRate = Math.PI/3;
+  private double spinRate = Math.PI/3;
   private final double targetTheta;
   private double currTheta;
 
   public rotateinPlace(double rotation, SwerveSubsystem subsystem ) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_Subsystem = subsystem;
+    if (rotation > 180)
+    { double difference = rotation - 180;
+      rotation = -180 + difference;
+    }
     this.targetTheta = rotation;
     pose = new Translation2d();
 
@@ -29,21 +33,17 @@ public class rotateinPlace extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-   
+    currTheta = m_Subsystem.getHeading().getDegrees();
+     double dif = Math.abs(currTheta) + targetTheta;
+      if(dif >= 180 ){
+        spinRate *= -1;
+      }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     currTheta = m_Subsystem.getHeading().getDegrees();
-     double dif = Math.abs(currTheta) + targetTheta;
-    if(dif < 180 ){
-        m_Subsystem.drive(pose, -spinRate, false);
-      }
-      else
-      {
-        m_Subsystem.drive(pose, spinRate, false);
-      }
+     m_Subsystem.drive(pose, spinRate, false);
     }
     
   
@@ -65,12 +65,12 @@ public class rotateinPlace extends Command {
     }
     else
     {
-      if((currTheta - targetTheta >= -5 && currTheta - targetTheta <= 0) || (currTheta - targetTheta <=  5 && currTheta - targetTheta > 0))
+      double diff = Math.abs(currTheta - targetTheta);
+      if((diff >= 0 ))
       {
-        System.out.print(currTheta- targetTheta);
         return true;
       }
-      
+
     }
     return false;
   }

@@ -19,7 +19,6 @@ public class LowerArmIntake extends Command {
   public LowerArmIntake(IntakeSubsystem intakeSubsystem, double angle) {
     this.intakeSubsystem = intakeSubsystem;
     this.angle = angle;
-    System.out.println("lower arm intake works");
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem);
@@ -29,13 +28,14 @@ public class LowerArmIntake extends Command {
   @Override
   public void initialize() {
     intakeSubsystem.setArmAngle(angle);
-    CommandScheduler.getInstance().schedule(new StartIntake(intakeSubsystem));
+    System.out.println("lower arm intake works");
+    //CommandScheduler.getInstance().schedule(new StartIntake(intakeSubsystem));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {}
-
+ 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {}

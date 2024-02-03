@@ -17,14 +17,15 @@ public class UpperArmIntake extends Command {
 
   public UpperArmIntake(IntakeSubsystem intakeSubsystem) {
     this.intakeSubsystem = intakeSubsystem;
-    System.out.println("upper arm intake works");
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    System.out.println("upper arm intake works");
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   // moving arm motor back up to original position (0)

@@ -17,7 +17,7 @@ public class UpperArmIntake extends Command {
 
   public UpperArmIntake(IntakeSubsystem intakeSubsystem) {
     this.intakeSubsystem = intakeSubsystem;
-
+    System.out.println("upper arm intake works");
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem);
   }

@@ -71,10 +71,9 @@ public final class Constants
     public static final double INTAKE_MOTOR_VELOCITY = 2; //units?
     public static final double INTAKE_MOTOR_ACCELERATION = 1; 
     public static final double TOLERANCE = 0.5;
-    public static final double GEAR_RATIO = 1/16;
+    public static final double GEAR_RATIO = 1.0/16.0;
     public static final double FALCON_TICKS = 1;
   }
-
 }
 
 

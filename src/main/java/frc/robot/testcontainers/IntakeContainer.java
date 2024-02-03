@@ -20,7 +20,7 @@ public class IntakeContainer implements BaseContainer {
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
     public IntakeContainer() {
-        IntakeSubsystem = new IntakeSubsystem(0, 0, 0, 0, 0, null);
+        IntakeSubsystem = new IntakeSubsystem(0, 0, 0, 0, 0, "rio");
         configureBindings();
     }
 

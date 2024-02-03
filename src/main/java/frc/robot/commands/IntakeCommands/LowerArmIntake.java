@@ -19,6 +19,7 @@ public class LowerArmIntake extends Command {
   public LowerArmIntake(IntakeSubsystem intakeSubsystem, double angle) {
     this.intakeSubsystem = intakeSubsystem;
     this.angle = angle;
+    System.out.println("lower arm intake works");
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem);

@@ -370,23 +370,6 @@ public class SwerveSubsystem extends SubsystemBase
   }
 
   /**
-   * Calculates the automatic rotation towards the speaker 
-   * 
-   */
-  
-   public double rotSpeaker()
-   {
-    double Xrobot = swerveDrive.getPose().getX();
-    double Yrobot = swerveDrive.getPose().getY();
-    
-    //Speaker is at X= -1.5 inches Y = 218 inches
-    //Speaker  Y meters 5.5479
-
-    double rotateTheta = Math.tan(((5.5479 - Yrobot)/Xrobot));
-    return rotateTheta;
-   }
-
-  /**
    * Get the chassis speeds based on controller input of 2 joysticks. One for speeds in which direction. The other for
    * the angle of the robot.
    *

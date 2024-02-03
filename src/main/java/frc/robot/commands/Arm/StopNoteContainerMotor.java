@@ -8,16 +8,13 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class StopNoteContainerMotor extends Command {
 
-  private double velocity;
-  private double acceleration;
+  
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ArmSubsystem armSubsystem;
 
-  public StopNoteContainerMotor(ArmSubsystem armSubsystem, double velocity, double acceleration) {
+  public StopNoteContainerMotor(ArmSubsystem armSubsystem) {
     this.armSubsystem = armSubsystem;
-    this.velocity = velocity;
-    this.acceleration = acceleration;
     addRequirements(armSubsystem);
   }
 
@@ -28,7 +25,7 @@ public class StopNoteContainerMotor extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSubsystem.spinPizzaBoxMotor(0, acceleration);
+    armSubsystem.stopPizzaBoxMotor();
   }
 
   // Called once the command ends or is interrupted.

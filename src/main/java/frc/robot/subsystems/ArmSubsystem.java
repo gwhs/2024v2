@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.controls.MotionMagicVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
+import com.ctre.phoenix6.controls.PositionVoltage;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration; 
@@ -26,7 +28,6 @@ public class ArmSubsystem extends SubsystemBase {
   private double pizzaBoxVel;
   private double pizzaBoxAcc;
   private VelocityVoltage spinPizzaBoxMotorRequest;  
-  TalonFXConfiguration talonFXConfigs = new TalonFXConfiguration();
 
   public ArmSubsystem(int armId, String armCanbus, int pizzaBoxId, String pizzaBoxCanbus, int channel1, int channel2)
   {
@@ -56,13 +57,22 @@ public class ArmSubsystem extends SubsystemBase {
   
       /* Retry config apply up to 5 times, report if failure */
       StatusCode motorStatus = StatusCode.StatusCodeNotInitialized;
+      StatusCode motorStatusArm = StatusCode.StatusCodeNotInitialized;
       for (int i = 0; i < 5; ++i) {
         motorStatus = m_pizzaBox.getConfigurator().apply(configs);
-        if (motorStatus .isOK()) break;
+        //motorStatusArm = m_arm.getConfigurator().apply(configs);
+        if (motorStatus .isOK() && motorStatusArm .isOK()) break;
       }
       if(!motorStatus.isOK()) {
         System.out.println("Could not apply configs, error code: " + motorStatus.toString());
       }
+      // if(!motorStatusArm.isOK()) {
+      //   System.out.println("Could not apply configs, error code: " + motorStatusArm.toString());
+      // }
+
+
+      
+      
       // m_arm.getPosition().setUpdateFrequency(5);
       // //Try to get it related to the TalonFXConfiguration
       // var slot0Configs = new Slot0Configs(); 
@@ -86,28 +96,38 @@ public class ArmSubsystem extends SubsystemBase {
 
   // Sets arm angle in degrees with given velocity and acceleration
   public void setAngle(double angle, double vel, double accel) {
-    //Pos will be based on motor 
-    //Make sure angle is between 0 and 270 degrees!
+  //Pos will be based on motor 
+  //Make sure angle is between 0 and 270 degrees!
 
-    if(angle < 0) { //Will not be less than minimum angle
-      angle = 0;
-    }
-    else if (angle > 270) { // Will not be greater than maximum angle
-      angle = 270;
-    }
-
-    double adjustedAngle = ((angle - encoderGetAngle() + m_arm.getPosition().getValue())) * Constants.Arm.GEAR_RATIO;
-    MotionMagicVoltage m_smoothArmMovement = new MotionMagicVoltage(adjustedAngle/360, true, 0, 0, false, true, false);
-
-    var motionMagicConfigs = talonFXConfigs.MotionMagic;
-    motionMagicConfigs.MotionMagicCruiseVelocity = vel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10;
-    motionMagicConfigs.MotionMagicAcceleration = accel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10; 
-
-     m_arm.getConfigurator().apply(talonFXConfigs, 0.03); 
-
-    m_arm.setControl(m_smoothArmMovement);
-    //m_arm.set(10);
+  if(angle < 0) { //Will not be less than minimum angle
+    angle = 0;
   }
+  else if (angle > 270) { // Will not be greater than maximum angle
+    angle = 270;
+  }
+
+  double adjustedAngle = ((angle - encoderGetAngle() + m_arm.getPosition().getValue())) * Constants.Arm.GEAR_RATIO;
+  MotionMagicVoltage m_smoothArmMovement = new MotionMagicVoltage(adjustedAngle/360, false, 0, 0, false, false, false);
+ 
+  var talonFXConfigs = new TalonFXConfiguration();
+  var slot0Configs = talonFXConfigs.Slot0Configs;
+  slot0Configs.kS = 0.24; // add 0.24 V to overcome friction
+  slot0Configs.kV = 0.12; // apply 12 V for a target velocity of 100 rps
+  // PID runs on position
+  slot0Configs.kP = 4.8;
+  slot0Configs.kI = 0;
+  slot0Configs.kD = 0.1;
+  var motionMagicConfigs = talonFXConfigs.MotionMagic;
+  motionMagicConfigs.MotionMagicCruiseVelocity = vel;
+  motionMagicConfigs.MotionMagicAcceleration = accel; 
+  motionMagicConfigs.MotionMagicJerk = 1600; // 1600 rps/s^2 jerk (0.1 seconds)
+  m_arm.getConfigurator().apply(talonFXConfigs, 0.03);
+
+  m_smoothArmMovement.Slot = 0;
+
+   m_arm.setControl(m_smoothArmMovement.withPosition(100));
+  //m_arm.set(10);
+}
 
   //Spins "Pizzabox" motor: velocity in rotations/sec and acceleration in rotations/sec^2
   public void spinPizzaBoxMotor(double velocity, double acceleration){
@@ -167,3 +187,28 @@ public class ArmSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
   }
 }
+
+/*Previously setAngle that turned to spinArmMotor */
+// public void setAngle(double angle, double vel, double accel) {
+//   //Pos will be based on motor 
+//   //Make sure angle is between 0 and 270 degrees!
+
+//   if(angle < 0) { //Will not be less than minimum angle
+//     angle = 0;
+//   }
+//   else if (angle > 270) { // Will not be greater than maximum angle
+//     angle = 270;
+//   }
+
+//   double adjustedAngle = ((angle - encoderGetAngle() + m_arm.getPosition().getValue())) * Constants.Arm.GEAR_RATIO;
+//   MotionMagicVoltage m_smoothArmMovement = new MotionMagicVoltage(adjustedAngle/360, true, 0, 0, false, true, false);
+
+//   var motionMagicConfigs = talonFXConfigs.MotionMagic;
+//   motionMagicConfigs.MotionMagicCruiseVelocity = vel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10;
+//   motionMagicConfigs.MotionMagicAcceleration = accel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10; 
+
+//    m_arm.getConfigurator().apply(talonFXConfigs, 0.03); 
+
+//   m_arm.setControl(m_smoothArmMovement);
+//   //m_arm.set(10);
+// }

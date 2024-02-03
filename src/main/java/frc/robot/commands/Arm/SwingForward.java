@@ -33,7 +33,7 @@ public class SwingForward extends Command{
     addRequirements(armSubsystem);
   }
   public void initialize() {
-
+    armSubsystem.setAngle(angle, velocity, acceleration);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -41,18 +41,20 @@ public class SwingForward extends Command{
   //NOTE : potentially needs to swing 270 degrees 
   @Override
   public void execute() {
-    armSubsystem.setAngle(angle, velocity, acceleration);
     System.out.println("Swing Forward successful ");
     //System.out.println("Encoder pos: ");
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    armSubsystem.stopArmMotor();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    motorAng = armSubsystem.encoderGetAngle();
     return Math.abs(motorAng - angle) < tolerance;
   }
 }

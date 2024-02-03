@@ -14,13 +14,14 @@ import frc.robot.commands.SwingForward;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.Servo;
 
 public class ArmContainer implements BaseContainer {
   
     // todo: add intake subsystem
     private final CommandXboxController m_driverController =
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
-        ArmSubsystem arm = new ArmSubsystem(0, "rio", 8, "rio", 0, 1); 
+        ArmSubsystem arm = new ArmSubsystem(8, "rio", 0, "rio", 0, 1); 
 
     public ArmContainer() {
         configureBindings();
@@ -29,15 +30,19 @@ public class ArmContainer implements BaseContainer {
 
 
     private void configureBindings() {
-       //m_driverController.x().onTrue(new SwingForward(arm, 2, 1, 1, 1));
-       SpinNoteContainerMotor army = new SpinNoteContainerMotor (arm, 0.25, 10);
-       m_driverController.y().onTrue(army);
-       m_driverController.x().onTrue(new StopNoteContainerMotor(arm));
+       m_driverController.a().onTrue(new SwingForward(arm, 10, .2, 10, .25));
+       m_driverController.b().onTrue(new SwingBack(arm, .25, 10, .25));
+
+       //SpinNoteContainerMotor army = new SpinNoteContainerMotor (arm, 0.25, 10);
+       //m_driverController.y().onTrue(army);
+       //m_driverController.x().onTrue(new StopNoteContainerMotor(arm));
        
 
 
         Shuffleboard.getTab("aaaaaa").addDouble("encoder",()->arm.encoderGetAngle());
         Shuffleboard.getTab("aaaaaa").addDouble("arm",()->arm.getPizzaBoxAngle()/16);
+
+        
 
 
         // DigitalInput sensor = new DigitalInput(3);

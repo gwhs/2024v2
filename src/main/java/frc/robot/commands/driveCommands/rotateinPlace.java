@@ -35,7 +35,6 @@ public class rotateinPlace extends Command {
   @Override
   public void initialize() {
     currTheta = m_Subsystem.getHeading().getDegrees();
-     double dif = Math.abs(currTheta) + targetTheta;
       if(targetTheta < 0 ){
         spinRate *= -1;
       }
@@ -58,11 +57,8 @@ public class rotateinPlace extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(targetTheta == 180 && (m_Subsystem.getHeading().getDegrees() >= 175 || m_Subsystem.getHeading().getDegrees() <= -175))
-    {
-      return true;
-    }
-    else if(targetTheta == 0 && (m_Subsystem.getHeading().getDegrees() <= 5 || m_Subsystem.getHeading().getDegrees() >= -5))
+    double currTheta = m_Subsystem.getHeading().getDegrees();
+    if(targetTheta == 180 && (currTheta >= 175 || currTheta <= -175))
     {
       return true;
     }
@@ -70,7 +66,7 @@ public class rotateinPlace extends Command {
     {
       
       System.out.println(diff);
-      if((diff <= 5 && diff >= 0 ))
+      if((diff <= 5))
       {
         return true;
       }

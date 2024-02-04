@@ -131,7 +131,7 @@ public class DriveContainer implements BaseContainer
       .withPosition(6, 3);
 
     driveTrainAngleTab.addDouble("Estimated Speaker theta", ()->UtilMath.SpeakerTheta(drivebase.getPose()));
-    
+
     }
 
   /**
@@ -147,7 +147,7 @@ public class DriveContainer implements BaseContainer
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
 
-    driverXbox.a().onTrue(new rotateinPlace(UtilMath.SpeakerTheta(drivebase.getPose()), drivebase));
+    driverXbox.a().onTrue(new rotateinPlace(()-> UtilMath.SpeakerTheta(drivebase.getPose()), drivebase));
   }
 
   /**

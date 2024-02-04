@@ -4,6 +4,8 @@
 
 package frc.robot.commands.driveCommands;
 
+import java.util.function.DoubleSupplier;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -14,18 +16,17 @@ public class rotateinPlace extends Command {
   private final SwerveSubsystem m_Subsystem;
   private final Translation2d pose;
   private double spinRate = Math.PI/3;
-  private final double targetTheta;
+  private final DoubleSupplier targetTDoubleSupplier;
+  private double targetTheta;
   private double currTheta;
   private double diff;
 
-  public rotateinPlace(double rotation, SwerveSubsystem subsystem ) {
+  public rotateinPlace(DoubleSupplier rotation, SwerveSubsystem subsystem ) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_Subsystem = subsystem;
-    if (rotation > 180)
-    { double difference = rotation - 180;
-      rotation = -180 + difference;
-    }
-    this.targetTheta = rotation;
+    this.targetTDoubleSupplier = rotation;
+
+    
     pose = new Translation2d();
 
     addRequirements(m_Subsystem);
@@ -35,6 +36,12 @@ public class rotateinPlace extends Command {
   @Override
   public void initialize() {
     currTheta = m_Subsystem.getHeading().getDegrees();
+    double rotation = targetTDoubleSupplier.getAsDouble();
+    if (rotation > 180)
+    { double difference = rotation - 180;
+      rotation = -180 + difference;
+    }
+    this.targetTheta = rotation;
       if(targetTheta < 0 ){
         spinRate *= -1;
       }

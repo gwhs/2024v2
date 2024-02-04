@@ -24,7 +24,7 @@ public class UpperArmIntake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("upper arm intake works");
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.

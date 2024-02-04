@@ -28,7 +28,6 @@ public class LowerArmIntake extends Command {
   @Override
   public void initialize() {
     intakeSubsystem.setArmAngle(angle);
-    System.out.println("lower arm intake works");
     //CommandScheduler.getInstance().schedule(new StartIntake(intakeSubsystem));
   }
 

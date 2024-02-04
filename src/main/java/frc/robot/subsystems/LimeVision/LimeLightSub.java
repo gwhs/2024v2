@@ -19,8 +19,8 @@ import edu.wpi.first.math.geometry.Rotation2d;
 public class LimeLightSub extends SubsystemBase {
 
   // PID constants
-  private final double kP = 0.02;
-  private final double kD = 0.35;
+  private final double kP = 0.5;
+  private final double kD = 0.2;
   private final double kI = 0;
 
   private PIDController PIDVision = new PIDController(kP, kI, kD);
@@ -73,6 +73,8 @@ public class LimeLightSub extends SubsystemBase {
     
     // // displaying error values
     // SmartDashboard.putNumber("Error Angle", getError());
+    SmartDashboard.putNumber("DistanceX Error X", getErrorFromMegaTagX());
+    SmartDashboard.putNumber("DistanceX Error Y", getErrorFromMegaTagY());
 
     // botpose
     if (hasTarget())

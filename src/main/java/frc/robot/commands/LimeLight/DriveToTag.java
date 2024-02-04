@@ -8,6 +8,8 @@
 
 package frc.robot.commands.LimeLight;
 
+import java.util.Arrays;
+
 import frc.robot.Robot;
 import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -35,9 +37,9 @@ public class DriveToTag extends Command {
   private double targetDistanceFromX;
   private double targetDistanceFromY;
   private double targetDistanceFromRZ;
+  private int zero_ct;
 
   private static boolean isFinished;
-
   /**
    * Creates a new ExampleCommand.
    *
@@ -48,7 +50,6 @@ public class DriveToTag extends Command {
     this.swerve = swerve;
     this.limeLightSub = limeLightSub;
     this.driveMode = driveMode;
-
     this.controller = swerve.getSwerveController();
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerve, limeLightSub);
@@ -59,7 +60,7 @@ public class DriveToTag extends Command {
   public void initialize() {
     targetDistanceFromX = limeLightSub.getPoseX() - 1;
     targetDistanceFromY = 0;
-
+    zero_ct = 0;
     limeLightSub.setSetpointX(targetDistanceFromX);
     limeLightSub.setSetpointY(targetDistanceFromY);
   }
@@ -70,12 +71,38 @@ public class DriveToTag extends Command {
     System.out.println("works");
     System.out.println(limeLightSub.hasTarget());
 
+    // increment if zero for stopping condition
+    if(limeLightSub.hasTarget() == false) {
+      zero_ct ++;
+      return;
+    } else {
+      zero_ct = 0;
+    }
+
+    
     // Drive using raw values.
-    swerve.drive(new Translation2d(limeLightSub.getErrorFromMegaTagX() * swerve.maximumSpeed, limeLightSub.getErrorFromMegaTagY() * swerve.maximumSpeed),
+    // double xpos_sum = 0;
+    // double ypos_sum = 0;
+    // int iters = 5;
+    // for(int i = 0; i < iters-1; i++){
+    //   xpos_sum += -limeLightSub.getErrorFromMegaTagX() * swerve.maximumSpeed;
+    //   ypos_sum += -limeLightSub.getErrorFromMegaTagY() * swerve.maximumSpeed;
+    // }
+    // double xpos = xpos_sum/iters;
+    // double ypos = ypos_sum/iters;
+
+    // System.out.println(xpos);
+    
+    // double xpos = -limeLightSub.getErrorFromMegaTagX() * swerve.maximumSpeed;
+    // double ypos = -limeLightSub.getErrorFromMegaTagY() * swerve.maximumSpeed;
+
+    // System.out.println(xpos);
+    // System.out.println(ypos);
+    // System.out.println("---");
+    
+    swerve.drive(new Translation2d(0.25, 0),
                  0 * controller.config.maxAngularVelocity,
                  driveMode.getAsBoolean());
-    
-    isFinished = true;
     
   }
 
@@ -86,6 +113,13 @@ public class DriveToTag extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return isFinished;
+    // limeLightSub.hasTarget() == false
+    if ((limeLightSub.getErrorFromMegaTagX() < 0.5 && limeLightSub.getErrorFromMegaTagX() > -0.5) || zero_ct > 5) {
+      return true;
+      // if (limeLightSub.getErrorFromMegaTagY() < 0.3 && limeLightSub.getErrorFromMegaTagY() > -0.3) {
+      //   return true;
+      // }
+    }
+    return false;
   }
 }

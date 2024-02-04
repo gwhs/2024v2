@@ -89,7 +89,7 @@ public class VisionContainer implements BaseContainer
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     
     // points to AprilTag
-    driverXbox.a().onTrue(new DriveThere(drivebase, limeLightSub));
+    driverXbox.a().onTrue(new DriveToTag(drivebase, limeLightSub, () -> false));
   }
 
   /**

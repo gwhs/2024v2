@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.45,
-        "y": 7.33
+        "x": 1.11,
+        "y": 6.46
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.5207106781186548,
-        "y": 7.400710678118655
+        "x": 1.1994427190999917,
+        "y": 6.415278640450004
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.9,
-        "y": 7.65
+        "x": 2.2743082290729473,
+        "y": 5.58606903233778
       },
       "prevControl": {
-        "x": 1.829289321881345,
-        "y": 7.579289321881346
+        "x": 2.0243082290729473,
+        "y": 7.086069032337781
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,20 +32,20 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.5,
-    "maxAcceleration": 5.0,
-    "maxAngularVelocity": 90.0,
-    "maxAngularAcceleration": 800.0
+    "maxVelocity": 5.0,
+    "maxAcceleration": 6.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0,
+    "rotation": 180.0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "to amp",
+  "folder": "top speaker to notes (wpi)",
   "previewStartingState": {
-    "rotation": 90.0,
+    "rotation": -133.88,
     "velocity": 0
   },
   "useDefaultConstraints": false

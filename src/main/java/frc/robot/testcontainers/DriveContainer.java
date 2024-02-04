@@ -13,19 +13,24 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Robot;
+import frc.robot.commands.ledcommands.ChangeLEDToBlue;
+import frc.robot.commands.ledcommands.ChangeLEDToRed;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 
 import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -57,9 +62,11 @@ public class DriveContainer implements BaseContainer
 
     // Configure the trigger bindings
     configureBindings();
+    configurePathPlannerCommands();
 
     autoChooser = AutoBuilder.buildAutoChooser("Default Auto");
     Shuffleboard.getTab("Autonomous").add("Autonomous Chooser", autoChooser).withSize(2, 1);
+
     
     
      
@@ -154,6 +161,12 @@ public class DriveContainer implements BaseContainer
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+  }
+
+  private void configurePathPlannerCommands() { //register rest of commands when get them
+    
+    NamedCommands.registerCommand("Wait", new WaitCommand(5));
+    NamedCommands.registerCommand("GroundPickup", new WaitCommand(0.5));
   }
 
   /**

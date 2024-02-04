@@ -3,10 +3,15 @@
   "robotLength": 0.8382,
   "holonomicMode": true,
   "pathFolders": [
+    "amp to notes",
+    "center mess (wpi)",
     "to amp",
-    "amp to notes"
+    "to center (wpi)",
+    "top speaker to notes (wpi)"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "real"
+  ],
   "defaultMaxVel": 5.0,
   "defaultMaxAccel": 6.0,
   "defaultMaxAngVel": 540.0,

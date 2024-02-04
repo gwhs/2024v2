@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.0,
-      "y": 7.25
+      "x": 1.45,
+      "y": 1.63
     },
     "rotation": 90.0
   },
@@ -12,38 +12,44 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "top amp"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 1.5
+            "name": null
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "to top"
-          }
-        },
-        {
-          "type": "wait",
-          "data": {
-            "waitTime": 0.5
+            "pathName": "to bot center"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "back top"
+            "pathName": "5 to 4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "4 to 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "3 to 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2 to 1"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "real",
   "choreoAuto": false
 }

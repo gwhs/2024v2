@@ -106,17 +106,17 @@ public class ArmSubsystem extends SubsystemBase {
     angle = 270;
   }
 
-  double adjustedAngle = ((angle - encoderGetAngle() + m_arm.getPosition().getValue())) * Constants.Arm.GEAR_RATIO;
-  MotionMagicVoltage m_smoothArmMovement = new MotionMagicVoltage(adjustedAngle/360, false, 0, 0, false, false, false);
+  double adjustedAngle = (((angle - encoderGetAngle() + m_arm.getPosition().getValue())) * Constants.Arm.GEAR_RATIO)/360;
+  MotionMagicVoltage m_smoothArmMovement = new MotionMagicVoltage(adjustedAngle, false, 0, 0, false, false, false);
  
   var talonFXConfigs = new TalonFXConfiguration();
-  var slot0Configs = talonFXConfigs.Slot0Configs;
-  slot0Configs.kS = 0.24; // add 0.24 V to overcome friction
-  slot0Configs.kV = 0.12; // apply 12 V for a target velocity of 100 rps
-  // PID runs on position
-  slot0Configs.kP = 4.8;
-  slot0Configs.kI = 0;
-  slot0Configs.kD = 0.1;
+  talonFXConfigs.Slot0.kS = .24;
+  talonFXConfigs.Slot0.kV = .12;
+  talonFXConfigs.Slot0.kP = 4.8;
+  talonFXConfigs.Slot0.kI = 0;
+  talonFXConfigs.Slot0.kD = .1;
+
+
   var motionMagicConfigs = talonFXConfigs.MotionMagic;
   motionMagicConfigs.MotionMagicCruiseVelocity = vel;
   motionMagicConfigs.MotionMagicAcceleration = accel; 
@@ -125,13 +125,13 @@ public class ArmSubsystem extends SubsystemBase {
 
   m_smoothArmMovement.Slot = 0;
 
-   m_arm.setControl(m_smoothArmMovement.withPosition(100));
+   m_arm.setControl(m_smoothArmMovement);
   //m_arm.set(10);
 }
 
   //Spins "Pizzabox" motor: velocity in rotations/sec and acceleration in rotations/sec^2
   public void spinPizzaBoxMotor(double velocity, double acceleration){
-    pizzaBoxVel = velocity * 16;
+    pizzaBoxVel = velocity;
     pizzaBoxAcc = acceleration;
     spinPizzaBoxMotorRequest = new VelocityVoltage(pizzaBoxVel, pizzaBoxAcc, true, 0, 0, false, false, false);
     m_pizzaBox.setControl(spinPizzaBoxMotorRequest);
@@ -152,19 +152,19 @@ public class ArmSubsystem extends SubsystemBase {
   m_pizzaBox.stopMotor();
 }
 
- public double armGetAngle(){
-  return m_arm.getPosition().getValue();
+ public double getArmAngle(){
+  return m_arm.getPosition().getValue()/Constants.Arm.GEAR_RATIO * 360;
  }
 
  /* The pizza box is the motor on the holding container on the arm*/ 
  public double getPizzaBoxAngle(){
-  return m_pizzaBox.getPosition().getValue();
+  return m_pizzaBox.getPosition().getValue() * 360;
  }
 
  //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])
   public double encoderGetAngle() {
 
-    return m_encoder.getRaw()/8132.;
+    return m_encoder.getRaw()/8132. * -360;
   }
 
   public void encoderReset() {

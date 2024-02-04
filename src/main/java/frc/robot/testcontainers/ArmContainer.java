@@ -30,8 +30,8 @@ public class ArmContainer implements BaseContainer {
 
 
     private void configureBindings() {
-       m_driverController.a().onTrue(new SwingForward(arm, 10, .2, 10, .25));
-       m_driverController.b().onTrue(new SwingBack(arm, .25, 10, .25));
+       m_driverController.a().onTrue(new SwingForward(arm, 180, 3, 10, .25));
+       m_driverController.b().onTrue(new SwingBack(arm, -3, 10, .25));
 
        //SpinNoteContainerMotor army = new SpinNoteContainerMotor (arm, 0.25, 10);
        //m_driverController.y().onTrue(army);
@@ -40,7 +40,7 @@ public class ArmContainer implements BaseContainer {
 
 
         Shuffleboard.getTab("aaaaaa").addDouble("encoder",()->arm.encoderGetAngle());
-        Shuffleboard.getTab("aaaaaa").addDouble("arm",()->arm.getPizzaBoxAngle()/16);
+        Shuffleboard.getTab("aaaaaa").addDouble("arm",()->arm.getArmAngle());
 
         
 

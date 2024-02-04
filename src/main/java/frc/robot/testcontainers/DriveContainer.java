@@ -101,7 +101,7 @@ public class DriveContainer implements BaseContainer
 
 
     ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
-    ShuffleboardTab driveTrainAngleTab = Shuffleboard.getTab("Angle");
+    
     
     driveTrainShuffleboardTab.addDouble("X Position", ()->drivebase.getPose().getX())
       .withWidget(BuiltInWidgets.kGraph)
@@ -130,7 +130,6 @@ public class DriveContainer implements BaseContainer
       .withSize(3,3)
       .withPosition(6, 3);
 
-    driveTrainAngleTab.addDouble("Estimated Speaker theta", ()->UtilMath.SpeakerTheta(drivebase.getPose()));
 
     }
 
@@ -146,6 +145,7 @@ public class DriveContainer implements BaseContainer
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+    
 
     driverXbox.a().onTrue(new rotateinPlace(()-> UtilMath.SpeakerTheta(drivebase.getPose()), drivebase));
   }

@@ -40,9 +40,7 @@ public class SwingForward extends Command{
 
   //NOTE : potentially needs to swing 270 degrees 
   @Override
-  public void execute() {
-    System.out.println("Swing Forward successful ");
-  }
+  public void execute() {}
 
   // Called once the command ends or is interrupted.
   @Override

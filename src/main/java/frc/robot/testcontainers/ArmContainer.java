@@ -30,8 +30,8 @@ public class ArmContainer implements BaseContainer {
 
 
     private void configureBindings() {
-       m_driverController.a().onTrue(new SwingForward(arm, 90, 3, 10, .25));
-       m_driverController.b().onTrue(new SwingBack(arm, 3, 10, .25));
+       m_driverController.a().onTrue(new SwingForward(arm, 270, 10, 10, .25));
+       m_driverController.b().onTrue(new SwingBack(arm, 10, 10, .25));
 
        //SpinNoteContainerMotor army = new SpinNoteContainerMotor (arm, 0.25, 10);
        //m_driverController.y().onTrue(army);

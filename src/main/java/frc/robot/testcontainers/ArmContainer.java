@@ -7,10 +7,10 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.commands.SpinNoteContainerMotor;
-import frc.robot.commands.StopNoteContainerMotor;
-import frc.robot.commands.SwingBack;
-import frc.robot.commands.SwingForward;
+import frc.robot.commands.Arm.SpinNoteContainerMotor;
+import frc.robot.commands.Arm.StopNoteContainerMotor;
+import frc.robot.commands.Arm.SwingBack;
+import frc.robot.commands.Arm.SwingForward;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -30,7 +30,7 @@ public class ArmContainer implements BaseContainer {
 
 
     private void configureBindings() {
-       m_driverController.a().onTrue(new SwingForward(arm, 180, 3, 10, .25));
+       m_driverController.a().onTrue(new SwingForward(arm, 90, 3, 10, .25));
        m_driverController.b().onTrue(new SwingBack(arm, 3, 10, .25));
 
        //SpinNoteContainerMotor army = new SpinNoteContainerMotor (arm, 0.25, 10);

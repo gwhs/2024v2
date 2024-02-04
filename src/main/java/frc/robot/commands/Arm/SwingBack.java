@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.Arm;
 import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -25,7 +25,7 @@ public class SwingBack extends Command{
     addRequirements(armSubsystem);
   }
   public void initialize() {
-    armSubsystem.setAngle(0, -velocity, acceleration);
+    armSubsystem.setAngle(0, velocity, acceleration);
 
   }
 

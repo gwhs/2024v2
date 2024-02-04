@@ -106,7 +106,7 @@ public class ArmSubsystem extends SubsystemBase {
     angle = 270;
   }
 
-  double adjustedAngle = (((angle - encoderGetAngle() + m_arm.getPosition().getValue())) * Constants.Arm.GEAR_RATIO)/360;
+  double adjustedAngle = (((angle - encoderGetAngle() + getArmAngle())) * Constants.Arm.GEAR_RATIO)/360;
   MotionMagicVoltage m_smoothArmMovement = new MotionMagicVoltage(adjustedAngle, false, 0, 0, false, false, false);
  
   var talonFXConfigs = new TalonFXConfiguration();

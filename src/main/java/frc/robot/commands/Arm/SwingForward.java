@@ -1,4 +1,4 @@
-package frc.robot.commands;
+package frc.robot.commands.Arm;
 import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -42,7 +42,6 @@ public class SwingForward extends Command{
   @Override
   public void execute() {
     System.out.println("Swing Forward successful ");
-    //System.out.println("Encoder pos: ");
   }
 
   // Called once the command ends or is interrupted.

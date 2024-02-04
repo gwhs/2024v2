@@ -25,7 +25,7 @@ public class SwingBack extends Command{
     addRequirements(armSubsystem);
   }
   public void initialize() {
-    armSubsystem.setAngle(0, velocity, acceleration);
+    armSubsystem.setAngle(0, -velocity, acceleration);
 
   }
 

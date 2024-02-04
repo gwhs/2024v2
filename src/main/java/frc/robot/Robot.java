@@ -15,6 +15,7 @@ import frc.robot.testcontainers.VisionContainer;
 //Draft
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 //Draft
+import frc.robot.testcontainers.LEDContainer;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -30,6 +31,7 @@ public class Robot extends TimedRobot {
   public static final String ARM = "Arm";
   public static final String CLIMB = "Climb";
   public static final String VISION = "Vision";
+  public static final String LED = "LED";
 
   // change this to match the subsystem container you want to use, or GAME for complete robot
   public static final String container = ARM;
@@ -70,6 +72,9 @@ public class Robot extends TimedRobot {
       case VISION:
         m_baseContainer = new VisionContainer();
         break;
+      case LED:
+        m_baseContainer = new LEDContainer();
+        break;
     }  
    
   }
@@ -88,6 +93,7 @@ public class Robot extends TimedRobot {
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
     CommandScheduler.getInstance().run();
+    
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
@@ -135,7 +141,8 @@ public class Robot extends TimedRobot {
 
   /** This function is called periodically during test mode. */
   @Override
-  public void testPeriodic() {}
+  public void testPeriodic() {  }
+  
 
   /** This function is called once when the robot is first started up. */
   @Override
@@ -144,4 +151,6 @@ public class Robot extends TimedRobot {
   /** This function is called periodically whilst in simulation. */
   @Override
   public void simulationPeriodic() {}
+
+  
 }

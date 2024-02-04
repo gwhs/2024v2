@@ -285,8 +285,8 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
-    ShuffleboardTab driveTrainAngleTab = Shuffleboard.getTab("Angle");
-    driveTrainAngleTab.addDouble("Estimated Speaker theta", ()->UtilMath.SpeakerTheta(getPose()));
+    // ShuffleboardTab driveTrainAngleTab = Shuffleboard.getTab("Angle");
+    // driveTrainAngleTab.addDouble("Estimated Speaker theta", ()->UtilMath.SpeakerTheta(getPose()));
   }
 
   @Override

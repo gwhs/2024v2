@@ -20,16 +20,16 @@ public class IntakeContainer implements BaseContainer {
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
     public IntakeContainer() {
-        IntakeSubsystem = new IntakeSubsystem(0, 20, 0, 1, 2, "rio");
+        IntakeSubsystem = new IntakeSubsystem(20, 2, 1, 2, 0, "rio");
         configureBindings();
     }
 
     private void configureBindings() {
         xboxController.x().onTrue(new SequentialCommandGroup(
-            new LowerArmIntake(IntakeSubsystem, 10), 
+            new LowerArmIntake(IntakeSubsystem, 0.5), 
             new UpperArmIntake(IntakeSubsystem)));
-        xboxController.a().onTrue(new LowerArmIntake(IntakeSubsystem, 10));
-        xboxController.b().onTrue(new UpperArmIntake(IntakeSubsystem));
+        xboxController.a().onTrue(new LowerArmIntake(IntakeSubsystem, 0.5)); //run upper arm intake
+        xboxController.b().onTrue(new UpperArmIntake(IntakeSubsystem)); //run lower arm intake
 
         StartIntake intake = new StartIntake(IntakeSubsystem);
         xboxController.y().onTrue(intake);

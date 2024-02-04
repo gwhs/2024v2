@@ -90,7 +90,7 @@ public class IntakeSubsystem extends SubsystemBase {
     double setAngle = (m_Encoder.getRaw() / 8132.0) + m_spinIntake.getPosition().getValue() / Constants.IntakeConstants.GEAR_RATIO;
     angle = angle - setAngle;
 
-    m_moveIntakeArm.setPosition(angle);
+    m_moveIntakeArm.set(angle);
 
   }
 

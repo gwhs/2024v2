@@ -73,6 +73,7 @@ public final class Constants
     public static final double TOLERANCE = 0.5;
     public static final double GEAR_RATIO = 1.0/16.0;
     public static final double FALCON_TICKS = 1;
+    public static final double NOTE_DELAY = 2; // change accordingly
   }
 }
 

@@ -13,7 +13,12 @@ public class StartIntake extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private IntakeSubsystem IntakeSubsystem;
-  
+  private boolean prevSensorValue;
+  private boolean currentSensorValue;
+  private boolean noteLatch;
+  private int counter;
+
+
   /**
    * Creates a new ExampleCommand.
    *
@@ -39,16 +44,34 @@ public class StartIntake extends Command {
   }
 
   // Called once the command ends or is interrupted.
+  // runs once when isFinished is called
   @Override
   public void end(boolean interrupted) {
     IntakeSubsystem.stopIntakeMotors();
-    CommandScheduler.getInstance().schedule(new UpperArmIntake(IntakeSubsystem));
+    //CommandScheduler.getInstance().schedule(new UpperArmIntake(IntakeSubsystem));
   }
 
   // Returns true when the command should end.
+  // called every cycle
   @Override
   public boolean isFinished() {
-    return IntakeSubsystem.getSensor(); 
+    prevSensorValue = currentSensorValue;
+    currentSensorValue = IntakeSubsystem.getSensor();
+
+    if(prevSensorValue == true && currentSensorValue == false) {
+      noteLatch = true;
+    }  
+    // two second delay before checking sensor again
+    if(counter > Constants.IntakeConstants.NOTE_DELAY && noteLatch) {
+      noteLatch = false;
+      return true; 
+    }
+    else {
+      counter++;
+    }
+    
+
+    return false;
   }
 
 }

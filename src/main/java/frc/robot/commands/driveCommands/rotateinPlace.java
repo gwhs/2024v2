@@ -71,9 +71,7 @@ public class rotateinPlace extends Command {
     }
     else
     {
-      
-      System.out.println(diff);
-      if((diff <= 5))
+      if((diff <= 4))
       {
         return true;
       }

@@ -104,7 +104,9 @@ public class DriveContainer implements BaseContainer
 
     ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
     ShuffleboardTab angleTab = Shuffleboard.getTab("Theta");
+    SmartDashboard commands;
 
+    SmartDashboard.putData("Rotate in Place Command", new rotateinPlace(50, drivebase));
     angleTab.addDouble("Theta", ()->UtilMath.SpeakerTheta(drivebase.getPose()));
 
     
@@ -152,9 +154,9 @@ public class DriveContainer implements BaseContainer
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     
 
-    // driverXbox.a().onTrue(
-    //   new rotateinPlace(()-> UtilMath.caclucateRotateTheta(drivebase.getPose(), 0, 3), drivebase)
-    // );
+    driverXbox.a().onTrue(
+      new rotateinPlace(()-> UtilMath.caclucateRotateTheta(drivebase.getPose(), 0, 3), drivebase)
+    );
   }
 
   /**

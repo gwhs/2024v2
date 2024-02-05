@@ -104,9 +104,9 @@ public class DriveContainer implements BaseContainer
 
     ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
     ShuffleboardTab angleTab = Shuffleboard.getTab("Theta");
-    SmartDashboard commands;
 
-    SmartDashboard.putData("Rotate in Place Command", new rotateinPlace(50, drivebase));
+    SmartDashboard.putData("Rotate To Speaker", new rotateinPlace(()->UtilMath.SpeakerTheta(drivebase.getPose()), drivebase));
+
     angleTab.addDouble("Theta", ()->UtilMath.SpeakerTheta(drivebase.getPose()));
 
     

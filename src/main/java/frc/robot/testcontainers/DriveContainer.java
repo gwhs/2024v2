@@ -5,10 +5,12 @@
 package frc.robot.testcontainers;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -101,7 +103,10 @@ public class DriveContainer implements BaseContainer
 
 
     ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
-    
+    ShuffleboardTab angleTab = Shuffleboard.getTab("Theta");
+
+    angleTab.addDouble("Theta", ()->UtilMath.SpeakerTheta(drivebase.getPose()));
+
     
     driveTrainShuffleboardTab.addDouble("X Position", ()->drivebase.getPose().getX())
       .withWidget(BuiltInWidgets.kGraph)
@@ -147,9 +152,9 @@ public class DriveContainer implements BaseContainer
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     
 
-    driverXbox.a().onTrue(
-      new rotateinPlace(()-> UtilMath.caclucateRotateTheta(drivebase.getPose(), 0, 3), drivebase)
-    );
+    // driverXbox.a().onTrue(
+    //   new rotateinPlace(()-> UtilMath.caclucateRotateTheta(drivebase.getPose(), 0, 3), drivebase)
+    // );
   }
 
   /**
@@ -178,5 +183,7 @@ public class DriveContainer implements BaseContainer
     public void simulationInit() {}
   
     /** This function is called periodically whilst in simulation. */
-    public void simulationPeriodic() {}
+    public void simulationPeriodic() {
+     
+    }
 }

@@ -5,7 +5,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class SwingBack extends Command{
 
-  //setArmPosition(startAngle, goalAngle), velocity
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ArmSubsystem armSubsystem;
   private double velocity;

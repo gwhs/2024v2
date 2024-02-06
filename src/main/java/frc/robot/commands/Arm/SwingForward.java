@@ -5,11 +5,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 
 public class SwingForward extends Command{
 
-  //setArmPosition(startAngle, goalAngle), velocity
-/*
- * Goal - Reset the arm back to neutral position to intake from ground
- * What we ant to do: Set arm angle to be back at 0. NOT just encoder angle. 
- */
   private double motorAng;
   private double angle;
   private double velocity;
@@ -38,7 +33,6 @@ public class SwingForward extends Command{
 
   // Called every time the scheduler runs while the command is scheduled.
 
-  //NOTE : potentially needs to swing 270 degrees 
   @Override
   public void execute() {}
 

@@ -68,8 +68,10 @@ public final class Constants
     public static final int kSlotIdx = 0;
     public static final int kPIDLoopIdx = 0;
     public static final int kTimeoutMs = 30;
-//    public static final Gains kGains = new Gains(0.2, 0.0, 0.0, 0.2, 0, 1.0);
-    public static final int FALCON_TICKS = 2048;
+    public static final int ARM_MAX_ANGLE = 270;
+    public static final int ARM_MIN_ANGLE = 0;
+    public static final int ROTATION_TO_DEGREES = 360;
     public static final int GEAR_RATIO = 16;
+    public static final double ENCODER_RAW_TO_ROTATION = 8132.;
   }
 }

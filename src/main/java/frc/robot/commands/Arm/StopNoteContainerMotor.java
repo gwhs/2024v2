@@ -35,7 +35,6 @@ public class StopNoteContainerMotor extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    //Sensor is inactive?
     return true;
   }
 }

@@ -23,12 +23,8 @@ import edu.wpi.first.wpilibj.Servo;
 
 public class ArmSubsystem extends SubsystemBase {
   private TalonFX m_arm;
-  private final Encoder m_encoder;
-  //Pizza Box Motor
+  private Encoder m_encoder;
   private TalonFX m_pizzaBox;
-  private double pizzaBoxVel;
-  private double pizzaBoxAcc;
-  private VelocityVoltage spinPizzaBoxMotorRequest;
   private Servo m_servo;
   
     
@@ -74,23 +70,6 @@ public class ArmSubsystem extends SubsystemBase {
       // if(!motorStatusArm.isOK()) {
       //   System.out.println("Could not apply configs, error code: " + motorStatusArm.toString());
       // }
-
-
-      
-      
-      // m_arm.getPosition().setUpdateFrequency(5);
-      // //Try to get it related to the TalonFXConfiguration
-      // var slot0Configs = new Slot0Configs(); 
-      // //Draft
-      // slot0Configs.kS = 0.24; // add 0.24 V to overcome friction
-      // slot0Configs.kV = 0.12; // apply 12 V for a target velocity of 100 rps
-      // //Setted to zero for now just to see it compiles and builds
-      // slot0Configs.kP = 0;
-      // slot0Configs.kI = 0;
-      // slot0Configs.kD = 0;
-
-      // m_arm.getConfigurator().apply(talonFXConfigs, 0.03);
-
   
       m_encoder.reset();
       m_encoder.setSamplesToAverage(5);
@@ -104,14 +83,14 @@ public class ArmSubsystem extends SubsystemBase {
   //Pos will be based on motor 
   //Make sure angle is between 0 and 270 degrees!
 
-  if(angle < 0) { //Will not be less than minimum angle
-    angle = 0;
+  if(angle < Constants.Arm.ARM_MIN_ANGLE) { //Will not be less than minimum angle
+    angle = Constants.Arm.ARM_MIN_ANGLE;
   }
-  else if (angle > 270) { // Will not be greater than maximum angle
-    angle = 270;
+  else if (angle > Constants.Arm.ARM_MAX_ANGLE) { // Will not be greater than maximum angle
+    angle = Constants.Arm.ARM_MAX_ANGLE;
   }
 
-  double adjustedAngle = (((angle - encoderGetAngle() + getArmAngle())) * Constants.Arm.GEAR_RATIO)/360;
+  double adjustedAngle = (((angle - encoderGetAngle() + getArmAngle())) * Constants.Arm.GEAR_RATIO)/Constants.Arm.ROTATION_TO_DEGREES;
   MotionMagicVoltage m_smoothArmMovement = new MotionMagicVoltage(adjustedAngle, false, 0, 0, false, false, false);
  
   var talonFXConfigs = new TalonFXConfiguration();
@@ -131,16 +110,12 @@ public class ArmSubsystem extends SubsystemBase {
   m_smoothArmMovement.Slot = 0;
 
    m_arm.setControl(m_smoothArmMovement);
-  //m_arm.set(10);
 }
 
   //Spins "Pizzabox" motor: velocity in rotations/sec and acceleration in rotations/sec^2
   public void spinPizzaBoxMotor(double velocity, double acceleration){
-    pizzaBoxVel = velocity;
-    pizzaBoxAcc = acceleration;
-    spinPizzaBoxMotorRequest = new VelocityVoltage(pizzaBoxVel, pizzaBoxAcc, true, 0, 0, false, false, false);
+    VelocityVoltage spinPizzaBoxMotorRequest = new VelocityVoltage(velocity, acceleration, true, 0, 0, false, false, false);
     m_pizzaBox.setControl(spinPizzaBoxMotorRequest);
-    //m_pizzaBox.set(pizzaBoxVel);
   }
   //Sets the position of the Servo motor on the pizza box
   public void setServoAngle(double angle) {
@@ -152,54 +127,30 @@ public class ArmSubsystem extends SubsystemBase {
     return m_servo.getAngle();
   }
 
-  //Sets the speed of the servo motor
-  public void setServoSpeed(double speed) {
-    m_servo.setSpeed(speed);
-  }
-
-  //Gets the speed of the servo motor
-  public double getServoSpeed() {
-    return m_servo.getSpeed();
-  }
-
-  //Resets arm angle back to 0
-  public void resetPosition() {
-    setAngle(0.0, 0.0, 0.0); 
-  }
-
   //Stops arm motor
   public void stopArmMotor() {
     m_arm.stopMotor();
  }
 
+ //Stops pizzaBox motor
  public void stopPizzaBoxMotor() {
   m_pizzaBox.stopMotor();
 }
 
  public double getArmAngle(){
-  return m_arm.getPosition().getValue()/Constants.Arm.GEAR_RATIO * 360;
+  return m_arm.getPosition().getValue()/Constants.Arm.GEAR_RATIO * Constants.Arm.ROTATION_TO_DEGREES;
  }
 
  /* The pizza box is the motor on the holding container on the arm*/ 
  public double getPizzaBoxAngle(){
-  return m_pizzaBox.getPosition().getValue() * 360;
+  return m_pizzaBox.getPosition().getValue() * Constants.Arm.ROTATION_TO_DEGREES;
  }
 
  //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])
   public double encoderGetAngle() {
 
-    return m_encoder.getRaw()/8132. * -360;
+    return m_encoder.getRaw()/Constants.Arm.ENCODER_RAW_TO_ROTATION * -Constants.Arm.ROTATION_TO_DEGREES;
   }
-
-  public void encoderReset() {
-    m_encoder.reset();
-  }
-//Check
-  public boolean encoderGetStopped() {
-    return m_encoder.getStopped();
-  }
-
- 
   
   @Override
   public void periodic() {
@@ -211,28 +162,3 @@ public class ArmSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
   }
 }
-
-/*Previously setAngle that turned to spinArmMotor */
-// public void setAngle(double angle, double vel, double accel) {
-//   //Pos will be based on motor 
-//   //Make sure angle is between 0 and 270 degrees!
-
-//   if(angle < 0) { //Will not be less than minimum angle
-//     angle = 0;
-//   }
-//   else if (angle > 270) { // Will not be greater than maximum angle
-//     angle = 270;
-//   }
-
-//   double adjustedAngle = ((angle - encoderGetAngle() + m_arm.getPosition().getValue())) * Constants.Arm.GEAR_RATIO;
-//   MotionMagicVoltage m_smoothArmMovement = new MotionMagicVoltage(adjustedAngle/360, true, 0, 0, false, true, false);
-
-//   var motionMagicConfigs = talonFXConfigs.MotionMagic;
-//   motionMagicConfigs.MotionMagicCruiseVelocity = vel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10;
-//   motionMagicConfigs.MotionMagicAcceleration = accel / 360 * Constants.Arm.FALCON_TICKS * Constants.Arm.GEAR_RATIO * 10; 
-
-//    m_arm.getConfigurator().apply(talonFXConfigs, 0.03); 
-
-//   m_arm.setControl(m_smoothArmMovement);
-//   //m_arm.set(10);
-// }

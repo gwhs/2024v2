@@ -5,6 +5,16 @@
         "header": {
           "open": true
         }
+      },
+      "Talon FX (v6)[2]": {
+        "header": {
+          "open": true
+        }
+      },
+      "Talon FX (v6)[2]/Rotor Sensor": {
+        "header": {
+          "open": true
+        }
       }
     }
   },
@@ -13,7 +23,21 @@
       "/FMSInfo": "FMSInfo"
     }
   },
+  "NetworkTables": {
+    "Transitory Values": {
+      "open": false
+    }
+  },
   "NetworkTables Info": {
-    "visible": true
+    "Clients": {
+      "open": true
+    }
+  },
+  "Plot": {
+    "Plot <0>": {
+      "window": {
+        "visible": false
+      }
+    }
   }
 }

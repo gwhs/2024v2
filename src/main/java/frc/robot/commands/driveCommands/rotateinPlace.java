@@ -48,7 +48,7 @@ public class rotateinPlace extends Command {
     this.targetTheta = rotation;
     currTheta = m_Subsystem.getHeading().getDegrees();
     double dif = targetTheta - currTheta;
-      if((dif < 0 ^ Math.abs(dif) < 180) ){
+      if( !(dif < 0 ^ Math.abs(dif) < 180) ){
         spinRate *= -1;
       }
   }

@@ -8,8 +8,11 @@ import edu.wpi.first.math.geometry.Pose2d;
 
 /** Add your docs here. */
 public class UtilMath {
-    public static final double SPEAKER_X = 5.5479; //in meters
-    public static final double SPEAKER_Y = -0.0254; //in meters
+    public static final double SPEAKER_X = -0.0381; //in meters
+    public static final double SPEAKER_Y = 5.5479; //in meters
+    public static final double RED_SPEAKER_X = 16.5793; //in meters
+    public static final double RED_SPEAKER_Y = 5.5479; //in meters
+    
 
 
     public static double caclucateRotateTheta(Pose2d pose, double targetX, double targetY){

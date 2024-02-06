@@ -90,7 +90,7 @@ public class IntakeSubsystem extends SubsystemBase {
     double setAngle = (m_Encoder.getRaw() / 8132.0) + m_spinIntake.getPosition().getValue() / Constants.IntakeConstants.GEAR_RATIO;
     angle = angle - setAngle;
 
-    m_moveIntakeArm.set(angle);
+    m_moveIntakeArm.setPosition(angle);
   }
 
   // spin the intake motors
@@ -120,6 +120,12 @@ public class IntakeSubsystem extends SubsystemBase {
   // returns the position of the angle of the lowering motor
   public double getArmPos() {
     return m_Encoder.getDistance();
+  }
+
+  //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])
+  public double encoderGetAngle() {
+
+    return m_Encoder.getRaw()/8132. * -360; //test negative value
   }
 
   // stop motor once note is in place, starts again once the arm position is brought up

@@ -6,26 +6,20 @@ package frc.robot.commands.IntakeCommands;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
+
+import javax.swing.plaf.TreeUI;
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 /** An example command that uses an example subsystem. */
-public class StartIntake extends Command {
+public class IntakePassNoteToPizzaBox extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private IntakeSubsystem intakeSubsystem;
-  private boolean prevSensorValue;
-  private boolean currentSensorValue;
-  private boolean noteLatch;
-  private int counter;
+  private boolean sensorValue;
 
-
-  /**
-   * Creates a new ExampleCommand.
-   *
-   * @param subsystem The subsystem used by this command.
-   */
-  public StartIntake(IntakeSubsystem subsystem) {
+  public IntakePassNoteToPizzaBox(IntakeSubsystem subsystem) {
     intakeSubsystem = subsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -35,7 +29,7 @@ public class StartIntake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -56,23 +50,8 @@ public class StartIntake extends Command {
   // called every cycle
   @Override
   public boolean isFinished() {
-    prevSensorValue = currentSensorValue;
-    currentSensorValue = intakeSubsystem.isNotePresent();
-
-    if(prevSensorValue == true && currentSensorValue == false) {
-      noteLatch = true;
-    }  
-    // two second delay before checking sensor again
-    if(counter > Constants.IntakeConstants.NOTE_DELAY && noteLatch) {
-      noteLatch = false;
-      return true; 
-    }
-    else {
-      counter++;
-    }
-    
-
-    return false;
+    sensorValue = intakeSubsystem.isNotePresent();
+    return sensorValue;
   }
 
 }

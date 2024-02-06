@@ -8,8 +8,8 @@ import edu.wpi.first.math.geometry.Pose2d;
 
 /** Add your docs here. */
 public class UtilMath {
-    public static final double SPEAKER_X = -0.0381; //in meters
-    public static final double SPEAKER_Y = 5.5479; //in meters
+    public static final double BLUE_SPEAKER_X = -0.0381; //in meters
+    public static final double BLUE_SPEAKER_Y = 5.5479; //in meters
     public static final double RED_SPEAKER_X = 16.5793; //in meters
     public static final double RED_SPEAKER_Y = 5.5479; //in meters
     
@@ -20,9 +20,16 @@ public class UtilMath {
         return  Math.toDegrees(calucatedRad);
     }
 
-    public static double SpeakerTheta(Pose2d pose)
+    public static double BLUESpeakerTheta(Pose2d pose)
     {
 
-        return caclucateRotateTheta(pose, SPEAKER_Y, SPEAKER_X);
+        return caclucateRotateTheta(pose, BLUE_SPEAKER_Y, BLUE_SPEAKER_X);
+    }
+
+    public static double REDSpeakerTheta(Pose2d pose)
+    {
+
+        return caclucateRotateTheta(pose, RED_SPEAKER_Y, RED_SPEAKER_X);
+    
     }
 }

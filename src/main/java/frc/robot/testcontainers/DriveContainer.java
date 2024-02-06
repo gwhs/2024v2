@@ -107,7 +107,7 @@ public class DriveContainer implements BaseContainer
 
     SmartDashboard.putData("Rotate To Speaker", new rotateinPlace(()->UtilMath.SpeakerTheta(drivebase.getPose()), drivebase));
 
-    angleTab.addDouble("Theta", ()->UtilMath.SpeakerTheta(drivebase.getPose()));
+    angleTab.addDouble("Estimated Theta", ()->UtilMath.SpeakerTheta(drivebase.getPose()));
 
     
     driveTrainShuffleboardTab.addDouble("X Position", ()->drivebase.getPose().getX())

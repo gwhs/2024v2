@@ -13,7 +13,7 @@ public class LowerArmIntake extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private IntakeSubsystem intakeSubsystem;
 
-  private double motorAngle;
+  private double armPositionAngle;
   private double angle;
 
   public LowerArmIntake(IntakeSubsystem intakeSubsystem, double angle) {
@@ -37,12 +37,14 @@ public class LowerArmIntake extends Command {
  
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    intakeSubsystem.stopArmMotor();
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    motorAngle = intakeSubsystem.getArmPos();
-    return Math.abs(motorAngle - angle) < Constants.IntakeConstants.TOLERANCE;
+    armPositionAngle = intakeSubsystem.getArmPos();
+    return Math.abs(armPositionAngle - angle) < Constants.IntakeConstants.TOLERANCE;
   }
 }

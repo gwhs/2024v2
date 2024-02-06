@@ -23,6 +23,9 @@ public class rotateinPlace extends Command {
   private double targetTheta;
   private double currTheta;
   private double diff;
+  private double marginOfError = 4;
+  private double exceptionTarget = 180;
+  private double exceptionTMarginOfError = 175;
 
   public rotateinPlace(DoubleSupplier rotation, SwerveSubsystem subsystem ) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -71,13 +74,13 @@ public class rotateinPlace extends Command {
   @Override
   public boolean isFinished() {
     double currTheta = m_Subsystem.getHeading().getDegrees();
-    if(targetTheta == 180 && (currTheta >= 175 || currTheta <= -175))
+    if(targetTheta == exceptionTarget && (currTheta >= exceptionTMarginOfError || currTheta <= -1*(exceptionTMarginOfError)))
     {
       return true;
     }
     else
     {
-      if((diff <= 4))
+      if((diff <= marginOfError))
       {
         return true;
       }

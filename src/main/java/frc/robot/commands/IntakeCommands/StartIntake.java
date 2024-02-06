@@ -13,7 +13,7 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class StartIntake extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-  private IntakeSubsystem IntakeSubsystem;
+  private IntakeSubsystem intakeSubsystem;
   private boolean prevSensorValue;
   private boolean currentSensorValue;
   private boolean noteLatch;
@@ -26,29 +26,29 @@ public class StartIntake extends Command {
    * @param subsystem The subsystem used by this command.
    */
   public StartIntake(IntakeSubsystem subsystem) {
-    IntakeSubsystem = subsystem;
+    intakeSubsystem = subsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(IntakeSubsystem);
+    addRequirements(intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("start intake works :D");
+
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    IntakeSubsystem.spinIntakeMotor();
+    intakeSubsystem.spinIntakeMotor();
   }
 
   // Called once the command ends or is interrupted.
   // runs once when isFinished is called
   @Override
   public void end(boolean interrupted) {
-    IntakeSubsystem.stopIntakeMotors();
+    intakeSubsystem.stopIntakeMotors();
     //CommandScheduler.getInstance().schedule(new UpperArmIntake(IntakeSubsystem));
   }
 
@@ -57,7 +57,7 @@ public class StartIntake extends Command {
   @Override
   public boolean isFinished() {
     prevSensorValue = currentSensorValue;
-    currentSensorValue = IntakeSubsystem.getSensor();
+    currentSensorValue = intakeSubsystem.isNotePresent();
 
     if(prevSensorValue == true && currentSensorValue == false) {
       noteLatch = true;

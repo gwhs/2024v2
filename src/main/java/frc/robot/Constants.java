@@ -74,6 +74,7 @@ public final class Constants
     public static final double GEAR_RATIO = 1.0/16.0;
     public static final double FALCON_TICKS = 1;
     public static final double NOTE_DELAY = 2; // change accordingly
+    public static final double MAX_ARM_ANGLE = 120; //max arm angle, update once confirmed
   }
 }
 

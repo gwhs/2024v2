@@ -24,20 +24,22 @@ public class IntakeSubsystem extends SubsystemBase {
   private TalonFX m_moveIntakeArm; // motor of arm
   private TalonFX m_spinIntake; // motor of intake
   private Encoder m_Encoder;
-  private DigitalInput m_sensor; 
-  private VelocityVoltage spinRequest1;
+  private DigitalInput m_noteSensor; // sensor to check if note is present in intake
+  private VelocityVoltage spinRequest1; 
   private double intakeMotorVelocity; 
   private double intakeMotorAcceleration; 
   
-  // int lowerIntakeId: Id for lowerng motors for the intake
-  // int spinIntakeId: Id for spining first intake motor 
-  // initialized the encoder 
-  // String can: String ID of canivore  
+  /*  
+    * int lowerIntakeId: Id for lowerng motors for the intake
+    * int spinIntakeId: Id for spining first intake motor 
+    * initialized the encoder 
+    * String can: String ID of canivore  
+  */
   public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, int channel1, int channel2, int channel3, String can)  {
     m_moveIntakeArm = new TalonFX(lowerIntakeId, can); 
     m_spinIntake = new TalonFX(spinIntakeId, can);
     m_Encoder = new Encoder(channel1, channel2);
-    m_sensor = new DigitalInput(channel3);
+    m_noteSensor = new DigitalInput(channel3);
     this.intakeMotorVelocity = Constants.IntakeConstants.INTAKE_MOTOR_VELOCITY;
     this.intakeMotorAcceleration = Constants.IntakeConstants.INTAKE_MOTOR_ACCELERATION;
     
@@ -67,23 +69,21 @@ public class IntakeSubsystem extends SubsystemBase {
     for (int i = 0; i < 5; ++i) {
       status1 = m_moveIntakeArm.getConfigurator().apply(configs);
       status2 = m_spinIntake.getConfigurator().apply(configs);
-      if (status1.isOK() || status2.isOK()) break;
+      if (status1.isOK() && status2.isOK()) break;
     }
     if(!status1.isOK() || !status2.isOK()) {
       System.out.println("Could not apply configs, error code: " + status1.toString());
       System.out.println("Could not apply configs, error code: " + status2.toString());
     }
-
   }
-
  
   // sets the angle of the intake motor
   public void setArmAngle(double angle) {
     if(angle < 0) { // minimum angle
       angle = 0;
     } 
-    else if (angle > 120) { // maximum angle, need to update
-      angle = 120;
+    else if (angle > Constants.IntakeConstants.MAX_ARM_ANGLE) { // maximum angle, need to update
+      angle = Constants.IntakeConstants.MAX_ARM_ANGLE;
     }
 
     // check falcon ticks
@@ -91,7 +91,6 @@ public class IntakeSubsystem extends SubsystemBase {
     angle = angle - setAngle;
 
     m_moveIntakeArm.set(angle);
-
   }
 
   // spin the intake motors
@@ -121,12 +120,11 @@ public class IntakeSubsystem extends SubsystemBase {
   // returns the position of the angle of the lowering motor
   public double getArmPos() {
     return m_Encoder.getDistance();
-    //return m_lowerIntake.getPosition().getValue();
   }
 
   // stop motor once note is in place, starts again once the arm position is brought up
-  public boolean getSensor() {
-    return m_sensor.get();
+  public boolean isNotePresent() {
+    return m_noteSensor.get();
   }
 
   @Override

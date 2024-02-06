@@ -155,7 +155,7 @@ public class DriveContainer implements BaseContainer
     
 
     driverXbox.a().onTrue(
-      new rotateinPlace(()-> UtilMath.caclucateRotateTheta(drivebase.getPose(), 0, 3), drivebase)
+      new rotateinPlace(()-> UtilMath.SpeakerTheta(drivebase.getPose()), drivebase)
     );
   }
 

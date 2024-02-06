@@ -19,6 +19,7 @@ import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.StatusCode;
+import edu.wpi.first.wpilibj.Servo;
 
 public class ArmSubsystem extends SubsystemBase {
   private TalonFX m_arm;
@@ -27,13 +28,17 @@ public class ArmSubsystem extends SubsystemBase {
   private TalonFX m_pizzaBox;
   private double pizzaBoxVel;
   private double pizzaBoxAcc;
-  private VelocityVoltage spinPizzaBoxMotorRequest;  
+  private VelocityVoltage spinPizzaBoxMotorRequest;
+  private Servo m_servo;
+  
+    
 
-  public ArmSubsystem(int armId, String armCanbus, int pizzaBoxId, String pizzaBoxCanbus, int channel1, int channel2)
+  public ArmSubsystem(int armId, String armCanbus, int pizzaBoxId, String pizzaBoxCanbus, int channel1, int channel2, int channelServo)
   {
       m_arm = new TalonFX(armId, armCanbus);
       m_pizzaBox = new TalonFX(pizzaBoxId, pizzaBoxCanbus);
       m_encoder = new Encoder(channel1, channel2, false, Counter.EncodingType.k4X);
+      m_servo = new Servo(channelServo);
 
 
       TalonFXConfiguration configs = new TalonFXConfiguration();
@@ -136,6 +141,25 @@ public class ArmSubsystem extends SubsystemBase {
     spinPizzaBoxMotorRequest = new VelocityVoltage(pizzaBoxVel, pizzaBoxAcc, true, 0, 0, false, false, false);
     m_pizzaBox.setControl(spinPizzaBoxMotorRequest);
     //m_pizzaBox.set(pizzaBoxVel);
+  }
+  //Sets the position of the Servo motor on the pizza box
+  public void setServoAngle(double angle) {
+    m_servo.setAngle(angle);
+  }
+
+  //Returns the servo postion from 0.0 to 1.0 (0 degrees to 180 degrees)
+  public double getServoAngle() {
+    return m_servo.getAngle();
+  }
+
+  //Sets the speed of the servo motor
+  public void setServoSpeed(double speed) {
+    m_servo.setSpeed(speed);
+  }
+
+  //Gets the speed of the servo motor
+  public double getServoSpeed() {
+    return m_servo.getSpeed();
   }
 
   //Resets arm angle back to 0

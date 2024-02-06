@@ -11,6 +11,8 @@ import frc.robot.commands.Arm.SpinNoteContainerMotor;
 import frc.robot.commands.Arm.StopNoteContainerMotor;
 import frc.robot.commands.Arm.SwingBack;
 import frc.robot.commands.Arm.SwingForward;
+import frc.robot.commands.Arm.SwingServo;
+
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -21,7 +23,7 @@ public class ArmContainer implements BaseContainer {
     // todo: add intake subsystem
     private final CommandXboxController m_driverController =
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
-        ArmSubsystem arm = new ArmSubsystem(8, "rio", 0, "rio", 0, 1); 
+        ArmSubsystem arm = new ArmSubsystem(8, "rio", 0, "rio", 0, 1, 0); 
 
     public ArmContainer() {
         configureBindings();
@@ -30,8 +32,9 @@ public class ArmContainer implements BaseContainer {
 
 
     private void configureBindings() {
-       m_driverController.a().onTrue(new SwingForward(arm, 270, 10, 10, .25));
-       m_driverController.b().onTrue(new SwingBack(arm, 10, 10, .25));
+    //    m_driverController.a().onTrue(new SwingForward(arm, 270, 10, 10, .25));
+    //    m_driverController.b().onTrue(new SwingBack(arm, 10, 10, .25));
+         m_driverController.x().onTrue(new SwingServo(arm));
 
        //SpinNoteContainerMotor army = new SpinNoteContainerMotor (arm, 0.25, 10);
        //m_driverController.y().onTrue(army);

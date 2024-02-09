@@ -17,25 +17,27 @@ import com.ctre.phoenix6.signals.ControlModeValue;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Encoder;
+//
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+//
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.StatusCode;
 import edu.wpi.first.wpilibj.Servo;
 
 public class ArmSubsystem extends SubsystemBase {
   private TalonFX m_arm;
-  private Encoder m_encoder;
+  private DutyCycleEncoder m_encoder;
   private TalonFX m_pizzaBox;
   private Servo m_servo;
   
     
 
-  public ArmSubsystem(int armId, String armCanbus, int pizzaBoxId, String pizzaBoxCanbus, int channel1, int channel2, int channelServo)
+  public ArmSubsystem(int armId, String armCanbus, int pizzaBoxId, String pizzaBoxCanbus, int channel1, int channelServo)
   {
       m_arm = new TalonFX(armId, armCanbus);
       m_pizzaBox = new TalonFX(pizzaBoxId, pizzaBoxCanbus);
-      m_encoder = new Encoder(channel1, channel2, false, Counter.EncodingType.k4X);
+      m_encoder = new DutyCycleEncoder(channel1);
       m_servo = new Servo(channelServo);
-
 
       TalonFXConfiguration configs = new TalonFXConfiguration();
       /* Voltage-based velocity requires a feed forward to account for the back-emf of the motor */
@@ -73,12 +75,6 @@ public class ArmSubsystem extends SubsystemBase {
       if(!motorStatusArm.isOK()) {
         System.out.println("Could not apply configs, error code: " + motorStatusArm.toString());
       }
-  
-      m_encoder.reset();
-      m_encoder.setSamplesToAverage(5);
-      m_encoder.setDistancePerPulse(1. / 256.);
-      m_encoder.setMinRate(1.0);
-    
   }
 
   // Sets arm angle in degrees with given velocity and acceleration
@@ -150,7 +146,7 @@ public class ArmSubsystem extends SubsystemBase {
  //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])
   public double encoderGetAngle() {
 
-    return m_encoder.getRaw()/Constants.Arm.ENCODER_RAW_TO_ROTATION * -Constants.Arm.ROTATION_TO_DEGREES;
+    return m_encoder.get()*Constants.Arm.ROTATION_TO_DEGREES - Constants.Arm.ENCODER_OFFSET;
   }
   
   @Override

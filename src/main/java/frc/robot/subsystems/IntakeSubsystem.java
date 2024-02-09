@@ -13,6 +13,7 @@ import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 
 import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -86,11 +87,13 @@ public class IntakeSubsystem extends SubsystemBase {
       angle = Constants.IntakeConstants.MAX_ARM_ANGLE;
     }
 
-    // check falcon ticks
-    double setAngle = (m_Encoder.getRaw() / 8132.0) + m_spinIntake.getPosition().getValue() / Constants.IntakeConstants.GEAR_RATIO;
+    // setAngle units is degrees ?
+    double setAngle = (((angle - encoderGetAngle() + getArmPos())) * Constants.IntakeConstants.GEAR_RATIO)/Constants.IntakeConstants.ROTATION_TO_DEGREES;
+    //(m_Encoder.getRaw() / 8132.0) + m_spinIntake.getPosition().getValue() / Constants.IntakeConstants.GEAR_RATIO;
     angle = angle - setAngle;
 
-    m_moveIntakeArm.setPosition(angle);
+    PositionVoltage PositionVoltage​ = new PositionVoltage(angle);
+    m_moveIntakeArm.setControl(PositionVoltage​);
   }
 
   // spin the intake motors
@@ -119,12 +122,11 @@ public class IntakeSubsystem extends SubsystemBase {
 
   // returns the position of the angle of the lowering motor
   public double getArmPos() {
-    return m_Encoder.getDistance();
+    return m_moveIntakeArm.getPosition().getValue()/Constants.IntakeConstants.GEAR_RATIO * Constants.IntakeConstants.ROTATION_TO_DEGREES;
   }
 
   //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])
   public double encoderGetAngle() {
-
     return m_Encoder.getRaw()/8132. * -360; //test negative value
   }
 

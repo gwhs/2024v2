@@ -28,11 +28,18 @@ public class IntakeContainer implements BaseContainer {
         // xboxController.x().onTrue(new SequentialCommandGroup(
         //     new LowerArmIntake(IntakeSubsystem, 0.5), 
         //     new UpperArmIntake(IntakeSubsystem)));
-        xboxController.a().onTrue(new LowerArmIntake(IntakeSubsystem, 0.5)); //run upper arm intake
-        xboxController.b().onTrue(new UpperArmIntake(IntakeSubsystem)); //run lower arm intake
-        
+        // xboxController.a().onTrue(new LowerArmIntake(IntakeSubsystem, 10)); //run upper arm intake
+        // xboxController.b().onTrue(new UpperArmIntake(IntakeSubsystem)); //run lower arm intake
 
-        IntakePassNoteToPizzaBox intake = new IntakePassNoteToPizzaBox(IntakeSubsystem);
-        xboxController.y().onTrue(intake);
+        LowerArmIntake intake = new LowerArmIntake(IntakeSubsystem, 20);
+        xboxController.a().onTrue(intake);
+
+        LowerArmIntake intakeUp = new LowerArmIntake(IntakeSubsystem, 0);
+        xboxController.x().onTrue(intakeUp);
+       
+
+
+        // IntakePassNoteToPizzaBox intake = new IntakePassNoteToPizzaBox(IntakeSubsystem);
+        // xboxController.y().onTrue(intake);
     }
 }

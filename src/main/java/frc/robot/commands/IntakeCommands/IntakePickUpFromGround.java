@@ -9,15 +9,11 @@ import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-/** An example command that uses an example subsystem. */
 public class IntakePickUpFromGround extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private IntakeSubsystem intakeSubsystem;
-  private boolean prevSensorValue;
-  private boolean currentSensorValue;
-  private boolean noteLatch;
-  private int counter;
+  private boolean sensorValue;
 
   public IntakePickUpFromGround(IntakeSubsystem subsystem) {
     intakeSubsystem = subsystem;
@@ -49,21 +45,8 @@ public class IntakePickUpFromGround extends Command {
   // called every cycle
   @Override
   public boolean isFinished() {
-    prevSensorValue = currentSensorValue;
-    currentSensorValue = intakeSubsystem.isNotePresent();
-
-    if(prevSensorValue == true && currentSensorValue == false) {
-      noteLatch = true;
-    }  
-    // two second delay before checking sensor again
-    if(counter > Constants.IntakeConstants.NOTE_DELAY && noteLatch) {
-      noteLatch = false;
-      return true; 
-    }
-    else {
-      counter++;
-    }
-    return false;
+    sensorValue = intakeSubsystem.isNotePresent();
+    return sensorValue;
   }
 
 }

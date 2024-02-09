@@ -12,12 +12,14 @@ import javax.swing.plaf.TreeUI;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-/** An example command that uses an example subsystem. */
 public class IntakePassNoteToPizzaBox extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private IntakeSubsystem intakeSubsystem;
-  private boolean sensorValue;
+  private boolean prevSensorValue;
+  private boolean currentSensorValue;
+  private boolean noteLatch;
+  private int counter; 
 
   public IntakePassNoteToPizzaBox(IntakeSubsystem subsystem) {
     intakeSubsystem = subsystem;
@@ -50,8 +52,21 @@ public class IntakePassNoteToPizzaBox extends Command {
   // called every cycle
   @Override
   public boolean isFinished() {
-    sensorValue = intakeSubsystem.isNotePresent();
-    return sensorValue;
+    prevSensorValue = currentSensorValue;
+    currentSensorValue = intakeSubsystem.isNotePresent();
+
+    if(prevSensorValue == true && currentSensorValue == false) {
+      noteLatch = true;
+    }  
+    // two second delay before checking sensor again
+    if(counter > Constants.IntakeConstants.NOTE_DELAY && noteLatch) {
+      noteLatch = false;
+      return true; 
+    }
+    else {
+      counter++;
+    }
+    return false;
   }
 
 }

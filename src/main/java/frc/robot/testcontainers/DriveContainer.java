@@ -5,17 +5,21 @@
 package frc.robot.testcontainers;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Util.UtilMath;
 import frc.robot.Robot;
+import frc.robot.commands.driveCommands.rotateinPlace;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
@@ -99,6 +103,12 @@ public class DriveContainer implements BaseContainer
 
 
     ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
+    ShuffleboardTab angleTab = Shuffleboard.getTab("Theta");
+
+    SmartDashboard.putData("Rotate To Speaker", new rotateinPlace(()->UtilMath.BLUESpeakerTheta(drivebase.getPose()), drivebase));
+
+    angleTab.addDouble("Estimated Theta", ()->UtilMath.BLUESpeakerTheta(drivebase.getPose()));
+
     
     driveTrainShuffleboardTab.addDouble("X Position", ()->drivebase.getPose().getX())
       .withWidget(BuiltInWidgets.kGraph)
@@ -126,7 +136,9 @@ public class DriveContainer implements BaseContainer
       .withWidget(BuiltInWidgets.kGraph)
       .withSize(3,3)
       .withPosition(6, 3);
-  }
+
+
+    }
 
   /**
    * Use this method to define your trigger->command mappings. Triggers can be created via the
@@ -140,6 +152,11 @@ public class DriveContainer implements BaseContainer
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+    
+
+    // driverXbox.a().onTrue(
+    //   new rotateinPlace(()-> UtilMath.SpeakerTheta(drivebase.getPose()), drivebase)
+    // );
   }
 
   /**
@@ -162,4 +179,13 @@ public class DriveContainer implements BaseContainer
   {
     drivebase.setMotorBrake(brake);
   }
+
+    /** This function is called once when the robot is first started up. */
+    
+    public void simulationInit() {}
+  
+    /** This function is called periodically whilst in simulation. */
+    public void simulationPeriodic() {
+     
+    }
 }

@@ -77,6 +77,7 @@ public final class Constants
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
   }
 
+    
   public static final class IntakeConstants {
     public static final double INTAKE_MOTOR_VELOCITY = 2; //units?
     public static final double INTAKE_MOTOR_ACCELERATION = 1; 

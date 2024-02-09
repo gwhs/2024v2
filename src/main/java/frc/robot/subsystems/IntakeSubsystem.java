@@ -43,7 +43,7 @@ public class IntakeSubsystem extends SubsystemBase {
     m_noteSensor = new DigitalInput(channel3);
     this.intakeMotorVelocity = Constants.IntakeConstants.INTAKE_MOTOR_VELOCITY;
     this.intakeMotorAcceleration = Constants.IntakeConstants.INTAKE_MOTOR_ACCELERATION;
-    
+
     TalonFXConfiguration configs = new TalonFXConfiguration();
 
     /* Voltage-based velocity requires a feed forward to account for the back-emf of the motor */
@@ -87,13 +87,13 @@ public class IntakeSubsystem extends SubsystemBase {
       angle = Constants.IntakeConstants.MAX_ARM_ANGLE;
     }
 
-    // setAngle units is degrees ?
-    double setAngle = (((angle - encoderGetAngle() + getArmPos())) * Constants.IntakeConstants.GEAR_RATIO)/Constants.IntakeConstants.ROTATION_TO_DEGREES;
-    //(m_Encoder.getRaw() / 8132.0) + m_spinIntake.getPosition().getValue() / Constants.IntakeConstants.GEAR_RATIO;
+    // setAngle units is ____ ?
+    double setAngle = (((angle - encoderGetAngle() + getArmPos())) * Constants.IntakeConstants.GEAR_RATIO);
+    // /Constants.IntakeConstants.ROTATION_TO_DEGREES;
     angle = angle - setAngle;
 
-    PositionVoltage PositionVoltage​ = new PositionVoltage(angle);
-    m_moveIntakeArm.setControl(PositionVoltage​);
+    PositionVoltage PositionVoltage = new PositionVoltage(angle);
+    m_moveIntakeArm.setControl(PositionVoltage);
   }
 
   // spin the intake motors

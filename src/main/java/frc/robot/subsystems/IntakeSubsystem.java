@@ -127,7 +127,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])
   public double encoderGetAngle() {
-    return m_Encoder.getRaw()/8132. * -360; //test negative value
+    return m_Encoder.getRaw()/Constants.IntakeConstants.ENCODER_RAW_TO_ROTATION * -Constants.IntakeConstants.ROTATION_TO_DEGREES; //test negative value
   }
 
   // stop motor once note is in place, starts again once the arm position is brought up

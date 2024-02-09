@@ -42,8 +42,8 @@ public class ArmContainer implements BaseContainer {
        
 
 
-        Shuffleboard.getTab("aaaaaa").addDouble("encoder",()->arm.encoderGetAngle());
-        Shuffleboard.getTab("aaaaaa").addDouble("arm",()->arm.getArmAngle());
+        Shuffleboard.getTab("Arm").addDouble("encoder",()->arm.encoderGetAngle());
+        Shuffleboard.getTab("Arm").addDouble("arm",()->arm.getArmAngle());
 
         
 

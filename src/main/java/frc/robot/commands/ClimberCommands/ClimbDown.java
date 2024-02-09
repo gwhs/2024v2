@@ -21,6 +21,7 @@ public class ClimbDown extends Command {
     climbersubsystem = c;
     swerve = s;
 
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.climbersubsystem);
   }
@@ -58,7 +59,7 @@ public class ClimbDown extends Command {
   @Override
   public boolean isFinished() {
     //stops when reaches desired height
-    return (climbersubsystem.getPositionLeft() >= ClimbConstants.CLIMB_DISTANCE 
-            || climbersubsystem.getPositionLeft() >= ClimbConstants.CLIMB_DISTANCE); 
+    return climbersubsystem.getTopLimit() 
+            || (climbersubsystem.getPositionLeft() >= ClimbConstants.CLIMB_DISTANCE || climbersubsystem.getPositionLeft() >= ClimbConstants.CLIMB_DISTANCE); 
   }
 }

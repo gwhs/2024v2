@@ -10,6 +10,8 @@ import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
+
+import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
@@ -20,6 +22,12 @@ public class Climbsubsystem extends SubsystemBase {
   /** Creates a new Climbsubsystem. */
   private TalonFX climberArmLeft;
   private TalonFX climberArmRight;
+
+  DigitalInput bottomLeft = new DigitalInput(0);
+  DigitalInput bottomRight = new DigitalInput(0);
+  DigitalInput topLeft = new DigitalInput(0);
+  DigitalInput topRight = new DigitalInput(0);
+
   //set canBus to the name of the canivore of the robot
   public Climbsubsystem(int motorIDLeft, int motorIDRight, boolean invertedLeft, boolean invertedRight, String canBus) {
 
@@ -106,6 +114,14 @@ public class Climbsubsystem extends SubsystemBase {
     return climberArmRight.getPosition().getValue();
   }
 
+  public boolean getTopLimit() {
+        
+    return (topLeft.get() || topRight.get());
+  }
+
+  public boolean getBotLimit() {
+    return (bottomLeft.get() || bottomRight.get());
+  }
 
   @Override
   public void periodic() {

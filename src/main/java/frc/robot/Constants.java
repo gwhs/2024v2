@@ -9,6 +9,8 @@ import edu.wpi.first.math.util.Units;
 import swervelib.math.Matter;
 import swervelib.parser.PIDFConfig;
 
+
+
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean constants. This
  * class should not be used for any other purpose. All constants should be declared globally (i.e. public static). Do
@@ -44,10 +46,36 @@ public final class Constants
   {
 
     // Joystick Deadband
-    public static final double LEFT_X_DEADBAND = 0.01;
-    public static final double LEFT_Y_DEADBAND = 0.01;
-    public static final double RIGHT_X_DEADBAND = 0.01;
+    public static final double LEFT_X_DEADBAND  = 0.1;
+    public static final double LEFT_Y_DEADBAND  = 0.1;
+    public static final double RIGHT_X_DEADBAND = 0.1;
     public static final double TURN_CONSTANT = 6;
      public static final int kDriverControllerPort = 0;
   }
+
+  // move this else where create a data object
+  public static final class LimeLightConstants {
+
+    // for ryker
+    public static final double MAX_LIMELIGHT_ERROR_DEGREES =
+        1; // limelight max degrees off, max degrees error
+    public static final double CAMERA_HEIGHT = 84.5;
+    public static final double TARGET_HEIGHT = 61;
+    public static final double MOUNTING_ANGLE = -10;
+    public static final double LOWER_DISTANCE_SHOOT = 114;
+    public static final double MID_DISTANCE_SHOOT = 76;
+    public static final double TOP_DISTANCE_SHOOT = 42;
+  }
+    
+  public static final class IntakeConstants {
+    public static final double INTAKE_MOTOR_VELOCITY = 2; //units?
+    public static final double INTAKE_MOTOR_ACCELERATION = 1; 
+    public static final double TOLERANCE = 0.5;
+    public static final double GEAR_RATIO = 1.0/16.0;
+    public static final double FALCON_TICKS = 1;
+    public static final double NOTE_DELAY = 2; // change accordingly
+  }
 }
+
+
+

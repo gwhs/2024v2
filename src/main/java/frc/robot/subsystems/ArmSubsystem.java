@@ -60,16 +60,19 @@ public class ArmSubsystem extends SubsystemBase {
       StatusCode motorStatus = StatusCode.StatusCodeNotInitialized;
       StatusCode motorStatusArm = StatusCode.StatusCodeNotInitialized;
       for (int i = 0; i < 5; ++i) {
+        motorStatusArm = m_arm.getConfigurator().apply(configs);
+        if (motorStatusArm .isOK()) break;
+      }      
+      for (int i = 0; i < 5; ++i) {
         motorStatus = m_pizzaBox.getConfigurator().apply(configs);
-        //motorStatusArm = m_arm.getConfigurator().apply(configs);
-        if (motorStatus .isOK() && motorStatusArm .isOK()) break;
+        if (motorStatus .isOK()) break;
       }
       if(!motorStatus.isOK()) {
         System.out.println("Could not apply configs, error code: " + motorStatus.toString());
       }
-      // if(!motorStatusArm.isOK()) {
-      //   System.out.println("Could not apply configs, error code: " + motorStatusArm.toString());
-      // }
+      if(!motorStatusArm.isOK()) {
+        System.out.println("Could not apply configs, error code: " + motorStatusArm.toString());
+      }
   
       m_encoder.reset();
       m_encoder.setSamplesToAverage(5);
@@ -80,37 +83,35 @@ public class ArmSubsystem extends SubsystemBase {
 
   // Sets arm angle in degrees with given velocity and acceleration
   public void setAngle(double angle, double vel, double accel) {
-  //Pos will be based on motor 
-  //Make sure angle is between 0 and 270 degrees!
 
-  if(angle < Constants.Arm.ARM_MIN_ANGLE) { //Will not be less than minimum angle
-    angle = Constants.Arm.ARM_MIN_ANGLE;
+    if(angle < Constants.Arm.ARM_MIN_ANGLE) { //Will not be less than minimum angle
+      angle = Constants.Arm.ARM_MIN_ANGLE;
+    }
+    else if (angle > Constants.Arm.ARM_MAX_ANGLE) { // Will not be greater than maximum angle
+      angle = Constants.Arm.ARM_MAX_ANGLE;
+    }
+
+    double adjustedAngle = (((angle - encoderGetAngle() + getArmAngle())) * Constants.Arm.GEAR_RATIO)/Constants.Arm.ROTATION_TO_DEGREES;
+    MotionMagicVoltage m_smoothArmMovement = new MotionMagicVoltage(adjustedAngle, false, 0, 0, false, false, false);
+
+    var talonFXConfigs = new TalonFXConfiguration();
+    talonFXConfigs.Slot0.kS = .24;
+    talonFXConfigs.Slot0.kV = .12;
+    talonFXConfigs.Slot0.kP = 4.8;
+    talonFXConfigs.Slot0.kI = 0;
+    talonFXConfigs.Slot0.kD = .1;
+
+
+    var motionMagicConfigs = talonFXConfigs.MotionMagic;
+    motionMagicConfigs.MotionMagicCruiseVelocity = vel;
+    motionMagicConfigs.MotionMagicAcceleration = accel; 
+    motionMagicConfigs.MotionMagicJerk = 1600; // 1600 rps/s^2 jerk (0.1 seconds)
+    m_arm.getConfigurator().apply(talonFXConfigs, 0.03);
+
+    m_smoothArmMovement.Slot = 0;
+
+    m_arm.setControl(m_smoothArmMovement);
   }
-  else if (angle > Constants.Arm.ARM_MAX_ANGLE) { // Will not be greater than maximum angle
-    angle = Constants.Arm.ARM_MAX_ANGLE;
-  }
-
-  double adjustedAngle = (((angle - encoderGetAngle() + getArmAngle())) * Constants.Arm.GEAR_RATIO)/Constants.Arm.ROTATION_TO_DEGREES;
-  MotionMagicVoltage m_smoothArmMovement = new MotionMagicVoltage(adjustedAngle, false, 0, 0, false, false, false);
- 
-  var talonFXConfigs = new TalonFXConfiguration();
-  talonFXConfigs.Slot0.kS = .24;
-  talonFXConfigs.Slot0.kV = .12;
-  talonFXConfigs.Slot0.kP = 4.8;
-  talonFXConfigs.Slot0.kI = 0;
-  talonFXConfigs.Slot0.kD = .1;
-
-
-  var motionMagicConfigs = talonFXConfigs.MotionMagic;
-  motionMagicConfigs.MotionMagicCruiseVelocity = vel;
-  motionMagicConfigs.MotionMagicAcceleration = accel; 
-  motionMagicConfigs.MotionMagicJerk = 1600; // 1600 rps/s^2 jerk (0.1 seconds)
-  m_arm.getConfigurator().apply(talonFXConfigs, 0.03);
-
-  m_smoothArmMovement.Slot = 0;
-
-   m_arm.setControl(m_smoothArmMovement);
-}
 
   //Spins "Pizzabox" motor: velocity in rotations/sec and acceleration in rotations/sec^2
   public void spinPizzaBoxMotor(double velocity, double acceleration){

@@ -12,9 +12,6 @@ import frc.robot.testcontainers.ClimbContainer;
 import frc.robot.testcontainers.DriveContainer;
 import frc.robot.testcontainers.IntakeContainer;
 import frc.robot.testcontainers.VisionContainer;
-//Draft
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-//Draft
 import frc.robot.testcontainers.LEDContainer;
 
 /**
@@ -48,9 +45,6 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and use the subsystems needed
     // for the specific robot
-    //Draft
-    var talonFXConfigs = new TalonFXConfiguration();
-    //Draft
     
     switch (container){
       case GAME:

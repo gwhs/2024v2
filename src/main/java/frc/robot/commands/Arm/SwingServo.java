@@ -7,6 +7,7 @@ public class SwingServo extends Command{
   
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ArmSubsystem armSubsystem;
+  private double targetAng; 
     // Called when the command is initially scheduled.
     
 
@@ -16,10 +17,12 @@ public class SwingServo extends Command{
     addRequirements(armSubsystem);
   }
   public void initialize() {
-    if(armSubsystem.getServoAngle() < 180) {
-      armSubsystem.setServoAngle(180);
-    } else {
+    if(Math.abs(armSubsystem.getServoAngle() - 180) < .25) {
+      targetAng = 0;
       armSubsystem.setServoAngle(0);
+    } else {
+      targetAng = 180;
+      armSubsystem.setServoAngle(180);
     }
   }
 
@@ -27,7 +30,6 @@ public class SwingServo extends Command{
 
   @Override
   public void execute() {
-
   }
 
   // Called once the command ends or is interrupted.
@@ -39,6 +41,7 @@ public class SwingServo extends Command{
   @Override
   public boolean isFinished() {
     double motorAng = armSubsystem.getServoAngle();
-    return motorAng == 0.0  || motorAng == 180.0;
+  
+    return Math.abs(motorAng - targetAng) < .25;
   }
 } 

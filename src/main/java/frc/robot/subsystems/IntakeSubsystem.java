@@ -48,16 +48,16 @@ public class IntakeSubsystem extends SubsystemBase {
 
     /* Voltage-based velocity requires a feed forward to account for the back-emf of the motor */
     configs.Slot0.kP = 0.11; // An error of 1 rotation per second results in 2V output
-    configs.Slot0.kI = 0.5; // An error of 1 rotation per second increases output by 0.5V every second
-    configs.Slot0.kD = 0.0001; // A change of 1 rotation per second squared results in 0.01 volts output
+    configs.Slot0.kI = 0.05; // An error of 1 rotation per second increases output by 0.5V every second
+    configs.Slot0.kD = 0.01; // A change of 1 rotation per second squared results in 0.01 volts output
     configs.Slot0.kV = 0.12; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
     // Peak output of 8 volts
-    configs.Voltage.PeakForwardVoltage = 12;
-    configs.Voltage.PeakReverseVoltage = -12;
+    configs.Voltage.PeakForwardVoltage = 8;
+    configs.Voltage.PeakReverseVoltage = -8;
     
     /* Torque-based velocity does not require a feed forward, as torque will accelerate the rotor up to the desired velocity by itself */
-    configs.Slot1.kP = 5; // An error of 1 rotation per second results in 5 amps output
-    configs.Slot1.kI = 0.1; // An error of 1 rotation per second increases output by 0.1 amps every second
+    configs.Slot1.kP = 5.5; // An error of 1 rotation per second results in 5 amps output
+    configs.Slot1.kI = 0.01; // An error of 1 rotation per second increases output by 0.1 amps every second
     configs.Slot1.kD = 0.001; // A change of 1000 rotation per second squared results in 1 amp output
 
     // Peak output of 40 amps
@@ -89,10 +89,9 @@ public class IntakeSubsystem extends SubsystemBase {
 
     // setAngle units is ____ ?
     double setAngle = (((angle - encoderGetAngle() + getArmPos())) * Constants.IntakeConstants.GEAR_RATIO);
-    // /Constants.IntakeConstants.ROTATION_TO_DEGREES;
-    angle = angle - setAngle;
+    //angle = angle - setAngle;
 
-    PositionVoltage PositionVoltage = new PositionVoltage(angle);
+    PositionVoltage PositionVoltage = new PositionVoltage(setAngle/Constants.IntakeConstants.ROTATION_TO_DEGREES, 0.00001, false, 0, 1, false, false, false);
     m_moveIntakeArm.setControl(PositionVoltage);
   }
 
@@ -137,7 +136,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    System.out.println(encoderGetAngle());
   }
 
   @Override

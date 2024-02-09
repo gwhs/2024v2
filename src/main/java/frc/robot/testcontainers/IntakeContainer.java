@@ -13,14 +13,14 @@ import frc.robot.subsystems.IntakeSubsystem;
 public class IntakeContainer implements BaseContainer {
 
     private final CommandXboxController xboxController = new CommandXboxController(0);
-    private IntakeSubsystem IntakeSubsystem;
+    private IntakeSubsystem intakeSubsystem;
   
     // todo: add intake subsystem
     private final CommandXboxController m_driverController =
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
     public IntakeContainer() {
-        IntakeSubsystem = new IntakeSubsystem(20, 2, 1, 2, 0, "rio");
+        intakeSubsystem = new IntakeSubsystem(8,20,0, 1, 10, "rio");
         configureBindings();
     }
 
@@ -31,9 +31,9 @@ public class IntakeContainer implements BaseContainer {
         // xboxController.a().onTrue(new LowerArmIntake(IntakeSubsystem, 10)); //run upper arm intake
         // xboxController.b().onTrue(new UpperArmIntake(IntakeSubsystem)); //run lower arm intake
 
-        xboxController.a().onTrue(new LowerArmIntake(IntakeSubsystem, 20));
+        xboxController.a().onTrue(new LowerArmIntake(intakeSubsystem, 90));
 
-        LowerArmIntake intakeUp = new LowerArmIntake(IntakeSubsystem, 0);
+        LowerArmIntake intakeUp = new LowerArmIntake(intakeSubsystem, 0);
         xboxController.x().onTrue(intakeUp);
 
         

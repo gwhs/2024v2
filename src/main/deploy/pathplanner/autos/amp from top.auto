@@ -1,0 +1,91 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.45,
+      "y": 7.325
+    },
+    "rotation": 90.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "top amp"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AmpShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "amp to top"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "GroundPickup"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "amp back top"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AmpShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "amp to mid"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "GroundPickup"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "amp back mid"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "AmpShoot"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "to top center"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "GroundPickup"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "real",
+  "choreoAuto": false
+}

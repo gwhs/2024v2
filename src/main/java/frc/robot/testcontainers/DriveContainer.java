@@ -7,23 +7,32 @@ package frc.robot.testcontainers;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Robot;
 import frc.robot.commands.driveToPose;
+import frc.robot.commands.ledcommands.ChangeLEDToBlue;
+import frc.robot.commands.ledcommands.ChangeLEDToRed;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
+import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -39,6 +48,8 @@ public class DriveContainer implements BaseContainer
   CommandXboxController driverController = new CommandXboxController(1);
   CommandXboxController driverXbox = new CommandXboxController(0);
 
+  private final SendableChooser<Command> autoChooser;
+
   public String getDriveTrainName(){
     return "swerve/ryker_falcon";
   }
@@ -53,6 +64,13 @@ public class DriveContainer implements BaseContainer
 
     // Configure the trigger bindings
     configureBindings();
+    configurePathPlannerCommands();
+
+    autoChooser = AutoBuilder.buildAutoChooser("Default Auto");
+    Shuffleboard.getTab("Autonomous").add("Autonomous Chooser", autoChooser).withSize(2, 1);
+
+    
+    
      
     AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase,
                                                           // Applies deadbands and inverts controls because joysticks
@@ -115,6 +133,9 @@ public class DriveContainer implements BaseContainer
       .withSize(3,3)
       .withPosition(6, 0);
 
+      driveTrainShuffleboardTab.addDouble("IMU Heading", ()->drivebase.getHeading().getDegrees());
+      
+
 
     driveTrainShuffleboardTab.addDouble("X Velocity (m)", ()->drivebase.getFieldVelocity().vxMetersPerSecond)
       .withWidget(BuiltInWidgets.kGraph)
@@ -149,6 +170,12 @@ public class DriveContainer implements BaseContainer
     driverXbox.a().whileTrue(drivepos);
   }
 
+  private void configurePathPlannerCommands() { //register rest of commands when get them
+    
+    NamedCommands.registerCommand("Wait", new WaitCommand(5));
+    NamedCommands.registerCommand("GroundPickup", new WaitCommand(0.5));
+  }
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -157,7 +184,8 @@ public class DriveContainer implements BaseContainer
   public Command getAutonomousCommand()
   {
     // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("New Path", true);
+    //return drivebase.getAutonomousCommand("New Path", true);
+    return autoChooser.getSelected();
   }
 
   public void setDriveMode()

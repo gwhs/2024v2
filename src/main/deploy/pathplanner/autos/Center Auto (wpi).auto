@@ -1,0 +1,55 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.45,
+      "y": 1.63
+    },
+    "rotation": 90.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": null
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "to bot center"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "5 to 4"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "4 to 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "3 to 2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "2 to 1"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "real",
+  "choreoAuto": false
+}

@@ -50,6 +50,7 @@ public class ArmContainer implements BaseContainer {
     //    m_driverController.b().onTrue(new SwingBack(arm, 10, 10, .25));
          m_driverController.x().onTrue(new SwingForwardServo(arm).andThen(Commands.waitSeconds(1.0)).andThen(new SwingBackServo(arm)));
          m_driverController.a().onTrue(new LowerArmIntake(intake, 270).andThen(new IntakePickUpFromGround(intake)).andThen(new UpperArmIntake(intake)).andThen(new IntakePassNoteToPizzaBox(intake)));
+         m_driverController.y().onTrue(new SpinNoteContainerMotor(arm, .25, 10).raceWith(new SwingForward(arm, 180, 5, 5, .25)));
         //command that loads the note
         // m_driverController.leftBumper().onTrue(new LowerArmIntake().andThen(new StartIntake()).andThen(new SwingForward()).andThen(new UpperIntake()));
 
@@ -58,9 +59,9 @@ public class ArmContainer implements BaseContainer {
        //m_driverController.x().onTrue(new StopNoteContainerMotor(arm));
        
 
-
-        Shuffleboard.getTab("Arm").addDouble("encoder",()->arm.encoderGetAngle());
-        Shuffleboard.getTab("Arm").addDouble("arm",()->arm.getArmAngle());
+//We might not need this anymore (2/10/24)
+        // Shuffleboard.getTab("Arm").addDouble("encoder",()->arm.encoderGetAngle());
+        // Shuffleboard.getTab("Arm").addDouble("arm",()->arm.getArmAngle());
 
         
 

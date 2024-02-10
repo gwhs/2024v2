@@ -17,12 +17,13 @@ import com.ctre.phoenix6.signals.ControlModeValue;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import edu.wpi.first.wpilibj.Counter;
 import edu.wpi.first.wpilibj.Encoder;
-//
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-//
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.StatusCode;
 import edu.wpi.first.wpilibj.Servo;
+
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 
 public class ArmSubsystem extends SubsystemBase {
   private TalonFX m_arm;
@@ -75,6 +76,13 @@ public class ArmSubsystem extends SubsystemBase {
       if(!motorStatusArm.isOK()) {
         System.out.println("Could not apply configs, error code: " + motorStatusArm.toString());
       }
+
+    Shuffleboard.getTab("Arm").addDouble("Encoder Angle", ()->encoderGetAngle()).withWidget(BuiltInWidgets.kGraph)
+    .withSize(3,3)
+    .withPosition(0, 0);;
+    Shuffleboard.getTab("Arm").addDouble("Motor Angle", ()->getArmAngle()).withWidget(BuiltInWidgets.kGraph)
+    .withSize(3,3)
+    .withPosition(3, 0);
   }
 
   // Sets arm angle in degrees with given velocity and acceleration

@@ -96,7 +96,7 @@ public class IntakeSubsystem extends SubsystemBase {
       angle = Constants.IntakeConstants.MAX_ARM_ANGLE;
     }
 
-    // setAngle units is ____ ?
+    // setAngle units is in rotations
     double setAngle = (((angle - encoderGetAngle() + getArmPos())) * Constants.IntakeConstants.GEAR_RATIO);
     //angle = angle - setAngle;
 

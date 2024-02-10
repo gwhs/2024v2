@@ -10,12 +10,18 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.Arm.SpinNoteContainerMotor;
 import frc.robot.commands.Arm.StopNoteContainerMotor;
 import frc.robot.commands.Arm.SwingBack;
 import frc.robot.commands.Arm.SwingForward;
 import frc.robot.commands.Arm.SwingForwardServo;
 import frc.robot.commands.Arm.SwingBackServo;
+
+import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
+import frc.robot.commands.IntakeCommands.IntakePickUpFromGround;
+import frc.robot.commands.IntakeCommands.LowerArmIntake;
+import frc.robot.commands.IntakeCommands.UpperArmIntake;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -28,6 +34,8 @@ public class ArmContainer implements BaseContainer {
     private final CommandXboxController m_driverController =
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
         ArmSubsystem arm = new ArmSubsystem(8, "rio", 0, "rio", 0, 0); 
+        IntakeSubsystem intake = new IntakeSubsystem(0, 0, 1, 2, 3, "rio");
+//  public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, int channel1, int channel2, int channel3, String can)  {
 
     public ArmContainer() {
         configureBindings();
@@ -41,7 +49,7 @@ public class ArmContainer implements BaseContainer {
 
     //    m_driverController.b().onTrue(new SwingBack(arm, 10, 10, .25));
          m_driverController.x().onTrue(new SwingForwardServo(arm).andThen(Commands.waitSeconds(1.0)).andThen(new SwingBackServo(arm)));
-
+         m_driverController.a().onTrue(new LowerArmIntake(intake, 270).andThen(new IntakePickUpFromGround(intake)).andThen(new UpperArmIntake(intake)).andThen(new IntakePassNoteToPizzaBox(intake)));
         //command that loads the note
         // m_driverController.leftBumper().onTrue(new LowerArmIntake().andThen(new StartIntake()).andThen(new SwingForward()).andThen(new UpperIntake()));
 

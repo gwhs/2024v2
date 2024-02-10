@@ -20,6 +20,8 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Encoder;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 
 public class IntakeSubsystem extends SubsystemBase {
   private TalonFX m_moveIntakeArm; // motor of arm
@@ -56,9 +58,9 @@ public class IntakeSubsystem extends SubsystemBase {
     configs.Voltage.PeakReverseVoltage = -8;
     
     /* Torque-based velocity does not require a feed forward, as torque will accelerate the rotor up to the desired velocity by itself */
-    configs.Slot1.kP = 5.5; // An error of 1 rotation per second results in 5 amps output
-    configs.Slot1.kI = 0.01; // An error of 1 rotation per second increases output by 0.1 amps every second
-    configs.Slot1.kD = 0.001; // A change of 1000 rotation per second squared results in 1 amp output
+    configs.Slot1.kP = 3.5; // An error of 1 rotation per second results in 5 amps output
+    configs.Slot1.kI = 0.7; // An error of 1 rotation per second increases output by 0.1 amps every second
+    configs.Slot1.kD = 0.2; // A change of 1000 rotation per second squared results in 1 amp output
 
     // Peak output of 40 amps
     configs.TorqueCurrent.PeakForwardTorqueCurrent = 40;
@@ -76,6 +78,13 @@ public class IntakeSubsystem extends SubsystemBase {
       System.out.println("Could not apply configs, error code: " + status1.toString());
       System.out.println("Could not apply configs, error code: " + status2.toString());
     }
+
+    Shuffleboard.getTab("Intake").addDouble("Encoder Angle", ()->encoderGetAngle()).withWidget(BuiltInWidgets.kGraph)
+    .withSize(3,3)
+    .withPosition(0, 0);;
+    Shuffleboard.getTab("Intake").addDouble("Motor Angle", ()->getArmPos()).withWidget(BuiltInWidgets.kGraph)
+    .withSize(3,3)
+    .withPosition(3, 0);;
   }
  
   // sets the angle of the intake motor
@@ -136,7 +145,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    System.out.println(encoderGetAngle());
+
   }
 
   @Override

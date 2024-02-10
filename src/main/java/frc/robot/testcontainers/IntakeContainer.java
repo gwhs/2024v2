@@ -32,9 +32,9 @@ public class IntakeContainer implements BaseContainer {
         // xboxController.b().onTrue(new UpperArmIntake(IntakeSubsystem)); //run lower arm intake
 
         xboxController.a().onTrue(new LowerArmIntake(intakeSubsystem, 90));
+        xboxController.x().onTrue(new UpperArmIntake(intakeSubsystem));
 
-        LowerArmIntake intakeUp = new LowerArmIntake(intakeSubsystem, 0);
-        xboxController.x().onTrue(intakeUp);
+        
 
         
        

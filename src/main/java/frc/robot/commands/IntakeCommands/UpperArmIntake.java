@@ -30,6 +30,7 @@ public class UpperArmIntake extends Command {
   @Override
   public void execute() {
       intakeSubsystem.setArmAngle(0);
+      System.out.println("bye"); 
   }
 
   // Called once the command ends or is interrupted.

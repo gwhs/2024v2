@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": "straight test path"
+            "pathName": null
           }
         }
       ]

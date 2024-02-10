@@ -85,6 +85,7 @@ public class ArmSubsystem extends SubsystemBase {
     .withPosition(3, 0);
   }
 
+  //Looking at the left of the robot, counterclockwise arm spin is positive
   // Sets arm angle in degrees with given velocity and acceleration
   public void setAngle(double angle, double vel, double accel) {
 
@@ -96,6 +97,7 @@ public class ArmSubsystem extends SubsystemBase {
     }
 
     double adjustedAngle = (((angle - encoderGetAngle() + getArmAngle())) * Constants.Arm.GEAR_RATIO)/Constants.Arm.ROTATION_TO_DEGREES;
+    System.out.println("adjustedAngle = " + adjustedAngle);
     MotionMagicVoltage m_smoothArmMovement = new MotionMagicVoltage(adjustedAngle, false, 0, 0, false, false, false);
 
     var talonFXConfigs = new TalonFXConfiguration();

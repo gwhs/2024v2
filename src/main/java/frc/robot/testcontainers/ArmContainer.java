@@ -33,8 +33,8 @@ public class ArmContainer implements BaseContainer {
     // todo: add intake subsystem
     private final CommandXboxController m_driverController =
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
-        ArmSubsystem arm = new ArmSubsystem(8, "rio", 0, "rio", 0, 0); 
-        IntakeSubsystem intake = new IntakeSubsystem(0, 0, 1, 2, 3, "rio");
+        ArmSubsystem arm = new ArmSubsystem(18, "CAN_Network", 23, "rio", 0, 0); 
+        //IntakeSubsystem intake = new IntakeSubsystem(0, 0, 1, 2, 3, "rio");
 //  public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, int channel1, int channel2, int channel3, String can)  {
 
     public ArmContainer() {
@@ -45,12 +45,21 @@ public class ArmContainer implements BaseContainer {
 
     private void configureBindings() {
     //    m_driverController.a().onTrue(new SwingForward(arm, 270, 10, 10, .25));
-    m_driverController.a().onTrue(new SwingForward(arm, 90, 10, 10, .25).andThen(new SwingBack(arm, 10, 10, .25)));
 
-    //    m_driverController.b().onTrue(new SwingBack(arm, 10, 10, .25));
-         m_driverController.x().onTrue(new SwingForwardServo(arm).andThen(Commands.waitSeconds(1.0)).andThen(new SwingBackServo(arm)));
-         m_driverController.a().onTrue(new LowerArmIntake(intake, 270).andThen(new IntakePickUpFromGround(intake)).andThen(new UpperArmIntake(intake)).andThen(new IntakePassNoteToPizzaBox(intake)));
-         m_driverController.y().onTrue(new SpinNoteContainerMotor(arm, .25, 10).raceWith(new SwingForward(arm, 180, 5, 5, .25)));
+    //.01 velocity for 1st time testing
+    //m_driverController.a().onTrue(new SwingForward(arm, 10, .5, 1, .25).andThen(new SwingBack(arm, .5, 1, .25)));
+    double velocity = 3;
+        m_driverController.a().onTrue(new SwingForward(arm, -25, velocity, 1, .25));
+        m_driverController.b().onTrue(new SwingForward(arm, 0, velocity, 1, .25));
+        m_driverController.y().onTrue(new SwingForward(arm, 90, velocity, 1, .25));
+        m_driverController.x().onTrue(new SwingForward(arm, -90, velocity, 1, .25));
+
+
+        //  m_driverController.x().onTrue(new SwingForwardServo(arm).andThen(Commands.waitSeconds(1.0)).andThen(new SwingBackServo(arm)));
+        //  m_driverController.a().onTrue(new LowerArmIntake(intake, 270).andThen(new IntakePickUpFromGround(intake)).andThen(new UpperArmIntake(intake)).andThen(new IntakePassNoteToPizzaBox(intake)));
+        //  m_driverController.y().onTrue(new SpinNoteContainerMotor(arm, .25, 10).alongWith(new SwingForward(arm, 180, 5, 5, .25)));
+
+
         //command that loads the note
         // m_driverController.leftBumper().onTrue(new LowerArmIntake().andThen(new StartIntake()).andThen(new SwingForward()).andThen(new UpperIntake()));
 
@@ -60,7 +69,7 @@ public class ArmContainer implements BaseContainer {
        
 
 //We might not need this anymore (2/10/24)
-        // Shuffleboard.getTab("Arm").addDouble("encoder",()->arm.encoderGetAngle());
+        Shuffleboard.getTab("Arm").addDouble("encoder",()->arm.encoderGetAngle());
         // Shuffleboard.getTab("Arm").addDouble("arm",()->arm.getArmAngle());
 
         

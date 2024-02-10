@@ -40,6 +40,7 @@ public class SwingForward extends Command{
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Finished: " + interrupted);
     armSubsystem.stopArmMotor();
   }
 
@@ -47,6 +48,8 @@ public class SwingForward extends Command{
   @Override
   public boolean isFinished() {
     motorAng = armSubsystem.encoderGetAngle();
+    // System.out.println("Check Finished " + "motorAngle = " + motorAng + " EncoderAngle = " + angle);
+    // System.out.println("delta = " + (motorAng - angle));
     return Math.abs(motorAng - angle) < tolerance;
   }
 }

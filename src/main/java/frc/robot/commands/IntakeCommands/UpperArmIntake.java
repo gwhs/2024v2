@@ -29,7 +29,8 @@ public class UpperArmIntake extends Command {
   // moving arm motor back up to original position (0)
   @Override
   public void execute() {
-      intakeSubsystem.setArmAngle(0);
+      //intakeSubsystem.setArmAngle(0);
+      intakeSubsystem.setArmAngle(intakeSubsystem.getArmPos() - intakeSubsystem.encoderGetAngle()); //should reset back to 0
       System.out.println("bye"); 
   }
 

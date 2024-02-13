@@ -34,6 +34,9 @@
     }
   },
   "NetworkTables": {
+    "Retained Values": {
+      "open": false
+    },
     "Transitory Values": {
       "open": false
     }
@@ -41,7 +44,8 @@
   "NetworkTables Info": {
     "Clients": {
       "open": true
-    }
+    },
+    "visible": true
   },
   "Plot": {
     "Plot <0>": {

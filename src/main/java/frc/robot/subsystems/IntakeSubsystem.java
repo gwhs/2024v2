@@ -19,6 +19,7 @@ import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -26,7 +27,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 public class IntakeSubsystem extends SubsystemBase {
   private TalonFX m_moveIntakeArm; // motor of arm
   private TalonFX m_spinIntake; // motor of intake
-  private Encoder m_Encoder;
+  private DutyCycleEncoder m_Encoder;
   private DigitalInput m_noteSensor; // sensor to check if note is present in intake
   private VelocityVoltage spinRequest1; 
   private double intakeMotorVelocity; 
@@ -38,11 +39,11 @@ public class IntakeSubsystem extends SubsystemBase {
     * initialized the encoder 
     * String can: String ID of canivore  
   */
-  public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, int channel1, int channel2, int channel3, String can)  {
+  public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, int channel1, String can)  {
     m_moveIntakeArm = new TalonFX(lowerIntakeId, can); 
     m_spinIntake = new TalonFX(spinIntakeId, can);
-    m_Encoder = new Encoder(channel1, channel2);
-    m_noteSensor = new DigitalInput(channel3);
+    m_Encoder = new DutyCycleEncoder(Constants.IntakeConstants.INTAKE_CHANNEL_ID);
+    m_noteSensor = new DigitalInput(channel1);
     this.intakeMotorVelocity = Constants.IntakeConstants.INTAKE_MOTOR_VELOCITY;
     this.intakeMotorAcceleration = Constants.IntakeConstants.INTAKE_MOTOR_ACCELERATION;
 
@@ -135,7 +136,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
   //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])
   public double encoderGetAngle() {
-    return m_Encoder.getRaw()/Constants.IntakeConstants.ENCODER_RAW_TO_ROTATION * -Constants.IntakeConstants.ROTATION_TO_DEGREES; //test negative value
+    return m_Encoder.get() * Constants.IntakeConstants.ROTATION_TO_DEGREES - Constants.IntakeConstants.ENCODER_OFFSET; //double check if it works!
+    //return m_Encoder.get()/Constants.IntakeConstants.ENCODER_RAW_TO_ROTATION * -Constants.IntakeConstants.ROTATION_TO_DEGREES ; //test negative value
   }
 
   // stop motor once note is in place, starts again once the arm position is brought up

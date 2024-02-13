@@ -9,6 +9,7 @@ import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimeLightConstants;
@@ -29,7 +30,8 @@ public class LimeLightSub extends SubsystemBase {
   
 
   // set up a new instance of NetworkTables (the api/library used to read values from limelight)
-  NetworkTable networkTable = NetworkTableInstance.getDefault().getTable("limelight");
+  NetworkTable networkTable = NetworkTableInstance.getDefault().getTable("limelight");  
+  
 
   // return network table values for tx and ty using getEntry()
   NetworkTableEntry tv =
@@ -46,6 +48,9 @@ public class LimeLightSub extends SubsystemBase {
 
   // botpose megatag
   NetworkTableEntry botpose = networkTable.getEntry("botpose");
+  NetworkTableEntry blueBotPose = networkTable.getEntry("botpose_wpiblue");
+
+  
 
   // may be useful later
   private double kCameraHeight =
@@ -59,15 +64,22 @@ public class LimeLightSub extends SubsystemBase {
   public LimeLightSub(String limelight_networktable_name) {
     limelight_comm = new LimeLightComms(limelight_networktable_name);
     limelight_comm.set_entry_double("ledMode", 3);
+    Shuffleboard.getTab("Limelight").addDouble("BotPose TX", ()->getBlueBotPose()[0]);
+    Shuffleboard.getTab("Limelight").addDouble("BotPose TY", ()->getBlueBotPose()[1]);
+    Shuffleboard.getTab("Limelight").addDouble("BotPose TZ", ()->getBlueBotPose()[2]);
+    Shuffleboard.getTab("Limelight").addDouble("BotPose RX", ()->getBlueBotPose()[3]);
+    Shuffleboard.getTab("Limelight").addDouble("BotPose RY", ()->getBlueBotPose()[4]);
+    Shuffleboard.getTab("Limelight").addDouble("BotPose RZ", ()->getBlueBotPose()[5]);
+    Shuffleboard.getTab("Limelight").addDouble("BotPose ms", ()->getBlueBotPose()[6]);
   }
 
   @Override
   public void periodic() {
 
     SmartDashboard.putNumber("tv", tv.getDouble(0));
-    // SmartDashboard.putNumber("tx", tx.getDouble(0));
-    // SmartDashboard.putNumber("ty", ty.getDouble(0));
-    // SmartDashboard.putNumber("ta", ta.getDouble(0));
+    SmartDashboard.putNumber("tx", tx.getDouble(0));
+    SmartDashboard.putNumber("ty", ty.getDouble(0));
+    SmartDashboard.putNumber("ta", ta.getDouble(0));
     // SmartDashboard.putNumber("theta", getTheta());
     // SmartDashboard.putNumber("AngleToTarget", getAngle());
     
@@ -80,12 +92,19 @@ public class LimeLightSub extends SubsystemBase {
     if (hasTarget())
     {
     // System.out.println(getBotPose()[0]);
-    SmartDashboard.putNumber("BotPose X", getBotPose()[0]);
-    SmartDashboard.putNumber("BotPose Y", getBotPose()[1]);
-    SmartDashboard.putNumber("BotPose Z", getBotPose()[2]);
-    SmartDashboard.putNumber("BotPose RX", getBotPose()[3]);
-    SmartDashboard.putNumber("BotPose RY", getBotPose()[4]);
-    SmartDashboard.putNumber("BotPose RZ", getBotPose()[5]);
+    // SmartDashboard.putNumber("BotPose X", getBotPose()[0]);
+    // SmartDashboard.putNumber("BotPose Y", getBotPose()[1]);
+    // SmartDashboard.putNumber("BotPose Z", getBotPose()[2]);
+    // SmartDashboard.putNumber("BotPose RX", getBotPose()[3]);
+    // SmartDashboard.putNumber("BotPose RY", getBotPose()[4]);
+    // SmartDashboard.putNumber("BotPose RZ", getBotPose()[5]);
+    SmartDashboard.putNumber("BotPose X", getBlueBotPose()[0]);
+    SmartDashboard.putNumber("BotPose Y", getBlueBotPose()[1]);
+    SmartDashboard.putNumber("BotPose Z", getBlueBotPose()[2]);
+    SmartDashboard.putNumber("BotPose RX", getBlueBotPose()[3]);
+    SmartDashboard.putNumber("BotPose RY", getBlueBotPose()[4]);
+    SmartDashboard.putNumber("BotPose RZ", getBlueBotPose()[5]);
+    
     }
     // SmartDashboard.putNumber("BotPose Something", getBotPose()[6]);
 
@@ -188,5 +207,10 @@ public class LimeLightSub extends SubsystemBase {
 // megatag tx and ty, units in meters
   public Pose2d getPose2D() {
     return new Pose2d(Math.abs(getBotPose()[0]), Math.abs(getBotPose()[1]), Rotation2d.fromDegrees(getBotPose()[5]));
+  }
+
+  public double[] getBlueBotPose(){
+    double[] blueBotPose = this.blueBotPose.getDoubleArray(new double[7]);
+    return blueBotPose; 
   }
 }

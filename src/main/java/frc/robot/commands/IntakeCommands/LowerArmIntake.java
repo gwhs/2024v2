@@ -36,7 +36,6 @@ public class LowerArmIntake extends Command {
   public void execute() {
     intakeSubsystem.setArmAngle(angle);
     System.out.println("hi"); 
-
   }
  
   // Called once the command ends or is interrupted.

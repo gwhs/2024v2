@@ -79,7 +79,7 @@ public final class Constants
     public static final double MAX_ARM_ANGLE = 120; //max arm angle, update once confirmed
     public static final double ROTATION_TO_DEGREES = 360;
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
-    public static final double ENCODER_OFFSET = 0;
+    public static final double ENCODER_OFFSET = 0; //need to test the encoder value when arm is up at 0
   }
 }
 

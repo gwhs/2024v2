@@ -99,7 +99,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
     // setAngle units is in rotations
     double setAngle = (((angle - encoderGetAngle() + getArmPos())) * Constants.IntakeConstants.GEAR_RATIO);
-    //angle = angle - setAngle;
 
     PositionVoltage PositionVoltage = new PositionVoltage(setAngle/Constants.IntakeConstants.ROTATION_TO_DEGREES, 0.00001, false, 0, 1, false, false, false);
     m_moveIntakeArm.setControl(PositionVoltage);
@@ -137,7 +136,6 @@ public class IntakeSubsystem extends SubsystemBase {
   //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])
   public double encoderGetAngle() {
     return m_Encoder.get() * Constants.IntakeConstants.ROTATION_TO_DEGREES - Constants.IntakeConstants.ENCODER_OFFSET; //double check if it works!
-    //return m_Encoder.get()/Constants.IntakeConstants.ENCODER_RAW_TO_ROTATION * -Constants.IntakeConstants.ROTATION_TO_DEGREES ; //test negative value
   }
 
   // stop motor once note is in place, starts again once the arm position is brought up

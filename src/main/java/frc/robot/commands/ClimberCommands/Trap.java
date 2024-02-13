@@ -34,9 +34,9 @@ public class Trap extends Command {
   public void initialize() {
     CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
                                               new ParallelCommandGroup(new limelightsuff(), new armstuff(), new ClimbDown(climbsubsystem, swerve)), 
-                                              new ParallelCommandGroup(new ClimbUp(climbsubsystem, swerve), new armstuff()),
+                                              new ParallelCommandGroup(new ClimbUp(climbsubsystem, swerve)),
                                               new armshootstuff(),
-                                              new ClimbDown(climbsubsystem, swerve)));
+                                              new ParallelCommandGroup( new armstuff(), new ClimbDown(climbsubsystem, swerve)));
   }
 
   // Called every time the scheduler runs while the command is scheduled.

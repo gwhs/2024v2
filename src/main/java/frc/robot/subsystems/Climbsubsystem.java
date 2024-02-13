@@ -23,10 +23,10 @@ public class Climbsubsystem extends SubsystemBase {
   private TalonFX climberArmLeft;
   private TalonFX climberArmRight;
 
-  DigitalInput bottomLeft = new DigitalInput(0);
-  DigitalInput bottomRight = new DigitalInput(0);
-  DigitalInput topLeft = new DigitalInput(0);
-  DigitalInput topRight = new DigitalInput(0);
+  DigitalInput bottomLeft = new DigitalInput(2);
+  DigitalInput bottomRight = new DigitalInput(3);
+  DigitalInput topLeft = new DigitalInput(4);
+  DigitalInput topRight = new DigitalInput(5);
 
   //set canBus to the name of the canivore of the robot
   public Climbsubsystem(int motorIDLeft, int motorIDRight, boolean invertedLeft, boolean invertedRight, String canBus) {
@@ -116,16 +116,20 @@ public class Climbsubsystem extends SubsystemBase {
 
   public boolean getTopLimit() {
         
-    return (topLeft.get() || topRight.get());
+    return !(topLeft.get() && topRight.get());
   }
 
   public boolean getBotLimit() {
-    return (bottomLeft.get() || bottomRight.get());
+    return !(bottomLeft.get() && bottomRight.get());
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    System.out.println(bottomLeft.get() + "2");
+    System.out.println(bottomRight.get()+"3");
+    System.out.println(topLeft.get()+"4");
+    System.out.println(topRight.get()+"5");
   }
 }
 

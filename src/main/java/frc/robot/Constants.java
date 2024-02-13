@@ -57,8 +57,7 @@ public final class Constants
   public static final class LimeLightConstants {
 
     // for ryker
-    public static final double MAX_LIMELIGHT_ERROR_DEGREES =
-        1; // limelight max degrees off, max degrees error
+    public static final double MAX_LIMELIGHT_ERROR_DEGREES = 1; // limelight max degrees off, max degrees error
     public static final double CAMERA_HEIGHT = 84.5;
     public static final double TARGET_HEIGHT = 61;
     public static final double MOUNTING_ANGLE = -10;
@@ -78,6 +77,12 @@ public final class Constants
   public static final boolean MOTOR_LEFT_INVERTED = false;
   public static final boolean MOTOR_RIGHT_INVERTED = false;
   public static final int MOTOR_RIGHT_ID = 0;
+
+  public static final int BOT_Left_LIMIT_ID = 2;
+  public static final int BOT_RIGHT_LIMIT_ID = 3;
+  public static final int TOP_LEFT_LIMIT_ID = 4;
+  public static final int TOP_RIGHT_LIMIT_ID = 5;
+
   }
   
 

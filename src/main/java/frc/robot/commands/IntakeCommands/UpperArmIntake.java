@@ -30,7 +30,7 @@ public class UpperArmIntake extends Command {
   @Override
   public void execute() {
       intakeSubsystem.setArmAngle(0);
-      //System.out.println(intakeSubsystem.encoderGetAngle()); 
+      System.out.println(intakeSubsystem.encoderGetAngle()); 
   }
 
   // Called once the command ends or is interrupted.
@@ -42,7 +42,7 @@ public class UpperArmIntake extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    armPositionAngle = intakeSubsystem.encoderGetAngle();
+    armPositionAngle = intakeSubsystem.getArmPos();
     return Math.abs(armPositionAngle - 0) < Constants.IntakeConstants.TOLERANCE;
   }
 

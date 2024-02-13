@@ -21,14 +21,16 @@ public class IntakeContainer implements BaseContainer {
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
     public IntakeContainer() {
-        intakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, 1, "rio");
+        intakeSubsystem = new IntakeSubsystem(8,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, 0, "rio");
         configureBindings();
     }
 
     private void configureBindings() {
 
-        xboxController.a().onTrue(new LowerArmIntake(intakeSubsystem, 90));
-        xboxController.x().onTrue(new UpperArmIntake(intakeSubsystem));
+        xboxController.a().onTrue(new LowerArmIntake(intakeSubsystem, 90)); //b
+        xboxController.x().onTrue(new UpperArmIntake(intakeSubsystem)); //x
+
+        // press b - goes to 0, press x - goes to 90 , for controller labled BROKEN
 
         
     }

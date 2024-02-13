@@ -100,7 +100,7 @@ public class IntakeSubsystem extends SubsystemBase {
     // setAngle units is in rotations
     double setAngle = (((angle - encoderGetAngle() + getArmPos())) * Constants.IntakeConstants.GEAR_RATIO);
 
-    PositionVoltage PositionVoltage = new PositionVoltage(setAngle/Constants.IntakeConstants.ROTATION_TO_DEGREES, 0.00001, false, 0, 1, false, false, false);
+    PositionVoltage PositionVoltage = new PositionVoltage(setAngle/Constants.IntakeConstants.ROTATION_TO_DEGREES, 0.1, false, 0, 1, false, false, false);
     m_moveIntakeArm.setControl(PositionVoltage);
   }
 
@@ -114,7 +114,7 @@ public class IntakeSubsystem extends SubsystemBase {
   // spin intake motors the opposite way
   public void rejectIntake() {
     spinRequest1 = new VelocityVoltage(
-      intakeMotorVelocity * -1, intakeMotorAcceleration * -1, false, 0, 0,false, false, false);
+      intakeMotorVelocity * -1, intakeMotorAcceleration * -1, false, 0, 0, false, false, false);
       m_spinIntake.setControl(spinRequest1);
   }
 
@@ -123,7 +123,7 @@ public class IntakeSubsystem extends SubsystemBase {
     m_spinIntake.stopMotor();
   }
 
-  // stop arm motor
+  // stop arm motor 
   public void stopArmMotor() {
     m_moveIntakeArm.stopMotor();
  }
@@ -135,7 +135,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])
   public double encoderGetAngle() {
-    return m_Encoder.get() * Constants.IntakeConstants.ROTATION_TO_DEGREES - Constants.IntakeConstants.ENCODER_OFFSET; //double check if it works!
+    return ((m_Encoder.get() - Constants.IntakeConstants.ENCODER_OFFSET) * Constants.IntakeConstants.ROTATION_TO_DEGREES); //double check if it works!
   }
 
   // stop motor once note is in place, starts again once the arm position is brought up

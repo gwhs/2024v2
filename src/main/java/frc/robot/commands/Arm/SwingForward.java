@@ -41,7 +41,6 @@ public class SwingForward extends Command{
   @Override
   public void end(boolean interrupted) {
     System.out.println("Finished: " + interrupted);
-    armSubsystem.stopArmMotor();
   }
 
   // Returns true when the command should end.

@@ -11,6 +11,7 @@ public class LEDSubsystem extends SubsystemBase {
   private AddressableLED m_led;
   private AddressableLEDBuffer m_ledBuffer;
   private int m_rainbowFirstPixelHue;
+  private int m_rainbowFirstPixelHue2;
 
 
   // Store what the last hue of the first pixel is
@@ -72,19 +73,19 @@ public class LEDSubsystem extends SubsystemBase {
   }
 
   public void yellowWave() {
-    Color yellow = new Color(209,0,3);
-    Color off = new Color(0,0,0);
-    Color medium = new Color(143,173,9);
-      for (var i = 2; i < m_ledBuffer.getLength(); i++) 
-    {
-      if(i < m_ledBuffer.getLength())
-      {
-        m_ledBuffer.setLED(i, yellow);
-        m_ledBuffer.setLED(i - 1, medium);
-        m_ledBuffer.setLED(i - 2, off); 
-      }
+    // For every pixel
+    for (var i = 0; i < m_ledBuffer.getLength(); i++) {
+      // Calculate the hue - hue is easier for rainbows because the color
+      // shape is a circle so only one value needs to precess
+      final var hue = (m_rainbowFirstPixelHue2 + (i * 90 / m_ledBuffer.getLength())) % 90;
+      // Set the value
+      m_ledBuffer.setHSV(i, hue, 255, 128);
+    }
+    // Increase by to make the rainbow "move"
+    m_rainbowFirstPixelHue2 += 7;
+    // Check bounds
+    m_rainbowFirstPixelHue2 %= 90;
     m_led.setData(m_ledBuffer);
     m_led.start();
     }
   }
-}

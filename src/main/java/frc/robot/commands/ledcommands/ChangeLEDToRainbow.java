@@ -38,6 +38,6 @@ public class ChangeLEDToRainbow extends Command {
   @Override
   public boolean isFinished() {
     System.out.println("rainbow");
-    return true;
+    return false;
   }
 }

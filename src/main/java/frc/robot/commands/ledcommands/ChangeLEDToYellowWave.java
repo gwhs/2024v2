@@ -38,6 +38,6 @@ public class ChangeLEDToYellowWave extends Command {
   @Override
   public boolean isFinished() {
     System.out.println("yellowwave");
-    return ledSubsystem.getColor(60).equals(new Color(209,0,3));
+    return false;
   }
 }

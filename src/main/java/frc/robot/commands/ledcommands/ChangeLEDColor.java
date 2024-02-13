@@ -44,7 +44,7 @@ public class ChangeLEDColor extends Command {
   @Override
   public boolean isFinished() {
     System.out.println("color successfully changed");
-    return ledSubsystem.getColor(1).equals(new Color(red, green, blue));
+    return ledSubsystem.getColor(1).equals(new Color(red, blue, green));
   }
 }
   

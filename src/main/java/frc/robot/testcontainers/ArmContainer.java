@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.Arm.SpinNoteContainerMotor;
@@ -35,7 +36,7 @@ public class ArmContainer implements BaseContainer {
     // todo: add intake subsystem
     private final CommandXboxController m_driverController =
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
-        ArmSubsystem arm = new ArmSubsystem(0, "rio", 3, "rio", 0, 0); 
+        ArmSubsystem arm = new ArmSubsystem(Constants.Arm.ARM_ID, "CAN_Network", 3, "rio", 0, 0); 
         //IntakeSubsystem intake = new IntakeSubsystem(0, 0, 1, 2, 3, "rio");
 //  public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, int channel1, int channel2, int channel3, String can)  {
 
@@ -50,8 +51,8 @@ public class ArmContainer implements BaseContainer {
 
     //.01 velocity for 1st time testing
     //m_driverController.a().onTrue(new SwingForward(arm, 10, .5, 1, .25).andThen(new SwingBack(arm, .5, 1, .25)));
-    double velocity = .1;
-        // m_driverController.a().onTrue(new SwingForward(arm, -25, velocity, 2, .25));
+    double velocity = .03;
+         m_driverController.a().onTrue(new SwingForward(arm, -90, velocity, 2, .25));
         // m_driverController.b().onTrue(new SwingForward(arm, 0, velocity, 2, .25));
         // m_driverController.y().onTrue(new SwingForward(arm, 90, velocity, 2, .25));
         // m_driverController.x().onTrue(new SwingForward(arm, -90, velocity, 2, .25));

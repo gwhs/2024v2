@@ -76,6 +76,7 @@ public final class Constants
     public static final int GEAR_RATIO = 100;
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
     public static final double ENCODER_OFFSET = 258; //Change when mounted 
+    public static final int ARM_ID = 18;
   }
 
     

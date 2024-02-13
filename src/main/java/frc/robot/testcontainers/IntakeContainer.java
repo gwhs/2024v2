@@ -21,7 +21,7 @@ public class IntakeContainer implements BaseContainer {
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
     public IntakeContainer() {
-        intakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, 10, "rio");
+        intakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, 1, "rio");
         configureBindings();
     }
 

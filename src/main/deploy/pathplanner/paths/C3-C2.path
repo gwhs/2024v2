@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.47,
-        "y": 7.44
+        "x": 7.671662009990687,
+        "y": 4.118900460023142
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.486435900845104,
-        "y": 7.341359941385815
+        "x": 7.771662009990687,
+        "y": 4.118900460023142
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "C3"
     },
     {
       "anchor": {
-        "x": 1.9,
-        "y": 7.65
+        "x": 7.685914260717412,
+        "y": 5.743657042869642
       },
       "prevControl": {
-        "x": 2.0,
-        "y": 7.65
+        "x": 7.585914260717411,
+        "y": 5.743657042869642
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "C2"
     }
   ],
   "rotationTargets": [],
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 90.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "amp to notes",
+  "folder": "Starting from Mid Field Notes",
   "previewStartingState": {
-    "rotation": 130.0,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 5.476815398075241,
-        "y": 6.883837101007535
+        "x": 6.178464664621639,
+        "y": 6.078036771458159
       },
       "prevControl": {
-        "x": 5.376815398075242,
-        "y": 6.883837101007535
+        "x": 6.078464664621639,
+        "y": 6.078036771458159
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Starting from Mid Field Notes",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

@@ -2,54 +2,48 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.45,
-      "y": 1.63
+      "x": 1.4225982298118458,
+      "y": 7.3
     },
-    "rotation": 90.0
+    "rotation": -89.5755779967159
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": null
+            "pathName": "S(Amp)-Amp"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "to bot center"
+            "pathName": "Amp-A1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "5 to 4"
+            "pathName": "A1-Amp"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "4 to 3"
+            "pathName": "Amp-C1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "3 to 2"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "2 to 1"
+            "pathName": "C1-Speaker 1"
           }
         }
       ]
     }
   },
-  "folder": "real",
+  "folder": null,
   "choreoAuto": false
 }

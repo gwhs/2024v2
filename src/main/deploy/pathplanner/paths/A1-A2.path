@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.384076990376203,
-        "y": 6.71281009228685
+        "x": 2.9223735370513584,
+        "y": 7.72
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7284734569469142,
-        "y": 5.857675048683429
+        "x": 2.2667700036220695,
+        "y": 6.864864956396579
       },
       "isLocked": false,
       "linkedName": "A1"
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Notes Near Starting Zone",
   "previewStartingState": {
     "rotation": 29.93151184050777,
     "velocity": 0

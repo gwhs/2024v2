@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.45,
-      "y": 7.325
+      "x": 1.4028643441902284,
+      "y": 2.4272679314589416
     },
-    "rotation": 90.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,78 +14,66 @@
         {
           "type": "path",
           "data": {
-            "pathName": "top amp"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AmpShoot"
+            "pathName": "S4-C5"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "amp to top"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "GroundPickup"
+            "pathName": "C5-W2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "amp back top"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AmpShoot"
+            "pathName": "W2-C4"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "amp to mid"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "GroundPickup"
+            "pathName": "C4-W2"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "amp back mid"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "AmpShoot"
+            "pathName": "W2-C3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "to top center"
+            "pathName": "C3-W1"
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "GroundPickup"
+            "pathName": "W1-C2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C2-W1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "W1-C1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C1-W1"
           }
         }
       ]
     }
   },
-  "folder": "real",
+  "folder": null,
   "choreoAuto": false
 }

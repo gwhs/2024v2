@@ -16,12 +16,12 @@
     },
     {
       "anchor": {
-        "x": 5.43405864589507,
-        "y": 1.8527925944740777
+        "x": 6.168597721810829,
+        "y": 1.489908364432114
       },
       "prevControl": {
-        "x": 5.33405864589507,
-        "y": 1.852792594474078
+        "x": 6.0685977218108285,
+        "y": 1.489908364432114
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,11 +39,11 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
-    "rotateFast": false
+    "rotation": -31.639999999999986,
+    "rotateFast": true
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Starting from Mid Field Notes",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 5.43405864589507,
-        "y": 1.8527925944740777
+        "x": 6.168597721810829,
+        "y": 1.489908364432114
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.53405864589507,
-        "y": 1.8527925944740777
+        "x": 6.899305849549564,
+        "y": 1.489908364432114
       },
       "isLocked": false,
       "linkedName": "W2"
@@ -20,7 +20,7 @@
         "y": 4.118900460023142
       },
       "prevControl": {
-        "x": 7.571662009990687,
+        "x": 6.343680094983338,
         "y": 4.118900460023142
       },
       "nextControl": null,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": null,
+  "folder": "Wing Starting Point",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

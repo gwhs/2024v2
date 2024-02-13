@@ -19,17 +19,18 @@ public class Trap extends Command {
   public Trap() {
 
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(this.climbsubsystem);
     
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
-    //                                           new ParallelCommandGroup(new limelightsuff(), new ClimbUp(climbsubsystem)), 
-    //                                           new ClimbDown(climbsubsystem),
-    //                                           new armstuff(),
-    //                                           new ClimbUp(climbsubsystem)));
+    CommandScheduler.getInstance().schedule(new SequentialCommandGroup(
+                                              new ParallelCommandGroup(new limelightsuff(), new ClimbDown(climbsubsystem), new armstuff()), 
+                                              new ParallelCommandGroup(new ClimbUp(climbsubsystem), new armstuff()),
+                                              new armshootstuff(),
+                                              new ClimbDown(climbsubsystem)));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -38,7 +39,9 @@ public class Trap extends Command {
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    
+  }
 
   // Returns true when the command should end.
   @Override

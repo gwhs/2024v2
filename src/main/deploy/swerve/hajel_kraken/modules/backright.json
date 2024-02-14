@@ -5,7 +5,7 @@
     "canbus": "CAN_Network"
   },
   "angle": {
-    "type": "talonfx",
+    "type": "falcon",
     "id": 6,
     "canbus": "CAN_Network"
   },
@@ -15,10 +15,10 @@
     "canbus": "CAN_Network"
   },
   "inverted": {
-    "drive": true,
+    "drive": false,
     "angle": false
   },
-  "absoluteEncoderOffset": -259.92,
+  "absoluteEncoderOffset": -79.8948,
   "location": {
     "front": -7,
     "left": -7

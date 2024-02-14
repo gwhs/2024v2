@@ -23,7 +23,7 @@ public class ArmContainer implements BaseContainer {
     // todo: add intake subsystem
     private final CommandXboxController m_driverController =
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
-        ArmSubsystem arm = new ArmSubsystem(8, "rio", 0, "rio", 0, 1, 0); 
+        ArmSubsystem arm = new ArmSubsystem(18, "CAN_Network", 23, "rio", 0, 1, 0); 
 
     public ArmContainer() {
         configureBindings();

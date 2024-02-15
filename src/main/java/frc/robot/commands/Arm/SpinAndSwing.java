@@ -21,14 +21,16 @@ public class SpinAndSwing extends SequentialCommandGroup {
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-  public SpinAndSwing(ArmSubsystem armSubsystem/**, double velocity, double acceleration */) {
-    addCommands( new SwingForwardServo(armSubsystem),
+  public SpinAndSwing(ArmSubsystem armSubsystem/**, double velocity, double acceleration, double velocity, double acceleration, double tolerance */) {
+    addCommands( // new SwingForward(armSubsystem, angle, velocity, acceleration, tolerance),
+        new SwingForwardServo(armSubsystem),
         new SpinNoteContainerMotor (armSubsystem, 200, 150),
         Commands.waitSeconds(2.0), 
         new SwingBackServo(armSubsystem),
         Commands.waitSeconds(1.0),
         new SwingForwardServo(armSubsystem),
         new StopNoteContainerMotor(armSubsystem)
+        //,new SwingBack(armSubsystem, velocity, acceleration, tolerance)
         );
 
   }

@@ -73,10 +73,12 @@ public final class Constants
     public static final int ARM_MAX_ANGLE = 90;
     public static final int ARM_MIN_ANGLE = -270;
     public static final int ROTATION_TO_DEGREES = 360;
-    public static final int GEAR_RATIO = 100;
+    public static final double GEAR_RATIO = 118.587767088;
+    //118.587767088
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
-    public static final double ENCODER_OFFSET = 258; //Change when mounted 
+    public static final double ENCODER_OFFSET = 259; //Change when mounted 
     public static final int ARM_ID = 18;
+    public static final int PIZZABOX_ID = 23;
   }
 
     

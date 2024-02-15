@@ -29,13 +29,18 @@ public class SwingForward extends Command{
   }
   public void initialize() {
     armSubsystem.setAngle(angle, velocity, acceleration);
+
   }
+
 
   // Called every time the scheduler runs while the command is scheduled.
 
   @Override
   public void execute() {
+    armSubsystem.setAngle(angle, velocity, acceleration);
+
   }
+
 
   // Called once the command ends or is interrupted.
   @Override

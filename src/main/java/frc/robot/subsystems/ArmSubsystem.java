@@ -12,18 +12,13 @@ import com.ctre.phoenix6.controls.PositionVoltage;
 import edu.wpi.first.math.controller.PIDController; 
 
 import com.ctre.phoenix6.hardware.TalonFX;
-//
 
 import com.ctre.phoenix6.configs.MotionMagicConfigs;
-
-//
-import com.ctre.phoenix6.controls.PositionVoltage;
-//
 import com.ctre.phoenix6.configs.TalonFXConfiguration; 
 import com.ctre.phoenix6.signals.ControlModeValue; 
 import com.ctre.phoenix6.configs.Slot0Configs;
 import edu.wpi.first.wpilibj.Counter;
-import edu.wpi.first.wpilibj.Encoder;
+//import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import com.ctre.phoenix6.StatusCode;
@@ -52,13 +47,17 @@ public class ArmSubsystem extends SubsystemBase {
 
       TalonFXConfiguration configs = new TalonFXConfiguration();
       /* Voltage-based velocity requires a feed forward to account for the back-emf of the motor */
-      configs.Slot0.kP = 0.11; // An error of 1 rotation per second results in 2V output
-      configs.Slot0.kI = 0.5; // An error of 1 rotation per second increases output by 0.5V every second
-      configs.Slot0.kD = 0.0001; // A change of 1 rotation per second squared results in 0.01 volts output
+      //initial ramp up
+      configs.Slot0.kP = .5; // An error of 1 rotation per second results in 2V output
+      //how much it nudges towards target
+      configs.Slot0.kI = 0.7; // An error of 1 rotation per second increases output by 0.5V every second
+      //Close to value, how aggressive to slow down
+      configs.Slot0.kD = 0.2; // A change of 1 rotation per second squared results in 0.01 volts output
+      
       configs.Slot0.kV = 0.12; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
       // Peak output of 8 volts
-      configs.Voltage.PeakForwardVoltage = 8;
-      configs.Voltage.PeakReverseVoltage = -8;
+      configs.Voltage.PeakForwardVoltage = 12;
+      configs.Voltage.PeakReverseVoltage = -12;
       
       /* Torque-based velocity does not require a feed forward, as torque will accelerate the rotor up to the desired velocity by itself */
       configs.Slot1.kP = 5; // An error of 1 rotation per second results in 5 amps output
@@ -97,6 +96,8 @@ public class ArmSubsystem extends SubsystemBase {
 
   //Looking at the left of the robot, counterclockwise arm spin is positive
   // Sets arm angle in degrees with given velocity and acceleration
+
+
   public void setAngle(double angle, double vel, double accel) {
 
     if(angle < Constants.Arm.ARM_MIN_ANGLE) { //Will not be less than minimum angle
@@ -121,7 +122,7 @@ public class ArmSubsystem extends SubsystemBase {
     System.out.println("NeededMotorRotation will be:  " + neededMotorRotation + " DeltaAngle will be : " + deltaAngle);
     //MotionMagicVoltage m_smoothArmMovement = new MotionMagicVoltage(neededMotorRotation, false, 0, 0, false, false, false);
     //Testing
-    PositionVoltage m_smoothArmMovement = new PositionVoltage(neededMotorRotation, vel , false, 0, 0, false, false, false);
+    PositionVoltage m_smoothArmMovement = new PositionVoltage(adjustedAngle, vel , false, 0, 0, false, false, false);
     //Testing
 
     // var talonFXConfigs = new TalonFXConfiguration();
@@ -171,7 +172,7 @@ public class ArmSubsystem extends SubsystemBase {
  public double getArmAngle(){
   //Testing
   //return m_arm.getPosition().getValue() * (-100./36.);
-    return m_arm.getPosition().getValue()/Constants.Arm.GEAR_RATIO * Constants.Arm.ROTATION_TO_DEGREES;
+    return m_arm.getPosition().getValue()/-Constants.Arm.GEAR_RATIO * Constants.Arm.ROTATION_TO_DEGREES;
 
  }
 
@@ -183,7 +184,13 @@ public class ArmSubsystem extends SubsystemBase {
  //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])
   public double encoderGetAngle() {
 
-    return m_encoder.get()*Constants.Arm.ROTATION_TO_DEGREES - Constants.Arm.ENCODER_OFFSET;
+    return m_encoder.getAbsolutePosition()*Constants.Arm.ROTATION_TO_DEGREES - Constants.Arm.ENCODER_OFFSET;
+  }
+
+  //Resets encoder angle to 0
+  public void resetEncoderAngle()
+  {
+    m_encoder.reset();
   }
   
   @Override

@@ -21,11 +21,11 @@
   "encoder": {
     "type": "cancoder",
     "id": 11,
-    "canbus": null
+    "canbus": "CAN_Network"
   },
   "inverted": {
-    "drive": false,
-    "angle": false
+    "drive": true,
+    "angle": true
   },
   "absoluteEncoderInverted": false
 }

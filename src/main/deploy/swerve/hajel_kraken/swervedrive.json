@@ -4,7 +4,7 @@
     "id": 30,
     "canbus": "CAN_Network"
   },
-  "invertedIMU": false,
+  "invertedIMU": true,
   "modules": [
     "frontleft.json",
     "frontright.json",

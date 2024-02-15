@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.swervedrive;
 
+import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathConstraints;
@@ -29,6 +30,7 @@ import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.SwerveDriveTest;
 import swervelib.math.SwerveMath;
+import swervelib.motors.SwerveMotor;
 import swervelib.parser.SwerveControllerConfiguration;
 import swervelib.parser.SwerveDriveConfiguration;
 import swervelib.parser.SwerveParser;
@@ -45,7 +47,7 @@ public class SwerveSubsystem extends SubsystemBase
   /**
    * Maximum speed of the robot in meters per second, used to limit acceleration.
    */
-  public        double      maximumSpeed = Units.feetToMeters(14.5);
+  public        double      maximumSpeed = Units.feetToMeters(6); //14.5
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -303,6 +305,9 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
+   swervelib.SwerveModule[] sm = swerveDrive.getModules();
+   System.out.println(sm[2].getAbsolutePosition());
+   System.out.println(sm[2].getRelativePosition());
   }
 
   @Override
@@ -497,5 +502,19 @@ public class SwerveSubsystem extends SubsystemBase
   public void addFakeVisionReading()
   {
     swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
+  }
+
+  public void test() {
+    swervelib.SwerveModule[] sm = swerveDrive.getModules();
+    System.out.println("Swerve Module array size = " + sm.length);
+
+    int testModule = 0;
+
+    SwerveMotor drive = sm[testModule].getDriveMotor();
+    SwerveMotor angle = sm[testModule].getAngleMotor();
+    sm[testModule].setAngle(90);
+
+    drive.set(100);
+
   }
 }

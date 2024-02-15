@@ -517,4 +517,9 @@ public class SwerveSubsystem extends SubsystemBase
     drive.set(100);
 
   }
+
+  public void actualVisionReading(Pose2d pose, double time)
+  {
+    swerveDrive.addVisionMeasurement(pose, time);
+  }
 }

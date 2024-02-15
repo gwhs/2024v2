@@ -15,10 +15,13 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.Arm.SpinNoteContainerMotor;
 import frc.robot.commands.Arm.StopNoteContainerMotor;
 import frc.robot.commands.Arm.SwingBack;
+import frc.robot.commands.Arm.SpinArm;
+
 import frc.robot.commands.Arm.SwingForward;
 import frc.robot.commands.Arm.SwingForwardServo;
 import frc.robot.commands.Arm.SwingBackServo;
 import frc.robot.commands.Arm.SpinAndSwing;
+import frc.robot.commands.Arm.SpinArmPID;
 
 
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
@@ -53,15 +56,19 @@ public class ArmContainer implements BaseContainer {
     //.01 velocity for 1st time testing
     //m_driverController.a().onTrue(new SwingForward(arm, 10, .5, 1, .25).andThen(new SwingBack(arm, .5, 1, .25)));
     double velocity = .03;
-         m_driverController.a().onTrue(new SwingForward(arm, -90, velocity, 2, .25));
-         m_driverController.b().onTrue(new SwingForward(arm, 90, velocity, 2, .25));
+         m_driverController.a().onTrue(new SpinArmPID(arm, -45));
+         m_driverController.b().onTrue(new SpinArmPID(arm, -90));
+
+         m_driverController.x().onTrue(new SpinArmPID(arm, 20));
+
+         //m_driverController.b().onTrue(new SwingForward(arm, 90, velocity, 2, .25));
 
         // m_driverController.b().onTrue(new SwingForward(arm, 0, velocity, 2, .25));
         // m_driverController.y().onTrue(new SwingForward(arm, 90, velocity, 2, .25));
         // m_driverController.x().onTrue(new SwingForward(arm, -90, velocity, 2, .25));
 
 
-          m_driverController.x().onTrue(new SwingForwardServo(arm).andThen(Commands.waitSeconds(1.0)).andThen(new SwingBackServo(arm)));
+        //  m_driverController.x().onTrue(new SwingForwardServo(arm).andThen(Commands.waitSeconds(1.0)).andThen(new SwingBackServo(arm)));
         //  m_driverController.a().onTrue(new LowerArmIntake(intake, 270).andThen(new IntakePickUpFromGround(intake)).andThen(new UpperArmIntake(intake)).andThen(new IntakePassNoteToPizzaBox(intake)));
         //  m_driverController.y().onTrue(new SpinNoteContainerMotor(arm, .25, 10).alongWith(new SwingForward(arm, 180, 5, 5, .25)));
 

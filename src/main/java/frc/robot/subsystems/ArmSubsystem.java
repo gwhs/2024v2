@@ -96,7 +96,11 @@ public class ArmSubsystem extends SubsystemBase {
 
   //Looking at the left of the robot, counterclockwise arm spin is positive
   // Sets arm angle in degrees with given velocity and acceleration
-
+  
+ public void spinArm(double velocity)
+ {
+    m_arm.set(velocity);
+ }
 
   public void setAngle(double angle, double vel, double accel) {
 

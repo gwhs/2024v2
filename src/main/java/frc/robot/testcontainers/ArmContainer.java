@@ -56,9 +56,11 @@ public class ArmContainer implements BaseContainer {
     //.01 velocity for 1st time testing
     //m_driverController.a().onTrue(new SwingForward(arm, 10, .5, 1, .25).andThen(new SwingBack(arm, .5, 1, .25)));
     double velocity = .03;
-         m_driverController.a().onTrue(new SpinArmPID(arm, -45));
-         m_driverController.b().onTrue(new SpinArmPID(arm, -90));
 
+    //IMPORTANT LOGITECH CONTROLLER  Button a is button x
+         m_driverController.a().onTrue(new SpinArmPID(arm, -45));
+         //m_driverController.b().onTrue(new SpinArmPID(arm, -90));
+    //IMPORTANT LOGITECH CONTROLLER Button x is button b
          m_driverController.x().onTrue(new SpinArmPID(arm, 20));
 
          //m_driverController.b().onTrue(new SwingForward(arm, 90, velocity, 2, .25));

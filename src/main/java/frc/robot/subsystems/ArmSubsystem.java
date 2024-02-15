@@ -96,10 +96,16 @@ public class ArmSubsystem extends SubsystemBase {
 
   //Looking at the left of the robot, counterclockwise arm spin is positive
   // Sets arm angle in degrees with given velocity and acceleration
-  
- public void spinArm(double velocity)
+  //VelocityVoltage​(double Velocity, double Acceleration, boolean EnableFOC, double FeedForward, int Slot, boolean OverrideBrakeDurNeutral, boolean LimitForwardMotion, boolean LimitReverseMotion)
+ public void spinArm(double speed)
  {
-    m_arm.set(velocity);
+  if(speed < -1) { //Will not be less than minimum angle
+    speed = -1;
+  }
+  else if (speed > 1) { // Will not be greater than maximum angle
+    speed = 1;
+  }
+  m_arm.set(speed);
  }
 
   public void setAngle(double angle, double vel, double accel) {

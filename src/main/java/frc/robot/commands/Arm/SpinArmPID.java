@@ -10,7 +10,7 @@ import edu.wpi.first.wpilibj2.command.PIDCommand;
 
 public class SpinArmPID extends PIDCommand {
     private double angle;
-    static final PIDController armController = new PIDController(.01, 0, 0);
+    static final PIDController armController = new PIDController(.005, .005, .0);
 
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
@@ -27,10 +27,10 @@ public class SpinArmPID extends PIDCommand {
 
   }
 //
-  // Returns true when the command should end.
+//  Returns true when the command should end.
 //   @Override
 //   public boolean isFinished() {
 //     double encoderAng = armSubsystem.encoderGetAngle();
-//     return Math.abs(angle - encoderAng) < 5; 
+//     return Math.abs(angle - encoderAng) < 1; 
 //   }
 }

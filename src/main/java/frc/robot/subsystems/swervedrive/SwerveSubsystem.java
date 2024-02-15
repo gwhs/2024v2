@@ -305,9 +305,7 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
-   swervelib.SwerveModule[] sm = swerveDrive.getModules();
-   System.out.println(sm[2].getAbsolutePosition());
-   System.out.println(sm[2].getRelativePosition());
+   System.out.println(decreaseSpeed());
   }
 
   @Override
@@ -521,5 +519,11 @@ public class SwerveSubsystem extends SubsystemBase
   public void actualVisionReading(Pose2d pose, double time)
   {
     swerveDrive.addVisionMeasurement(pose, time);
+  }
+
+  public double decreaseSpeed()
+  {
+    swerveDrive.setMaximumSpeed(maximumSpeed-5);
+    return maximumSpeed;
   }
 }

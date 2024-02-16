@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 6.2685977218108295,
-        "y": 1.4899083644321143
+        "y": 1.4899083644321145
       },
       "isLocked": false,
       "linkedName": "W2"
@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": "Wing Starting Point",
   "previewStartingState": {
-    "rotation": -31.660000000000025,
+    "rotation": -30.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

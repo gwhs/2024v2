@@ -86,6 +86,8 @@ public class ArmContainer implements BaseContainer {
     //    SpinNoteContainerMotor army = new SpinNoteContainerMotor (arm, 0.25, 10);
     //    m_driverController.y().onTrue(army);
        //m_driverController.x().onTrue(new StopNoteContainerMotor(arm));
+
+       m_driverController.b().onTrue(new SpinToArmAngle(arm, -45));
        
 
 //We might not need this anymore (2/10/24)

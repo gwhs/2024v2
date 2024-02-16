@@ -22,7 +22,7 @@ import frc.robot.commands.Arm.SwingForwardServo;
 import frc.robot.commands.Arm.SwingBackServo;
 import frc.robot.commands.Arm.SpinAndSwing;
 import frc.robot.commands.Arm.SpinArmPID;
-
+import frc.robot.commands.Arm.SpinToArmAngle;
 
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
 import frc.robot.commands.IntakeCommands.IntakePickUpFromGround;
@@ -58,10 +58,10 @@ public class ArmContainer implements BaseContainer {
     double velocity = .03;
 
     //IMPORTANT LOGITECH CONTROLLER  Button a is button x
-         m_driverController.a().onTrue(new SpinArmPID(arm, -45));
+         //m_driverController.a().onTrue(new SpinArmPID(arm, -45));
          //m_driverController.b().onTrue(new SpinArmPID(arm, -90));
     //IMPORTANT LOGITECH CONTROLLER Button x is button b
-         m_driverController.x().onTrue(new SpinArmPID(arm, 20));
+         //m_driverController.x().onTrue(new SpinArmPID(arm, 20));
 
          //m_driverController.b().onTrue(new SwingForward(arm, 90, velocity, 2, .25));
 
@@ -70,11 +70,16 @@ public class ArmContainer implements BaseContainer {
         // m_driverController.x().onTrue(new SwingForward(arm, -90, velocity, 2, .25));
 
 
-        //  m_driverController.x().onTrue(new SwingForwardServo(arm).andThen(Commands.waitSeconds(1.0)).andThen(new SwingBackServo(arm)));
+          //m_driverController.x().onTrue(new SwingForwardServo(arm).andThen(Commands.waitSeconds(1.0)).andThen(new SwingBackServo(arm)));
+        //m_driverController.a().onTrue(new SwingForwardServo(arm));
+        //m_driverController.b().onTrue(new SwingBackServo(arm));
+
         //  m_driverController.a().onTrue(new LowerArmIntake(intake, 270).andThen(new IntakePickUpFromGround(intake)).andThen(new UpperArmIntake(intake)).andThen(new IntakePassNoteToPizzaBox(intake)));
         //  m_driverController.y().onTrue(new SpinNoteContainerMotor(arm, .25, 10).alongWith(new SwingForward(arm, 180, 5, 5, .25)));
 
-        //IMPORTANT m_driverController.y().onTrue(new SpinAndSwing(arm));
+        //IMPORTANT
+         //m_driverController.y().onTrue(new SpinAndSwing(arm));
+
         //command that loads the note
         // m_driverController.leftBumper().onTrue(new LowerArmIntake().andThen(new StartIntake()).andThen(new SwingForward()).andThen(new UpperIntake()));
 

@@ -1,6 +1,17 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
+/*
+ * 
+ * 
+ * USES setGoal to spin
+ * 
+ * 
+ * 
+ */
+
+
+//
 package frc.robot.subsystems;
 import frc.robot.Constants;
 
@@ -27,21 +38,28 @@ import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 
-public class ArmSubsystem extends Command {
+
+public class ArmSubsystem extends ProfiledPIDSubsystem {
   private TalonFX m_arm;
   private DutyCycleEncoder m_encoder;
   private TalonFX m_pizzaBox;
   private Servo m_servo;
   
-    
 
   public ArmSubsystem(int armId, String armCanbus, int pizzaBoxId, String pizzaBoxCanbus, int channel1, int channelServo)
   {
+    super(new ProfiledPIDController(.005, .005, 0, new Constraints(.1, 1)));
+    //TrapezoidProfile either velocity or position
       m_arm = new TalonFX(armId, armCanbus);
       m_pizzaBox = new TalonFX(pizzaBoxId, pizzaBoxCanbus);
       m_encoder = new DutyCycleEncoder(channel1);
       m_servo = new Servo(channelServo);
+      
+      
 
       // Needed? PIDController ArmPID = new PIDController(0, 0, 0);
 
@@ -93,6 +111,8 @@ public class ArmSubsystem extends Command {
     Shuffleboard.getTab("Arm").addDouble("Motor Angle", ()->getArmAngle()).withWidget(BuiltInWidgets.kGraph)
     .withSize(3,3)
     .withPosition(3, 0);
+
+    Shuffleboard.getTab("Arm").add("Arm PID", this.getController());
   }
 
   //Looking at the left of the robot, counterclockwise arm spin is positive
@@ -108,6 +128,12 @@ public class ArmSubsystem extends Command {
   }
   m_arm.set(speed);
  }
+
+ public void targetArmAngle(double angle)
+ {
+  super.setGoal(angle);
+ }
+
 
   public void setAngle(double angle, double vel, double accel) {
 
@@ -202,6 +228,19 @@ public class ArmSubsystem extends Command {
   public void resetEncoderAngle()
   {
     m_encoder.reset();
+  }
+
+  @Override
+  public void useOutput(double output, State setPoint)
+  {
+    //m_arm.set(output);
+    System.out.println("Target Speed is " + output);
+  }
+
+  @Override
+  public double getMeasurement()
+  {
+    return encoderGetAngle();
   }
   
   @Override

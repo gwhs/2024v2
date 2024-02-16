@@ -16,21 +16,15 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class SpinAndSwing extends SequentialCommandGroup {
 
-//   private double velocity;
-//   private double acceleration;
-
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-  public SpinAndSwing(ArmSubsystem armSubsystem/**, double velocity, double acceleration, double velocity, double acceleration, double tolerance */) {
-    addCommands( // new SwingForward(armSubsystem, angle, velocity, acceleration, tolerance),
+  public SpinAndSwing(ArmSubsystem armSubsystem) {
+    addCommands(
+        new SpinNoteContainerMotor (armSubsystem, 100, 150),
+        Commands.waitSeconds(.5), 
         new SwingForwardServo(armSubsystem),
-        new SpinNoteContainerMotor (armSubsystem, 200, 150),
-        Commands.waitSeconds(2.0), 
         new SwingBackServo(armSubsystem),
-        Commands.waitSeconds(1.0),
-        new SwingForwardServo(armSubsystem),
         new StopNoteContainerMotor(armSubsystem)
-        //,new SwingBack(armSubsystem, velocity, acceleration, tolerance)
         );
 
   }

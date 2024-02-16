@@ -11,7 +11,7 @@ import edu.wpi.first.wpilibj2.command.PIDCommand;
 
 public class SpinIntakePID extends PIDCommand {
     private double angle;
-    static final PIDController intakeController = new PIDController(.005, .005, .0);
+    static final PIDController intakeController = new PIDController(.005, .0, .0);
 
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
@@ -20,7 +20,7 @@ public class SpinIntakePID extends PIDCommand {
   public SpinIntakePID(IntakeSubsystem intakeSubsystem, final double targetAngle) {
     super(intakeController, ()-> intakeSubsystem.encoderGetAngle(), () -> targetAngle,
             (final double speed) -> 
-            {//intakeSubsystem.spinIntakeArm(-speed);
+            {intakeSubsystem.spinIntakeArm(-speed);
             System.out.println(speed);}
             , intakeSubsystem);
     angle = targetAngle;

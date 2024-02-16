@@ -146,7 +146,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])
   public double encoderGetAngle() {
-    return ((m_Encoder.get() - Constants.IntakeConstants.ENCODER_OFFSET) * Constants.IntakeConstants.ROTATION_TO_DEGREES); //double check if it works!
+    return ((m_Encoder.get() * Constants.IntakeConstants.ROTATION_TO_DEGREES) - Constants.IntakeConstants.ENCODER_OFFSET); //double check if it works!
   }
 
   // stop motor once note is in place, starts again once the arm position is brought up
@@ -156,10 +156,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    boolean sensorValue = isNotePresent();
-    if(sensorValue) {
-      System.out.println("sensor");
-    }
   }
 
   @Override

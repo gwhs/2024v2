@@ -40,7 +40,7 @@ public class FaceAprilTag extends Command {
   @Override
   public void execute() {
     double currentTheta = driSwerveSubsystem.getHeading().getDegrees();
-    double targetTheta = AprilTagConstants.APRILTAG_ROTATION[aprilID];
+    double targetTheta = AprilTagConstants.APRILTAG_ROTATION[aprilID-1];
     
 
   }

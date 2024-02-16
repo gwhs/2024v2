@@ -7,6 +7,7 @@ import frc.robot.BaseContainer;
 import frc.robot.Constants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.IntakeCommands.LowerArmIntake;
+import frc.robot.commands.IntakeCommands.SpinIntakePID;
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
 import frc.robot.commands.IntakeCommands.IntakePickUpFromGround;
 import frc.robot.commands.IntakeCommands.UpperArmIntake;
@@ -28,13 +29,12 @@ public class IntakeContainer implements BaseContainer {
 
     private void configureBindings() {
 
-        
-        xboxController.a().onTrue(new LowerArmIntake(intakeSubsystem, 10)); //b
-        xboxController.x().onTrue(new UpperArmIntake(intakeSubsystem)); //x
-        xboxController.y().onTrue(new IntakePickUpFromGround(intakeSubsystem));
+        xboxController.a().onTrue(new SpinIntakePID(intakeSubsystem, 90));
+        // xboxController.a().onTrue(new LowerArmIntake(intakeSubsystem, 10)); //b
+        // xboxController.x().onTrue(new UpperArmIntake(intakeSubsystem)); //x
+        // xboxController.y().onTrue(new IntakePickUpFromGround(intakeSubsystem));
 
         // press b - goes to 0, press x - goes to 90 , for controller labled BROKEN
 
-        
     }
 }

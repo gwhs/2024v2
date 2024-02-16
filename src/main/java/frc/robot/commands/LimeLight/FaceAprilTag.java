@@ -8,6 +8,7 @@ import frc.robot.Constants.AprilTagConstants;
 import frc.robot.Constants.LimeLightConstants;
 import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
@@ -41,6 +42,8 @@ public class FaceAprilTag extends Command {
   public void execute() {
     double currentTheta = driSwerveSubsystem.getHeading().getDegrees();
     double targetTheta = AprilTagConstants.APRILTAG_ROTATION[aprilID-1];
+
+    driSwerveSubsystem.drive(new Translation2d(0,0), targetTheta - currentTheta, true);
     
 
   }

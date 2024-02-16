@@ -55,7 +55,7 @@ public class ClimbUp extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return climbersubsystem.getBotLimit() 
-            || (climbersubsystem.getPositionLeft() <= 0 || climbersubsystem.getPositionLeft() <= 0); 
+    return climbersubsystem.getBotLimit();
+            //|| (climbersubsystem.getPositionLeft() <= 0 || climbersubsystem.getPositionLeft() <= 0); 
   }
 }

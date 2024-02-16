@@ -59,7 +59,7 @@ public class ClimbDown extends Command {
   @Override
   public boolean isFinished() {
     //stops when reaches desired height
-    return climbersubsystem.getTopLimit() 
-            || (climbersubsystem.getPositionLeft() >= ClimbConstants.CLIMB_DISTANCE || climbersubsystem.getPositionLeft() >= ClimbConstants.CLIMB_DISTANCE); 
+    return climbersubsystem.getTopLimit();                                         
+            //|| (climbersubsystem.getPositionLeft() >= ClimbConstants.CLIMB_DISTANCE || climbersubsystem.getPositionLeft() >= ClimbConstants.CLIMB_DISTANCE); 
   }
 }

@@ -13,6 +13,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.ClimbConstants;
 
 
 
@@ -23,10 +24,10 @@ public class Climbsubsystem extends SubsystemBase {
   private TalonFX climberArmLeft;
   private TalonFX climberArmRight;
 
-  DigitalInput bottomLeft = new DigitalInput(2);
-  DigitalInput bottomRight = new DigitalInput(3);
-  DigitalInput topLeft = new DigitalInput(4);
-  DigitalInput topRight = new DigitalInput(5);
+  DigitalInput bottomLeft = new DigitalInput(ClimbConstants.BOT_LEFT_LIMIT_ID);
+  DigitalInput bottomRight = new DigitalInput(ClimbConstants.BOT_RIGHT_LIMIT_ID);
+  DigitalInput topLeft = new DigitalInput(ClimbConstants.TOP_LEFT_LIMIT_ID);
+  DigitalInput topRight = new DigitalInput(ClimbConstants.TOP_RIGHT_LIMIT_ID);
 
   //set canBus to the name of the canivore of the robot
   public Climbsubsystem(int motorIDLeft, int motorIDRight, boolean invertedLeft, boolean invertedRight, String canBus) {
@@ -84,7 +85,7 @@ public class Climbsubsystem extends SubsystemBase {
                                                   false, 
                                                   false, 
                                                   false));
-    climberArmRight.setControl(new VelocityVoltage(rightSpeed, 
+    climberArmRight.setControl(new VelocityVoltage(-rightSpeed, 
                                                   50, // rotations per second^2
                                                   false, // if we bought it then set true and get more power
                                                   0, 
@@ -126,10 +127,10 @@ public class Climbsubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    // System.out.println(bottomLeft.get() + "2");
-    // System.out.println(bottomRight.get()+"3");
-    // System.out.println(topLeft.get()+"4");
-    // System.out.println(topRight.get()+"5");
+    System.out.println(bottomLeft.get() + "2");
+    System.out.println(bottomRight.get()+"3");
+    System.out.println(topLeft.get()+"4");
+    System.out.println(topRight.get()+"5");
   }
 }
 

@@ -8,6 +8,7 @@ import frc.robot.Constants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.IntakeCommands.LowerArmIntake;
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
+import frc.robot.commands.IntakeCommands.IntakePickUpFromGround;
 import frc.robot.commands.IntakeCommands.UpperArmIntake;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -21,14 +22,15 @@ public class IntakeContainer implements BaseContainer {
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
     public IntakeContainer() {
-        intakeSubsystem = new IntakeSubsystem(8,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, 0, "rio");
+        intakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, 0, "rio");
         configureBindings();
     }
 
     private void configureBindings() {
 
-        xboxController.a().onTrue(new LowerArmIntake(intakeSubsystem, 90)); //b
+        xboxController.a().onTrue(new LowerArmIntake(intakeSubsystem, 10)); //b
         xboxController.x().onTrue(new UpperArmIntake(intakeSubsystem)); //x
+        xboxController.y().onTrue(new IntakePickUpFromGround(intakeSubsystem));
 
         // press b - goes to 0, press x - goes to 90 , for controller labled BROKEN
 

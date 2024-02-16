@@ -107,7 +107,7 @@ public class IntakeSubsystem extends SubsystemBase {
   // spin the intake motors
   public void spinIntakeMotor() {
     spinRequest1 = new VelocityVoltage(
-      intakeMotorVelocity, intakeMotorAcceleration, false, 0, 0,false, false, false);
+      -intakeMotorVelocity, intakeMotorAcceleration, false, 0, 0,false, false, false);
     m_spinIntake.setControl(spinRequest1);
   }
   
@@ -145,7 +145,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-
+    boolean sensorValue = isNotePresent();
+    if(sensorValue) {
+      System.out.println("sensor");
+    }
   }
 
   @Override

@@ -46,6 +46,9 @@ public class IntakePickUpFromGround extends Command {
   @Override
   public boolean isFinished() {
     sensorValue = intakeSubsystem.isNotePresent();
+    if(sensorValue) {
+      System.out.println("sensor");
+    }
     return sensorValue;
   }
 

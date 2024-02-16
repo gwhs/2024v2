@@ -71,10 +71,10 @@ public final class Constants
     public static final int INTAKE_LOWER_INTAKE_ID = 55;
     public static final int INTAKE_SPIN_MOTOR_ID = 20;
     public static final int INTAKE_CHANNEL_ID = 1;
-    public static final double INTAKE_MOTOR_VELOCITY = 2; //units?
-    public static final double INTAKE_MOTOR_ACCELERATION = 1; 
+    public static final double INTAKE_MOTOR_VELOCITY = 100; //units?
+    public static final double INTAKE_MOTOR_ACCELERATION = 5; 
     public static final double TOLERANCE = 0.1;
-    public static final int GEAR_RATIO = 16;
+    public static final int GEAR_RATIO = 100;
     public static final double NOTE_DELAY = 2; // change accordingly
     public static final double MAX_ARM_ANGLE = 120; //max arm angle, update once confirmed
     public static final double ROTATION_TO_DEGREES = 360;

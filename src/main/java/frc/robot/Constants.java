@@ -59,8 +59,8 @@ public final class Constants
     // for ryker
     public static final double MAX_LIMELIGHT_ERROR_DEGREES =
         1; // limelight max degrees off, max degrees error
-    public static final double CAMERA_HEIGHT = 84.5;
-    public static final double TARGET_HEIGHT = 61;
+    public static final double CAMERA_HEIGHT = 32.5;
+    public static final double TARGET_HEIGHT = 55.13;
     public static final double MOUNTING_ANGLE = -10;
     public static final double LOWER_DISTANCE_SHOOT = 114;
     public static final double MID_DISTANCE_SHOOT = 76;
@@ -85,6 +85,10 @@ public final class Constants
     public static final double GEAR_RATIO = 1.0/16.0;
     public static final double FALCON_TICKS = 1;
     public static final double NOTE_DELAY = 2; // change accordingly
+  }
+
+  public static final class AprilTagConstants {
+    public static final int[] APRILTAG_ROTATION = {120, 120, 180, 180, 270, 270, 0, 0, 60, 60, 300, 60, 180, 0, 120, 240};
   }
 }
 

@@ -4,26 +4,22 @@
 
 package frc.robot.commands.LimeLight;
 
-import frc.robot.Constants.AprilTagConstants;
-import frc.robot.Constants.LimeLightConstants;
 import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class FaceAprilTag extends Command {
+public class Sideways extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final SwerveSubsystem driSwerveSubsystem;
   private final LimeLightSub limeLightSub;
-
-  private int aprilID;
-
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public FaceAprilTag(SwerveSubsystem driSwerveSubsystem, LimeLightSub limeLightSub) {
+  public Sideways(SwerveSubsystem driSwerveSubsystem, LimeLightSub limeLightSub) {
     this.driSwerveSubsystem = driSwerveSubsystem;
     this.limeLightSub = limeLightSub;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -33,15 +29,13 @@ public class FaceAprilTag extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    aprilID = (int) limeLightSub.getID() - 1;
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double currentTheta = driSwerveSubsystem.getHeading().getDegrees();
-    double targetTheta = AprilTagConstants.APRILTAG_ROTATION[aprilID];
-    
+    driSwerveSubsystem.drive(new Translation2d(0,limeLightSub.getDistanceTx()), 0, false);
 
   }
 

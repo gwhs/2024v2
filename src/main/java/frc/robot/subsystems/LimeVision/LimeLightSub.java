@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimeLightConstants;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 
 public class LimeLightSub extends SubsystemBase {
 
@@ -21,6 +23,8 @@ public class LimeLightSub extends SubsystemBase {
   private final double kI = 0;
   // Set target point
   private static double setPoint = 0;
+
+  AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
 
   PIDController PIDVision = new PIDController(kP, kI, kD);
 
@@ -39,6 +43,8 @@ public class LimeLightSub extends SubsystemBase {
   NetworkTableEntry ta = networkTable.getEntry("ta"); // Target Area (0% of image to 100% of image)
   NetworkTableEntry ts = networkTable.getEntry("ts"); // Skew or rotation (-90 degrees to 0 degrees)
   NetworkTableEntry pipe = networkTable.getEntry("getpipe");
+
+  NetworkTableEntry tid = networkTable.getEntry("tid"); // gets apriltag id
 
   // may be useful later
   private double kCameraHeight =
@@ -66,6 +72,7 @@ public class LimeLightSub extends SubsystemBase {
     SmartDashboard.putNumber("ta", ta.getDouble(0));
     SmartDashboard.putNumber("theta", getTheta());
     SmartDashboard.putNumber("AngleToTarget", getAngle());
+    System.out.println("Theta: " + aprilTagFieldLayout);
     
     // displaying error values
     SmartDashboard.putNumber("Error Angle", getError());
@@ -83,6 +90,11 @@ public class LimeLightSub extends SubsystemBase {
   public double getTx() {
     double Tx = tx.getDouble(0);
     return Tx;
+  }
+
+  public double getID() {
+    double id = tid.getDouble(0);
+    return id;
   }
 
   public double getTy() {
@@ -117,4 +129,21 @@ public class LimeLightSub extends SubsystemBase {
   public double getError() {
     return PIDVision.calculate(getTx());
   }
+
+  // calculates distance from tag
+  public double getDistance() {
+    double distance = (LimeLightConstants.TARGET_HEIGHT - LimeLightConstants.CAMERA_HEIGHT) / (Math.tan(getTheta()));
+    return distance;
+  }
+
+  // setsPoint PID
+  public void setPoint(double target) {
+    PIDVision.setSetpoint(target);
+  }
+
+  public double getDistanceTx() {
+    double error = PIDVision.calculate(getTx());
+    return error;
+  }
+
 }

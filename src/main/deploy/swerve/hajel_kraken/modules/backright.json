@@ -1,0 +1,32 @@
+{
+  "location": {
+    "front": -13.779,
+    "left": -13.779
+  },
+  "absoluteEncoderOffset": -78.408,
+  "drive": {
+    "type": "talonfx",
+    "id": 5,
+    "canbus": "CAN_Network"
+  },
+  "angle": {
+    "type": "falcon",
+    "id": 6,
+    "canbus": "CAN_Network"
+  },
+  "conversionFactor": {
+    "angle": 21.4285,
+    "drive": 0.04728
+  },
+  "encoder": {
+    "type": "cancoder",
+    "id": 13,
+    "canbus": "CAN_Network"
+  },
+  "inverted": {
+    "drive": true,
+    "angle": true
+
+  },
+  "absoluteEncoderInverted": false
+}

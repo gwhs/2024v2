@@ -65,7 +65,18 @@ public final class Constants
     public static final double MID_DISTANCE_SHOOT = 76;
     public static final double TOP_DISTANCE_SHOOT = 42;
   }
+    public static final class Arm {
+    public static final int kSlotIdx = 0;
+    public static final int kPIDLoopIdx = 0;
+    public static final int kTimeoutMs = 30;
+    public static final int ARM_MAX_ANGLE = 270;
+    public static final int ARM_MIN_ANGLE = 0;
+    public static final int ROTATION_TO_DEGREES = 360;
+    public static final int GEAR_RATIO = 16;
+    public static final double ENCODER_RAW_TO_ROTATION = 8132.;
+  }
 
+    
   public static final class ClimbConstants {
 
   public static final double CLIMBER_RATIO = 36;

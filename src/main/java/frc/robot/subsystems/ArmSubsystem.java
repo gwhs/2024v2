@@ -26,8 +26,9 @@ import edu.wpi.first.wpilibj.Servo;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 
-public class ArmSubsystem extends SubsystemBase {
+public class ArmSubsystem extends Command {
   private TalonFX m_arm;
   private DutyCycleEncoder m_encoder;
   private TalonFX m_pizzaBox;

@@ -119,7 +119,6 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   //Looking at the left of the robot, counterclockwise intake spin is ____ ** need to test for intake
-  // Sets arm angle in degrees with given velocity and acceleration
   public void spinIntakeArm(double speed) {
   if(speed < -1) { //Will not be less than minimum angle
     speed = -1;
@@ -127,9 +126,8 @@ public class IntakeSubsystem extends SubsystemBase {
   else if (speed > 1) { // Will not be greater than maximum angle
     speed = 1;
   }
-  m_moveIntakeArm.set(speed);
- }
-
+    m_moveIntakeArm.set(speed);
+  }  
 
   // stop intake motor
   public void stopIntakeMotors() {

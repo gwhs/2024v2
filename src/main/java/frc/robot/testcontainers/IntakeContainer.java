@@ -28,6 +28,7 @@ public class IntakeContainer implements BaseContainer {
 
     private void configureBindings() {
 
+        
         xboxController.a().onTrue(new LowerArmIntake(intakeSubsystem, 10)); //b
         xboxController.x().onTrue(new UpperArmIntake(intakeSubsystem)); //x
         xboxController.y().onTrue(new IntakePickUpFromGround(intakeSubsystem));

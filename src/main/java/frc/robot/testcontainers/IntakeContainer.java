@@ -1,5 +1,7 @@
 package frc.robot.testcontainers;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -29,11 +31,16 @@ public class IntakeContainer implements BaseContainer {
 
     private void configureBindings() {
 
-        xboxController.x().onTrue(new SpinIntakePID(intakeSubsystem, 0));
+        final PIDController intakeController = new PIDController(.005, .0, .0);
+
+        xboxController.x().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 0));
+        xboxController.y().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 106));
+
+        Shuffleboard.getTab("intake").add(intakeController);
+
         //xboxController.a().onTrue(new SpinIntakePID(intakeSubsystem, 90));
-        
-        // xboxController.a().onTrue(new LowerArmIntake(intakeSubsystem, 10)); //b
-        // xboxController.x().onTrue(new UpperArmIntake(intakeSubsystem)); //x
+        // xboxController.a().onTrue(new LowerArmIntake(intakeSubsystem, 10)); 
+        // xboxController.x().onTrue(new UpperArmIntake(intakeSubsystem)); 
         // xboxController.y().onTrue(new IntakePickUpFromGround(intakeSubsystem));
 
         // press b - goes to 0, press x - goes to 90 , for controller labled BROKEN

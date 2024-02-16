@@ -29,6 +29,7 @@ public class IntakeContainer implements BaseContainer {
 
     private void configureBindings() {
 
+        xboxController.x().onTrue(new SpinIntakePID(intakeSubsystem, 0));
         xboxController.a().onTrue(new SpinIntakePID(intakeSubsystem, 90));
         // xboxController.a().onTrue(new LowerArmIntake(intakeSubsystem, 10)); //b
         // xboxController.x().onTrue(new UpperArmIntake(intakeSubsystem)); //x

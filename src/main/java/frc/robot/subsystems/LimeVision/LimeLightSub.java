@@ -27,7 +27,26 @@ public class LimeLightSub extends SubsystemBase {
   private PIDController PIDVision = new PIDController(kP, kI, kD);
   private PIDController PIDVisionY = new PIDController(kP, kI, kD);
   private PIDController PIDVisionTheta = new PIDController(kP, kI, kD);
+  double[][] apriltag = {{15.08,0.24,1.35},
+                         {16.18,0.89,1.35},
+                         {16.58,4.98,1.45},
+                         {16.58,5.55,1.45},
+                         {14.70,8.23,1.35},
+                         {1.84,8.23,1.35},
+                         {-0.04,5.55,1.45},
+                         {-0.04,4.98,1.45},
+                         {0.36,0.88,1.35},
+                         {1.46,0.24,1.35},
+                         {11.90,3.71,1.32},
+                         {11.90,4.50,1.32},
+                         {11.22,4.10,1.32},
+                         {5.32,4.10,1.32},
+                         {4.64,4.50,1.32},
+                         {4.64,3.71,1.32}};
   
+  
+
+
 
   // set up a new instance of NetworkTables (the api/library used to read values from limelight)
   NetworkTable networkTable = NetworkTableInstance.getDefault().getTable("limelight");  
@@ -49,6 +68,9 @@ public class LimeLightSub extends SubsystemBase {
   // botpose megatag
   NetworkTableEntry botpose = networkTable.getEntry("botpose");
   NetworkTableEntry blueBotPose = networkTable.getEntry("botpose_wpiblue");
+  NetworkTableEntry targetSpace = networkTable.getEntry("botpose_targetspace");
+  NetworkTableEntry tid = networkTable.getEntry("tid");
+  
 
   
 
@@ -71,6 +93,17 @@ public class LimeLightSub extends SubsystemBase {
     Shuffleboard.getTab("Limelight").addDouble("BotPose RY", ()->getBlueBotPose()[4]);
     Shuffleboard.getTab("Limelight").addDouble("BotPose RZ", ()->getBlueBotPose()[5]);
     Shuffleboard.getTab("Limelight").addDouble("BotPose ms", ()->getBlueBotPose()[6]);
+    Shuffleboard.getTab("Limelight").addDouble("ID", ()->getBlueBotPose()[7]);
+    Shuffleboard.getTab("Limelight").addDouble("Distance", ()->getBlueBotPose()[8]);
+
+    Shuffleboard.getTab("Limelight").addDouble("TargetPose TX", ()->getTargetSpace()[0]);
+    Shuffleboard.getTab("Limelight").addDouble("TargetPose TY", ()->getTargetSpace()[1]);
+    Shuffleboard.getTab("Limelight").addDouble("TargetPose TZ", ()->getTargetSpace()[2]);
+    Shuffleboard.getTab("Limelight").addDouble("TargetPose RX", ()->getTargetSpace()[3]);
+    Shuffleboard.getTab("Limelight").addDouble("TargetPose RY", ()->getTargetSpace()[4]);
+    Shuffleboard.getTab("Limelight").addDouble("TargetPose RZ", ()->getTargetSpace()[5]);
+
+  
   }
 
   @Override
@@ -92,18 +125,20 @@ public class LimeLightSub extends SubsystemBase {
     if (hasTarget())
     {
     // System.out.println(getBotPose()[0]);
-    // SmartDashboard.putNumber("BotPose X", getBotPose()[0]);
-    // SmartDashboard.putNumber("BotPose Y", getBotPose()[1]);
-    // SmartDashboard.putNumber("BotPose Z", getBotPose()[2]);
-    // SmartDashboard.putNumber("BotPose RX", getBotPose()[3]);
-    // SmartDashboard.putNumber("BotPose RY", getBotPose()[4]);
-    // SmartDashboard.putNumber("BotPose RZ", getBotPose()[5]);
-    SmartDashboard.putNumber("BotPose X", getBlueBotPose()[0]);
-    SmartDashboard.putNumber("BotPose Y", getBlueBotPose()[1]);
-    SmartDashboard.putNumber("BotPose Z", getBlueBotPose()[2]);
-    SmartDashboard.putNumber("BotPose RX", getBlueBotPose()[3]);
-    SmartDashboard.putNumber("BotPose RY", getBlueBotPose()[4]);
-    SmartDashboard.putNumber("BotPose RZ", getBlueBotPose()[5]);
+
+    // SmartDashboard.putNumber("BotPose X", getBlueBotPose()[0]);
+    // SmartDashboard.putNumber("BotPose Y", getBlueBotPose()[1]);
+    // SmartDashboard.putNumber("BotPose Z", getBlueBotPose()[2]);
+    // SmartDashboard.putNumber("BotPose RX", getBlueBotPose()[3]);
+    // SmartDashboard.putNumber("BotPose RY", getBlueBotPose()[4]);
+    // SmartDashboard.putNumber("BotPose RZ", getBlueBotPose()[5]);
+
+    // SmartDashboard.putNumber("TargetPose X", getTargetSpace()[0]);
+    // SmartDashboard.putNumber("TargetPose Y", getTargetSpace()[1]);
+    // SmartDashboard.putNumber("TargetPose Z", getTargetSpace()[2]);
+    // SmartDashboard.putNumber("TargetPose RX", getTargetSpace()[3]);
+    // SmartDashboard.putNumber("TargetPose RY", getTargetSpace()[4]);
+    // SmartDashboard.putNumber("TargetPose RZ", getTargetSpace()[5]);
     
     }
     // SmartDashboard.putNumber("BotPose Something", getBotPose()[6]);
@@ -210,7 +245,23 @@ public class LimeLightSub extends SubsystemBase {
   }
 
   public double[] getBlueBotPose(){
-    double[] blueBotPose = this.blueBotPose.getDoubleArray(new double[7]);
+    double[] blueBotPose = this.blueBotPose.getDoubleArray(new double[9]);
+
+    blueBotPose[6] = getTID();
+    blueBotPose[8] = Math.sqrt(Math.pow(apriltag[getTID()+1][0]-blueBotPose[0] ,2) + 
+                               Math.pow(apriltag[getTID()+1][1]-blueBotPose[1] ,2));
+
     return blueBotPose; 
   }
+
+  public double[] getTargetSpace(){
+    double[] targetSpace = this.targetSpace.getDoubleArray(new double[6]);
+    return targetSpace;
+  } 
+
+  public int getTID(){
+    int tid = (int)this.tid.getDouble(-1);
+    return tid;
+  }
+
 }

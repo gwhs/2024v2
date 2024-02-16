@@ -97,11 +97,11 @@ public class VisionContainer implements BaseContainer
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand()
-  {
-    // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("New Path", true);
-  }
+  // public Command getAutonomousCommand()
+  // {
+  //   // An example command will be run in autonomous
+  //   return drivebase.getAutonomousCommand("New Path", true);
+  // }
 
   public void setDriveMode()
   {

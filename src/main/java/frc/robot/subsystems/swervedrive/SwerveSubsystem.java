@@ -504,6 +504,13 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
   }
 
+    public void addActualVisionReading()
+  {
+    swerveDrive.addVisionMeasurement(getPose(), Timer.getFPGATimestamp());
+  }
+
+
+
   public void test() {
     swervelib.SwerveModule[] sm = swerveDrive.getModules();
     System.out.println("Swerve Module array size = " + sm.length);

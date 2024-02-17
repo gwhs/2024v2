@@ -8,11 +8,9 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.BaseContainer;
 import frc.robot.Constants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.IntakeCommands.LowerArmIntake;
 import frc.robot.commands.IntakeCommands.SpinIntakePID;
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
 import frc.robot.commands.IntakeCommands.IntakePickUpFromGround;
-import frc.robot.commands.IntakeCommands.UpperArmIntake;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeContainer implements BaseContainer {
@@ -30,8 +28,15 @@ public class IntakeContainer implements BaseContainer {
     }
 
     private void configureBindings() {
-
+        
         final PIDController intakeController = new PIDController(.005, .0, .0);
+        intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
+
+        // Command command = new SpinIntakePID(intakeController, intakeSubsystem, 0);
+        // command = command.andThen(intakeSubsystem.spinIntakeMotor());
+        // command = command.andThen(new SpinIntakePID(intakeController, intakeSubsystem, 106)).withTimeout(4);
+        
+
 
         xboxController.x().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 0));
         xboxController.y().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 106));

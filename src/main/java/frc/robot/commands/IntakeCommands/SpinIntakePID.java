@@ -25,11 +25,10 @@ public class SpinIntakePID extends PIDCommand {
     this.intakeSubsystem = intakeSubsystem;
   }
 
-//
 //  Returns true when the command should end.
-//   @Override
-//   public boolean isFinished() {
-//     double encoderAng = armSubsystem.encoderGetAngle();
-//     return Math.abs(angle - encoderAng) < 1; 
-//   }
+//  @Override
+  public boolean isFinished() {
+    return getController().atSetpoint();
+  }
+  
 }

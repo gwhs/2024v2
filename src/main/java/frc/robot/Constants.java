@@ -73,7 +73,7 @@ public final class Constants
     public static final int INTAKE_CHANNEL_ID = 1;
     public static final double INTAKE_MOTOR_VELOCITY = 100; 
     public static final double INTAKE_MOTOR_ACCELERATION = 5; 
-    public static final double TOLERANCE = 0.1;
+    public static final double TOLERANCE = 2; // in degrees
     public static final int GEAR_RATIO = 100;
     public static final double NOTE_DELAY = 2; // change accordingly
     public static final double MAX_ARM_ANGLE = 120; //max arm angle, update once confirmed

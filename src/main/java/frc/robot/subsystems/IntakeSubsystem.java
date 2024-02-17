@@ -2,7 +2,7 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-/* starting position of arm is 0 */
+/* when intake arm position is down, that is at 0 degrees */
 
 package frc.robot.subsystems;
 
@@ -104,21 +104,20 @@ public class IntakeSubsystem extends SubsystemBase {
     m_moveIntakeArm.setControl(PositionVoltage);
   }
 
-  // spin the intake motors
+  // spin the intake motors, velocity is negative
   public void spinIntakeMotor() {
     spinRequest1 = new VelocityVoltage(
       -intakeMotorVelocity, intakeMotorAcceleration, false, 0, 0,false, false, false);
     m_spinIntake.setControl(spinRequest1);
   }
   
-  // spin intake motors the opposite way
+  // spin intake motors the opposite way, velocity is positive
   public void rejectIntake() {
     spinRequest1 = new VelocityVoltage(
-      intakeMotorVelocity * -1, intakeMotorAcceleration * -1, false, 0, 0, false, false, false);
+      intakeMotorVelocity, intakeMotorAcceleration, false, 0, 0, false, false, false);
       m_spinIntake.setControl(spinRequest1);
   }
 
-  //Looking at the left of the robot, counterclockwise intake spin is ____ ** need to test for intake
   public void spinIntakeArm(double speed) {
   if(speed < -1) { //Will not be less than minimum angle
     speed = -1;

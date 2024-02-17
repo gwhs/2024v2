@@ -13,6 +13,8 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Robot;
+import frc.robot.commands.LimeLight.FaceAprilTag;
+import frc.robot.commands.LimeLight.Sideways;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
@@ -80,6 +82,8 @@ public class VisionContainer implements BaseContainer
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+
+    driverXbox.a().onTrue(new Sideways(drivebase, limeLightSub));
   }
 
   /**

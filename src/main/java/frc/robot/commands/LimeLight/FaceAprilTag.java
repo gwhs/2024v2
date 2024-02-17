@@ -17,8 +17,6 @@ public class FaceAprilTag extends Command {
   private final SwerveSubsystem driSwerveSubsystem;
   private final LimeLightSub limeLightSub;
 
-  private int aprilID;
-
   /**
    * Creates a new ExampleCommand.
    *
@@ -34,16 +32,13 @@ public class FaceAprilTag extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    aprilID = (int) limeLightSub.getID() - 1;
+    limeLightSub.setPoint(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double currentTheta = driSwerveSubsystem.getHeading().getDegrees();
-    double targetTheta = AprilTagConstants.APRILTAG_ROTATION[aprilID-1];
-
-    driSwerveSubsystem.drive(new Translation2d(0,0), targetTheta - currentTheta, true);
+    driSwerveSubsystem.drive(new Translation2d(0, 0), 0, false);
     
 
   }

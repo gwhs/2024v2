@@ -35,7 +35,14 @@ public class Sideways extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driSwerveSubsystem.drive(new Translation2d(0,limeLightSub.getDistanceTx()), 0, false);
+    // double distance = limeLightSub.getDistanceTx();
+    // System.out.println(distance);
+    // System.out.println("works");
+    // driSwerveSubsystem.drive(new Translation2d(0, limeLightSub.getDistanceTx()), 0, false);
+
+
+    // driSwerveSubsystem.drive(new Translation2d(0, distance), 0, true);
+    
 
   }
 

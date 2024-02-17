@@ -8,6 +8,7 @@ package frc.robot.subsystems.LimeVision;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimeLightConstants;
@@ -18,11 +19,10 @@ import edu.wpi.first.apriltag.AprilTagFields;
 public class LimeLightSub extends SubsystemBase {
 
   // PID constants
-  private final double kP = 0.04;
-  private final double kD = 0;
+  private final double kP = 0.1;
+  private final double kD = 0.3;
   private final double kI = 0;
   // Set target point
-  private static double setPoint = 0;
 
   AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
 
@@ -79,9 +79,10 @@ public class LimeLightSub extends SubsystemBase {
   public LimeLightSub(String limelight_networktable_name) {
     limelight_comm = new LimeLightComms(limelight_networktable_name);
     limelight_comm.set_entry_double("ledMode", 3);
-    
-    // setting target point for PID
-    PIDVision.setSetpoint(setPoint);
+
+    // distance
+    Shuffleboard.getTab("Limelight").addNumber("Distance", ()-> getDistance());
+    Shuffleboard.getTab("Limelight").addNumber("Distance X", ()-> getDistanceY());
   }
 
   @Override
@@ -93,18 +94,6 @@ public class LimeLightSub extends SubsystemBase {
     SmartDashboard.putNumber("ta", ta.getDouble(0));
     SmartDashboard.putNumber("theta", getTheta());
     SmartDashboard.putNumber("AngleToTarget", getAngle());
-
-    SmartDashboard.putNumber("Distance", getDistance());
-
-    System.out.println("Theta: " + aprilTagFieldLayout);
-    
-    // displaying error values
-    SmartDashboard.putNumber("Error Angle", getError());
-
-    // This method will be called once per scheduler run
-    double currTx = limelight_comm.get_entry_double("tx");
-    SmartDashboard.putNumber("tx", currTx);
-    // System.out.println(currTx);
   }
 
   public boolean hasTarget() {
@@ -117,7 +106,7 @@ public class LimeLightSub extends SubsystemBase {
   }
 
   public int getID() {
-    int id = (int) tid.getDouble(-1);
+    int id = (int) tid.getDouble(-1) - 1;
     return id;
   }
 
@@ -165,10 +154,7 @@ public class LimeLightSub extends SubsystemBase {
     double distance = -1;
     if (hasTarget()) {
     double[] botPose = botPoseBlue.getDoubleArray(new double[6]); // x,y,z,rx,ry,rz
-
     distance = Math.sqrt(Math.pow((apriltag[getID()][0] - botPose[0]), 2) + Math.pow((apriltag[getID()][1] - botPose[1]), 2)); 
-
-    distance /= 0.0256;
     }
     return distance;
   }
@@ -178,9 +164,13 @@ public class LimeLightSub extends SubsystemBase {
     PIDVision.setSetpoint(target);
   }
 
-  public double getDistanceTx() {
-    double error = PIDVision.calculate(getTx());
-    return error;
+  public double getDistanceY() {
+    double distance = -1;
+    if (hasTarget()) {
+    double[] botPose = botPoseBlue.getDoubleArray(new double[6]); // x,y,z,rx,ry,rz
+    distance = apriltag[getID()][1] - botPose[1]; 
+    }
+    return distance;
   }
 
 }

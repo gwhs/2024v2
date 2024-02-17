@@ -93,8 +93,8 @@ public class LimeLightSub extends SubsystemBase {
     Shuffleboard.getTab("Limelight").addDouble("BotPose RY", ()->getBlueBotPose()[4]);
     Shuffleboard.getTab("Limelight").addDouble("BotPose RZ", ()->getBlueBotPose()[5]);
     Shuffleboard.getTab("Limelight").addDouble("BotPose ms", ()->getBlueBotPose()[6]);
-    Shuffleboard.getTab("Limelight").addDouble("ID", ()->getBlueBotPose()[7]);
-    Shuffleboard.getTab("Limelight").addDouble("Distance", ()->getBlueBotPose()[8]);
+    // Shuffleboard.getTab("Limelight").addDouble("ID", ()->getBlueBotPose()[7]);
+    // Shuffleboard.getTab("Limelight").addDouble("Distance", ()->getBlueBotPose()[8]);
 
     Shuffleboard.getTab("Limelight").addDouble("TargetPose TX", ()->getTargetSpace()[0]);
     Shuffleboard.getTab("Limelight").addDouble("TargetPose TY", ()->getTargetSpace()[1]);
@@ -245,11 +245,11 @@ public class LimeLightSub extends SubsystemBase {
   }
 
   public double[] getBlueBotPose(){
-    double[] blueBotPose = this.blueBotPose.getDoubleArray(new double[9]);
+    double[] blueBotPose = this.blueBotPose.getDoubleArray(new double[6]);
 
-    blueBotPose[6] = getTID();
-    blueBotPose[8] = Math.sqrt(Math.pow(apriltag[getTID()+1][0]-blueBotPose[0] ,2) + 
-                               Math.pow(apriltag[getTID()+1][1]-blueBotPose[1] ,2));
+    // blueBotPose[6] = getTID();
+    // blueBotPose[8] = Math.sqrt(Math.pow(apriltag[getTID()+1][0]-blueBotPose[0] ,2) + 
+    //                            Math.pow(apriltag[getTID()+1][1]-blueBotPose[1] ,2));
 
     return blueBotPose; 
   }

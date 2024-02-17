@@ -89,6 +89,8 @@ public final class Constants
 
   public static final class ReactionConstants {
     public static final int reactionID = 32; //NEED TO CHANGE TO ACTUAL MOTOR
+    public static final String reactionCAN = "rio"; // or CAN_Network
+    public static double currentLimit = 40;
   }
 }
 

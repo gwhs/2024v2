@@ -41,6 +41,9 @@ public class ReactionArmContainer implements BaseContainer
 
      public void configureBindings()
      {
+        Shuffleboard.getTab("Reaction Arm").add("Extend", new Extend(m_ArmSubsystem));
+        Shuffleboard.getTab("Reaction Arm").add("Retract", new Retract(m_ArmSubsystem));
+
         xbox.a().onTrue(new Extend(m_ArmSubsystem));
         xbox.b().onFalse(new Retract(m_ArmSubsystem));
         

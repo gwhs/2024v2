@@ -28,6 +28,7 @@ public class LimeLightSub extends SubsystemBase {
 
   PIDController PIDVision = new PIDController(kP, kI, kD);
 
+  // in meters
   double[][] apriltag = {{15.08,0.24,1.35},
                          {16.18,0.89,1.35},
                          {16.58,4.98,1.45},
@@ -92,6 +93,9 @@ public class LimeLightSub extends SubsystemBase {
     SmartDashboard.putNumber("ta", ta.getDouble(0));
     SmartDashboard.putNumber("theta", getTheta());
     SmartDashboard.putNumber("AngleToTarget", getAngle());
+
+    SmartDashboard.putNumber("Distance", getDistance()); // printing
+
     System.out.println("Theta: " + aprilTagFieldLayout);
     
     // displaying error values
@@ -158,7 +162,12 @@ public class LimeLightSub extends SubsystemBase {
 
   // using distance formula (relative to field)
   public double getDistance() {
-    double distance = Math.sqrt(Math.pow((), 2) + Math.pow((), 2));
+    double[] botPose = botPoseBlue.getDoubleArray(new double[7]); // x,y,z,rx,ry,rz
+
+    double distance = Math.sqrt(Math.pow((apriltag[(int) getID()-1][0]) - botPose[0], 2) + Math.pow((apriltag[(int) getID()-1][1]) - botPose[1], 2));  //getID()-1 because array (2d array is sorted)
+
+    distance /= 0.0256;
+    return distance;
   }
 
   // setsPoint PID

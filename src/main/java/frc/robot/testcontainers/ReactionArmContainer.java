@@ -27,12 +27,15 @@ public class ReactionArmContainer implements BaseContainer
     private final ReactionSubsystem m_ArmSubsystem;
     
     CommandXboxController xbox = new CommandXboxController(OperatorConstants.kDriverControllerPort);
-    ShuffleboardTab ReactionArm = Shuffleboard.getTab("Reaction Arm");
-    ReactionArm =
+
 
 
     public ReactionArmContainer() {
         m_ArmSubsystem = new ReactionSubsystem(Constants.ReactionConstants.reactionID, Constants.ReactionConstants.reactionCAN);
+        ShuffleboardTab ReactionArm = Shuffleboard.getTab("Reaction Arm");
+        ReactionArm.addDouble("Arm Pos", ()-> m_ArmSubsystem.getPos());
+        
+        
          configureBindings();
      }
 

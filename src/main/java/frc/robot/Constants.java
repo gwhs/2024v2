@@ -86,6 +86,10 @@ public final class Constants
     public static final double FALCON_TICKS = 1;
     public static final double NOTE_DELAY = 2; // change accordingly
   }
+
+  public static final class ReactionConstants {
+    public static final int reactionID = 32; //NEED TO CHANGE TO ACTUAL MOTOR
+  }
 }
 
 

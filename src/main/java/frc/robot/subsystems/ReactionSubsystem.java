@@ -4,15 +4,15 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix.motorcontrol.can.TalonFX;
+import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ReactionSubsystem extends SubsystemBase {
   private TalonFX m_reactionArm;
   /** Creates a new ReactionSubsystem. */
-  public ReactionSubsystem() {
-
+  public ReactionSubsystem(int armID) {
+    
   }
 
   @Override

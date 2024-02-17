@@ -52,9 +52,9 @@ public class MotorUp extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    while (climbersubsystem.getTopLimit()) {
-      climbersubsystem.setSpeed(ClimbConstants.CLIMB_MOTOR_SPEED/4, ClimbConstants.CLIMB_MOTOR_SPEED/4);
-    }
+    // while (climbersubsystem.getTopLimit()) {
+    //   climbersubsystem.setSpeed(ClimbConstants.CLIMB_MOTOR_SPEED/4, ClimbConstants.CLIMB_MOTOR_SPEED/4);
+    // }
     climbersubsystem.stopClimb(); 
   }
 

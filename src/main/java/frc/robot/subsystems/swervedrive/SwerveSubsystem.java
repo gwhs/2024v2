@@ -305,9 +305,6 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
-   swervelib.SwerveModule[] sm = swerveDrive.getModules();
-   System.out.println(sm[2].getAbsolutePosition());
-   System.out.println(sm[2].getRelativePosition());
   }
 
   @Override

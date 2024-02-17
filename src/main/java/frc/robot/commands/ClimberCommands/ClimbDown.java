@@ -29,7 +29,7 @@ public class ClimbDown extends Command {
   public void initialize() {
     new SequentialCommandGroup(new MotorUp(climbersubsystem, swerve),
       /*new ParallelCommandGroup(new movebackwards(), new Reactionbar())*/
-      new MotorDown(climbersubsystem, swerve)
+      new MotorDown(climbersubsystem, swerve) /*, new armstuff() */ 
       );
   }
 

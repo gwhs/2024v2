@@ -17,8 +17,7 @@ public class IntakeContainer implements BaseContainer {
 
     private final CommandXboxController xboxController = new CommandXboxController(0);
     private IntakeSubsystem intakeSubsystem;
-  
-    // todo: add intake subsystem
+
     private final CommandXboxController m_driverController =
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
@@ -35,11 +34,14 @@ public class IntakeContainer implements BaseContainer {
         xboxController.x().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 0));
         xboxController.y().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 106));
 
+        xboxController.a().onTrue(new IntakePickUpFromGround(intakeSubsystem));
+
         Shuffleboard.getTab("intake").add(intakeController);
 
         // Command command = new SpinIntakePID(intakeController, intakeSubsystem, 0);
-        // command = command.andThen(intakeSubsystem.spinIntakeMotor());
-        // command = command.andThen(new SpinIntakePID(intakeController, intakeSubsystem, 106)).withTimeout(4);
+        // command = command.andThen(new IntakePickUpFromGround(intakeSubsystem));
+        // command = command.andThen(new SpinIntakePID(intakeController, intakeSubsystem, Constants.IntakeConstants.MAX_ARM_ANGLE)).withTimeout(4);
+        // command = command.andThen(new IntakePassNoteToPizzaBox(intakeSubsystem));
 
     }
 }

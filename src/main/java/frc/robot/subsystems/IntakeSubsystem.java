@@ -35,8 +35,8 @@ public class IntakeSubsystem extends SubsystemBase {
   public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, int channel1, String can)  {
     m_moveIntakeArm = new TalonFX(lowerIntakeId, can); 
     m_spinIntake = new TalonFX(spinIntakeId, can);
-    m_Encoder = new DutyCycleEncoder(Constants.IntakeConstants.INTAKE_CHANNEL_ID);
-    m_noteSensor = new DigitalInput(channel1);
+    m_Encoder = new DutyCycleEncoder(Constants.IntakeConstants.INTAKE_ENCODER_CHANNEL_ID);
+    m_noteSensor = new DigitalInput(channel1); //not implemented, update once confirmed
     this.intakeMotorVelocity = Constants.IntakeConstants.INTAKE_MOTOR_VELOCITY;
     this.intakeMotorAcceleration = Constants.IntakeConstants.INTAKE_MOTOR_ACCELERATION;
 
@@ -81,14 +81,14 @@ public class IntakeSubsystem extends SubsystemBase {
     .withPosition(3, 0);;
   }
 
-  // spin the intake motors, velocity is negative
+  // spin the intake motors, velocity is negative to intake note
   public void spinIntakeMotor() {
     spinRequest1 = new VelocityVoltage(
       -intakeMotorVelocity, intakeMotorAcceleration, false, 0, 0,false, false, false);
     m_spinIntake.setControl(spinRequest1);
   }
   
-  // spin intake motors the opposite way, velocity is positive
+  // spin intake motors the opposite way, velocity is positive to reject intake
   public void rejectIntake() {
     spinRequest1 = new VelocityVoltage(
       intakeMotorVelocity, intakeMotorAcceleration, false, 0, 0, false, false, false);
@@ -113,7 +113,7 @@ public class IntakeSubsystem extends SubsystemBase {
   // stop arm motor 
   public void stopArmMotor() {
     m_moveIntakeArm.stopMotor();
- }
+  }
 
   // returns the position of the angle of the lowering motor
   public double getArmPos() {

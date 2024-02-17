@@ -62,6 +62,8 @@ public class LimeLightSub extends SubsystemBase {
   NetworkTableEntry pipe = networkTable.getEntry("getpipe");
 
   NetworkTableEntry tid = networkTable.getEntry("tid"); // gets apriltag id
+  NetworkTableEntry botPoseBlue = networkTable.getEntry("tid"); // gets apriltag id
+  NetworkTableEntry botPoseRed = networkTable.getEntry("tid"); // gets apriltag id
 
   // may be useful later
   private double kCameraHeight =
@@ -147,10 +149,15 @@ public class LimeLightSub extends SubsystemBase {
     return PIDVision.calculate(getTx());
   }
 
-  // calculates distance from tag
+  // // calculates distance from tag --- not that good
+  // public double getDistance() {
+  //   double distance = (LimeLightConstants.TARGET_HEIGHT - LimeLightConstants.CAMERA_HEIGHT) / (Math.tan(getTheta()));
+  //   return distance;
+  // }
+
+  // using distance formula (relative to field)
   public double getDistance() {
-    double distance = (LimeLightConstants.TARGET_HEIGHT - LimeLightConstants.CAMERA_HEIGHT) / (Math.tan(getTheta()));
-    return distance;
+    double distance = Math.sqrt(Math.pow((), 2) + Math.pow((), 2));
   }
 
   // setsPoint PID

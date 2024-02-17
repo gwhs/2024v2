@@ -30,7 +30,7 @@ public class ClimbUp extends Command {
   public void initialize() {
     new SequentialCommandGroup(
       new ParallelCommandGroup(/*new alignment(), new movearm(), */ 
-        new SequentialCommandGroup(new WaitCommand(0), new MotorUp(climbersubsystem, swerve))),
+        new SequentialCommandGroup(new WaitCommand(2), new MotorUp(climbersubsystem, swerve))),
       /*new ParallelCommandGroup(new driveforward(), new Reactionbar()),*/
       new MotorDown(climbersubsystem, swerve)
       );

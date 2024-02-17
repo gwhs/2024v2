@@ -9,16 +9,14 @@ import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-public class LowerArmIntake extends Command {
+public class IntakePickUpFromGround extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+
   private IntakeSubsystem intakeSubsystem;
+  private boolean sensorValue;
 
-  private double armPositionAngle;
-  private double angle;
-
-  public LowerArmIntake(IntakeSubsystem intakeSubsystem, double angle) {
-    this.intakeSubsystem = intakeSubsystem;
-    this.angle = angle;
+  public IntakePickUpFromGround(IntakeSubsystem subsystem) {
+    intakeSubsystem = subsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem);
@@ -27,24 +25,28 @@ public class LowerArmIntake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intakeSubsystem.setArmAngle(angle);
-    //CommandScheduler.getInstance().schedule(new StartIntake(intakeSubsystem));
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {}
- 
+  public void execute() {
+    intakeSubsystem.spinIntakeMotor();
+  }
+
   // Called once the command ends or is interrupted.
+  // runs once when isFinished is called
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.stopArmMotor();
+    intakeSubsystem.stopIntakeMotors();
+    //CommandScheduler.getInstance().schedule(new UpperArmIntake(IntakeSubsystem));
   }
 
   // Returns true when the command should end.
+  // called every cycle
   @Override
   public boolean isFinished() {
-    armPositionAngle = intakeSubsystem.getArmPos();
-    return Math.abs(armPositionAngle - angle) < Constants.IntakeConstants.TOLERANCE;
+    sensorValue = intakeSubsystem.isNotePresent();
+    return sensorValue;
   }
+
 }

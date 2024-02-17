@@ -46,7 +46,7 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and use the subsystems needed
     // for the specific robot
-
+    
     switch (container){
       case GAME:
         m_baseContainer = new GameRobotContainer();
@@ -129,7 +129,6 @@ public class Robot extends TimedRobot {
   public void teleopPeriodic() {
     
   }
-
   @Override
   public void testInit() {
     // Cancels all running commands at the start of test mode.

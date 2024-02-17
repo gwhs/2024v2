@@ -66,14 +66,31 @@ public final class Constants
     public static final double MID_DISTANCE_SHOOT = 76;
     public static final double TOP_DISTANCE_SHOOT = 42;
   }
+    public static final class Arm {
+    public static final int kSlotIdx = 0;
+    public static final int kPIDLoopIdx = 0;
+    public static final int kTimeoutMs = 30;
+    public static final int ARM_MAX_ANGLE = 90;
+    public static final int ARM_MIN_ANGLE = -270;
+    public static final int ROTATION_TO_DEGREES = 360;
+    public static final double GEAR_RATIO = 118.587767088;
+    //118.587767088
+    public static final double ENCODER_RAW_TO_ROTATION = 8132.;
+    public static final double ENCODER_OFFSET = 259; //Change when mounted 
+    public static final int ARM_ID = 18;
+    public static final int PIZZABOX_ID = 23;
+  }
+
     
   public static final class IntakeConstants {
     public static final double INTAKE_MOTOR_VELOCITY = 2; //units?
     public static final double INTAKE_MOTOR_ACCELERATION = 1; 
     public static final double TOLERANCE = 0.5;
-    public static final double GEAR_RATIO = 1.0/16.0;
-    public static final double FALCON_TICKS = 1;
+    public static final int GEAR_RATIO = 21;
     public static final double NOTE_DELAY = 2; // change accordingly
+    public static final double MAX_ARM_ANGLE = 120; //max arm angle, update once confirmed
+    public static final double ROTATION_TO_DEGREES = 360;
+    public static final double ENCODER_RAW_TO_ROTATION = 8132.;
   }
 }
 

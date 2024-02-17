@@ -11,8 +11,8 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.ClimbConstants;
-import frc.robot.commands.ClimberCommands.ClimbDown;
-import frc.robot.commands.ClimberCommands.ClimbUp;
+import frc.robot.commands.ClimberCommands.MotorUp;
+import frc.robot.commands.ClimberCommands.MotorDown;
 import frc.robot.commands.ledcommands.ChangeLEDToGreen;
 import frc.robot.commands.ledcommands.ChangeLEDToRed;
 import frc.robot.subsystems.Climbsubsystem;
@@ -46,12 +46,12 @@ public class ClimbContainer implements BaseContainer {
 
 
     private void configureBindings() {
-        m_driverController.a().whileTrue(new ClimbDown(climbsubsystem, swerve));
-        m_driverController.b().whileTrue(new ClimbUp(climbsubsystem, swerve));
+        m_driverController.a().whileTrue(new MotorUp(climbsubsystem, swerve));
+        m_driverController.b().whileTrue(new MotorDown(climbsubsystem, swerve));
         //m_driverController.x().onTrue(new Trap());
 
-        Shuffleboard.getTab("Climb").add("climb up", new ClimbUp(climbsubsystem, swerve));
-        Shuffleboard.getTab("Climb").add("climb down", new ClimbDown(climbsubsystem, swerve));
+        Shuffleboard.getTab("Climb").add("motor down", new MotorDown(climbsubsystem, swerve));
+        Shuffleboard.getTab("Climb").add("motor up", new MotorUp(climbsubsystem, swerve));
                 
     }
 

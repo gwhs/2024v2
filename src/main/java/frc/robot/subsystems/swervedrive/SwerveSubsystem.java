@@ -305,8 +305,6 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
-    System.out.println(decreaseSpeed());
-    System.out.println(increaseSpeed());
   }
 
   @Override

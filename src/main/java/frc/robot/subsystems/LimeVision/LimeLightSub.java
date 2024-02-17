@@ -62,8 +62,9 @@ public class LimeLightSub extends SubsystemBase {
   NetworkTableEntry pipe = networkTable.getEntry("getpipe");
 
   NetworkTableEntry tid = networkTable.getEntry("tid"); // gets apriltag id
-  NetworkTableEntry botPoseBlue = networkTable.getEntry("tid"); // gets apriltag id
-  NetworkTableEntry botPoseRed = networkTable.getEntry("tid"); // gets apriltag id
+
+  NetworkTableEntry botPoseBlue = networkTable.getEntry("botpose_wpiblue"); // botpose mega
+  NetworkTableEntry botPoseRed = networkTable.getEntry("botpose_wpibred"); // botpose mega
 
   // may be useful later
   private double kCameraHeight =

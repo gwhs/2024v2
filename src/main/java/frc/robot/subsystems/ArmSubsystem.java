@@ -53,13 +53,15 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   public ArmSubsystem(int armId, String armCanbus, int pizzaBoxId, String pizzaBoxCanbus, int channel1, int channelServo)
   {
-    super(new ProfiledPIDController(.005, .0, 0, new Constraints(.05, 1)));
-    
+    super(new ProfiledPIDController(.00005, .0, 0, new Constraints(.05, .05)));
+    getController().setTolerance(5);
+
+    getController().enableContinuousInput(0, 360);
     //TrapezoidProfile either velocity or position
       m_arm = new TalonFX(armId, armCanbus);
-      // m_pizzaBox = new TalonFX(pizzaBoxId, pizzaBoxCanbus);
+      m_pizzaBox = new TalonFX(pizzaBoxId, pizzaBoxCanbus);
       m_encoder = new DutyCycleEncoder(channel1);
-      // m_servo = new Servo(channelServo);
+      m_servo = new Servo(channelServo);
       
       
 
@@ -97,12 +99,12 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
         if (motorStatusArm .isOK()) break;
       }      
       for (int i = 0; i < 5; ++i) {
-        // motorStatus = m_pizzaBox.getConfigurator().apply(configs);
-        // if (motorStatus .isOK()) break;
+        motorStatus = m_pizzaBox.getConfigurator().apply(configs);
+        if (motorStatus .isOK()) break;
       }
-      // if(!motorStatus.isOK()) {
-      //   System.out.println("Could not apply configs, error code: " + motorStatus.toString());
-      // }
+      if(!motorStatus.isOK()) {
+        System.out.println("Could not apply configs, error code: " + motorStatus.toString());
+      }
       if(!motorStatusArm.isOK()) {
         System.out.println("Could not apply configs, error code: " + motorStatusArm.toString());
       }
@@ -133,6 +135,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
  public void targetArmAngle(double angle)
  {
+  System.out.println("TargetArmAngle works, angle value : " + angle);
   setGoal(angle);
  }
 
@@ -236,8 +239,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   public void useOutput(double output, State setPoint)
   {
     //Comment out for testing purposes
-    m_arm.set(output);
-    System.out.println("Target Speed is " + output);
+    m_arm.set(output/10.);
+    //System.out.println("Target Speed is " + output);
   }
 
   @Override

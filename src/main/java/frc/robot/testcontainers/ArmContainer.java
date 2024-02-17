@@ -95,16 +95,29 @@ public class ArmContainer implements BaseContainer {
     //    SpinNoteContainerMotor army = new SpinNoteContainerMotor (arm, 0.25, 10);
     //    m_driverController.y().onTrue(army);
        //m_driverController.x().onTrue(new StopNoteContainerMotor(arm));
-       m_driverController.a().onTrue(Commands.runOnce(() -> {arm.enable();}, arm));
+       m_driverController.a().onTrue(Commands.runOnce(() -> {
+                arm.setGoal(arm.getMeasurement()); 
+                arm.enable();}, arm));
        m_driverController.b().onTrue(Commands.runOnce(() -> {arm.disable();}, arm));
 
-       m_driverController.y().onTrue(new SpinToArmAngle(arm, 45));
-       m_driverController.x().onTrue(new SpinToArmAngle(arm, 0));
-       
+       m_driverController.y().onTrue(Commands.runOnce(() -> {
+        arm.setGoal(10);},
+        arm));
+
+        m_driverController.leftBumper().onTrue(Commands.runOnce(() -> {
+            arm.setGoal(30);},
+            arm));
+
+        
+       //m_driverController.y().onTrue(new SpinToArmAngle(arm, 100));
+       m_driverController.x().onTrue(new SpinToArmAngle(arm, arm.encoderGetAngle() + 10));
 
 //We might not need this anymore (2/10/24)
         Shuffleboard.getTab("Arm").addDouble("encoder",()->arm.encoderGetAngle());
         Shuffleboard.getTab("Arm").addDouble("Arm Value",()->arm.getArmAngle());
+        Shuffleboard.getTab("Arm").addDouble("Controller's Goal",()-> arm.getController().getGoal().position
+        );
+
 
         
 

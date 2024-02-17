@@ -162,9 +162,9 @@ public class LimeLightSub extends SubsystemBase {
 
   // using distance formula (relative to field)
   public double getDistance() {
-    double[] botPose = botPoseBlue.getDoubleArray(new double[7]); // x,y,z,rx,ry,rz
+    double[] botPose = botPoseBlue.getDoubleArray(new double[6]); // x,y,z,rx,ry,rz
 
-    double distance = Math.sqrt(Math.pow((apriltag[(int) getID()-1][0]) - botPose[0], 2) + Math.pow((apriltag[(int) getID()-1][1]) - botPose[1], 2));  //getID()-1 because array (2d array is sorted)
+    double distance = Math.sqrt(Math.pow((apriltag[(int) getID()][0]) - botPose[0], 2) + Math.pow((apriltag[(int) getID()][1]) - botPose[1], 2)); 
 
     distance /= 0.0256;
     return distance;

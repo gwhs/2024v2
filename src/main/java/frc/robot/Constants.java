@@ -77,7 +77,7 @@ public final class Constants
     //118.587767088
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
     public static final double ENCODER_OFFSET = 259; //Change when mounted 
-    public static final int ARM_ID = 18;
+    public static final int ARM_ID = 8;
     public static final int PIZZABOX_ID = 23;
   }
 

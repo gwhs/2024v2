@@ -49,15 +49,17 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   private TalonFX m_pizzaBox;
   private Servo m_servo;
   
+  
 
   public ArmSubsystem(int armId, String armCanbus, int pizzaBoxId, String pizzaBoxCanbus, int channel1, int channelServo)
   {
-    super(new ProfiledPIDController(.005, .0, 0, new Constraints(.1, 1)));
+    super(new ProfiledPIDController(.005, .0, 0, new Constraints(.05, 1)));
+    
     //TrapezoidProfile either velocity or position
       m_arm = new TalonFX(armId, armCanbus);
-      m_pizzaBox = new TalonFX(pizzaBoxId, pizzaBoxCanbus);
+      // m_pizzaBox = new TalonFX(pizzaBoxId, pizzaBoxCanbus);
       m_encoder = new DutyCycleEncoder(channel1);
-      m_servo = new Servo(channelServo);
+      // m_servo = new Servo(channelServo);
       
       
 
@@ -95,12 +97,12 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
         if (motorStatusArm .isOK()) break;
       }      
       for (int i = 0; i < 5; ++i) {
-        motorStatus = m_pizzaBox.getConfigurator().apply(configs);
-        if (motorStatus .isOK()) break;
+        // motorStatus = m_pizzaBox.getConfigurator().apply(configs);
+        // if (motorStatus .isOK()) break;
       }
-      if(!motorStatus.isOK()) {
-        System.out.println("Could not apply configs, error code: " + motorStatus.toString());
-      }
+      // if(!motorStatus.isOK()) {
+      //   System.out.println("Could not apply configs, error code: " + motorStatus.toString());
+      // }
       if(!motorStatusArm.isOK()) {
         System.out.println("Could not apply configs, error code: " + motorStatusArm.toString());
       }
@@ -131,7 +133,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
  public void targetArmAngle(double angle)
  {
-  super.setGoal(angle);
+  setGoal(angle);
  }
 
 
@@ -233,7 +235,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   @Override
   public void useOutput(double output, State setPoint)
   {
-    //m_arm.set(output);
+    //Comment out for testing purposes
+    m_arm.set(output);
     System.out.println("Target Speed is " + output);
   }
 
@@ -241,15 +244,5 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   public double getMeasurement()
   {
     return encoderGetAngle();
-  }
-  
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
-
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
   }
 }

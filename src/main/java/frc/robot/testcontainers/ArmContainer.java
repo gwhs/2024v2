@@ -34,15 +34,24 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
 
+import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+
+
 public class ArmContainer implements BaseContainer {
+
   
     // todo: add intake subsystem
     private final CommandXboxController m_driverController =
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
         //CAN_Network
-        ArmSubsystem arm = new ArmSubsystem(Constants.Arm.ARM_ID, "CAN_Network", 3, "rio", 0, 0); 
+        ArmSubsystem arm = new ArmSubsystem(Constants.Arm.ARM_ID, "rio", Constants.Arm.PIZZABOX_ID, "rio", 0, 0); 
         //IntakeSubsystem intake = new IntakeSubsystem(0, 0, 1, 2, 3, "rio");
 //  public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, int channel1, int channel2, int channel3, String can)  {
+
+        //Testing Purposes
+
+
+        //Testing End
 
     public ArmContainer() {
         configureBindings();
@@ -86,8 +95,11 @@ public class ArmContainer implements BaseContainer {
     //    SpinNoteContainerMotor army = new SpinNoteContainerMotor (arm, 0.25, 10);
     //    m_driverController.y().onTrue(army);
        //m_driverController.x().onTrue(new StopNoteContainerMotor(arm));
+       m_driverController.a().onTrue(Commands.runOnce(() -> {arm.enable();}, arm));
+       m_driverController.b().onTrue(Commands.runOnce(() -> {arm.disable();}, arm));
 
-       m_driverController.b().onTrue(new SpinToArmAngle(arm, -45));
+       m_driverController.y().onTrue(new SpinToArmAngle(arm, 45));
+       m_driverController.x().onTrue(new SpinToArmAngle(arm, 0));
        
 
 //We might not need this anymore (2/10/24)

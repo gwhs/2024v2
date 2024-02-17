@@ -28,6 +28,23 @@ public class LimeLightSub extends SubsystemBase {
 
   PIDController PIDVision = new PIDController(kP, kI, kD);
 
+  double[][] apriltag = {{15.08,0.24,1.35},
+                         {16.18,0.89,1.35},
+                         {16.58,4.98,1.45},
+                         {16.58,5.55,1.45},
+                         {14.70,8.23,1.35},
+                         {1.84,8.23,1.35},
+                         {-0.04,5.55,1.45},
+                         {-0.04,4.98,1.45},
+                         {0.36,0.88,1.35},
+                         {1.46,0.24,1.35},
+                         {11.90,3.71,1.32},
+                         {11.90,4.50,1.32},
+                         {11.22,4.10,1.32},
+                         {5.32,4.10,1.32},
+                         {4.64,4.50,1.32},
+                         {4.64,3.71,1.32}};
+
   // set up a new instance of NetworkTables (the api/library used to read values from limelight)
   NetworkTable networkTable = NetworkTableInstance.getDefault().getTable("limelight");
 

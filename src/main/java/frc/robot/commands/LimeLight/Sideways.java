@@ -14,6 +14,8 @@ public class Sideways extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final SwerveSubsystem driSwerveSubsystem;
   private final LimeLightSub limeLightSub;
+
+  private double distance;
   /**
    * Creates a new ExampleCommand.
    *
@@ -29,21 +31,15 @@ public class Sideways extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    limeLightSub.setPoint(0, "y");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // double distance = limeLightSub.getDistanceTx();
-    // System.out.println(distance);
-    // System.out.println("works");
-    // driSwerveSubsystem.drive(new Translation2d(0, limeLightSub.getDistanceTx()), 0, false);
-
-
-    // driSwerveSubsystem.drive(new Translation2d(0, distance), 0, true);
+    distance = limeLightSub.getErrorY(); 
+    driSwerveSubsystem.drive(new Translation2d(0, distance), 0, true);
     
-
   }
 
   // Called once the command ends or is interrupted.
@@ -53,6 +49,6 @@ public class Sideways extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (limeLightSub.getDistanceY() < 0.05 && limeLightSub.getDistanceY() > -0.05);
   }
 }

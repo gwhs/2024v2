@@ -4,6 +4,7 @@
 
 package frc.robot.testcontainers;
 
+import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -11,10 +12,13 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.BaseContainer;
+import frc.robot.Constants.AprilTagConstants;
+import frc.robot.Constants.LimeLightConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Robot;
 import frc.robot.commands.LimeLight.FaceAprilTag;
 import frc.robot.commands.LimeLight.Sideways;
+import frc.robot.commands.driveCommands.rotateinPlace;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
@@ -60,12 +64,6 @@ public class VisionContainer implements BaseContainer
         () -> MathUtil.applyDeadband(-driverXbox.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
         () -> driverXbox.getLeftTriggerAxis() - driverXbox.getRightTriggerAxis(), () -> true);
 
-    TeleopDrive autoAlignVision = new TeleopDrive(
-        drivebase,
-        () -> 0,
-        () -> 0,
-        () -> -limeLightSub.getError(), () -> true);
-
     drivebase.setDefaultCommand(closedFieldRel);  //TO CHANGE DRIVE BASE
 
   }
@@ -84,6 +82,8 @@ public class VisionContainer implements BaseContainer
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
 
     driverXbox.a().onTrue(new Sideways(drivebase, limeLightSub));
+    driverXbox.b().onTrue(new rotateinPlace(() -> AprilTagConstants.APRILTAG_ROTATION[limeLightSub.getID()], drivebase));
+    driverXbox.y().onTrue(new FaceAprilTag(drivebase, limeLightSub));
   }
 
   /**

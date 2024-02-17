@@ -32,13 +32,12 @@ public class FaceAprilTag extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    limeLightSub.setPoint(0);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driSwerveSubsystem.drive(new Translation2d(0, 0), 0, false);
+    driSwerveSubsystem.drive(new Translation2d(0, 0), -limeLightSub.getTx(), true);
     
 
   }

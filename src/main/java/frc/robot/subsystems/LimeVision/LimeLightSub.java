@@ -19,14 +19,15 @@ import edu.wpi.first.apriltag.AprilTagFields;
 public class LimeLightSub extends SubsystemBase {
 
   // PID constants
-  private final double kP = 0.1;
+  private final double kP = 0.2;
   private final double kD = 0.3;
   private final double kI = 0;
   // Set target point
 
   AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
 
-  PIDController PIDVision = new PIDController(kP, kI, kD);
+  PIDController PIDVisionX = new PIDController(kP, kI, kD);
+  PIDController PIDVisionY = new PIDController(kP, kI, kD);
 
   // in meters
   double[][] apriltag = {{15.08,0.24,1.35},
@@ -81,8 +82,8 @@ public class LimeLightSub extends SubsystemBase {
     limelight_comm.set_entry_double("ledMode", 3);
 
     // distance
-    Shuffleboard.getTab("Limelight").addNumber("Distance", ()-> getDistance());
-    Shuffleboard.getTab("Limelight").addNumber("Distance X", ()-> getDistanceY());
+    Shuffleboard.getTab("Limelight").addNumber("Distance X", ()-> getDistanceX());
+    Shuffleboard.getTab("Limelight").addNumber("Distance Y", ()-> getDistanceY());
   }
 
   @Override
@@ -138,39 +139,40 @@ public class LimeLightSub extends SubsystemBase {
     return !(limelight_comm.get_entry_double("pipeline") < .5);
   }
 
-  // calculates error from target
-  public double getError() {
-    return PIDVision.calculate(getTx());
-  }
-
-  // // calculates distance from tag --- not that good
-  // public double getDistance() {
-  //   double distance = (LimeLightConstants.TARGET_HEIGHT - LimeLightConstants.CAMERA_HEIGHT) / (Math.tan(getTheta()));
-  //   return distance;
-  // }
-
   // using distance formula (relative to field)
-  public double getDistance() {
+  public double getDistanceX() {
     double distance = -1;
     if (hasTarget()) {
-    double[] botPose = botPoseBlue.getDoubleArray(new double[6]); // x,y,z,rx,ry,rz
+    double[] botPose = botPoseBlue.getDoubleArray(new double[7]); // x,y,z,rx,ry,rz
     distance = Math.sqrt(Math.pow((apriltag[getID()][0] - botPose[0]), 2) + Math.pow((apriltag[getID()][1] - botPose[1]), 2)); 
     }
     return distance;
   }
 
   // setsPoint PID
-  public void setPoint(double target) {
-    PIDVision.setSetpoint(target);
+  public void setPoint(double target, String orientation) {
+    if (orientation.toLowerCase().equals("x")) {
+      PIDVisionX.setSetpoint(target);
+    } else if (orientation.toLowerCase().equals("y")) {
+      PIDVisionY.setSetpoint(target);
+    }
   }
 
   public double getDistanceY() {
     double distance = -1;
     if (hasTarget()) {
-    double[] botPose = botPoseBlue.getDoubleArray(new double[6]); // x,y,z,rx,ry,rz
+    double[] botPose = botPoseBlue.getDoubleArray(new double[7]); // x,y,z,rx,ry,rz
     distance = apriltag[getID()][1] - botPose[1]; 
     }
     return distance;
+  }
+
+  public double getErrorX() {  // front and back
+    return PIDVisionX.calculate(getDistanceX());
+  }
+  
+  public double getErrorY() {  // left and right
+    return PIDVisionY.calculate(getDistanceY());
   }
 
 }

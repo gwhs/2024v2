@@ -94,7 +94,7 @@ public class LimeLightSub extends SubsystemBase {
     SmartDashboard.putNumber("theta", getTheta());
     SmartDashboard.putNumber("AngleToTarget", getAngle());
 
-    SmartDashboard.putNumber("Distance", getDistance()); // printing
+    SmartDashboard.putNumber("Distance", getDistance());
 
     System.out.println("Theta: " + aprilTagFieldLayout);
     
@@ -116,8 +116,8 @@ public class LimeLightSub extends SubsystemBase {
     return Tx;
   }
 
-  public double getID() {
-    double id = tid.getDouble(0);
+  public int getID() {
+    int id = (int) tid.getDouble(-1);
     return id;
   }
 
@@ -162,11 +162,14 @@ public class LimeLightSub extends SubsystemBase {
 
   // using distance formula (relative to field)
   public double getDistance() {
+    double distance = -1;
+    if (hasTarget()) {
     double[] botPose = botPoseBlue.getDoubleArray(new double[6]); // x,y,z,rx,ry,rz
 
-    double distance = Math.sqrt(Math.pow((apriltag[(int) getID()][0]) - botPose[0], 2) + Math.pow((apriltag[(int) getID()][1]) - botPose[1], 2)); 
+    distance = Math.sqrt(Math.pow((apriltag[getID()][0] - botPose[0]), 2) + Math.pow((apriltag[getID()][1] - botPose[1]), 2)); 
 
     distance /= 0.0256;
+    }
     return distance;
   }
 

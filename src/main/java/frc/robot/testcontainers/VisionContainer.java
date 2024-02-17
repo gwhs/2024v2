@@ -64,7 +64,7 @@ public class VisionContainer implements BaseContainer
         () -> 0,
         () -> -limeLightSub.getError(), () -> true);
 
-    drivebase.setDefaultCommand(autoAlignVision);  //TO CHANGE DRIVE BASE
+    drivebase.setDefaultCommand(closedFieldRel);  //TO CHANGE DRIVE BASE
 
   }
 

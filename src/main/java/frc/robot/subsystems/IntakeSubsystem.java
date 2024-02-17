@@ -6,21 +6,14 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-
-import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.controls.PositionVoltage;
 import com.ctre.phoenix6.controls.VelocityVoltage;
-import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
-
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 
@@ -87,22 +80,6 @@ public class IntakeSubsystem extends SubsystemBase {
     .withSize(3,3)
     .withPosition(3, 0);;
   }
- 
-  // sets the angle of the intake motor
-  public void setArmAngle(double angle) {
-    if(angle < 0) { // minimum angle
-      angle = 0;
-    } 
-    else if (angle > Constants.IntakeConstants.MAX_ARM_ANGLE) { // maximum angle, need to update
-      angle = Constants.IntakeConstants.MAX_ARM_ANGLE;
-    }
-
-    // setAngle units is in rotations
-    double setAngle = (((angle - encoderGetAngle() + getArmPos())) * Constants.IntakeConstants.GEAR_RATIO);
-
-    PositionVoltage PositionVoltage = new PositionVoltage(setAngle/Constants.IntakeConstants.ROTATION_TO_DEGREES, 0.1, false, 0, 1, false, false, false);
-    m_moveIntakeArm.setControl(PositionVoltage);
-  }
 
   // spin the intake motors, velocity is negative
   public void spinIntakeMotor() {
@@ -119,7 +96,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void spinIntakeArm(double speed) {
-  if(speed < -1) { //Will not be less than minimum angle
+  if(speed < -1) { // Will not be less than minimum angle
     speed = -1;
   }
   else if (speed > 1) { // Will not be greater than maximum angle
@@ -154,8 +131,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-  }
+  public void periodic() {}
 
   @Override
   public void simulationPeriodic() {

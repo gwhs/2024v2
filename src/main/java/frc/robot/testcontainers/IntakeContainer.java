@@ -31,24 +31,15 @@ public class IntakeContainer implements BaseContainer {
         
         final PIDController intakeController = new PIDController(.005, .0, .0);
         intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
-
-        // Command command = new SpinIntakePID(intakeController, intakeSubsystem, 0);
-        // command = command.andThen(intakeSubsystem.spinIntakeMotor());
-        // command = command.andThen(new SpinIntakePID(intakeController, intakeSubsystem, 106)).withTimeout(4);
         
-
-
         xboxController.x().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 0));
         xboxController.y().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 106));
 
         Shuffleboard.getTab("intake").add(intakeController);
 
-        //xboxController.a().onTrue(new SpinIntakePID(intakeSubsystem, 90));
-        // xboxController.a().onTrue(new LowerArmIntake(intakeSubsystem, 10)); 
-        // xboxController.x().onTrue(new UpperArmIntake(intakeSubsystem)); 
-        // xboxController.y().onTrue(new IntakePickUpFromGround(intakeSubsystem));
-
-        // press b - goes to 0, press x - goes to 90 , for controller labled BROKEN
+        // Command command = new SpinIntakePID(intakeController, intakeSubsystem, 0);
+        // command = command.andThen(intakeSubsystem.spinIntakeMotor());
+        // command = command.andThen(new SpinIntakePID(intakeController, intakeSubsystem, 106)).withTimeout(4);
 
     }
 }

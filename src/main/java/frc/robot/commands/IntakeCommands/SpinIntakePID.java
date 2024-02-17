@@ -4,13 +4,10 @@
 
 package frc.robot.commands.IntakeCommands;
 import frc.robot.subsystems.IntakeSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.math.controller.PIDController;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 
 public class SpinIntakePID extends PIDCommand {
-    private double angle;
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final IntakeSubsystem intakeSubsystem;
@@ -21,14 +18,13 @@ public class SpinIntakePID extends PIDCommand {
             {intakeSubsystem.spinIntakeArm(-speed);
             System.out.println(speed);}
             , intakeSubsystem);
-    angle = targetAngle;
     this.intakeSubsystem = intakeSubsystem;
   }
 
-//  Returns true when the command should end.
-//  @Override
+  //Returns true when the command should end.
+  //@Override
   public boolean isFinished() {
     return getController().atSetpoint();
   }
-  
+
 }

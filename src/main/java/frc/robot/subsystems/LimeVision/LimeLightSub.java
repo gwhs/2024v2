@@ -20,13 +20,16 @@ public class LimeLightSub extends SubsystemBase {
 
   // PID constants
   private final double kPX = 0.8;
-  private final double kDX = 0.;
+  private final double kDX = 0.1;
   private final double kIX = 0;
 
   private final double kPY = 0.6;
-  private final double kDY = 0;
+  private final double kDY = 0.1;
   private final double kIY = 0;
 
+  /* PID constants for faceAprilTag
+   * P = 0.04, D = 0, I = 0
+   */
   private final double kPTheta = 0.04;
   private final double kDTheta = 0;
   private final double kITheta = 0;
@@ -95,8 +98,8 @@ public class LimeLightSub extends SubsystemBase {
     Shuffleboard.getTab("Limelight").addNumber("Distance Y", ()-> getDistanceY());
     Shuffleboard.getTab("Limelight").addNumber("Distance X Error", ()-> getErrorX());
     Shuffleboard.getTab("Limelight").addNumber("Distance Y Error", ()-> getErrorY());
-    Shuffleboard.getTab("Limelight").addNumber("Theta Error", ()-> getThetaError());
     Shuffleboard.getTab("Limelight").addNumber("Tx", ()-> getTx());
+    Shuffleboard.getTab("Limelight").addNumber("Theta Error", ()-> getThetaError());
   }
 
   @Override
@@ -152,16 +155,6 @@ public class LimeLightSub extends SubsystemBase {
     return !(limelight_comm.get_entry_double("pipeline") < .5);
   }
 
-  // using distance formula (relative to field)
-  public double getDistanceX() {
-    double distance = -1;
-    if (getID() >= 0) {
-    double[] botPose = botPoseBlue.getDoubleArray(new double[7]); // x,y,z,rx,ry,rz
-    distance = Math.sqrt(Math.pow((apriltag[getID()][0] - botPose[0]), 2) + Math.pow((apriltag[getID()][1] - botPose[1]), 2)); 
-    }
-    return distance;
-  }
-
   // setsPoint PID
   public void setPoint(double target, String orientation) {
     if (orientation.toLowerCase().equals("x")) {
@@ -171,6 +164,25 @@ public class LimeLightSub extends SubsystemBase {
     } else if (orientation.toLowerCase().equals("theta")) {
       PIDVisionTheta.setSetpoint(target);
     }
+  }
+
+  // using distance formula (relative to field) calculates distance from tag
+  public double getDistance() {
+    double distance = -1;
+    if (getID() >= 0) {
+    double[] botPose = botPoseBlue.getDoubleArray(new double[7]); // x,y,z,rx,ry,rz
+    distance = Math.sqrt(Math.pow((apriltag[getID()][0] - botPose[0]), 2) + Math.pow((apriltag[getID()][1] - botPose[1]), 2)); 
+    }
+    return distance;
+  }
+
+  public double getDistanceX() {
+    double distance = -1;
+    if (getID() >= 0) {
+    double[] botPose = botPoseBlue.getDoubleArray(new double[7]); // x,y,z,rx,ry,rz
+    distance = apriltag[getID()][0] - botPose[0]; 
+    }
+    return distance;
   }
 
   public double getDistanceY() {
@@ -192,6 +204,16 @@ public class LimeLightSub extends SubsystemBase {
 
   public double getThetaError() {
     return PIDVisionTheta.calculate(getTx());
+  }
+
+  // uses 3d botpose instead of 2d values, testing for smooth simultaneous movement, need to test
+  public double getSmoothThetaError() {
+    double angle = 0;
+    if (getID() >= 0) {
+    double[] botPose = botPoseBlue.getDoubleArray(new double[7]); // x,y,z,rx,ry,rz
+    angle = 180d - botPose[5]; // rz 180 is constant means that facing tag
+    }
+    return PIDVisionTheta.calculate(angle);
   }
 
 }

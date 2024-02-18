@@ -50,10 +50,6 @@ public class Forward extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (limeLightSub.getDistanceX() < 2.05); // when distance is less than target distance, stop
+    return (limeLightSub.getErrorX() < 0.1 && limeLightSub.getErrorX() > -0.01);
   }
 }
-
-
-// fix forward command
-// use botpose x instead of distance

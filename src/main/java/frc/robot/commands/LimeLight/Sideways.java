@@ -49,6 +49,6 @@ public class Sideways extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (limeLightSub.getDistanceY() < 0.05 && limeLightSub.getDistanceY() > -0.05);
+    return (limeLightSub.getDistanceY() < 0.03 && limeLightSub.getDistanceY() > -0.03);
   }
 }

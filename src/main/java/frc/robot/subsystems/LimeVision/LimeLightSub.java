@@ -19,15 +19,24 @@ import edu.wpi.first.apriltag.AprilTagFields;
 public class LimeLightSub extends SubsystemBase {
 
   // PID constants
-  private final double kP = 0.2;
-  private final double kD = 0.3;
-  private final double kI = 0;
+  private final double kPX = 0.2;
+  private final double kDX = 0.3;
+  private final double kIX = 0;
+
+  private final double kPY = 0.6;
+  private final double kDY = 0;
+  private final double kIY = 0;
+
+  private final double kPTheta = 0.04;
+  private final double kDTheta = 0;
+  private final double kITheta = 0;
   // Set target point
 
   AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
 
-  PIDController PIDVisionX = new PIDController(kP, kI, kD);
-  PIDController PIDVisionY = new PIDController(kP, kI, kD);
+  PIDController PIDVisionX = new PIDController(kPX, kIX, kDX);
+  PIDController PIDVisionY = new PIDController(kPY, kIY, kDY);
+  PIDController PIDVisionTheta = new PIDController(kPTheta, kITheta, kDTheta);
 
   // in meters
   double[][] apriltag = {{15.08,0.24,1.35},
@@ -36,7 +45,7 @@ public class LimeLightSub extends SubsystemBase {
                          {16.58,5.55,1.45},
                          {14.70,8.23,1.35},
                          {1.84,8.23,1.35},
-                         {-0.04,5.55,1.45},
+                         {-0.04,5.38,1.45},
                          {-0.04,4.98,1.45},
                          {0.36,0.88,1.35},
                          {1.46,0.24,1.35},
@@ -84,6 +93,9 @@ public class LimeLightSub extends SubsystemBase {
     // distance
     Shuffleboard.getTab("Limelight").addNumber("Distance X", ()-> getDistanceX());
     Shuffleboard.getTab("Limelight").addNumber("Distance Y", ()-> getDistanceY());
+    Shuffleboard.getTab("Limelight").addNumber("Distance Y Error", ()-> getErrorY());
+    Shuffleboard.getTab("Limelight").addNumber("Theta Error", ()-> getThetaError());
+    Shuffleboard.getTab("Limelight").addNumber("Tx", ()-> getTx());
   }
 
   @Override
@@ -155,6 +167,8 @@ public class LimeLightSub extends SubsystemBase {
       PIDVisionX.setSetpoint(target);
     } else if (orientation.toLowerCase().equals("y")) {
       PIDVisionY.setSetpoint(target);
+    } else if (orientation.toLowerCase().equals("theta")) {
+      PIDVisionTheta.setSetpoint(target);
     }
   }
 
@@ -173,6 +187,10 @@ public class LimeLightSub extends SubsystemBase {
   
   public double getErrorY() {  // left and right
     return PIDVisionY.calculate(getDistanceY());
+  }
+
+  public double getThetaError() {
+    return PIDVisionTheta.calculate(getTx());
   }
 
 }

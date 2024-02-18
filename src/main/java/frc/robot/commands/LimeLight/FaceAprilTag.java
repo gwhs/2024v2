@@ -32,12 +32,14 @@ public class FaceAprilTag extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    limeLightSub.setPoint(0, "theta");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    driSwerveSubsystem.drive(new Translation2d(0, 0), -limeLightSub.getTx(), true);
+    double angle = limeLightSub.getThetaError();
+    driSwerveSubsystem.drive(new Translation2d(0, 0), angle, true);
     
 
   }
@@ -49,6 +51,6 @@ public class FaceAprilTag extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return (limeLightSub.getThetaError() < 0.01 && limeLightSub.getThetaError() > -0.01);
   }
 }

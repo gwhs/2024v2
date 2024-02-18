@@ -36,7 +36,7 @@ public class IntakeSubsystem extends SubsystemBase {
     m_moveIntakeArm = new TalonFX(lowerIntakeId, can); 
     m_spinIntake = new TalonFX(spinIntakeId, can);
     m_Encoder = new DutyCycleEncoder(Constants.IntakeConstants.INTAKE_ENCODER_CHANNEL_ID);
-    m_noteSensor = new DigitalInput(channel1); //not implemented, update once confirmed
+    m_noteSensor = new DigitalInput(Constants.IntakeConstants.INTAKE_NOTESENSOR_CHANNEL_ID); 
     this.intakeMotorVelocity = Constants.IntakeConstants.INTAKE_MOTOR_VELOCITY;
     this.intakeMotorAcceleration = Constants.IntakeConstants.INTAKE_MOTOR_ACCELERATION;
 
@@ -120,7 +120,6 @@ public class IntakeSubsystem extends SubsystemBase {
     return m_moveIntakeArm.getPosition().getValue()/Constants.IntakeConstants.GEAR_RATIO * Constants.IntakeConstants.ROTATION_TO_DEGREES;
   }
 
-  //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])
   public double encoderGetAngle() {
     return ((m_Encoder.get() * Constants.IntakeConstants.ROTATION_TO_DEGREES) - Constants.IntakeConstants.ENCODER_OFFSET); 
   }

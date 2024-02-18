@@ -39,10 +39,11 @@ public class MotorDown extends Command {
     double rightSpeed = ClimbConstants.CLIMB_MOTOR_SPEED;
 
     //TEST THIS LATER
-    if (swerve.getRoll().getDegrees() > 0) {
-      leftSpeed += 1;
-    } else if (swerve.getRoll().getDegrees() < 0) {
-      rightSpeed += 1;
+    if (swerve.getRoll().getDegrees() < -0.5) {
+      leftSpeed -= 2;
+    } else if (swerve.getRoll().getDegrees() > 0.5) {
+      rightSpeed -= 2
+      ;
     }
     climbersubsystem.setSpeed(-leftSpeed, -rightSpeed); //sets the speed (in rotations/sec) to the value set in Constants file 
     //robot goes up but motors go down so negative velocity
@@ -54,7 +55,7 @@ public class MotorDown extends Command {
     // while (climbersubsystem.getBotLimit()){
     //   climbersubsystem.setSpeed(ClimbConstants.CLIMB_MOTOR_SPEED/4, ClimbConstants.CLIMB_MOTOR_SPEED/4);
     // }
-    climbersubsystem.stopClimb();
+    climbersubsystem.setSpeed(0, 0);
   }
 
   // Returns true when the command should end.

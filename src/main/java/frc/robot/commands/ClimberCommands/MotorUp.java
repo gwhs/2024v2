@@ -38,10 +38,10 @@ public class MotorUp extends Command {
     double rightSpeed = ClimbConstants.CLIMB_MOTOR_SPEED;
 
     //TEST THIS LATER
-    if (swerve.getRoll().getDegrees() > 0) {
-      leftSpeed += 1;
-    } else if (swerve.getRoll().getDegrees() < 0) {
-      rightSpeed += 1;
+    if (swerve.getRoll().getDegrees() < -0.5) {
+      leftSpeed += 2;
+    } else if (swerve.getRoll().getDegrees() > 0.5) {
+      rightSpeed += 2;
     }
 
     climbersubsystem.setSpeed(leftSpeed, rightSpeed); //sets the speed (in rotations/sec) to the value set in Constants file 

@@ -2,6 +2,7 @@ package frc.robot.testcontainers;
 
 import java.io.File;
 
+import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -17,10 +18,13 @@ import frc.robot.commands.ClimberCommands.ClimbUp;
 import frc.robot.commands.ClimberCommands.MotorDown;
 import frc.robot.commands.ledcommands.ChangeLEDToGreen;
 import frc.robot.commands.ledcommands.ChangeLEDToRed;
+import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 public class ClimbContainer implements BaseContainer {
+
+    CommandXboxController driverXbox = new CommandXboxController(0);
 
     Climbsubsystem climbsubsystem = new Climbsubsystem( ClimbConstants.MOTOR_LEFT_ID, 
                                                         ClimbConstants.MOTOR_RIGHT_ID, 
@@ -30,6 +34,12 @@ public class ClimbContainer implements BaseContainer {
 
     SwerveSubsystem swerve = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                         getDriveTrainName()));
+
+    TeleopDrive closedFieldRel = new TeleopDrive(
+        swerve,
+        () -> MathUtil.applyDeadband(-driverXbox.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
+        () -> MathUtil.applyDeadband(-driverXbox.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
+        () -> driverXbox.getLeftTriggerAxis() - driverXbox.getRightTriggerAxis(), () -> true);
   
     // NEED TO DO: climb command should autoalign then climb then shoot and then maybe climb back down
     private final CommandXboxController m_driverController =
@@ -43,7 +53,12 @@ public class ClimbContainer implements BaseContainer {
         Shuffleboard.getTab("Climb").addDouble("climb distance right", () -> climbsubsystem.getPositionRight());
         Shuffleboard.getTab("Climb").addBoolean("bot limit", () -> climbsubsystem.getBotLimit());
         Shuffleboard.getTab("Climb").addBoolean("top limit", () -> climbsubsystem.getTopLimit());
+
+        Shuffleboard.getTab("Climb").addDouble("roll", () -> swerve.getRoll().getDegrees());
         
+        swerve.setDefaultCommand(closedFieldRel);  //TO CHANGE DRIVE BASE
+
+
         configureBindings();
     
     }
@@ -62,6 +77,6 @@ public class ClimbContainer implements BaseContainer {
     }
 
     public String getDriveTrainName(){
-        return "swerve/ryker_falcon";
+        return "swerve/hajel_kraken";
       }
 }

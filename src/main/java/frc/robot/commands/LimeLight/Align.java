@@ -24,9 +24,7 @@ public class Align extends SequentialCommandGroup {
             // Commands.waitSeconds(0.5),
             new Sideways(driSwerveSubsystem, limeLightSub),
             Commands.waitSeconds(0.5),
-            new FaceAprilTag(driSwerveSubsystem, limeLightSub),
-            Commands.waitSeconds(0.5),
-            new Forward(driSwerveSubsystem, limeLightSub),
+            new FaceAprilTag(driSwerveSubsystem, limeLightSub).andThen(new Forward(driSwerveSubsystem, limeLightSub)),
             Commands.waitSeconds(0.5),
             new FaceAprilTag(driSwerveSubsystem, limeLightSub));
     }

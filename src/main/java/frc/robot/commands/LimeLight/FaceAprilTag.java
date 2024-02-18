@@ -51,6 +51,9 @@ public class FaceAprilTag extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (limeLightSub.getThetaError() < 0.01 && limeLightSub.getThetaError() > -0.01);
+    double error = limeLightSub.getThetaError();
+    boolean low_error = error < 0.1 && error > -0.1;
+    System.out.println("FaceAprilTag: " + low_error);
+    return (low_error);
   }
 }

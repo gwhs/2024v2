@@ -31,7 +31,7 @@ public class Forward extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    limeLightSub.setPoint(2.2, "x"); // fixed x distance from tag before crashing field perimeter
+    limeLightSub.setPoint(2, "x"); // fixed x distance from tag before crashing field perimeter
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -53,3 +53,7 @@ public class Forward extends Command {
     return (limeLightSub.getDistanceX() < 2.05); // when distance is less than target distance, stop
   }
 }
+
+
+// fix forward command
+// use botpose x instead of distance

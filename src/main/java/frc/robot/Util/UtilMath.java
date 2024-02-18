@@ -10,16 +10,29 @@ import frc.robot.Constants;
 
 /** Add your docs here. */
 public class UtilMath {
-    public static double SPEAKER_X;
-    public static double SPEAKER_Y;
-    
-
 
     public static double caclucateRotateTheta(Pose2d pose, double targetX, double targetY){
         double calucatedRad = Math.atan2((targetY-pose.getY()), (targetX-pose.getX()));
         return  Math.toDegrees(calucatedRad);
     }
-//Sims don't work for this method
+
+     public static double BLUESpeakerTheta(Pose2d pose)
+    {
+
+        return caclucateRotateTheta(pose, Constants.FieldConstants.BLUE_SPEAKER_Y, Constants.FieldConstants.BLUE_SPEAKER_X);
+    }
+
+    public static double REDSpeakerTheta(Pose2d pose)
+    {
+
+        return caclucateRotateTheta(pose, Constants.FieldConstants.RED_SPEAKER_Y, Constants.FieldConstants.RED_SPEAKER_X);
+    
+    }
+
+    //Sims don't work for this method
+    public static double SPEAKER_X;
+    public static double SPEAKER_Y;
+
     public static double SpeakerTheta(Pose2d pose)
     {
           if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
@@ -35,7 +48,26 @@ public class UtilMath {
 
         return caclucateRotateTheta(pose, SPEAKER_X, SPEAKER_Y);
     }
+    
+public static double inchesToMeters(double inches)
+{
+  double meters = inches/39.97;
+  return meters;
+}
 
-
-
+public static int bestTrap(Pose2d pose)
+{
+  if(Math.abs(pose.getY() - Constants.FieldConstants.BLUE_TRAP_16_Y) < Math.abs(pose.getY() - Constants.FieldConstants.BLUE_TRAP_15_Y))
+  {
+    return 16; //returns id
+  }
+  else if(Math.abs(pose.getY() - Constants.FieldConstants.BLUE_TRAP_15_Y) < Math.abs(pose.getY() - Constants.FieldConstants.BLUE_TRAP_16_Y))
+  {
+    return 15;
+  }
+  else
+  {
+    return 14;
+  }
+}
 }

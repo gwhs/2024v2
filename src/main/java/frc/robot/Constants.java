@@ -4,8 +4,11 @@
 
 package frc.robot;
 
+import com.ctre.phoenix.Util;
+
 import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.util.Units;
+import frc.robot.Util.UtilMath;
 import swervelib.math.Matter;
 import swervelib.parser.PIDFConfig;
 
@@ -89,10 +92,23 @@ public final class Constants
 
   public static final class FieldConstants
   {
+
+    //Speaker
     public static final double BLUE_SPEAKER_X = -0.0381; //in meters
     public static final double BLUE_SPEAKER_Y = 5.5479; //in meters
     public static final double RED_SPEAKER_X = 16.5793; //in meters
     public static final double RED_SPEAKER_Y = 5.5479; //in meters
+
+    //Trap
+    public static final double BLUE_TRAP_16_X = UtilMath.inchesToMeters(182.73);
+    public static final double BLUE_TRAP_16_Y = UtilMath.inchesToMeters(146.19);
+
+    public static final double BLUE_TRAP_15_X = UtilMath.inchesToMeters(182.73);
+    public static final double BLUE_TRAP_15_Y = UtilMath.inchesToMeters(177.10);
+    
+    public static final double BLUE_TRAP_14_X = UtilMath.inchesToMeters(209.48);
+    public static final double BLUE_TRAP_14_Y = UtilMath.inchesToMeters(161.62);
+
   }
 }
 

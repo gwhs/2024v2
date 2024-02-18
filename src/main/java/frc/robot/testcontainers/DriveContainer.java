@@ -20,6 +20,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Util.UtilMath;
 import frc.robot.Robot;
 import frc.robot.commands.driveCommands.rotateinPlace;
+import frc.robot.commands.driveCommands.toTrap;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
@@ -104,12 +105,14 @@ public class DriveContainer implements BaseContainer
 
 
     ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
-    ShuffleboardTab angleTab = Shuffleboard.getTab("Theta");
+    // ShuffleboardTab angleTab = Shuffleboard.getTab("Theta");
 
     // SmartDashboard.putData("Rotate To Speaker", new rotateinPlace(()->UtilMath.SpeakerTheta(drivebase.getPose()), drivebase));
 
     // angleTab.addDouble("Estimated Theta", ()->UtilMath.SpeakerTheta(drivebase.getPose()));
 
+    ShuffleboardTab toTrap = Shuffleboard.getTab("Trap");
+    Shuffleboard.getTab("Trap").add("To Trap", new toTrap(drivebase));
     
 
     

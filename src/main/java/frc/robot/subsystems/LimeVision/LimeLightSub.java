@@ -155,7 +155,7 @@ public class LimeLightSub extends SubsystemBase {
   // using distance formula (relative to field)
   public double getDistanceX() {
     double distance = -1;
-    if (hasTarget()) {
+    if (getID() >= 0) {
     double[] botPose = botPoseBlue.getDoubleArray(new double[7]); // x,y,z,rx,ry,rz
     distance = Math.sqrt(Math.pow((apriltag[getID()][0] - botPose[0]), 2) + Math.pow((apriltag[getID()][1] - botPose[1]), 2)); 
     }
@@ -175,7 +175,7 @@ public class LimeLightSub extends SubsystemBase {
 
   public double getDistanceY() {
     double distance = -1;
-    if (hasTarget()) {
+    if (getID() >= 0) {
     double[] botPose = botPoseBlue.getDoubleArray(new double[7]); // x,y,z,rx,ry,rz
     distance = apriltag[getID()][1] - botPose[1]; 
     }

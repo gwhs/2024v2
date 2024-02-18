@@ -10,6 +10,7 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.commands.driveCommands.rotateinPlace;
 import frc.robot.commands.LimeLight.FaceAprilTag;
 import frc.robot.commands.LimeLight.Sideways;
+import frc.robot.commands.LimeLight.Forward;
 
 
 public class Align extends SequentialCommandGroup {
@@ -19,8 +20,14 @@ public class Align extends SequentialCommandGroup {
         LimeLightSub limeLightSub) {
             // Add commands
         addCommands(
-            new rotateinPlace(() -> AprilTagConstants.APRILTAG_ROTATION[limeLightSub.getID()], driSwerveSubsystem),
+            // new rotateinPlace(() -> AprilTagConstants.APRILTAG_ROTATION[limeLightSub.getID()], driSwerveSubsystem),
+            // Commands.waitSeconds(0.5),
             new Sideways(driSwerveSubsystem, limeLightSub),
+            Commands.waitSeconds(0.5),
+            new FaceAprilTag(driSwerveSubsystem, limeLightSub),
+            Commands.waitSeconds(0.5),
+            new Forward(driSwerveSubsystem, limeLightSub),
+            Commands.waitSeconds(0.5),
             new FaceAprilTag(driSwerveSubsystem, limeLightSub));
     }
 }

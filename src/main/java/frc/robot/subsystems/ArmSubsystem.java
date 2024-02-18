@@ -53,7 +53,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   public ArmSubsystem(int armId, String armCanbus, int pizzaBoxId, String pizzaBoxCanbus, int channel1, int channelServo)
   {
-    super(new ProfiledPIDController(.00005, .0, 0, new Constraints(.05, .05)));
+    super(new ProfiledPIDController(.005, .0, 0, new Constraints(.05, .5)));
     getController().setTolerance(5);
 
     getController().enableContinuousInput(0, 360);
@@ -239,8 +239,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   public void useOutput(double output, State setPoint)
   {
     //Comment out for testing purposes
-    m_arm.set(output/10.);
-    //System.out.println("Target Speed is " + output);
+    spinArm(output);
+    //System.out.println("Target Speed is " + (output));
   }
 
   @Override

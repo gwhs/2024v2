@@ -35,6 +35,8 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.Servo;
 
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+import edu.wpi.first.wpilibj2.command.ProfiledPIDCommand;
+
 
 
 public class ArmContainer implements BaseContainer {
@@ -101,12 +103,13 @@ public class ArmContainer implements BaseContainer {
        m_driverController.b().onTrue(Commands.runOnce(() -> {arm.disable();}, arm));
 
        m_driverController.y().onTrue(Commands.runOnce(() -> {
-        arm.setGoal(10);},
-        arm));
+        arm.disable();
+        arm.setGoal(40+ arm.getMeasurement());
+        arm.enable();
+        }, arm));
 
         m_driverController.leftBumper().onTrue(Commands.runOnce(() -> {
-            arm.setGoal(30);},
-            arm));
+            arm.setGoal(30);}));
 
         
        //m_driverController.y().onTrue(new SpinToArmAngle(arm, 100));
@@ -116,7 +119,7 @@ public class ArmContainer implements BaseContainer {
         Shuffleboard.getTab("Arm").addDouble("encoder",()->arm.encoderGetAngle());
         Shuffleboard.getTab("Arm").addDouble("Arm Value",()->arm.getArmAngle());
         Shuffleboard.getTab("Arm").addDouble("Controller's Goal",()-> arm.getController().getGoal().position
-        );
+       );
 
 
         

@@ -86,6 +86,14 @@ public final class Constants
     public static final double FALCON_TICKS = 1;
     public static final double NOTE_DELAY = 2; // change accordingly
   }
+
+  public static final class FieldConstants
+  {
+    public static final double BLUE_SPEAKER_X = -0.0381; //in meters
+    public static final double BLUE_SPEAKER_Y = 5.5479; //in meters
+    public static final double RED_SPEAKER_X = 16.5793; //in meters
+    public static final double RED_SPEAKER_Y = 5.5479; //in meters
+  }
 }
 
 

@@ -5,13 +5,13 @@
 package frc.robot.Util;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import frc.robot.Constants;
 
 /** Add your docs here. */
 public class UtilMath {
-    public static final double BLUE_SPEAKER_X = -0.0381; //in meters
-    public static final double BLUE_SPEAKER_Y = 5.5479; //in meters
-    public static final double RED_SPEAKER_X = 16.5793; //in meters
-    public static final double RED_SPEAKER_Y = 5.5479; //in meters
+    public static double SPEAKER_X;
+    public static double SPEAKER_Y;
     
 
 
@@ -19,17 +19,23 @@ public class UtilMath {
         double calucatedRad = Math.atan2((targetY-pose.getY()), (targetX-pose.getX()));
         return  Math.toDegrees(calucatedRad);
     }
-
-    public static double BLUESpeakerTheta(Pose2d pose)
+//Sims don't work for this method
+    public static double SpeakerTheta(Pose2d pose)
     {
+          if(DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
+        {
+             SPEAKER_X = Constants.FieldConstants.BLUE_SPEAKER_X;
+             SPEAKER_Y = Constants.FieldConstants.BLUE_SPEAKER_Y;
+        }
+        else
+        {
+            SPEAKER_X = Constants.FieldConstants.RED_SPEAKER_X;
+            SPEAKER_Y = Constants.FieldConstants.RED_SPEAKER_Y;
+        }
 
-        return caclucateRotateTheta(pose, BLUE_SPEAKER_Y, BLUE_SPEAKER_X);
+        return caclucateRotateTheta(pose, SPEAKER_X, SPEAKER_Y);
     }
 
-    public static double REDSpeakerTheta(Pose2d pose)
-    {
 
-        return caclucateRotateTheta(pose, RED_SPEAKER_Y, RED_SPEAKER_X);
-    
-    }
+
 }

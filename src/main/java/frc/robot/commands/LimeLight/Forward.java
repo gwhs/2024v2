@@ -31,14 +31,15 @@ public class Forward extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    limeLightSub.setPoint(2, "x"); // fixed x distance from tag before crashing field perimeter
+    limeLightSub.setPoint(2.2, "x"); // fixed x distance from tag before crashing field perimeter
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    System.out.println("working");
     distance = limeLightSub.getErrorX(); 
-    driSwerveSubsystem.drive(new Translation2d(distance, 0), 0, true);
+    driSwerveSubsystem.drive(new Translation2d(-distance, 0), 0, true);
     
   }
 
@@ -49,6 +50,6 @@ public class Forward extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (limeLightSub.getDistanceX() < 2); // when distance is less than target distance, stop
+    return (limeLightSub.getDistanceX() < 2.05); // when distance is less than target distance, stop
   }
 }

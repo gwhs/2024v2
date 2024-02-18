@@ -19,8 +19,8 @@ import edu.wpi.first.apriltag.AprilTagFields;
 public class LimeLightSub extends SubsystemBase {
 
   // PID constants
-  private final double kPX = 0.2;
-  private final double kDX = 0.3;
+  private final double kPX = 0.8;
+  private final double kDX = 0.;
   private final double kIX = 0;
 
   private final double kPY = 0.6;
@@ -93,6 +93,7 @@ public class LimeLightSub extends SubsystemBase {
     // distance
     Shuffleboard.getTab("Limelight").addNumber("Distance X", ()-> getDistanceX());
     Shuffleboard.getTab("Limelight").addNumber("Distance Y", ()-> getDistanceY());
+    Shuffleboard.getTab("Limelight").addNumber("Distance X Error", ()-> getErrorX());
     Shuffleboard.getTab("Limelight").addNumber("Distance Y Error", ()-> getErrorY());
     Shuffleboard.getTab("Limelight").addNumber("Theta Error", ()-> getThetaError());
     Shuffleboard.getTab("Limelight").addNumber("Tx", ()-> getTx());

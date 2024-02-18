@@ -127,9 +127,16 @@ public class Climbsubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    if (!bottomLeft.get())
     System.out.println(bottomLeft.get() + "2");
+
+    if (!bottomRight.get())
     System.out.println(bottomRight.get()+"3");
+
+    if (!topLeft.get())
     System.out.println(topLeft.get()+"4");
+
+    if (!topRight.get())
     System.out.println(topRight.get()+"5");
   }
 }

@@ -41,6 +41,8 @@ public class ClimbContainer implements BaseContainer {
     public ClimbContainer() {
         Shuffleboard.getTab("Climb").addDouble("climb distance left", () -> climbsubsystem.getPositionLeft());
         Shuffleboard.getTab("Climb").addDouble("climb distance right", () -> climbsubsystem.getPositionRight());
+        Shuffleboard.getTab("Climb").addBoolean("bot limit", () -> climbsubsystem.getBotLimit());
+        Shuffleboard.getTab("Climb").addBoolean("top limit", () -> climbsubsystem.getTopLimit());
         
         configureBindings();
     

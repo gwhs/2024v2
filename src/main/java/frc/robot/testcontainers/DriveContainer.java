@@ -19,6 +19,7 @@ import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Util.UtilMath;
 import frc.robot.Robot;
+import frc.robot.commands.driveCommands.SwitchDrivebase;
 import frc.robot.commands.driveCommands.rotateinPlace;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
@@ -119,7 +120,7 @@ FaceSpeaker speaker = new FaceSpeaker(drivebase,
 
 
 
-    drivebase.setDefaultCommand(closedFieldAbsoluteDriveSpeaker);  //TO CHANGE DRIVE BASE
+    drivebase.setDefaultCommand(closedFieldRel);  //TO CHANGE DRIVE BASE
     //drivebase.test();
 
 
@@ -130,7 +131,8 @@ FaceSpeaker speaker = new FaceSpeaker(drivebase,
 
     // angleTab.addDouble("Estimated Theta", ()->UtilMath.BLUESpeakerTheta(drivebase.getPose()));
 
-    Shuffleboard.getTab("test").add("Switch drivebase", ()-> new SwitchDrivebase(speaker, drivebase));
+    ShuffleboardTab test = Shuffleboard.getTab("test");
+    SmartDashboard.putData("test command", new SwitchDrivebase(speaker, drivebase));
     
     driveTrainShuffleboardTab.addDouble("X Position", ()->drivebase.getPose().getX())
       .withWidget(BuiltInWidgets.kGraph)

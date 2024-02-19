@@ -41,8 +41,8 @@ public class toTrap extends Command {
       bestTrap_X = Constants.FieldConstants.BLUE_TRAP_16_X;
       bestTrap_Y = Constants.FieldConstants.BLUE_TRAP_16_Y;
 
-      targetX = bestTrap_X - 3;
-      targetY = bestTrap_Y - 1;
+      targetX = bestTrap_X - Math.sin(Math.PI/6)*0.7;
+      targetY = bestTrap_Y - Math.cos(Math.PI/6)*0.7;
 
 
       
@@ -54,8 +54,8 @@ public class toTrap extends Command {
       bestTrap_X = Constants.FieldConstants.BLUE_TRAP_15_X;
       bestTrap_Y = Constants.FieldConstants.BLUE_TRAP_15_Y;
 
-      targetX = bestTrap_X - 3;
-      targetY = bestTrap_Y + 1;
+      targetX = bestTrap_X - Math.sin(Math.PI/6)*0.7;
+      targetY = bestTrap_Y + Math.cos(Math.PI/6)*0.7;;
 
     }
     else
@@ -64,7 +64,7 @@ public class toTrap extends Command {
       bestTrap_X = Constants.FieldConstants.BLUE_TRAP_14_X;
       bestTrap_Y = Constants.FieldConstants.BLUE_TRAP_14_Y;
 
-      targetX = bestTrap_X + 3;
+      targetX = bestTrap_X + 0.7;
       targetY = bestTrap_Y;
 
     }

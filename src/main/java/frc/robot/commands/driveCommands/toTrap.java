@@ -18,7 +18,8 @@ public class toTrap extends Command {
   private static int bestTrapID;
   private static double bestTrap_X;
   private static double bestTrap_Y;
-  private static Pose2d targetPose;
+  private static double targetX;
+  private static double targetY;
   public toTrap(SwerveSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_Subsystem = subsystem;
@@ -36,34 +37,39 @@ public class toTrap extends Command {
   public void execute() {
     if(bestTrapID == 16)
     {
-      System.out.println("16 is best");
+      // System.out.println("16 is best");
       bestTrap_X = Constants.FieldConstants.BLUE_TRAP_16_X;
       bestTrap_Y = Constants.FieldConstants.BLUE_TRAP_16_Y;
+
+      targetX = bestTrap_X - 3;
+      targetY = bestTrap_Y - 1;
+
+
       
-      Translation2d targetTranslation = new Translation2d(Constants.FieldConstants.BLUE_TRAP_16_X, Constants.FieldConstants.BLUE_TRAP_16_Y);
-      targetPose = new Pose2d(targetTranslation, new Rotation2d());
-      m_Subsystem.driveToPose(targetPose);
+
     }
     else if(bestTrapID == 15)
     {
-       System.out.println("15 is best");
+      //  System.out.println("15 is best");
       bestTrap_X = Constants.FieldConstants.BLUE_TRAP_15_X;
       bestTrap_Y = Constants.FieldConstants.BLUE_TRAP_15_Y;
 
-      Translation2d targetTranslation = new Translation2d(Constants.FieldConstants.BLUE_TRAP_15_X, Constants.FieldConstants.BLUE_TRAP_15_Y);
-      targetPose = new Pose2d(targetTranslation, new Rotation2d());
-      m_Subsystem.drive(targetTranslation, 0, true);
+      targetX = bestTrap_X - 3;
+      targetY = bestTrap_Y + 1;
+
     }
     else
-    {
-       System.out.println("14 is best");
+     {
+    //    System.out.println("14 is best");
       bestTrap_X = Constants.FieldConstants.BLUE_TRAP_14_X;
       bestTrap_Y = Constants.FieldConstants.BLUE_TRAP_14_Y;
 
-       Translation2d targetTranslation = new Translation2d(Constants.FieldConstants.BLUE_TRAP_14_X, Constants.FieldConstants.BLUE_TRAP_14_Y);
-      targetPose = new Pose2d(targetTranslation, new Rotation2d());
-      m_Subsystem.drive(targetTranslation, 0, true);
+      targetX = bestTrap_X + 3;
+      targetY = bestTrap_Y;
+
     }
+     Translation2d targetTranslation = new Translation2d(targetX - m_Subsystem.getPose().getX(), targetY - m_Subsystem.getPose().getY());
+      m_Subsystem.drive(targetTranslation, 0, true);
   }
 
   // Called once the command ends or is interrupted.
@@ -73,8 +79,7 @@ public class toTrap extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if( (m_Subsystem.getPose().getY() <= bestTrap_Y + 5 && m_Subsystem.getPose().getY() >= bestTrap_Y - 5) 
-    || (m_Subsystem.getPose().getX() <= bestTrap_Y + 5 && m_Subsystem.getPose().getX() >= bestTrap_X - 5) )
+    if(bestTrap_Y - 1 <= m_Subsystem.getPose().getY() && m_Subsystem.getPose().getY() <= bestTrap_Y + 1)
     {
       return true;
     }

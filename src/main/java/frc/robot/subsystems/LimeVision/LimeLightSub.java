@@ -19,18 +19,19 @@ import edu.wpi.first.apriltag.AprilTagFields;
 public class LimeLightSub extends SubsystemBase {
 
   // PID constants
-  private final double kPX = 0.8;
+  private final double kPX = 0.3;
   private final double kDX = 0.1;
   private final double kIX = 0;
 
-  private final double kPY = 0.6;
-  private final double kDY = 0.1;
+  //P - 0.6 sweet spot
+  private final double kPY = 1;
+  private final double kDY = 0;
   private final double kIY = 0;
 
   /* PID constants for faceAprilTag
    * P = 0.04, D = 0, I = 0
    */
-  private final double kPTheta = 0.04;
+  private final double kPTheta = 0.4;
   private final double kDTheta = 0;
   private final double kITheta = 0;
   // Set target point
@@ -100,6 +101,8 @@ public class LimeLightSub extends SubsystemBase {
     Shuffleboard.getTab("Limelight").addNumber("Distance Y Error", ()-> getErrorY());
     Shuffleboard.getTab("Limelight").addNumber("Tx", ()-> getTx());
     Shuffleboard.getTab("Limelight").addNumber("Theta Error", ()-> getThetaError());
+
+
   }
 
   @Override
@@ -180,7 +183,7 @@ public class LimeLightSub extends SubsystemBase {
     double distance = -1;
     if (getID() >= 0) {
     double[] botPose = botPoseBlue.getDoubleArray(new double[7]); // x,y,z,rx,ry,rz
-    distance = apriltag[getID()][0] - botPose[0]; 
+    distance = Math.abs(apriltag[getID()][0] - botPose[0]); 
     }
     return distance;
   }
@@ -189,7 +192,7 @@ public class LimeLightSub extends SubsystemBase {
     double distance = -1;
     if (getID() >= 0) {
     double[] botPose = botPoseBlue.getDoubleArray(new double[7]); // x,y,z,rx,ry,rz
-    distance = apriltag[getID()][1] - botPose[1]; 
+    distance = Math.abs(apriltag[getID()][1] - botPose[1]); 
     }
     return distance;
   }
@@ -211,9 +214,13 @@ public class LimeLightSub extends SubsystemBase {
     double angle = 0;
     if (getID() >= 0) {
     double[] botPose = botPoseBlue.getDoubleArray(new double[7]); // x,y,z,rx,ry,rz
-    angle = 180d - botPose[5]; // rz 180 is constant means that facing tag
+    angle = 180.0 - botPose[5]; // rz 180 is constant means that facing tag
     }
     return PIDVisionTheta.calculate(angle);
   }
+
+  // public double getDistanceX(double poseX) {
+  //   double distance ;
+  // }
 
 }

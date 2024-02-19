@@ -23,12 +23,14 @@ public class Align extends SequentialCommandGroup {
         addCommands(
             // new rotateinPlace(() -> AprilTagConstants.APRILTAG_ROTATION[limeLightSub.getID()], driSwerveSubsystem),
             // Commands.waitSeconds(0.5),
-            new faceTag(driSwerveSubsystem, limeLightSub),
-            Commands.waitSeconds(0.5),
+            // new faceTag(driSwerveSubsystem, limeLightSub).alongWith(new Sideways(driSwerveSubsystem, limeLightSub)),
+            // Commands.waitSeconds(0.5),
             new Sideways(driSwerveSubsystem, limeLightSub),
             Commands.waitSeconds(0.5),
+            Commands.print("moving"),
             new FaceAprilTag(driSwerveSubsystem, limeLightSub).andThen(new Forward(driSwerveSubsystem, limeLightSub)),
             Commands.waitSeconds(0.5),
+            Commands.print("facetag"),
             new FaceAprilTag(driSwerveSubsystem, limeLightSub));
     }
 }

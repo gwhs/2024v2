@@ -7,6 +7,8 @@ package frc.robot.testcontainers;
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -20,6 +22,7 @@ import frc.robot.commands.LimeLight.Align;
 import frc.robot.commands.LimeLight.FaceAprilTag;
 import frc.robot.commands.LimeLight.Forward;
 import frc.robot.commands.LimeLight.Sideways;
+import frc.robot.commands.LimeLight.SmoothAlign;
 import frc.robot.commands.driveCommands.rotateinPlace;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
@@ -56,6 +59,12 @@ public class VisionContainer implements BaseContainer
   {
     drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          getDriveTrainName()));
+                                                                      
+    // graphs sideways error
+    Shuffleboard.getTab("Limelight").addDouble("Y Position", ()->limeLightSub.getErrorY())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(3, 0);
 
     // Configure the trigger bindings
     configureBindings();
@@ -85,10 +94,11 @@ public class VisionContainer implements BaseContainer
 
     driverXbox.a().onTrue(new Sideways(drivebase, limeLightSub));
     // driverXbox.y().onTrue(new rotateinPlace(() -> AprilTagConstants.APRILTAG_ROTATION[limeLightSub.getID()], drivebase));
-    // driverXbox.y().onTrue(new FaceAprilTag(drivebase, limeLightSub));
-    driverXbox.y().onTrue(new Forward(drivebase, limeLightSub));
+    driverXbox.y().onTrue(new FaceAprilTag(drivebase, limeLightSub));
+    driverXbox.b().onTrue(new Forward(drivebase, limeLightSub));
 
-    driverXbox.b().onTrue(new Align(drivebase, limeLightSub));
+    // driverXbox.b().onTrue(new Align(drivebase, limeLightSub));
+    // driverXbox.a().onTrue(new SmoothAlign(drivebase, limeLightSub));
   }
 
   /**

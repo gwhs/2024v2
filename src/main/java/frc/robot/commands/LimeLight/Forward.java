@@ -39,7 +39,7 @@ public class Forward extends Command {
   public void execute() {
     System.out.println("working");
     distance = limeLightSub.getErrorX(); 
-    driSwerveSubsystem.drive(new Translation2d(-distance, 0), 0, true);
+    driSwerveSubsystem.drive(new Translation2d(distance, 0), 0, true);
     
   }
 

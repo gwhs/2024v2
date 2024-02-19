@@ -44,7 +44,7 @@ public class SmoothAlign extends Command {
     distanceX = limeLightSub.getErrorX();
     distanceY = limeLightSub.getErrorY();
     rotationTheta = limeLightSub.getSmoothThetaError();
-    driSwerveSubsystem.drive(new Translation2d(-distanceX, distanceY), rotationTheta, true);
+    driSwerveSubsystem.drive(new Translation2d(distanceX, distanceY), rotationTheta, true);
     
   }
 

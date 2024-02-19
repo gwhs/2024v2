@@ -12,7 +12,7 @@ import frc.robot.commands.IntakeCommands.SpinIntakePID;
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
 import frc.robot.commands.IntakeCommands.IntakePickUpFromGround;
 import frc.robot.commands.IntakeCommands.IntakeRejectNote;
-import frc.robot.commands.IntakeCommands.SpinIntakeMotor;
+import frc.robot.commands.IntakeCommands.SpinIntakeArmMotor;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeContainer implements BaseContainer {
@@ -30,8 +30,8 @@ public class IntakeContainer implements BaseContainer {
 
     private void configureBindings() {
 
-        xboxController.x().onTrue(new SpinIntakeMotor(intakeSubsystem, 0));
-        xboxController.y().onTrue(new SpinIntakeMotor(intakeSubsystem, Constants.IntakeConstants.MAX_ARM_ANGLE));
+        xboxController.x().onTrue(new SpinIntakeArmMotor(intakeSubsystem, 0));
+        xboxController.y().onTrue(new SpinIntakeArmMotor(intakeSubsystem, Constants.IntakeConstants.MAX_ARM_ANGLE));
 
         xboxController.a().onTrue(new IntakeRejectNote(intakeSubsystem));
         xboxController.b().onTrue(new IntakePickUpFromGround(intakeSubsystem));

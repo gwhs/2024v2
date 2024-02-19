@@ -22,6 +22,7 @@ import frc.robot.Robot;
 import frc.robot.commands.driveCommands.rotateinPlace;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
+import frc.robot.commands.swervedrive.drivebase.FaceSpeaker;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -108,18 +109,28 @@ AbsoluteFieldDrive closedFieldAbsoluteDriveSpeaker = new AbsoluteFieldDrive(driv
                                                                          () -> MathUtil.applyDeadband(-driverXbox.getLeftY(),
                                                                                                       OperatorConstants.LEFT_Y_DEADBAND),
                                                                          () -> UtilMath.BLUESpeakerTheta(drivebase.getPose()));
+FaceSpeaker speaker = new FaceSpeaker(drivebase,
+                                                                         () ->
+                                                                             MathUtil.applyDeadband(-driverXbox.getLeftX(),
+                                                                                                    OperatorConstants.LEFT_X_DEADBAND),
+                                                                         () -> MathUtil.applyDeadband(-driverXbox.getLeftY(),
+                                                                                                      OperatorConstants.LEFT_Y_DEADBAND));
+                                                                    
+
+
 
     drivebase.setDefaultCommand(closedFieldAbsoluteDriveSpeaker);  //TO CHANGE DRIVE BASE
     //drivebase.test();
 
 
     ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
-    ShuffleboardTab angleTab = Shuffleboard.getTab("Theta");
+    // ShuffleboardTab angleTab = Shuffleboard.getTab("Theta");
 
-    SmartDashboard.putData("Rotate To Speaker", new rotateinPlace(()->UtilMath.BLUESpeakerTheta(drivebase.getPose()), drivebase));
+    // SmartDashboard.putData("Rotate To Speaker", new rotateinPlace(()->UtilMath.BLUESpeakerTheta(drivebase.getPose()), drivebase));
 
-    angleTab.addDouble("Estimated Theta", ()->UtilMath.BLUESpeakerTheta(drivebase.getPose()));
+    // angleTab.addDouble("Estimated Theta", ()->UtilMath.BLUESpeakerTheta(drivebase.getPose()));
 
+    Shuffleboard.getTab("test").add("Switch drivebase", ()-> new SwitchDrivebase(speaker, drivebase));
     
     driveTrainShuffleboardTab.addDouble("X Position", ()->drivebase.getPose().getX())
       .withWidget(BuiltInWidgets.kGraph)

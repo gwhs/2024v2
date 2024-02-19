@@ -61,13 +61,13 @@ public static int bestTrap(Pose2d pose)
   {
     return 16; //returns id
   }
-  else if(Math.abs(pose.getY() - Constants.FieldConstants.BLUE_TRAP_15_Y) < Math.abs(pose.getY() - Constants.FieldConstants.BLUE_TRAP_16_Y))
+  else if(Math.abs(pose.getY() - Constants.FieldConstants.BLUE_TRAP_14_Y) < (Math.abs(pose.getY() - Constants.FieldConstants.BLUE_TRAP_15_Y)))
   {
-    return 15;
+    return 14;
   }
   else
   {
-    return 14;
+    return 15;
   }
 }
 }

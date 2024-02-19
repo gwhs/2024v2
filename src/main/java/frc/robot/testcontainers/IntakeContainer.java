@@ -32,7 +32,7 @@ public class IntakeContainer implements BaseContainer {
         intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
         
         xboxController.x().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 0));
-        xboxController.y().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 106));
+        xboxController.y().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 83));
 
         xboxController.a().onTrue(new IntakePickUpFromGround(intakeSubsystem));
         xboxController.b().onTrue(new IntakePassNoteToPizzaBox(intakeSubsystem));

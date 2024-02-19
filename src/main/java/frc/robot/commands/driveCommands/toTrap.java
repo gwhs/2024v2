@@ -29,7 +29,7 @@ public class toTrap extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    bestTrapID = UtilMath.bestTrap(m_Subsystem.getPose());
+    bestTrapID = UtilMath.BlueBestTrap(m_Subsystem.getPose());
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -79,10 +79,15 @@ public class toTrap extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if(bestTrap_Y - 1 <= m_Subsystem.getPose().getY() && m_Subsystem.getPose().getY() <= bestTrap_Y + 1)
+     if(bestTrapID == 14 && (bestTrap_X -1 <= m_Subsystem.getPose().getX() && m_Subsystem.getPose().getX() <= bestTrap_X + 1))
     {
       return true;
     }
+    else if(bestTrap_Y - 1 <= m_Subsystem.getPose().getY() && m_Subsystem.getPose().getY() <= bestTrap_Y + 1)
+    {
+      return true;
+    }
+   
     return false;
   }
 }

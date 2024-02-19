@@ -55,13 +55,20 @@ public static double inchesToMeters(double inches)
   return meters;
 }
 
-public static int bestTrap(Pose2d pose)
+public static int BlueBestTrap(Pose2d pose)
 {
   if(Math.abs(pose.getY() - Constants.FieldConstants.BLUE_TRAP_16_Y) < Math.abs(pose.getY() - Constants.FieldConstants.BLUE_TRAP_15_Y))
   {
     return 16; //returns id
   }
-  else if(Math.abs(pose.getY() - Constants.FieldConstants.BLUE_TRAP_14_Y) < (Math.abs(pose.getY() - Constants.FieldConstants.BLUE_TRAP_15_Y)))
+  else if(
+    (Math.abs(pose.getY() - Constants.FieldConstants.BLUE_TRAP_14_Y) < Math.abs(pose.getY() - Constants.FieldConstants.BLUE_TRAP_15_Y)
+  &&
+  Math.abs(pose.getY() - Constants.FieldConstants.BLUE_TRAP_14_Y) < Math.abs(pose.getY() - Constants.FieldConstants.BLUE_TRAP_16_Y))
+  && (Math.abs(pose.getX() - Constants.FieldConstants.BLUE_TRAP_14_X) < Math.abs(pose.getX() - Constants.FieldConstants.BLUE_TRAP_15_X)
+  &&
+  Math.abs(pose.getX() - Constants.FieldConstants.BLUE_TRAP_14_X) < Math.abs(pose.getX() - Constants.FieldConstants.BLUE_TRAP_16_X))
+  )
   {
     return 14;
   }
@@ -70,6 +77,11 @@ public static int bestTrap(Pose2d pose)
     return 15;
   }
 }
+
+// public static int RedBestTrap(Pose2d pose)
+// {
+
+// }
 
 // public static double 
 }

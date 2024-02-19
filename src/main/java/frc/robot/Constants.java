@@ -60,8 +60,7 @@ public final class Constants
   public static final class LimeLightConstants {
 
     // for ryker
-    public static final double MAX_LIMELIGHT_ERROR_DEGREES =
-        1; // limelight max degrees off, max degrees error
+    public static final double MAX_LIMELIGHT_ERROR_DEGREES = 1; // limelight max degrees off, max degrees error
     public static final double CAMERA_HEIGHT = 84.5;
     public static final double TARGET_HEIGHT = 61;
     public static final double MOUNTING_ANGLE = -10;

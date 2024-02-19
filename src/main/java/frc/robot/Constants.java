@@ -9,8 +9,6 @@ import edu.wpi.first.math.util.Units;
 import swervelib.math.Matter;
 import swervelib.parser.PIDFConfig;
 
-
-
 /**
  * The Constants class provides a convenient place for teams to hold robot-wide numerical or boolean constants. This
  * class should not be used for any other purpose. All constants should be declared globally (i.e. public static). Do
@@ -81,16 +79,20 @@ public final class Constants
     public static final int PIZZABOX_ID = 23;
   }
 
-    
   public static final class IntakeConstants {
-    public static final double INTAKE_MOTOR_VELOCITY = 2; //units?
-    public static final double INTAKE_MOTOR_ACCELERATION = 1; 
-    public static final double TOLERANCE = 0.5;
-    public static final int GEAR_RATIO = 21;
-    public static final double NOTE_DELAY = 2; // change accordingly
-    public static final double MAX_ARM_ANGLE = 120; //max arm angle, update once confirmed
+    public static final int INTAKE_LOWER_INTAKE_ID = 55;
+    public static final int INTAKE_SPIN_MOTOR_ID = 20;
+    public static final int INTAKE_ENCODER_CHANNEL_ID = 1; 
+    public static final int INTAKE_NOTESENSOR_CHANNEL_ID = 7;
+    public static final double INTAKE_MOTOR_VELOCITY = 100; 
+    public static final double INTAKE_MOTOR_ACCELERATION = 5; 
+    public static final double TOLERANCE = 2; // in degrees
+    public static final int GEAR_RATIO = 100;
+    public static final double NOTE_DELAY = 2; //change accordingly
+    public static final double MAX_ARM_ANGLE = 106; //need to check max arm angle
     public static final double ROTATION_TO_DEGREES = 360;
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
+    public static final double ENCODER_OFFSET = 220 + 97; //need to check the encoder value 
   }
 }
 

@@ -42,7 +42,7 @@ public class DriveContainer implements BaseContainer
   CommandXboxController driverXbox = new CommandXboxController(0);
 
   public String getDriveTrainName(){
-    return "swerve/ryker_falcon";
+    return "swerve/hajel_kraken";
   }
 
   /**
@@ -69,11 +69,11 @@ public class DriveContainer implements BaseContainer
 
     AbsoluteFieldDrive closedFieldAbsoluteDrive = new AbsoluteFieldDrive(drivebase,
                                                                          () ->
-                                                                             MathUtil.applyDeadband(-driverXbox.getLeftY(),
-                                                                                                    OperatorConstants.LEFT_Y_DEADBAND),
-                                                                         () -> MathUtil.applyDeadband(-driverXbox.getLeftX(),
-                                                                                                      OperatorConstants.LEFT_X_DEADBAND),
-                                                                         () -> driverXbox.getRawAxis(2));
+                                                                             MathUtil.applyDeadband(-driverXbox.getLeftX(),
+                                                                                                    OperatorConstants.LEFT_X_DEADBAND),
+                                                                         () -> MathUtil.applyDeadband(-driverXbox.getLeftY(),
+                                                                                                      OperatorConstants.LEFT_Y_DEADBAND),
+                                                                         () -> driverXbox.getLeftTriggerAxis() - driverXbox.getRightTriggerAxis());
 
     AbsoluteDriveAdv closedAbsoluteDriveAdv = new AbsoluteDriveAdv(drivebase,
                                                                       () -> MathUtil.applyDeadband(driverXbox.getLeftY(),
@@ -100,6 +100,7 @@ public class DriveContainer implements BaseContainer
         () -> driverXbox.getLeftTriggerAxis() - driverXbox.getRightTriggerAxis(), () -> true);
 
     drivebase.setDefaultCommand(closedFieldRel);  //TO CHANGE DRIVE BASE
+    //drivebase.test();
 
 
     ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
@@ -164,11 +165,11 @@ public class DriveContainer implements BaseContainer
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand()
-  {
-    // An example command will be run in autonomous
-    return drivebase.getAutonomousCommand("New Path", true);
-  }
+  // public Command getAutonomousCommand()
+  // {
+  //   // An example command will be run in autonomous
+  //   return drivebase.getAutonomousCommand("New Path", true);
+  // }
 
   public void setDriveMode()
   {

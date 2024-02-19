@@ -38,8 +38,10 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
     * String can: String ID of canivore  
   */
   public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, String can)  {
-    super(new ProfiledPIDController(.005, .0, 0, new Constraints(Constants.IntakeConstants.INTAKE_MOTOR_VELOCITY, 200)));
+    super(new ProfiledPIDController(.005, .0, 0, new Constraints(100, 200)));
     getController().setTolerance(Constants.IntakeConstants.TOLERANCE);
+
+
     Shuffleboard.getTab("intake").add(getController());
     
     m_moveIntakeArm = new TalonFX(lowerIntakeId, can); 
@@ -115,6 +117,8 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
   }  
 
   public void setIntakeArmAngle(double angle) {
+    System.out.println("set intake angle method works");
+    
     if(angle < 0) {
       angle = 0;
     }
@@ -160,10 +164,12 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
   @Override
   public void useOutput(double output, TrapezoidProfile.State setpoint) {
     spinIntakeArm(output);
+    System.out.println(output);
   }
 
   @Override
   public double getMeasurement() {
+    System.out.println("encoder: " + encoderGetAngle());
     return encoderGetAngle();
   }
 }

@@ -3,6 +3,7 @@ package frc.robot.testcontainers;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.BaseContainer;
@@ -29,12 +30,18 @@ public class IntakeContainer implements BaseContainer {
     }
 
     private void configureBindings() {
+        //intakeSubsystem.enable();
 
-        xboxController.x().onTrue(new SpinIntakeArmMotor(intakeSubsystem, 0));
-        xboxController.y().onTrue(new SpinIntakeArmMotor(intakeSubsystem, Constants.IntakeConstants.MAX_ARM_ANGLE));
+        xboxController.a().onTrue(Commands.runOnce(() -> {
+            intakeSubsystem.setIntakeArmAngle(0); 
+            intakeSubsystem.enable();}, intakeSubsystem));
+        
 
-        xboxController.a().onTrue(new IntakeRejectNote(intakeSubsystem));
-        xboxController.b().onTrue(new IntakePickUpFromGround(intakeSubsystem));
+        // xboxController.x().onTrue(new SpinIntakeArmMotor(intakeSubsystem, 0));
+        // xboxController.y().onTrue(new SpinIntakeArmMotor(intakeSubsystem, Constants.IntakeConstants.MAX_ARM_ANGLE));
+
+        //xboxController.a().onTrue(new IntakeRejectNote(intakeSubsystem));
+        //xboxController.b().onTrue(new IntakePickUpFromGround(intakeSubsystem));
         
         // xboxController.x().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 0));
         // xboxController.y().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 106));

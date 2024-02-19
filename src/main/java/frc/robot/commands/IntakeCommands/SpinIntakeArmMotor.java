@@ -46,11 +46,7 @@ public class SpinIntakeArmMotor extends Command {
   // called every cycle
   @Override
   public boolean isFinished() {
-    sensorValue = intakeSubsystem.isNotePresent();
-    if(sensorValue) {
-      System.out.println("sensor");
-    }
-    return sensorValue;
+return false;
   }
 
 }

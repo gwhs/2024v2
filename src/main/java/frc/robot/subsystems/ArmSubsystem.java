@@ -155,12 +155,12 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
       angle = Constants.Arm.ARM_MAX_ANGLE;
     }
 
-    double wantedAngle = angle;
-    double encoderAngle = encoderGetAngle();
-    double armAngle = getArmAngle();
-    double deltaAngle = wantedAngle - encoderAngle;
-    double neededArmRotation = deltaAngle / 360; 
-    double neededMotorRotation = neededArmRotation * Constants.Arm.GEAR_RATIO;
+    // double wantedAngle = angle;
+    // double encoderAngle = encoderGetAngle();
+    // double armAngle = getArmAngle();
+    // double deltaAngle = wantedAngle - encoderAngle;
+    // double neededArmRotation = deltaAngle / 360; 
+    // double neededMotorRotation = neededArmRotation * Constants.Arm.GEAR_RATIO;
 
 //ORIGINAl ADJUSTED ANGLE    double adjustedAngle = (((angle - encoderGetAngle() + getArmAngle())) * Constants.Arm.GEAR_RATIO)/Constants.Arm.ROTATION_TO_DEGREES;
 //Testing

@@ -77,6 +77,9 @@ public final class Constants
     public static final double ENCODER_OFFSET = 76.92165; //Change when mounted //259 encoder offset for robot
     public static final int ARM_ID = 18;
     public static final int PIZZABOX_ID = 23;
+    public static final int SERVO_PWN_SLOT = 0;
+    public static final int ENCODER_DIO_SLOT = 0;
+
   }
 
   public static final class IntakeConstants {

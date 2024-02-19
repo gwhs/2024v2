@@ -45,7 +45,8 @@ public class ArmContainer implements BaseContainer {
     private final CommandXboxController m_driverController =
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
         //CAN_Network
-        ArmSubsystem arm = new ArmSubsystem(Constants.Arm.ARM_ID, "CAN_Network", Constants.Arm.PIZZABOX_ID, "rio", 0, 0); 
+        ArmSubsystem arm = new ArmSubsystem(Constants.Arm.ARM_ID, "CAN_Network", Constants.Arm.PIZZABOX_ID, "rio", 
+                        Constants.Arm.ENCODER_DIO_SLOT, Constants.Arm.SERVO_PWN_SLOT); 
         //IntakeSubsystem intake = new IntakeSubsystem(0, 0, 1, 2, 3, "rio");
 //  public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, int channel1, int channel2, int channel3, String can)  {
 

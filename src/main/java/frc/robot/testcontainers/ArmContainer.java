@@ -35,6 +35,7 @@ import edu.wpi.first.wpilibj2.command.ProfiledPIDCommand;
 
 
 
+
 public class ArmContainer implements BaseContainer {
 
   
@@ -42,8 +43,8 @@ public class ArmContainer implements BaseContainer {
     private final CommandXboxController m_driverController =
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
         //CAN_Network
-        ArmSubsystem arm = new ArmSubsystem(Constants.Arm.ARM_ID, "CAN_Network", Constants.Arm.PIZZABOX_ID, "rio", 
-                        Constants.Arm.ENCODER_DIO_SLOT, Constants.Arm.SERVO_PWN_SLOT); 
+        ArmSubsystem arm = new ArmSubsystem(ArmSubsystem.Arm.ARM_ID, "CAN_Network", ArmSubsystem.Arm.PIZZABOX_ID, "rio", 
+                        ArmSubsystem.Arm.ENCODER_DIO_SLOT, ArmSubsystem.Arm.SERVO_PWN_SLOT); 
 
     public ArmContainer() {
         configureBindings();
@@ -52,17 +53,32 @@ public class ArmContainer implements BaseContainer {
 
     private void configureBindings() {
         //m_driverController.x().onTrue(new SwingForwardServo(arm));
+        m_driverController.start().onTrue(Commands.runOnce(()-> {
+            if(arm.isEnabled())
+            {
+                arm.disable();
+            }
+            else
+            {
+                arm.enable();
+            }
+        }, arm));
+
+        m_driverController.a().onTrue(Commands.runOnce(() -> {
+            arm.targetArmAngle(ArmSubsystem.Arm.SPEAKER_LOW_ANGLE);
+            }, arm));
+        m_driverController.back().onTrue(new SpinToArmAngle(arm, ArmSubsystem.Arm.CLIMBING_ANGLE));
 
        m_driverController.y().onTrue(Commands.runOnce(() -> {
-        arm.setGoal(40+ arm.getMeasurement());
+        arm.targetArmAngle(ArmSubsystem.Arm.SPEAKER_HIGH_ANGLE);
         }, arm));
 
         m_driverController.leftBumper().onTrue(Commands.runOnce(() -> {
-            arm.targetArmAngle(30);}));
+            arm.targetArmAngle(ArmSubsystem.Arm.INTAKE_ANGLE);}));
 
         
-       m_driverController.rightBumper().onTrue(new SpinToArmAngle(arm, 0));
-       m_driverController.x().onTrue(new SpinToArmAngle(arm, arm.encoderGetAngle() + 10));
+       m_driverController.rightBumper().onTrue(new SpinToArmAngle(arm, ArmSubsystem.Arm.AMP_ANGLE));
+       m_driverController.x().onTrue(new SpinToArmAngle(arm, ArmSubsystem.Arm.TRAP_ANGLE));
 
         //m_driverController.a().onTrue(new SpinAndSwing(arm));
 

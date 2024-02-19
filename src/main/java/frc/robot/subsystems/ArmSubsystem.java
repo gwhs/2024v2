@@ -10,8 +10,6 @@
  * 
  */
 
-
-//
 package frc.robot.subsystems;
 import frc.robot.Constants;
 
@@ -44,6 +42,29 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 
 
 public class ArmSubsystem extends ProfiledPIDSubsystem {
+
+  public static final class Arm {
+    public static final int kSlotIdx = 0;
+    public static final int kPIDLoopIdx = 0;
+    public static final int kTimeoutMs = 30;
+    public static final int ARM_MAX_ANGLE = 300;
+    public static final int ARM_MIN_ANGLE = 45;
+    public static final int ROTATION_TO_DEGREES = 360;
+    public static final double GEAR_RATIO = 118.587767088;
+    public static final double ENCODER_RAW_TO_ROTATION = 8132.;
+    public static final double ENCODER_OFFSET = 76.92165; 
+    public static final int ARM_ID = 18;
+    public static final int PIZZABOX_ID = 23;
+    public static final int SERVO_PWN_SLOT = 0;
+    public static final int ENCODER_DIO_SLOT = 0;
+    public static final int AMP_ANGLE = 0;
+    public static final int TRAP_ANGLE = 0;
+    public static final int SPEAKER_LOW_ANGLE = 0;
+    public static final int SPEAKER_HIGH_ANGLE = 0;
+    public static final int INTAKE_ANGLE = 0;
+    public static final int CLIMBING_ANGLE = 0;
+  }
+
   private TalonFX m_arm;
   private DutyCycleEncoder m_encoder;
   private TalonFX m_pizzaBox;
@@ -125,12 +146,12 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
  public void targetArmAngle(double angle)
  {
-  double calculatedAng = angle - Constants.Arm.ENCODER_OFFSET;
-  if(calculatedAng  < Constants.Arm.ARM_MIN_ANGLE) { //Will not be less than minimum angle
-    calculatedAng = Constants.Arm.ARM_MIN_ANGLE;
+  double calculatedAng = angle - Arm.ENCODER_OFFSET;
+  if(calculatedAng  < Arm.ARM_MIN_ANGLE) { //Will not be less than minimum angle
+    calculatedAng = Arm.ARM_MIN_ANGLE;
   }
-  else if (calculatedAng > Constants.Arm.ARM_MAX_ANGLE) { // Will not be greater than maximum angle
-    calculatedAng = Constants.Arm.ARM_MAX_ANGLE;
+  else if (calculatedAng > Arm.ARM_MAX_ANGLE) { // Will not be greater than maximum angle
+    calculatedAng = Arm.ARM_MAX_ANGLE;
   }
 
   System.out.println("TargetArmAngle works, angle value : " + calculatedAng);
@@ -163,18 +184,18 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 }
 
  public double getArmAngle(){
-    return m_arm.getPosition().getValue()/-Constants.Arm.GEAR_RATIO * Constants.Arm.ROTATION_TO_DEGREES;
+    return m_arm.getPosition().getValue()/-Arm.GEAR_RATIO * Arm.ROTATION_TO_DEGREES;
  }
 
  /* The pizza box is the motor on the holding container on the arm*/ 
  public double getPizzaBoxAngle(){
-  return m_pizzaBox.getPosition().getValue() * Constants.Arm.ROTATION_TO_DEGREES;
+  return m_pizzaBox.getPosition().getValue() * Arm.ROTATION_TO_DEGREES;
  }
 
  //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])
   public double encoderGetAngle() {
 
-    return m_encoder.getAbsolutePosition()*Constants.Arm.ROTATION_TO_DEGREES;
+    return m_encoder.getAbsolutePosition()*Arm.ROTATION_TO_DEGREES;
   }
 
   //Resets encoder angle to 0

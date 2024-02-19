@@ -63,64 +63,17 @@ public class ArmContainer implements BaseContainer {
 
     private void configureBindings() {
     //    m_driverController.a().onTrue(new SwingForward(arm, 270, 10, 10, .25));
+    //    m_driverController.b().onTrue(new SwingBack(arm, 10, 10, .25));
+         m_driverController.x().onTrue(new SwingServo(arm));
 
-    //.01 velocity for 1st time testing
-    //m_driverController.a().onTrue(new SwingForward(arm, 10, .5, 1, .25).andThen(new SwingBack(arm, .5, 1, .25)));
-    double velocity = .03;
-
-    //IMPORTANT LOGITECH CONTROLLER  Button a is button x
-         //m_driverController.a().onTrue(new SpinArmPID(arm, -45));
-         //m_driverController.b().onTrue(new SpinArmPID(arm, -90));
-    //IMPORTANT LOGITECH CONTROLLER Button x is button b
-         //m_driverController.x().onTrue(new SpinArmPID(arm, 20));
-
-         //m_driverController.b().onTrue(new SwingForward(arm, 90, velocity, 2, .25));
-
-        // m_driverController.b().onTrue(new SwingForward(arm, 0, velocity, 2, .25));
-        // m_driverController.y().onTrue(new SwingForward(arm, 90, velocity, 2, .25));
-        // m_driverController.x().onTrue(new SwingForward(arm, -90, velocity, 2, .25));
-
-
-          //m_driverController.x().onTrue(new SwingForwardServo(arm).andThen(Commands.waitSeconds(1.0)).andThen(new SwingBackServo(arm)));
-        //m_driverController.a().onTrue(new SwingForwardServo(arm));
-        //m_driverController.b().onTrue(new SwingBackServo(arm));
-
-        //  m_driverController.a().onTrue(new LowerArmIntake(intake, 270).andThen(new IntakePickUpFromGround(intake)).andThen(new UpperArmIntake(intake)).andThen(new IntakePassNoteToPizzaBox(intake)));
-        //  m_driverController.y().onTrue(new SpinNoteContainerMotor(arm, .25, 10).alongWith(new SwingForward(arm, 180, 5, 5, .25)));
-
-        //IMPORTANT
-         //m_driverController.y().onTrue(new SpinAndSwing(arm));
-
-        //command that loads the note
-        // m_driverController.leftBumper().onTrue(new LowerArmIntake().andThen(new StartIntake()).andThen(new SwingForward()).andThen(new UpperIntake()));
-
-    //    SpinNoteContainerMotor army = new SpinNoteContainerMotor (arm, 0.25, 10);
-    //    m_driverController.y().onTrue(army);
+       //SpinNoteContainerMotor army = new SpinNoteContainerMotor (arm, 0.25, 10);
+       //m_driverController.y().onTrue(army);
        //m_driverController.x().onTrue(new StopNoteContainerMotor(arm));
-       m_driverController.a().onTrue(Commands.runOnce(() -> {
-                arm.setGoal(arm.getMeasurement()); 
-                arm.enable();}, arm));
-       m_driverController.b().onTrue(Commands.runOnce(() -> {arm.disable();}, arm));
+       
 
-       m_driverController.y().onTrue(Commands.runOnce(() -> {
-        arm.disable();
-        arm.setGoal(40+ arm.getMeasurement());
-        arm.enable();
-        }, arm));
 
-        m_driverController.leftBumper().onTrue(Commands.runOnce(() -> {
-            arm.setGoal(30);}));
-
-        
-       //m_driverController.y().onTrue(new SpinToArmAngle(arm, 100));
-       m_driverController.x().onTrue(new SpinToArmAngle(arm, arm.encoderGetAngle() + 10));
-
-//We might not need this anymore (2/10/24)
         Shuffleboard.getTab("Arm").addDouble("encoder",()->arm.encoderGetAngle());
-        Shuffleboard.getTab("Arm").addDouble("Arm Value",()->arm.getArmAngle());
-        Shuffleboard.getTab("Arm").addDouble("Controller's Goal",()-> arm.getController().getGoal().position
-       );
-
+        Shuffleboard.getTab("Arm").addDouble("arm",()->arm.getArmAngle());
 
         
 

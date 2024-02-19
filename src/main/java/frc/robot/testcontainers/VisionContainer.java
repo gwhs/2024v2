@@ -9,6 +9,7 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -22,7 +23,7 @@ import frc.robot.commands.LimeLight.Align;
 import frc.robot.commands.LimeLight.FaceAprilTag;
 import frc.robot.commands.LimeLight.Forward;
 import frc.robot.commands.LimeLight.Sideways;
-import frc.robot.commands.LimeLight.SmoothAlign;
+// import frc.robot.commands.LimeLight.SmoothAlign;
 import frc.robot.commands.driveCommands.rotateinPlace;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
@@ -30,6 +31,8 @@ import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
+
+import frc.robot.subsystems.LimeVision.ApriltagController;
 import frc.robot.subsystems.LimeVision.LimeLightSub;
 
 /**
@@ -42,11 +45,11 @@ public class VisionContainer implements BaseContainer
 
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase;
+  private final LimeLightSub limeLightSub;
+  private final ShuffleboardTab limeLightTab;
+  private final ApriltagController apriltagController;
 
   CommandXboxController driverXbox = new CommandXboxController(0);
-
-  // limelight
-  LimeLightSub limeLightSub = new LimeLightSub("limelight");
 
   public String getDriveTrainName(){
     return "swerve/ryker_falcon";
@@ -59,12 +62,20 @@ public class VisionContainer implements BaseContainer
   {
     drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          getDriveTrainName()));
+    limeLightSub = new LimeLightSub("limelight");
+    limeLightTab = Shuffleboard.getTab("Limelight");
+                                                                         
+    apriltagController = new ApriltagController(drivebase, limeLightSub);                                                                     
                                                                       
     // graphs sideways error
-    Shuffleboard.getTab("Limelight").addDouble("Y Position", ()->limeLightSub.getErrorY())
+    limeLightTab.addDouble("Y Position", ()->limeLightSub.getErrorY())
       .withWidget(BuiltInWidgets.kGraph)
       .withSize(3,3)
       .withPosition(3, 0);
+    limeLightTab.addNumber("Distance X", ()-> apriltagController.getDistanceX());
+    limeLightTab.addNumber("Distance Y", ()-> apriltagController.getDistanceY());
+    limeLightTab.addNumber("Distance X Error", ()-> apriltagController.getErrorX());
+    limeLightTab.addNumber("Distance Y Error", ()-> apriltagController.getErrorY());
 
     // Configure the trigger bindings
     configureBindings();
@@ -92,10 +103,10 @@ public class VisionContainer implements BaseContainer
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
 
-    driverXbox.a().onTrue(new Sideways(drivebase, limeLightSub));
+    driverXbox.a().onTrue(new Sideways(drivebase, apriltagController));
     // driverXbox.y().onTrue(new rotateinPlace(() -> AprilTagConstants.APRILTAG_ROTATION[limeLightSub.getID()], drivebase));
-    driverXbox.y().onTrue(new FaceAprilTag(drivebase, limeLightSub));
-    driverXbox.b().onTrue(new Forward(drivebase, limeLightSub));
+    driverXbox.y().onTrue(new FaceAprilTag(drivebase, apriltagController));
+    driverXbox.b().onTrue(new Forward(drivebase, apriltagController));
 
     // driverXbox.b().onTrue(new Align(drivebase, limeLightSub));
     // driverXbox.a().onTrue(new SmoothAlign(drivebase, limeLightSub));

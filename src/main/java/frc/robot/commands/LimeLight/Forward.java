@@ -4,6 +4,7 @@
 
 package frc.robot.commands.LimeLight;
 
+import frc.robot.subsystems.LimeVision.ApriltagController;
 import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -13,7 +14,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 public class Forward extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final SwerveSubsystem driSwerveSubsystem;
-  private final LimeLightSub limeLightSub;
+  private final ApriltagController apriltagController;
 
   private double distance;
   /**
@@ -21,25 +22,26 @@ public class Forward extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Forward(SwerveSubsystem driSwerveSubsystem, LimeLightSub limeLightSub) {
+  public Forward(SwerveSubsystem driSwerveSubsystem, ApriltagController apriltagController) {
     this.driSwerveSubsystem = driSwerveSubsystem;
-    this.limeLightSub = limeLightSub;
+    this.apriltagController = apriltagController;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(driSwerveSubsystem, limeLightSub);
+    addRequirements(driSwerveSubsystem, apriltagController);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    limeLightSub.setPoint(2, "x"); // fixed x distance from tag before crashing field perimeter
+    apriltagController.setPoint(2, "x"); // fixed x distance from tag before crashing field perimeter
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    System.out.println("working");
-    distance = limeLightSub.getErrorX(); 
-    driSwerveSubsystem.drive(new Translation2d(distance, 0), 0, true);
+    /* System.out.println("working");
+       distance = limeLightSub.getErrorX(); 
+     */    
+    driSwerveSubsystem.drive(new Translation2d(-distance, 0), 0, true);
     
   }
 
@@ -50,6 +52,6 @@ public class Forward extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (limeLightSub.getErrorX() < 0.1 && limeLightSub.getErrorX() > -0.01);
+    return (apriltagController.getErrorX() < 0.1 && apriltagController.getErrorX() > -0.01);
   }
 }

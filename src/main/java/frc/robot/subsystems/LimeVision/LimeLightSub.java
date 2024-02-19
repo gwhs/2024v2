@@ -93,16 +93,6 @@ public class LimeLightSub extends SubsystemBase {
   public LimeLightSub(String limelight_networktable_name) {
     limelight_comm = new LimeLightComms(limelight_networktable_name);
     limelight_comm.set_entry_double("ledMode", 3);
-
-    // distance
-    Shuffleboard.getTab("Limelight").addNumber("Distance X", ()-> getDistanceX());
-    Shuffleboard.getTab("Limelight").addNumber("Distance Y", ()-> getDistanceY());
-    Shuffleboard.getTab("Limelight").addNumber("Distance X Error", ()-> getErrorX());
-    Shuffleboard.getTab("Limelight").addNumber("Distance Y Error", ()-> getErrorY());
-    Shuffleboard.getTab("Limelight").addNumber("Tx", ()-> getTx());
-    Shuffleboard.getTab("Limelight").addNumber("Theta Error", ()-> getThetaError());
-
-
   }
 
   @Override
@@ -210,17 +200,13 @@ public class LimeLightSub extends SubsystemBase {
   }
 
   // uses 3d botpose instead of 2d values, testing for smooth simultaneous movement, need to test
-  public double getSmoothThetaError() {
+  public double getSmoothTheta() {
     double angle = 0;
     if (getID() >= 0) {
     double[] botPose = botPoseBlue.getDoubleArray(new double[7]); // x,y,z,rx,ry,rz
     angle = 180.0 - botPose[5]; // rz 180 is constant means that facing tag
     }
-    return PIDVisionTheta.calculate(angle);
+    return angle;
   }
-
-  // public double getDistanceX(double poseX) {
-  //   double distance ;
-  // }
 
 }

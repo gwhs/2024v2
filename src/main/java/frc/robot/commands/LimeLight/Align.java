@@ -4,7 +4,7 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.Constants.AprilTagConstants;
 
-import frc.robot.subsystems.LimeVision.LimeLightSub;
+import frc.robot.subsystems.LimeVision.ApriltagController;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 import frc.robot.commands.driveCommands.rotateinPlace;
@@ -18,19 +18,19 @@ public class Align extends SequentialCommandGroup {
     
     public Align(
         SwerveSubsystem driSwerveSubsystem, 
-        LimeLightSub limeLightSub) {
+        ApriltagController apriltagController) {
             // Add commands
         addCommands(
-            // new rotateinPlace(() -> AprilTagConstants.APRILTAG_ROTATION[limeLightSub.getID()], driSwerveSubsystem),
+            // new rotateinPlace(() -> AprilTagConstants.APRILTAG_ROTATION[apriltagController.getID()], driSwerveSubsystem),
             // Commands.waitSeconds(0.5),
-            // new faceTag(driSwerveSubsystem, limeLightSub).alongWith(new Sideways(driSwerveSubsystem, limeLightSub)),
+            // new faceTag(driSwerveSubsystem, apriltagController).alongWith(new Sideways(driSwerveSubsystem, apriltagController)),
             // Commands.waitSeconds(0.5),
-            new Sideways(driSwerveSubsystem, limeLightSub),
+            new Sideways(driSwerveSubsystem, apriltagController),
             Commands.waitSeconds(0.5),
             Commands.print("moving"),
-            new FaceAprilTag(driSwerveSubsystem, limeLightSub).andThen(new Forward(driSwerveSubsystem, limeLightSub)),
+            new FaceAprilTag(driSwerveSubsystem, apriltagController).andThen(new Forward(driSwerveSubsystem, apriltagController)),
             Commands.waitSeconds(0.5),
             Commands.print("facetag"),
-            new FaceAprilTag(driSwerveSubsystem, limeLightSub));
+            new FaceAprilTag(driSwerveSubsystem, apriltagController));
     }
 }

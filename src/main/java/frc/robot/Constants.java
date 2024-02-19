@@ -108,6 +108,14 @@ public final class Constants
     public static final double BLUE_TRAP_14_X = UtilMath.inchesToMeters(209.48);
     public static final double BLUE_TRAP_14_Y = UtilMath.inchesToMeters(161.62);
 
+    public static final double RED_TRAP_13_X = UtilMath.inchesToMeters(441.74);
+    public static final double RED_TRAP_13_Y = UtilMath.inchesToMeters(161.62);
+
+    public static final double RED_TRAP_12_X = UtilMath.inchesToMeters(468.69);
+    public static final double RED_TRAP_12_Y = UtilMath.inchesToMeters(177.10);
+
+    public static final double RED_TRAP_11_X = UtilMath.inchesToMeters(468.69);
+    public static final double RED_TRAP_11_Y = UtilMath.inchesToMeters(146.19);
   }
 }
 

@@ -78,10 +78,28 @@ public static int BlueBestTrap(Pose2d pose)
   }
 }
 
-// public static int RedBestTrap(Pose2d pose)
-// {
-
-// }
+public static int RedBestTrap(Pose2d pose)
+{
+  if(Math.abs(pose.getY() - Constants.FieldConstants.RED_TRAP_11_Y) < Math.abs(pose.getY() - Constants.FieldConstants.RED_TRAP_12_Y))
+  {
+    return 11; //returns id
+  }
+  else if(
+    (Math.abs(pose.getY() - Constants.FieldConstants.RED_TRAP_13_Y) < Math.abs(pose.getY() - Constants.FieldConstants.RED_TRAP_12_Y)
+  &&
+  Math.abs(pose.getY() - Constants.FieldConstants.RED_TRAP_13_Y) < Math.abs(pose.getY() - Constants.FieldConstants.RED_TRAP_11_Y))
+  && (Math.abs(pose.getX() - Constants.FieldConstants.RED_TRAP_13_X) < Math.abs(pose.getX() - Constants.FieldConstants.RED_TRAP_12_X)
+  &&
+  Math.abs(pose.getX() - Constants.FieldConstants.RED_TRAP_13_X) < Math.abs(pose.getX() - Constants.FieldConstants.RED_TRAP_11_X))
+  )
+  {
+    return 13;
+  }
+  else
+  {
+    return 12;
+  }
+}
 
 // public static double 
 }

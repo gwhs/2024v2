@@ -43,10 +43,6 @@ public class toTrap extends Command {
 
       targetX = bestTrap_X - Math.sin(Math.PI/6)*0.7;
       targetY = bestTrap_Y - Math.cos(Math.PI/6)*0.7;
-
-
-      
-
     }
     else if(bestTrapID == 15)
     {
@@ -68,8 +64,34 @@ public class toTrap extends Command {
       targetY = bestTrap_Y;
 
     }
-     Translation2d targetTranslation = new Translation2d(targetX - m_Subsystem.getPose().getX(), targetY - m_Subsystem.getPose().getY());
-      m_Subsystem.drive(targetTranslation, 0, true);
+    if(bestTrapID == 11)
+    {
+      bestTrap_X = Constants.FieldConstants.RED_TRAP_11_X;
+      bestTrap_Y = Constants.FieldConstants.RED_TRAP_11_Y;
+
+      targetX = bestTrap_X + Math.sin(Math.PI/6)*0.7;
+      targetY = bestTrapID + Math.cos(Math.PI/6)*0.7;
+    }
+    else if(bestTrapID == 12)
+    {
+      bestTrap_X = Constants.FieldConstants.RED_TRAP_12_X;
+      bestTrap_Y = Constants.FieldConstants.RED_TRAP_12_Y;
+
+      targetX = bestTrap_X + Math.sin(Math.PI/6)*0.7;
+      targetY = bestTrap_Y - Math.cos(Math.PI/6)*0.7;
+    }
+    else
+    {
+      bestTrap_X = Constants.FieldConstants.RED_TRAP_13_X;
+      bestTrap_Y = Constants.FieldConstants.RED_TRAP_13_Y;
+
+      targetX = bestTrap_X - 0.7;
+      targetY = bestTrap_Y;
+    }
+     
+        Translation2d targetTranslation = new Translation2d(targetX - m_Subsystem.getPose().getX(), targetY - m_Subsystem.getPose().getY());
+
+       m_Subsystem.drive(targetTranslation, 0, true);
   }
 
   // Called once the command ends or is interrupted.
@@ -83,7 +105,11 @@ public class toTrap extends Command {
     {
       return true;
     }
-    else if(bestTrap_Y - 1 <= m_Subsystem.getPose().getY() && m_Subsystem.getPose().getY() <= bestTrap_Y + 1)
+    else if(bestTrapID == 13 && (bestTrap_X - 0.9 <= m_Subsystem.getPose().getX() && m_Subsystem.getPose().getX() <= bestTrap_X + 0.9))
+    {
+      return true;
+    }
+    else if(bestTrapID != 13 && bestTrapID != 14 && bestTrap_Y - 1 <= m_Subsystem.getPose().getY() && m_Subsystem.getPose().getY() <= bestTrap_Y + 1)
     {
       return true;
     }

@@ -36,8 +36,11 @@ public class IntakeContainer implements BaseContainer {
         xboxController.a().onTrue(new IntakeRejectNote(intakeSubsystem));
         xboxController.b().onTrue(new IntakePickUpFromGround(intakeSubsystem));
         
-        // xboxController.x().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 0));
-        // xboxController.y().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 106));
+        final PIDController intakeController = new PIDController(.01, .001, .0);
+        intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
+        
+        xboxController.x().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 0));
+        xboxController.y().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 83));
 
         // xboxController.a().onTrue(new IntakePickUpFromGround(intakeSubsystem));
         // xboxController.b().onTrue(new IntakePassNoteToPizzaBox(intakeSubsystem));

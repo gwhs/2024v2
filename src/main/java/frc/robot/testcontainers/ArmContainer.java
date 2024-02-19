@@ -26,8 +26,7 @@ import frc.robot.commands.Arm.SpinToArmAngle;
 
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
 import frc.robot.commands.IntakeCommands.IntakePickUpFromGround;
-import frc.robot.commands.IntakeCommands.LowerArmIntake;
-import frc.robot.commands.IntakeCommands.UpperArmIntake;
+
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
@@ -64,7 +63,7 @@ public class ArmContainer implements BaseContainer {
     private void configureBindings() {
     //    m_driverController.a().onTrue(new SwingForward(arm, 270, 10, 10, .25));
     //    m_driverController.b().onTrue(new SwingBack(arm, 10, 10, .25));
-         m_driverController.x().onTrue(new SwingServo(arm));
+         m_driverController.x().onTrue(new SwingForwardServo(arm));
 
        //SpinNoteContainerMotor army = new SpinNoteContainerMotor (arm, 0.25, 10);
        //m_driverController.y().onTrue(army);

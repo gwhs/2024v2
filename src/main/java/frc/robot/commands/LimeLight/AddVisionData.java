@@ -76,7 +76,6 @@ private final int meterToStop = 1;
         else{
          return;
         }
-          
           stds.set(0,0,xyStds);
           stds.set(1,0,xyStds);
           stds.set(2,0, degStds);
@@ -94,6 +93,6 @@ private final int meterToStop = 1;
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-   return true;
+   return false;
   }
 }

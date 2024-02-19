@@ -91,20 +91,12 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   
       /* Retry config apply up to 5 times, report if failure */
       StatusCode motorStatus = StatusCode.StatusCodeNotInitialized;
-      StatusCode motorStatusArm = StatusCode.StatusCodeNotInitialized;
-      for (int i = 0; i < 5; ++i) {
-        motorStatusArm = m_arm.getConfigurator().apply(configs);
-        if (motorStatusArm .isOK()) break;
-      }      
       for (int i = 0; i < 5; ++i) {
         motorStatus = m_pizzaBox.getConfigurator().apply(configs);
         if (motorStatus .isOK()) break;
       }
       if(!motorStatus.isOK()) {
         System.out.println("Could not apply configs, error code: " + motorStatus.toString());
-      }
-      if(!motorStatusArm.isOK()) {
-        System.out.println("Could not apply configs, error code: " + motorStatusArm.toString());
       }
 
     Shuffleboard.getTab("Arm").addDouble("Encoder Angle", ()->encoderGetAngle()).withWidget(BuiltInWidgets.kGraph)
@@ -145,53 +137,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   setGoal(calculatedAng);
  }
 
-
-  public void setAngle(double angle, double vel, double accel) {
-
-    if(angle < Constants.Arm.ARM_MIN_ANGLE) { //Will not be less than minimum angle
-      angle = Constants.Arm.ARM_MIN_ANGLE;
-    }
-    else if (angle > Constants.Arm.ARM_MAX_ANGLE) { // Will not be greater than maximum angle
-      angle = Constants.Arm.ARM_MAX_ANGLE;
-    }
-
-    // double wantedAngle = angle;
-    // double encoderAngle = encoderGetAngle();
-    // double armAngle = getArmAngle();
-    // double deltaAngle = wantedAngle - encoderAngle;
-    // double neededArmRotation = deltaAngle / 360; 
-    // double neededMotorRotation = neededArmRotation * Constants.Arm.GEAR_RATIO;
-
-//ORIGINAl ADJUSTED ANGLE    double adjustedAngle = (((angle - encoderGetAngle() + getArmAngle())) * Constants.Arm.GEAR_RATIO)/Constants.Arm.ROTATION_TO_DEGREES;
-//Testing
-   double adjustedAngle = (((angle - encoderGetAngle() + getArmAngle())) * Constants.Arm.GEAR_RATIO)/Constants.Arm.ROTATION_TO_DEGREES;
-//Testing
-
-    System.out.println("NeededMotorRotation will be:  " + neededMotorRotation + " DeltaAngle will be : " + deltaAngle);
-    //MotionMagicVoltage m_smoothArmMovement = new MotionMagicVoltage(neededMotorRotation, false, 0, 0, false, false, false);
-    //Testing
-    PositionVoltage m_smoothArmMovement = new PositionVoltage(adjustedAngle, vel , false, 0, 0, false, false, false);
-    //Testing
-
-    // var talonFXConfigs = new TalonFXConfiguration();
-    // talonFXConfigs.Slot0.kS = .24;
-    // talonFXConfigs.Slot0.kV = .12;
-    // talonFXConfigs.Slot0.kP = 4.8;
-    // talonFXConfigs.Slot0.kI = 0;
-    // talonFXConfigs.Slot0.kD = .1;
-
-
-    // // var motionMagicConfigs = talonFXConfigs.MotionMagic;
-    // // motionMagicConfigs.MotionMagicCruiseVelocity = vel;
-    // // motionMagicConfigs.MotionMagicAcceleration = accel; 
-    // // motionMagicConfigs.MotionMagicJerk = 1600; // 1600 rps/s^2 jerk (0.1 seconds)
-    // m_arm.getConfigurator().apply(talonFXConfigs, 0.03);
-
-    // m_smoothArmMovement.Slot = 0;
-
-    m_arm.setControl(m_smoothArmMovement);
-  }
-
   //Spins "Pizzabox" motor: velocity in rotations/sec and acceleration in rotations/sec^2
   public void spinPizzaBoxMotor(double velocity, double acceleration){
     VelocityVoltage spinPizzaBoxMotorRequest = new VelocityVoltage(velocity, acceleration, false, 0, 0, false, false, false);
@@ -218,10 +163,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 }
 
  public double getArmAngle(){
-  //Testing
-  //return m_arm.getPosition().getValue() * (-100./36.);
     return m_arm.getPosition().getValue()/-Constants.Arm.GEAR_RATIO * Constants.Arm.ROTATION_TO_DEGREES;
-
  }
 
  /* The pizza box is the motor on the holding container on the arm*/ 

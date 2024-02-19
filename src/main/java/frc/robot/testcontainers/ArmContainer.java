@@ -14,10 +14,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.Arm.SpinNoteContainerMotor;
 import frc.robot.commands.Arm.StopNoteContainerMotor;
-import frc.robot.commands.Arm.SwingBack;
-import frc.robot.commands.Arm.SpinArm;
 
-import frc.robot.commands.Arm.SwingForward;
 import frc.robot.commands.Arm.SwingForwardServo;
 import frc.robot.commands.Arm.SwingBackServo;
 import frc.robot.commands.Arm.SpinAndSwing;
@@ -47,29 +44,14 @@ public class ArmContainer implements BaseContainer {
         //CAN_Network
         ArmSubsystem arm = new ArmSubsystem(Constants.Arm.ARM_ID, "CAN_Network", Constants.Arm.PIZZABOX_ID, "rio", 
                         Constants.Arm.ENCODER_DIO_SLOT, Constants.Arm.SERVO_PWN_SLOT); 
-        //IntakeSubsystem intake = new IntakeSubsystem(0, 0, 1, 2, 3, "rio");
-//  public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, int channel1, int channel2, int channel3, String can)  {
-
-        //Testing Purposes
-
-
-        //Testing End
 
     public ArmContainer() {
         configureBindings();
 
     }
 
-
     private void configureBindings() {
-    //    m_driverController.a().onTrue(new SwingForward(arm, 270, 10, 10, .25));
-    //    m_driverController.b().onTrue(new SwingBack(arm, 10, 10, .25));
-         m_driverController.x().onTrue(new SwingForwardServo(arm));
-
-       //SpinNoteContainerMotor army = new SpinNoteContainerMotor (arm, 0.25, 10);
-       //m_driverController.y().onTrue(army);
-       //m_driverController.x().onTrue(new StopNoteContainerMotor(arm));
-       
+        //m_driverController.x().onTrue(new SwingForwardServo(arm));
 
        m_driverController.y().onTrue(Commands.runOnce(() -> {
         arm.setGoal(40+ arm.getMeasurement());
@@ -81,6 +63,8 @@ public class ArmContainer implements BaseContainer {
         
        m_driverController.rightBumper().onTrue(new SpinToArmAngle(arm, 0));
        m_driverController.x().onTrue(new SpinToArmAngle(arm, arm.encoderGetAngle() + 10));
+
+        //m_driverController.a().onTrue(new SpinAndSwing(arm));
 
 //We might not need this anymore (2/10/24)
         Shuffleboard.getTab("Arm").addDouble("encoder",()->arm.encoderGetAngle());

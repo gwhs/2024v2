@@ -4,51 +4,24 @@
 
 package frc.robot.commands.ClimberCommands;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
-public class ClimbUp extends Command {
+public class ClimbUp extends SequentialCommandGroup {
 
-  private Climbsubsystem climbersubsystem;
-  private SwerveSubsystem swerve;
-
-  /** Creates a new ClimbUp. */
+  /** Creates a new ClimbUp.*/
   public ClimbUp(Climbsubsystem c, SwerveSubsystem s) {
-    climbersubsystem = c;
-    swerve = s;
+    addCommands(
+          new ParallelCommandGroup(/*new movearm(), */ 
+              new SequentialCommandGroup(new WaitCommand(2), new MotorUp(c, s))),
+          /*new ParallelCommandGroup(new driveforward(), new Reactionbar()),*/
+          new MotorDown(c, s)
+    );
+    
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(this.climbersubsystem);
 
-  }
-
-  // Called when the command is initially scheduled.
-  @Override
-  public void initialize() {
-    new SequentialCommandGroup(
-      new ParallelCommandGroup(/*new alignment(), new movearm(), */ 
-        new SequentialCommandGroup(new WaitCommand(2), new MotorUp(climbersubsystem, swerve))),
-      /*new ParallelCommandGroup(new driveforward(), new Reactionbar()),*/
-      new MotorDown(climbersubsystem, swerve)
-      );
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {}
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-    climbersubsystem.stopClimb();
-  }
-
-  // Returns true when the command should end.
-  @Override
-  public boolean isFinished() {
-    return true;
   }
 }

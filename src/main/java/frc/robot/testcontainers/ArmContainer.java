@@ -46,7 +46,7 @@ public class ArmContainer implements BaseContainer {
     private final CommandXboxController m_driverController =
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
         //CAN_Network
-        ArmSubsystem arm = new ArmSubsystem(Constants.Arm.ARM_ID, "rio", Constants.Arm.PIZZABOX_ID, "rio", 0, 0); 
+        ArmSubsystem arm = new ArmSubsystem(Constants.Arm.ARM_ID, "CAN_Network", Constants.Arm.PIZZABOX_ID, "rio", 0, 0); 
         //IntakeSubsystem intake = new IntakeSubsystem(0, 0, 1, 2, 3, "rio");
 //  public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, int channel1, int channel2, int channel3, String can)  {
 
@@ -103,16 +103,14 @@ public class ArmContainer implements BaseContainer {
        m_driverController.b().onTrue(Commands.runOnce(() -> {arm.disable();}, arm));
 
        m_driverController.y().onTrue(Commands.runOnce(() -> {
-        arm.disable();
         arm.setGoal(40+ arm.getMeasurement());
-        arm.enable();
         }, arm));
 
         m_driverController.leftBumper().onTrue(Commands.runOnce(() -> {
-            arm.setGoal(30);}));
+            arm.targetArmAngle(30);}));
 
         
-       //m_driverController.y().onTrue(new SpinToArmAngle(arm, 100));
+       m_driverController.rightBumper().onTrue(new SpinToArmAngle(arm, 0));
        m_driverController.x().onTrue(new SpinToArmAngle(arm, arm.encoderGetAngle() + 10));
 
 //We might not need this anymore (2/10/24)

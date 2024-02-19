@@ -53,10 +53,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   public ArmSubsystem(int armId, String armCanbus, int pizzaBoxId, String pizzaBoxCanbus, int channel1, int channelServo)
   {
-    super(new ProfiledPIDController(.005, .0, 0, new Constraints(360, 200)));
-    getController().setTolerance(5);
-
-    getController().enableContinuousInput(-180, 180);
+    super(new ProfiledPIDController(.005, .0, 0, new Constraints(180, 90)));
+    getController().setTolerance(.5);
     //TrapezoidProfile either velocity or position
       m_arm = new TalonFX(armId, armCanbus);
       m_pizzaBox = new TalonFX(pizzaBoxId, pizzaBoxCanbus);
@@ -130,13 +128,21 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   else if (speed > 1) { // Will not be greater than maximum angle
     speed = 1;
   }
-  m_arm.set(speed);
+  m_arm.set(-speed);
  }
 
  public void targetArmAngle(double angle)
  {
-  System.out.println("TargetArmAngle works, angle value : " + angle);
-  setGoal(angle);
+  double calculatedAng = angle - Constants.Arm.ENCODER_OFFSET;
+  if(calculatedAng  < Constants.Arm.ARM_MIN_ANGLE) { //Will not be less than minimum angle
+    calculatedAng = Constants.Arm.ARM_MIN_ANGLE;
+  }
+  else if (calculatedAng > Constants.Arm.ARM_MAX_ANGLE) { // Will not be greater than maximum angle
+    calculatedAng = Constants.Arm.ARM_MAX_ANGLE;
+  }
+
+  System.out.println("TargetArmAngle works, angle value : " + calculatedAng);
+  setGoal(calculatedAng);
  }
 
 
@@ -226,7 +232,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
  //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])
   public double encoderGetAngle() {
 
-    return m_encoder.getAbsolutePosition()*Constants.Arm.ROTATION_TO_DEGREES - Constants.Arm.ENCODER_OFFSET;
+    return m_encoder.getAbsolutePosition()*Constants.Arm.ROTATION_TO_DEGREES;
   }
 
   //Resets encoder angle to 0

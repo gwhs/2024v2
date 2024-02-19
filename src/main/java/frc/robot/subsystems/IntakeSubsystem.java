@@ -6,18 +6,23 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 
-public class IntakeSubsystem extends SubsystemBase {
+public class IntakeSubsystem extends ProfiledPIDSubsystem {
   private TalonFX m_moveIntakeArm; // motor of arm
   private TalonFX m_spinIntake; // motor of intake
   private DutyCycleEncoder m_Encoder;
@@ -33,6 +38,9 @@ public class IntakeSubsystem extends SubsystemBase {
     * String can: String ID of canivore  
   */
   public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, int channel1, String can)  {
+    super(new ProfiledPIDController(.005, .0, 0, new Constraints(360, 200)));
+    getController().setTolerance(5);
+    
     m_moveIntakeArm = new TalonFX(lowerIntakeId, can); 
     m_spinIntake = new TalonFX(spinIntakeId, can);
     m_Encoder = new DutyCycleEncoder(Constants.IntakeConstants.INTAKE_ENCODER_CHANNEL_ID);
@@ -105,6 +113,17 @@ public class IntakeSubsystem extends SubsystemBase {
     m_moveIntakeArm.set(speed);
   }  
 
+  public void setIntakeArmAngle(double angle) {
+    if(angle < 0) {
+      angle = 0;
+    }
+    else if (angle > Constants.IntakeConstants.MAX_ARM_ANGLE) {
+      angle = Constants.IntakeConstants.MAX_ARM_ANGLE;
+    }
+
+    setGoal(angle);
+  }
+
   // stop intake motor
   public void stopIntakeMotors() {
     m_spinIntake.stopMotor();
@@ -136,4 +155,15 @@ public class IntakeSubsystem extends SubsystemBase {
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
+
+  @Override
+  public void useOutput(double output, TrapezoidProfile.State setpoint) {
+    spinIntakeArm(output);
+  }
+
+  @Override
+  public double getMeasurement() {
+    return encoderGetAngle();
+  }
 }
+

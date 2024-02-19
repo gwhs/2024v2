@@ -11,6 +11,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.IntakeCommands.SpinIntakePID;
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
 import frc.robot.commands.IntakeCommands.IntakePickUpFromGround;
+import frc.robot.commands.IntakeCommands.SpinIntakeMotor;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeContainer implements BaseContainer {
@@ -30,13 +31,14 @@ public class IntakeContainer implements BaseContainer {
         
         final PIDController intakeController = new PIDController(.005, .0, .0);
         intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
+
+        xboxController.a().onTrue(new SpinIntakeMotor(intakeSubsystem, 0));
         
-        xboxController.x().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 0));
-        xboxController.y().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 106));
+        // xboxController.x().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 0));
+        // xboxController.y().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 106));
 
-        xboxController.a().onTrue(new IntakePickUpFromGround(intakeSubsystem));
-        xboxController.b().onTrue(new IntakePassNoteToPizzaBox(intakeSubsystem));
-
+        // xboxController.a().onTrue(new IntakePickUpFromGround(intakeSubsystem));
+        // xboxController.b().onTrue(new IntakePassNoteToPizzaBox(intakeSubsystem));
 
         Shuffleboard.getTab("intake").add(intakeController);
 

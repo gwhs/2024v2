@@ -8,14 +8,14 @@ import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-public class SpinIntakeMotor extends Command {
+public class SpinIntakeArmMotor extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private IntakeSubsystem intakeSubsystem;
   private double angle;
   private boolean sensorValue;
 
-  public SpinIntakeMotor(IntakeSubsystem subsystem, double targetAngle) {
+  public SpinIntakeArmMotor(IntakeSubsystem subsystem, double targetAngle) {
     intakeSubsystem = subsystem;
     angle = targetAngle;
 

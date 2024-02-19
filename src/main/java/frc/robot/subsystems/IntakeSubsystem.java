@@ -37,9 +37,10 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
     * initialized the encoder 
     * String can: String ID of canivore  
   */
-  public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, int channel1, String can)  {
-    super(new ProfiledPIDController(.005, .0, 0, new Constraints(360, 200)));
-    getController().setTolerance(5);
+  public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, String can)  {
+    super(new ProfiledPIDController(.005, .0, 0, new Constraints(Constants.IntakeConstants.INTAKE_MOTOR_VELOCITY, 200)));
+    getController().setTolerance(Constants.IntakeConstants.TOLERANCE);
+    Shuffleboard.getTab("intake").add(getController());
     
     m_moveIntakeArm = new TalonFX(lowerIntakeId, can); 
     m_spinIntake = new TalonFX(spinIntakeId, can);

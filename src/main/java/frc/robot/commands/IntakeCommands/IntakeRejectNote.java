@@ -39,7 +39,7 @@ public class IntakeRejectNote extends Command {
   // runs once when isFinished is called
   @Override
   public void end(boolean interrupted) {
-
+    intakeSubsystem.stopIntakeMotors();
   }
 
   // Returns true when the command should end.

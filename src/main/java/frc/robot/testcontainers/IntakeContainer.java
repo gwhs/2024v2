@@ -11,6 +11,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.IntakeCommands.SpinIntakePID;
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
 import frc.robot.commands.IntakeCommands.IntakePickUpFromGround;
+import frc.robot.commands.IntakeCommands.IntakeRejectNote;
 import frc.robot.commands.IntakeCommands.SpinIntakeMotor;
 import frc.robot.subsystems.IntakeSubsystem;
 
@@ -23,16 +24,17 @@ public class IntakeContainer implements BaseContainer {
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
     public IntakeContainer() {
-        intakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, 0, "rio");
+        intakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, "rio");
         configureBindings();
     }
 
     private void configureBindings() {
-        
-        final PIDController intakeController = new PIDController(.005, .0, .0);
-        intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
 
-        xboxController.a().onTrue(new SpinIntakeMotor(intakeSubsystem, 0));
+        xboxController.x().onTrue(new SpinIntakeMotor(intakeSubsystem, 0));
+        xboxController.y().onTrue(new SpinIntakeMotor(intakeSubsystem, Constants.IntakeConstants.MAX_ARM_ANGLE));
+
+        xboxController.a().onTrue(new IntakeRejectNote(intakeSubsystem));
+        xboxController.b().onTrue(new IntakePickUpFromGround(intakeSubsystem));
         
         // xboxController.x().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 0));
         // xboxController.y().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 106));
@@ -40,11 +42,10 @@ public class IntakeContainer implements BaseContainer {
         // xboxController.a().onTrue(new IntakePickUpFromGround(intakeSubsystem));
         // xboxController.b().onTrue(new IntakePassNoteToPizzaBox(intakeSubsystem));
 
-        Shuffleboard.getTab("intake").add(intakeController);
 
         // Command command = new SpinIntakePID(intakeController, intakeSubsystem, 0);
         // command = command.andThen(new IntakePickUpFromGround(intakeSubsystem));
-        // command = command.andThen(new SpinIntakePID(intakeController, intakeSubsystem, Constants.IntakeConstants.MAX_ARM_ANGLE)).withTimeout(4);
+        // command = command.andThen(new SpinIntakePID(intakeController, intakeSubsystem, Constants.IntakeConstants.MAX_ARM_ANGLE))c
         // command = command.andThen(new IntakePassNoteToPizzaBox(intakeSubsystem));
 
     }

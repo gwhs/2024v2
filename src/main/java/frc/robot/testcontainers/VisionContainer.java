@@ -80,6 +80,11 @@ public class VisionContainer implements BaseContainer
       .withWidget(BuiltInWidgets.kGraph)
       .withSize(3,3)
       .withPosition(3, 0);
+    
+    limeLightTab.addDouble("Robot Heading", ()->apriltagController.getRobotHeading())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(3, 0);
 
     limeLightTab.addNumber("Distance X Input", ()-> apriltagController.getDistanceForward());
     limeLightTab.addNumber("Distance Y Input", ()-> apriltagController.getDistanceSideways());
@@ -123,7 +128,7 @@ public class VisionContainer implements BaseContainer
     driverXbox.b().onTrue(new Forward(drivebase, apriltagController));
 
     // driverXbox.y().onTrue(new Align(drivebase, apriltagController));
-    driverXbox.y().onTrue(new rotateinPlace(() -> 180, drivebase));
+    driverXbox.y().onTrue(new rotateinPlace(() -> 90, drivebase));
 
     // driverXbox.b().onTrue(new Align(drivebase, limeLightSub));
     // driverXbox.a().onTrue(new SmoothAlign(drivebase, limeLightSub));

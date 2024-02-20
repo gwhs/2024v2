@@ -23,7 +23,7 @@ public class rotateinPlace extends Command {
   private double targetTheta;
   private double currTheta;
   private double diff;
-  private double marginOfError = 4;
+  private double marginOfError = 1;
   private double exceptionTarget = 180;
   private double exceptionTMarginOfError = 175;
 

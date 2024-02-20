@@ -41,7 +41,12 @@ public class Forward extends Command {
     /* System.out.println("working");
        distance = limeLightSub.getErrorX(); 
      */    
-    driSwerveSubsystem.drive(new Translation2d(-distance, 0), 0, true);
+    // driSwerveSubsystem.drive(new Translation2d(-distance, 0), 0, true);
+    // double distance = apriltagController.getThetaTxError();
+    // driSwerveSubsystem.drive(new Translation2d(-distance,0))
+
+    double distance = apriltagController.updatePIDForward();
+    driSwerveSubsystem.drive(new Translation2d(distance, 0), 0, true);
     
   }
 
@@ -52,6 +57,8 @@ public class Forward extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (apriltagController.getErrorX() < 0.1 && apriltagController.getErrorX() > -0.01);
+    boolean isWithinTolerance = Math.abs(apriltagController.getErrorForward()) < 0.1;
+    boolean isDerivativeZero = Math.abs(apriltagController.getDerivative("forward")) < 0.01;
+    return (isWithinTolerance && isDerivativeZero);
   }
 }

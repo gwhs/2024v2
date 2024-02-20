@@ -19,7 +19,7 @@ import frc.robot.Constants.AprilTagConstants;
 import frc.robot.Constants.LimeLightConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Robot;
-import frc.robot.commands.LimeLight.Align;
+// import frc.robot.commands.LimeLight.Align;
 import frc.robot.commands.LimeLight.FaceAprilTag;
 import frc.robot.commands.LimeLight.Forward;
 import frc.robot.commands.LimeLight.Sideways;
@@ -65,17 +65,31 @@ public class VisionContainer implements BaseContainer
     limeLightSub = new LimeLightSub("limelight");
     limeLightTab = Shuffleboard.getTab("Limelight");
                                                                          
-    apriltagController = new ApriltagController(drivebase, limeLightSub);                                                                     
+    apriltagController = new ApriltagController(drivebase, limeLightSub); 
                                                                       
     // graphs sideways error
-    limeLightTab.addDouble("Y Position", ()->limeLightSub.getErrorY())
+    limeLightTab.addDouble("Sideways Output", ()->apriltagController.getErrorSideways())
       .withWidget(BuiltInWidgets.kGraph)
       .withSize(3,3)
       .withPosition(3, 0);
-    limeLightTab.addNumber("Distance X", ()-> apriltagController.getDistanceX());
-    limeLightTab.addNumber("Distance Y", ()-> apriltagController.getDistanceY());
-    limeLightTab.addNumber("Distance X Error", ()-> apriltagController.getErrorX());
-    limeLightTab.addNumber("Distance Y Error", ()-> apriltagController.getErrorY());
+    limeLightTab.addDouble("Forward Output", ()->apriltagController.getErrorForward())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(3, 0);
+    limeLightTab.addDouble("Rotation Output", ()->apriltagController.getErrorRotation())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(3, 0);
+
+    limeLightTab.addNumber("Distance X Input", ()-> apriltagController.getDistanceForward());
+    limeLightTab.addNumber("Distance Y Input", ()-> apriltagController.getDistanceSideways());
+    limeLightTab.addNumber("Distance Tx Input", ()-> limeLightSub.getTx());
+    limeLightTab.addNumber("Distance X Output", ()-> apriltagController.getErrorForward());
+    limeLightTab.addNumber("Distance Y Output", ()-> apriltagController.getErrorSideways());
+    limeLightTab.addNumber("Distance Tx Output", ()-> apriltagController.getErrorRotation());
+
+    limeLightTab.addNumber("Current Robot Heading", ()-> apriltagController.getRobotHeading());
+    limeLightTab.addNumber("Get Tag Heading", ()-> apriltagController.getApriltagHeading());
 
     // Configure the trigger bindings
     configureBindings();
@@ -103,9 +117,10 @@ public class VisionContainer implements BaseContainer
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
 
+    
+    driverXbox.y().onTrue(new rotateinPlace(() -> apriltagController.getApriltagHeading(), drivebase));
+    // driverXbox.y().onTrue(new FaceAprilTag(drivebase, apriltagController));
     driverXbox.a().onTrue(new Sideways(drivebase, apriltagController));
-    // driverXbox.y().onTrue(new rotateinPlace(() -> AprilTagConstants.APRILTAG_ROTATION[limeLightSub.getID()], drivebase));
-    driverXbox.y().onTrue(new FaceAprilTag(drivebase, apriltagController));
     driverXbox.b().onTrue(new Forward(drivebase, apriltagController));
 
     // driverXbox.b().onTrue(new Align(drivebase, limeLightSub));

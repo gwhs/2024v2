@@ -31,14 +31,14 @@ public class Sideways extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    apriltagController.setPoint(0, "y");
+    apriltagController.setPoint(0, "tx");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    distance = apriltagController.getErrorY(); 
-    driSwerveSubsystem.drive(new Translation2d(0, distance), 0, true);
+    distance = apriltagController.updatePIDSideways(); 
+    driSwerveSubsystem.drive(new Translation2d(0, distance), 0, false);
     
   }
 
@@ -49,7 +49,8 @@ public class Sideways extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return (apriltagController.getDistanceY() < 0.03 && apriltagController.getDistanceY() > -0.03);
-    // return false;
+    boolean isWithinTolerance = Math.abs(apriltagController.getErrorSideways()) < 0.001;
+    boolean isDerivativeZero = Math.abs(apriltagController.getDerivative("sideways")) < 0.001;
+    return (isWithinTolerance && isDerivativeZero);
   }
 }

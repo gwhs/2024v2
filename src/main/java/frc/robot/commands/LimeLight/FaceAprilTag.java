@@ -38,7 +38,7 @@ public class FaceAprilTag extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double angle = apriltagController.getThetaError();
+    double angle = apriltagController.updatePIDRotation();
     driSwerveSubsystem.drive(new Translation2d(0, 0), angle, true);
     
 
@@ -51,9 +51,10 @@ public class FaceAprilTag extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    double error = apriltagController.getThetaError();
-    boolean low_error = error < 0.1 && error > -0.1;
-    System.out.println("FaceAprilTag: " + low_error);
-    return (low_error);
+    boolean isWithinTolerance = Math.abs(apriltagController.getErrorRotation()) < 0.1;
+    boolean isDerivativeZero = Math.abs(apriltagController.getDerivative("rotation")) < 0.01;
+    return (isWithinTolerance && isDerivativeZero);
+
+    // return Math.abs(apriltagController.getErrorRotation()) < 0.1;
   }
 }

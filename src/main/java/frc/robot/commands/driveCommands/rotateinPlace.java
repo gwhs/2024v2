@@ -35,7 +35,6 @@ public class rotateinPlace extends Command {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_Subsystem = subsystem;
     this.targetTDoubleSupplier = rotation;
-    targetTheta = rotation.getAsDouble();
      PID = new PIDController(kP, kI, kD);
 
     
@@ -47,11 +46,11 @@ public class rotateinPlace extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    targetTheta = targetTDoubleSupplier.getAsDouble();
+    currTheta = m_Subsystem.getHeading().getDegrees();
     PID.setSetpoint(targetTheta);
     PID.setPID(kP, kI, kD);
     PID.enableContinuousInput(-180, 180);
-    currTheta = m_Subsystem.getHeading().getDegrees();
-    double rotation = targetTDoubleSupplier.getAsDouble();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -60,6 +59,7 @@ public class rotateinPlace extends Command {
     currTheta = m_Subsystem.getHeading().getDegrees();
 
     angleRate = PID.calculate(currTheta);
+    m_Subsystem.drive(pose, angleRate, true);
     }
     
   

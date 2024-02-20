@@ -41,7 +41,7 @@ public class VisionContainer implements BaseContainer
 {
 
   // The robot's subsystems and commands are defined here...
-  private final SwerveSubsystem drivebase;
+  public static SwerveSubsystem drivebase;
 
   CommandXboxController driverXbox = new CommandXboxController(0);
 
@@ -59,6 +59,7 @@ public class VisionContainer implements BaseContainer
   {
     drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          getDriveTrainName()));
+    
 
     limeLightSub = new LimeLightSub("limelight" );                                                                   
     // Configure the trigger bindings

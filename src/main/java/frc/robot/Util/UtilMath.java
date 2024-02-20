@@ -32,4 +32,18 @@ public class UtilMath {
         return caclucateRotateTheta(pose, RED_SPEAKER_Y, RED_SPEAKER_X);
     
     }
+    public static double inchesToMeters(double inches)
+    {
+        double meters = inches/39.97;
+        return meters;
+    }
+    public static int whichAmp(Pose2d pose){
+        if(pose.getX() < 324.865){
+            return 6;
+        }
+        else if (pose.getX() > 324.865){
+            return 5;
+    }
+    return 0;
+    }
 }

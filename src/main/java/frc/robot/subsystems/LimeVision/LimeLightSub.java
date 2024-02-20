@@ -13,12 +13,18 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimeLightConstants;
+import frc.robot.commands.LimeLight.AddVisionData;
+import edu.wpi.first.math.Matrix;
+import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import frc.robot.subsystems.LimelightHelpers.LimelightHelpers;
 import frc.robot.subsystems.LimelightHelpers.LimelightHelpers.LimelightTarget_Fiducial;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import swervelib.SwerveDrive;
 
 public class LimeLightSub extends SubsystemBase {
 
@@ -27,6 +33,8 @@ public class LimeLightSub extends SubsystemBase {
   private final double kD = 0.2;
   private final double kI = 0;
   // private static double distanceFromAprilTag = 0;
+  
+  
 
   private PIDController PIDVision = new PIDController(kP, kI, kD);
   private PIDController PIDVisionY = new PIDController(kP, kI, kD);
@@ -101,15 +109,8 @@ public class LimeLightSub extends SubsystemBase {
     Shuffleboard.getTab("Limelight").addDouble("ID", ()->getBlueBotPose()[7]);
     Shuffleboard.getTab("Limelight").addDouble("Distance", ()->getBlueBotPose()[8]);
   
-
-    // Shuffleboard.getTab("Limelight").addDouble("TargetPose TX", ()->getTargetSpace()[0]);
-    // Shuffleboard.getTab("Limelight").addDouble("TargetPose TY", ()->getTargetSpace()[1]);
-    // Shuffleboard.getTab("Limelight").addDouble("TargetPose TZ", ()->getTargetSpace()[2]);
-    // Shuffleboard.getTab("Limelight").addDouble("TargetPose RX", ()->getTargetSpace()[3]);
-    // Shuffleboard.getTab("Limelight").addDouble("TargetPose RY", ()->getTargetSpace()[4]);
-    // Shuffleboard.getTab("Limelight").addDouble("TargetPose RZ", ()->getTargetSpace()[5]);
-
-  
+    
+    
   }
 
   @Override
@@ -154,6 +155,10 @@ public class LimeLightSub extends SubsystemBase {
     double currTx = limelight_comm.get_entry_double("tx");
     SmartDashboard.putNumber("tx", currTx);
     // System.out.println(currTx);
+
+    // if(hasTarget()){
+    //   setData();
+    // }
     
   }
 
@@ -285,4 +290,43 @@ public class LimeLightSub extends SubsystemBase {
     
   }
 
+  // public void setData(){
+  //   double[] temp = getBlueBotPose();
+  //   Pose2d currentPose = swerve.getPose();
+  //   double distance = Math.hypot( temp[0]- currentPose.getX(), temp[1]- currentPose.getY());
+  //   int meterToStop = 10;
+
+  //   if(hasTarget()){
+       
+  //       double xyStds= 0;
+  //       double degStds = 0;
+  //       Matrix<N3, N1> stds = new Matrix<N3, N1>(Nat.N3(), Nat.N1());
+  //       int tagsVisable = LimelightHelpers.getLatestResults("limelight").targetingResults.targets_Fiducials.length;
+  //       if(tagsVisable >= 2 ){
+  //           xyStds = 0.5;
+  //           degStds = 6;
+  //           // System.out.println(xyStds);
+  //           // System.out.println(degStds);
+  //           SmartDashboard.putNumber("xyStds", xyStds);
+  //           SmartDashboard.putNumber("degStds", degStds);
+  //       }
+  //       else if ((temp[8] < meterToStop) && (distance < meterToStop)) {
+  //           xyStds = 1.0;
+  //           degStds = 12;
+  //           // System.out.println(xyStds);
+  //           // System.out.println(degStds);
+  //           SmartDashboard.putNumber("xyStds", xyStds);
+  //           SmartDashboard.putNumber("degStds", degStds);
+            
+  //       }
+  //         stds.set(0,0,xyStds);
+  //         stds.set(1,0,xyStds);
+  //         stds.set(2,0, degStds);
+  //         Rotation2d degree = new Rotation2d(temp[5]* Math.PI / 180);
+  //         Pose2d newPose = new Pose2d(temp[0],temp[1],degree);
+          
+  //         swerve.addActualVisionReading(newPose ,Timer.getFPGATimestamp() - (temp[6]/1000.0),stds);
+  // }
+
+  // }
 }

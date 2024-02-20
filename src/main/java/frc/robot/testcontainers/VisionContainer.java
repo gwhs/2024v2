@@ -6,7 +6,12 @@ package frc.robot.testcontainers;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -24,7 +29,7 @@ import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.commands.LimeLight.FaceAprilTag;
 import frc.robot.commands.LimeLight.Sideways;
 import frc.robot.commands.LimeLight.DriveToTag;
-
+import frc.robot.commands.LimeLight.AddVisionData;
 import frc.robot.commands.LimeLight.DriveThere;
 
 /**
@@ -55,7 +60,7 @@ public class VisionContainer implements BaseContainer
     drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          getDriveTrainName()));
 
-    limeLightSub = new LimeLightSub("limelight");                                                                   
+    limeLightSub = new LimeLightSub("limelight" );                                                                   
     // Configure the trigger bindings
     configureBindings();
 
@@ -70,8 +75,26 @@ public class VisionContainer implements BaseContainer
         () -> 0,
         () -> 0,
         () -> -limeLightSub.getError(), () -> true);
-
+        
+    
     drivebase.setDefaultCommand(closedFieldRel);  //TO CHANGE DRIVE BASE
+    // CommandScheduler.getInstance().schedule(new AddVisionData(drivebase, limeLightSub));
+    
+
+    ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
+
+    driveTrainShuffleboardTab.addDouble("X Position", ()->drivebase.getPose().getX())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(0, 0);
+    driveTrainShuffleboardTab.addDouble("Y Position", ()->drivebase.getPose().getY())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(3, 0);
+    driveTrainShuffleboardTab.addDouble("Angle", ()->drivebase.getPose().getRotation().getDegrees())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(6, 0);
 
   }
 
@@ -90,8 +113,8 @@ public class VisionContainer implements BaseContainer
     
     // points to AprilTag
     driverXbox.a().onTrue(new DriveToTag(drivebase, limeLightSub, () -> false));
+    driverXbox.y().onTrue(new AddVisionData(drivebase, limeLightSub));
   }
-
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

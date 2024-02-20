@@ -40,9 +40,7 @@ public class IntakeSubsystem extends SubsystemBase {
     m_spinIntake = new TalonFX(spinIntakeId, can);
     m_Encoder = new DutyCycleEncoder(Constants.IntakeConstants.INTAKE_ENCODER_CHANNEL_ID);
     m_noteSensor = new DigitalInput(Constants.IntakeConstants.INTAKE_NOTESENSOR_CHANNEL_ID); 
-    this.intakeMotorVelocity = Constants.IntakeConstants.INTAKE_MOTOR_VELOCITY;
-    this.intakeMotorAcceleration = Constants.IntakeConstants.INTAKE_MOTOR_ACCELERATION;
-
+    
     TalonFXConfiguration configs = new TalonFXConfiguration();
 
     /* Voltage-based velocity requires a feed forward to account for the back-emf of the motor */
@@ -85,16 +83,16 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   // spin the intake motors, velocity is negative to intake note
-  public void spinIntakeMotor() {
+  public void spinIntakeMotor(int intakeMotorVelocity, int intakeMotorAcceleration) {
     spinRequest1 = new VelocityVoltage(
-      -intakeMotorVelocity, intakeMotorAcceleration, false, 0, 0,false, false, false);
+      -intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0,false, false, false);
     m_spinIntake.setControl(spinRequest1);
   }
   
   // spin intake motors the opposite way, velocity is positive to reject intake
-  public void rejectIntake() {
+  public void rejectIntake(int intakeMotorVelocity, int intakeMotorAcceleration) {
     spinRequest1 = new VelocityVoltage(
-      intakeMotorVelocity, intakeMotorAcceleration, false, 0, 0, false, false, false);
+      intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0, false, false, false);
       m_spinIntake.setControl(spinRequest1);
   }
 

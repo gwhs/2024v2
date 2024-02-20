@@ -26,7 +26,7 @@ public class IntakeRejectNote extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intakeSubsystem.rejectIntake();
+    intakeSubsystem.rejectIntake(50, 5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

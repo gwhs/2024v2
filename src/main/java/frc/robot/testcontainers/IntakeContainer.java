@@ -35,6 +35,8 @@ public class IntakeContainer implements BaseContainer {
         
         xboxController.a().onTrue(new IntakeRejectNote(intakeSubsystem));
         xboxController.b().onTrue(new IntakePickUpFromGround(intakeSubsystem));
+
+        Shuffleboard.getTab("intake").add(intakeController);
           
 
         // Command command = new SpinIntakePID(intakeController, intakeSubsystem, 0);

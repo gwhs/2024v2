@@ -24,7 +24,7 @@ public class rotateinPlace extends Command {
   private final DoubleSupplier targetTDoubleSupplier;
   private double targetTheta;
   private double currTheta;
-  private double kP = 0;
+  private double kP = 1;
   private double kI = 0;
   private double kD = 0;
   private PIDController PID;

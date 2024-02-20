@@ -39,22 +39,14 @@
   },
   "goalEndState": {
     "velocity": 0,
-<<<<<<< HEAD
-    "rotation": 180.0,
-=======
     "rotation": 0.0,
->>>>>>> ffc7b95108eb5c7fb317ece1eba322f3663f6205
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Wing Starting Point",
-<<<<<<< HEAD
   "previewStartingState": {
-    "rotation": 180.0,
+    "rotation": 0.0,
     "velocity": 0
   },
-=======
-  "previewStartingState": null,
->>>>>>> ffc7b95108eb5c7fb317ece1eba322f3663f6205
   "useDefaultConstraints": true
 }

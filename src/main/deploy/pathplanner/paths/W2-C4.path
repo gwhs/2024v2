@@ -9,7 +9,7 @@
       "prevControl": null,
       "nextControl": {
         "x": 6.2685977218108295,
-        "y": 1.4899083644321145
+        "y": 1.4899083644321143
       },
       "isLocked": false,
       "linkedName": "W2"
@@ -39,17 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 180.0,
+    "rotation": 0.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Wing Starting Point",
   "previewStartingState": {
-<<<<<<< HEAD
     "rotation": -26.56505117707799,
-=======
-    "rotation": -30.0,
->>>>>>> ffc7b95108eb5c7fb317ece1eba322f3663f6205
     "velocity": 0
   },
   "useDefaultConstraints": true

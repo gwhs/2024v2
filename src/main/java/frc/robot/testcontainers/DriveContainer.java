@@ -66,7 +66,7 @@ public class DriveContainer implements BaseContainer
     configureBindings();
     configurePathPlannerCommands();
 
-    autoChooser = AutoBuilder.buildAutoChooser("Default Auto");
+    autoChooser = AutoBuilder.buildAutoChooser("0-S(Amp)-0");
     Shuffleboard.getTab("Autonomous").add("Autonomous Chooser", autoChooser).withSize(2, 1);
 
     

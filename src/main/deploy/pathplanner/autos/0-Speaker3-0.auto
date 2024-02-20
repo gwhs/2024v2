@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.0,
-      "y": 5.0
+      "x": 0.8009808327308976,
+      "y": 4.440124264863915
     },
-    "rotation": 0.0
+    "rotation": -60.25999999999999
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,7 @@
         {
           "type": "path",
           "data": {
-            "pathName": null
+            "pathName": "Speaker3-W2"
           }
         }
       ]

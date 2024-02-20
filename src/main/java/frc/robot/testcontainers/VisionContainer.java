@@ -19,7 +19,7 @@ import frc.robot.Constants.AprilTagConstants;
 import frc.robot.Constants.LimeLightConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Robot;
-// import frc.robot.commands.LimeLight.Align;
+import frc.robot.commands.LimeLight.Align;
 import frc.robot.commands.LimeLight.FaceAprilTag;
 import frc.robot.commands.LimeLight.Forward;
 import frc.robot.commands.LimeLight.Sideways;
@@ -117,11 +117,13 @@ public class VisionContainer implements BaseContainer
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
 
-    
-    driverXbox.y().onTrue(new rotateinPlace(() -> apriltagController.getApriltagHeading(), drivebase));
+
     // driverXbox.y().onTrue(new FaceAprilTag(drivebase, apriltagController));
     driverXbox.a().onTrue(new Sideways(drivebase, apriltagController));
     driverXbox.b().onTrue(new Forward(drivebase, apriltagController));
+
+    // driverXbox.y().onTrue(new Align(drivebase, apriltagController));
+    driverXbox.y().onTrue(new rotateinPlace(() -> 180, drivebase));
 
     // driverXbox.b().onTrue(new Align(drivebase, limeLightSub));
     // driverXbox.a().onTrue(new SmoothAlign(drivebase, limeLightSub));

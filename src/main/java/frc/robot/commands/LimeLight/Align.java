@@ -24,12 +24,13 @@ public class Align extends SequentialCommandGroup {
             // Commands.waitSeconds(0.5),
             // new faceTag(driSwerveSubsystem, apriltagController).alongWith(new Sideways(driSwerveSubsystem, apriltagController)),
             // Commands.waitSeconds(0.5),
-            new Sideways(driSwerveSubsystem, apriltagController),
+            new rotateinPlace(() -> apriltagController.getApriltagHeading(), driSwerveSubsystem),
             Commands.waitSeconds(0.5),
-            Commands.print("moving"),
-            new FaceAprilTag(driSwerveSubsystem, apriltagController).andThen(new Forward(driSwerveSubsystem, apriltagController)),
-            Commands.waitSeconds(0.5),
-            Commands.print("facetag"),
-            new FaceAprilTag(driSwerveSubsystem, apriltagController));
+            new Sideways(driSwerveSubsystem, apriltagController));
+            // Commands.print("moving"),
+            // new FaceAprilTag(driSwerveSubsystem, apriltagController).andThen(new Forward(driSwerveSubsystem, apriltagController)),
+            // Commands.waitSeconds(0.5),
+            // Commands.print("facetag"),
+            // new FaceAprilTag(driSwerveSubsystem, apriltagController));
     }
 }

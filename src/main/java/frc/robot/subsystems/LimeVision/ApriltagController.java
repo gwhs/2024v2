@@ -2,6 +2,7 @@ package frc.robot.subsystems.LimeVision;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 
@@ -51,6 +52,8 @@ public class ApriltagController extends SubsystemBase {
                                 {5.32,4.10,1.32},
                                 {4.64,4.50,1.32},
                                 {4.64,3.71,1.32}};
+    
+    private static final int[] APRILTAG_ROTATION = {120, 120, 180, 180, 270, 270, 0, 0, 60, 60, 300, 60, 180, 0, 120, 240};
 
     private double forwardOutput;
     private double sidewaysOutput;
@@ -101,7 +104,7 @@ public class ApriltagController extends SubsystemBase {
     }
     public double getApriltagHeading() {
         if (limeLightSub.getID() > 0) {
-            return apriltag[limeLightSub.getID()][2] + 180;
+            return APRILTAG_ROTATION[limeLightSub.getID()] + 180;
         }
         return swerve.getPose().getRotation().getDegrees();
     }

@@ -18,48 +18,6 @@ import edu.wpi.first.apriltag.AprilTagFields;
 
 public class LimeLightSub extends SubsystemBase {
 
-  // PID constants
-  private final double kPX = 0.3;
-  private final double kDX = 0.1;
-  private final double kIX = 0;
-
-  //P - 0.6 sweet spot
-  private final double kPY = 1;
-  private final double kDY = 0;
-  private final double kIY = 0;
-
-  /* PID constants for faceAprilTag
-   * P = 0.04, D = 0, I = 0
-   */
-  private final double kPTheta = 0.4;
-  private final double kDTheta = 0;
-  private final double kITheta = 0;
-  // Set target point
-
-  AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
-
-  PIDController PIDVisionX = new PIDController(kPX, kIX, kDX);
-  PIDController PIDVisionY = new PIDController(kPY, kIY, kDY);
-  PIDController PIDVisionTheta = new PIDController(kPTheta, kITheta, kDTheta);
-
-  // in meters
-  double[][] apriltag = {{15.08,0.24,1.35},
-                         {16.18,0.89,1.35},
-                         {16.58,4.98,1.45},
-                         {16.58,5.55,1.45},
-                         {14.70,8.23,1.35},
-                         {1.84,8.23,1.35},
-                         {-0.04,5.38,1.45},
-                         {-0.04,4.98,1.45},
-                         {0.36,0.88,1.35},
-                         {1.46,0.24,1.35},
-                         {11.90,3.71,1.32},
-                         {11.90,4.50,1.32},
-                         {11.22,4.10,1.32},
-                         {5.32,4.10,1.32},
-                         {4.64,4.50,1.32},
-                         {4.64,3.71,1.32}};
-
   // set up a new instance of NetworkTables (the api/library used to read values from limelight)
   NetworkTable networkTable = NetworkTableInstance.getDefault().getTable("limelight");
 
@@ -147,66 +105,4 @@ public class LimeLightSub extends SubsystemBase {
   public boolean checkPipe() {
     return !(limelight_comm.get_entry_double("pipeline") < .5);
   }
-
-  // setsPoint PID
-  public void setPoint(double target, String orientation) {
-    if (orientation.toLowerCase().equals("x")) {
-      PIDVisionX.setSetpoint(target);
-    } else if (orientation.toLowerCase().equals("y")) {
-      PIDVisionY.setSetpoint(target);
-    } else if (orientation.toLowerCase().equals("theta")) {
-      PIDVisionTheta.setSetpoint(target);
-    }
-  }
-
-  // using distance formula (relative to field) calculates distance from tag
-  public double getDistance() {
-    double distance = -1;
-    if (getID() >= 0) {
-    double[] botPose = botPoseBlue.getDoubleArray(new double[7]); // x,y,z,rx,ry,rz
-    distance = Math.sqrt(Math.pow((apriltag[getID()][0] - botPose[0]), 2) + Math.pow((apriltag[getID()][1] - botPose[1]), 2)); 
-    }
-    return distance;
-  }
-
-  public double getDistanceX() {
-    double distance = -1;
-    if (getID() >= 0) {
-    double[] botPose = botPoseBlue.getDoubleArray(new double[7]); // x,y,z,rx,ry,rz
-    distance = Math.abs(apriltag[getID()][0] - botPose[0]); 
-    }
-    return distance;
-  }
-
-  public double getDistanceY() {
-    double distance = -1;
-    if (getID() >= 0) {
-    double[] botPose = botPoseBlue.getDoubleArray(new double[7]); // x,y,z,rx,ry,rz
-    distance = Math.abs(apriltag[getID()][1] - botPose[1]); 
-    }
-    return distance;
-  }
-
-  public double getErrorX() {  // front and back
-    return PIDVisionX.calculate(getDistanceX());
-  }
-  
-  public double getErrorY() {  // left and right
-    return PIDVisionY.calculate(getDistanceY());
-  }
-
-  public double getThetaError() {
-    return PIDVisionTheta.calculate(getTx());
-  }
-
-  // uses 3d botpose instead of 2d values, testing for smooth simultaneous movement, need to test
-  public double getSmoothTheta() {
-    double angle = 0;
-    if (getID() >= 0) {
-    double[] botPose = botPoseBlue.getDoubleArray(new double[7]); // x,y,z,rx,ry,rz
-    angle = 180.0 - botPose[5]; // rz 180 is constant means that facing tag
-    }
-    return angle;
-  }
-
 }

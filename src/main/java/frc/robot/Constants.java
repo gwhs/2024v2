@@ -87,11 +87,11 @@ public final class Constants
     public static final double NOTE_DELAY = 2; // change accordingly
   }
 
-
-  // remove later
+    // remove later
   public static final class AprilTagConstants {
-    public static final int[] APRILTAG_ROTATION = {120, 120, 180, 180, 270, 270, 0, 0, 60, 60, 300, 60, 180, 0, 120, 240};
+      public static final int[] APRILTAG_ROTATION = {120, 120, 180, 180, 270, 270, 0, 0, 60, 60, 300, 60, 180, 0, 120, 240};
   }
+
 }
 
 

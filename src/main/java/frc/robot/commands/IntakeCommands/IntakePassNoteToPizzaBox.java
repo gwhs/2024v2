@@ -6,6 +6,7 @@ package frc.robot.commands.IntakeCommands;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.ArmSubsystem;
 
 import javax.swing.plaf.TreeUI;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -15,13 +16,16 @@ public class IntakePassNoteToPizzaBox extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private IntakeSubsystem intakeSubsystem;
+  private ArmSubsystem armSubsystem;
   private boolean prevSensorValue;
   private boolean currentSensorValue;
   private boolean noteLatch;
   private int counter; 
 
-  public IntakePassNoteToPizzaBox(IntakeSubsystem subsystem) {
+  public IntakePassNoteToPizzaBox(IntakeSubsystem subsystem, ArmSubsystem armSubsystem) {
     intakeSubsystem = subsystem;
+    this.armSubsystem = armSubsystem;
+
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem);
@@ -35,6 +39,7 @@ public class IntakePassNoteToPizzaBox extends Command {
   @Override
   public void execute() {
     intakeSubsystem.spinIntakeMotor();
+    armSubsystem.spinPizzaBoxMotor(-1, 5);
   }
 
   // Called once the command ends or is interrupted.
@@ -45,6 +50,7 @@ public class IntakePassNoteToPizzaBox extends Command {
   }
 
   // Returns true when the command should end.
+  
   // called every cycle
   @Override
   public boolean isFinished() {

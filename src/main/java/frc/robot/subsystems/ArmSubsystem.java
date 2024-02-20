@@ -48,20 +48,20 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int kPIDLoopIdx = 0;
     public static final int kTimeoutMs = 30;
     public static final int ARM_MAX_ANGLE = 300;
-    public static final int ARM_MIN_ANGLE = 45;
+    public static final int ARM_MIN_ANGLE = 0;
     public static final int ROTATION_TO_DEGREES = 360;
     public static final double GEAR_RATIO = 118.587767088;
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
-    public static final double ENCODER_OFFSET = 76.92165; 
+    public static final double ENCODER_OFFSET = 3.8658; 
     public static final int ARM_ID = 18;
     public static final int PIZZABOX_ID = 23;
     public static final int SERVO_PWN_SLOT = 0;
     public static final int ENCODER_DIO_SLOT = 0;
     public static final int AMP_ANGLE = 0;
     public static final int TRAP_ANGLE = 0;
-    public static final int SPEAKER_LOW_ANGLE = 0;
-    public static final int SPEAKER_HIGH_ANGLE = 0;
-    public static final int INTAKE_ANGLE = 0;
+    public static final int SPEAKER_LOW_ANGLE = 100;
+    public static final int SPEAKER_HIGH_ANGLE = 204;
+    public static final int INTAKE_ANGLE = 64;
     public static final int CLIMBING_ANGLE = 0;
   }
 
@@ -74,7 +74,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   public ArmSubsystem(int armId, String armCanbus, int pizzaBoxId, String pizzaBoxCanbus, int channel1, int channelServo)
   {
-    super(new ProfiledPIDController(.005, .0, 0, new Constraints(180, 90)));
+    super(new ProfiledPIDController(.01, .001, 0, new Constraints(180, 90)));
     getController().setTolerance(.5);
     //TrapezoidProfile either velocity or position
       m_arm = new TalonFX(armId, armCanbus);
@@ -146,11 +146,11 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
  public void targetArmAngle(double angle)
  {
-  double calculatedAng = angle - Arm.ENCODER_OFFSET;
+  double calculatedAng = angle ;
   if(calculatedAng  < Arm.ARM_MIN_ANGLE) { //Will not be less than minimum angle
     calculatedAng = Arm.ARM_MIN_ANGLE;
   }
-  else if (calculatedAng > Arm.ARM_MAX_ANGLE) { // Will not be greater than maximum angle
+  else if (calculatedAng > Arm.ARM_MAX_ANGLE ) { // Will not be greater than maximum angle
     calculatedAng = Arm.ARM_MAX_ANGLE;
   }
 
@@ -160,7 +160,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   //Spins "Pizzabox" motor: velocity in rotations/sec and acceleration in rotations/sec^2
   public void spinPizzaBoxMotor(double velocity, double acceleration){
-    VelocityVoltage spinPizzaBoxMotorRequest = new VelocityVoltage(velocity, acceleration, false, 0, 0, false, false, false);
+    VelocityVoltage spinPizzaBoxMotorRequest = new VelocityVoltage(velocity, acceleration, true, 0, 0, false, false, false);
     m_pizzaBox.setControl(spinPizzaBoxMotorRequest);
   }
   //Sets the position of the Servo motor on the pizza box
@@ -195,7 +195,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
  //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])
   public double encoderGetAngle() {
 
-    return m_encoder.getAbsolutePosition()*Arm.ROTATION_TO_DEGREES;
+    return m_encoder.getAbsolutePosition()*Arm.ROTATION_TO_DEGREES - Arm.ENCODER_OFFSET;
   }
 
   //Resets encoder angle to 0

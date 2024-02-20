@@ -70,15 +70,15 @@ public final class Constants
     public static final int INTAKE_SPIN_MOTOR_ID = 20;
     public static final int INTAKE_ENCODER_CHANNEL_ID = 1; 
     public static final int INTAKE_NOTESENSOR_CHANNEL_ID = 7;
-    public static final double INTAKE_MOTOR_VELOCITY = 100; 
+    public static final double INTAKE_MOTOR_VELOCITY = 20; 
     public static final double INTAKE_MOTOR_ACCELERATION = 5; 
     public static final double TOLERANCE = 2; // in degrees
     public static final int GEAR_RATIO = 100;
-    public static final double NOTE_DELAY = 2; //change accordingly
-    public static final double MAX_ARM_ANGLE = 106; //need to check max arm angle
+    public static final double NOTE_DELAY = 4; //change accordingly
+    public static final double MAX_ARM_ANGLE = 82; //need to check max arm angle
     public static final double ROTATION_TO_DEGREES = 360;
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
-    public static final double ENCODER_OFFSET = 220 + 97; //need to check the encoder value 
+    public static final double ENCODER_OFFSET = 8; //need to check the encoder value 
   }
 }
 

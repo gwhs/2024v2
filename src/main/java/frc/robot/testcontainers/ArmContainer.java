@@ -23,6 +23,7 @@ import frc.robot.commands.Arm.SpinToArmAngle;
 
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
 import frc.robot.commands.IntakeCommands.IntakePickUpFromGround;
+import frc.robot.commands.IntakeCommands.SpinIntakePID;
 
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -32,6 +33,8 @@ import edu.wpi.first.wpilibj.Servo;
 
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDCommand;
+import edu.wpi.first.math.controller.PIDController;
+
 
 
 
@@ -44,14 +47,37 @@ public class ArmContainer implements BaseContainer {
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
         //CAN_Network
         ArmSubsystem arm = new ArmSubsystem(ArmSubsystem.Arm.ARM_ID, "CAN_Network", ArmSubsystem.Arm.PIZZABOX_ID, "rio", 
-                        ArmSubsystem.Arm.ENCODER_DIO_SLOT, ArmSubsystem.Arm.SERVO_PWN_SLOT); 
+                        ArmSubsystem.Arm.ENCODER_DIO_SLOT, ArmSubsystem.Arm.SERVO_PWN_SLOT);
+                        
+        private IntakeSubsystem intakeSubsystem;
 
     public ArmContainer() {
+        intakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, 0, "rio");
         configureBindings();
 
     }
 
     private void configureBindings() {
+        
+        final PIDController intakeController = new PIDController(.01, .0001, .0);
+        intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
+        
+        // xboxController.x().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 0));
+        // xboxController.y().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 106));
+
+        m_driverController.a().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 0).
+                andThen(new IntakePickUpFromGround(intakeSubsystem)).
+                andThen(new SpinIntakePID(intakeController, intakeSubsystem, 83)).
+                andThen((Commands.runOnce(() -> {
+                    arm.targetArmAngle(ArmSubsystem.Arm.INTAKE_ANGLE);
+                    }, arm))).
+                andThen(new IntakePassNoteToPizzaBox(intakeSubsystem, arm)
+                ));
+        // xboxController.b().onTrue(new IntakePassNoteToPizzaBox(intakeSubsystem));
+
+
+
+
         //m_driverController.x().onTrue(new SwingForwardServo(arm));
         m_driverController.start().onTrue(Commands.runOnce(()-> {
             if(arm.isEnabled())
@@ -64,9 +90,10 @@ public class ArmContainer implements BaseContainer {
             }
         }, arm));
 
-        m_driverController.a().onTrue(Commands.runOnce(() -> {
-            arm.targetArmAngle(ArmSubsystem.Arm.SPEAKER_LOW_ANGLE);
-            }, arm));
+        // m_driverController.a().onTrue(Commands.runOnce(() -> {
+        //     arm.targetArmAngle(ArmSubsystem.Arm.SPEAKER_LOW_ANGLE);
+        //     }, arm));
+
         m_driverController.back().onTrue(new SpinToArmAngle(arm, ArmSubsystem.Arm.CLIMBING_ANGLE));
 
        m_driverController.y().onTrue(Commands.runOnce(() -> {

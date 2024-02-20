@@ -28,14 +28,14 @@ public class IntakeContainer implements BaseContainer {
 
     private void configureBindings() {
         
-        final PIDController intakeController = new PIDController(.005, .0, .0);
+        final PIDController intakeController = new PIDController(.01, .0001, .0);
         intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
         
         xboxController.x().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 0));
         xboxController.y().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 106));
 
         xboxController.a().onTrue(new IntakePickUpFromGround(intakeSubsystem));
-        xboxController.b().onTrue(new IntakePassNoteToPizzaBox(intakeSubsystem));
+        //xboxController.b().onTrue(new IntakePassNoteToPizzaBox(intakeSubsystem));
 
 
         Shuffleboard.getTab("intake").add(intakeController);

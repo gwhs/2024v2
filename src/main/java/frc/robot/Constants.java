@@ -90,6 +90,41 @@ public final class Constants
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
     public static final double ENCODER_OFFSET = 220 + 97; //need to check the encoder value 
   }
+  public static final class FieldConstants
+  {
+
+    //Speaker
+    public static final double BLUE_SPEAKER_X = -0.0381; //in meters
+    public static final double BLUE_SPEAKER_Y = 5.5479; //in meters
+    public static final double RED_SPEAKER_X = 16.5793; //in meters
+    public static final double RED_SPEAKER_Y = 5.5479; //in meters
+
+    //Trap
+    public static final double BLUE_TRAP_16_X = UtilMath.inchesToMeters(182.73);
+    public static final double BLUE_TRAP_16_Y = UtilMath.inchesToMeters(146.19);
+
+    public static final double BLUE_TRAP_15_X = UtilMath.inchesToMeters(182.73);
+    public static final double BLUE_TRAP_15_Y = UtilMath.inchesToMeters(177.10);
+    
+    public static final double BLUE_TRAP_14_X = UtilMath.inchesToMeters(209.48);
+    public static final double BLUE_TRAP_14_Y = UtilMath.inchesToMeters(161.62);
+
+    public static final double RED_TRAP_13_X = UtilMath.inchesToMeters(441.74);
+    public static final double RED_TRAP_13_Y = UtilMath.inchesToMeters(161.62);
+
+    public static final double RED_TRAP_12_X = UtilMath.inchesToMeters(468.69);
+    public static final double RED_TRAP_12_Y = UtilMath.inchesToMeters(177.10);
+
+    public static final double RED_TRAP_11_X = UtilMath.inchesToMeters(468.69);
+    public static final double RED_TRAP_11_Y = UtilMath.inchesToMeters(146.19);
+
+    //amp
+    public static final double BLUE_AMP_6_X = UtilMath.inchesToMeters(72.5);
+    public static final double BLUE_AMP_6_Y = UtilMath.inchesToMeters(323);
+
+    public static final double RED_AMP_5_X = UtilMath.inchesToMeters(578.77);
+    public static final double RED_AMP_5_Y = UtilMath.inchesToMeters(323);
+  }
 }
 
 

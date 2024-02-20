@@ -6,11 +6,12 @@ package frc.robot.subsystems;
 
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.VelocityTorqueCurrentFOC;
+import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimbConstants;
@@ -23,6 +24,16 @@ public class Climbsubsystem extends SubsystemBase {
   /** Creates a new Climbsubsystem. */
   private TalonFX climberArmLeft;
   private TalonFX climberArmRight;
+
+  private final double CLIMBER_PID_KP = 0.1;
+  private final double CLIMBER_PID_KI = 0;
+  private final double CLIMBER_PID_KD = 0;
+
+  private PIDController leftPIDcontroller = new PIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD); 
+  private PIDController rightPIDcontroller = new PIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD); 
+
+  private boolean upCheck = false;
+  private boolean downCheck = false;
 
   DigitalInput bottomLeft = new DigitalInput(ClimbConstants.BOT_LEFT_LIMIT_ID);
   DigitalInput bottomRight = new DigitalInput(ClimbConstants.BOT_RIGHT_LIMIT_ID);
@@ -38,6 +49,8 @@ public class Climbsubsystem extends SubsystemBase {
     //sets inversion for each climb motor
     climberArmLeft.setInverted(invertedLeft);
     climberArmRight.setInverted(invertedRight);
+
+    
 
     climberArmLeft.setNeutralMode(NeutralModeValue.Brake);
     climberArmRight.setNeutralMode(NeutralModeValue.Brake);
@@ -73,7 +86,24 @@ public class Climbsubsystem extends SubsystemBase {
       System.out.println("Could not apply configs, error code: " + leftMotorStatus.toString());
     }
 
+    climberArmLeft.setControl(new NeutralOut());
+    climberArmRight.setControl(new NeutralOut());
+
   } 
+
+  public void upMotor() {
+    upCheck = true;
+    downCheck = false;
+    leftPIDcontroller.setSetpoint(100);
+    rightPIDcontroller.setSetpoint(100);
+  }
+
+  public void downMotor() {
+    downCheck = true;
+    upCheck = false;
+    leftPIDcontroller.setSetpoint(0.5);
+    rightPIDcontroller.setSetpoint(0.5);
+  }
 
   //makes the motor move
   public void setSpeed(double leftSpeed, double rightSpeed){ // speed should be in rotations per second
@@ -100,9 +130,14 @@ public class Climbsubsystem extends SubsystemBase {
   }
 
   //makes motors stop spinning
-  public void stopClimb(){
+  public void stopClimbLeft(){
     climberArmLeft.stopMotor();
+    climberArmLeft.setControl(new NeutralOut());
+  }
+
+  public void stopClimbRight() {
     climberArmRight.stopMotor();
+    climberArmRight.setControl(new NeutralOut());
   }
 
   //gets the position for left motor; return the amount of rotations
@@ -115,18 +150,38 @@ public class Climbsubsystem extends SubsystemBase {
     return climberArmRight.getPosition().getValue();
   }
 
-  public boolean getTopLimit() {
-        
-    return !(topLeft.get() && topRight.get());
+  public boolean getTopLeftLimit() {     
+    return (!topLeft.get());
   }
 
-  public boolean getBotLimit() {
-    return !(bottomLeft.get() && bottomRight.get());
+  public boolean getTopRightLimit() {
+    return (!topRight.get());
+  }
+
+  public boolean getBotLeftLimit() {
+    return (!bottomLeft.get());
+  }
+
+  public boolean getBotRightLimit() {
+    return (!bottomRight.get());
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
+    
+    double leftPIDvalue = leftPIDcontroller.calculate(getPositionLeft());
+    double rightPIDvalue = rightPIDcontroller.calculate(getPositionRight());
+    System.out.println("left: " + leftPIDvalue + "/nright: " + rightPIDvalue);
+    if (upCheck) {
+      setSpeed(leftPIDvalue, rightPIDvalue);
+    }
+
+    if (downCheck) {
+      setSpeed(-leftPIDvalue, -rightPIDvalue);
+    }
+
+
   }
 }
 

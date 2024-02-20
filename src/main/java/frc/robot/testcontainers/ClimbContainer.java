@@ -51,10 +51,14 @@ public class ClimbContainer implements BaseContainer {
     public ClimbContainer() {
         Shuffleboard.getTab("Climb").addDouble("climb distance left", () -> climbsubsystem.getPositionLeft());
         Shuffleboard.getTab("Climb").addDouble("climb distance right", () -> climbsubsystem.getPositionRight());
-        Shuffleboard.getTab("Climb").addBoolean("bot limit", () -> climbsubsystem.getBotLimit());
-        Shuffleboard.getTab("Climb").addBoolean("top limit", () -> climbsubsystem.getTopLimit());
+        Shuffleboard.getTab("Climb").addBoolean("bot left limit", () -> climbsubsystem.getBotLeftLimit());
+        Shuffleboard.getTab("Climb").addBoolean("bot right limit", () -> climbsubsystem.getBotRightLimit());
+        Shuffleboard.getTab("Climb").addBoolean("top left limit", () -> climbsubsystem.getTopLeftLimit());
+        Shuffleboard.getTab("Climb").addBoolean("top right limit", () -> climbsubsystem.getTopRightLimit());
 
         Shuffleboard.getTab("Climb").addDouble("roll", () -> swerve.getRoll().getDegrees());
+        Shuffleboard.getTab("Climb").addDouble("pitch", () -> swerve.getYaw().getDegrees());
+        Shuffleboard.getTab("Climb").addDouble("yaw", () -> swerve.getPitch().getDegrees());
         
         swerve.setDefaultCommand(closedFieldRel);  //TO CHANGE DRIVE BASE
 

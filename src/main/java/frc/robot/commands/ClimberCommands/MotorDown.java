@@ -30,23 +30,32 @@ public class MotorDown extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    climbersubsystem.downMotor();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double leftSpeed = ClimbConstants.CLIMB_MOTOR_SPEED;
-    double rightSpeed = ClimbConstants.CLIMB_MOTOR_SPEED;
+    // double leftSpeed = ClimbConstants.CLIMB_MOTOR_SPEED;
+    // double rightSpeed = ClimbConstants.CLIMB_MOTOR_SPEED;
 
-    //TEST THIS LATER
-    if (swerve.getRoll().getDegrees() < -0.5) {
-      leftSpeed -= 2;
-    } else if (swerve.getRoll().getDegrees() > 0.5) {
-      rightSpeed -= 2
-      ;
-    }
-    climbersubsystem.setSpeed(-leftSpeed, -rightSpeed); //sets the speed (in rotations/sec) to the value set in Constants file 
+    // //TEST THIS LATER
+    // if (swerve.getRoll().getDegrees() < -0.1) {
+    //   leftSpeed += 2;
+    // } else if (swerve.getRoll().getDegrees() > 0.1) {
+    //   rightSpeed += 2
+    //   ;
+    // }
+    //climbersubsystem.setSpeed(-leftSpeed, -rightSpeed); //sets the speed (in rotations/sec) to the value set in Constants file 
     //robot goes up but motors go down so negative velocity
+
+    if (climbersubsystem.getTopLeftLimit()) {
+      climbersubsystem.stopClimbLeft();
+    }
+
+    if (climbersubsystem.getTopRightLimit()) {
+      climbersubsystem.stopClimbRight();
+    }
   }
 
   // Called once the command ends or is interrupted.
@@ -55,13 +64,14 @@ public class MotorDown extends Command {
     // while (climbersubsystem.getBotLimit()){
     //   climbersubsystem.setSpeed(ClimbConstants.CLIMB_MOTOR_SPEED/4, ClimbConstants.CLIMB_MOTOR_SPEED/4);
     // }
-    climbersubsystem.setSpeed(0, 0);
+    climbersubsystem.stopClimbLeft();
+    climbersubsystem.stopClimbRight(); 
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return climbersubsystem.getBotLimit();
-            //|| (climbersubsystem.getPositionLeft() <= 0 || climbersubsystem.getPositionLeft() <= 0); 
+    return (climbersubsystem.getBotLeftLimit() && climbersubsystem.getBotRightLimit())
+            || (climbersubsystem.getPositionLeft() <= 0 || climbersubsystem.getPositionLeft() <= 0); 
   }
 }

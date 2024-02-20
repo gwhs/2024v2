@@ -503,6 +503,10 @@ public class SwerveSubsystem extends SubsystemBase
     return swerveDrive.getRoll();
   }
 
+  public Rotation2d getYaw() {
+    return swerveDrive.getYaw();
+  }
+
   /**
    * Add a fake vision reading for testing purposes.
    */

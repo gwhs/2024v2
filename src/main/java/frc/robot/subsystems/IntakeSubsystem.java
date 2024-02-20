@@ -14,15 +14,12 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 
-public class IntakeSubsystem extends ProfiledPIDSubsystem {
+public class IntakeSubsystem extends SubsystemBase {
   private TalonFX m_moveIntakeArm; // motor of arm
   private TalonFX m_spinIntake; // motor of intake
   private DutyCycleEncoder m_Encoder;
@@ -38,9 +35,6 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
     * String can: String ID of canivore  
   */
   public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, String can)  {
-    super(new ProfiledPIDController(.005, .0, 0, new Constraints(Constants.IntakeConstants.INTAKE_MOTOR_VELOCITY, 200)));
-    getController().setTolerance(Constants.IntakeConstants.TOLERANCE);
-    Shuffleboard.getTab("intake").add(getController());
     
     m_moveIntakeArm = new TalonFX(lowerIntakeId, can); 
     m_spinIntake = new TalonFX(spinIntakeId, can);
@@ -114,17 +108,6 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
     m_moveIntakeArm.set(speed);
   }  
 
-  public void setIntakeArmAngle(double angle) {
-    if(angle < 0) {
-      angle = 0;
-    }
-    else if (angle > Constants.IntakeConstants.MAX_ARM_ANGLE) {
-      angle = Constants.IntakeConstants.MAX_ARM_ANGLE;
-    }
-
-    setGoal(angle);
-  }
-
   // stop intake motor
   public void stopIntakeMotors() {
     m_spinIntake.stopMotor();
@@ -157,14 +140,5 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
     // This method will be called once per scheduler run during simulation
   }
 
-  @Override
-  public void useOutput(double output, TrapezoidProfile.State setpoint) {
-    spinIntakeArm(output);
-  }
-
-  @Override
-  public double getMeasurement() {
-    return encoderGetAngle();
-  }
 }
 

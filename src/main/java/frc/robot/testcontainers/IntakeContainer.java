@@ -12,39 +12,30 @@ import frc.robot.commands.IntakeCommands.SpinIntakePID;
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
 import frc.robot.commands.IntakeCommands.IntakePickUpFromGround;
 import frc.robot.commands.IntakeCommands.IntakeRejectNote;
-import frc.robot.commands.IntakeCommands.SpinIntakeArmMotor;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeContainer implements BaseContainer {
-
     private final CommandXboxController xboxController = new CommandXboxController(0);
     private IntakeSubsystem intakeSubsystem;
 
     private final CommandXboxController m_driverController =
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
-
-    public IntakeContainer() {
+    
+        public IntakeContainer() {
         intakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, "rio");
         configureBindings();
     }
-
     private void configureBindings() {
-
-        xboxController.x().onTrue(new SpinIntakeArmMotor(intakeSubsystem, 0));
-        xboxController.y().onTrue(new SpinIntakeArmMotor(intakeSubsystem, Constants.IntakeConstants.MAX_ARM_ANGLE));
-
-        xboxController.a().onTrue(new IntakeRejectNote(intakeSubsystem));
-        xboxController.b().onTrue(new IntakePickUpFromGround(intakeSubsystem));
         
         final PIDController intakeController = new PIDController(.01, .001, .0);
         intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
-        
+
         xboxController.x().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 0));
-        xboxController.y().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 83));
-
-        // xboxController.a().onTrue(new IntakePickUpFromGround(intakeSubsystem));
-        // xboxController.b().onTrue(new IntakePassNoteToPizzaBox(intakeSubsystem));
-
+        xboxController.y().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, Constants.IntakeConstants.MAX_ARM_ANGLE));
+        
+        xboxController.a().onTrue(new IntakeRejectNote(intakeSubsystem));
+        xboxController.b().onTrue(new IntakePickUpFromGround(intakeSubsystem));
+          
 
         // Command command = new SpinIntakePID(intakeController, intakeSubsystem, 0);
         // command = command.andThen(new IntakePickUpFromGround(intakeSubsystem));

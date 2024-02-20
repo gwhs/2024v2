@@ -6,12 +6,14 @@
 
 package frc.robot.subsystems;
 
+import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -32,14 +34,13 @@ public class IntakeSubsystem extends SubsystemBase {
     * initialized the encoder 
     * String can: String ID of canivore  
   */
-  public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, int channel1, String can)  {
+  public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, String can)  {
+    
     m_moveIntakeArm = new TalonFX(lowerIntakeId, can); 
     m_spinIntake = new TalonFX(spinIntakeId, can);
     m_Encoder = new DutyCycleEncoder(Constants.IntakeConstants.INTAKE_ENCODER_CHANNEL_ID);
     m_noteSensor = new DigitalInput(Constants.IntakeConstants.INTAKE_NOTESENSOR_CHANNEL_ID); 
-    this.intakeMotorVelocity = Constants.IntakeConstants.INTAKE_MOTOR_VELOCITY;
-    this.intakeMotorAcceleration = Constants.IntakeConstants.INTAKE_MOTOR_ACCELERATION;
-
+    
     TalonFXConfiguration configs = new TalonFXConfiguration();
 
     /* Voltage-based velocity requires a feed forward to account for the back-emf of the motor */
@@ -82,16 +83,16 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   // spin the intake motors, velocity is negative to intake note
-  public void spinIntakeMotor() {
+  public void spinIntakeMotor(int intakeMotorVelocity, int intakeMotorAcceleration) {
     spinRequest1 = new VelocityVoltage(
-      -intakeMotorVelocity, intakeMotorAcceleration, false, 0, 0,false, false, false);
+      -intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0,false, false, false);
     m_spinIntake.setControl(spinRequest1);
   }
   
   // spin intake motors the opposite way, velocity is positive to reject intake
-  public void rejectIntake() {
+  public void rejectIntake(int intakeMotorVelocity, int intakeMotorAcceleration) {
     spinRequest1 = new VelocityVoltage(
-      intakeMotorVelocity, intakeMotorAcceleration, false, 0, 0, false, false, false);
+      intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0, false, false, false);
       m_spinIntake.setControl(spinRequest1);
   }
 
@@ -136,4 +137,6 @@ public class IntakeSubsystem extends SubsystemBase {
   public void simulationPeriodic() {
     // This method will be called once per scheduler run during simulation
   }
+
 }
+

@@ -27,7 +27,7 @@ public class IntakePassNoteToPizzaBox extends Command {
     this.armSubsystem = armSubsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intakeSubsystem);
+    addRequirements(armSubsystem, intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -37,8 +37,8 @@ public class IntakePassNoteToPizzaBox extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSubsystem.spinPizzaBoxMotor(-5, 5);
-    intakeSubsystem.spinIntakeMotor(20, 5);
+    armSubsystem.spinPizzaBoxMotor(-50, 10);
+    intakeSubsystem.spinIntakeMotor(50, 10);
   }
 
   // Called once the command ends or is interrupted.
@@ -52,21 +52,23 @@ public class IntakePassNoteToPizzaBox extends Command {
   // Returns true when the command should end; called every cycle
   @Override
   public boolean isFinished() {
-    prevSensorValue = currentSensorValue;
-    currentSensorValue = intakeSubsystem.isNotePresent();
 
-    if(prevSensorValue == true && currentSensorValue == false) {
-      noteLatch = true;
-    }  
-    // two second delay before checking sensor again
-    if(counter > Constants.IntakeConstants.NOTE_DELAY && noteLatch) {
-      noteLatch = false;
-      return true; 
-    }
-    else {
-      counter++;
-    }
     return false;
+    // prevSensorValue = currentSensorValue;
+    // currentSensorValue = intakeSubsystem.isNotePresent();
+
+    // if(prevSensorValue == true && currentSensorValue == false) {
+    //   noteLatch = true;
+    // }  
+    // // two second delay before checking sensor again
+    // if(counter > Constants.IntakeConstants.NOTE_DELAY && noteLatch) {
+    //   noteLatch = false;
+    //   return true; 
+    // }
+    // else {
+    //   counter++;
+    // }
+    // return false;
   }
 
 }

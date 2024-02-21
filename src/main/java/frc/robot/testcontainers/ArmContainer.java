@@ -24,11 +24,11 @@ import frc.robot.commands.Arm.SpinToArmAngle;
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
 import frc.robot.commands.IntakeCommands.IntakePickUpFromGround;
 import frc.robot.commands.IntakeCommands.SpinIntakePID;
-
-
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.Servo;
 
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
@@ -49,12 +49,11 @@ public class ArmContainer implements BaseContainer {
         ArmSubsystem arm = new ArmSubsystem(ArmSubsystem.Arm.ARM_ID, "CAN_Network", ArmSubsystem.Arm.PIZZABOX_ID, "rio", 
                         ArmSubsystem.Arm.ENCODER_DIO_SLOT, ArmSubsystem.Arm.SERVO_PWN_SLOT);
                         
-        private IntakeSubsystem intakeSubsystem;
+        private IntakeSubsystem intakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, "rio");
+        
 
     public ArmContainer() {
-        intakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, "rio");
         configureBindings();
-
     }
 
     private void configureBindings() {
@@ -64,12 +63,15 @@ public class ArmContainer implements BaseContainer {
 
         m_driverController.a().onTrue(new SpinIntakePID(intakeSubsystem, 0).
                 andThen(new IntakePickUpFromGround(intakeSubsystem)).
-                andThen(new SpinIntakePID(intakeSubsystem, 83)).
+                andThen(new SpinIntakePID(intakeSubsystem, 77)).
                 andThen((Commands.runOnce(() -> {
                     arm.targetArmAngle(ArmSubsystem.Arm.INTAKE_ANGLE);
                     }, arm))).
                 andThen(new IntakePassNoteToPizzaBox(intakeSubsystem, arm)
                 ));
+
+
+        m_driverController.b().whileTrue(new SpinNoteContainerMotor(arm, -20, 5));
         // xboxController.b().onTrue(new IntakePassNoteToPizzaBox(intakeSubsystem));
 
 

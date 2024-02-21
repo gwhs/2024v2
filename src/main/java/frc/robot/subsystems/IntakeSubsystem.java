@@ -135,7 +135,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public double encoderGetAngle() {
-    return ((m_Encoder.	getAbsolutePosition() * Constants.IntakeConstants.ROTATION_TO_DEGREES) - Constants.IntakeConstants.ENCODER_OFFSET); 
+    return ((m_Encoder.getAbsolutePosition() * Constants.IntakeConstants.ROTATION_TO_DEGREES) - Constants.IntakeConstants.ENCODER_OFFSET); 
   }
 
   // stop motor once note is in place, starts again once the arm position is brought up

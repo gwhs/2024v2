@@ -6,7 +6,6 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import com.ctre.phoenix6.StatusCode;
@@ -19,14 +18,17 @@ import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 
-public class IntakeSubsystem extends SubsystemBase {
+import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+
+public class IntakeSubsystem extends ProfiledPIDSubsystem {
   private TalonFX m_moveIntakeArm; // motor of arm
   private TalonFX m_spinIntake; // motor of intake
   private DutyCycleEncoder m_Encoder;
   private DigitalInput m_noteSensor; // sensor to check if note is present in intake
   private VelocityVoltage spinRequest1; 
-  private double intakeMotorVelocity; 
-  private double intakeMotorAcceleration; 
   
   /*  
     * int lowerIntakeId: Id for lowerng motors for the intake
@@ -35,6 +37,9 @@ public class IntakeSubsystem extends SubsystemBase {
     * String can: String ID of canivore  
   */
   public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, String can)  {
+
+    super(new ProfiledPIDController(.01, .001, 0, new Constraints(20, 5)));
+    getController().setTolerance(.5);
     
     m_moveIntakeArm = new TalonFX(lowerIntakeId, can); 
     m_spinIntake = new TalonFX(spinIntakeId, can);
@@ -107,16 +112,16 @@ public class IntakeSubsystem extends SubsystemBase {
   }  
 
   public void setIntakeArmAngle(double angle) {
-    System.out.println("set intake angle method works");
-    
-    if(angle < 0) {
-      angle = 0;
+    double targetAngle = angle;
+    if(targetAngle < 0) {
+      targetAngle = 0;
     }
-    else if (angle > Constants.IntakeConstants.MAX_ARM_ANGLE) {
-      angle = Constants.IntakeConstants.MAX_ARM_ANGLE;
+    else if (targetAngle > Constants.IntakeConstants.MAX_ARM_ANGLE) {
+      targetAngle = Constants.IntakeConstants.MAX_ARM_ANGLE;
     }
 
-    //setGoal(angle);
+    System.out.println("set intake angle: " + targetAngle);
+    setGoal(targetAngle);
   }
 
   // stop intake motor
@@ -151,16 +156,17 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
   }
 
-  // @Override
-  // public void useOutput(double output, TrapezoidProfile.State setpoint) {
-  //   spinIntakeArm(output);
-  //   System.out.println(output);
-  // }
+  @Override
+  public void useOutput(double output, State setPoint) {
+    spinIntakeArm(output);
+    System.out.println("Target Speed is " + (output));
+  }
 
-  // @Override
-  // public double getMeasurement() {
-  //   System.out.println("encoder: " + encoderGetAngle());
-  //   return encoderGetAngle();
-  // }
+  @Override
+  public double getMeasurement() {
+    System.out.println("encoder: " + encoderGetAngle());
+    return encoderGetAngle();
+  }
+
 }
 

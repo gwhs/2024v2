@@ -11,9 +11,8 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 public class SpinIntakeArmMotor extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-  private IntakeSubsystem intakeSubsystem;
+  private final IntakeSubsystem intakeSubsystem;
   private double angle;
-  private boolean sensorValue;
 
   public SpinIntakeArmMotor(IntakeSubsystem subsystem, double targetAngle) {
     intakeSubsystem = subsystem;
@@ -26,6 +25,7 @@ public class SpinIntakeArmMotor extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("hello");
     intakeSubsystem.setIntakeArmAngle(angle);
   }
 
@@ -39,14 +39,15 @@ public class SpinIntakeArmMotor extends Command {
   // runs once when isFinished is called
   @Override
   public void end(boolean interrupted) {
-
+    System.out.println("end");
+    intakeSubsystem.stopIntakeMotors();
   }
 
   // Returns true when the command should end.
   // called every cycle
   @Override
   public boolean isFinished() {
-return false;
+    return intakeSubsystem.getController().atGoal(); 
   }
 
 }

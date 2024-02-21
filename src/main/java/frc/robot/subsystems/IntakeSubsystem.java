@@ -14,15 +14,12 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 
-public class IntakeSubsystem extends ProfiledPIDSubsystem {
+public class IntakeSubsystem extends SubsystemBase {
   private TalonFX m_moveIntakeArm; // motor of arm
   private TalonFX m_spinIntake; // motor of intake
   private DutyCycleEncoder m_Encoder;
@@ -38,19 +35,12 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
     * String can: String ID of canivore  
   */
   public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, String can)  {
-    super(new ProfiledPIDController(.005, .0, 0, new Constraints(100, 200)));
-    getController().setTolerance(Constants.IntakeConstants.TOLERANCE);
-
-
-    Shuffleboard.getTab("intake").add(getController());
     
     m_moveIntakeArm = new TalonFX(lowerIntakeId, can); 
     m_spinIntake = new TalonFX(spinIntakeId, can);
     m_Encoder = new DutyCycleEncoder(Constants.IntakeConstants.INTAKE_ENCODER_CHANNEL_ID);
     m_noteSensor = new DigitalInput(Constants.IntakeConstants.INTAKE_NOTESENSOR_CHANNEL_ID); 
-    this.intakeMotorVelocity = Constants.IntakeConstants.INTAKE_MOTOR_VELOCITY;
-    this.intakeMotorAcceleration = Constants.IntakeConstants.INTAKE_MOTOR_ACCELERATION;
-
+    
     TalonFXConfiguration configs = new TalonFXConfiguration();
 
     /* Voltage-based velocity requires a feed forward to account for the back-emf of the motor */
@@ -93,16 +83,16 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
   }
 
   // spin the intake motors, velocity is negative to intake note
-  public void spinIntakeMotor() {
+  public void spinIntakeMotor(int intakeMotorVelocity, int intakeMotorAcceleration) {
     spinRequest1 = new VelocityVoltage(
-      -intakeMotorVelocity, intakeMotorAcceleration, false, 0, 0,false, false, false);
+      -intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0,false, false, false);
     m_spinIntake.setControl(spinRequest1);
   }
   
   // spin intake motors the opposite way, velocity is positive to reject intake
-  public void rejectIntake() {
+  public void rejectIntake(int intakeMotorVelocity, int intakeMotorAcceleration) {
     spinRequest1 = new VelocityVoltage(
-      intakeMotorVelocity, intakeMotorAcceleration, false, 0, 0, false, false, false);
+      intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0, false, false, false);
       m_spinIntake.setControl(spinRequest1);
   }
 

@@ -37,14 +37,15 @@ public class IntakePassNoteToPizzaBox extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
+    armSubsystem.spinPizzaBoxMotor(-5, 5);
     intakeSubsystem.spinIntakeMotor(20, 5);
-    armSubsystem.spinPizzaBoxMotor(-10, 5);
   }
 
   // Called once the command ends or is interrupted.
   // runs once when isFinished is called
   @Override
   public void end(boolean interrupted) {
+    armSubsystem.stopPizzaBoxMotor();
     intakeSubsystem.stopIntakeMotors();
   }
 

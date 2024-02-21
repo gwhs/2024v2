@@ -23,7 +23,7 @@ public class SpinIntakePID extends PIDCommand {
             , intakeSubsystem);
     this.intakeSubsystem = intakeSubsystem;
     intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
-    Shuffleboard.getTab("intake").add(intakeController);
+    //Shuffleboard.getTab("intake").add(intakeController);
   }
 
   //Returns true when the command should end.

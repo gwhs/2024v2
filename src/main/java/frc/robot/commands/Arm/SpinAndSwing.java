@@ -16,6 +16,7 @@ public class SpinAndSwing extends SequentialCommandGroup {
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
+  //velocity = 100 for testing shooting 
   public SpinAndSwing(ArmSubsystem armSubsystem) {
     addCommands(
         new SpinNoteContainerMotor (armSubsystem, 100, 150),

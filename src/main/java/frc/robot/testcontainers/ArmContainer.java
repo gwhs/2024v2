@@ -58,20 +58,18 @@ public class ArmContainer implements BaseContainer {
 
     private void configureBindings() {
         
-        // xboxController.x().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 0));
-        // xboxController.y().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 106));
 
-        m_driverController.a().onTrue(new SpinIntakePID(intakeSubsystem, 0).
-                andThen(new IntakePickUpFromGround(intakeSubsystem)).
-                andThen(new SpinIntakePID(intakeSubsystem, 77)).
-                andThen((Commands.runOnce(() -> {
-                    arm.targetArmAngle(ArmSubsystem.Arm.INTAKE_ANGLE);
-                    }, arm))).
-                andThen(new IntakePassNoteToPizzaBox(intakeSubsystem, arm)
-                ));
+        // m_driverController.a().onTrue(new SpinIntakePID(intakeSubsystem, 0).
+        //         andThen(new IntakePickUpFromGround(intakeSubsystem)).
+        //         andThen(new SpinIntakePID(intakeSubsystem, 77)).
+        //         andThen((Commands.runOnce(() -> {
+        //             arm.targetArmAngle(ArmSubsystem.Arm.INTAKE_ANGLE);
+        //             }, arm))).
+        //         andThen(new IntakePassNoteToPizzaBox(intakeSubsystem, arm)
+        //         ));
 
 
-        m_driverController.b().whileTrue(new SpinNoteContainerMotor(arm, -20, 5));
+        m_driverController.y().whileTrue(new SpinNoteContainerMotor(arm, -20, 5));
         // xboxController.b().onTrue(new IntakePassNoteToPizzaBox(intakeSubsystem));
 
 
@@ -89,22 +87,26 @@ public class ArmContainer implements BaseContainer {
             }
         }, arm));
 
-        // m_driverController.a().onTrue(Commands.runOnce(() -> {
-        //     arm.targetArmAngle(ArmSubsystem.Arm.SPEAKER_LOW_ANGLE);
-        //     }, arm));
+        m_driverController.a().onTrue(Commands.runOnce(() -> {
+            arm.targetArmAngle(ArmSubsystem.Arm.SPEAKER_LOW_ANGLE);
+            }, arm));
 
         m_driverController.back().onTrue(new SpinToArmAngle(arm, ArmSubsystem.Arm.CLIMBING_ANGLE));
 
-       m_driverController.y().onTrue(Commands.runOnce(() -> {
-        arm.targetArmAngle(ArmSubsystem.Arm.SPEAKER_HIGH_ANGLE);
-        }, arm));
+        m_driverController.b().onTrue(new SpinToArmAngle(arm, 300));
+
+    //    m_driverController.y().onTrue(Commands.runOnce(() -> {
+    //     arm.targetArmAngle(ArmSubsystem.Arm.SPEAKER_HIGH_ANGLE);
+    //     }, arm));
 
         m_driverController.leftBumper().onTrue(Commands.runOnce(() -> {
             arm.targetArmAngle(ArmSubsystem.Arm.INTAKE_ANGLE);}));
 
         
-       m_driverController.rightBumper().onTrue(new SpinToArmAngle(arm, ArmSubsystem.Arm.AMP_ANGLE));
-       m_driverController.x().onTrue(new SpinToArmAngle(arm, ArmSubsystem.Arm.TRAP_ANGLE));
+       m_driverController.rightBumper().onTrue(new SwingForwardServo(arm));
+        // m_driverController.y().onTrue(new SwingBackServo(arm));
+
+       m_driverController.x().onTrue(new SpinToArmAngle(arm, 150));
 
         //m_driverController.a().onTrue(new SpinAndSwing(arm));
 

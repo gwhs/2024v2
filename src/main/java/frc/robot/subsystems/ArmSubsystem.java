@@ -74,7 +74,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   public ArmSubsystem(int armId, String armCanbus, int pizzaBoxId, String pizzaBoxCanbus, int channel1, int channelServo)
   {
-    super(new ProfiledPIDController(.01, .001, 0, new Constraints(180, 90)));
+    super(new ProfiledPIDController(.004, .001, 0, new Constraints(40, 10)));
     getController().setTolerance(.5);
     //TrapezoidProfile either velocity or position
       m_arm = new TalonFX(armId, armCanbus);

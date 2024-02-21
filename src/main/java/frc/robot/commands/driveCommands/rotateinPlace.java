@@ -41,6 +41,7 @@ public class rotateinPlace extends Command {
     targetTheta = targetTDoubleSupplier.getAsDouble();
     currTheta = m_Subsystem.getHeading().getDegrees();
     PID.setSetpoint(targetTheta);
+    PID.setTolerance(Constants.DriveConstants.THETA_TOLERANCE, Constants.DriveConstants.STEADY_STATE_TOLERANCE);
     PID.setPID(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
     PID.enableContinuousInput(-180, 180);
   }
@@ -64,11 +65,7 @@ public class rotateinPlace extends Command {
   @Override
   public boolean isFinished() {
 
-
-    boolean isCloseToTarget = Math.abs(PID.getPositionError()) >= Constants.DriveConstants.THETA_TOLERANCE;
-    boolean isSteadyState = Math.abs(PID.getVelocityError()) >= Constants.DriveConstants.STEADY_STATE_TOLERANCE;
-
-    return isCloseToTarget && isSteadyState;
+    return PID.atSetpoint();
 }
 
 }

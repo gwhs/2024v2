@@ -11,7 +11,7 @@ import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class Forward extends Command {
+public class ForwardTA extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final SwerveSubsystem driSwerveSubsystem;
   private final ApriltagController apriltagController;
@@ -22,7 +22,7 @@ public class Forward extends Command {
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Forward(SwerveSubsystem driSwerveSubsystem, ApriltagController apriltagController) {
+  public ForwardTA(SwerveSubsystem driSwerveSubsystem, ApriltagController apriltagController) {
     this.driSwerveSubsystem = driSwerveSubsystem;
     this.apriltagController = apriltagController;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -32,14 +32,14 @@ public class Forward extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    apriltagController.setPoint(2, "forward"); // fixed x distance from tag before crashing field perimeter
+    apriltagController.setPoint(45, "forward"); // fixed x distance from tag before crashing field perimeter
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
 
-    double distance = apriltagController.updatePIDForward();
+    double distance = apriltagController.updatePIDForwardTA();
     driSwerveSubsystem.drive(new Translation2d(distance, 0), 0, true);
     
   }

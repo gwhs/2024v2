@@ -17,20 +17,15 @@ public class ApriltagController extends SubsystemBase {
     private final double kIX = 0;
 
     // sideways PID constants
-    // private final double kPY = 1;
-    // private final double kDY = 0;
-    // private final double kIY = 0;
+    private final double kPThetaTx = 0.02;
+    private final double kDThetaTx = 0;
+    private final double kIThetaTx = 0;    
 
     // rotation PID constants
     private final double kPTheta = 0.4;
     private final double kDTheta = 0;
     private final double kITheta = 0;
 
-    // sideways PID constants
-    private final double kPThetaTx = 0.02;
-    private final double kDThetaTx = 0;
-    private final double kIThetaTx = 0;
-    
     private PIDController PIDForward = new PIDController(kPX, kIX, kDX);
     // private PIDController PIDSideways = new PIDController(kPY, kIY, kDY);
     private PIDController PIDRotation = new PIDController(kPTheta, kITheta, kDTheta);
@@ -108,19 +103,11 @@ public class ApriltagController extends SubsystemBase {
         }
         return swerve.getPose().getRotation().getDegrees();
     }
+
+    //robot pose
     public double getRobotHeading() {
         return swerve.getPose().getRotation().getDegrees();
     }
-    
-
-    // public double updatePIDThetaTx() {
-    //     return PIDVisionThetaTx.calculate(limeLightSub.getSmoothTheta());
-    // }
-
-    // public double getPIDGThetaTX() {
-    //     return PIDVisionThetaTx.calculate(limeLightSub.getTx());
-    // }
-
 
   // setsPoint PID
     public void setPoint(double target, String orientation) {
@@ -130,10 +117,7 @@ public class ApriltagController extends SubsystemBase {
             PIDSideways.setSetpoint(target);
         } else if (orientation.toLowerCase().equals("rotation")) {
             PIDRotation.setSetpoint(target);
-        } 
-        // else if (orientation.toLowerCase().equals("distancetx")) {
-        //     PIDDistanceTx.setSetpoint(target);
-        // }
+        }
     } 
 
     public double getDerivative(String PIDType) {
@@ -146,5 +130,16 @@ public class ApriltagController extends SubsystemBase {
             velocityError = PIDRotation.getVelocityError();
         }
         return velocityError;
+    }
+
+
+
+    // FORWARD using Apriltag TA values
+    public double updatePIDForwardTA() {
+        forwardOutput = PIDSideways.calculate(limeLightSub.getTa());
+        return forwardOutput;
+    }
+    public double getErrorForwardTA() {
+        return forwardOutput;
     }
 }

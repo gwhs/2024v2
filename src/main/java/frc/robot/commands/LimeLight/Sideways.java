@@ -15,6 +15,8 @@ public class Sideways extends Command {
   private final SwerveSubsystem driSwerveSubsystem;
   private final ApriltagController apriltagController;
 
+  private double tolerance = 0.001;
+
   private double distance;
   /**
    * Creates a new ExampleCommand.
@@ -49,8 +51,8 @@ public class Sideways extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean isWithinTolerance = Math.abs(apriltagController.getErrorSideways()) < 0.001;
-    boolean isDerivativeZero = Math.abs(apriltagController.getDerivative("sideways")) < 0.001;
+    boolean isWithinTolerance = Math.abs(apriltagController.getErrorSideways()) < tolerance;
+    boolean isDerivativeZero = Math.abs(apriltagController.getDerivative("sideways")) < tolerance;
     return (isWithinTolerance && isDerivativeZero);
   }
 }

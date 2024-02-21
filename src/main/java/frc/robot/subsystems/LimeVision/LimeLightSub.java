@@ -83,6 +83,11 @@ public class LimeLightSub extends SubsystemBase {
     return Ty;
   }
 
+  public double getTa() {
+    double Ta = ta.getDouble(0);
+    return ta;
+  }
+
   public double getTheta() {
     double Theta = getTy() + LimeLightConstants.MOUNTING_ANGLE;
     return Theta;

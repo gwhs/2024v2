@@ -52,22 +52,19 @@ public class ArmContainer implements BaseContainer {
         private IntakeSubsystem intakeSubsystem;
 
     public ArmContainer() {
-        intakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, 0, "rio");
+        intakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, "rio");
         configureBindings();
 
     }
 
     private void configureBindings() {
         
-        final PIDController intakeController = new PIDController(.01, .0001, .0);
-        intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
-        
         // xboxController.x().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 0));
         // xboxController.y().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 106));
 
-        m_driverController.a().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 0).
+        m_driverController.a().onTrue(new SpinIntakePID(intakeSubsystem, 0).
                 andThen(new IntakePickUpFromGround(intakeSubsystem)).
-                andThen(new SpinIntakePID(intakeController, intakeSubsystem, 83)).
+                andThen(new SpinIntakePID(intakeSubsystem, 83)).
                 andThen((Commands.runOnce(() -> {
                     arm.targetArmAngle(ArmSubsystem.Arm.INTAKE_ANGLE);
                     }, arm))).

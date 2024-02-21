@@ -27,6 +27,7 @@ public class IntakePassNoteToPizzaBox extends Command {
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem);
+    addRequirements(armSubsystem, intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -36,8 +37,8 @@ public class IntakePassNoteToPizzaBox extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.spinIntakeMotor(20, 5);
-    armSubsystem.spinPizzaBoxMotor(-1, 5);
+    armSubsystem.spinPizzaBoxMotor(-50, 10);
+    intakeSubsystem.spinIntakeMotor(50, 10);
   }
 
   // Called once the command ends or is interrupted.

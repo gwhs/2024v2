@@ -30,9 +30,9 @@ public class IntakePickUpFromGround extends Command {
   // sets the intake arm to 0 degrees
   @Override
   public void initialize() {
-    if(intakeSubsystem.encoderGetAngle() > 0 || intakeSubsystem.encoderGetAngle() < 0) {
-      new SpinIntakePID(intakeSubsystem, 0);
-    }
+    // if(intakeSubsystem.encoderGetAngle() > 0 || intakeSubsystem.encoderGetAngle() < 0) {
+    //   new SpinIntakePID(intakeSubsystem, 0);
+    // }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -54,9 +54,6 @@ public class IntakePickUpFromGround extends Command {
   @Override
   public boolean isFinished() {
     sensorValue = intakeSubsystem.isNotePresent();
-    if(sensorValue) {
-      System.out.println("sensor");
-    }
     return sensorValue;
   }
 

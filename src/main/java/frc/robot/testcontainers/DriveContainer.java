@@ -114,7 +114,11 @@ public class DriveContainer implements BaseContainer
     SmartDashboard.putData("Rotate theta", new rotateinPlace(()->180, drivebase));
     Shuffleboard.getTab("Rotate In Place").add("PID", 0).withWidget(BuiltInWidgets.kPIDController).getEntry();
 
-    
+    angleTest.addDouble("Rotation Error", () -> rotateinPlace.angleRate)
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(0, 0);
+
     // driveTrainShuffleboardTab.addDouble("X Position", ()->drivebase.getPose().getX())
     //   .withWidget(BuiltInWidgets.kGraph)
     //   .withSize(3,3)

@@ -21,7 +21,9 @@ public class rotateinPlace extends Command {
   private double targetTheta;
   private double currTheta;
   private PIDController PID;
-  private double angleRate;
+
+  // making this public so can access in shuffleboard in drivecontainer (will this work?)
+  public static double angleRate;
 
   public rotateinPlace(DoubleSupplier rotation, SwerveSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.

@@ -106,6 +106,19 @@ public class IntakeSubsystem extends SubsystemBase {
     m_moveIntakeArm.set(speed);
   }  
 
+  public void setIntakeArmAngle(double angle) {
+    System.out.println("set intake angle method works");
+    
+    if(angle < 0) {
+      angle = 0;
+    }
+    else if (angle > Constants.IntakeConstants.MAX_ARM_ANGLE) {
+      angle = Constants.IntakeConstants.MAX_ARM_ANGLE;
+    }
+
+    //setGoal(angle);
+  }
+
   // stop intake motor
   public void stopIntakeMotors() {
     m_spinIntake.stopMotor();
@@ -138,5 +151,16 @@ public class IntakeSubsystem extends SubsystemBase {
     // This method will be called once per scheduler run during simulation
   }
 
+  // @Override
+  // public void useOutput(double output, TrapezoidProfile.State setpoint) {
+  //   spinIntakeArm(output);
+  //   System.out.println(output);
+  // }
+
+  // @Override
+  // public double getMeasurement() {
+  //   System.out.println("encoder: " + encoderGetAngle());
+  //   return encoderGetAngle();
+  // }
 }
 

@@ -90,6 +90,14 @@ public final class Constants
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
     public static final double ENCODER_OFFSET = 220 + 97; //need to check the encoder value 
   }
+
+  public static final class DriveConstants {
+    public static final double kP = 0;
+    public static final double kI = 0;
+    public static final double kD = 0;
+    public static final double THETA_TOLERANCE = 0.01; //in degrees;
+    public static final double STEADY_STATE_TOLERANCE = 0.1; 
+  }
 }
 
 

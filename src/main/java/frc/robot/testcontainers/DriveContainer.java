@@ -110,8 +110,9 @@ public class DriveContainer implements BaseContainer
 
     // angleTab.addDouble("Estimated Theta", ()->UtilMath.BLUESpeakerTheta(drivebase.getPose()));
 
-    ShuffleboardTab angleTest = Shuffleboard.getTab("test");
+    ShuffleboardTab angleTest = Shuffleboard.getTab("Rotate In Place");
     SmartDashboard.putData("Rotate theta", new rotateinPlace(()->180, drivebase));
+    Shuffleboard.getTab("Rotate In Place").add("PID", 0).withWidget(BuiltInWidgets.kPIDController).getEntry();
 
     
     // driveTrainShuffleboardTab.addDouble("X Position", ()->drivebase.getPose().getX())

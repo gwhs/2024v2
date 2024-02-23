@@ -39,6 +39,11 @@ import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+//
+import edu.wpi.first.math.controller.ArmFeedforward;
+import com.ctre.phoenix6.controls.VoltageOut;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//
 
 
 public class ArmSubsystem extends ProfiledPIDSubsystem {
@@ -54,6 +59,11 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
     public static final double ENCODER_OFFSET = 3.8658; 
     public static final int ARM_ID = 18;
+    //
+    public static final double kSVolts = 0; 
+    public static final double kGVolts = 0;
+    //
+    //Arm ID Jalen Tolbert
     public static final int PIZZABOX_ID = 23;
     public static final int SERVO_PWN_SLOT = 0;
     public static final int ENCODER_DIO_SLOT = 0;
@@ -69,6 +79,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   private DutyCycleEncoder m_encoder;
   private TalonFX m_pizzaBox;
   private Servo m_servo;
+  private ArmFeedforward armFeedForward;
   
   
 
@@ -81,6 +92,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
       m_pizzaBox = new TalonFX(pizzaBoxId, pizzaBoxCanbus);
       m_encoder = new DutyCycleEncoder(channel1);
       m_servo = new Servo(channelServo);
+      armFeedForward = new ArmFeedforward(0, 0, 0, 0);
       
       
 
@@ -131,13 +143,14 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   //VelocityVoltage​(double Velocity, double Acceleration, boolean EnableFOC, double FeedForward, int Slot, boolean OverrideBrakeDurNeutral, boolean LimitForwardMotion, boolean LimitReverseMotion)
  public void spinArm(double speed)
  {
-  if(speed < -1) { //Will not be less than minimum angle
-    speed = -1;
+  if(speed < -15) { //Will not be less than minimum angle
+    speed = -15;
   }
-  else if (speed > 1) { // Will not be greater than maximum angle
-    speed = 1;
+  else if (speed > 15) { // Will not be greater than maximum angle
+    speed = 15;
   }
-  m_arm.set(-speed);
+  VoltageOut armSpinRequest = new VoltageOut(-speed, true, false, false, false);
+  m_arm.setControl(armSpinRequest);
  }
 
  public void targetArmAngle(double angle)
@@ -150,8 +163,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     calculatedAng = Arm.ARM_MAX_ANGLE;
   }
 
-  System.out.println("TargetArmAngle works, angle value : " + calculatedAng);
-  setGoal(calculatedAng);
+  System.out.println("TargetArmAngle works, angle value : " + calculatedAng * Math.PI/180);
+  setGoal(calculatedAng * Math.PI/180);
  }
 
   //Spins "Pizzabox" motor: velocity in rotations/sec and acceleration in rotations/sec^2
@@ -204,6 +217,11 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   public void useOutput(double output, State setPoint)
   {
     //Comment out for testing purposes
+    double feedForward = armFeedForward.calculate(setPoint.position, setPoint.velocity);
+    // SmartDashboard.putNumber("feedForward calculation", feedForward);
+    // SmartDashboard.putNumber("Output", output);
+    // SmartDashboard.putNumber("setPoint position", setPoint.position);
+    // SmartDashboard.putNumber("setPoint velocity", setPoint.velocity);
     spinArm(output);
     //System.out.println("Target Speed is " + (output));
   }
@@ -211,6 +229,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   @Override
   public double getMeasurement()
   {
-    return encoderGetAngle();
+    return encoderGetAngle() * Math.PI/180;
   }
 }

@@ -71,7 +71,7 @@ public class LimeLightComms {
 
   /*
   * Possible things to set:
-  * ledMode 	Sets limelight’s LED state
+  * ledMode 	Sets limelight's LED state
    0 	use the LED Mode set in the current pipeline
    1 	force off
    2 	force blink

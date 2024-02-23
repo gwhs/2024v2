@@ -22,6 +22,7 @@ import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+import edu.wpi.first.math.MathUtil;
 
 public class IntakeSubsystem extends ProfiledPIDSubsystem {
   private TalonFX m_moveIntakeArm; // motor of arm
@@ -38,9 +39,9 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
   */
   public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, String can)  {
 
-    super(new ProfiledPIDController(.01, .00, 0, new Constraints(50, 20)));
-    getController().setTolerance(1);
-    //getController().enableContinuousInput(-Constants.IntakeConstants.ENCODER_OFFSET, 360 - Constants.IntakeConstants.ENCODER_OFFSET);
+    super(new ProfiledPIDController(.01, .00, 0.001, new Constraints(200, 200)));
+    getController().setTolerance(2);
+    getController().enableContinuousInput(0, 360);
     
     m_moveIntakeArm = new TalonFX(lowerIntakeId, can); 
     //m_spinIntake = new TalonFX(spinIntakeId, can);
@@ -88,6 +89,9 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
     Shuffleboard.getTab("Intake").addDouble("Motor Angle", ()->getArmPos()).withWidget(BuiltInWidgets.kGraph)
     .withSize(3,3)
     .withPosition(3, 0);;
+    Shuffleboard.getTab("Intake").addDouble("Target Angle", ()->getController().getGoal().position).withWidget(BuiltInWidgets.kGraph)
+    .withSize(3,3)
+    .withPosition(3, 0);;
   }
 
   // spin the intake motors, velocity is negative to intake note
@@ -105,12 +109,7 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
   }
 
   public void spinIntakeArm(double speed) {
-  if(speed < -1) { // Will not be less than minimum angle
-    speed = -1;
-  }
-  else if (speed > 1) { // Will not be greater than maximum angle
-    speed = 1;
-  }
+    speed = MathUtil.clamp(speed, -0.5, 0.5);
     m_moveIntakeArm.set(speed);
   }  
 
@@ -119,8 +118,8 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
     if(targetAngle < 0) {
       targetAngle = 0;
     }
-    else if (targetAngle > Constants.IntakeConstants.MAX_ARM_ANGLE) {
-      targetAngle = Constants.IntakeConstants.MAX_ARM_ANGLE;
+    else if (targetAngle > 360) {
+      targetAngle = 360;
     }
 
     System.out.println("set intake angle: " + targetAngle);

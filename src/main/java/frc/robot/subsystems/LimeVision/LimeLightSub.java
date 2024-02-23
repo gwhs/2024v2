@@ -85,7 +85,7 @@ public class LimeLightSub extends SubsystemBase {
 
   public double getTa() {
     double Ta = ta.getDouble(0);
-    return ta;
+    return Ta;
   }
 
   public double getTheta() {
@@ -109,5 +109,10 @@ public class LimeLightSub extends SubsystemBase {
 
   public boolean checkPipe() {
     return !(limelight_comm.get_entry_double("pipeline") < .5);
+  }
+
+  // ta error from expected ta size
+  public double getTaDistance() {
+    return 85.0 - (getTa() * 100);
   }
 }

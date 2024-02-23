@@ -92,6 +92,15 @@ public final class Constants
       public static final int[] APRILTAG_ROTATION = {120, 120, 180, 180, 270, 270, 0, 0, 60, 60, 300, 60, 180, 0, 120, 240};
   }
 
+  // works enough
+  public static final class DriveConstants {
+    public static final double kP = 0.04; 
+    public static final double kI = 0.055; 
+    public static final double kD = 0.000; 
+    public static final double THETA_TOLERANCE = 0.1;
+    public static final double STEADY_STATE_TOLERANCE = 0.1;
+  }
+
 }
 
 

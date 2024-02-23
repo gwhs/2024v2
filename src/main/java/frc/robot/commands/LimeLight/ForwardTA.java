@@ -32,7 +32,7 @@ public class ForwardTA extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    apriltagController.setPoint(45, "forward"); // fixed x distance from tag before crashing field perimeter
+    apriltagController.setPoint(0, "forward"); // fixed x distance from tag before crashing field perimeter
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -40,7 +40,7 @@ public class ForwardTA extends Command {
   public void execute() {
 
     double distance = apriltagController.updatePIDForwardTA();
-    driSwerveSubsystem.drive(new Translation2d(distance, 0), 0, true);
+    driSwerveSubsystem.drive(new Translation2d(-distance, 0), 0, false);
     
   }
 

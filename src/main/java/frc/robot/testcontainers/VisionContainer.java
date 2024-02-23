@@ -22,6 +22,7 @@ import frc.robot.Robot;
 import frc.robot.commands.LimeLight.Align;
 import frc.robot.commands.LimeLight.FaceAprilTag;
 import frc.robot.commands.LimeLight.Forward;
+import frc.robot.commands.LimeLight.ForwardTA;
 import frc.robot.commands.LimeLight.Sideways;
 import frc.robot.commands.driveCommands.rotateinPlace;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
@@ -79,8 +80,17 @@ public class VisionContainer implements BaseContainer
       .withWidget(BuiltInWidgets.kGraph)
       .withSize(3,3)
       .withPosition(3, 0);
+    limeLightTab.addDouble("Forward TA Output", ()->apriltagController.getErrorForwardTA())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(3, 0);
     
     limeLightTab.addDouble("Robot Heading", ()->apriltagController.getRobotHeading())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(3, 0);
+
+      limeLightTab.addDouble("Rotate Error", ()-> rotateinPlace.angleRate)
       .withWidget(BuiltInWidgets.kGraph)
       .withSize(3,3)
       .withPosition(3, 0);
@@ -91,9 +101,13 @@ public class VisionContainer implements BaseContainer
     limeLightTab.addNumber("Distance X Output", ()-> apriltagController.getErrorForward());
     limeLightTab.addNumber("Distance Y Output", ()-> apriltagController.getErrorSideways());
     limeLightTab.addNumber("Distance Tx Output", ()-> apriltagController.getErrorRotation());
+    limeLightTab.addNumber("TA Size", ()-> limeLightSub.getTa());
+    limeLightTab.addNumber("TA Distance", ()-> limeLightSub.getTaDistance());
 
     limeLightTab.addNumber("Current Robot Heading", ()-> apriltagController.getRobotHeading());
     limeLightTab.addNumber("Get Tag Heading", ()-> apriltagController.getApriltagHeading());
+
+    // limeLightSub.addNumber("TA", ()-> limeLightSub.getTa());
 
     // Configure the trigger bindings
     configureBindings();
@@ -124,8 +138,9 @@ public class VisionContainer implements BaseContainer
     // driverXbox.y().onTrue(new FaceAprilTag(drivebase, apriltagController));
     // driverXbox.a().onTrue(new Sideways(drivebase, apriltagController));
 
-    driverXbox.y().onTrue(new rotateinPlace(() -> 90, drivebase));
-    driverXbox.b().onTrue(new Forward(drivebase, apriltagController));
+    // driverXbox.y().onTrue(new rotateinPlace(() -> 90, drivebase));
+    driverXbox.b().onTrue(new FaceAprilTag(drivebase, apriltagController));
+    driverXbox.y().onTrue(new ForwardTA(drivebase, apriltagController));
 
     driverXbox.a().onTrue(new Align(drivebase, apriltagController));
   }

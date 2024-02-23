@@ -12,8 +12,8 @@ public class ApriltagController extends SubsystemBase {
     private final LimeLightSub limeLightSub;
 
     // forward PID constants
-    private final double kPX = 0.3;
-    private final double kDX = 0.1;
+    private final double kPX = 0.05;
+    private final double kDX = 0;
     private final double kIX = 0;
 
     // sideways PID constants
@@ -22,7 +22,7 @@ public class ApriltagController extends SubsystemBase {
     private final double kIThetaTx = 0;    
 
     // rotation PID constants
-    private final double kPTheta = 0.4;
+    private final double kPTheta = 0.03;
     private final double kDTheta = 0;
     private final double kITheta = 0;
 
@@ -136,10 +136,11 @@ public class ApriltagController extends SubsystemBase {
 
     // FORWARD using Apriltag TA values
     public double updatePIDForwardTA() {
-        forwardOutput = PIDSideways.calculate(limeLightSub.getTa());
+        forwardOutput = PIDSideways.calculate(limeLightSub.getTaDistance());
         return forwardOutput;
     }
     public double getErrorForwardTA() {
         return forwardOutput;
     }
+
 }

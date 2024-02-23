@@ -20,8 +20,9 @@ public class Align extends SequentialCommandGroup {
         ApriltagController apriltagController) {
             // Add commands
         addCommands(
+            
             new rotateinPlace(() -> apriltagController.getApriltagHeading(), driSwerveSubsystem),
             Commands.waitSeconds(0.5),
-            new Sideways(driSwerveSubsystem, apriltagController).andThen(new Forward(driSwerveSubsystem, apriltagController)));
+            new Sideways(driSwerveSubsystem, apriltagController).andThen(new ForwardTA(driSwerveSubsystem, apriltagController)));
     }
 }

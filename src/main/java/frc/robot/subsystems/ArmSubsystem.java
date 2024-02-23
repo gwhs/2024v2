@@ -60,8 +60,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final double ENCODER_OFFSET = 3.8658; 
     public static final int ARM_ID = 18;
     //
-    public static final double kSVolts = 0; 
-    public static final double kGVolts = 0;
+    public static final double kSVolts = .27; 
+    public static final double kGVolts = .365;
     //
     //Arm ID Jalen Tolbert
     public static final int PIZZABOX_ID = 23;
@@ -85,7 +85,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   public ArmSubsystem(int armId, String armCanbus, int pizzaBoxId, String pizzaBoxCanbus, int channel1, int channelServo)
   {
-    super(new ProfiledPIDController(.004, .001, 0, new Constraints(40, 10)));
+    super(new ProfiledPIDController(.01, .001, 0, new Constraints(40, 10)));
     getController().setTolerance(.5);
     //TrapezoidProfile either velocity or position
       m_arm = new TalonFX(armId, armCanbus);
@@ -218,11 +218,11 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   {
     //Comment out for testing purposes
     double feedForward = armFeedForward.calculate(setPoint.position, setPoint.velocity);
-    // SmartDashboard.putNumber("feedForward calculation", feedForward);
-    // SmartDashboard.putNumber("Output", output);
-    // SmartDashboard.putNumber("setPoint position", setPoint.position);
-    // SmartDashboard.putNumber("setPoint velocity", setPoint.velocity);
-    spinArm(output);
+    SmartDashboard.putNumber("feedForward calculation", feedForward);
+    SmartDashboard.putNumber("Output", output);
+    SmartDashboard.putNumber("setPoint position", setPoint.position);
+    SmartDashboard.putNumber("setPoint velocity", setPoint.velocity);
+    spinArm(output + feedForward);
     //System.out.println("Target Speed is " + (output));
   }
 

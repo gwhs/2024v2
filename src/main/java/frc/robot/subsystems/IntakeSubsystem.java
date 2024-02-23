@@ -38,11 +38,12 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
   */
   public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, String can)  {
 
-    super(new ProfiledPIDController(.01, .001, 0, new Constraints(20, 5)));
-    getController().setTolerance(.5);
+    super(new ProfiledPIDController(.01, .00, 0, new Constraints(50, 20)));
+    getController().setTolerance(1);
+    //getController().enableContinuousInput(-Constants.IntakeConstants.ENCODER_OFFSET, 360 - Constants.IntakeConstants.ENCODER_OFFSET);
     
     m_moveIntakeArm = new TalonFX(lowerIntakeId, can); 
-    m_spinIntake = new TalonFX(spinIntakeId, can);
+    //m_spinIntake = new TalonFX(spinIntakeId, can);
     m_Encoder = new DutyCycleEncoder(Constants.IntakeConstants.INTAKE_ENCODER_CHANNEL_ID);
     m_noteSensor = new DigitalInput(Constants.IntakeConstants.INTAKE_NOTESENSOR_CHANNEL_ID); 
     
@@ -67,17 +68,19 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
     configs.TorqueCurrent.PeakReverseTorqueCurrent = -40;
 
     /* Retry config apply up to 5 times, report if failure */
-    StatusCode status1 = StatusCode.StatusCodeNotInitialized;
-    StatusCode status2 = StatusCode.StatusCodeNotInitialized;
-    for (int i = 0; i < 5; ++i) {
-      status1 = m_moveIntakeArm.getConfigurator().apply(configs);
-      status2 = m_spinIntake.getConfigurator().apply(configs);
-      if (status1.isOK() && status2.isOK()) break;
-    }
-    if(!status1.isOK() || !status2.isOK()) {
-      System.out.println("Could not apply configs, error code: " + status1.toString());
-      System.out.println("Could not apply configs, error code: " + status2.toString());
-    }
+    // StatusCode status1 = StatusCode.StatusCodeNotInitialized;
+    // StatusCode status2 = StatusCode.StatusCodeNotInitialized;
+    // for (int i = 0; i < 5; ++i) {
+    //   status1 = m_moveIntakeArm.getConfigurator().apply(configs);
+    //   status2 = m_spinIntake.getConfigurator().apply(configs);
+    //   if (status1.isOK() && status2.isOK()) break;
+    // }
+    // if(!status1.isOK() || !status2.isOK()) {
+    //   System.out.println("Could not apply configs, error code: " + status1.toString());
+    //   System.out.println("Could not apply configs, error code: " + status2.toString());
+    // }
+
+    m_Encoder.reset();
 
     Shuffleboard.getTab("Intake").addDouble("Encoder Angle", ()->encoderGetAngle()).withWidget(BuiltInWidgets.kGraph)
     .withSize(3,3)
@@ -89,16 +92,16 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
 
   // spin the intake motors, velocity is negative to intake note
   public void spinIntakeMotor(int intakeMotorVelocity, int intakeMotorAcceleration) {
-    spinRequest1 = new VelocityVoltage(
-      -intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0,false, false, false);
-    m_spinIntake.setControl(spinRequest1);
+    // spinRequest1 = new VelocityVoltage(
+    //   -intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0,false, false, false);
+    // m_spinIntake.setControl(spinRequest1);
   }
   
   // spin intake motors the opposite way, velocity is positive to reject intake
   public void rejectIntake(int intakeMotorVelocity, int intakeMotorAcceleration) {
-    spinRequest1 = new VelocityVoltage(
-      intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0, false, false, false);
-      m_spinIntake.setControl(spinRequest1);
+    // spinRequest1 = new VelocityVoltage(
+    //   intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0, false, false, false);
+    //   m_spinIntake.setControl(spinRequest1);
   }
 
   public void spinIntakeArm(double speed) {
@@ -126,7 +129,7 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
 
   // stop intake motor
   public void stopIntakeMotors() {
-    m_spinIntake.stopMotor();
+    //m_spinIntake.stopMotor();
   }
 
   // stop arm motor 
@@ -136,11 +139,11 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
 
   // returns the position of the angle of the lowering motor
   public double getArmPos() {
-    return m_moveIntakeArm.getPosition().getValue()/Constants.IntakeConstants.GEAR_RATIO * Constants.IntakeConstants.ROTATION_TO_DEGREES;
+    return m_moveIntakeArm.get()/Constants.IntakeConstants.GEAR_RATIO * Constants.IntakeConstants.ROTATION_TO_DEGREES;
   }
 
   public double encoderGetAngle() {
-    return ((m_Encoder.getAbsolutePosition() * Constants.IntakeConstants.ROTATION_TO_DEGREES) - Constants.IntakeConstants.ENCODER_OFFSET); 
+    return ((m_Encoder.get() * Constants.IntakeConstants.ROTATION_TO_DEGREES)); 
   }
 
   // stop motor once note is in place, starts again once the arm position is brought up
@@ -148,23 +151,16 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
     return m_noteSensor.get();
   }
 
-  @Override
-  public void periodic() {}
-
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
-  }
 
   @Override
   public void useOutput(double output, State setPoint) {
     spinIntakeArm(output);
-    System.out.println("Target Speed is " + (output));
+    //System.out.println("Target Speed is " + (output));
   }
 
   @Override
   public double getMeasurement() {
-    System.out.println("encoder: " + encoderGetAngle());
+    //System.out.println("encoder: " + encoderGetAngle());
     return encoderGetAngle();
   }
 

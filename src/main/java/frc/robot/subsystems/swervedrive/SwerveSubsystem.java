@@ -522,13 +522,16 @@ public class SwerveSubsystem extends SubsystemBase
 
   public double decreaseSpeed()
   {
-    swerveDrive.setMaximumSpeed(maximumSpeed-5);
+    maximumSpeed = maximumSpeed -4;
+    swerveDrive.setMaximumSpeed(maximumSpeed);
     return maximumSpeed;
   }
 
   public double increaseSpeed()
   {
-    swerveDrive.setMaximumSpeed(maximumSpeed+5);
+    maximumSpeed = maximumSpeed +4;
+    swerveDrive.setMaximumSpeed(maximumSpeed);
     return maximumSpeed;
   }
+
 }

@@ -39,8 +39,8 @@ public class Forward extends Command {
   @Override
   public void execute() {
 
-    double distance = apriltagController.updatePIDForward();
-    driSwerveSubsystem.drive(new Translation2d(distance, 0), 0, true);
+    double distance = apriltagController.updatePIDForwardBotPose();
+    driSwerveSubsystem.drive(new Translation2d(distance, 0), 0, false);
     
   }
 

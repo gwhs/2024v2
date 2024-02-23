@@ -74,6 +74,16 @@ public class ApriltagController extends SubsystemBase {
         return forwardOutput;
     }
 
+    // testing using botpose distance
+    public double getBotPoseDistance() {
+        return Math.sqrt(Math.pow(apriltag[limeLightSub.getID()][0] - limeLightSub.getBotPose()[0],2) + 
+                         Math.pow(apriltag[limeLightSub.getID()][1] - limeLightSub.getBotPose()[1],2));
+    }
+    public double updatePIDForwardBotPose() {
+        forwardOutput = PIDForward.calculate(getBotPoseDistance()); 
+        return forwardOutput;
+    }
+
     // left and right
     public double getDistanceSideways() {
         if (limeLightSub.getID() > 0) {

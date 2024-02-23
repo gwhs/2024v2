@@ -5,7 +5,6 @@
 package frc.robot.commands.LimeLight;
 
 import frc.robot.subsystems.LimeVision.ApriltagController;
-import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,7 +15,6 @@ public class ForwardTA extends Command {
   private final SwerveSubsystem driSwerveSubsystem;
   private final ApriltagController apriltagController;
 
-  private double distance;
   /**
    * Creates a new ExampleCommand.
    *

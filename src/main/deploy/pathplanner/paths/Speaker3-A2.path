@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.261288368730585,
-        "y": 4.124382094918037
+        "x": 0.8009808327308976,
+        "y": 4.440124264863915
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.73819060458634,
-        "y": 2.328598503350855
+        "x": 0.9009808327308977,
+        "y": 4.440124264863915
       },
       "isLocked": false,
-      "linkedName": "A3"
+      "linkedName": "Speaker 3"
     },
     {
       "anchor": {
-        "x": 7.657409759263964,
-        "y": 0.7411170377896313
+        "x": 2.270058984562414,
+        "y": 5.529873281968787
       },
       "prevControl": {
-        "x": 7.5574097592639635,
-        "y": 0.741117037789631
+        "x": 2.170058984562414,
+        "y": 5.529873281968787
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "C5"
+      "linkedName": "A2"
     }
   ],
   "rotationTargets": [],
@@ -43,9 +43,9 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Notes Near Starting Zone",
+  "folder": "Speaker",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -58.5,
     "velocity": 0
   },
   "useDefaultConstraints": true

@@ -62,7 +62,7 @@ public class FaceSpeaker extends Command
     // Get the desired chassis speeds based on a 2 joystick module.
 
     ChassisSpeeds desiredSpeeds = swerve.getTargetSpeeds(vX.getAsDouble(), vY.getAsDouble(),
-                                                         new Rotation2d(UtilMath.BLUESpeakerTheta(swerve.getPose())));
+                                                         new Rotation2d((UtilMath.BLUESpeakerTheta(swerve.getPose())*(Math.PI/180))));
 
     // Limit velocity to prevent tippy
     Translation2d translation = SwerveController.getTranslation2d(desiredSpeeds);

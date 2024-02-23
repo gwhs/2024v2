@@ -16,20 +16,21 @@ public class UtilMath {
 
 
     public static double caclucateRotateTheta(Pose2d pose, double targetX, double targetY){
-        double calucatedRad = Math.atan2((targetY-pose.getY()), (targetX-pose.getX()));
+        double calucatedRad = Math.atan((targetY-pose.getY())/ (targetX-pose.getX()));
+        
         return  Math.toDegrees(calucatedRad);
     }
 
     public static double BLUESpeakerTheta(Pose2d pose)
     {
 
-        return caclucateRotateTheta(pose, BLUE_SPEAKER_Y, BLUE_SPEAKER_X);
+        return caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
     }
 
     public static double REDSpeakerTheta(Pose2d pose)
     {
 
-        return caclucateRotateTheta(pose, RED_SPEAKER_Y, RED_SPEAKER_X);
+        return caclucateRotateTheta(pose, RED_SPEAKER_X, RED_SPEAKER_Y);
     
     }
 }

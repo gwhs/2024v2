@@ -7,7 +7,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
-
+//not using atm
 public class SpinArmPID extends PIDCommand {
     private double angle;
     static final PIDController armController = new PIDController(.005, .005, .0);

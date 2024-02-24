@@ -1,22 +1,22 @@
 package frc.robot.commands.Arm;
-import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.PizzaBoxSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
 public class SwingForwardServo extends Command{
   
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ArmSubsystem armSubsystem;
+  private final PizzaBoxSubsystem pizzaBoxSubsystem;
     // Called when the command is initially scheduled.
     
 
-  public SwingForwardServo(ArmSubsystem armSubsystem)
+  public SwingForwardServo(PizzaBoxSubsystem pizzaBoxSubsystem)
   {
-    this.armSubsystem = armSubsystem;
-    addRequirements(armSubsystem);
+    this.pizzaBoxSubsystem = pizzaBoxSubsystem;
+    addRequirements(pizzaBoxSubsystem);
   }
   public void initialize() {
-    armSubsystem.setServoAngle(180);
+    pizzaBoxSubsystem.setServoAngle(180);
       }
   
 
@@ -34,7 +34,7 @@ public class SwingForwardServo extends Command{
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    double motorAng = armSubsystem.getServoAngle();
+    double motorAng = pizzaBoxSubsystem.getServoAngle();
     return Math.abs(motorAng - 180) < .001;
   }
 }

@@ -4,30 +4,23 @@
 
 package frc.robot.commands.IntakeCommands;
 
-import frc.robot.Constants;
-import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.PizzaBoxSubsystem;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class IntakePassNoteToPizzaBox extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private IntakeSubsystem intakeSubsystem;
-  private ArmSubsystem armSubsystem;
-  private boolean prevSensorValue;
-  private boolean currentSensorValue;
-  private boolean noteLatch;
-  private int counter; 
+  private PizzaBoxSubsystem pizzaBoxSubsystem;
 
-  public IntakePassNoteToPizzaBox(IntakeSubsystem subsystem, ArmSubsystem armSubsystem) {
+  public IntakePassNoteToPizzaBox(IntakeSubsystem subsystem, PizzaBoxSubsystem pizzaBoxSubsystem) {
     intakeSubsystem = subsystem;
-    this.armSubsystem = armSubsystem;
+    this.pizzaBoxSubsystem = pizzaBoxSubsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(armSubsystem, intakeSubsystem);
+    addRequirements(pizzaBoxSubsystem, intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -37,7 +30,7 @@ public class IntakePassNoteToPizzaBox extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSubsystem.spinPizzaBoxMotor(-50, 10);
+    pizzaBoxSubsystem.spinPizzaBoxMotor(-50, 10);
     intakeSubsystem.spinIntakeMotor(50, 100);
   }
 
@@ -45,7 +38,7 @@ public class IntakePassNoteToPizzaBox extends Command {
   // runs once when isFinished is called
   @Override
   public void end(boolean interrupted) {
-    armSubsystem.stopPizzaBoxMotor();
+    pizzaBoxSubsystem.stopPizzaBoxMotor();
     intakeSubsystem.stopIntakeMotors();
   }
 

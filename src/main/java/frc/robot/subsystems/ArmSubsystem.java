@@ -11,30 +11,15 @@
  */
 
 package frc.robot.subsystems;
-import frc.robot.Constants;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
-import com.ctre.phoenix6.controls.VelocityVoltage;
-import com.ctre.phoenix6.controls.PositionVoltage;
-import edu.wpi.first.math.controller.PIDController; 
 
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration; 
-import com.ctre.phoenix6.signals.ControlModeValue; 
-import com.ctre.phoenix6.configs.Slot0Configs;
-import edu.wpi.first.wpilibj.Counter;
-//import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-import java.util.Map;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 import com.ctre.phoenix6.StatusCode;
-import edu.wpi.first.wpilibj.Servo;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -67,8 +52,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final double KGVOLTS = 0;
     //
     //Arm ID Jalen Tolbert
-    public static final int PIZZABOX_ID = 23;
-    public static final int SERVO_PWN_SLOT = 0;
     public static final int ENCODER_DIO_SLOT = 0;
     public static final int AMP_ANGLE = 0;
     public static final int TRAP_ANGLE = 0;
@@ -80,19 +63,15 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   private TalonFX m_arm;
   private DutyCycleEncoder m_encoder;
-  private TalonFX m_pizzaBox;
-  private Servo m_servo;
   private ArmFeedforward armFeedForward;
 
-  public ArmSubsystem(int armId, String armCanbus, int pizzaBoxId, String pizzaBoxCanbus, int channel1, int channelServo)
+  public ArmSubsystem(int armId, String armCanbus, int channel1)
   {
     super(new ProfiledPIDController(5, .1, 0, new Constraints(2*Math.PI, 10)));
     getController().setTolerance(2 * (Math.PI/180));
     //TrapezoidProfile either velocity or position
       m_arm = new TalonFX(armId, armCanbus);
-      m_pizzaBox = new TalonFX(pizzaBoxId, pizzaBoxCanbus);
       m_encoder = new DutyCycleEncoder(channel1);
-      m_servo = new Servo(channelServo);
       armFeedForward = new ArmFeedforward(Arm.KSVOLTS, Arm.KGVOLTS, 0, 0);
       
       
@@ -109,11 +88,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
       // Peak output of 8 volts
       configs.Voltage.PeakForwardVoltage = 15;
       configs.Voltage.PeakReverseVoltage = -15;
-      
-      /* Torque-based velocity does not require a feed forward, as torque will accelerate the rotor up to the desired velocity by itself */
-      configs.Slot1.kP = 5; // An error of 1 rotation per second results in 5 amps output
-      configs.Slot1.kI = 0.1; // An error of 1 rotation per second increases output by 0.1 amps every second
-      configs.Slot1.kD = 0.001; // A change of 1000 rotation per second squared results in 1 amp output
   
       // Peak output of 40 amps
       configs.TorqueCurrent.PeakForwardTorqueCurrent = 50;
@@ -122,7 +96,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
       /* Retry config apply up to 5 times, report if failure */
       StatusCode motorStatus = StatusCode.StatusCodeNotInitialized;
       for (int i = 0; i < 5; ++i) {
-        motorStatus = m_pizzaBox.getConfigurator().apply(configs);
+        motorStatus = m_arm.getConfigurator().apply(configs);
         if (motorStatus .isOK()) break;
       }
       if(!motorStatus.isOK()) {
@@ -133,9 +107,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     .withSize(3,3)
     .withPosition(0, 0);
     Shuffleboard.getTab("Arm").addDouble("Goal in degrees", ()->getController().getGoal().position * (180/Math.PI));
-    Shuffleboard.getTab("Arm").addDouble("Motor Angle", ()->getArmAngle()).withWidget(BuiltInWidgets.kGraph)
-    .withSize(3,3)
-    .withPosition(3, 0);
 
     Shuffleboard.getTab("Arm").add("Arm PID", this.getController());
   }
@@ -165,42 +136,14 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     calculatedAng = Arm.ARM_MAX_ANGLE;
   }
 
-  System.out.println("TargetArmAngle works, angle value : " + calculatedAng * Math.PI/180);
   setGoal(calculatedAng * Math.PI/180);
  }
 
-  //Spins "Pizzabox" motor: velocity in rotations/sec and acceleration in rotations/sec^2
-  public void spinPizzaBoxMotor(double velocity, double acceleration){
-    VelocityVoltage spinPizzaBoxMotorRequest = new VelocityVoltage(velocity, acceleration, true, 0, 0, false, false, false);
-    m_pizzaBox.setControl(spinPizzaBoxMotorRequest);
-  }
-  //Sets the position of the Servo motor on the pizza box
-  public void setServoAngle(double angle) {
-    m_servo.setAngle(angle);
-  }
 
-  //Returns the servo postion from 0.0 to 1.0 (0 degrees to 180 degrees)
-  public double getServoAngle() {
-    return m_servo.getAngle();
-  }
 
   //Stops arm motor
   public void stopArmMotor() {
     m_arm.stopMotor();
- }
-
- //Stops pizzaBox motor
- public void stopPizzaBoxMotor() {
-  m_pizzaBox.stopMotor();
-}
-
- public double getArmAngle(){
-    return m_arm.getPosition().getValue()/-Arm.GEAR_RATIO * Arm.ROTATION_TO_DEGREES;
- }
-
- /* The pizza box is the motor on the holding container on the arm*/ 
- public double getPizzaBoxAngle(){
-  return m_pizzaBox.getPosition().getValue() * Arm.ROTATION_TO_DEGREES;
  }
 
  //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])

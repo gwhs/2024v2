@@ -3,7 +3,9 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.Arm;
+import frc.robot.subsystems.PizzaBoxSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
+
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.Arm.SpinNoteContainerMotor;
@@ -17,14 +19,14 @@ public class SpinAndSwing extends SequentialCommandGroup {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   //velocity = 100 for testing shooting 
-  public SpinAndSwing(ArmSubsystem armSubsystem) {
+  public SpinAndSwing(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem) {
     addCommands(
-        new SpinNoteContainerMotor (armSubsystem, 200, 150),
+        new SpinNoteContainerMotor (pizzaBoxSubsystem, 200, 150),
         Commands.waitSeconds(1), 
-        new SwingForwardServo(armSubsystem),
+        new SwingForwardServo(pizzaBoxSubsystem),
         Commands.waitSeconds(.5),
-        new SwingBackServo(armSubsystem),
-        new StopNoteContainerMotor(armSubsystem),
+        new SwingBackServo(pizzaBoxSubsystem),
+        new StopNoteContainerMotor(pizzaBoxSubsystem),
         new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE)
 
         );

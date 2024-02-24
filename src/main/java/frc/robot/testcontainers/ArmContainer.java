@@ -11,6 +11,9 @@ import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.PizzaBoxSubsystem;
+
+
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.commands.Arm.SpinNoteContainerMotor;
 import frc.robot.commands.Arm.StopNoteContainerMotor;
@@ -18,7 +21,6 @@ import frc.robot.commands.Arm.StopNoteContainerMotor;
 import frc.robot.commands.Arm.SwingForwardServo;
 import frc.robot.commands.Arm.SwingBackServo;
 import frc.robot.commands.Arm.SpinAndSwing;
-import frc.robot.commands.Arm.SpinArmPID;
 import frc.robot.commands.Arm.SpinToArmAngle;
 
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
@@ -46,8 +48,11 @@ public class ArmContainer implements BaseContainer {
     private final CommandXboxController m_driverController =
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
         //CAN_Network
-        ArmSubsystem arm = new ArmSubsystem(ArmSubsystem.Arm.ARM_ID, "CAN_Network", ArmSubsystem.Arm.PIZZABOX_ID, "rio", 
-                        ArmSubsystem.Arm.ENCODER_DIO_SLOT, ArmSubsystem.Arm.SERVO_PWN_SLOT);
+        ArmSubsystem arm = new ArmSubsystem(ArmSubsystem.Arm.ARM_ID, "CAN_Network", 
+                        ArmSubsystem.Arm.ENCODER_DIO_SLOT);
+
+        PizzaBoxSubsystem pizzaBox = new PizzaBoxSubsystem(PizzaBoxSubsystem.PizzaBox.PIZZABOX_ID, 
+                    "rio", PizzaBoxSubsystem.PizzaBox.SERVO_PWN_SLOT);
                         
         private IntakeSubsystem intakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, "rio");
         
@@ -68,13 +73,13 @@ public class ArmContainer implements BaseContainer {
                 andThen((Commands.runOnce(() -> {
                     arm.targetArmAngle(ArmSubsystem.Arm.INTAKE_ANGLE);
                     }, arm))).
-                andThen(new IntakePassNoteToPizzaBox(intakeSubsystem, arm)
+                andThen(new IntakePassNoteToPizzaBox(intakeSubsystem, pizzaBox)
                 ));
 
         m_driverController.b().onTrue(new SpinToArmAngle(arm, 245));
-        m_driverController.y().onTrue(new SpinAndSwing(arm));
+        m_driverController.y().onTrue(new SpinAndSwing(pizzaBox, arm));
 
-        m_driverController.x().whileTrue(new SpinNoteContainerMotor(arm, 400, 100));
+        m_driverController.x().whileTrue(new SpinNoteContainerMotor(pizzaBox, 400, 100));
         // xboxController.b().onTrue(new IntakePassNoteToPizzaBox(intakeSubsystem));
 
 
@@ -119,8 +124,6 @@ public class ArmContainer implements BaseContainer {
 
 //We might not need this anymore (2/10/24)
         Shuffleboard.getTab("Arm").addDouble("encoder",()->arm.encoderGetAngle());
-        Shuffleboard.getTab("Arm").addDouble("arm",()->arm.getArmAngle());
-
         
 
 

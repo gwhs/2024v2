@@ -50,5 +50,9 @@ public class IntakeContainer implements BaseContainer {
         xboxController.x().onTrue(Commands.runOnce(() -> {
             intakeSubsystem.setIntakeArmAngle(90);
         }, intakeSubsystem));
+
+        xboxController.y().onTrue(Commands.runOnce(() -> {
+            new SpinIntakeArmMotor(intakeSubsystem, 90);
+        }, intakeSubsystem));
     }
 }

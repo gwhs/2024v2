@@ -23,7 +23,7 @@ public class IntakeContainer implements BaseContainer {
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
     
         public IntakeContainer() {
-            intakeSubsystem = new IntakeSubsystem(8,0, "rio");
+            intakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, "rio");
             configureBindings();
         }
 
@@ -39,17 +39,14 @@ public class IntakeContainer implements BaseContainer {
             }
         }, intakeSubsystem));
 
-        xboxController.a().onTrue(Commands.runOnce(() -> {
-            intakeSubsystem.setIntakeArmAngle(intakeSubsystem.encoderGetAngle() + 10);
-        }, intakeSubsystem));
-
-        xboxController.b().onTrue(Commands.runOnce(() -> {
-            intakeSubsystem.setIntakeArmAngle(0);
-        }, intakeSubsystem));
-
-        // xboxController.x().onTrue(Commands.runOnce(() -> {
-        //     intakeSubsystem.setIntakeArmAngle(90);
+        // xboxController.a().onTrue(Commands.runOnce(() -> {
+        //     intakeSubsystem.setIntakeArmAngle(intakeSubsystem.encoderGetAngle() + 10);
         // }, intakeSubsystem));
+
+        // xboxController.b().onTrue(Commands.runOnce(() -> {
+        //     intakeSubsystem.setIntakeArmAngle(0);
+        // }, intakeSubsystem));
+
 
         xboxController.y().onTrue(new SpinIntakeArmMotor(intakeSubsystem, 90));
         xboxController.x().onTrue(new SpinIntakeArmMotor(intakeSubsystem, 0));

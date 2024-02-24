@@ -44,7 +44,7 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
     getController().enableContinuousInput(0, 360);
     
     m_moveIntakeArm = new TalonFX(lowerIntakeId, can); 
-    //m_spinIntake = new TalonFX(spinIntakeId, can);
+    m_spinIntake = new TalonFX(spinIntakeId, can);
     m_Encoder = new DutyCycleEncoder(Constants.IntakeConstants.INTAKE_ENCODER_CHANNEL_ID);
     m_noteSensor = new DigitalInput(Constants.IntakeConstants.INTAKE_NOTESENSOR_CHANNEL_ID); 
     
@@ -69,17 +69,17 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
     configs.TorqueCurrent.PeakReverseTorqueCurrent = -40;
 
     /* Retry config apply up to 5 times, report if failure */
-    // StatusCode status1 = StatusCode.StatusCodeNotInitialized;
-    // StatusCode status2 = StatusCode.StatusCodeNotInitialized;
-    // for (int i = 0; i < 5; ++i) {
-    //   status1 = m_moveIntakeArm.getConfigurator().apply(configs);
-    //   status2 = m_spinIntake.getConfigurator().apply(configs);
-    //   if (status1.isOK() && status2.isOK()) break;
-    // }
-    // if(!status1.isOK() || !status2.isOK()) {
-    //   System.out.println("Could not apply configs, error code: " + status1.toString());
-    //   System.out.println("Could not apply configs, error code: " + status2.toString());
-    // }
+    StatusCode status1 = StatusCode.StatusCodeNotInitialized;
+    StatusCode status2 = StatusCode.StatusCodeNotInitialized;
+    for (int i = 0; i < 5; ++i) {
+      status1 = m_moveIntakeArm.getConfigurator().apply(configs);
+      status2 = m_spinIntake.getConfigurator().apply(configs);
+      if (status1.isOK() && status2.isOK()) break;
+    }
+    if(!status1.isOK() || !status2.isOK()) {
+      System.out.println("Could not apply configs, error code: " + status1.toString());
+      System.out.println("Could not apply configs, error code: " + status2.toString());
+    }
 
     m_Encoder.reset();
 
@@ -96,9 +96,9 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
 
   // spin the intake motors, velocity is negative to intake note
   public void spinIntakeMotor(int intakeMotorVelocity, int intakeMotorAcceleration) {
-    // spinRequest1 = new VelocityVoltage(
-    //   -intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0,false, false, false);
-    // m_spinIntake.setControl(spinRequest1);
+    spinRequest1 = new VelocityVoltage(
+      -intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0,false, false, false);
+    m_spinIntake.setControl(spinRequest1);
   }
   
   // spin intake motors the opposite way, velocity is positive to reject intake
@@ -128,7 +128,7 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
 
   // stop intake motor
   public void stopIntakeMotors() {
-    //m_spinIntake.stopMotor();
+    m_spinIntake.stopMotor();
   }
 
   // stop arm motor 
@@ -149,7 +149,6 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
   public boolean isNotePresent() {
     return m_noteSensor.get();
   }
-
 
   @Override
   public void useOutput(double output, State setPoint) {

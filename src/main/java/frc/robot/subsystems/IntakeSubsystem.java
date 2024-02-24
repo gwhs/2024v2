@@ -103,9 +103,9 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
   
   // spin intake motors the opposite way, velocity is positive to reject intake
   public void rejectIntake(int intakeMotorVelocity, int intakeMotorAcceleration) {
-    // spinRequest1 = new VelocityVoltage(
-    //   intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0, false, false, false);
-    //   m_spinIntake.setControl(spinRequest1);
+    spinRequest1 = new VelocityVoltage(
+      intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0, false, false, false);
+      m_spinIntake.setControl(spinRequest1);
   }
 
   public void spinIntakeArm(double speed) {

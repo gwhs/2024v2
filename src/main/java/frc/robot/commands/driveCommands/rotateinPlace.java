@@ -8,7 +8,6 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -24,7 +23,7 @@ public class rotateinPlace extends Command {
   private PIDController PID;
 
   // making this public so can access in shuffleboard in drivecontainer (will this work?)
-  public static double angleRate;
+  public static double angleRate = Double.POSITIVE_INFINITY;
 
   public rotateinPlace(DoubleSupplier rotation, SwerveSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -55,8 +54,7 @@ public class rotateinPlace extends Command {
     currTheta = m_Subsystem.getHeading().getDegrees();
 
     angleRate = PID.calculate(currTheta);
-    m_Subsystem.drive(pose, angleRate, true);
-    SmartDashboard.putNumber("Error Rate", angleRate);
+    m_Subsystem.drive(pose, -angleRate, true);
     }
     
   

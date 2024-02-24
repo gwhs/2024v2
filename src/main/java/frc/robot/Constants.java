@@ -92,11 +92,11 @@ public final class Constants
   }
 
   public static final class DriveConstants {
-    public static final double kP = 1;
-    public static final double kI = 0;
-    public static final double kD = 0;
-    public static final double THETA_TOLERANCE = 0.01; //in degrees;
-    public static final double STEADY_STATE_TOLERANCE = 0.1; 
+    public static final double kP = 0.04; 
+    public static final double kI = 0.055; 
+    public static final double kD = 0.000; 
+    public static final double THETA_TOLERANCE = 0.1;
+    public static final double STEADY_STATE_TOLERANCE = 0.1;
   }
 }
 

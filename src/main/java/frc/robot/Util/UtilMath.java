@@ -49,11 +49,4 @@ public class UtilMath {
         return caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
        
     }
-
-    public static double REDSpeakerTheta(Pose2d pose)
-    {
-    
-        return caclucateRotateTheta(pose, RED_SPEAKER_X, RED_SPEAKER_Y);
-    
-    }
 }

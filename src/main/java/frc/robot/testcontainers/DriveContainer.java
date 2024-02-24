@@ -109,7 +109,7 @@ AbsoluteFieldDrive closedFieldAbsoluteDriveSpeaker = new AbsoluteFieldDrive(driv
                                                                                                     OperatorConstants.LEFT_X_DEADBAND),
                                                                          () -> MathUtil.applyDeadband(-driverXbox.getLeftY(),
                                                                                                       OperatorConstants.LEFT_Y_DEADBAND),
-                                                                         () -> UtilMath.BLUESpeakerTheta(drivebase.getPose()));
+                                                                         () -> UtilMath.SpeakerTheta(drivebase.getPose()));
 FaceSpeaker speaker = new FaceSpeaker(drivebase,
                                                                          () ->
                                                                              MathUtil.applyDeadband(-driverXbox.getLeftX(),

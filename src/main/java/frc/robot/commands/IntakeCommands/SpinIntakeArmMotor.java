@@ -26,13 +26,13 @@ public class SpinIntakeArmMotor extends Command {
   @Override
   public void initialize() {
     System.out.println("hello");
-    intakeSubsystem.setIntakeArmAngle(angle);
+    
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+    intakeSubsystem.setIntakeArmAngle(angle);
   }
 
   // Called once the command ends or is interrupted.

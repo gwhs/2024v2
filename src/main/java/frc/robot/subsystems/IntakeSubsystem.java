@@ -39,7 +39,7 @@ public class IntakeSubsystem extends ProfiledPIDSubsystem {
   */
   public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, String can)  {
 
-    super(new ProfiledPIDController(.01, .00, 0.001, new Constraints(200, 200)));
+    super(new ProfiledPIDController(.01, .00, 0.00, new Constraints(200, 200)));
     getController().setTolerance(2);
     getController().enableContinuousInput(0, 360);
     

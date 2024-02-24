@@ -4,6 +4,7 @@
 
 package frc.robot.commands.IntakeCommands;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PizzaBoxSubsystem;
 
@@ -14,6 +15,10 @@ public class IntakePassNoteToPizzaBox extends Command {
 
   private IntakeSubsystem intakeSubsystem;
   private PizzaBoxSubsystem pizzaBoxSubsystem;
+  private boolean prevSensorValue = false;
+  private boolean currentSensorValue = false;
+  private boolean noteLatch = false;
+  private int counter = 0;
 
   public IntakePassNoteToPizzaBox(IntakeSubsystem subsystem, PizzaBoxSubsystem pizzaBoxSubsystem) {
     intakeSubsystem = subsystem;

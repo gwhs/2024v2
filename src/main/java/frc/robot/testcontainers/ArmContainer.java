@@ -76,8 +76,7 @@ public class ArmContainer implements BaseContainer {
                 andThen(new IntakePassNoteToPizzaBox(intakeSubsystem, pizzaBox)
                 ));
 
-        m_driverController.b().onTrue(new SpinToArmAngle(arm, 245));
-        m_driverController.y().onTrue(new SpinAndSwing(pizzaBox, arm));
+        m_driverController.y().onTrue(new SpinAndSwing(pizzaBox, arm, 245));
 
         m_driverController.x().whileTrue(new SpinNoteContainerMotor(pizzaBox, 400, 100));
         // xboxController.b().onTrue(new IntakePassNoteToPizzaBox(intakeSubsystem));
@@ -114,15 +113,14 @@ public class ArmContainer implements BaseContainer {
             arm.targetArmAngle(ArmSubsystem.Arm.INTAKE_ANGLE);}));
 
         
-    //    m_driverController.rightBumper().onTrue(new SwingForwardServo(arm));
+    //    m_driverController.rightBumper().onTrue(new SwingForwardServo(pizzaBox));
 
-        // m_driverController.x().onTrue(new SwingForwardServo(arm));
-        // m_driverController.y().onTrue(new SwingBackServo(arm));
+        // m_driverController.x().onTrue(new SwingForwardServo(pizzaBox));
+        // m_driverController.y().onTrue(new SwingBackServo(pizzaBox));
 
 
-        //m_driverController.a().onTrue(new SpinAndSwing(arm));
+        // m_driverController.a().onTrue(new SpinAndSwing(pizzaBox, arm, 270));
 
-//We might not need this anymore (2/10/24)
         Shuffleboard.getTab("Arm").addDouble("encoder",()->arm.encoderGetAngle());
         
 

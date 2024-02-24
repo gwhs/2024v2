@@ -1,14 +1,7 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-/*
- * 
- * 
- * USES setGoal to spin
- * 
- * 
- * 
- */
+
 
 package frc.robot.subsystems;
 
@@ -112,8 +105,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   }
 
   //Looking at the left of the robot, counterclockwise arm spin is positive
-  // Sets arm angle in degrees with given velocity and acceleration
-  //VelocityVoltage​(double Velocity, double Acceleration, boolean EnableFOC, double FeedForward, int Slot, boolean OverrideBrakeDurNeutral, boolean LimitForwardMotion, boolean LimitReverseMotion)
  public void spinArm(double speed)
  {
   if(speed < -15) { //Will not be less than minimum angle

@@ -1,46 +1,49 @@
 package frc.robot.testcontainers;
 
+import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.BaseContainer;
+import frc.robot.Constants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.IntakeCommands.LowerArmIntake;
+import frc.robot.commands.IntakeCommands.SpinIntakePID;
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
-import frc.robot.commands.IntakeCommands.UpperArmIntake;
+import frc.robot.commands.IntakeCommands.IntakePickUpFromGround;
 import frc.robot.subsystems.IntakeSubsystem;
 
 public class IntakeContainer implements BaseContainer {
 
     private final CommandXboxController xboxController = new CommandXboxController(0);
     private IntakeSubsystem intakeSubsystem;
-  
-    // todo: add intake subsystem
+
     private final CommandXboxController m_driverController =
         new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
     public IntakeContainer() {
-        intakeSubsystem = new IntakeSubsystem(8,20,0, 1, 10, "rio");
+        intakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, 0, "rio");
         configureBindings();
     }
 
     private void configureBindings() {
-        // xboxController.x().onTrue(new SequentialCommandGroup(
-        //     new LowerArmIntake(IntakeSubsystem, 0.5), 
-        //     new UpperArmIntake(IntakeSubsystem)));
-        // xboxController.a().onTrue(new LowerArmIntake(IntakeSubsystem, 10)); //run upper arm intake
-        // xboxController.b().onTrue(new UpperArmIntake(IntakeSubsystem)); //run lower arm intake
-
-        xboxController.a().onTrue(new LowerArmIntake(intakeSubsystem, 90));
-
-        LowerArmIntake intakeUp = new LowerArmIntake(intakeSubsystem, 0);
-        xboxController.x().onTrue(intakeUp);
-
         
-       
+        final PIDController intakeController = new PIDController(.005, .0, .0);
+        intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
+        
+        xboxController.x().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 0));
+        xboxController.y().onTrue(new SpinIntakePID(intakeController, intakeSubsystem, 106));
+
+        xboxController.a().onTrue(new IntakePickUpFromGround(intakeSubsystem));
+        xboxController.b().onTrue(new IntakePassNoteToPizzaBox(intakeSubsystem));
 
 
-        // IntakePassNoteToPizzaBox intake = new IntakePassNoteToPizzaBox(IntakeSubsystem);
-        // xboxController.y().onTrue(intake);
+        Shuffleboard.getTab("intake").add(intakeController);
+
+        // Command command = new SpinIntakePID(intakeController, intakeSubsystem, 0);
+        // command = command.andThen(new IntakePickUpFromGround(intakeSubsystem));
+        // command = command.andThen(new SpinIntakePID(intakeController, intakeSubsystem, Constants.IntakeConstants.MAX_ARM_ANGLE)).withTimeout(4);
+        // command = command.andThen(new IntakePassNoteToPizzaBox(intakeSubsystem));
+
     }
 }

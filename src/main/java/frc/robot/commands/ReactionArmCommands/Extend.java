@@ -5,6 +5,7 @@
 package frc.robot.commands.ReactionArmCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
 import frc.robot.subsystems.ReactionSubsystem;
 
 public class Extend extends Command {
@@ -41,7 +42,7 @@ public class Extend extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if( (currPos > (endPos + 0.19027)) || (currPos < (endPos - 0.19027)))
+    if( (currPos > (endPos + Constants.ReactionConstants.tolerance)) || (currPos < (endPos - Constants.ReactionConstants.tolerance)))
     {
       return true;
     }

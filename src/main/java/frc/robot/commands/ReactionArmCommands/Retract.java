@@ -6,6 +6,7 @@ package frc.robot.commands.ReactionArmCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ReactionSubsystem;
+import frc.robot.Constants;
 
 public class Retract extends Command {
   /** Creates a new Retract. */
@@ -41,7 +42,7 @@ private double endPos;
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if( (currPos > (endPos + 0.19027)) || (currPos < (endPos - 0.19027)))
+    if( (currPos > (endPos + Constants.ReactionConstants.tolerance)) || (currPos < (endPos - Constants.ReactionConstants.tolerance)))
     {
       return true;
     }

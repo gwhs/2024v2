@@ -56,12 +56,12 @@ public class TeleopDrive extends Command
     double xVelocity   = Math.pow(vX.getAsDouble(), 3);
     double yVelocity   = Math.pow(vY.getAsDouble(), 3);
     double angVelocity = Math.pow(omega.getAsDouble(), 3);
-    SmartDashboard.putNumber("vX", xVelocity);
-    SmartDashboard.putNumber("vY", yVelocity);
-    SmartDashboard.putNumber("omega", angVelocity);
-    SmartDashboard.putNumber("rawX", xVelocity *swerve.maximumSpeed);
-    SmartDashboard.putNumber("rawY", yVelocity *swerve.maximumSpeed);
-    SmartDashboard.putNumber("rawAng", angVelocity * controller.config.maxAngularVelocity);
+    // SmartDashboard.putNumber("vX", xVelocity);
+    // SmartDashboard.putNumber("vY", yVelocity);
+    // SmartDashboard.putNumber("omega", angVelocity);
+    // SmartDashboard.putNumber("rawX", xVelocity *swerve.maximumSpeed);
+    // SmartDashboard.putNumber("rawY", yVelocity *swerve.maximumSpeed);
+    // SmartDashboard.putNumber("rawAng", angVelocity * controller.config.maxAngularVelocity);
 
     
 
@@ -77,7 +77,7 @@ public class TeleopDrive extends Command
   {
   }
 
-  // Returns true when the command should end.
+  // Returns true when the command ould end.
   @Override
   public boolean isFinished()
   {

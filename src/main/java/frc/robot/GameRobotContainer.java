@@ -40,7 +40,7 @@ public class GameRobotContainer implements BaseContainer {
                                                                          getDriveTrainName()));
         m_IntakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID, Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, 0, "rio");
 
-        m_ArmSubsystem = new ArmSubsystem(0, getDriveTrainName(), 0, getDriveTrainName(), 0, 0, 0)
+        m_ArmSubsystem = new ArmSubsystem(0, getDriveTrainName(), 0, getDriveTrainName(), 0, 0, 0);
 
         LEDSubsystem led = new LEDSubsystem(Constants.LEDConstants.ledPortNumber);
 

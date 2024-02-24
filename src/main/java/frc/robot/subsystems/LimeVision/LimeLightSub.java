@@ -85,7 +85,7 @@ public class LimeLightSub extends SubsystemBase {
   NetworkTableEntry blueBotPose = networkTable.getEntry("botpose_wpiblue");
   NetworkTableEntry targetSpace = networkTable.getEntry("botpose_targetspace");
   NetworkTableEntry tid = networkTable.getEntry("tid");
-  NetworkTableEntry redBotPose = networkTable.getEntry("botpose_wpired");
+  
   
 
   
@@ -158,10 +158,8 @@ public class LimeLightSub extends SubsystemBase {
     double currTx = limelight_comm.get_entry_double("tx");
     SmartDashboard.putNumber("tx", currTx);
     // System.out.println(currTx);
-
-    // if(hasTarget()){
-    //   setData();
-    // }
+    
+    setData();
     
   }
 
@@ -273,9 +271,11 @@ public class LimeLightSub extends SubsystemBase {
     colorBotPose[6] = blueBotPose[6];
 
     if(hasTarget()){
-    colorBotPose[7] = getTID();
-    colorBotPose[8] = Math.sqrt(Math.pow(apriltag[getTID()][0]-blueBotPose[0] ,2) + 
+    colorBotPose[7] = getTID()+1;
+      //if(getTID() != -1){
+      colorBotPose[8] = Math.sqrt(Math.pow(apriltag[getTID()][0]-blueBotPose[0] ,2) + 
                                Math.pow(apriltag[getTID()][1]-blueBotPose[1] ,2));
+      //} 
     }
     return colorBotPose; 
   }
@@ -287,7 +287,7 @@ public class LimeLightSub extends SubsystemBase {
 
   public int getTID(){
   
-    int tid = (int)this.tid.getDouble(-1);
+    int tid = (int)this.tid.getDouble(-1)-1;
     
     return tid;
     
@@ -297,7 +297,8 @@ public class LimeLightSub extends SubsystemBase {
     double[] temp = getBlueBotPose();
     Pose2d currentPose = VisionContainer.drivebase.getPose();
     double distance = Math.hypot( temp[0]- currentPose.getX(), temp[1]- currentPose.getY());
-    int meterToStop = 10;
+    double distancefromAprilTag = 0.8; //0.8
+    double distancefromLimeLight = 2.5; //2.5
 
     if(hasTarget()){
        
@@ -313,7 +314,7 @@ public class LimeLightSub extends SubsystemBase {
             SmartDashboard.putNumber("xyStds", xyStds);
             SmartDashboard.putNumber("degStds", degStds);
         }
-        else if ((temp[8] < meterToStop) && (distance < meterToStop)) {
+        else if ((temp[8] < distancefromLimeLight) && (distance < distancefromAprilTag)) {
             xyStds = 1.0;
             degStds = 12;
             // System.out.println(xyStds);
@@ -321,6 +322,9 @@ public class LimeLightSub extends SubsystemBase {
             SmartDashboard.putNumber("xyStds", xyStds);
             SmartDashboard.putNumber("degStds", degStds);
             
+        }
+        else{
+          return;
         }
           stds.set(0,0,xyStds);
           stds.set(1,0,xyStds);

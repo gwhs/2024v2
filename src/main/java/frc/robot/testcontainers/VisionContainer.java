@@ -5,10 +5,14 @@
 package frc.robot.testcontainers;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.util.sendable.Sendable;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -25,6 +29,9 @@ import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+
 import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.commands.LimeLight.FaceAprilTag;
 import frc.robot.commands.LimeLight.Sideways;
@@ -42,6 +49,7 @@ public class VisionContainer implements BaseContainer
 
   // The robot's subsystems and commands are defined here...
   public static SwerveSubsystem drivebase;
+  private final SendableChooser<Command> autoChooser;
 
   CommandXboxController driverXbox = new CommandXboxController(0);
 
@@ -59,13 +67,16 @@ public class VisionContainer implements BaseContainer
   {
     drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          getDriveTrainName()));
+    autoChooser = AutoBuilder.buildAutoChooser();
+    drivebase.resetOdometry(new Pose2d(2.5, 5.53,new Rotation2d(180)));
+    drivebase.zeroGyro();
     
 
     limeLightSub = new LimeLightSub("limelight" );                                                                   
     // Configure the trigger bindings
     configureBindings();
 
-    TeleopDrive closedFieldRel = new TeleopDrive(
+    TeleopDrive closedFieldRel = new TeleopDrive( 
         drivebase,
         () -> MathUtil.applyDeadband(-driverXbox.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(-driverXbox.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
@@ -74,7 +85,7 @@ public class VisionContainer implements BaseContainer
     TeleopDrive autoAlignVision = new TeleopDrive(
         drivebase,
         () -> 0,
-        () -> 0,
+        () -> 0, 
         () -> -limeLightSub.getError(), () -> true);
         
     
@@ -114,15 +125,16 @@ public class VisionContainer implements BaseContainer
     
     // points to AprilTag
     driverXbox.a().onTrue(new DriveToTag(drivebase, limeLightSub, () -> false));
-    driverXbox.y().onTrue(new AddVisionData(drivebase, limeLightSub));
+    // driverXbox.y().onTrue(new AddVisionData(drivebase, limeLightSub));
   }
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
    * @return the command to run in autonomous
    */
-  // public Command getAutonomousCommand()
-  // {
+  public Command getAutonomousCommand(){
+   return autoChooser.getSelected();
+  }
   //   // An example command will be run in autonomous
   //   return drivebase.getAutonomousCommand("New Path", true);
   // }

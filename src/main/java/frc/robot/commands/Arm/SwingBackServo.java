@@ -16,7 +16,7 @@ public class SwingBackServo extends Command{
     addRequirements(armSubsystem);
   }
   public void initialize() {   
-    armSubsystem.setServoAngle(0);
+    armSubsystem.setServoAngle(50);
   }
   
 
@@ -36,6 +36,6 @@ public class SwingBackServo extends Command{
   public boolean isFinished() {
     double motorAng = armSubsystem.getServoAngle();
   
-    return Math.abs(motorAng) < .001;
+    return Math.abs(motorAng-50) < .001;
   } 
 }

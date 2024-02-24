@@ -30,6 +30,9 @@ import edu.wpi.first.wpilibj.Counter;
 //import edu.wpi.first.wpilibj.Encoder;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import java.util.Map;
+
 import com.ctre.phoenix6.StatusCode;
 import edu.wpi.first.wpilibj.Servo;
 
@@ -57,11 +60,11 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int ROTATION_TO_DEGREES = 360;
     public static final double GEAR_RATIO = 118.587767088;
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
-    public static final double ENCODER_OFFSET = 3.8658; 
+    public static final double ENCODER_OFFSET = -12.224; 
     public static final int ARM_ID = 18;
     //
-    public static final double kSVolts = .27; 
-    public static final double kGVolts = .365;
+    public static final double KSVOLTS = 0; 
+    public static final double KGVOLTS = 0;
     //
     //Arm ID Jalen Tolbert
     public static final int PIZZABOX_ID = 23;
@@ -80,19 +83,17 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   private TalonFX m_pizzaBox;
   private Servo m_servo;
   private ArmFeedforward armFeedForward;
-  
-  
 
   public ArmSubsystem(int armId, String armCanbus, int pizzaBoxId, String pizzaBoxCanbus, int channel1, int channelServo)
   {
-    super(new ProfiledPIDController(.01, .001, 0, new Constraints(40, 10)));
-    getController().setTolerance(.5);
+    super(new ProfiledPIDController(5, .1, 0, new Constraints(2*Math.PI, 10)));
+    getController().setTolerance(2 * (Math.PI/180));
     //TrapezoidProfile either velocity or position
       m_arm = new TalonFX(armId, armCanbus);
       m_pizzaBox = new TalonFX(pizzaBoxId, pizzaBoxCanbus);
       m_encoder = new DutyCycleEncoder(channel1);
       m_servo = new Servo(channelServo);
-      armFeedForward = new ArmFeedforward(0, 0, 0, 0);
+      armFeedForward = new ArmFeedforward(Arm.KSVOLTS, Arm.KGVOLTS, 0, 0);
       
       
 
@@ -131,6 +132,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     Shuffleboard.getTab("Arm").addDouble("Encoder Angle", ()->encoderGetAngle()).withWidget(BuiltInWidgets.kGraph)
     .withSize(3,3)
     .withPosition(0, 0);
+    Shuffleboard.getTab("Arm").addDouble("Goal in degrees", ()->getController().getGoal().position * (180/Math.PI));
     Shuffleboard.getTab("Arm").addDouble("Motor Angle", ()->getArmAngle()).withWidget(BuiltInWidgets.kGraph)
     .withSize(3,3)
     .withPosition(3, 0);

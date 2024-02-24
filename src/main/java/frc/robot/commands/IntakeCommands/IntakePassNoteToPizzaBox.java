@@ -38,7 +38,7 @@ public class IntakePassNoteToPizzaBox extends Command {
   @Override
   public void execute() {
     armSubsystem.spinPizzaBoxMotor(-50, 10);
-    intakeSubsystem.spinIntakeMotor(50, 10);
+    intakeSubsystem.spinIntakeMotor(50, 100);
   }
 
   // Called once the command ends or is interrupted.

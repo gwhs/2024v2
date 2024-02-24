@@ -19,11 +19,14 @@ public class SpinAndSwing extends SequentialCommandGroup {
   //velocity = 100 for testing shooting 
   public SpinAndSwing(ArmSubsystem armSubsystem) {
     addCommands(
-        new SpinNoteContainerMotor (armSubsystem, 100, 150),
-        Commands.waitSeconds(.5), 
+        new SpinNoteContainerMotor (armSubsystem, 200, 150),
+        Commands.waitSeconds(1), 
         new SwingForwardServo(armSubsystem),
+        Commands.waitSeconds(.5),
         new SwingBackServo(armSubsystem),
-        new StopNoteContainerMotor(armSubsystem)
+        new StopNoteContainerMotor(armSubsystem),
+        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE)
+
         );
 
   }

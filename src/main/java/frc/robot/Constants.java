@@ -105,6 +105,3 @@ public final class Constants
     public static final double STEADY_STATE_TOLERANCE = 0.1;
   }
 }
-
-
-

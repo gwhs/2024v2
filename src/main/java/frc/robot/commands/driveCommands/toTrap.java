@@ -30,11 +30,6 @@ public class toTrap extends Command {
   @Override
   public void initialize() {
     bestTrapID = UtilMath.BlueBestTrap(m_Subsystem.getPose());
-  }
-
-  // Called every time the scheduler runs while the command is scheduled.
-  @Override
-  public void execute() {
     if(bestTrapID == 16)
     {
       // System.out.println("16 is best");
@@ -54,7 +49,7 @@ public class toTrap extends Command {
       targetY = bestTrap_Y + Math.cos(Math.PI/6)*0.7;;
 
     }
-    else
+    else if(bestTrapID == 14)
      {
     //    System.out.println("14 is best");
       bestTrap_X = Constants.FieldConstants.BLUE_TRAP_14_X;
@@ -64,7 +59,7 @@ public class toTrap extends Command {
       targetY = bestTrap_Y;
 
     }
-    if(bestTrapID == 11)
+    else if(bestTrapID == 11)
     {
       bestTrap_X = Constants.FieldConstants.RED_TRAP_11_X;
       bestTrap_Y = Constants.FieldConstants.RED_TRAP_11_Y;
@@ -80,7 +75,7 @@ public class toTrap extends Command {
       targetX = bestTrap_X + Math.sin(Math.PI/6)*0.7;
       targetY = bestTrap_Y - Math.cos(Math.PI/6)*0.7;
     }
-    else
+    else if(bestTrapID == 13)
     {
       bestTrap_X = Constants.FieldConstants.RED_TRAP_13_X;
       bestTrap_Y = Constants.FieldConstants.RED_TRAP_13_Y;
@@ -88,6 +83,12 @@ public class toTrap extends Command {
       targetX = bestTrap_X - 0.7;
       targetY = bestTrap_Y;
     }
+    
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
      
         Translation2d targetTranslation = new Translation2d(targetX - m_Subsystem.getPose().getX(), targetY - m_Subsystem.getPose().getY());
 

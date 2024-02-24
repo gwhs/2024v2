@@ -4,6 +4,12 @@
 
 package frc.robot.commands.driveCommands;
 
+import java.util.List;
+
+import com.pathplanner.lib.path.GoalEndState;
+import com.pathplanner.lib.path.PathConstraints;
+import com.pathplanner.lib.path.PathPlannerPath;
+
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -36,7 +42,7 @@ public class toTrap extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    bestTrapID = UtilMath.BlueBestTrap(m_Subsystem.getPose());
+    bestTrapID = UtilMath.bestTrapID(m_Subsystem.getPose());
     if(bestTrapID == 16)
     {
       // System.out.println("16 is best");
@@ -92,10 +98,6 @@ public class toTrap extends Command {
     }
 
     pose = new Translation2d(targetX, targetY);
-
-    PIDx.setSetpoint(targetX);
-
-    PIDy.setSetpoint(targetY);
     
   }
 

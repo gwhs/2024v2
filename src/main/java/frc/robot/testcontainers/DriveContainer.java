@@ -113,7 +113,7 @@ public class DriveContainer implements BaseContainer
 
     ShuffleboardTab toTrap = Shuffleboard.getTab("Trap");
     Shuffleboard.getTab("Trap").add("To Trap", new toTrap(drivebase));
-    toTrap.addDouble("Best Trap ID", ()-> UtilMath.RedBestTrap(drivebase.getPose()));
+    toTrap.addDouble("Best Trap ID", ()-> UtilMath.bestTrapID(drivebase.getPose()));
     
 
     ShuffleboardTab angleTest = Shuffleboard.getTab("Rotate In Place");

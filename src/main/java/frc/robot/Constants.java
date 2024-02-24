@@ -99,13 +99,30 @@ public final class Constants
   {
     public static final int ledPortNumber = 9;
   }
-  public static final class DriveConstants {
+  public static final class ROTATE_PID {
     public static final double kP = 0.04; 
     public static final double kI = 0.055; 
     public static final double kD = 0.000; 
     public static final double THETA_TOLERANCE = 0.1;
     public static final double STEADY_STATE_TOLERANCE = 0.1;
   }
+
+  public static final class ToTrapPID
+  {
+    //X PID
+    public static final double kPx = 0;
+    public static final double kIx = 0;
+    public static final double kDx = 0;
+    public static final double X_TOLERANCE = 0.2;
+    public static final double STEADY_STATE_TOLERANCE_X = 0.1;
+
+    public static final double kPy = 0;
+    public static final double kIy = 0;
+    public static final double kDy = 0;
+    public static final double Y_TOLERANCE = 0.2;
+    public static final double STEADY_STATE_TOLERANCE_Y = 0.1;
+  }
+
 
   public static final class FieldConstants
   {

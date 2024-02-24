@@ -29,7 +29,7 @@ public class rotateinPlace extends Command {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_Subsystem = subsystem;
     this.targetTDoubleSupplier = rotation;
-     PID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
+     PID = new PIDController(Constants.ROTATE_PID.kP, Constants.ROTATE_PID.kI, Constants.ROTATE_PID.kD);
 
     
     pose = new Translation2d();
@@ -43,8 +43,8 @@ public class rotateinPlace extends Command {
     targetTheta = targetTDoubleSupplier.getAsDouble();
     currTheta = m_Subsystem.getHeading().getDegrees();
     PID.setSetpoint(targetTheta);
-    PID.setTolerance(Constants.DriveConstants.THETA_TOLERANCE, Constants.DriveConstants.STEADY_STATE_TOLERANCE);
-    PID.setPID(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
+    PID.setTolerance(Constants.ROTATE_PID.THETA_TOLERANCE, Constants.ROTATE_PID.STEADY_STATE_TOLERANCE);
+    PID.setPID(Constants.ROTATE_PID.kP, Constants.ROTATE_PID.kI, Constants.ROTATE_PID.kD);
     PID.enableContinuousInput(-180, 180);
   }
 

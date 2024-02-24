@@ -4,6 +4,7 @@
 
 package frc.robot.commands.driveCommands;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -20,9 +21,15 @@ public class toTrap extends Command {
   private static double bestTrap_Y;
   private static double targetX;
   private static double targetY;
+  private static PIDController PIDx;
+  private static PIDController PIDy;
+  private static Translation2d pose;
   public toTrap(SwerveSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.m_Subsystem = subsystem;
+    PIDx = new PIDController(Constants.ToTrapPID.kPx, Constants.ToTrapPID.kIx, Constants.ToTrapPID.kDx);
+
+    PIDy = new PIDController(Constants.ToTrapPID.kPy, Constants.ToTrapPID.kIy, Constants.ToTrapPID.kDy);
     addRequirements(m_Subsystem);
   }
 
@@ -83,16 +90,20 @@ public class toTrap extends Command {
       targetX = bestTrap_X - 0.7;
       targetY = bestTrap_Y;
     }
+
+    pose = new Translation2d(targetX, targetY);
+
+    PIDx.setSetpoint(targetX);
+
+    PIDy.setSetpoint(targetY);
     
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-     
-        Translation2d targetTranslation = new Translation2d(targetX - m_Subsystem.getPose().getX(), targetY - m_Subsystem.getPose().getY());
 
-       m_Subsystem.drive(targetTranslation, 0, true);
+       m_Subsystem.drive(pose, 0, true);
   }
 
   // Called once the command ends or is interrupted.

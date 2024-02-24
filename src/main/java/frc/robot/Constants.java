@@ -48,7 +48,8 @@ public final class Constants
     public static final double LEFT_Y_DEADBAND  = 0.1;
     public static final double RIGHT_X_DEADBAND = 0.1;
     public static final double TURN_CONSTANT = 6;
-     public static final int kDriverControllerPort = 0;
+    public static final int kDriverControllerPort = 0;
+    public static final int kOperatorControllerPort = 1;
   }
 
   // move this else where create a data object
@@ -91,6 +92,11 @@ public final class Constants
     public static final double ENCODER_OFFSET = 220 + 97; //need to check the encoder value 
   }
 
+
+  public static final class LEDConstants
+  {
+    public static final int ledPortNumber = 9;
+  }
   public static final class DriveConstants {
     public static final double kP = 0.04; 
     public static final double kI = 0.055; 
@@ -99,6 +105,3 @@ public final class Constants
     public static final double STEADY_STATE_TOLERANCE = 0.1;
   }
 }
-
-
-

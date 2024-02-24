@@ -5,6 +5,7 @@
 package frc.robot.Util;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.DriverStation;
 
 /** Add your docs here. */
 public class UtilMath {
@@ -21,15 +22,37 @@ public class UtilMath {
         return  Math.abs(Math.toDegrees(calucatedRad));
     }
 
-    public static double BLUESpeakerTheta(Pose2d pose)
+    public static double SpeakerTheta(Pose2d pose)
     {
-
+        if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
+        {
+             if(pose.getY() >= BLUE_SPEAKER_Y)
+        {
+            return -90+caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
+        }
+        else if(pose.getY() <= BLUE_SPEAKER_Y)
+        {
+            return -90-caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
+        }
+        }
+        else if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
+        {
+            if(pose.getY() >= RED_SPEAKER_X)
+            {
+                return -90-caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
+            }
+            else if(pose.getY() <= RED_SPEAKER_Y)
+            {
+                return -90+caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
+            }
+        }
         return caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
+       
     }
 
     public static double REDSpeakerTheta(Pose2d pose)
     {
-
+    
         return caclucateRotateTheta(pose, RED_SPEAKER_X, RED_SPEAKER_Y);
     
     }

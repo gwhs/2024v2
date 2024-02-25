@@ -104,39 +104,47 @@ public class DriveContainer implements BaseContainer
 
 
     ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
-    ShuffleboardTab angleTab = Shuffleboard.getTab("Theta");
+    // ShuffleboardTab angleTab = Shuffleboard.getTab("Theta");
 
-    SmartDashboard.putData("Rotate To Speaker", new rotateinPlace(()->UtilMath.BLUESpeakerTheta(drivebase.getPose()), drivebase));
+    // SmartDashboard.putData("Rotate To Speaker", new rotateinPlace(()->UtilMath.BLUESpeakerTheta(drivebase.getPose()), drivebase));
 
-    angleTab.addDouble("Estimated Theta", ()->UtilMath.BLUESpeakerTheta(drivebase.getPose()));
+    // angleTab.addDouble("Estimated Theta", ()->UtilMath.BLUESpeakerTheta(drivebase.getPose()));
 
-    
-    driveTrainShuffleboardTab.addDouble("X Position", ()->drivebase.getPose().getX())
+    ShuffleboardTab angleTest = Shuffleboard.getTab("Rotate In Place");
+    SmartDashboard.putData("Rotate theta", new rotateinPlace(()->180, drivebase));
+    Shuffleboard.getTab("Rotate In Place").add("PID", 0).withWidget(BuiltInWidgets.kPIDController).getEntry();
+
+    angleTest.addDouble("Rotation Error", () -> rotateinPlace.angleRate)
       .withWidget(BuiltInWidgets.kGraph)
       .withSize(3,3)
       .withPosition(0, 0);
-    driveTrainShuffleboardTab.addDouble("Y Position", ()->drivebase.getPose().getY())
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(3, 0);
-    driveTrainShuffleboardTab.addDouble("Angel", ()->drivebase.getPose().getRotation().getDegrees())
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(6, 0);
+
+    // driveTrainShuffleboardTab.addDouble("X Position", ()->drivebase.getPose().getX())
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(0, 0);
+    // driveTrainShuffleboardTab.addDouble("Y Position", ()->drivebase.getPose().getY())
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(3, 0);
+    // driveTrainShuffleboardTab.addDouble("Angel", ()->drivebase.getPose().getRotation().getDegrees())
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(6, 0);
 
 
-    driveTrainShuffleboardTab.addDouble("X Velocity (m)", ()->drivebase.getFieldVelocity().vxMetersPerSecond)
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(0, 3);
-    driveTrainShuffleboardTab.addDouble("Y Velocity (m)", ()->drivebase.getFieldVelocity().vyMetersPerSecond)
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(3, 3);
-    driveTrainShuffleboardTab.addDouble("Angular Velocity (degree)", ()->drivebase.getFieldVelocity().omegaRadiansPerSecond * 180/Math.PI)
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(6, 3);
+    // driveTrainShuffleboardTab.addDouble("X Velocity (m)", ()->drivebase.getFieldVelocity().vxMetersPerSecond)
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(0, 3);
+    // driveTrainShuffleboardTab.addDouble("Y Velocity (m)", ()->drivebase.getFieldVelocity().vyMetersPerSecond)
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(3, 3);
+    // driveTrainShuffleboardTab.addDouble("Angular Velocity (degree)", ()->drivebase.getFieldVelocity().omegaRadiansPerSecond * 180/Math.PI)
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(6, 3);
 
 
     }

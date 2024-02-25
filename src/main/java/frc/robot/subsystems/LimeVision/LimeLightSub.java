@@ -109,8 +109,12 @@ public class LimeLightSub extends SubsystemBase {
     Shuffleboard.getTab("Limelight").addDouble("BotPose RY", ()->getBlueBotPose()[4]);
     Shuffleboard.getTab("Limelight").addDouble("BotPose RZ", ()->getBlueBotPose()[5]);
     Shuffleboard.getTab("Limelight").addDouble("BotPose ms", ()->getBlueBotPose()[6]);
-    Shuffleboard.getTab("Limelight").addDouble("ID", ()->getBlueBotPose()[7]);
-    Shuffleboard.getTab("Limelight").addDouble("Distance", ()->getBlueBotPose()[8]);
+    Shuffleboard.getTab("Limelight").addDouble("Tag Count", ()->getBlueBotPose()[7]);
+    Shuffleboard.getTab("Limelight").addDouble("Tag Span", ()->getBlueBotPose()[8]);
+    Shuffleboard.getTab("Limelight").addDouble("Average Distance", ()->getBlueBotPose()[9]);
+    Shuffleboard.getTab("Limelight").addDouble("Average Area", ()->getBlueBotPose()[10]);
+    Shuffleboard.getTab("Limelight").addDouble("Tag ID", ()->getBlueBotPose()[11]);
+
   
     
     
@@ -259,8 +263,8 @@ public class LimeLightSub extends SubsystemBase {
   }
 
   public double[] getBlueBotPose(){
-    double[] blueBotPose = this.blueBotPose.getDoubleArray(new double[7]);
-    double[] colorBotPose = new double[9];
+    double[] blueBotPose = this.blueBotPose.getDoubleArray(new double[11]);
+    double[] colorBotPose = new double[12];
 
     colorBotPose[0] = blueBotPose[0];
     colorBotPose[1] = blueBotPose[1];
@@ -270,13 +274,24 @@ public class LimeLightSub extends SubsystemBase {
     colorBotPose[5] = blueBotPose[5];
     colorBotPose[6] = blueBotPose[6];
 
+    // if(hasTarget()){
+    // colorBotPose[7] = getTID()+1;
+    //   //if(getTID() != -1){
+    //   colorBotPose[8] = Math.sqrt(Math.pow(apriltag[getTID()][0]-blueBotPose[0] ,2) + 
+    //                            Math.pow(apriltag[getTID()][1]-blueBotPose[1] ,2));
+    //   //} 
+    // }
+    colorBotPose[7] = blueBotPose[7];
+    colorBotPose[8] = blueBotPose[8];
+    colorBotPose[10] = blueBotPose[10];
+
     if(hasTarget()){
-    colorBotPose[7] = getTID()+1;
-      //if(getTID() != -1){
-      colorBotPose[8] = Math.sqrt(Math.pow(apriltag[getTID()][0]-blueBotPose[0] ,2) + 
-                               Math.pow(apriltag[getTID()][1]-blueBotPose[1] ,2));
-      //} 
+      colorBotPose[9] = blueBotPose[9];
+      colorBotPose[11] = getTID()+1;
+
     }
+    
+
     return colorBotPose; 
   }
 
@@ -296,7 +311,9 @@ public class LimeLightSub extends SubsystemBase {
   public void setData(){
     double[] temp = getBlueBotPose();
     Pose2d currentPose = VisionContainer.drivebase.getPose();
-    double distance = Math.hypot( temp[0]- currentPose.getX(), temp[1]- currentPose.getY());
+    double distance = Math.sqrt(Math.pow(temp[0]- currentPose.getX(),2) + Math.pow(temp[1]- currentPose.getY() ,2));
+    // double distance = Math.hypot( temp[0]- currentPose.getX(), temp[1]- currentPose.getY());
+    System.out.println(distance);
     double distancefromAprilTag = 0.8; //0.8
     double distancefromLimeLight = 2.5; //2.5
 
@@ -305,8 +322,9 @@ public class LimeLightSub extends SubsystemBase {
         double xyStds= 0;
         double degStds = 0;
         Matrix<N3, N1> stds = new Matrix<N3, N1>(Nat.N3(), Nat.N1());
-        int tagsVisable = LimelightHelpers.getLatestResults("limelight").targetingResults.targets_Fiducials.length;
-        if(tagsVisable >= 2 ){
+        // int tagsVisable = LimelightHelpers.getLatestResults("limelight").targetingResults.targets_Fiducials.length;
+        LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+        if(limelightMeasurement.tagCount >= 2 ){
             xyStds = 0.5;
             degStds = 6;
             // System.out.println(xyStds);
@@ -314,7 +332,7 @@ public class LimeLightSub extends SubsystemBase {
             SmartDashboard.putNumber("xyStds", xyStds);
             SmartDashboard.putNumber("degStds", degStds);
         }
-        else if ((temp[8] < distancefromLimeLight) && (distance < distancefromAprilTag)) {
+        else if ((temp[9] < distancefromLimeLight) && (distance < distancefromAprilTag)) {
             xyStds = 1.0;
             degStds = 12;
             // System.out.println(xyStds);

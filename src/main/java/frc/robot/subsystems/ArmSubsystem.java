@@ -35,7 +35,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int kSlotIdx = 0;
     public static final int kPIDLoopIdx = 0;
     public static final int kTimeoutMs = 30;
-    public static final int ARM_MAX_ANGLE = 300;
+    public static final int ARM_MAX_ANGLE = 320;
     public static final int ARM_MIN_ANGLE = 0;
     public static final int ROTATION_TO_DEGREES = 360;
     public static final double GEAR_RATIO = 118.587767088;
@@ -48,7 +48,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     //
     //Arm ID Jalen Tolbert
     public static final int ENCODER_DIO_SLOT = 0;
-    public static final int AMP_ANGLE = 0;
+    public static final int AMP_ANGLE = 320;
     public static final int TRAP_ANGLE = 0;
     public static final int SPEAKER_LOW_ANGLE = 100;
     public static final int SPEAKER_HIGH_ANGLE = 204;

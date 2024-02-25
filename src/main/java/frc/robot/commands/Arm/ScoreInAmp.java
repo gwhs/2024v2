@@ -12,9 +12,12 @@ public class ScoreInAmp extends SequentialCommandGroup {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   //velocity = 100 for testing shooting 
-  public ScoreInAmp(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, double vel) {
+  public ScoreInAmp(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem) {
     addCommands(
-        new SpinAndSwing(pizzaBoxSubsystem, armSubsystem, 300, vel));
+        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.AMP_ANGLE),
+        new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 50),
+        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE)
+    );
   }
 
   

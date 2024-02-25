@@ -5,10 +5,13 @@ import java.io.File;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Arm.SpinAndSwing;
+import frc.robot.commands.Arm.SpinNoteContainerMotor;
+import frc.robot.commands.Arm.SpinToArmAngle;
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
 import frc.robot.commands.IntakeCommands.IntakePickUpFromGround;
 import frc.robot.commands.IntakeCommands.PickUpFromGroundAndPassToPizzaBox;
@@ -75,6 +78,13 @@ public class GameRobotContainer implements BaseContainer {
         driverController.y().onTrue(new SpinAndSwing(m_PizzaBoxSubsystem, m_ArmSubsystem, 245, 150));
 
         driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));    
+
+        driverController.x().onTrue(new SpinToArmAngle(m_ArmSubsystem, 300).andThen(new SpinNoteContainerMotor(m_PizzaBoxSubsystem, 100, 200)));
+
+        // driverController.leftBumper().onTrue(Commands.runOnce(() -> {
+        //     CommandScheduler.getInstance().cancelAll()});
+        //     );
+
 //Testing
     }
 

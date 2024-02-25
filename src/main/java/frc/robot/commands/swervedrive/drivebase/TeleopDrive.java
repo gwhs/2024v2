@@ -69,9 +69,9 @@ public class TeleopDrive extends Command
     // Drive using raw values.
     if(isSlow)
     {
-      xVelocity *= 0.5;
-      yVelocity *= 0.5;
-      angVelocity *= 0.5;
+      xVelocity *= 0.25;
+      yVelocity *= 0.25;
+      angVelocity *= 0.25;
     }
     swerve.drive(new Translation2d(xVelocity * swerve.maximumSpeed, yVelocity * swerve.maximumSpeed),
                  angVelocity * controller.config.maxAngularVelocity,

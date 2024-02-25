@@ -8,8 +8,10 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.Arm.SpinAndSwing;
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
 import frc.robot.commands.IntakeCommands.IntakePickUpFromGround;
+import frc.robot.commands.IntakeCommands.PickUpFromGroundAndPassToPizzaBox;
 import frc.robot.commands.IntakeCommands.SpinIntakePID;
 import frc.robot.commands.ledcommands.ChangeLEDColor;
 import frc.robot.commands.ledcommands.ChangeLEDToBlue;
@@ -67,23 +69,13 @@ public class GameRobotContainer implements BaseContainer {
 
 
     private void configureBindings() {
-         final PIDController intakeController = new PIDController(.005, .0, .0);
-        intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
-        
-        driverController.x().onTrue(new SpinIntakePID(m_IntakeSubsystem, 0));
-        driverController.y().onTrue(new SpinIntakePID(m_IntakeSubsystem, 106));
+//TESTING
+        driverController.a().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem));
 
-        driverController.a().onTrue(new IntakePickUpFromGround(m_IntakeSubsystem));
-        driverController.b().onTrue(new IntakePassNoteToPizzaBox(m_IntakeSubsystem, m_PizzaBoxSubsystem));
-        driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));   
-        
-        //This should be a parallel command with other stuff
-       /* / driverController.x().onTrue(new ChangeLEDToBlue(led));//pressing x on the controller runs a
-        driverController.y().onTrue(new ChangeLEDToRed(led));
-        driverController.b().onTrue(new ChangeLEDToGreen(led));
-        driverController.a().onTrue(new ChangeLEDColor(led, 255, 0, 255));
-        driverController.rightBumper().onTrue(new ChangeLEDColor(led, 0, 0, 0));
-        */
+        driverController.y().onTrue(new SpinAndSwing(m_PizzaBoxSubsystem, m_ArmSubsystem, 245, 150));
+
+        driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));    
+//Testing
     }
 
     public void setMotorBrake(boolean brake)

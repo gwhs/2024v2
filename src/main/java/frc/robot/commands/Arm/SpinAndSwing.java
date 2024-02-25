@@ -23,7 +23,7 @@ public class SpinAndSwing extends SequentialCommandGroup {
     addCommands(
         new SpinArmAndPizzaBox(pizzaBoxSubsystem, armSubsystem, angle, vel),
         new SpinNoteContainerMotor(pizzaBoxSubsystem, vel, 500),
-        Commands.waitUntil(()->pizzaBoxSubsystem.isAtVelocity(100)),
+        Commands.waitUntil(()->pizzaBoxSubsystem.isAtVelocity(.1)),
         new SwingForwardServo(pizzaBoxSubsystem),
         Commands.waitSeconds(.5),
         new SwingBackServo(pizzaBoxSubsystem),

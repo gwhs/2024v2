@@ -20,6 +20,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Util.UtilMath;
 import frc.robot.Robot;
 import frc.robot.commands.driveCommands.SwitchDrivebase;
+import frc.robot.commands.driveCommands.DecreaseSpeed;
 import frc.robot.commands.driveCommands.rotateinPlace;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
@@ -41,12 +42,13 @@ public class DriveContainer implements BaseContainer
 
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase;
+  private TeleopDrive closedFieldRel;
 
   CommandXboxController driverController = new CommandXboxController(1);
   CommandXboxController driverXbox = new CommandXboxController(0);
 
   public String getDriveTrainName(){
-    return "swerve/hajel_kraken";
+    return "swerve/ryker_falcon";
   }
 
   /**
@@ -57,9 +59,8 @@ public class DriveContainer implements BaseContainer
     drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          getDriveTrainName()));
 
+
     // Configure the trigger bindings
-    configureBindings();
-     
     AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase,
                                                           // Applies deadbands and inverts controls because joysticks
                                                           // are back-right positive while robot
@@ -97,7 +98,7 @@ public class DriveContainer implements BaseContainer
                                                     () -> MathUtil.applyDeadband(driverXbox.getLeftX(),
                                                                                  OperatorConstants.LEFT_X_DEADBAND),
                                                     () -> driverXbox.getRawAxis(2), () -> true);
-    TeleopDrive closedFieldRel = new TeleopDrive(
+     closedFieldRel = new TeleopDrive(
         drivebase,
         () -> MathUtil.applyDeadband(-driverXbox.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(-driverXbox.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
@@ -119,6 +120,8 @@ FaceSpeaker speaker = new FaceSpeaker(drivebase,
                                                                     
 
 
+          configureBindings();
+     
 
     drivebase.setDefaultCommand(closedFieldRel);  //TO CHANGE DRIVE BASE
     //drivebase.test();
@@ -138,28 +141,33 @@ FaceSpeaker speaker = new FaceSpeaker(drivebase,
       .withWidget(BuiltInWidgets.kGraph)
       .withSize(3,3)
       .withPosition(0, 0);
-    driveTrainShuffleboardTab.addDouble("Y Position", ()->drivebase.getPose().getY())
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(3, 0);
-    driveTrainShuffleboardTab.addDouble("Angel", ()->drivebase.getPose().getRotation().getDegrees())
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(6, 0);
+
+    // driveTrainShuffleboardTab.addDouble("X Position", ()->drivebase.getPose().getX())
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(0, 0);
+    // driveTrainShuffleboardTab.addDouble("Y Position", ()->drivebase.getPose().getY())
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(3, 0);
+    // driveTrainShuffleboardTab.addDouble("Angel", ()->drivebase.getPose().getRotation().getDegrees())
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(6, 0);
 
 
-    driveTrainShuffleboardTab.addDouble("X Velocity (m)", ()->drivebase.getFieldVelocity().vxMetersPerSecond)
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(0, 3);
-    driveTrainShuffleboardTab.addDouble("Y Velocity (m)", ()->drivebase.getFieldVelocity().vyMetersPerSecond)
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(3, 3);
-    driveTrainShuffleboardTab.addDouble("Angular Velocity (degree)", ()->drivebase.getFieldVelocity().omegaRadiansPerSecond * 180/Math.PI)
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(6, 3);
+    // driveTrainShuffleboardTab.addDouble("X Velocity (m)", ()->drivebase.getFieldVelocity().vxMetersPerSecond)
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(0, 3);
+    // driveTrainShuffleboardTab.addDouble("Y Velocity (m)", ()->drivebase.getFieldVelocity().vyMetersPerSecond)
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(3, 3);
+    // driveTrainShuffleboardTab.addDouble("Angular Velocity (degree)", ()->drivebase.getFieldVelocity().omegaRadiansPerSecond * 180/Math.PI)
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(6, 3);
 
 
     }
@@ -176,6 +184,9 @@ FaceSpeaker speaker = new FaceSpeaker(drivebase,
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+    driverXbox.leftBumper().whileTrue(new DecreaseSpeed(closedFieldRel));
+
+    
     
 
     // driverXbox.a().onTrue(
@@ -212,4 +223,4 @@ FaceSpeaker speaker = new FaceSpeaker(drivebase,
     public void simulationPeriodic() {
      
     }
-}
+  }

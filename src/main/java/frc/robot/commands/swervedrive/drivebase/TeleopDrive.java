@@ -4,9 +4,13 @@
 
 package frc.robot.commands.swervedrive.drivebase;
 
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.Constants;
+import frc.robot.Util.UtilMath;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
@@ -24,7 +28,10 @@ public class TeleopDrive extends Command
   private final DoubleSupplier   omega;
   private final BooleanSupplier  driveMode;
   private final SwerveController controller;
-  private boolean isFaceSpeaker;
+  public boolean isFaceSpeaker;
+  public boolean isSlow;
+  private final PIDController PID;
+  private double currTheta;
 
   /**
    * Creates a new ExampleCommand.
@@ -40,6 +47,8 @@ public class TeleopDrive extends Command
     this.omega = omega;
     this.driveMode = driveMode;
     this.controller = swerve.getSwerveController();
+    this.PID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
+
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerve);
   }
@@ -48,6 +57,11 @@ public class TeleopDrive extends Command
   @Override
   public void initialize()
   {
+    currTheta = swerve.getHeading().getDegrees();
+    PID.setSetpoint(UtilMath.SpeakerTheta(swerve.getPose()));
+    PID.setTolerance(Constants.DriveConstants.THETA_TOLERANCE, Constants.DriveConstants.STEADY_STATE_TOLERANCE);
+    PID.setPID(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
+    PID.enableContinuousInput(-180, 180);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -57,17 +71,29 @@ public class TeleopDrive extends Command
     double xVelocity   = Math.pow(vX.getAsDouble(), 3);
     double yVelocity   = Math.pow(vY.getAsDouble(), 3);
     double angVelocity = Math.pow(omega.getAsDouble(), 3);
-    SmartDashboard.putNumber("vX", xVelocity);
-    SmartDashboard.putNumber("vY", yVelocity);
-    SmartDashboard.putNumber("omega", angVelocity);
-    SmartDashboard.putNumber("rawX", xVelocity *swerve.maximumSpeed);
-    SmartDashboard.putNumber("rawY", yVelocity *swerve.maximumSpeed);
-    SmartDashboard.putNumber("rawAng", angVelocity * controller.config.maxAngularVelocity);
+    currTheta = swerve.getHeading().getDegrees();
+
+    // SmartDashboard.putNumber("vX", xVelocity);
+    // SmartDashboard.putNumber("vY", yVelocity);
+    // SmartDashboard.putNumber("omega", angVelocity);
+    // SmartDashboard.putNumber("rawX", xVelocity *swerve.maximumSpeed);
+    // SmartDashboard.putNumber("rawY", yVelocity *swerve.maximumSpeed);
+    // SmartDashboard.putNumber("rawAng", angVelocity * controller.config.maxAngularVelocity);
 
     
 
     // Drive using raw values.
-    
+    if(isFaceSpeaker)
+    {
+      angVelocity = PID.calculate(currTheta);
+    }
+
+    if(isSlow)
+    {
+      xVelocity *= 0.25;
+      yVelocity *= 0.25;
+      angVelocity *= 0.25;
+    }
     swerve.drive(new Translation2d(xVelocity * swerve.maximumSpeed, yVelocity * swerve.maximumSpeed),
                  angVelocity * controller.config.maxAngularVelocity,
                  driveMode.getAsBoolean());
@@ -79,7 +105,7 @@ public class TeleopDrive extends Command
   {
   }
 
-  // Returns true when the command should end.
+  // Returns true when the command ould end.
   @Override
   public boolean isFinished()
   {

@@ -24,6 +24,7 @@ public class TeleopDrive extends Command
   private final DoubleSupplier   omega;
   private final BooleanSupplier  driveMode;
   private final SwerveController controller;
+  public boolean isSlow;
 
   /**
    * Creates a new ExampleCommand.
@@ -66,6 +67,12 @@ public class TeleopDrive extends Command
     
 
     // Drive using raw values.
+    if(isSlow)
+    {
+      xVelocity *= 0.25;
+      yVelocity *= 0.25;
+      angVelocity *= 0.25;
+    }
     swerve.drive(new Translation2d(xVelocity * swerve.maximumSpeed, yVelocity * swerve.maximumSpeed),
                  angVelocity * controller.config.maxAngularVelocity,
                  driveMode.getAsBoolean());

@@ -19,6 +19,7 @@ import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.PizzaBoxSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 public class GameRobotContainer implements BaseContainer {
@@ -29,6 +30,7 @@ public class GameRobotContainer implements BaseContainer {
     private final SwerveSubsystem m_drivebase;
     private final IntakeSubsystem m_IntakeSubsystem;
     private final ArmSubsystem m_ArmSubsystem;
+    private final PizzaBoxSubsystem m_PizzaBoxSubsystem;
 
     public String getDriveTrainName(){
         return "swerve/hajel_kraken";
@@ -38,9 +40,14 @@ public class GameRobotContainer implements BaseContainer {
     public GameRobotContainer() {
         m_drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          getDriveTrainName()));
-        m_IntakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID, Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, 0, "rio");
+        m_IntakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, "rio");
 
-        m_ArmSubsystem = new ArmSubsystem(0, getDriveTrainName(), 0, getDriveTrainName(), 0, 0, 0);
+
+        m_ArmSubsystem = new ArmSubsystem(ArmSubsystem.Arm.ARM_ID, "CAN_Network", 
+                        ArmSubsystem.Arm.ENCODER_DIO_SLOT);
+
+        m_PizzaBoxSubsystem = new PizzaBoxSubsystem(PizzaBoxSubsystem.PizzaBox.PIZZABOX_ID, 
+                    "rio", PizzaBoxSubsystem.PizzaBox.SERVO_PWN_SLOT);
 
         LEDSubsystem led = new LEDSubsystem(Constants.LEDConstants.ledPortNumber);
 
@@ -63,11 +70,11 @@ public class GameRobotContainer implements BaseContainer {
          final PIDController intakeController = new PIDController(.005, .0, .0);
         intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
         
-        driverController.x().onTrue(new SpinIntakePID(intakeController, m_IntakeSubsystem, 0));
-        driverController.y().onTrue(new SpinIntakePID(intakeController, m_IntakeSubsystem, 106));
+        driverController.x().onTrue(new SpinIntakePID(m_IntakeSubsystem, 0));
+        driverController.y().onTrue(new SpinIntakePID(m_IntakeSubsystem, 106));
 
         driverController.a().onTrue(new IntakePickUpFromGround(m_IntakeSubsystem));
-        driverController.b().onTrue(new IntakePassNoteToPizzaBox(m_IntakeSubsystem));
+        driverController.b().onTrue(new IntakePassNoteToPizzaBox(m_IntakeSubsystem, m_PizzaBoxSubsystem));
         driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));   
         
         //This should be a parallel command with other stuff

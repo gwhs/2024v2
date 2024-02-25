@@ -36,10 +36,10 @@ public class LimeLightSub extends SubsystemBase {
 
   NetworkTableEntry tid = networkTable.getEntry("tid"); // gets apriltag id
 
-  NetworkTableEntry botPoseBlue = networkTable.getEntry("botpose_wpiblue"); // botpose relative to blue alliance
+  NetworkTableEntry botPoseBlue = networkTable.getEntry("botpose_wpiblue");
   NetworkTableEntry botPoseRed = networkTable.getEntry("botpose_wpibred"); // botpose relative to red alliance
 
-  NetworkTableEntry botPose = networkTable.getEntry("botpose"); // botpose mega
+  NetworkTableEntry botPose = networkTable.getEntry("botpose_wpiblue"); // botpose relatived to blue alliance
 
   // may be useful later
   private double kCameraHeight =
@@ -123,6 +123,9 @@ public class LimeLightSub extends SubsystemBase {
   
   // ta error from expected ta size
   public double getTaDistance() {
-    return 85.0 - (getTa() * 100);
+    if (getID() > 0) {
+      return 85.0 - (getTa() * 100);
+    }
+    return 0;
   }
 }

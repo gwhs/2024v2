@@ -12,7 +12,7 @@ public class ApriltagController extends SubsystemBase {
     private final LimeLightSub limeLightSub;
 
     // forward PID constants
-    private final double kPX = 0.05;
+    private final double kPX = 1; //0.05
     private final double kDX = 0;
     private final double kIX = 0;
 
@@ -62,7 +62,7 @@ public class ApriltagController extends SubsystemBase {
     // front and back
     public double getDistanceForward() {
         if (limeLightSub.getID() > 0) {
-            return apriltag[limeLightSub.getID()][0] - swerve.getPose().getX();
+            return Math.abs(apriltag[limeLightSub.getID()][0] - swerve.getPose().getX());
         }
         return Double.POSITIVE_INFINITY;
     }
@@ -76,8 +76,11 @@ public class ApriltagController extends SubsystemBase {
 
     // testing using botpose distance
     public double getBotPoseDistance() {
+        if (limeLightSub.getID() > 0) {
         return Math.sqrt(Math.pow(apriltag[limeLightSub.getID()][0] - limeLightSub.getBotPose()[0],2) + 
                          Math.pow(apriltag[limeLightSub.getID()][1] - limeLightSub.getBotPose()[1],2));
+        }
+        return 0;
     }
     public double updatePIDForwardBotPose() {
         forwardOutput = PIDForward.calculate(getBotPoseDistance()); 
@@ -141,7 +144,6 @@ public class ApriltagController extends SubsystemBase {
         }
         return velocityError;
     }
-
 
 
     // FORWARD using Apriltag TA values

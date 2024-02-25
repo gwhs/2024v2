@@ -6,6 +6,8 @@ package frc.robot.testcontainers;
 
 import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -31,6 +33,7 @@ import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
+import java.time.Instant;
 
 import frc.robot.subsystems.LimeVision.ApriltagController;
 import frc.robot.subsystems.LimeVision.LimeLightSub;
@@ -61,7 +64,7 @@ public class VisionContainer implements BaseContainer
   public VisionContainer()
   {
     drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
-                                                                         getDriveTrainName()));
+                                                                         getDriveTrainName()));                       
     limeLightSub = new LimeLightSub("limelight");
     limeLightTab = Shuffleboard.getTab("Limelight");
                                                                          
@@ -76,36 +79,40 @@ public class VisionContainer implements BaseContainer
       .withWidget(BuiltInWidgets.kGraph)
       .withSize(3,3)
       .withPosition(3, 0);
-    limeLightTab.addDouble("Rotation Output", ()->apriltagController.getErrorRotation())
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(3, 0);
-    limeLightTab.addDouble("Forward TA Output", ()->apriltagController.getErrorForwardTA())
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(3, 0);
+    // limeLightTab.addDouble("Rotation Output", ()->apriltagController.getErrorRotation())
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(3, 0);
+    // limeLightTab.addDouble("Forward TA Output", ()->apriltagController.getErrorForwardTA())
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(3, 0);
     
-    limeLightTab.addDouble("Robot Heading", ()->apriltagController.getRobotHeading())
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(3, 0);
+    // limeLightTab.addDouble("Robot Heading", ()->apriltagController.getRobotHeading())
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(3, 0);
 
       limeLightTab.addDouble("Rotate Error", ()-> rotateinPlace.angleRate)
       .withWidget(BuiltInWidgets.kGraph)
       .withSize(3,3)
       .withPosition(3, 0);
 
+    // limeLightTab.addNumber("Distance Bot Pose", ()-> apriltagController.getBotPoseDistance());
     limeLightTab.addNumber("Distance X Input", ()-> apriltagController.getDistanceForward());
-    limeLightTab.addNumber("Distance Y Input", ()-> apriltagController.getDistanceSideways());
-    limeLightTab.addNumber("Distance Tx Input", ()-> limeLightSub.getTx());
+    // limeLightTab.addNumber("Distance Y Input", ()-> apriltagController.getDistanceSideways());
+    // limeLightTab.addNumber("Distance Tx Input", ()-> limeLightSub.getTx());
     limeLightTab.addNumber("Distance X Output", ()-> apriltagController.getErrorForward());
-    limeLightTab.addNumber("Distance Y Output", ()-> apriltagController.getErrorSideways());
-    limeLightTab.addNumber("Distance Tx Output", ()-> apriltagController.getErrorRotation());
-    limeLightTab.addNumber("TA Size", ()-> limeLightSub.getTa());
-    limeLightTab.addNumber("TA Distance", ()-> limeLightSub.getTaDistance());
+    // limeLightTab.addNumber("Distance Y Output", ()-> apriltagController.getErrorSideways());
+    // limeLightTab.addNumber("Distance Tx Output", ()-> apriltagController.getErrorRotation());
+    // limeLightTab.addNumber("TA Size", ()-> limeLightSub.getTa());
+    // limeLightTab.addNumber("TA Distance", ()-> limeLightSub.getTaDistance());
 
     limeLightTab.addNumber("Current Robot Heading", ()-> apriltagController.getRobotHeading());
     limeLightTab.addNumber("Get Tag Heading", ()-> apriltagController.getApriltagHeading());
+
+    limeLightTab.addNumber("Robot Pose X", ()-> drivebase.getPose().getX());
+    limeLightTab.addNumber("Robot Pose Y", ()-> drivebase.getPose().getY());
 
     // limeLightSub.addNumber("TA", ()-> limeLightSub.getTa());
 
@@ -133,14 +140,15 @@ public class VisionContainer implements BaseContainer
   {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
-    driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+    // driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
 
     // driverXbox.y().onTrue(new FaceAprilTag(drivebase, apriltagController));
     // driverXbox.a().onTrue(new Sideways(drivebase, apriltagController));
 
     // driverXbox.y().onTrue(new rotateinPlace(() -> 90, drivebase));
     driverXbox.b().onTrue(new FaceAprilTag(drivebase, apriltagController));
-    driverXbox.y().onTrue(new ForwardTA(drivebase, apriltagController));
+    driverXbox.y().onTrue(new InstantCommand(drivebase::resetStartPos));
+    driverXbox.x().onTrue(new Forward(drivebase, apriltagController));
 
     driverXbox.a().onTrue(new Align(drivebase, apriltagController));
   }

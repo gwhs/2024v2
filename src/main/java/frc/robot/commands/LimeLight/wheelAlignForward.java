@@ -5,24 +5,23 @@
 package frc.robot.commands.LimeLight;
 
 import frc.robot.subsystems.LimeVision.ApriltagController;
-import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class Forward extends Command {
+public class wheelAlignForward extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final SwerveSubsystem driSwerveSubsystem;
   private final ApriltagController apriltagController;
 
-  private double robotHeading;
+  private double distance;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public Forward(SwerveSubsystem driSwerveSubsystem, ApriltagController apriltagController) {
+  public wheelAlignForward(SwerveSubsystem driSwerveSubsystem, ApriltagController apriltagController) {
     this.driSwerveSubsystem = driSwerveSubsystem;
     this.apriltagController = apriltagController;
     // Use addRequirements() here to declare subsystem dependencies.
@@ -32,22 +31,12 @@ public class Forward extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    robotHeading = driSwerveSubsystem.getPose().getRotation().getRadians();
-    apriltagController.setPoint(0, "forward"); // fixed x distance from tag before crashing field perimeter
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double distance = apriltagController.updatePIDForward();
-    double angle = apriltagController.updatePIDRotation();
-
-    double dx = distance * Math.cos(robotHeading);
-    double dy = distance * Math.sin(robotHeading);
-
-    
-    driSwerveSubsystem.drive(new Translation2d(-dx, -dy), angle, true);
-    // driSwerveSubsystem.drive(new Translation2d(-distance, 0), angle, false);
+    driSwerveSubsystem.drive(new Translation2d(10, 0), 0, false);
     
   }
 
@@ -58,11 +47,6 @@ public class Forward extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean isWithinTolerance = Math.abs(apriltagController.getErrorForward()) < 0.01;
-    boolean isDerivativeZero = Math.abs(apriltagController.getDerivative("forward")) < 0.01;
-    if (isWithinTolerance && isDerivativeZero) {
-      System.out.println("finished");
-    }
-    return (isWithinTolerance && isDerivativeZero);
+    return false;
   }
 }

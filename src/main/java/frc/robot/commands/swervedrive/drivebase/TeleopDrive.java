@@ -24,6 +24,7 @@ public class TeleopDrive extends Command
   private final DoubleSupplier   omega;
   private final BooleanSupplier  driveMode;
   private final SwerveController controller;
+  private boolean isFaceSpeaker;
 
   /**
    * Creates a new ExampleCommand.
@@ -66,6 +67,7 @@ public class TeleopDrive extends Command
     
 
     // Drive using raw values.
+    
     swerve.drive(new Translation2d(xVelocity * swerve.maximumSpeed, yVelocity * swerve.maximumSpeed),
                  angVelocity * controller.config.maxAngularVelocity,
                  driveMode.getAsBoolean());

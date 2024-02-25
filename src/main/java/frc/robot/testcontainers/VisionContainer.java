@@ -38,7 +38,7 @@ public class VisionContainer implements BaseContainer
   LimeLightSub limeLightSub = new LimeLightSub("limelight");
 
   public String getDriveTrainName(){
-    return "swerve/vision";
+    return "swerve/ryker_falcon";
   }
 
   /**
@@ -58,13 +58,7 @@ public class VisionContainer implements BaseContainer
         () -> MathUtil.applyDeadband(-driverXbox.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
         () -> driverXbox.getLeftTriggerAxis() - driverXbox.getRightTriggerAxis(), () -> true);
 
-    TeleopDrive autoAlignVision = new TeleopDrive(
-        drivebase,
-        () -> 0,
-        () -> 0,
-        () -> -limeLightSub.getError(), () -> true);
-
-    drivebase.setDefaultCommand(autoAlignVision);  //TO CHANGE DRIVE BASE
+    drivebase.setDefaultCommand(closedFieldRel);  //TO CHANGE DRIVE BASE
 
   }
 

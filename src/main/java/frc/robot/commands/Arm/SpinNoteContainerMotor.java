@@ -3,7 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.Arm;
-import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.PizzaBoxSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class SpinNoteContainerMotor extends Command {
@@ -12,13 +12,13 @@ public class SpinNoteContainerMotor extends Command {
   private double acceleration;
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ArmSubsystem armSubsystem;
+  private final PizzaBoxSubsystem pizzaBoxSubsystem;
 
-  public SpinNoteContainerMotor(ArmSubsystem armSubsystem, double velocity, double acceleration) {
-    this.armSubsystem = armSubsystem;
+  public SpinNoteContainerMotor(PizzaBoxSubsystem pizzaBoxSubsystem, double velocity, double acceleration) {
+    this.pizzaBoxSubsystem = pizzaBoxSubsystem;
     this.velocity = velocity;
     this.acceleration = acceleration;
-    addRequirements(armSubsystem);
+   addRequirements(pizzaBoxSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -28,7 +28,7 @@ public class SpinNoteContainerMotor extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSubsystem.spinPizzaBoxMotor(velocity, acceleration);
+    pizzaBoxSubsystem.spinPizzaBoxMotor(velocity, acceleration);
   }
 
   // Called once the command ends or is interrupted.

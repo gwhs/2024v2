@@ -6,25 +6,26 @@ package frc.robot.commands.IntakeCommands;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
+import frc.robot.subsystems.PizzaBoxSubsystem;
 
-import javax.swing.plaf.TreeUI;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 public class IntakePassNoteToPizzaBox extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private IntakeSubsystem intakeSubsystem;
-  private boolean prevSensorValue;
-  private boolean currentSensorValue;
-  private boolean noteLatch;
-  private int counter; 
+  private PizzaBoxSubsystem pizzaBoxSubsystem;
+  private boolean prevSensorValue = false;
+  private boolean currentSensorValue = false;
+  private boolean noteLatch = false;
+  private int counter = 0;
 
-  public IntakePassNoteToPizzaBox(IntakeSubsystem subsystem) {
+  public IntakePassNoteToPizzaBox(IntakeSubsystem subsystem, PizzaBoxSubsystem pizzaBoxSubsystem) {
     intakeSubsystem = subsystem;
+    this.pizzaBoxSubsystem = pizzaBoxSubsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intakeSubsystem);
+    addRequirements(pizzaBoxSubsystem, intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -34,35 +35,38 @@ public class IntakePassNoteToPizzaBox extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.spinIntakeMotor();
+    pizzaBoxSubsystem.spinPizzaBoxMotor(-50, 10);
+    intakeSubsystem.spinIntakeMotor(50, 100);
   }
 
   // Called once the command ends or is interrupted.
   // runs once when isFinished is called
   @Override
   public void end(boolean interrupted) {
+    pizzaBoxSubsystem.stopPizzaBoxMotor();
     intakeSubsystem.stopIntakeMotors();
   }
 
-  // Returns true when the command should end.
-  // called every cycle
+  // Returns true when the command should end; called every cycle
   @Override
   public boolean isFinished() {
-    prevSensorValue = currentSensorValue;
-    currentSensorValue = intakeSubsystem.isNotePresent();
 
-    if(prevSensorValue == true && currentSensorValue == false) {
-      noteLatch = true;
-    }  
-    // two second delay before checking sensor again
-    if(counter > Constants.IntakeConstants.NOTE_DELAY && noteLatch) {
-      noteLatch = false;
-      return true; 
-    }
-    else {
-      counter++;
-    }
     return false;
+    // prevSensorValue = currentSensorValue;
+    // currentSensorValue = intakeSubsystem.isNotePresent();
+
+    // if(prevSensorValue == true && currentSensorValue == false) {
+    //   noteLatch = true;
+    // }  
+    // // two second delay before checking sensor again
+    // if(counter > Constants.IntakeConstants.NOTE_DELAY && noteLatch) {
+    //   noteLatch = false;
+    //   return true; 
+    // }
+    // else {
+    //   counter++;
+    // }
+    // return false;
   }
 
 }

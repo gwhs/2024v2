@@ -47,7 +47,6 @@ public class SwerveSubsystem extends SubsystemBase
   /**
    * Maximum speed of the robot in meters per second, used to limit acceleration.
    */
-  public        double      speedMultiplier = 1; //1 is max
   public        double      maximumSpeed = Units.feetToMeters(14.5); //14.5
 
   /**
@@ -522,16 +521,5 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive.addVisionMeasurement(pose, time);
   }
 
-  public double decreaseSpeed()
-  {
-    speedMultiplier *= 0.5;
-    return maximumSpeed;
-  }
-
-  public double increaseSpeed()
-  {
-    maximumSpeed /= 0.5;
-    return maximumSpeed;
-  }
 
 }

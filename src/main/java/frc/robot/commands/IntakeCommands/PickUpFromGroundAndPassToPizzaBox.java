@@ -21,13 +21,13 @@ public class PickUpFromGroundAndPassToPizzaBox extends SequentialCommandGroup {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   //velocity = 100 for testing shooting 
-  public PickUpFromGroundAndPassToPizzaBox(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, double angle) {
+  public PickUpFromGroundAndPassToPizzaBox(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
     addCommands(
         new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE)
         .alongWith(new SpinIntakePID(intakeSubsystem, 0))
         .andThen(new IntakePickUpFromGround(intakeSubsystem))
         .andThen(new SpinIntakePID(intakeSubsystem, 75))
-        .andThen(new IntakePassNoteToPizzaBox(intakeSubsystem, pizzaBox)
+        .andThen(new IntakePassNoteToPizzaBox(intakeSubsystem, pizzaBoxSubsystem)
         ));
   }
 

@@ -25,6 +25,7 @@ import frc.robot.commands.Arm.SpinToArmAngle;
 
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
 import frc.robot.commands.IntakeCommands.IntakePickUpFromGround;
+import frc.robot.commands.IntakeCommands.PickUpFromGroundAndPassToPizzaBox;
 import frc.robot.commands.IntakeCommands.SpinIntakePID;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -63,37 +64,16 @@ public class ArmContainer implements BaseContainer {
 
     private void configureBindings() {
 
-        arm.targetArmAngle(ArmSubsystem.Arm.INTAKE_ANGLE);
+        arm.targetArmAngle(arm.encoderGetAngle());
         arm.enable();
         
 //Pick Up and Put in PizzaBox Command
-        m_driverController.a().onTrue(new SpinIntakePID(intakeSubsystem, 0).
-                andThen(new IntakePickUpFromGround(intakeSubsystem)).
-                andThen(new SpinIntakePID(intakeSubsystem, 75)).
-                andThen((Commands.runOnce(() -> {
-                    arm.targetArmAngle(ArmSubsystem.Arm.INTAKE_ANGLE);
-                    }, arm))).
-                andThen(new IntakePassNoteToPizzaBox(intakeSubsystem, pizzaBox)
-                ));
+        m_driverController.a().onTrue(new PickUpFromGroundAndPassToPizzaBox(pizzaBox, arm, intakeSubsystem));
 
-        m_driverController.y().onTrue(new SpinAndSwing(pizzaBox, arm, 245));
+        m_driverController.y().onTrue(new SpinAndSwing(pizzaBox, arm, 245, 100));
 
         m_driverController.x().whileTrue(new SpinNoteContainerMotor(pizzaBox, 400, 100));
         // xboxController.b().onTrue(new IntakePassNoteToPizzaBox(intakeSubsystem));
-
-
-
-
-        m_driverController.start().onTrue(Commands.runOnce(()-> {
-            if(arm.isEnabled())
-            {
-                arm.disable();
-            }
-            else
-            {
-                arm.enable();
-            }
-        }, arm));
 
         // m_driverController.a().onTrue(Commands.runOnce(() -> {
         //     arm.targetArmAngle(ArmSubsystem.Arm.SPEAKER_LOW_ANGLE);
@@ -101,7 +81,7 @@ public class ArmContainer implements BaseContainer {
 
         // m_driverController.back().onTrue(new SpinToArmAngle(arm, ArmSubsystem.Arm.CLIMBING_ANGLE));
 
-        // m_driverController.b().onTrue(new SpinToArmAngle(arm, 300));
+    //     m_driverController.b().onTrue(new SpinToArmAngle(arm, 300));
 
     //    m_driverController.x().onTrue(new SpinToArmAngle(arm, 150));
 
@@ -119,7 +99,7 @@ public class ArmContainer implements BaseContainer {
         // m_driverController.y().onTrue(new SwingBackServo(pizzaBox));
 
 
-        // m_driverController.a().onTrue(new SpinAndSwing(pizzaBox, arm, 270));
+        // m_driverController.a().onTrue(new SpinAndSwing(pizzaBox, arm, 270, 100));
 
         Shuffleboard.getTab("Arm").addDouble("encoder",()->arm.encoderGetAngle());
         

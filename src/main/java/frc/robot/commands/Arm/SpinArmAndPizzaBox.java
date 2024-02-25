@@ -19,15 +19,16 @@ public class SpinArmAndPizzaBox extends Command {
   private PizzaBoxSubsystem pizzaBoxSubsystem;
   private ArmSubsystem armSubsystem;
   private double angle;
+  private double vel;
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   //velocity = 100 for testing shooting 
-  public SpinArmAndPizzaBox(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, double angle) {
+  public SpinArmAndPizzaBox(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, double angle, double vel) {
     this.pizzaBoxSubsystem = pizzaBoxSubsystem;
     this.armSubsystem = armSubsystem;
     this.angle = angle;
-
+    this.vel = vel;
 
 
       
@@ -40,9 +41,9 @@ public class SpinArmAndPizzaBox extends Command {
 
   @Override
   public void execute() {
-    if(armSubsystem.encoderGetAngle() > 100)
+    if(armSubsystem.encoderGetAngle() > PizzaBoxSubsystem.PizzaBox.START_SPIN_DEGREE)
     {
-      pizzaBoxSubsystem.spinPizzaBoxMotor(500, 100);
+      pizzaBoxSubsystem.spinPizzaBoxMotor(vel, 500);
     }
   }
 

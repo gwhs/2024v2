@@ -19,17 +19,17 @@ public class SpinAndSwing extends SequentialCommandGroup {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   //velocity = 100 for testing shooting 
-  public SpinAndSwing(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, double angle) {
+  public SpinAndSwing(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, double angle, double vel) {
     addCommands(
-        new SpinArmAndPizzaBox(pizzaBoxSubsystem, armSubsystem, angle),
+        new SpinArmAndPizzaBox(pizzaBoxSubsystem, armSubsystem, angle, vel),
+        new SpinNoteContainerMotor(pizzaBoxSubsystem, vel, 500),
+        Commands.waitUntil(()->pizzaBoxSubsystem.isAtVelocity(100)),
         new SwingForwardServo(pizzaBoxSubsystem),
         Commands.waitSeconds(.5),
         new SwingBackServo(pizzaBoxSubsystem),
         new StopNoteContainerMotor(pizzaBoxSubsystem),
         new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE)
-
         );
-
   }
 
   

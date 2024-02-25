@@ -24,7 +24,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
 
     public static final int PIZZABOX_ID = 23;
     public static final int SERVO_PWN_SLOT = 0;
-   
+    public static final int START_SPIN_DEGREE = 100;
   }
 
   private TalonFX m_pizzaBox;
@@ -84,5 +84,9 @@ public class PizzaBoxSubsystem extends SubsystemBase {
   //Stops pizzaBox motor
   public void stopPizzaBoxMotor() {
     m_pizzaBox.stopMotor();
+  }
+
+  public boolean isAtVelocity(double vel){
+    return m_pizzaBox.getVelocity().getValue() >= vel;
   }
 }

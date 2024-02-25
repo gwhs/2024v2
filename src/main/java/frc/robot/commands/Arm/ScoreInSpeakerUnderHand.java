@@ -8,15 +8,15 @@ import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class ScoreInAmp extends SequentialCommandGroup {
+public class ScoreInSpeakerUnderHand extends SequentialCommandGroup {
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   //velocity = 100 for testing shooting 
-  public ScoreInAmp(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem) {
+  public ScoreInSpeakerUnderHand(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem) {
     addCommands(
-        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.AMP_ANGLE).withTimeout(3),
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 50),
+        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.SPEAKER_LOW_ANGLE).withTimeout(3),
+        new SpinNoteContainerMotor(pizzaBoxSubsystem, 100, 100),
         Commands.waitSeconds(.2),
         new StopNoteContainerMotor(pizzaBoxSubsystem),
         new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE)

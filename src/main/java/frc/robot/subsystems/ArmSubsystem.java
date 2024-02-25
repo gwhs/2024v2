@@ -35,7 +35,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int kSlotIdx = 0;
     public static final int kPIDLoopIdx = 0;
     public static final int kTimeoutMs = 30;
-    public static final int ARM_MAX_ANGLE = 320;
+    public static final int ARM_MAX_ANGLE = 335;
     public static final int ARM_MIN_ANGLE = 0;
     public static final int ROTATION_TO_DEGREES = 360;
     public static final double GEAR_RATIO = 118.587767088;
@@ -44,11 +44,11 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int ARM_ID = 18;
     //
     public static final double KSVOLTS = 0; 
-    public static final double KGVOLTS = 0;
+    public static final double KGVOLTS = -.355;
     //
     //Arm ID Jalen Tolbert
     public static final int ENCODER_DIO_SLOT = 0;
-    public static final int AMP_ANGLE = 320;
+    public static final int AMP_ANGLE = 335;
     public static final int TRAP_ANGLE = 0;
     public static final int SPEAKER_LOW_ANGLE = 100;
     public static final int SPEAKER_HIGH_ANGLE = 204;
@@ -62,7 +62,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   public ArmSubsystem(int armId, String armCanbus, int channel1)
   {
-    super(new ProfiledPIDController(5, .1, 0, new Constraints(2*Math.PI, 10)));
+    super(new ProfiledPIDController(4.5, .1, 0, new Constraints(2*Math.PI, 10)));
     getController().setTolerance(2 * (Math.PI/180));
     //TrapezoidProfile either velocity or position
       m_arm = new TalonFX(armId, armCanbus);

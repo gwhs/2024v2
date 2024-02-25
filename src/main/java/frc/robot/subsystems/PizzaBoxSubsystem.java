@@ -87,7 +87,10 @@ public class PizzaBoxSubsystem extends SubsystemBase {
   }
 
   public boolean isAtVelocity(double vel){
-    System.out.println(m_pizzaBox.getVelocity().getValue());
+    System.out.println("getVelocity value is " + m_pizzaBox.getVelocity().getValue());
+    System.out.println("getVelocity value is " + m_pizzaBox.getVelocity().getValue());
+    System.out.println("getVelocity value is " + m_pizzaBox.getVelocity().getValue());
+
     return m_pizzaBox.getVelocity().getValue() >= vel;
   }
 }

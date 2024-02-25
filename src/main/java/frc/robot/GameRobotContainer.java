@@ -7,7 +7,10 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ClimberCommands.MotorDown;
+import frc.robot.commands.ClimberCommands.MotorUp;
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
 import frc.robot.commands.IntakeCommands.IntakePickUpFromGround;
 import frc.robot.commands.IntakeCommands.SpinIntakePID;
@@ -17,6 +20,7 @@ import frc.robot.commands.ledcommands.ChangeLEDToGreen;
 import frc.robot.commands.ledcommands.ChangeLEDToRed;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.PizzaBoxSubsystem;
@@ -31,6 +35,7 @@ public class GameRobotContainer implements BaseContainer {
     private final IntakeSubsystem m_IntakeSubsystem;
     private final ArmSubsystem m_ArmSubsystem;
     private final PizzaBoxSubsystem m_PizzaBoxSubsystem;
+    private final Climbsubsystem m_Climbsubsystem;
 
     public String getDriveTrainName(){
         return "swerve/hajel_kraken";
@@ -50,6 +55,12 @@ public class GameRobotContainer implements BaseContainer {
                     "rio", PizzaBoxSubsystem.PizzaBox.SERVO_PWN_SLOT);
 
         LEDSubsystem led = new LEDSubsystem(Constants.LEDConstants.ledPortNumber);
+
+         m_Climbsubsystem = new Climbsubsystem( ClimbConstants.MOTOR_LEFT_ID, 
+                                                        ClimbConstants.MOTOR_RIGHT_ID, 
+                                                        ClimbConstants.MOTOR_LEFT_INVERTED, 
+                                                        ClimbConstants.MOTOR_RIGHT_INVERTED, 
+                                                        "rio"); //change arguments
 
         configureBindings();
 
@@ -72,10 +83,12 @@ public class GameRobotContainer implements BaseContainer {
         
         driverController.x().onTrue(new SpinIntakePID(m_IntakeSubsystem, 0));
         driverController.y().onTrue(new SpinIntakePID(m_IntakeSubsystem, 106));
-
         driverController.a().onTrue(new IntakePickUpFromGround(m_IntakeSubsystem));
         driverController.b().onTrue(new IntakePassNoteToPizzaBox(m_IntakeSubsystem, m_PizzaBoxSubsystem));
-        driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));   
+        driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
+
+         OperatorController.a().whileTrue(new MotorUp(m_Climbsubsystem, m_drivebase));
+        OperatorController.b().whileTrue(new MotorDown(m_Climbsubsystem, m_drivebase));
         
         //This should be a parallel command with other stuff
        /* / driverController.x().onTrue(new ChangeLEDToBlue(led));//pressing x on the controller runs a

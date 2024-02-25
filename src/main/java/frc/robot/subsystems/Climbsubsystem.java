@@ -25,10 +25,10 @@ public class Climbsubsystem extends SubsystemBase {
   private TalonFX climberArmLeft;
   private TalonFX climberArmRight;
 
-  private final double CLIMBER_PID_KP = 0.7;
+  private final double CLIMBER_PID_KP = 1.9;
   private final double CLIMBER_PID_KI = 0;
   private final double CLIMBER_PID_KD = 0;
-  private Constraints constraints = new Constraints(170.0, 250.0);
+  private Constraints constraints = new Constraints(180.0, 300.0);
 
   private ProfiledPIDController leftPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
   private ProfiledPIDController rightPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 

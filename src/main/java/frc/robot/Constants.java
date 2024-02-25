@@ -82,12 +82,12 @@ public final class Constants
   public static final double CLIMBER_RATIO = 36;
 
   public static final double CLIMB_DISTANCE = 5 * CLIMBER_RATIO; //distance we want it to go times the ratio
-  public static final double CLIMB_MOTOR_SPEED = 0.25 * CLIMBER_RATIO;
+  public static final double CLIMB_MOTOR_SPEED = 0.1 * CLIMBER_RATIO;
 
-  public static final int MOTOR_LEFT_ID = 14;
+  public static final int MOTOR_LEFT_ID = 21;
   public static final boolean MOTOR_LEFT_INVERTED = false;
   public static final boolean MOTOR_RIGHT_INVERTED = true;
-  public static final int MOTOR_RIGHT_ID = 21;
+  public static final int MOTOR_RIGHT_ID = 14;
 
   public static final int BOT_RIGHT_LIMIT_ID = 2;
   public static final int BOT_LEFT_LIMIT_ID = 3;

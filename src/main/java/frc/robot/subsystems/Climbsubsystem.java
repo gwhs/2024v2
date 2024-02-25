@@ -94,8 +94,8 @@ public class Climbsubsystem extends SubsystemBase {
   public void upMotor() {
     upCheck = true;
     downCheck = false;
-    leftPIDcontroller.setSetpoint(100);
-    rightPIDcontroller.setSetpoint(100);
+    leftPIDcontroller.setSetpoint(-197.94);
+    rightPIDcontroller.setSetpoint(199.64);
   }
 
   public void downMotor() {
@@ -107,7 +107,7 @@ public class Climbsubsystem extends SubsystemBase {
 
   //makes the motor move
   public void setSpeed(double leftSpeed, double rightSpeed){ // speed should be in rotations per second
-    climberArmLeft.setControl(new VelocityVoltage(leftSpeed, 
+    climberArmLeft.setControl(new VelocityVoltage(-leftSpeed, 
                                                   50, // rotations per second^2
                                                   false, // if we bought it then set true and get more power
                                                   0, 
@@ -115,7 +115,7 @@ public class Climbsubsystem extends SubsystemBase {
                                                   false, 
                                                   false, 
                                                   false));
-    climberArmRight.setControl(new VelocityVoltage(-rightSpeed, 
+    climberArmRight.setControl(new VelocityVoltage(rightSpeed, 
                                                   50, // rotations per second^2
                                                   false, // if we bought it then set true and get more power
                                                   0, 
@@ -172,14 +172,30 @@ public class Climbsubsystem extends SubsystemBase {
     
     double leftPIDvalue = leftPIDcontroller.calculate(getPositionLeft());
     double rightPIDvalue = rightPIDcontroller.calculate(getPositionRight());
-    System.out.println("left: " + leftPIDvalue + "/nright: " + rightPIDvalue);
+    System.out.println("left: " + leftPIDvalue + "/n right: " + rightPIDvalue);
+    if (upCheck && getTopLeftLimit()) {
+      leftPIDvalue = 0;
+    }
+    else if (upCheck && getTopRightLimit()) {
+      rightPIDvalue = 0;
+    }
+
+    if (downCheck && getBotLeftLimit()) {
+      leftPIDvalue = 0;
+    }
+    else if (downCheck && getBotRightLimit()) {
+      rightPIDvalue = 0;
+    }
+
     if (upCheck) {
-      setSpeed(leftPIDvalue, rightPIDvalue);
+      setSpeed(-leftPIDvalue, rightPIDvalue);
     }
 
     if (downCheck) {
-      setSpeed(-leftPIDvalue, -rightPIDvalue);
+      setSpeed(leftPIDvalue, -rightPIDvalue);
     }
+
+    
 
 
   }

@@ -8,6 +8,8 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.controls.NeutralOut;
 
 public class ReactionSubsystem extends SubsystemBase {
   private TalonFX m_reactionArm;
@@ -15,8 +17,12 @@ public class ReactionSubsystem extends SubsystemBase {
   public ReactionSubsystem(int armID, String canbus) {
     m_reactionArm = new TalonFX(armID, canbus);
     TalonFXConfiguration configs = new TalonFXConfiguration();
+
+    m_reactionArm.setNeutralMode(NeutralModeValue.Brake);
     
     configs.CurrentLimits.withSupplyCurrentLimit(Constants.ReactionConstants.currentLimit);
+
+    m_reactionArm.setControl(new NeutralOut());
   }
 
   @Override
@@ -26,15 +32,16 @@ public class ReactionSubsystem extends SubsystemBase {
 
   public void spinForward()
   {
-    m_reactionArm.set(0.5);
+    m_reactionArm.set(-0.1);
   }
   public void spinBackward()
   {
-    m_reactionArm.set(-0.5);
+    m_reactionArm.set(0.1);
   }
   public void stop()
   {
     m_reactionArm.set(0);
+    m_reactionArm.setControl(new NeutralOut());
   }
 
   public double getPos()
@@ -42,4 +49,5 @@ public class ReactionSubsystem extends SubsystemBase {
     double posVal = m_reactionArm.getRotorPosition().getValue();
     return posVal;
   }
+
 }

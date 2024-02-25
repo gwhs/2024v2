@@ -23,14 +23,14 @@ private double endPos;
   @Override
   public void initialize() {
     currPos = m_Subsystem.getPos();
-    endPos = currPos + (63.5/360); //adds the current position to the final which is the end pos.
+    endPos = Constants.ReactionConstants.retractedPosition; //adds the current position to the final which is the end pos.
+    m_Subsystem.spinBackward();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     currPos = m_Subsystem.getPos();
-    m_Subsystem.spinBackward();
   }
 
   // Called once the command ends or is interrupted.
@@ -42,11 +42,12 @@ private double endPos;
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if( (currPos > (endPos + Constants.ReactionConstants.tolerance)) || (currPos < (endPos - Constants.ReactionConstants.tolerance)))
+    if (Math.abs(currPos - endPos) < Constants.ReactionConstants.tolerance)
     {
       return true;
     }
     return false;
-  
+
   }
+
 }

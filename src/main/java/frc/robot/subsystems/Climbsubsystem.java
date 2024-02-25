@@ -12,10 +12,11 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimbConstants;
-
 
 
 
@@ -25,12 +26,13 @@ public class Climbsubsystem extends SubsystemBase {
   private TalonFX climberArmLeft;
   private TalonFX climberArmRight;
 
-  private final double CLIMBER_PID_KP = 0.1;
+  private final double CLIMBER_PID_KP = 0.7;
   private final double CLIMBER_PID_KI = 0;
   private final double CLIMBER_PID_KD = 0;
+  private Constraints constraints = new Constraints(170.0, 250.0);
 
-  private PIDController leftPIDcontroller = new PIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD); 
-  private PIDController rightPIDcontroller = new PIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD); 
+  private ProfiledPIDController leftPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
+  private ProfiledPIDController rightPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
 
   private boolean upCheck = false;
   private boolean downCheck = false;
@@ -62,8 +64,8 @@ public class Climbsubsystem extends SubsystemBase {
     configs.Slot0.kD = 0.0001; // A change of 1 rotation per second squared results in 0.01 volts output
     configs.Slot0.kV = 0.12; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
     // Peak output of 8 volts
-    configs.Voltage.PeakForwardVoltage = 8;
-    configs.Voltage.PeakReverseVoltage = -8;
+    configs.Voltage.PeakForwardVoltage = 12;
+    configs.Voltage.PeakReverseVoltage = -12;
     
     /* Torque-based velocity does not require a feed forward, as torque will accelerate the rotor up to the desired velocity by itself */
     configs.Slot1.kP = 5; // An error of 1 rotation per second results in 5 amps output
@@ -94,22 +96,22 @@ public class Climbsubsystem extends SubsystemBase {
   public void upMotor() {
     upCheck = true;
     downCheck = false;
-    leftPIDcontroller.setSetpoint(-197.94);
-    rightPIDcontroller.setSetpoint(199.64);
+    leftPIDcontroller.setGoal(-198.94);
+    rightPIDcontroller.setGoal(198.4);
   }
 
   public void downMotor() {
     downCheck = true;
     upCheck = false;
-    leftPIDcontroller.setSetpoint(0.5);
-    rightPIDcontroller.setSetpoint(0.5);
+    leftPIDcontroller.setGoal(0.5);
+    rightPIDcontroller.setGoal(0.5);
   }
 
   //makes the motor move
   public void setSpeed(double leftSpeed, double rightSpeed){ // speed should be in rotations per second
     climberArmLeft.setControl(new VelocityVoltage(-leftSpeed, 
                                                   50, // rotations per second^2
-                                                  false, // if we bought it then set true and get more power
+                                                  true, // if we bought it then set true and get more power
                                                   0, 
                                                   0,
                                                   false, 
@@ -117,7 +119,7 @@ public class Climbsubsystem extends SubsystemBase {
                                                   false));
     climberArmRight.setControl(new VelocityVoltage(rightSpeed, 
                                                   50, // rotations per second^2
-                                                  false, // if we bought it then set true and get more power
+                                                  true, // if we bought it then set true and get more power
                                                   0, 
                                                   0, 
                                                   false, 
@@ -172,7 +174,7 @@ public class Climbsubsystem extends SubsystemBase {
     
     double leftPIDvalue = leftPIDcontroller.calculate(getPositionLeft());
     double rightPIDvalue = rightPIDcontroller.calculate(getPositionRight());
-    System.out.println("left: " + leftPIDvalue + "/n right: " + rightPIDvalue);
+    //System.out.println("left: " + leftPIDvalue + "/n right: " + rightPIDvalue);
     if (upCheck && getTopLeftLimit()) {
       leftPIDvalue = 0;
     }
@@ -192,7 +194,7 @@ public class Climbsubsystem extends SubsystemBase {
     }
 
     if (downCheck) {
-      setSpeed(leftPIDvalue, -rightPIDvalue);
+      setSpeed(-leftPIDvalue, rightPIDvalue);
     }
 
     

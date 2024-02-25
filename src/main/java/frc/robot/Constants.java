@@ -80,7 +80,7 @@ public final class Constants
 
   public static final double CLIMBER_RATIO = 36;
 
-  public static final double CLIMB_DISTANCE = 5 * CLIMBER_RATIO; //distance we want it to go times the ratio
+  public static final double CLIMB_DISTANCE = 5.5 * CLIMBER_RATIO; //distance we want it to go times the ratio
   public static final double CLIMB_MOTOR_SPEED = 0.1 * CLIMBER_RATIO;
 
   public static final int MOTOR_LEFT_ID = 21;

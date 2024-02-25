@@ -70,7 +70,8 @@ public class MotorUp extends Command {
   @Override
   public boolean isFinished() {
     //stops when reaches desired height
+    System.out.println("MotorUp command is finished running");
     return (climbersubsystem.getTopLeftLimit() && climbersubsystem.getTopRightLimit())                                         
-            || (climbersubsystem.getPositionLeft() >= ClimbConstants.CLIMB_DISTANCE || climbersubsystem.getPositionLeft() >= ClimbConstants.CLIMB_DISTANCE); 
+            || (-climbersubsystem.getPositionLeft() >= ClimbConstants.CLIMB_DISTANCE && climbersubsystem.getPositionLeft() >= ClimbConstants.CLIMB_DISTANCE); 
   }
 }

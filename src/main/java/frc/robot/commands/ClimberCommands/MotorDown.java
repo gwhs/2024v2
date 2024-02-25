@@ -71,7 +71,8 @@ public class MotorDown extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
+    System.out.println("MotorDown command finished running");
     return (climbersubsystem.getBotLeftLimit() && climbersubsystem.getBotRightLimit())
-            || (climbersubsystem.getPositionLeft() <= 0 || climbersubsystem.getPositionLeft() <= 0); 
+            || (climbersubsystem.getPositionLeft() <= 0.5 && climbersubsystem.getPositionLeft() <= 0.5); 
   }
 }

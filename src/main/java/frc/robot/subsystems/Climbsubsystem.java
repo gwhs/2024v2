@@ -42,6 +42,8 @@ public class Climbsubsystem extends SubsystemBase {
   DigitalInput topLeft = new DigitalInput(ClimbConstants.TOP_LEFT_LIMIT_ID);
   DigitalInput topRight = new DigitalInput(ClimbConstants.TOP_RIGHT_LIMIT_ID);
 
+  private final StaticBrake brake;
+
   //set canBus to the name of the canivore of the robot
   public Climbsubsystem(int motorIDLeft, int motorIDRight, boolean invertedLeft, boolean invertedRight, String canBus) {
 
@@ -52,9 +54,9 @@ public class Climbsubsystem extends SubsystemBase {
     climberArmLeft.setInverted(invertedLeft);
     climberArmRight.setInverted(invertedRight);
 
-    StaticBrake brake = new StaticBrake();
-    climberArmLeft.setNeutralMode(NeutralModeValue.Brake);
-    climberArmRight.setNeutralMode(NeutralModeValue.Brake);
+    brake = new StaticBrake();
+    // climberArmLeft.setNeutralMode(NeutralModeValue.Brake);
+    // climberArmRight.setNeutralMode(NeutralModeValue.Brake);
 
     TalonFXConfiguration configs = new TalonFXConfiguration();
     /* Voltage-based velocity requires a feed forward to account for the back-emf of the motor */
@@ -133,10 +135,12 @@ public class Climbsubsystem extends SubsystemBase {
   //makes motors stop spinning
   public void stopClimbLeft(){
     climberArmLeft.stopMotor();
+    climberArmLeft.setControl(brake);
   }
 
   public void stopClimbRight() {
     climberArmRight.stopMotor();
+    climberArmLeft.setControl(brake);
   }
 
   //gets the position for left motor; return the amount of rotations

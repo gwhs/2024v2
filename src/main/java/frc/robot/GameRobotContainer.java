@@ -8,7 +8,10 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ClimberCommands.MotorDown;
+import frc.robot.commands.ClimberCommands.MotorUp;
 import frc.robot.commands.Arm.ScoreInAmp;
 import frc.robot.commands.Arm.ScoreInTrap;
 import frc.robot.commands.Arm.SpinAndSwing;
@@ -24,6 +27,7 @@ import frc.robot.commands.ledcommands.ChangeLEDToGreen;
 import frc.robot.commands.ledcommands.ChangeLEDToRed;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.PizzaBoxSubsystem;
@@ -38,6 +42,7 @@ public class GameRobotContainer implements BaseContainer {
     private final IntakeSubsystem m_IntakeSubsystem;
     private final ArmSubsystem m_ArmSubsystem;
     private final PizzaBoxSubsystem m_PizzaBoxSubsystem;
+    private final Climbsubsystem m_Climbsubsystem;
 
     public String getDriveTrainName(){
         return "swerve/hajel_kraken";
@@ -58,6 +63,12 @@ public class GameRobotContainer implements BaseContainer {
 
         LEDSubsystem led = new LEDSubsystem(Constants.LEDConstants.ledPortNumber);
 
+         m_Climbsubsystem = new Climbsubsystem( ClimbConstants.MOTOR_LEFT_ID, 
+                                                        ClimbConstants.MOTOR_RIGHT_ID, 
+                                                        ClimbConstants.MOTOR_LEFT_INVERTED, 
+                                                        ClimbConstants.MOTOR_RIGHT_INVERTED, 
+                                                        "rio"); //change arguments
+
         configureBindings();
 
         TeleopDrive closedFieldRel = new TeleopDrive(
@@ -74,23 +85,23 @@ public class GameRobotContainer implements BaseContainer {
 
 
     private void configureBindings() {
-//TESTING
-        driverController.a().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem));
+         final PIDController intakeController = new PIDController(.005, .0, .0);
+        intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
+        
+        driverController.x().onTrue(new SpinIntakePID(m_IntakeSubsystem, 0));
+        driverController.y().onTrue(new SpinIntakePID(m_IntakeSubsystem, 106));
 
-        driverController.y().onTrue(new SpinAndSwing(m_PizzaBoxSubsystem, m_ArmSubsystem, 245, 150));
-
-        driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));    
-
-        driverController.x().onTrue(new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem));
-
-        driverController.rightBumper().onTrue(new ScoreInTrap(m_PizzaBoxSubsystem, m_ArmSubsystem));
-
-
-        // driverController.leftBumper().onTrue(Commands.runOnce(() -> {
-        //     CommandScheduler.getInstance().cancelAll()});
-        //     );
-
-//Testing
+        driverController.a().onTrue(new IntakePickUpFromGround(m_IntakeSubsystem));
+        driverController.b().onTrue(new IntakePassNoteToPizzaBox(m_IntakeSubsystem, m_PizzaBoxSubsystem));
+        driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));   
+        
+        //This should be a parallel command with other stuff
+       /* / driverController.x().onTrue(new ChangeLEDToBlue(led));//pressing x on the controller runs a
+        driverController.y().onTrue(new ChangeLEDToRed(led));
+        driverController.b().onTrue(new ChangeLEDToGreen(led));
+        driverController.a().onTrue(new ChangeLEDColor(led, 255, 0, 255));
+        driverController.rightBumper().onTrue(new ChangeLEDColor(led, 0, 0, 0));
+        */
     }
 
     public void setMotorBrake(boolean brake)

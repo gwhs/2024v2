@@ -54,7 +54,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int SPEAKER_LOW_ANGLE = 100;
     public static final int SPEAKER_HIGH_ANGLE = 204;
     public static final int INTAKE_ANGLE = 64;
-    public static final int CLIMBING_ANGLE = 0;
+    public static final int CLIMBING_ANGLE = 45;
   }
 
   private TalonFX m_arm;

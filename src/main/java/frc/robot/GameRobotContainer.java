@@ -5,6 +5,7 @@ import java.io.File;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -71,6 +72,14 @@ public class GameRobotContainer implements BaseContainer {
 
         configureBindings();
 
+        Shuffleboard.getTab("Climb").addDouble("climb distance left", () -> m_Climbsubsystem.getPositionLeft());
+        Shuffleboard.getTab("Climb").addDouble("climb distance right", () -> m_Climbsubsystem.getPositionRight());
+        Shuffleboard.getTab("Climb").addBoolean("bot left limit", () -> m_Climbsubsystem.getBotLeftLimit());
+        Shuffleboard.getTab("Climb").addBoolean("bot right limit", () -> m_Climbsubsystem.getBotRightLimit());
+        Shuffleboard.getTab("Climb").addBoolean("top left limit", () -> m_Climbsubsystem.getTopLeftLimit());
+        Shuffleboard.getTab("Climb").addBoolean("top right limit", () -> m_Climbsubsystem.getTopRightLimit());
+
+
         TeleopDrive closedFieldRel = new TeleopDrive(
         m_drivebase,
         () -> MathUtil.applyDeadband(-driverController.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
@@ -85,23 +94,27 @@ public class GameRobotContainer implements BaseContainer {
 
 
     private void configureBindings() {
-         final PIDController intakeController = new PIDController(.005, .0, .0);
-        intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
-        
-        driverController.x().onTrue(new SpinIntakePID(m_IntakeSubsystem, 0));
-        driverController.y().onTrue(new SpinIntakePID(m_IntakeSubsystem, 106));
+      final PIDController intakeController = new PIDController(.005, .0, .0);
+      intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
+      
+      driverController.x().onTrue(new SpinIntakePID(m_IntakeSubsystem, 0));
+      driverController.y().onTrue(new SpinIntakePID(m_IntakeSubsystem, 106));
+      driverController.a().onTrue(new IntakePickUpFromGround(m_IntakeSubsystem));
+      driverController.b().onTrue(new IntakePassNoteToPizzaBox(m_IntakeSubsystem, m_PizzaBoxSubsystem));
+      driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
 
-        driverController.a().onTrue(new IntakePickUpFromGround(m_IntakeSubsystem));
-        driverController.b().onTrue(new IntakePassNoteToPizzaBox(m_IntakeSubsystem, m_PizzaBoxSubsystem));
-        driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));   
-        
-        //This should be a parallel command with other stuff
-       /* / driverController.x().onTrue(new ChangeLEDToBlue(led));//pressing x on the controller runs a
-        driverController.y().onTrue(new ChangeLEDToRed(led));
-        driverController.b().onTrue(new ChangeLEDToGreen(led));
-        driverController.a().onTrue(new ChangeLEDColor(led, 255, 0, 255));
-        driverController.rightBumper().onTrue(new ChangeLEDColor(led, 0, 0, 0));
-        */
+      OperatorController.a().whileTrue(new MotorUp(m_Climbsubsystem, m_drivebase));
+      OperatorController.b().whileTrue(new MotorDown(m_Climbsubsystem, m_drivebase));
+      OperatorController.x().onTrue(new ScoreInTrap(m_PizzaBoxSubsystem, m_ArmSubsystem));
+      OperatorController.y().onTrue(new SpinToArmAngle(m_ArmSubsystem, 135));
+      
+      //This should be a parallel command with other stuff
+     /* / driverController.x().onTrue(new ChangeLEDToBlue(led));//pressing x on the controller runs a
+      driverController.y().onTrue(new ChangeLEDToRed(led));
+      driverController.b().onTrue(new ChangeLEDToGreen(led));
+      driverController.a().onTrue(new ChangeLEDColor(led, 255, 0, 255));
+      driverController.rightBumper().onTrue(new ChangeLEDColor(led, 0, 0, 0));
+      */
     }
 
     public void setMotorBrake(boolean brake)

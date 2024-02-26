@@ -98,7 +98,7 @@ public class ApriltagController extends SubsystemBase {
     }
 
     //robot pose
-    public double getRobotHeading() {
+    public double getHeading() {
         return swerve.getPose().getRotation().getDegrees();
     }
 
@@ -120,6 +120,9 @@ public class ApriltagController extends SubsystemBase {
         } else if (PIDType.toLowerCase().equals("sideways")) {
             PIDSideways.setTolerance(ApriltagConstants.SidewaysConstant.DISTANCE_TOLERANCE, ApriltagConstants.SidewaysConstant.STEADY_STATE_TOLERANCE);
         }
+        else if (PIDType.toLowerCase().equals("rotation")) {
+            PIDSideways.setTolerance(ApriltagConstants.RotationConstant.DISTANCE_TOLERANCE, ApriltagConstants.RotationConstant.STEADY_STATE_TOLERANCE);
+        }
     }
 
     // isFinished
@@ -127,6 +130,8 @@ public class ApriltagController extends SubsystemBase {
         if (PIDType.toLowerCase().equals("forward")) {
             return PIDForward.atSetpoint();
         } else if (PIDType.toLowerCase().equals("sideways")) {
+            return PIDSideways.atSetpoint();
+        } else if (PIDType.toLowerCase().equals("rotation")) {
             return PIDSideways.atSetpoint();
         }
         return false;
@@ -143,15 +148,4 @@ public class ApriltagController extends SubsystemBase {
         }
         return velocityError;
     }
-
-
-    // FORWARD using Apriltag TA values
-    public double updatePIDForwardTA() {
-        forwardOutput = PIDSideways.calculate(limeLightSub.getTaDistance());
-        return forwardOutput;
-    }
-    public double getErrorForwardTA() {
-        return forwardOutput;
-    }
-
 }

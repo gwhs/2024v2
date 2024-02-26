@@ -106,7 +106,7 @@ public class VisionContainer implements BaseContainer
     // limeLightTab.addNumber("TA Size", ()-> limeLightSub.getTa());
     // limeLightTab.addNumber("TA Distance", ()-> limeLightSub.getTaDistance());
 
-    limeLightTab.addNumber("Current Robot Heading", ()-> apriltagController.getRobotHeading());
+    limeLightTab.addNumber("Current Robot Heading", ()-> apriltagController.getHeading());
     limeLightTab.addNumber("Get Tag Heading", ()-> apriltagController.getApriltagHeading());
 
     limeLightTab.addNumber("Robot Pose X", ()-> drivebase.getPose().getX());

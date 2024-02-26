@@ -32,7 +32,7 @@ public class Forward extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    robotHeading = driSwerveSubsystem.getPose().getRotation().getRadians();
+    robotHeading = apriltagController.getHeading();
     apriltagController.setPoint(0, "forward"); // fixed x distance from tag before crashing field perimeter
   }
 

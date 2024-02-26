@@ -22,10 +22,11 @@ public class ReactionSubsystem extends SubsystemBase {
     StaticBrake brake = new StaticBrake();
 
     m_reactionArm.setNeutralMode(NeutralModeValue.Brake);
-    m_reactionArm.setControl(brake);
-    
+  
     
     configs.CurrentLimits.withSupplyCurrentLimit(Constants.ReactionConstants.currentLimit);
+     m_reactionArm.setControl(brake);
+    
 
     m_reactionArm.setControl(new NeutralOut());
   }

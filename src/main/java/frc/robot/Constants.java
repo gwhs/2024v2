@@ -87,12 +87,6 @@ public final class Constants
     public static final double NOTE_DELAY = 2; // change accordingly
   }
 
-    // remove later
-  public static final class AprilTagConstants {
-      public static final int[] APRILTAG_ROTATION = {120, 120, 180, 180, 270, 270, 0, 0, 60, 60, 300, 60, 180, 0, 120, 240};
-  }
-
-  // works enough
   public static final class DriveConstants {
     public static final double kP = 0.1; //0.04
     public static final double kI = 0.07; //0.055

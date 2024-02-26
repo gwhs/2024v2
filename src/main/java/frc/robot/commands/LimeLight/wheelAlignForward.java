@@ -15,7 +15,6 @@ public class wheelAlignForward extends Command {
   private final SwerveSubsystem driSwerveSubsystem;
   private final ApriltagController apriltagController;
 
-  private double distance;
   /**
    * Creates a new ExampleCommand.
    *

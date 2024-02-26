@@ -58,11 +58,6 @@ public class Forward extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    boolean isWithinTolerance = Math.abs(apriltagController.getErrorForward()) < 0.01;
-    boolean isDerivativeZero = Math.abs(apriltagController.getDerivative("forward")) < 0.01;
-    if (isWithinTolerance && isDerivativeZero) {
-      System.out.println("finished");
-    }
-    return (isWithinTolerance && isDerivativeZero);
+    return apriltagController.atSetpoint("forward");
   }
 }

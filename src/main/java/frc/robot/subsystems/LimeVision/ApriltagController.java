@@ -27,28 +27,8 @@ public class ApriltagController extends SubsystemBase {
     private final double kITheta = 0;
 
     private PIDController PIDForward = new PIDController(kPX, kIX, kDX);
-    // private PIDController PIDSideways = new PIDController(kPY, kIY, kDY);
     private PIDController PIDRotation = new PIDController(kPTheta, kITheta, kDTheta);
     private PIDController PIDSideways = new PIDController(kPThetaTx, kIThetaTx, kDThetaTx);
-
-    private double[][] apriltag = {{15.08,0.24,1.35},
-                                {16.18,0.89,1.35},
-                                {16.58,4.98,1.45},
-                                {16.58,5.55,1.45},
-                                {14.70,8.23,1.35},
-                                {1.84,8.23,1.35},
-                                {-0.04,5.38,1.45},
-                                {-0.04,4.98,1.45},
-                                {0.36,0.88,1.35},
-                                {1.46,0.24,1.35},
-                                {11.90,3.71,1.32},
-                                {11.90,4.50,1.32},
-                                {11.22,4.10,1.32},
-                                {5.32,4.10,1.32},
-                                {4.64,4.50,1.32},
-                                {4.64,3.71,1.32}};
-    
-    private static final int[] APRILTAG_ROTATION = {120, 120, 180, 180, 270, 270, 0, 0, 60, 60, 300, 60, 180, 0, 120, 240};
 
     private double forwardOutput;
     private double sidewaysOutput;
@@ -62,7 +42,7 @@ public class ApriltagController extends SubsystemBase {
     // front and back
     public double getDistanceForward() {
         if (limeLightSub.getID() > 0) {
-            return Math.abs(apriltag[limeLightSub.getID()][0] - swerve.getPose().getX());
+            return Math.abs(ApriltagConstants.APRILTAG[limeLightSub.getID()][0] - swerve.getPose().getX());
         }
         return Double.POSITIVE_INFINITY;
     }
@@ -77,8 +57,8 @@ public class ApriltagController extends SubsystemBase {
     // testing using botpose distance
     public double getBotPoseDistance() {
         if (limeLightSub.getID() > 0) {
-        return Math.sqrt(Math.pow(apriltag[limeLightSub.getID()][0] - limeLightSub.getBotPose()[0],2) + 
-                         Math.pow(apriltag[limeLightSub.getID()][1] - limeLightSub.getBotPose()[1],2));
+        return Math.sqrt(Math.pow(ApriltagConstants.APRILTAG[limeLightSub.getID()][0] - limeLightSub.getBotPose()[0],2) + 
+                         Math.pow(ApriltagConstants.APRILTAG[limeLightSub.getID()][1] - limeLightSub.getBotPose()[1],2));
         }
         return 0;
     }
@@ -90,7 +70,7 @@ public class ApriltagController extends SubsystemBase {
     // left and right
     public double getDistanceSideways() {
         if (limeLightSub.getID() > 0) {
-            return apriltag[limeLightSub.getID()][1] - swerve.getPose().getY();
+            return ApriltagConstants.APRILTAG[limeLightSub.getID()][1] - swerve.getPose().getY();
         }
         return Double.POSITIVE_INFINITY;
     }
@@ -112,7 +92,7 @@ public class ApriltagController extends SubsystemBase {
     }
     public double getApriltagHeading() {
         if (limeLightSub.getID() > 0) {
-            return APRILTAG_ROTATION[limeLightSub.getID()] + 180;
+            return ApriltagConstants.APRILTAG_ROTATION[limeLightSub.getID()] + 180;
         }
         return swerve.getPose().getRotation().getDegrees();
     }
@@ -131,7 +111,26 @@ public class ApriltagController extends SubsystemBase {
         } else if (orientation.toLowerCase().equals("rotation")) {
             PIDRotation.setSetpoint(target);
         }
-    } 
+    }
+    
+    //sets tolerances
+    public void setTolerance(String PIDType)  {
+        if (PIDType.toLowerCase().equals("forward")) {
+            PIDForward.setTolerance(ApriltagConstants.ForwardConstant.DISTANCE_TOLERANCE, ApriltagConstants.ForwardConstant.STEADY_STATE_TOLERANCE);
+        } else if (PIDType.toLowerCase().equals("sideways")) {
+            PIDSideways.setTolerance(ApriltagConstants.SidewaysConstant.DISTANCE_TOLERANCE, ApriltagConstants.SidewaysConstant.STEADY_STATE_TOLERANCE);
+        }
+    }
+
+    // isFinished
+    public boolean atSetpoint(String PIDType) {
+        if (PIDType.toLowerCase().equals("forward")) {
+            return PIDForward.atSetpoint();
+        } else if (PIDType.toLowerCase().equals("sideways")) {
+            return PIDSideways.atSetpoint();
+        }
+        return false;
+    }
 
     public double getDerivative(String PIDType) {
         double velocityError = Double.POSITIVE_INFINITY;

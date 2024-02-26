@@ -20,6 +20,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Util.UtilMath;
 import frc.robot.Robot;
 import frc.robot.commands.driveCommands.rotateinPlace;
+import frc.robot.commands.driveCommands.toAmp;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
@@ -161,7 +162,9 @@ public class DriveContainer implements BaseContainer
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    
+    driverXbox.a().onTrue(new toAmp(drivebase));
+  
+   
 
     // driverXbox.a().onTrue(
     //   new rotateinPlace(()-> UtilMath.SpeakerTheta(drivebase.getPose()), drivebase)

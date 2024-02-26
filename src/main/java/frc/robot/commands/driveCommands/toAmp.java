@@ -22,10 +22,15 @@ public class toAmp extends Command {
       addRequirements(m_Subsystem);
     }
 
-  // Called when the command is initially scheduled.
+   //public toAmp(Object subsystem) {
+        //TODO Auto-generated constructor stub
+   //}
+
+    // Called when the command is initially scheduled.
     @Override
     public void initialize() {
         ampID = UtilMath.whichAmp(m_Subsystem.getPose());
+        
     }
     
   // Called every time the scheduler runs while the command is scheduled.
@@ -67,4 +72,4 @@ public class toAmp extends Command {
         }
           return false;
         }
-}
+      }

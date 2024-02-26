@@ -24,6 +24,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.math.controller.ArmFeedforward;
 
 import com.ctre.phoenix6.controls.NeutralOut;
+import com.ctre.phoenix6.controls.StaticBrake;
 import com.ctre.phoenix6.controls.VoltageOut;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //
@@ -49,7 +50,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     //Arm ID Jalen Tolbert
     public static final int ENCODER_DIO_SLOT = 0;
     public static final int AMP_ANGLE = 335;
-    public static final int TRAP_ANGLE = 0;
+    public static final int TRAP_ANGLE = 275;
     public static final int SPEAKER_LOW_ANGLE = 100;
     public static final int SPEAKER_HIGH_ANGLE = 204;
     public static final int INTAKE_ANGLE = 64;
@@ -68,8 +69,13 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
       m_arm = new TalonFX(armId, armCanbus);
       m_encoder = new DutyCycleEncoder(channel1);
       armFeedForward = new ArmFeedforward(Arm.KSVOLTS, Arm.KGVOLTS, 0, 0);
+      
+      
+
+      
       targetArmAngle(encoderGetAngle());
       enable();
+
       
 
       // Needed? PIDController ArmPID = new PIDController(0, 0, 0);
@@ -79,6 +85,10 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
       m_arm.setNeutralMode(NeutralModeValue.Brake);
       m_arm.setControl(new NeutralOut());
       m_arm.setNeutralMode(NeutralModeValue.Brake);
+
+      StaticBrake brake = new StaticBrake();
+      m_arm.setControl(brake);
+
       /* Voltage-based velocity requires a feed forward to account for the back-emf of the motor */
       configs.Slot0.kP = 0.11; // An error of 1 rotation per second results in 2V output
       configs.Slot0.kI = 0; // An error of 1 rotation per second increases output by 0.5V every second

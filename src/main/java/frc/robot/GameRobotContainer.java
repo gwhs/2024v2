@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Arm.ScoreInAmp;
+import frc.robot.commands.Arm.ScoreInTrap;
 import frc.robot.commands.Arm.SpinAndSwing;
 import frc.robot.commands.Arm.SpinNoteContainerMotor;
 import frc.robot.commands.Arm.SpinToArmAngle;
@@ -81,6 +82,9 @@ public class GameRobotContainer implements BaseContainer {
         driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));    
 
         driverController.x().onTrue(new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem));
+
+        driverController.rightBumper().onTrue(new ScoreInTrap(m_PizzaBoxSubsystem, m_ArmSubsystem));
+
 
         // driverController.leftBumper().onTrue(Commands.runOnce(() -> {
         //     CommandScheduler.getInstance().cancelAll()});

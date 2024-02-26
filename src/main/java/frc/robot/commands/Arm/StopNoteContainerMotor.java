@@ -7,9 +7,6 @@ import frc.robot.subsystems.PizzaBoxSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class StopNoteContainerMotor extends Command {
-
-  
-
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final PizzaBoxSubsystem pizzaBoxSubsystem;
 

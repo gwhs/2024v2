@@ -5,7 +5,7 @@ public class ApriltagConstants {
     // find trajectory values
     public static final double[][] TARGET_POSITION = {{},
                                                     {}};
-
+    
     public static final double[][] APRILTAG = {{15.08,0.24,1.35},
                                             {16.18,0.89,1.35},
                                             {16.58,4.98,1.45},

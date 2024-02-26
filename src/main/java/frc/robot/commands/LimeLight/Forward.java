@@ -33,6 +33,7 @@ public class Forward extends Command {
   @Override
   public void initialize() {
     robotHeading = apriltagController.getHeading();
+    apriltagController.setTolerance("forward");
     apriltagController.setPoint(0, "forward"); // fixed x distance from tag before crashing field perimeter
   }
 

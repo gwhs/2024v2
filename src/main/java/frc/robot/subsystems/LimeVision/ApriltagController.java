@@ -148,4 +148,18 @@ public class ApriltagController extends SubsystemBase {
         }
         return velocityError;
     }
+
+    // if robot is facing directly at tag, it should return 180. if more left -180 + offset. if more right 180 + offset i think
+    public double getApriltagHeadingTest() {
+        if (limeLightSub.getID() > 0) {
+            return Math.abs(limeLightSub.getBotPose()[5]) - 180;
+        }
+        return swerve.getPose().getRotation().getDegrees();
+    }
+
+    // aligning to facetag
+    public double updatePIDRotationTest() {
+        rotationOutput = PIDRotation.calculate(getApriltagHeading());
+        return rotationOutput;
+    }
 }

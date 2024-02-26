@@ -188,11 +188,11 @@ public class Climbsubsystem extends SubsystemBase {
     }
 
     if (upCheck) {
-      setSpeed(-leftPIDvalue/4, rightPIDvalue/4);
+      setSpeed(-leftPIDvalue, rightPIDvalue);
     }
 
     if (downCheck) {
-      setSpeed(-leftPIDvalue/4, rightPIDvalue/4);
+      setSpeed(-leftPIDvalue, rightPIDvalue);
     }
 
     

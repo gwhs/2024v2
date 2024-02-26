@@ -98,6 +98,7 @@ public class GameRobotContainer implements BaseContainer {
       intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
       
       driverController.x().onTrue(new SpinIntakePID(m_IntakeSubsystem, 0));
+  
       driverController.y().onTrue(new SpinIntakePID(m_IntakeSubsystem, 106));
       driverController.a().onTrue(new IntakePickUpFromGround(m_IntakeSubsystem));
       driverController.b().onTrue(new IntakePassNoteToPizzaBox(m_IntakeSubsystem, m_PizzaBoxSubsystem));

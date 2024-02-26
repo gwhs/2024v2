@@ -7,6 +7,7 @@ package frc.robot.subsystems;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.controls.NeutralOut;
+import com.ctre.phoenix6.controls.StaticBrake;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -51,7 +52,7 @@ public class Climbsubsystem extends SubsystemBase {
     climberArmLeft.setInverted(invertedLeft);
     climberArmRight.setInverted(invertedRight);
 
-
+    StaticBrake brake = new StaticBrake();
     climberArmLeft.setNeutralMode(NeutralModeValue.Brake);
     climberArmRight.setNeutralMode(NeutralModeValue.Brake);
 
@@ -86,8 +87,8 @@ public class Climbsubsystem extends SubsystemBase {
       System.out.println("Could not apply configs, error code: " + leftMotorStatus.toString());
     }
 
-    climberArmLeft.setControl(new NeutralOut());
-    climberArmRight.setControl(new NeutralOut());
+    climberArmLeft.setControl(brake);
+    climberArmRight.setControl(brake);
 
   } 
 
@@ -132,12 +133,10 @@ public class Climbsubsystem extends SubsystemBase {
   //makes motors stop spinning
   public void stopClimbLeft(){
     climberArmLeft.stopMotor();
-    climberArmLeft.setControl(new NeutralOut());
   }
 
   public void stopClimbRight() {
     climberArmRight.stopMotor();
-    climberArmRight.setControl(new NeutralOut());
   }
 
   //gets the position for left motor; return the amount of rotations

@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.controls.NeutralOut;
+import com.ctre.phoenix6.controls.StaticBrake;
 
 public class ReactionSubsystem extends SubsystemBase {
   private TalonFX m_reactionArm;
@@ -18,7 +19,11 @@ public class ReactionSubsystem extends SubsystemBase {
     m_reactionArm = new TalonFX(armID, canbus);
     TalonFXConfiguration configs = new TalonFXConfiguration();
 
+    StaticBrake brake = new StaticBrake();
+
     m_reactionArm.setNeutralMode(NeutralModeValue.Brake);
+    m_reactionArm.setControl(brake);
+    
     
     configs.CurrentLimits.withSupplyCurrentLimit(Constants.ReactionConstants.currentLimit);
 

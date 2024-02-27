@@ -22,9 +22,9 @@ public class TestingOnlyShoot extends SequentialCommandGroup {
   public TestingOnlyShoot(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, double vel) {
     addCommands(
         new SpinNoteContainerMotor(pizzaBoxSubsystem, vel, 500),
-        Commands.waitSeconds(.2),
+        Commands.waitSeconds(0.7),
         new SwingForwardServo(pizzaBoxSubsystem),
-        Commands.waitSeconds(.5),
+        Commands.waitSeconds(.2),
         new SwingBackServo(pizzaBoxSubsystem),
         new StopNoteContainerMotor(pizzaBoxSubsystem),
         new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE)

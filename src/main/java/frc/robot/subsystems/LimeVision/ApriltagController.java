@@ -12,17 +12,17 @@ public class ApriltagController extends SubsystemBase {
     private final LimeLightSub limeLightSub;
 
     // forward PID constants
-    private final double kPX = 1; //0.05
+    private final double kPX = 0.5; //0.05
     private final double kDX = 0;
     private final double kIX = 0;
 
     // sideways PID constants
-    private final double kPThetaTx = 0.02;
+    private final double kPThetaTx = 0.05; //0.02
     private final double kDThetaTx = 0;
     private final double kIThetaTx = 0;    
 
     // rotation PID constants
-    private final double kPTheta = 0.03;
+    private final double kPTheta = 0.06; //0.08
     private final double kDTheta = 0;
     private final double kITheta = 0;
 
@@ -131,10 +131,9 @@ public class ApriltagController extends SubsystemBase {
             return PIDForward.atSetpoint();
         } else if (PIDType.toLowerCase().equals("sideways")) {
             return PIDSideways.atSetpoint();
-        } else if (PIDType.toLowerCase().equals("rotation")) {
-            return PIDSideways.atSetpoint();
+        } else {
+            return PIDRotation.atSetpoint();
         }
-        return false;
     }
 
     public double getDerivative(String PIDType) {
@@ -151,15 +150,17 @@ public class ApriltagController extends SubsystemBase {
 
     // if robot is facing directly at tag, it should return 180. if more left -180 + offset. if more right 180 + offset i think
     public double getApriltagHeadingTest() {
+        
         if (limeLightSub.getID() > 0) {
-            return Math.abs(limeLightSub.getBotPose()[5]) - 180;
+            double targetHeading = ApriltagConstants.APRILTAG_ROTATION[limeLightSub.getID()] - 180;
+            return limeLightSub.getBotPose()[5] - targetHeading;
         }
-        return swerve.getPose().getRotation().getDegrees();
+        return 0;
     }
 
     // aligning to facetag
     public double updatePIDRotationTest() {
-        rotationOutput = PIDRotation.calculate(getApriltagHeading());
+        rotationOutput = PIDRotation.calculate(getApriltagHeadingTest());
         return rotationOutput;
     }
 }

@@ -13,6 +13,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
@@ -23,6 +24,9 @@ import frc.robot.Robot;
 import frc.robot.commands.LimeLight.Align;
 import frc.robot.commands.LimeLight.Forward;
 import frc.robot.commands.LimeLight.Sideways;
+import frc.robot.commands.LimeLight.aimTag;
+import frc.robot.commands.LimeLight.alignTrap;
+import frc.robot.commands.LimeLight.parallelTag;
 import frc.robot.commands.driveCommands.rotateinPlace;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
@@ -50,6 +54,7 @@ public class VisionContainer implements BaseContainer
   private final ApriltagController apriltagController;
 
   CommandXboxController driverXbox = new CommandXboxController(0);
+  CommandXboxController operatorXbox = new CommandXboxController(1);
 
   public String getDriveTrainName(){
     return "swerve/ryker_falcon";
@@ -76,10 +81,10 @@ public class VisionContainer implements BaseContainer
       .withWidget(BuiltInWidgets.kGraph)
       .withSize(3,3)
       .withPosition(3, 0);
-    // limeLightTab.addDouble("Rotation Output", ()->apriltagController.getErrorRotation())
-    //   .withWidget(BuiltInWidgets.kGraph)
-    //   .withSize(3,3)
-    //   .withPosition(3, 0);
+    limeLightTab.addDouble("Rotation Output", ()->apriltagController.getErrorRotation())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(3, 0);
     // limeLightTab.addDouble("Forward TA Output", ()->apriltagController.getErrorForwardTA())
     //   .withWidget(BuiltInWidgets.kGraph)
     //   .withSize(3,3)
@@ -90,11 +95,12 @@ public class VisionContainer implements BaseContainer
     //   .withSize(3,3)
     //   .withPosition(3, 0);
 
-      limeLightTab.addDouble("Rotate Error", ()-> rotateinPlace.angleRate)
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(3, 0);
+      // limeLightTab.addDouble("Rotate Error", ()-> rotateinPlace.angleRate)
+      // .withWidget(BuiltInWidgets.kGraph)
+      // .withSize(3,3)
+      // .withPosition(3, 0);
 
+    limeLightTab.addNumber("Theta Distance", () -> apriltagController.getApriltagHeadingTest());
     // limeLightTab.addNumber("Distance Bot Pose", ()-> apriltagController.getBotPoseDistance());
     limeLightTab.addNumber("Distance X Input", ()-> apriltagController.getDistanceForward());
     // limeLightTab.addNumber("Distance Y Input", ()-> apriltagController.getDistanceSideways());
@@ -145,6 +151,11 @@ public class VisionContainer implements BaseContainer
     // driverXbox.y().onTrue(new rotateinPlace(() -> 90, drivebase));
     driverXbox.y().onTrue(new InstantCommand(drivebase::resetStartPos));
     driverXbox.x().onTrue(new Forward(drivebase, apriltagController));
+
+    // driverXbox.b().onTrue(new alignTrap(drivebase, apriltagController));
+    operatorXbox.a().onTrue(new alignTrap(drivebase, apriltagController));
+    operatorXbox.b().onTrue(new parallelTag(drivebase, apriltagController));
+    
 
     driverXbox.a().onTrue(new Align(drivebase, apriltagController));
   }

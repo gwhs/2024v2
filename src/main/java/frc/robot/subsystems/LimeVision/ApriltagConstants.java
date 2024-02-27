@@ -1,10 +1,28 @@
 package frc.robot.subsystems.LimeVision;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
+
 public class ApriltagConstants {
 
     // find trajectory values
-    public static final double[][] TARGET_POSITION = {{},
-                                                    {}};
+    public static final Pose2d[] TARGET_POSITION = {new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
+                                                    new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
+                                                    new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
+                                                    new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
+                                                    new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
+                                                    new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
+                                                    new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
+                                                    new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
+                                                    new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
+                                                    new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
+                                                    new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
+                                                    new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
+                                                    new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
+                                                    new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
+                                                    new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
+                                                    new Pose2d(new Translation2d(0,0), new Rotation2d(0))};
     
     public static final double[][] APRILTAG = {{15.08,0.24,1.35},
                                             {16.18,0.89,1.35},

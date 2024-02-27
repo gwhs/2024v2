@@ -1,33 +1,69 @@
-/*
- * Does not use robot pose, dependent on driver getting in range of tag
- */
+// Copyright (c) FIRST and other WPILib contributors.
+// Open Source Software; you can modify and/or share it under the terms of
+// the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.LimeLight;
 
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-
 import frc.robot.subsystems.LimeVision.ApriltagController;
+import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj2.command.Command;
 
-import frc.robot.commands.driveCommands.rotateinPlace;
-import frc.robot.commands.LimeLight.Sideways;
-import frc.robot.commands.LimeLight.Forward;
+/** An example command that uses an example subsystem. */
+public class alignTrap extends Command {
+  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+  private final SwerveSubsystem driSwerveSubsystem;
+  private final ApriltagController apriltagController;
+
+  private double robotHeading;
+  /**
+   * Creates a new ExampleCommand.
+   *
+   * @param subsystem The subsystem used by this command.
+   */
+  public alignTrap(SwerveSubsystem driSwerveSubsystem, ApriltagController apriltagController) {
+    this.driSwerveSubsystem = driSwerveSubsystem;
+    this.apriltagController = apriltagController;
+    // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(driSwerveSubsystem, apriltagController);
+  }
+
+  // Called when the command is initially scheduled.
+  @Override
+  public void initialize() {
+    robotHeading = apriltagController.getHeading();
+    apriltagController.setTolerance("forward");
+    apriltagController.setPoint(0, "forward"); // fixed x distance from tag before crashing field perimeter
+    apriltagController.setTolerance("sideways");
+    apriltagController.setPoint(0, "sideways");
+    apriltagController.setTolerance("rotation");
+    apriltagController.setPoint(0, "rotation");
+  }
+
+  // Called every time the scheduler runs while the command is scheduled.
+  @Override
+  public void execute() {
+    double forward = apriltagController.updatePIDForward();
+    double sideways = apriltagController.updatePIDSideways();
+    double angle = apriltagController.updatePIDRotationTest();
+
+    // double dx = distance * Math.cos(robotHeading);
+    // double dy = distance * Math.sin(robotHeading);
 
 
-public class alignTrap extends ParallelDeadlineGroup {
     
-    public alignTrap(
-        SwerveSubsystem driSwerveSubsystem, 
-        ApriltagController apriltagController) {
-            // Add commands
-        super(new Forward(driSwerveSubsystem, apriltagController));
-        
-        addCommands(
-            new Sideways(driSwerveSubsystem, apriltagController),
-            new parallelTag(driSwerveSubsystem, apriltagController),
-            new Forward(driSwerveSubsystem, apriltagController));
-    }
+    driSwerveSubsystem.drive(new Translation2d(-forward, sideways), angle, false);
+    // driSwerveSubsystem.drive(new Translation2d(-distance, 0), angle, false);
+    
+  }
+  // Called once the command ends or is interrupted.
+  @Override
+  public void end(boolean interrupted) {}
+
+  // Returns true when the command should end.
+  @Override
+  public boolean isFinished() {
+    return apriltagController.atSetpoint("forward");
+  }
 }

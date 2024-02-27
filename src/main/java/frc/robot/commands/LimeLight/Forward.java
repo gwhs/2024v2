@@ -34,7 +34,7 @@ public class Forward extends Command {
   public void initialize() {
     robotHeading = apriltagController.getHeading();
     apriltagController.setTolerance("forward");
-    apriltagController.setPoint(0, "forward"); // fixed x distance from tag before crashing field perimeter
+    apriltagController.setPoint(1, "forward"); // fixed x distance from tag before crashing field perimeter
   }
 
   // Called every time the scheduler runs while the command is scheduled.

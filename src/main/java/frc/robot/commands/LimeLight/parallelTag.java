@@ -39,7 +39,7 @@ public class parallelTag extends Command {
   @Override
   public void execute() {
     double angle = apriltagController.updatePIDRotationTest();
-    driSwerveSubsystem.drive(new Translation2d(0, 0), -angle, false);
+    driSwerveSubsystem.drive(new Translation2d(0, 0), angle, false);
     
 
   }

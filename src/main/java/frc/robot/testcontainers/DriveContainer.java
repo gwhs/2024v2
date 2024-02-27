@@ -5,6 +5,8 @@
 package frc.robot.testcontainers;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -113,8 +115,7 @@ AbsoluteFieldDrive closedFieldAbsoluteDriveSpeaker = new AbsoluteFieldDrive(driv
 
 
           configureBindings();
-     
-
+    drivebase.resetOdometry(new Pose2d(1.88, 5.55, new Rotation2d(0)));
     drivebase.setDefaultCommand(closedFieldRel);  //TO CHANGE DRIVE BASE
     //drivebase.test();
 

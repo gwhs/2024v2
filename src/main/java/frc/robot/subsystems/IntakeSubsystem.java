@@ -110,7 +110,10 @@ public class IntakeSubsystem extends SubsystemBase {
   else if (speed > 1) { // Will not be greater than maximum angle
     speed = 1;
   }
-    m_moveIntakeArm.set(speed);
+  if(m_Encoder.isConnected() && !emergencyStop) {
+      m_moveIntakeArm.set(speed);
+    }
+    
   }  
 
   public void setIntakeArmAngle(double angle) {

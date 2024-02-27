@@ -99,9 +99,11 @@ public class GameRobotContainer implements BaseContainer {
       final PIDController intakeController = new PIDController(.005, .0, .0);
       intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
       
+      //driverController.x().onTrue(new SpinToArmAngle(m_ArmSubsystem, 120));
+      //driverController.y().onTrue(new SpinToArmAngle(m_ArmSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE));
+
       driverController.x().onTrue(new SpinIntakePID(m_IntakeSubsystem, 0));
-  
-      driverController.y().onTrue(new SpinIntakePID(m_IntakeSubsystem, 106));
+      driverController.y().onTrue(new SpinIntakePID(m_IntakeSubsystem, 70));
       driverController.a().onTrue(new IntakePickUpFromGround(m_IntakeSubsystem));
       driverController.b().onTrue(new IntakePassNoteToPizzaBox(m_IntakeSubsystem, m_PizzaBoxSubsystem));
       driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));

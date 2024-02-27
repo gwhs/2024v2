@@ -130,8 +130,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   else if (speed > 15) { // Will not be greater than maximum angle
     speed = 15;
   }
-  VoltageOut armSpinRequest = new VoltageOut(-speed, true, false, false, false);
-  m_arm.setControl(armSpinRequest);
+      VoltageOut armSpinRequest = new VoltageOut(-speed, true, false, false, false);
+      m_arm.setControl(armSpinRequest);
  }
 
  public void targetArmAngle(double angle)
@@ -175,8 +175,20 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     SmartDashboard.putNumber("Output", output);
     SmartDashboard.putNumber("setPoint position", setPoint.position);
     SmartDashboard.putNumber("setPoint velocity", setPoint.velocity);
-    spinArm(output + feedForward);
+    if(m_encoder.isConnected() && !emergencyStop)
+    {
+      spinArm(output + feedForward);
+    }
+    else
+    {
+      spinArm(0);
+    }
     //System.out.println("Target Speed is " + (output));
+  }
+
+  public boolean isEmergencyStop()
+  {
+    return m_encoder.isConnected() && !emergencyStop;
   }
 
   @Override
@@ -185,16 +197,17 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     return encoderGetAngle() * Math.PI/180;
   }
 
-  @Override
-  public void periodic() {
-    if(!(m_encoder.isConnected()) || emergencyStop)
-    {
-      disable();
-    }
-    if(m_encoder.isConnected() && !emergencyStop)
-    {
-      enable();
-    }
-  }
+  // @Override
+  // public void periodic()
+  // {
+  //   if(m_encoder.isConnected() && !emergencyStop && isEnabled())
+  //   {
+  //     enable();
+  //   }
+  //   else
+  //   {
+  //     disable();
+  //   }
 
+  // }
 }

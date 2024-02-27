@@ -31,9 +31,12 @@ public class UtilMotor {
     // Peak output of 40 amps
     configs.TorqueCurrent.PeakForwardTorqueCurrent = peakCurrent;
     configs.TorqueCurrent.PeakReverseTorqueCurrent = -peakCurrent;
-
-    MotorOutputConfigs motorOutput = new MotorOutputConfigs();
+if(brakeMode)
+{
+   MotorOutputConfigs motorOutput = new MotorOutputConfigs();
     motorOutput.NeutralMode = NeutralModeValue.Brake;
+}
+
 
 
     /* Retry config apply up to 5 times, report if failure */

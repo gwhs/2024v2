@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimeLightConstants;
-import frc.robot.commands.LimeLight.AddVisionData;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.controller.PIDController;
@@ -42,23 +41,7 @@ public class LimeLightSub extends SubsystemBase {
   private PIDController PIDVision = new PIDController(kP, kI, kD);
   private PIDController PIDVisionY = new PIDController(kP, kI, kD);
   private PIDController PIDVisionTheta = new PIDController(kP, kI, kD);
-  double[][] apriltag = {{15.08,0.24,1.35},
-                         {16.18,0.89,1.35},
-                         {16.58,4.98,1.45},
-                         {16.58,5.55,1.45},
-                         {14.70,8.23,1.35},
-                         {1.84,8.23,1.35},
-                         {-0.04,5.55,1.45},
-                         {-0.04,4.98,1.45},
-                         {0.36,0.88,1.35},
-                         {1.46,0.24,1.35},
-                         {11.90,3.71,1.32},
-                         {11.90,4.50,1.32},
-                         {11.22,4.10,1.32},
-                         {5.32,4.10,1.32},
-                         {4.64,4.50,1.32},
-                         {4.64,3.71,1.32}};
-  
+
   
 
 
@@ -273,14 +256,6 @@ public class LimeLightSub extends SubsystemBase {
     colorBotPose[4] = blueBotPose[4];
     colorBotPose[5] = blueBotPose[5];
     colorBotPose[6] = blueBotPose[6];
-
-    // if(hasTarget()){
-    // colorBotPose[7] = getTID()+1;
-    //   //if(getTID() != -1){
-    //   colorBotPose[8] = Math.sqrt(Math.pow(apriltag[getTID()][0]-blueBotPose[0] ,2) + 
-    //                            Math.pow(apriltag[getTID()][1]-blueBotPose[1] ,2));
-    //   //} 
-    // }
     colorBotPose[7] = blueBotPose[7];
     colorBotPose[8] = blueBotPose[8];
     colorBotPose[10] = blueBotPose[10];
@@ -311,9 +286,7 @@ public class LimeLightSub extends SubsystemBase {
   public void setData(){
     double[] temp = getBlueBotPose();
     Pose2d currentPose = VisionContainer.drivebase.getPose();
-    double distance = Math.sqrt(Math.pow(temp[0]- currentPose.getX(),2) + Math.pow(temp[1]- currentPose.getY() ,2));
-    // double distance = Math.hypot( temp[0]- currentPose.getX(), temp[1]- currentPose.getY());
-    System.out.println(distance);
+    double distance = Math.sqrt(Math.pow(temp[0]- currentPose.getX(),2) + Math.pow(temp[1]- currentPose.getY() ,2)); //Calculates distance from Apriltag to robot
     double distancefromAprilTag = 0.8; //0.8
     double distancefromLimeLight = 2.5; //2.5
 
@@ -322,24 +295,16 @@ public class LimeLightSub extends SubsystemBase {
         double xyStds= 0;
         double degStds = 0;
         Matrix<N3, N1> stds = new Matrix<N3, N1>(Nat.N3(), Nat.N1());
-        // int tagsVisable = LimelightHelpers.getLatestResults("limelight").targetingResults.targets_Fiducials.length;
         LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
-        if(limelightMeasurement.tagCount >= 2 ){
-            xyStds = 0.5;
+        if(limelightMeasurement.tagCount >= 2 ){ //Checks if Limelight sees 2 Apriltag
+            xyStds = 0.5; 
             degStds = 6;
-            // System.out.println(xyStds);
-            // System.out.println(degStds);
-            SmartDashboard.putNumber("xyStds", xyStds);
-            SmartDashboard.putNumber("degStds", degStds);
+        
         }
-        else if ((temp[9] < distancefromLimeLight) && (distance < distancefromAprilTag)) {
+        else if ((temp[9] < distancefromLimeLight) && (distance < distancefromAprilTag)) { //Checks if within distance of apriltag and limelight
             xyStds = 1.0;
             degStds = 12;
-            // System.out.println(xyStds);
-            // System.out.println(degStds);
-            SmartDashboard.putNumber("xyStds", xyStds);
-            SmartDashboard.putNumber("degStds", degStds);
-            
+
         }
         else{
           return;
@@ -348,9 +313,9 @@ public class LimeLightSub extends SubsystemBase {
           stds.set(1,0,xyStds);
           stds.set(2,0, degStds);
           Rotation2d degree = new Rotation2d(temp[5]* Math.PI / 180);
-          Pose2d newPose = new Pose2d(temp[0],temp[1],degree);
+          Pose2d newPose = new Pose2d(temp[0],temp[1],degree); //creates new pose2d with limelight data
           
-          VisionContainer.drivebase.addActualVisionReading(newPose ,Timer.getFPGATimestamp() - (temp[6]/1000.0),stds);
+          VisionContainer.drivebase.addActualVisionReading(newPose ,Timer.getFPGATimestamp() - (temp[6]/1000.0),stds); //Changes standard dev base on apriltags and drive
   }
 
   }

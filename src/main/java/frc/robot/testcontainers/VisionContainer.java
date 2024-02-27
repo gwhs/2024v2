@@ -36,7 +36,6 @@ import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.commands.LimeLight.FaceAprilTag;
 import frc.robot.commands.LimeLight.Sideways;
 import frc.robot.commands.LimeLight.DriveToTag;
-import frc.robot.commands.LimeLight.AddVisionData;
 import frc.robot.commands.LimeLight.DriveThere;
 
 /**
@@ -68,8 +67,8 @@ public class VisionContainer implements BaseContainer
     drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          getDriveTrainName()));
     autoChooser = AutoBuilder.buildAutoChooser();
-    drivebase.resetOdometry(new Pose2d(2.5, 5.53,new Rotation2d(180)));
-    drivebase.zeroGyro();
+   
+
     
 
     limeLightSub = new LimeLightSub("limelight" );                                                                   

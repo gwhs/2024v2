@@ -12,12 +12,14 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 /** Add your docs here. */
 public class UtilMotor {
-
     public static void configMotor(TalonFX motor) {
         configMotor(motor, 0.11, 0.5, 0.0001, 0.12, 8, 40, true);
     }
 
-    public static void configMotor(TalonFX motor, double kP, double kI, double kD, double kV, int peakVoltage, int peakCurrent, boolean brakeMode) {
+    public static void configMotor(TalonFX motor, double kP, double kI, double kD, double kV, int peakVoltage, int peakCurrent, boolean brakeMode)
+    {
+       MotorOutputConfigs motorOutput = new MotorOutputConfigs();
+  
         TalonFXConfiguration configs = new TalonFXConfiguration();
     /* Voltage-based velocity requires a feed forward to account for the back-emf of the motor */
     configs.Slot0.kP = kP; // An error of 1 rotation per second results in 2V output
@@ -31,11 +33,13 @@ public class UtilMotor {
     // Peak output of 40 amps
     configs.TorqueCurrent.PeakForwardTorqueCurrent = peakCurrent;
     configs.TorqueCurrent.PeakReverseTorqueCurrent = -peakCurrent;
-if(brakeMode)
-{
-   MotorOutputConfigs motorOutput = new MotorOutputConfigs();
-    motorOutput.NeutralMode = NeutralModeValue.Brake;
-}
+
+    if(brakeMode)
+    {
+      motorOutput.NeutralMode = NeutralModeValue.Brake;
+    }
+
+    
 
 
 

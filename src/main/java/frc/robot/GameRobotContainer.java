@@ -5,6 +5,7 @@ import java.io.File;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ClimbConstants;
@@ -98,6 +99,9 @@ public class GameRobotContainer implements BaseContainer {
         driverController.a().onTrue(new ChangeLEDColor(led, 255, 0, 255));
         driverController.rightBumper().onTrue(new ChangeLEDColor(led, 0, 0, 0));
         */
+
+        Shuffleboard.getTab("Climb").add("motor down", new MotorDown(m_Climbsubsystem, m_drivebase));
+        Shuffleboard.getTab("Climb").add("motor up", new MotorUp(m_Climbsubsystem, m_drivebase));
     }
 
     public void setMotorBrake(boolean brake)

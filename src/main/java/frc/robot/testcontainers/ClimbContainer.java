@@ -75,8 +75,8 @@ public class ClimbContainer implements BaseContainer {
 
         Shuffleboard.getTab("Climb").add("motor down", new MotorDown(climbsubsystem, swerve));
         Shuffleboard.getTab("Climb").add("motor up", new MotorUp(climbsubsystem, swerve));
-        Shuffleboard.getTab("Climb").add("climb up", new ClimbUp(climbsubsystem, swerve));
-        Shuffleboard.getTab("Climb").add("climb down", new ClimbDown(climbsubsystem, swerve));
+        //Shuffleboard.getTab("Climb").add("climb up", new ClimbUp(climbsubsystem, swerve));
+        //Shuffleboard.getTab("Climb").add("climb down", new ClimbDown(climbsubsystem, swerve));
                 
     }
 

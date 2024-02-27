@@ -7,16 +7,18 @@ package frc.robot.commands.ClimberCommands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.Arm.SpinToArmAngle;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 public class ClimbUp extends SequentialCommandGroup {
 
   /** Creates a new ClimbUp.*/
-  public ClimbUp(Climbsubsystem c, SwerveSubsystem s) {
+  public ClimbUp(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a) {
     addCommands(
-          new ParallelCommandGroup(/*new movearm(), */ 
-              new SequentialCommandGroup(new WaitCommand(2), new MotorUp(c, s))),
+          new ParallelCommandGroup(new SpinToArmAngle(a, 135),
+              new SequentialCommandGroup(new WaitCommand(0.5), new MotorUp(c, s))),
           /*new ParallelCommandGroup(new driveforward(), new Reactionbar()),*/
           new MotorDown(c, s)
     );

@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
@@ -17,13 +19,15 @@ public class Trap extends SequentialCommandGroup {
 
   /** Creates a new Trap. */
   
-  public Trap(Climbsubsystem c, SwerveSubsystem s/* , ArmSubsystem a*/ ) {
+  public Trap(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a ) {
 
     addCommands(
           /*new align(), */
-          new ClimbUp(c, s), 
+          //new arm move
+          new ClimbUp(c, s, a), 
           /*new shoot(),*/ 
-          new ClimbDown(c, s)
+          //move arm back
+          new ClimbDown(c, s, a)
     );
     // Use addRequirements() here to declare subsystem dependencies.
     

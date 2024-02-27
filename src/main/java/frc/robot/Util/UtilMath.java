@@ -28,22 +28,22 @@ public class UtilMath {
         {
              if(pose.getY() >= BLUE_SPEAKER_Y)
         {
-            return -90+caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
+            return -180+caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
         }
         else if(pose.getY() <= BLUE_SPEAKER_Y)
         {
-            return -90-caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
+            return 180-caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
         }
         }
         else if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
         {
             if(pose.getY() >= RED_SPEAKER_X)
             {
-                return -90-caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
+                return -caclucateRotateTheta(pose, RED_SPEAKER_X, RED_SPEAKER_Y);
             }
             else if(pose.getY() <= RED_SPEAKER_Y)
             {
-                return -90+caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
+                return caclucateRotateTheta(pose, RED_SPEAKER_X, RED_SPEAKER_Y);
             }
         }
         return caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);

@@ -12,6 +12,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.Util.UtilMath;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+
+import java.lang.annotation.Target;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import swervelib.SwerveController;
@@ -59,8 +61,8 @@ public class TeleopDrive extends Command
   {
     currTheta = swerve.getHeading().getDegrees();
     PID.setSetpoint(UtilMath.SpeakerTheta(swerve.getPose()));
-    PID.setTolerance(Constants.DriveConstants.THETA_TOLERANCE, Constants.DriveConstants.STEADY_STATE_TOLERANCE);
-    PID.setPID(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
+    PID.setTolerance(Constants.FaceSpeakerConstants.THETA_TOLERANCE, Constants.FaceSpeakerConstants.STEADY_STATE_TOLERANCE);
+    PID.setPID(Constants.FaceSpeakerConstants.kP, Constants.FaceSpeakerConstants.kI, Constants.FaceSpeakerConstants.kD);
     PID.enableContinuousInput(-180, 180);
   }
 
@@ -72,6 +74,7 @@ public class TeleopDrive extends Command
     double yVelocity   = Math.pow(vY.getAsDouble(), 3);
     double angVelocity = Math.pow(omega.getAsDouble(), 3);
     currTheta = swerve.getHeading().getDegrees();
+
 
     // SmartDashboard.putNumber("vX", xVelocity);
     // SmartDashboard.putNumber("vY", yVelocity);

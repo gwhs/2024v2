@@ -24,7 +24,7 @@ public class UtilMath {
 
     public static double SpeakerTheta(Pose2d pose)
     {
-        if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
+        if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
         {
              if(pose.getY() >= BLUE_SPEAKER_Y)
         {
@@ -35,9 +35,9 @@ public class UtilMath {
             return 180-caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
         }
         }
-        else if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
+        else if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
         {
-            if(pose.getY() >= RED_SPEAKER_X)
+            if(pose.getY() >= RED_SPEAKER_Y)
             {
                 return -caclucateRotateTheta(pose, RED_SPEAKER_X, RED_SPEAKER_Y);
             }

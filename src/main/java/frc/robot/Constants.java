@@ -92,4 +92,15 @@ public final class Constants
     public static final double THETA_TOLERANCE = 0.1;
     public static final double STEADY_STATE_TOLERANCE = 0.1;
   }
+
+  public static final class FaceSpeakerConstants
+  {
+    public static final double kP = 0.03;
+    public static final double kI = 0.02;
+    public static final double kD = 0.00;
+
+    public static final double THETA_TOLERANCE = 0.1;
+    public static final double STEADY_STATE_TOLERANCE = 0.1;
+  }
+
 }

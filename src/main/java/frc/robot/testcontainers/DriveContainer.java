@@ -22,6 +22,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Util.UtilMath;
 import frc.robot.Robot;
 import frc.robot.commands.driveCommands.DecreaseSpeed;
+import frc.robot.commands.driveCommands.FaceSpeaker;
 import frc.robot.commands.driveCommands.rotateinPlace;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
@@ -48,7 +49,7 @@ public class DriveContainer implements BaseContainer
   CommandXboxController driverXbox = new CommandXboxController(0);
 
   public String getDriveTrainName(){
-    return "swerve/ryker_falcon";
+    return "swerve/hajel_kraken";
   }
 
   /**
@@ -115,7 +116,7 @@ AbsoluteFieldDrive closedFieldAbsoluteDriveSpeaker = new AbsoluteFieldDrive(driv
 
 
           configureBindings();
-    drivebase.resetOdometry(new Pose2d(1.88, 5.55, new Rotation2d(0)));
+    drivebase.resetOdometry(new Pose2d(14.91, 5.49, new Rotation2d(0)));
     drivebase.setDefaultCommand(closedFieldRel);  //TO CHANGE DRIVE BASE
     //drivebase.test();
 
@@ -129,23 +130,20 @@ AbsoluteFieldDrive closedFieldAbsoluteDriveSpeaker = new AbsoluteFieldDrive(driv
 
     ShuffleboardTab test = Shuffleboard.getTab("test");
     
+
+
     driveTrainShuffleboardTab.addDouble("X Position", ()->drivebase.getPose().getX())
       .withWidget(BuiltInWidgets.kGraph)
       .withSize(3,3)
       .withPosition(0, 0);
-
-    // driveTrainShuffleboardTab.addDouble("X Position", ()->drivebase.getPose().getX())
-    //   .withWidget(BuiltInWidgets.kGraph)
-    //   .withSize(3,3)
-    //   .withPosition(0, 0);
-    // driveTrainShuffleboardTab.addDouble("Y Position", ()->drivebase.getPose().getY())
-    //   .withWidget(BuiltInWidgets.kGraph)
-    //   .withSize(3,3)
-    //   .withPosition(3, 0);
-    // driveTrainShuffleboardTab.addDouble("Angel", ()->drivebase.getPose().getRotation().getDegrees())
-    //   .withWidget(BuiltInWidgets.kGraph)
-    //   .withSize(3,3)
-    //   .withPosition(6, 0);
+    driveTrainShuffleboardTab.addDouble("Y Position", ()->drivebase.getPose().getY())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(3, 0);
+    driveTrainShuffleboardTab.addDouble("Angel", ()->drivebase.getPose().getRotation().getDegrees())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(6, 0);
 
 
     // driveTrainShuffleboardTab.addDouble("X Velocity (m)", ()->drivebase.getFieldVelocity().vxMetersPerSecond)
@@ -177,6 +175,7 @@ AbsoluteFieldDrive closedFieldAbsoluteDriveSpeaker = new AbsoluteFieldDrive(driv
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     driverXbox.leftBumper().whileTrue(new DecreaseSpeed(closedFieldRel));
+    driverXbox.y().whileTrue(new FaceSpeaker(closedFieldRel));
 
     
     

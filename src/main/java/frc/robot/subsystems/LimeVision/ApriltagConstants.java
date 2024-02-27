@@ -13,16 +13,16 @@ public class ApriltagConstants {
                                                     new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
                                                     new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
                                                     new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
+                                                    new Pose2d(new Translation2d(1.29,5.54), new Rotation2d(ApriltagConstants.APRILTAG_ROTATION[6] - 180)),
+                                                    new Pose2d(new Translation2d(1.29,5.54), new Rotation2d(ApriltagConstants.APRILTAG_ROTATION[7] - 180)),
                                                     new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
                                                     new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
                                                     new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
                                                     new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
                                                     new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
-                                                    new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
-                                                    new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
-                                                    new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
-                                                    new Pose2d(new Translation2d(0,0), new Rotation2d(0)),
-                                                    new Pose2d(new Translation2d(0,0), new Rotation2d(0))};
+                                                    new Pose2d(new Translation2d(6.32,4.08), new Rotation2d(ApriltagConstants.APRILTAG_ROTATION[13] - 180)),
+                                                    new Pose2d(new Translation2d(4.17,5.13), new Rotation2d(ApriltagConstants.APRILTAG_ROTATION[14] - 180)),
+                                                    new Pose2d(new Translation2d(4.19,2.94), new Rotation2d(ApriltagConstants.APRILTAG_ROTATION[15] - 180))};
     
     public static final double[][] APRILTAG = {{15.08,0.24,1.35},
                                             {16.18,0.89,1.35},

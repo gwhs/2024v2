@@ -151,7 +151,11 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {}
+  public void periodic() {
+    if(!(m_Encoder.isConnected())) {
+      m_moveIntakeArm.stopMotor();
+    }
+  }
 
   @Override
   public void simulationPeriodic() {

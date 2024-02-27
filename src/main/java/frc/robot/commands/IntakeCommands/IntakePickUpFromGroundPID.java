@@ -9,17 +9,17 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
-public class SpinIntakePID extends PIDCommand {
+public class IntakePickUpFromGroundPID extends PIDCommand {
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final IntakeSubsystem intakeSubsystem;
   private static PIDController intakeController = new PIDController(.01, .001, .0);
   
-  public SpinIntakePID(IntakeSubsystem intakeSubsystem, final double targetAngle) {
-    super(intakeController, ()-> intakeSubsystem.encoderGetAngle(), () -> targetAngle,
+  public IntakePickUpFromGroundPID(IntakeSubsystem intakeSubsystem, int velocity, int accleration) {
+    super(intakeController, ()-> intakeSubsystem.encoderGetAngle(), () -> 0,
             (final double speed) -> 
             {intakeSubsystem.spinIntakeArm(-speed);
-            }
+              intakeSubsystem.spinIntakeMotor(velocity, accleration);}
             , intakeSubsystem);
     this.intakeSubsystem = intakeSubsystem;
     intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);

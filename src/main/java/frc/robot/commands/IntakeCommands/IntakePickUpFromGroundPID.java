@@ -26,15 +26,21 @@ public class IntakePickUpFromGroundPID extends PIDCommand {
     //Shuffleboard.getTab("intake").add(intakeController);
   }
 
-  public void end(boolean interrupted) {
-    intakeSubsystem.stopArmMotor();
-  }
+  // public void end(boolean interrupted) {
+  //   intakeSubsystem.stopArmMotor();
+  // }
 
   //Returns true when the command should end.
   //@Override
   public boolean isFinished() {
     boolean sensorValue = intakeSubsystem.isNotePresent();
-    return sensorValue;
+    if(sensorValue) {
+      intakeSubsystem.stopArmMotor();
+      return sensorValue;
+    }
+    else {
+      return sensorValue;
+    }
   }
 
 }

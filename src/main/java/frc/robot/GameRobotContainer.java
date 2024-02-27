@@ -19,9 +19,10 @@ import frc.robot.commands.Arm.ScoreInTrap;
 import frc.robot.commands.Arm.SpinAndSwing;
 import frc.robot.commands.Arm.SpinNoteContainerMotor;
 import frc.robot.commands.Arm.SpinToArmAngle;
+import frc.robot.commands.Arm.TestingOnlyShoot;
 import frc.robot.commands.IntakeCommands.IntakeEmergencyStop;
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
-import frc.robot.commands.IntakeCommands.IntakePickUpFromGround;
+import frc.robot.commands.IntakeCommands.IntakeRejectNote;
 import frc.robot.commands.IntakeCommands.PickUpFromGroundAndPassToPizzaBox;
 import frc.robot.commands.IntakeCommands.SpinIntakePID;
 import frc.robot.commands.ledcommands.ChangeLEDColor;
@@ -100,22 +101,23 @@ public class GameRobotContainer implements BaseContainer {
       final PIDController intakeController = new PIDController(.005, .0, .0);
       intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
       
-      //driverController.x().onTrue(new SpinToArmAngle(m_ArmSubsystem, 120));
-      //driverController.y().onTrue(new SpinToArmAngle(m_ArmSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE));
+      driverController.x().onTrue(new SpinToArmAngle(m_ArmSubsystem, 200));
+      driverController.y().onTrue(new TestingOnlyShoot(m_PizzaBoxSubsystem, m_ArmSubsystem, 100));
 
-      driverController.x().onTrue(new SpinIntakePID(m_IntakeSubsystem, 0));
-      driverController.y().onTrue(new SpinIntakePID(m_IntakeSubsystem, 70));
+      // driverController.x().onTrue(new SpinIntakePID(m_IntakeSubsystem, 0));
+      // driverController.y().onTrue(new SpinIntakePID(m_IntakeSubsystem, 70));
       driverController.a().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
       //driverController.b().onTrue(new IntakePassNoteToPizzaBox(m_IntakeSubsystem, m_PizzaBoxSubsystem));
       driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
       driverController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem));
       driverController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
+      driverController.b().onTrue(new IntakeRejectNote(m_IntakeSubsystem));
 
 
-      OperatorController.a().whileTrue(new MotorUp(m_Climbsubsystem, m_drivebase));
-      OperatorController.b().whileTrue(new MotorDown(m_Climbsubsystem, m_drivebase));
-      OperatorController.x().onTrue(new ScoreInTrap(m_PizzaBoxSubsystem, m_ArmSubsystem));
-      OperatorController.y().onTrue(new SpinToArmAngle(m_ArmSubsystem, 135));
+      // OperatorController.a().whileTrue(new MotorUp(m_Climbsubsystem, m_drivebase));
+      // OperatorController.b().whileTrue(new MotorDown(m_Climbsubsystem, m_drivebase));
+      // OperatorController.x().onTrue(new ScoreInTrap(m_PizzaBoxSubsystem, m_ArmSubsystem));
+      // OperatorController.y().onTrue(new SpinToArmAngle(m_ArmSubsystem, 135));
       
       //This should be a parallel command with other stuff
      /* / driverController.x().onTrue(new ChangeLEDToBlue(led));//pressing x on the controller runs a

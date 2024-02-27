@@ -15,11 +15,14 @@ public class ScoreInSpeakerUnderHand extends SequentialCommandGroup {
   //velocity = 100 for testing shooting 
   public ScoreInSpeakerUnderHand(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem) {
     addCommands(
-        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.SPEAKER_LOW_ANGLE).withTimeout(3),
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, 100, 100),
-        Commands.waitSeconds(.2),
-        new StopNoteContainerMotor(pizzaBoxSubsystem),
-        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE)
+      new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.SPEAKER_LOW_ANGLE).withTimeout(3),
+      new SpinNoteContainerMotor(pizzaBoxSubsystem, 100, 100),
+      Commands.waitSeconds(.2),
+      new SwingForwardServo(pizzaBoxSubsystem),
+      Commands.waitSeconds(.2),
+      new SwingBackServo(pizzaBoxSubsystem),
+      new StopNoteContainerMotor(pizzaBoxSubsystem),
+      new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE)
     );
   }
 

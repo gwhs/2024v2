@@ -61,8 +61,8 @@ public class IntakePassNoteToPizzaBox extends Command {
     if(prevSensorValue == true && currentSensorValue == false) {
       noteLatch = true;
     }  
-    // two second delay before checking sensor again
     if(counter > Constants.IntakeConstants.NOTE_DELAY && noteLatch) {
+      System.out.println("hiiiiiiiiiiii");
       noteLatch = false;
       return true; 
     }

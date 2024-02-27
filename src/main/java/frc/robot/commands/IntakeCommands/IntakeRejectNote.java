@@ -5,7 +5,6 @@
 package frc.robot.commands.IntakeCommands;
 
 import frc.robot.subsystems.IntakeSubsystem;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -13,11 +12,9 @@ public class IntakeRejectNote extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private IntakeSubsystem intakeSubsystem;
-  private Timer time;
 
   public IntakeRejectNote(IntakeSubsystem subsystem) {
     intakeSubsystem = subsystem;
-    time = new Timer();
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem);
@@ -26,7 +23,7 @@ public class IntakeRejectNote extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intakeSubsystem.rejectIntake(50, 5);
+    intakeSubsystem.rejectIntake(100, 50);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -46,12 +43,7 @@ public class IntakeRejectNote extends Command {
   // called every cycle
   @Override
   public boolean isFinished() {
-    if(time.hasElapsed(2)) {
-      return true;
-    }
-    else {
-      return false;
-    }
+    return !intakeSubsystem.isNotePresent();
   }
 
 }

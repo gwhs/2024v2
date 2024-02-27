@@ -22,7 +22,7 @@ public class UtilMath {
         return  Math.abs(Math.toDegrees(calucatedRad));
     }
 
-    public static double SpeakerTheta(Pose2d pose)
+    public static double FrontSpeakerTheta(Pose2d pose)
     {
         if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
         {
@@ -44,6 +44,33 @@ public class UtilMath {
             else if(pose.getY() <= RED_SPEAKER_Y)
             {
                 return caclucateRotateTheta(pose, RED_SPEAKER_X, RED_SPEAKER_Y);
+            }
+        }
+        return caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
+       
+    }
+     public static double BackSpeakerTheta(Pose2d pose)
+    {
+        if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
+        {
+             if(pose.getY() >= BLUE_SPEAKER_Y)
+        {
+            return caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
+        }
+        else if(pose.getY() <= BLUE_SPEAKER_Y)
+        {
+            return -caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
+        }
+        }
+        else if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
+        {
+            if(pose.getY() >= RED_SPEAKER_Y)
+            {
+                return 180-caclucateRotateTheta(pose, RED_SPEAKER_X, RED_SPEAKER_Y);
+            }
+            else if(pose.getY() <= RED_SPEAKER_Y)
+            {
+                return -180+caclucateRotateTheta(pose, RED_SPEAKER_X, RED_SPEAKER_Y);
             }
         }
         return caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);

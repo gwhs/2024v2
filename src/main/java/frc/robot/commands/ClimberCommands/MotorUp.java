@@ -62,6 +62,7 @@ public class MotorUp extends Command {
     // while (climbersubsystem.getTopLimit()) {
     //   climbersubsystem.setSpeed(ClimbConstants.CLIMB_MOTOR_SPEED/4, ClimbConstants.CLIMB_MOTOR_SPEED/4);
     // }
+    
     climbersubsystem.stopClimbLeft();
     climbersubsystem.stopClimbRight(); 
   }

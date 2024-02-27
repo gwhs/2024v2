@@ -23,7 +23,6 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 //
 import edu.wpi.first.math.controller.ArmFeedforward;
 
-import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.StaticBrake;
 import com.ctre.phoenix6.controls.VoltageOut;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -71,6 +70,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
       m_encoder = new DutyCycleEncoder(channel1);
       armFeedForward = new ArmFeedforward(Arm.KSVOLTS, Arm.KGVOLTS, 0, 0);
       
+      StaticBrake brake = new StaticBrake();
+      
       
 
       
@@ -112,6 +113,9 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
       if(!motorStatus.isOK()) {
         System.out.println("Could not apply configs, error code: " + motorStatus.toString());
       }
+
+       m_arm.setNeutralMode(NeutralModeValue.Brake);
+       m_arm.setControl(brake);
 
     Shuffleboard.getTab("Arm").addDouble("Encoder Angle", ()->encoderGetAngle()).withWidget(BuiltInWidgets.kGraph)
     .withSize(3,3)

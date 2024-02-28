@@ -4,19 +4,21 @@
 
 package frc.robot.commands.IntakeCommands;
 
-import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-/** An example command that uses an example subsystem. */
-public class UpperArmIntake extends Command {
+public class IntakeRejectNote extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+
   private IntakeSubsystem intakeSubsystem;
+  private Timer time;
 
-  private double motorAngle;
+  public IntakeRejectNote(IntakeSubsystem subsystem) {
+    intakeSubsystem = subsystem;
+    time = new Timer();
 
-  public UpperArmIntake(IntakeSubsystem intakeSubsystem) {
-    this.intakeSubsystem = intakeSubsystem;
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem);
   }
@@ -24,25 +26,32 @@ public class UpperArmIntake extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-
+    intakeSubsystem.rejectIntake(50, 5);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
-  // moving arm motor back up to original position (0)
   @Override
   public void execute() {
-      intakeSubsystem.setArmAngle(0);
+    
   }
 
   // Called once the command ends or is interrupted.
+  // runs once when isFinished is called
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    intakeSubsystem.stopIntakeMotors();
+  }
 
   // Returns true when the command should end.
+  // called every cycle
   @Override
   public boolean isFinished() {
-    motorAngle = intakeSubsystem.getArmPos();
-    return Math.abs(motorAngle - 0) < Constants.IntakeConstants.TOLERANCE;
+    if(time.hasElapsed(2)) {
+      return true;
+    }
+    else {
+      return false;
+    }
   }
 
 }

@@ -5,20 +5,18 @@
 package frc.robot.testcontainers;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.Util.UtilMath;
 import frc.robot.Robot;
+import frc.robot.commands.driveCommands.DecreaseSpeed;
 import frc.robot.commands.driveCommands.rotateinPlace;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
@@ -37,6 +35,7 @@ public class DriveContainer implements BaseContainer
 
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase;
+  private TeleopDrive closedFieldRel;
 
   CommandXboxController driverController = new CommandXboxController(1);
   CommandXboxController driverXbox = new CommandXboxController(0);
@@ -53,9 +52,8 @@ public class DriveContainer implements BaseContainer
     drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          getDriveTrainName()));
 
+
     // Configure the trigger bindings
-    configureBindings();
-     
     AbsoluteDrive closedAbsoluteDrive = new AbsoluteDrive(drivebase,
                                                           // Applies deadbands and inverts controls because joysticks
                                                           // are back-right positive while robot
@@ -93,50 +91,61 @@ public class DriveContainer implements BaseContainer
                                                     () -> MathUtil.applyDeadband(driverXbox.getLeftX(),
                                                                                  OperatorConstants.LEFT_X_DEADBAND),
                                                     () -> driverXbox.getRawAxis(2), () -> true);
-    TeleopDrive closedFieldRel = new TeleopDrive(
+     closedFieldRel = new TeleopDrive(
         drivebase,
         () -> MathUtil.applyDeadband(-driverXbox.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(-driverXbox.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
         () -> driverXbox.getLeftTriggerAxis() - driverXbox.getRightTriggerAxis(), () -> true);
 
+          configureBindings();
+     
+
     drivebase.setDefaultCommand(closedFieldRel);  //TO CHANGE DRIVE BASE
     //drivebase.test();
 
 
-    ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
-    ShuffleboardTab angleTab = Shuffleboard.getTab("Theta");
+    // ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
+    // ShuffleboardTab angleTab = Shuffleboard.getTab("Theta");
 
-    SmartDashboard.putData("Rotate To Speaker", new rotateinPlace(()->UtilMath.BLUESpeakerTheta(drivebase.getPose()), drivebase));
+    // SmartDashboard.putData("Rotate To Speaker", new rotateinPlace(()->UtilMath.BLUESpeakerTheta(drivebase.getPose()), drivebase));
 
-    angleTab.addDouble("Estimated Theta", ()->UtilMath.BLUESpeakerTheta(drivebase.getPose()));
+    // angleTab.addDouble("Estimated Theta", ()->UtilMath.BLUESpeakerTheta(drivebase.getPose()));
 
-    
-    driveTrainShuffleboardTab.addDouble("X Position", ()->drivebase.getPose().getX())
+    ShuffleboardTab angleTest = Shuffleboard.getTab("Rotate In Place");
+    SmartDashboard.putData("Rotate theta", new rotateinPlace(()->180, drivebase));
+    Shuffleboard.getTab("Rotate In Place").add("PID", 0).withWidget(BuiltInWidgets.kPIDController).getEntry();
+
+    angleTest.addDouble("Rotation Error", () -> rotateinPlace.angleRate)
       .withWidget(BuiltInWidgets.kGraph)
       .withSize(3,3)
       .withPosition(0, 0);
-    driveTrainShuffleboardTab.addDouble("Y Position", ()->drivebase.getPose().getY())
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(3, 0);
-    driveTrainShuffleboardTab.addDouble("Angel", ()->drivebase.getPose().getRotation().getDegrees())
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(6, 0);
+
+    // driveTrainShuffleboardTab.addDouble("X Position", ()->drivebase.getPose().getX())
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(0, 0);
+    // driveTrainShuffleboardTab.addDouble("Y Position", ()->drivebase.getPose().getY())
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(3, 0);
+    // driveTrainShuffleboardTab.addDouble("Angel", ()->drivebase.getPose().getRotation().getDegrees())
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(6, 0);
 
 
-    driveTrainShuffleboardTab.addDouble("X Velocity (m)", ()->drivebase.getFieldVelocity().vxMetersPerSecond)
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(0, 3);
-    driveTrainShuffleboardTab.addDouble("Y Velocity (m)", ()->drivebase.getFieldVelocity().vyMetersPerSecond)
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(3, 3);
-    driveTrainShuffleboardTab.addDouble("Angular Velocity (degree)", ()->drivebase.getFieldVelocity().omegaRadiansPerSecond * 180/Math.PI)
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(6, 3);
+    // driveTrainShuffleboardTab.addDouble("X Velocity (m)", ()->drivebase.getFieldVelocity().vxMetersPerSecond)
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(0, 3);
+    // driveTrainShuffleboardTab.addDouble("Y Velocity (m)", ()->drivebase.getFieldVelocity().vyMetersPerSecond)
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(3, 3);
+    // driveTrainShuffleboardTab.addDouble("Angular Velocity (degree)", ()->drivebase.getFieldVelocity().omegaRadiansPerSecond * 180/Math.PI)
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(6, 3);
 
 
     }
@@ -153,6 +162,9 @@ public class DriveContainer implements BaseContainer
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+    driverXbox.leftBumper().whileTrue(new DecreaseSpeed(closedFieldRel));
+
+    
     
 
     // driverXbox.a().onTrue(
@@ -189,4 +201,4 @@ public class DriveContainer implements BaseContainer
     public void simulationPeriodic() {
      
     }
-}
+  }

@@ -21,6 +21,7 @@ import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Util.UtilMath;
 import frc.robot.Robot;
+import frc.robot.commands.driveCommands.BackSpeaker;
 import frc.robot.commands.driveCommands.DecreaseSpeed;
 import frc.robot.commands.driveCommands.FaceSpeaker;
 import frc.robot.commands.driveCommands.rotateinPlace;
@@ -105,23 +106,6 @@ public class DriveContainer implements BaseContainer
         () -> MathUtil.applyDeadband(-driverXbox.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
         () -> driverXbox.getLeftTriggerAxis() - driverXbox.getRightTriggerAxis(), () -> true);
 
-AbsoluteFieldDrive closedFieldAbsoluteFrontDriveSpeaker = new AbsoluteFieldDrive(drivebase,
-                                                                         () ->
-                                                                             MathUtil.applyDeadband(-driverXbox.getLeftX(),
-                                                                                                    OperatorConstants.LEFT_X_DEADBAND),
-                                                                         () -> MathUtil.applyDeadband(-driverXbox.getLeftY(),
-                                                                                                      OperatorConstants.LEFT_Y_DEADBAND),
-                                                                         () -> UtilMath.FrontSpeakerTheta(drivebase.getPose()));
-
-AbsoluteFieldDrive closedFieldAbsoluteBackDriveSpeaker = new AbsoluteFieldDrive(drivebase,
-                                                                         () ->
-                                                                             MathUtil.applyDeadband(-driverXbox.getLeftX(),
-                                                                                                    OperatorConstants.LEFT_X_DEADBAND),
-                                                                         () -> MathUtil.applyDeadband(-driverXbox.getLeftY(),
-                                                                                                      OperatorConstants.LEFT_Y_DEADBAND),
-                                                                         () -> UtilMath.BackSpeakerTheta(drivebase.getPose()));
-
-
           configureBindings();
     drivebase.resetOdometry(new Pose2d(14.91, 5.49, new Rotation2d(0)));
     drivebase.setDefaultCommand(closedFieldRel);  //TO CHANGE DRIVE BASE
@@ -183,6 +167,7 @@ AbsoluteFieldDrive closedFieldAbsoluteBackDriveSpeaker = new AbsoluteFieldDrive(
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     driverXbox.leftBumper().whileTrue(new DecreaseSpeed(closedFieldRel));
     driverXbox.y().whileTrue(new FaceSpeaker(closedFieldRel));
+    driverXbox.a().whileTrue(new BackSpeaker(closedFieldRel));
 
     
     

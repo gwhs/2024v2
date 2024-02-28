@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.commands.ClimberCommands.ClimbUp;
 import frc.robot.commands.ClimberCommands.MotorDown;
 import frc.robot.commands.ClimberCommands.MotorUp;
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
@@ -25,6 +26,7 @@ import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.PizzaBoxSubsystem;
+import frc.robot.subsystems.ReactionSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 public class GameRobotContainer implements BaseContainer {
@@ -36,7 +38,8 @@ public class GameRobotContainer implements BaseContainer {
     private final IntakeSubsystem m_IntakeSubsystem;
     private final ArmSubsystem m_ArmSubsystem;
     private final PizzaBoxSubsystem m_PizzaBoxSubsystem;
-    private final Climbsubsystem m_Climbsubsystem;
+    private final Climbsubsystem m_ClimbSubsystem;
+    private final ReactionSubsystem m_ReactionSubsystem;
 
     public String getDriveTrainName(){
         return "swerve/hajel_kraken";
@@ -52,17 +55,16 @@ public class GameRobotContainer implements BaseContainer {
         m_ArmSubsystem = new ArmSubsystem(ArmSubsystem.Arm.ARM_ID, "CAN_Network", 
                         ArmSubsystem.Arm.ENCODER_DIO_SLOT);
 
-
         m_PizzaBoxSubsystem = new PizzaBoxSubsystem(PizzaBoxSubsystem.PizzaBox.PIZZABOX_ID, 
                     "rio", PizzaBoxSubsystem.PizzaBox.SERVO_PWN_SLOT);
 
-        LEDSubsystem led = new LEDSubsystem(Constants.LEDConstants.ledPortNumber);
-
-         m_Climbsubsystem = new Climbsubsystem( ClimbConstants.MOTOR_LEFT_ID, 
+        m_ClimbSubsystem = new Climbsubsystem( ClimbConstants.MOTOR_LEFT_ID, 
                                                         ClimbConstants.MOTOR_RIGHT_ID, 
                                                         ClimbConstants.MOTOR_LEFT_INVERTED, 
                                                         ClimbConstants.MOTOR_RIGHT_INVERTED, 
                                                         "rio"); //change arguments
+
+        m_ReactionSubsystem = new ReactionSubsystem(Constants.ReactionConstants.reactionID, Constants.ReactionConstants.reactionCAN);
 
         configureBindings();
 
@@ -89,8 +91,10 @@ public class GameRobotContainer implements BaseContainer {
         driverController.b().onTrue(new IntakePassNoteToPizzaBox(m_IntakeSubsystem, m_PizzaBoxSubsystem));
         driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
 
-         OperatorController.a().whileTrue(new MotorUp(m_Climbsubsystem, m_drivebase));
-        OperatorController.b().whileTrue(new MotorDown(m_Climbsubsystem, m_drivebase));
+        OperatorController.a().whileTrue(new MotorUp(m_ClimbSubsystem, m_drivebase));
+        OperatorController.b().whileTrue(new MotorDown(m_ClimbSubsystem, m_drivebase));
+
+        OperatorController.x().onTrue(new ClimbUp(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_ReactionSubsystem));
         
         //This should be a parallel command with other stuff
        /* / driverController.x().onTrue(new ChangeLEDToBlue(led));//pressing x on the controller runs a
@@ -100,8 +104,8 @@ public class GameRobotContainer implements BaseContainer {
         driverController.rightBumper().onTrue(new ChangeLEDColor(led, 0, 0, 0));
         */
 
-        Shuffleboard.getTab("Climb").add("motor down", new MotorDown(m_Climbsubsystem, m_drivebase));
-        Shuffleboard.getTab("Climb").add("motor up", new MotorUp(m_Climbsubsystem, m_drivebase));
+        Shuffleboard.getTab("Climb").add("motor down", new MotorDown(m_ClimbSubsystem, m_drivebase));
+        Shuffleboard.getTab("Climb").add("motor up", new MotorUp(m_ClimbSubsystem, m_drivebase));
     }
 
     public void setMotorBrake(boolean brake)

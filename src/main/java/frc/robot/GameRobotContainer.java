@@ -8,7 +8,6 @@ import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ClimberCommands.MotorDown;
 import frc.robot.commands.ClimberCommands.MotorUp;
@@ -58,10 +57,10 @@ public class GameRobotContainer implements BaseContainer {
 
         LEDSubsystem led = new LEDSubsystem(Constants.LEDConstants.ledPortNumber);
 
-         m_Climbsubsystem = new Climbsubsystem( ClimbConstants.MOTOR_LEFT_ID, 
-                                                        ClimbConstants.MOTOR_RIGHT_ID, 
-                                                        ClimbConstants.MOTOR_LEFT_INVERTED, 
-                                                        ClimbConstants.MOTOR_RIGHT_INVERTED, 
+         m_Climbsubsystem = new Climbsubsystem( Constants.ClimbConstants.MOTOR_LEFT_ID, 
+                                                Constants.ClimbConstants.MOTOR_RIGHT_ID, 
+                                                Constants.ClimbConstants.MOTOR_LEFT_INVERTED, 
+                                                Constants.ClimbConstants.MOTOR_RIGHT_INVERTED, 
                                                         "rio"); //change arguments
 
         configureBindings();

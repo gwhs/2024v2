@@ -5,17 +5,21 @@
 package frc.robot.Util;
 
 import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 /** Add your docs here. */
 public class UtilMotor {
-
     public static void configMotor(TalonFX motor) {
-        configMotor(motor, 0.11, 0.5, 0.0001, 0.12, 8, 40);
+        configMotor(motor, 0.11, 0.5, 0.0001, 0.12, 8, 40, true);
     }
 
-    public static void configMotor(TalonFX motor, double kP, double kI, double kD, double kV, int peakVoltage, int peakCurrent) {
+    public static void configMotor(TalonFX motor, double kP, double kI, double kD, double kV, int peakVoltage, int peakCurrent, boolean brakeMode)
+    {
+       MotorOutputConfigs motorOutput = new MotorOutputConfigs();
+  
         TalonFXConfiguration configs = new TalonFXConfiguration();
     /* Voltage-based velocity requires a feed forward to account for the back-emf of the motor */
     configs.Slot0.kP = kP; // An error of 1 rotation per second results in 2V output
@@ -30,10 +34,20 @@ public class UtilMotor {
     configs.TorqueCurrent.PeakForwardTorqueCurrent = peakCurrent;
     configs.TorqueCurrent.PeakReverseTorqueCurrent = -peakCurrent;
 
+    if(brakeMode)
+    {
+      motorOutput.NeutralMode = NeutralModeValue.Brake;
+    }
+
+    
+
+
+
     /* Retry config apply up to 5 times, report if failure */
     StatusCode motorStatus = StatusCode.StatusCodeNotInitialized;
     for (int i = 0; i < 5; ++i) {
       motorStatus = motor.getConfigurator().apply(configs);
+      motorStatus = motor.getConfigurator().apply(motorOutput);
       if (motorStatus.isOK()) break;
     }
     if(!motorStatus.isOK()) {

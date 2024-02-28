@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems.swervedrive;
 
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathConstraints;
@@ -492,6 +491,20 @@ public class SwerveSubsystem extends SubsystemBase
   public Rotation2d getPitch()
   {
     return swerveDrive.getPitch();
+  }
+
+  /**
+   * Gets the current roll angle of the robot, as reported by the imu.
+   *
+   * @return The heading as a {@link Rotation2d} angle
+   */
+  public Rotation2d getRoll()
+  {
+    return swerveDrive.getRoll();
+  }
+
+  public Rotation2d getYaw() {
+    return swerveDrive.getYaw();
   }
 
   /**

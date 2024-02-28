@@ -11,8 +11,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
+import com.ctre.phoenix6.controls.NeutralOut;
+import com.ctre.phoenix6.controls.StaticBrake;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -40,8 +43,12 @@ public class IntakeSubsystem extends SubsystemBase {
     m_spinIntake = new TalonFX(spinIntakeId, can);
     m_Encoder = new DutyCycleEncoder(Constants.IntakeConstants.INTAKE_ENCODER_CHANNEL_ID);
     m_noteSensor = new DigitalInput(Constants.IntakeConstants.INTAKE_NOTESENSOR_CHANNEL_ID); 
+
+    StaticBrake brake = new StaticBrake();
     
+    m_moveIntakeArm.setNeutralMode(NeutralModeValue.Brake);
     TalonFXConfiguration configs = new TalonFXConfiguration();
+    m_moveIntakeArm.setControl(brake);
 
     /* Voltage-based velocity requires a feed forward to account for the back-emf of the motor */
     configs.Slot0.kP = 0.11; // An error of 1 rotation per second results in 2V output

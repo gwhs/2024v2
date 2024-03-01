@@ -20,15 +20,6 @@ public class ReactionSubsystem extends SubsystemBase {
     TalonFXConfiguration configs = new TalonFXConfiguration();
 
     StaticBrake brake = new StaticBrake();
-
-    m_reactionArm.setNeutralMode(NeutralModeValue.Brake);
-  
-    
-    configs.CurrentLimits.withSupplyCurrentLimit(Constants.ReactionConstants.currentLimit);
-     m_reactionArm.setControl(brake);
-    
-
-    m_reactionArm.setControl(new NeutralOut());
   }
 
   @Override
@@ -47,7 +38,6 @@ public class ReactionSubsystem extends SubsystemBase {
   public void stop()
   {
     m_reactionArm.set(0);
-    m_reactionArm.setControl(new NeutralOut());
   }
 
   public double getPos()
@@ -56,4 +46,5 @@ public class ReactionSubsystem extends SubsystemBase {
     return posVal;
   }
 
+  
 }

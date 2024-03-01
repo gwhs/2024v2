@@ -35,7 +35,7 @@ public class IntakePassNoteToPizzaBox extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    pizzaBoxSubsystem.spinPizzaBoxMotor(-50, 10);
+    // pizzaBoxSubsystem.spinPizzaBoxMotor(-50, 10);
     intakeSubsystem.spinIntakeMotor(50, 100);
   }
 
@@ -45,28 +45,31 @@ public class IntakePassNoteToPizzaBox extends Command {
   public void end(boolean interrupted) {
     pizzaBoxSubsystem.stopPizzaBoxMotor();
     intakeSubsystem.stopIntakeMotors();
+    if(interrupted) {
+      intakeSubsystem.rejectIntake(30, 100);
+    }
   }
 
   // Returns true when the command should end; called every cycle
   @Override
   public boolean isFinished() {
 
-    return false;
-    // prevSensorValue = currentSensorValue;
-    // currentSensorValue = intakeSubsystem.isNotePresent();
-
-    // if(prevSensorValue == true && currentSensorValue == false) {
-    //   noteLatch = true;
-    // }  
-    // // two second delay before checking sensor again
-    // if(counter > Constants.IntakeConstants.NOTE_DELAY && noteLatch) {
-    //   noteLatch = false;
-    //   return true; 
-    // }
-    // else {
-    //   counter++;
-    // }
     // return false;
+    prevSensorValue = currentSensorValue;
+    currentSensorValue = intakeSubsystem.isNotePresent();
+
+    if(prevSensorValue == true && currentSensorValue == false) {
+      noteLatch = true;
+    }  
+    if(counter > Constants.IntakeConstants.NOTE_DELAY && noteLatch) {
+      System.out.println("hiiiiiiiiiiii");
+      noteLatch = false;
+      return true; 
+    }
+    else {
+      counter++;
+    }
+    return false;
   }
 
 }

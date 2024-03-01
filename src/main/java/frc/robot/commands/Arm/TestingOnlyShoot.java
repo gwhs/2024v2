@@ -14,18 +14,17 @@ import frc.robot.commands.Arm.SwingForwardServo;
 import frc.robot.commands.Arm.SwingBackServo;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class SpinAndSwing extends SequentialCommandGroup {
+public class TestingOnlyShoot extends SequentialCommandGroup {
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   //velocity = 100 for testing shooting 
-  public SpinAndSwing(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, double angle, double vel) {
+  public TestingOnlyShoot(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, double vel) {
     addCommands(
-        new SpinArmAndPizzaBox(pizzaBoxSubsystem, armSubsystem, angle, vel),
         new SpinNoteContainerMotor(pizzaBoxSubsystem, vel, 500),
-        Commands.waitUntil(()->pizzaBoxSubsystem.isAtVelocity(.1)),
+        Commands.waitSeconds(0.7),
         new SwingForwardServo(pizzaBoxSubsystem),
-        Commands.waitSeconds(.5),
+        Commands.waitSeconds(.2),
         new SwingBackServo(pizzaBoxSubsystem),
         new StopNoteContainerMotor(pizzaBoxSubsystem),
         new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE)

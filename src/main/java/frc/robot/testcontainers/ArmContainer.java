@@ -24,7 +24,6 @@ import frc.robot.commands.Arm.SpinAndSwing;
 import frc.robot.commands.Arm.SpinToArmAngle;
 
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
-import frc.robot.commands.IntakeCommands.IntakePickUpFromGround;
 import frc.robot.commands.IntakeCommands.PickUpFromGroundAndPassToPizzaBox;
 import frc.robot.commands.IntakeCommands.SpinIntakePID;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;

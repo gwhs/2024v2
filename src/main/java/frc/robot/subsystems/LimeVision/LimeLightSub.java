@@ -80,9 +80,10 @@ public class LimeLightSub extends SubsystemBase {
       LimeLightConstants.TARGET_HEIGHT; // LimelightConstants.kTargetHeight;
 
   private LimeLightComms limelight_comm;
+  private SwerveSubsystem drivebase;
 
   /** Creates a new LimeLightSub. */
-  public LimeLightSub(String limelight_networktable_name) {
+  public LimeLightSub(String limelight_networktable_name, SwerveSubsystem drivebase) {
     limelight_comm = new LimeLightComms(limelight_networktable_name);
     limelight_comm.set_entry_double("ledMode", 3);
     Shuffleboard.getTab("Limelight").addDouble("BotPose TX", ()->getBlueBotPose()[0]);
@@ -98,8 +99,8 @@ public class LimeLightSub extends SubsystemBase {
     Shuffleboard.getTab("Limelight").addDouble("Average Area", ()->getBlueBotPose()[10]);
     Shuffleboard.getTab("Limelight").addDouble("Tag ID", ()->getBlueBotPose()[11]);
 
-  
     
+    this.drivebase = drivebase;
     
   }
 
@@ -285,7 +286,7 @@ public class LimeLightSub extends SubsystemBase {
 
   public void setData(){
     double[] temp = getBlueBotPose();
-    Pose2d currentPose = VisionContainer.drivebase.getPose();
+    Pose2d currentPose = drivebase.getPose();
     double distance = Math.sqrt(Math.pow(temp[0]- currentPose.getX(),2) + Math.pow(temp[1]- currentPose.getY() ,2)); //Calculates distance from Apriltag to robot
     double distancefromAprilTag = 0.8; //0.8
     double distancefromLimeLight = 2.5; //2.5
@@ -312,10 +313,11 @@ public class LimeLightSub extends SubsystemBase {
           stds.set(0,0,xyStds);
           stds.set(1,0,xyStds);
           stds.set(2,0, degStds);
+          free;
           Rotation2d degree = new Rotation2d(temp[5]* Math.PI / 180);
           Pose2d newPose = new Pose2d(temp[0],temp[1],degree); //creates new pose2d with limelight data
           
-          VisionContainer.drivebase.addActualVisionReading(newPose ,Timer.getFPGATimestamp() - (temp[6]/1000.0),stds); //Changes standard dev base on apriltags and drive
+          drivebase.addActualVisionReading(newPose ,Timer.getFPGATimestamp() - (temp[6]/1000.0),stds); //Changes standard dev base on apriltags and drive
   }
 
   }

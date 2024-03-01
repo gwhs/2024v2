@@ -47,13 +47,14 @@ public class VisionContainer implements BaseContainer
 {
 
   // The robot's subsystems and commands are defined here...
-  public static SwerveSubsystem drivebase;
+  private final SwerveSubsystem drivebase;
   private final SendableChooser<Command> autoChooser;
 
   CommandXboxController driverXbox = new CommandXboxController(0);
 
   // limelight
   private final LimeLightSub limeLightSub;
+  private final SwerveSubsystem drivetrain;
 
   public String getDriveTrainName(){
     return "swerve/ryker_falcon";
@@ -71,7 +72,7 @@ public class VisionContainer implements BaseContainer
 
     
 
-    limeLightSub = new LimeLightSub("limelight" );                                                                   
+    limeLightSub = new LimeLightSub("limelight", drivebase);                                                                   
     // Configure the trigger bindings
     configureBindings();
 
@@ -134,6 +135,7 @@ public class VisionContainer implements BaseContainer
    */
   public Command getAutonomousCommand(){
    return autoChooser.getSelected();
+   
   }
   //   // An example command will be run in autonomous
   //   return drivebase.getAutonomousCommand("New Path", true);
@@ -143,6 +145,7 @@ public class VisionContainer implements BaseContainer
   {
     //drivebase.setDefaultCommand();
   }
+
 
   public void setMotorBrake(boolean brake)
   {

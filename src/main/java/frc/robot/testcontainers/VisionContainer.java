@@ -22,7 +22,6 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Robot;
-import frc.robot.commands.LimeLight.FaceAprilTag;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
@@ -33,10 +32,7 @@ import java.io.File;
 import com.pathplanner.lib.auto.AutoBuilder;
 
 import frc.robot.subsystems.LimeVision.LimeLightSub;
-import frc.robot.commands.LimeLight.FaceAprilTag;
-import frc.robot.commands.LimeLight.Sideways;
-import frc.robot.commands.LimeLight.DriveToTag;
-import frc.robot.commands.LimeLight.DriveThere;
+
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -54,7 +50,6 @@ public class VisionContainer implements BaseContainer
 
   // limelight
   private final LimeLightSub limeLightSub;
-  private final SwerveSubsystem drivetrain;
 
   public String getDriveTrainName(){
     return "swerve/ryker_falcon";
@@ -125,7 +120,6 @@ public class VisionContainer implements BaseContainer
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     
     // points to AprilTag
-    driverXbox.a().onTrue(new DriveToTag(drivebase, limeLightSub, () -> false));
     // driverXbox.y().onTrue(new AddVisionData(drivebase, limeLightSub));
   }
   /**

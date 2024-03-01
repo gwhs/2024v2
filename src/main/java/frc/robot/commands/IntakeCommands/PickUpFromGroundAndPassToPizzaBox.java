@@ -15,6 +15,7 @@ import frc.robot.commands.Arm.*;
 
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 
 public class PickUpFromGroundAndPassToPizzaBox extends SequentialCommandGroup {
 
@@ -29,6 +30,7 @@ public class PickUpFromGroundAndPassToPizzaBox extends SequentialCommandGroup {
         .andThen(new SpinIntakePID(intakeSubsystem, 75))
         .andThen(new StopNoteContainerMotor(pizzaBoxSubsystem))
         .andThen(new StopIntakeMotors(intakeSubsystem))
+        .andThen(new WaitCommand(0.5))
         );
   }
 //.andThen((new IntakePassNoteToPizzaBox(intakeSubsystem, pizzaBoxSubsystem)).withTimeout(5)

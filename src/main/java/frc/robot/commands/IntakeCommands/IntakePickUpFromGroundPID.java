@@ -35,7 +35,7 @@ public class IntakePickUpFromGroundPID extends PIDCommand {
   public boolean isFinished() {
     boolean sensorValue = intakeSubsystem.isNotePresent();
     if(sensorValue) {
-      intakeSubsystem.spinIntakeMotor(velocity / 2, accleration / 2);
+      intakeSubsystem.spinIntakeMotor(velocity / 4, accleration);
       //intakeSubsystem.stopArmMotor();
       return sensorValue;
     }

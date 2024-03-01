@@ -32,9 +32,7 @@ public class Robot extends TimedRobot {
   public static final String VISION = "Vision";
   public static final String LED = "LED";
   public static final String REACTION = "REACTION";
-
-  public static ReactionSubsystem m_ReactionSubsystem;
-
+  
   // change this to match the subsystem container you want to use, or GAME for complete robot
   public static final String container = GAME;
 
@@ -78,7 +76,6 @@ public class Robot extends TimedRobot {
         m_baseContainer = new ReactionArmContainer();
         break;
     }  
-
 
    
   }

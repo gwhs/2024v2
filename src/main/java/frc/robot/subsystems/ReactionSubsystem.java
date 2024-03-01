@@ -24,6 +24,7 @@ public class ReactionSubsystem extends SubsystemBase {
 
       motorOutput.NeutralMode = NeutralModeValue.Brake;
 
+      motorStatus = motor.getConfigurator().apply(motorOutput);
       
   }
 

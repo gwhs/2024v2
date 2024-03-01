@@ -9,27 +9,38 @@ import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
-public class SpinIntakePID extends PIDCommand {
+public class IntakePickUpFromGroundPID extends PIDCommand {
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final IntakeSubsystem intakeSubsystem;
   private static PIDController intakeController = new PIDController(.015, .001, .0);
   
-  public SpinIntakePID(IntakeSubsystem intakeSubsystem, final double targetAngle) {
-    super(intakeController, ()-> intakeSubsystem.encoderGetAngle(), () -> targetAngle,
+  public IntakePickUpFromGroundPID(IntakeSubsystem intakeSubsystem, int velocity, int accleration) {
+    super(intakeController, ()-> intakeSubsystem.encoderGetAngle(), () -> 0,
             (final double speed) -> 
             {intakeSubsystem.spinIntakeArm(-speed);
-            }
+              intakeSubsystem.spinIntakeMotor(velocity, accleration);}
             , intakeSubsystem);
     this.intakeSubsystem = intakeSubsystem;
     intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
     //Shuffleboard.getTab("intake").add(intakeController);
   }
 
+  // public void end(boolean interrupted) {
+  //   intakeSubsystem.stopArmMotor();
+  // }
+
   //Returns true when the command should end.
   //@Override
   public boolean isFinished() {
-    return getController().atSetpoint();
+    boolean sensorValue = intakeSubsystem.isNotePresent();
+    if(sensorValue) {
+      intakeSubsystem.stopArmMotor();
+      return sensorValue;
+    }
+    else {
+      return sensorValue;
+    }
   }
 
 }

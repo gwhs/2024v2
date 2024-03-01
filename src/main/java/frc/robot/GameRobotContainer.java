@@ -6,14 +6,24 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ClimberCommands.MotorDown;
 import frc.robot.commands.ClimberCommands.MotorUp;
+import frc.robot.commands.Arm.ArmEmergencyStop;
+import frc.robot.commands.Arm.ScoreInAmp;
+import frc.robot.commands.Arm.ScoreInTrap;
+import frc.robot.commands.Arm.SpinAndSwing;
+import frc.robot.commands.Arm.SpinNoteContainerMotor;
+import frc.robot.commands.Arm.SpinToArmAngle;
+import frc.robot.commands.Arm.TestingOnlyShoot;
+import frc.robot.commands.IntakeCommands.IntakeEmergencyStop;
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
-import frc.robot.commands.IntakeCommands.IntakePickUpFromGround;
+import frc.robot.commands.IntakeCommands.IntakeRejectNote;
+import frc.robot.commands.IntakeCommands.PickUpFromGroundAndPassToPizzaBox;
 import frc.robot.commands.IntakeCommands.SpinIntakePID;
 import frc.robot.commands.ledcommands.ChangeLEDColor;
 import frc.robot.commands.ledcommands.ChangeLEDToBlue;
@@ -66,6 +76,14 @@ public class GameRobotContainer implements BaseContainer {
 
         configureBindings();
 
+        Shuffleboard.getTab("Climb").addDouble("climb distance left", () -> m_Climbsubsystem.getPositionLeft());
+        Shuffleboard.getTab("Climb").addDouble("climb distance right", () -> m_Climbsubsystem.getPositionRight());
+        Shuffleboard.getTab("Climb").addBoolean("bot left limit", () -> m_Climbsubsystem.getBotLeftLimit());
+        Shuffleboard.getTab("Climb").addBoolean("bot right limit", () -> m_Climbsubsystem.getBotRightLimit());
+        Shuffleboard.getTab("Climb").addBoolean("top left limit", () -> m_Climbsubsystem.getTopLeftLimit());
+        Shuffleboard.getTab("Climb").addBoolean("top right limit", () -> m_Climbsubsystem.getTopRightLimit());
+
+
         TeleopDrive closedFieldRel = new TeleopDrive(
         m_drivebase,
         () -> MathUtil.applyDeadband(-driverController.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
@@ -80,28 +98,35 @@ public class GameRobotContainer implements BaseContainer {
 
 
     private void configureBindings() {
-         final PIDController intakeController = new PIDController(.005, .0, .0);
-        intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
-        
-        driverController.x().onTrue(new SpinIntakePID(m_IntakeSubsystem, 0));
-        driverController.y().onTrue(new SpinIntakePID(m_IntakeSubsystem, 106));
-        driverController.a().onTrue(new IntakePickUpFromGround(m_IntakeSubsystem));
-        driverController.b().onTrue(new IntakePassNoteToPizzaBox(m_IntakeSubsystem, m_PizzaBoxSubsystem));
-        driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
+      final PIDController intakeController = new PIDController(.005, .0, .0);
+      intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
+      
+      driverController.x().onTrue(new SpinToArmAngle(m_ArmSubsystem, 240));
 
-         OperatorController.a().whileTrue(new MotorUp(m_Climbsubsystem, m_drivebase));
-        OperatorController.b().whileTrue(new MotorDown(m_Climbsubsystem, m_drivebase));
-        
-        //This should be a parallel command with other stuff
-       /* / driverController.x().onTrue(new ChangeLEDToBlue(led));//pressing x on the controller runs a
-        driverController.y().onTrue(new ChangeLEDToRed(led));
-        driverController.b().onTrue(new ChangeLEDToGreen(led));
-        driverController.a().onTrue(new ChangeLEDColor(led, 255, 0, 255));
-        driverController.rightBumper().onTrue(new ChangeLEDColor(led, 0, 0, 0));
-        */
+      driverController.y().onTrue(new TestingOnlyShoot(m_PizzaBoxSubsystem, m_ArmSubsystem, 150));
 
-        Shuffleboard.getTab("Climb").add("motor down", new MotorDown(m_Climbsubsystem, m_drivebase));
-        Shuffleboard.getTab("Climb").add("motor up", new MotorUp(m_Climbsubsystem, m_drivebase));
+      // driverController.x().onTrue(new SpinIntakePID(m_IntakeSubsystem, 0));
+      // driverController.y().onTrue(new SpinIntakePID(m_IntakeSubsystem, 70));
+      driverController.a().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
+      //driverController.b().onTrue(new IntakePassNoteToPizzaBox(m_IntakeSubsystem, m_PizzaBoxSubsystem));
+      driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
+      driverController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem));
+      driverController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
+      driverController.b().onTrue(new IntakeRejectNote(m_IntakeSubsystem));
+
+
+      // OperatorController.a().whileTrue(new MotorUp(m_Climbsubsystem, m_drivebase));
+      // OperatorController.b().whileTrue(new MotorDown(m_Climbsubsystem, m_drivebase));
+      // OperatorController.x().onTrue(new ScoreInTrap(m_PizzaBoxSubsystem, m_ArmSubsystem));
+      // OperatorController.y().onTrue(new SpinToArmAngle(m_ArmSubsystem, 135));
+      
+      //This should be a parallel command with other stuff
+     /* / driverController.x().onTrue(new ChangeLEDToBlue(led));//pressing x on the controller runs a
+      driverController.y().onTrue(new ChangeLEDToRed(led));
+      driverController.b().onTrue(new ChangeLEDToGreen(led));
+      driverController.a().onTrue(new ChangeLEDColor(led, 255, 0, 255));
+      driverController.rightBumper().onTrue(new ChangeLEDColor(led, 0, 0, 0));
+      */
     }
 
     public void setMotorBrake(boolean brake)

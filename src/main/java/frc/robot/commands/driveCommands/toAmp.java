@@ -1,5 +1,6 @@
 package frc.robot.commands.driveCommands;
 
+import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -15,10 +16,15 @@ public class toAmp extends Command {
     private static double amp_Y;
     private static double targetX;
     private static double targetY;
+    private static PIDController PIDx;
+    private static PIDController PIDy;
+    private static Translation2d pose;
 
     public toAmp(SwerveSubsystem subsystem) {
       // Use addRequirements() here to declare subsystem dependencies.
       this.m_Subsystem = subsystem;
+      PIDx = new PIDController(Constants.toAmpPID.kPx, Constants.toAmpPID.kIx, Constants.toAmpPID.kDx);
+      PIDy = new PIDController(Constants.toAmpPID.kPy, Constants.toAmpPID.kIy, Constants.toAmpPID.kDy);
       addRequirements(m_Subsystem);
     }
 
@@ -30,13 +36,7 @@ public class toAmp extends Command {
     @Override
     public void initialize() {
         ampID = UtilMath.whichAmp(m_Subsystem.getPose());
-        
-    }
-    
-  // Called every time the scheduler runs while the command is scheduled.
-    @Override
-    public void execute() {
-    if (ampID == 6){
+        if (ampID == 6){
         amp_X = Constants.FieldConstants.BLUE_AMP_6_X;
         amp_Y = Constants.FieldConstants.BLUE_AMP_6_Y;
         
@@ -50,8 +50,13 @@ public class toAmp extends Command {
         targetX = Constants.FieldConstants.RED_AMP_5_X;
         targetY = Constants.FieldConstants.RED_AMP_5_Y - 1;;
     }
-    Translation2d targetTranslation = new Translation2d(targetX - m_Subsystem.getPose().getX(), targetY - m_Subsystem.getPose().getY());
-    m_Subsystem.drive(targetTranslation, 0, true);
+       pose = new Translation2d(targetX, targetY);
+    }
+    
+  // Called every time the scheduler runs while the command is scheduled.
+    @Override
+    public void execute() {
+    m_Subsystem.drive(pose, 0, true);
     }
   // Called once the command ends or is interrupted.
     @Override
@@ -62,11 +67,11 @@ public class toAmp extends Command {
   // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if(ampID == 5 && (amp_Y -1 >= m_Subsystem.getPose().getY()))
+        if(ampID == 5 && (amp_Y -1 <= m_Subsystem.getPose().getY() && m_Subsystem.getPose().getY() <= amp_Y + 1))
         {
           return true;
         }
-        else if(ampID == 6 && (amp_Y - 0.9 >= m_Subsystem.getPose().getY()))
+        else if(ampID == 6 && (amp_Y - 0.9 <= m_Subsystem.getPose().getY() && m_Subsystem.getPose().getY() <= amp_Y + 0.9))
         {
           return true;
         }

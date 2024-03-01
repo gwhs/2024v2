@@ -157,4 +157,19 @@ public final class Constants
     public static final double RED_AMP_5_X = UtilMath.inchesToMeters(578.77);
     public static final double RED_AMP_5_Y = UtilMath.inchesToMeters(323);
   }
+  public static final class toAmpPID
+  {
+    //X PID
+    public static final double kPx = 0;
+    public static final double kIx = 0;
+    public static final double kDx = 0;
+    public static final double X_TOLERANCE = 0.2;
+    public static final double STEADY_STATE_TOLERANCE_X = 0.1;
+
+    public static final double kPy = 0;
+    public static final double kIy = 0;
+    public static final double kDy = 0;
+    public static final double Y_TOLERANCE = 0.2;
+    public static final double STEADY_STATE_TOLERANCE_Y = 0.1;
+  }
 }

@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.ReactionArmCommands.Retract;
+import frc.robot.commands.driveCommands.DriveForClimb;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -19,7 +21,7 @@ public class ClimbDown extends SequentialCommandGroup {
 
     addCommands(
           new MotorUp(c, s),
-          /*new ParallelCommandGroup(new movebackwards(), new Reactionbar())*/
+          new ParallelCommandGroup(new DriveForClimb(s, 0.5)/* , new Retract(r)*/),
           new MotorDown(c, s) /*, new armstuff() */ 
     );
 

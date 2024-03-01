@@ -41,8 +41,8 @@ public class MotorDown extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    leftPIDcontroller.setGoal(-0.5);
-    rightPIDcontroller.setGoal(0.5);
+    leftPIDcontroller.setGoal(-0.3);
+    rightPIDcontroller.setGoal(0.3);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -52,7 +52,7 @@ public class MotorDown extends Command {
     double leftPIDvalue = leftPIDcontroller.calculate(climbersubsystem.getPositionLeft());
     double rightPIDvalue = rightPIDcontroller.calculate(climbersubsystem.getPositionRight());
 
-    climbersubsystem.setSpeed(-leftPIDvalue / 2, rightPIDvalue / 2);                   
+    climbersubsystem.setSpeed(-leftPIDvalue, rightPIDvalue);                   
   }
 
   // Called once the command ends or is interrupted.
@@ -67,6 +67,6 @@ public class MotorDown extends Command {
   public boolean isFinished() {
     System.out.println("MotorDown command finished running");
     return (climbersubsystem.getBotLeftLimit() && climbersubsystem.getBotRightLimit())
-            || (-climbersubsystem.getPositionLeft() <= 0.5 && climbersubsystem.getPositionRight() <= 0.5); 
+            || (-climbersubsystem.getPositionLeft() <= 0.3 && climbersubsystem.getPositionRight() <= 0.3); 
   }
 }

@@ -51,7 +51,7 @@ public class MotorUp extends Command {
     double leftPIDvalue = leftPIDcontroller.calculate(climbersubsystem.getPositionLeft());
     double rightPIDvalue = rightPIDcontroller.calculate(climbersubsystem.getPositionRight());
 
-    climbersubsystem.setSpeed(-leftPIDvalue / 2, rightPIDvalue / 2);
+    climbersubsystem.setSpeed(-leftPIDvalue, rightPIDvalue);
     
   }
 

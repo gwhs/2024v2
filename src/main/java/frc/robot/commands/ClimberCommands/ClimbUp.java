@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.Arm.SpinToArmAngle;
 import frc.robot.commands.ReactionArmCommands.Extend;
+import frc.robot.commands.driveCommands.DriveForClimb;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.ReactionSubsystem;
@@ -23,8 +24,9 @@ public class ClimbUp extends SequentialCommandGroup {
           // new ParallelCommandGroup(new SpinToArmAngle(a, 135),
           //     new SequentialCommandGroup(new WaitCommand(5), new MotorUp(c, s) /*new Extend(r)*/)),
           // //new driveforward(),
-          new ParallelCommandGroup(new SpinToArmAngle(a, 135), new Extend(r)),
+          new ParallelCommandGroup(new SpinToArmAngle(a, 135)/* , new Extend(r)*/),
           new MotorUp(c, s),
+          new DriveForClimb(s, -0.5),
           new MotorDown(c, s)
     );
     

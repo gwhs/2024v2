@@ -14,6 +14,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ClimberCommands.ClimbUp;
 import frc.robot.commands.ClimberCommands.MotorDown;
 import frc.robot.commands.ClimberCommands.MotorUp;
+import frc.robot.commands.ClimberCommands.Trap;
 import frc.robot.commands.Arm.ArmEmergencyStop;
 import frc.robot.commands.Arm.ScoreInAmp;
 import frc.robot.commands.Arm.ScoreInTrap;
@@ -84,7 +85,7 @@ public class GameRobotContainer implements BaseContainer {
         Shuffleboard.getTab("Climb").addBoolean("bot right limit", () -> m_ClimbSubsystem.getBotRightLimit());
         Shuffleboard.getTab("Climb").addBoolean("top left limit", () -> m_ClimbSubsystem.getTopLeftLimit());
         Shuffleboard.getTab("Climb").addBoolean("top right limit", () -> m_ClimbSubsystem.getTopRightLimit());
-        Shuffleboard.getTab("Climb").add("climb up", new ClimbUp(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_ReactionSubsystem));
+        Shuffleboard.getTab("Climb").add("trap", new Trap(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem));
         Shuffleboard.getTab("Climb").add("motor down", new MotorDown(m_ClimbSubsystem, m_drivebase));
         Shuffleboard.getTab("Climb").add("motor up", new MotorUp(m_ClimbSubsystem, m_drivebase));
 

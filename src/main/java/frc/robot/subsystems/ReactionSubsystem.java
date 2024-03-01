@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems;
 
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -17,9 +18,9 @@ public class ReactionSubsystem extends SubsystemBase {
   /** Creates a new ReactionSubsystem. */
   public ReactionSubsystem(int armID, String canbus) {
     m_reactionArm = new TalonFX(armID, canbus);
-    TalonFXConfiguration configs = new TalonFXConfiguration();
-
-    StaticBrake brake = new StaticBrake();
+      MotorOutputConfigs motorOutput = new MotorOutputConfigs();
+  
+        TalonFXConfiguration configs = new TalonFXConfiguration();
   }
 
   @Override

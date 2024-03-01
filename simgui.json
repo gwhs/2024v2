@@ -1,4 +1,5 @@
 {
+<<<<<<< HEAD
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
@@ -40,6 +41,25 @@
       },
       "open": true
     },
+=======
+  "HALProvider": {
+    "Other Devices": {
+      "Talon FX (v6)[0]": {
+        "header": {
+          "open": true
+        }
+      }
+    }
+  },
+  "NTProvider": {
+    "types": {
+      "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Climb/climb down": "Command",
+      "/Shuffleboard/Climb/climb up": "Command"
+    }
+  },
+  "NetworkTables Info": {
+>>>>>>> main
     "visible": true
   }
 }

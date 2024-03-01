@@ -57,7 +57,12 @@
         44,
         46,
         47
+<<<<<<< HEAD
       ]
+=======
+      ],
+      "povCount": 0
+>>>>>>> main
     },
     {
       "axisConfig": [
@@ -79,7 +84,17 @@
         261,
         269,
         267
+<<<<<<< HEAD
       ]
+=======
+      ],
+      "povCount": 0
+    },
+    {
+      "axisCount": 0,
+      "buttonCount": 0,
+      "povCount": 0
+>>>>>>> main
     }
   ]
 }

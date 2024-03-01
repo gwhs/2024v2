@@ -27,16 +27,16 @@ public class Climbsubsystem extends SubsystemBase {
   private TalonFX climberArmLeft;
   private TalonFX climberArmRight;
 
-  private final double CLIMBER_PID_KP = 1.9;
-  private final double CLIMBER_PID_KI = 0;
-  private final double CLIMBER_PID_KD = 0;
-  private Constraints constraints = new Constraints(180.0, 300.0);
+  // private final double CLIMBER_PID_KP = 1.9;
+  // private final double CLIMBER_PID_KI = 0;
+  // private final double CLIMBER_PID_KD = 0;
+  // private Constraints constraints = new Constraints(180.0, 300.0);
 
-  private ProfiledPIDController leftPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
-  private ProfiledPIDController rightPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
+  // private ProfiledPIDController leftPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
+  // private ProfiledPIDController rightPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
 
-  private boolean upCheck = false;
-  private boolean downCheck = false;
+  // private boolean upCheck = false;
+  // private boolean downCheck = false;
 
   DigitalInput bottomLeft = new DigitalInput(ClimbConstants.BOT_LEFT_LIMIT_ID);
   DigitalInput bottomRight = new DigitalInput(ClimbConstants.BOT_RIGHT_LIMIT_ID);
@@ -62,24 +62,8 @@ public class Climbsubsystem extends SubsystemBase {
     UtilMotor.configMotor(climberArmLeft, 0.11, 0.5, 0.0001, 0.12, 12, 40, true);
     UtilMotor.configMotor(climberArmRight, 0.11, 0.5, 0.0001, 0.12, 12, 40, true);
 
-    // climberArmLeft.setControl(brake);
-    // climberArmRight.setControl(brake);
-
   } 
 
-  public void upMotor() {
-    upCheck = true;
-    downCheck = false;
-    leftPIDcontroller.setGoal(-198.94);
-    rightPIDcontroller.setGoal(198.4);
-  }
-
-  public void downMotor() {
-    downCheck = true;
-    upCheck = false;
-    leftPIDcontroller.setGoal(0.5);
-    rightPIDcontroller.setGoal(0.5);
-  }
 
   //makes the motor move
   public void setSpeed(double leftSpeed, double rightSpeed){ // speed should be in rotations per second
@@ -100,9 +84,6 @@ public class Climbsubsystem extends SubsystemBase {
                                                   false, 
                                                   false));
 
-    
-    // climberArmRight.setControl(new VelocityTorqueCurrentFOC(rightSpeed, 5, 0, 0, false, false, false));
-    // climberArmLeft.setControl(new VelocityTorqueCurrentFOC(leftSpeed, 5, 0, 0, false, false, false));
   }
 
   //makes motors stop spinning
@@ -145,31 +126,6 @@ public class Climbsubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    
-    double leftPIDvalue = leftPIDcontroller.calculate(getPositionLeft());
-    double rightPIDvalue = rightPIDcontroller.calculate(getPositionRight());
-    //System.out.println("left: " + leftPIDvalue + "/n right: " + rightPIDvalue);
-    if (upCheck && getTopLeftLimit()) {
-      leftPIDvalue = 0;
-    }
-    else if (upCheck && getTopRightLimit()) {
-      rightPIDvalue = 0;
-    }
-
-    if (downCheck && getBotLeftLimit()) {
-      leftPIDvalue = 0;
-    }
-    else if (downCheck && getBotRightLimit()) {
-      rightPIDvalue = 0;
-    }
-
-    if (upCheck) {
-      setSpeed(-leftPIDvalue / 4, rightPIDvalue / 4);
-    }
-
-    if (downCheck) {
-      setSpeed(-leftPIDvalue / 4, rightPIDvalue / 4);
-    }
 
     
 

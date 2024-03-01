@@ -69,12 +69,9 @@ public class ClimbContainer implements BaseContainer {
 
 
     private void configureBindings() {
-        m_driverController.a().whileTrue(new MotorUp(climbsubsystem, swerve));
-        m_driverController.b().whileTrue(new MotorDown(climbsubsystem, swerve));
-        //m_driverController.x().onTrue(new Trap());
-
+        
         Shuffleboard.getTab("Climb").add("motor down", new MotorDown(climbsubsystem, swerve));
-        Shuffleboard.getTab("Climb").add("motor up", new MotorUp(climbsubsystem, swerve));
+        
         //Shuffleboard.getTab("Climb").add("climb up", new ClimbUp(climbsubsystem, swerve));
         //Shuffleboard.getTab("Climb").add("climb down", new ClimbDown(climbsubsystem, swerve));
                 

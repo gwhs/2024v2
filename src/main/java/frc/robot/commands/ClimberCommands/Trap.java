@@ -9,8 +9,10 @@ import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.commands.Arm.ScoreInTrap;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
+import frc.robot.subsystems.PizzaBoxSubsystem;
 import frc.robot.subsystems.ReactionSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
@@ -20,17 +22,20 @@ public class Trap extends SequentialCommandGroup {
 
   /** Creates a new Trap. */
   
-  public Trap(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a, ReactionSubsystem r) {
+  public Trap(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a, PizzaBoxSubsystem p, ReactionSubsystem r) {
 
     addCommands(
           /*new align(), */
-          //new arm move
           new ClimbUp(c, s, a, r), 
-          /*new shoot(),*/ 
-          //move arm back
+          new ScoreInTrap(p, a),
           new ClimbDown(c, s, a)
     );
     // Use addRequirements() here to declare subsystem dependencies.
+    addRequirements(c);
+    addRequirements(s);
+    addRequirements(a);
+    addRequirements(p);
+    addRequirements(r);
     
   }
 

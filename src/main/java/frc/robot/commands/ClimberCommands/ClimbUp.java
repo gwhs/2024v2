@@ -17,12 +17,16 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 public class ClimbUp extends SequentialCommandGroup {
 
   /** Creates a new ClimbUp.*/
+  
   public ClimbUp(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a, ReactionSubsystem r) {
     addCommands(
-          new ParallelCommandGroup(new SpinToArmAngle(a, 135),
-              new SequentialCommandGroup(new WaitCommand(0.5), new MotorUp(c, s), new Extend(r))),
-          //new driveforward(),
-          new MotorDown(c, s)
+          // new ParallelCommandGroup(new SpinToArmAngle(a, 135),
+          //     new SequentialCommandGroup(new WaitCommand(5), new MotorUp(c, s) /*new Extend(r)*/)),
+          // //new driveforward(),
+          new SpinToArmAngle(a, 135),
+          new MotorUp(c, s),
+          new MotorDown(c, s),
+          new SpinToArmAngle(a, ArmSubsystem.Arm.INTAKE_ANGLE)
     );
     
     // Use addRequirements() here to declare subsystem dependencies.

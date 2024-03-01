@@ -20,7 +20,11 @@ public class ReactionSubsystem extends SubsystemBase {
     m_reactionArm = new TalonFX(armID, canbus);
       MotorOutputConfigs motorOutput = new MotorOutputConfigs();
   
-        TalonFXConfiguration configs = new TalonFXConfiguration();
+      TalonFXConfiguration configs = new TalonFXConfiguration();
+
+      motorOutput.NeutralMode = NeutralModeValue.Brake;
+
+      
   }
 
   @Override

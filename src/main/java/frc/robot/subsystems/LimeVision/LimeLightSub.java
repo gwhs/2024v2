@@ -71,7 +71,7 @@ public class LimeLightSub extends SubsystemBase {
   
   
 
-  
+  boolean verbose = false;
 
   // may be useful later
   private double kCameraHeight =
@@ -86,19 +86,20 @@ public class LimeLightSub extends SubsystemBase {
   public LimeLightSub(String limelight_networktable_name, SwerveSubsystem drivebase) {
     limelight_comm = new LimeLightComms(limelight_networktable_name);
     limelight_comm.set_entry_double("ledMode", 3);
-    Shuffleboard.getTab("Limelight").addDouble("BotPose TX", ()->getBlueBotPose()[0]);
-    Shuffleboard.getTab("Limelight").addDouble("BotPose TY", ()->getBlueBotPose()[1]);
-    Shuffleboard.getTab("Limelight").addDouble("BotPose TZ", ()->getBlueBotPose()[2]);
-    Shuffleboard.getTab("Limelight").addDouble("BotPose RX", ()->getBlueBotPose()[3]);
-    Shuffleboard.getTab("Limelight").addDouble("BotPose RY", ()->getBlueBotPose()[4]);
-    Shuffleboard.getTab("Limelight").addDouble("BotPose RZ", ()->getBlueBotPose()[5]);
-    Shuffleboard.getTab("Limelight").addDouble("BotPose ms", ()->getBlueBotPose()[6]);
-    Shuffleboard.getTab("Limelight").addDouble("Tag Count", ()->getBlueBotPose()[7]);
-    Shuffleboard.getTab("Limelight").addDouble("Tag Span", ()->getBlueBotPose()[8]);
-    Shuffleboard.getTab("Limelight").addDouble("Average Distance", ()->getBlueBotPose()[9]);
-    Shuffleboard.getTab("Limelight").addDouble("Average Area", ()->getBlueBotPose()[10]);
-    Shuffleboard.getTab("Limelight").addDouble("Tag ID", ()->getBlueBotPose()[11]);
-
+    if(verbose){
+      Shuffleboard.getTab("Limelight").addDouble("BotPose TX", ()->getBlueBotPose()[0]);
+      Shuffleboard.getTab("Limelight").addDouble("BotPose TY", ()->getBlueBotPose()[1]);
+      Shuffleboard.getTab("Limelight").addDouble("BotPose TZ", ()->getBlueBotPose()[2]);
+      Shuffleboard.getTab("Limelight").addDouble("BotPose RX", ()->getBlueBotPose()[3]);
+      Shuffleboard.getTab("Limelight").addDouble("BotPose RY", ()->getBlueBotPose()[4]);
+      Shuffleboard.getTab("Limelight").addDouble("BotPose RZ", ()->getBlueBotPose()[5]);
+      Shuffleboard.getTab("Limelight").addDouble("BotPose ms", ()->getBlueBotPose()[6]);
+      Shuffleboard.getTab("Limelight").addDouble("Tag Count", ()->getBlueBotPose()[7]);
+      Shuffleboard.getTab("Limelight").addDouble("Tag Span", ()->getBlueBotPose()[8]);
+      Shuffleboard.getTab("Limelight").addDouble("Average Distance", ()->getBlueBotPose()[9]);
+      Shuffleboard.getTab("Limelight").addDouble("Average Area", ()->getBlueBotPose()[10]);
+      Shuffleboard.getTab("Limelight").addDouble("Tag ID", ()->getBlueBotPose()[11]);
+    }
     
     this.drivebase = drivebase;
     
@@ -107,40 +108,17 @@ public class LimeLightSub extends SubsystemBase {
   @Override
   public void periodic() {
 
+  if(verbose){      
     SmartDashboard.putNumber("tv", tv.getDouble(0));
     SmartDashboard.putNumber("tx", tx.getDouble(0));
     SmartDashboard.putNumber("ty", ty.getDouble(0));
     SmartDashboard.putNumber("ta", ta.getDouble(0));
-    // SmartDashboard.putNumber("theta", getTheta());
-    // SmartDashboard.putNumber("AngleToTarget", getAngle());
-    
-    // // displaying error values
-    // SmartDashboard.putNumber("Error Angle", getError());
     SmartDashboard.putNumber("DistanceX Error X", getErrorFromMegaTagX());
     SmartDashboard.putNumber("DistanceX Error Y", getErrorFromMegaTagY());
-    
+  }
   
-    // botpose
-    if (hasTarget())
-    {
-    // System.out.println(getBotPose()[0]);
 
-    // SmartDashboard.putNumber("BotPose X", getBlueBotPose()[0]);
-    // SmartDashboard.putNumber("BotPose Y", getBlueBotPose()[1]);
-    // SmartDashboard.putNumber("BotPose Z", getBlueBotPose()[2]);
-    // SmartDashboard.putNumber("BotPose RX", getBlueBotPose()[3]);
-    // SmartDashboard.putNumber("BotPose RY", getBlueBotPose()[4]);
-    // SmartDashboard.putNumber("BotPose RZ", getBlueBotPose()[5]);
 
-    // SmartDashboard.putNumber("TargetPose X", getTargetSpace()[0]);
-    // SmartDashboard.putNumber("TargetPose Y", getTargetSpace()[1]);
-    // SmartDashboard.putNumber("TargetPose Z", getTargetSpace()[2]);
-    // SmartDashboard.putNumber("TargetPose RX", getTargetSpace()[3]);
-    // SmartDashboard.putNumber("TargetPose RY", getTargetSpace()[4]);
-    // SmartDashboard.putNumber("TargetPose RZ", getTargetSpace()[5]);
-    
-    }
-    // SmartDashboard.putNumber("BotPose Something", getBotPose()[6]);
 
     // This method will be called once per scheduler run
     double currTx = limelight_comm.get_entry_double("tx");
@@ -270,11 +248,6 @@ public class LimeLightSub extends SubsystemBase {
 
     return colorBotPose; 
   }
-
-  public double[] getTargetSpace(){
-    double[] targetSpace = this.targetSpace.getDoubleArray(new double[6]);
-    return targetSpace;
-  } 
 
   public int getTID(){
   

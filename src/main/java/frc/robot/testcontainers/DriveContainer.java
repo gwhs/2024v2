@@ -18,6 +18,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.Robot;
 import frc.robot.commands.driveCommands.DecreaseSpeed;
 import frc.robot.commands.driveCommands.rotateinPlace;
+import frc.robot.commands.driveCommands.toAmp;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
@@ -163,6 +164,7 @@ public class DriveContainer implements BaseContainer
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     driverXbox.leftBumper().whileTrue(new DecreaseSpeed(closedFieldRel));
+    driverXbox.a().onTrue(new toAmp(drivebase));
 
     
     

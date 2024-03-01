@@ -18,6 +18,8 @@ import frc.robot.commands.ClimberCommands.MotorDown;
 import frc.robot.commands.ClimberCommands.MotorUp;
 import frc.robot.commands.Arm.ArmEmergencyStop;
 import frc.robot.commands.Arm.ScoreInAmp;
+import frc.robot.commands.Arm.ScoreInSpeakerHigh;
+import frc.robot.commands.Arm.ScoreInSpeakerUnderHand;
 import frc.robot.commands.Arm.ScoreInTrap;
 import frc.robot.commands.Arm.SpinAndSwing;
 import frc.robot.commands.Arm.SpinNoteContainerMotor;
@@ -136,8 +138,12 @@ public class GameRobotContainer implements BaseContainer {
 
     private void configurePathPlannerCommands() { //register rest of commands when get them
     
-    NamedCommands.registerCommand("Wait", new WaitCommand(5));
-    NamedCommands.registerCommand("GroundPickup", new WaitCommand(0.5));
+    NamedCommands.registerCommand("Wait (half a second)", new WaitCommand(0.5));
+    NamedCommands.registerCommand("Wait (one second)", new WaitCommand(1));
+    NamedCommands.registerCommand("Intake", new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
+    NamedCommands.registerCommand("Amp", new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem));
+    NamedCommands.registerCommand("Speaker", new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
+    NamedCommands.registerCommand("Speaker (underhand)", new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
   }
 
   /**

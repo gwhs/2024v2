@@ -12,15 +12,46 @@
     "data": {
       "commands": [
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "Speaker1-A1"
+            "name": "Speaker"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "Speaker1-A1"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Wait (half a second)"
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
             "pathName": "A1-Speaker1"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Speaker"
           }
         }
       ]

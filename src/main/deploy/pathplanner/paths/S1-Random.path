@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.68,
-        "y": 7.453927130076483
+        "x": 1.34,
+        "y": 6.6415488386470924
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.779999999999999,
-        "y": 7.453927130076483
+        "x": 1.4400000000000002,
+        "y": 6.6415488386470924
       },
       "isLocked": false,
-      "linkedName": "C1"
+      "linkedName": "S1"
     },
     {
       "anchor": {
-        "x": 6.178464664621639,
-        "y": 6.078036771458159
+        "x": 3.9090678181356378,
+        "y": 6.6415488386470924
       },
       "prevControl": {
-        "x": 6.078464664621638,
-        "y": 6.078036771458159
+        "x": 3.809067818135638,
+        "y": 6.6415488386470924
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "W1"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Starting from Mid Field Notes",
+  "folder": "Starting Zone",
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

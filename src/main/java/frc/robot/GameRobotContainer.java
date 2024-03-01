@@ -5,7 +5,9 @@ import java.io.File;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -100,6 +102,23 @@ public class GameRobotContainer implements BaseContainer {
         Shuffleboard.getTab("Autonomous").add("Autonomous Chooser", autoChooser).withSize(2, 1);
 
 
+        ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
+    
+    driveTrainShuffleboardTab.addDouble("X Position", ()->m_drivebase.getPose().getX())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(0, 0);
+    driveTrainShuffleboardTab.addDouble("Y Position", ()->m_drivebase.getPose().getY())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(3, 0);
+    driveTrainShuffleboardTab.addDouble("Angel", ()->m_drivebase.getPose().getRotation().getDegrees())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(6, 0);
+
+
+
 
     }
 
@@ -134,6 +153,8 @@ public class GameRobotContainer implements BaseContainer {
       driverController.a().onTrue(new ChangeLEDColor(led, 255, 0, 255));
       driverController.rightBumper().onTrue(new ChangeLEDColor(led, 0, 0, 0));
       */
+
+      
     }
 
     private void configurePathPlannerCommands() { //register rest of commands when get them

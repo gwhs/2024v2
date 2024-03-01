@@ -37,18 +37,12 @@ public class toAmp extends Command {
     public void initialize() {
         ampID = UtilMath.whichAmp(m_Subsystem.getPose());
         if (ampID == 6){
-        amp_X = Constants.FieldConstants.BLUE_AMP_6_X;
-        amp_Y = Constants.FieldConstants.BLUE_AMP_6_Y;
-        
         targetX = Constants.FieldConstants.BLUE_AMP_6_X;
-        targetY = Constants.FieldConstants.BLUE_AMP_6_Y - 1;;
+        targetY = Constants.FieldConstants.BLUE_AMP_6_Y - 0.5;
     }
     else if (ampID == 5){
-        amp_X = Constants.FieldConstants.RED_AMP_5_X;
-        amp_Y = Constants.FieldConstants.RED_AMP_5_Y;
-
         targetX = Constants.FieldConstants.RED_AMP_5_X;
-        targetY = Constants.FieldConstants.RED_AMP_5_Y - 1;;
+        targetY = Constants.FieldConstants.RED_AMP_5_Y - 0.5;
     }
        pose = new Translation2d(targetX, targetY);
     }
@@ -61,7 +55,6 @@ public class toAmp extends Command {
   // Called once the command ends or is interrupted.
     @Override
     public void end(boolean interrupted) {
-    
     }
 
   // Returns true when the command should end.

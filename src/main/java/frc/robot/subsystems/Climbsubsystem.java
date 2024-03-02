@@ -8,6 +8,8 @@ import com.ctre.phoenix6.controls.StaticBrake;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimbConstants;
@@ -21,16 +23,18 @@ public class Climbsubsystem extends SubsystemBase {
   private TalonFX climberArmLeft;
   private TalonFX climberArmRight;
 
-  // private final double CLIMBER_PID_KP = 1.9;
-  // private final double CLIMBER_PID_KI = 0;
-  // private final double CLIMBER_PID_KD = 0;
-  // private Constraints constraints = new Constraints(180.0, 300.0);
+  private final double CLIMBER_PID_KP = 1.9;
+  private final double CLIMBER_PID_KI = 0;
+  private final double CLIMBER_PID_KD = 0;
+  private Constraints constraints = new Constraints(180.0, 300.0);
 
-  // private ProfiledPIDController leftPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
-  // private ProfiledPIDController rightPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
+  private ProfiledPIDController leftPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
+  private ProfiledPIDController rightPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
 
-  // private boolean upCheck = false;
-  // private boolean downCheck = false;
+  private double leftGoalDistance = 198.94;
+  private double rightGoalDistance = 198.4;
+
+  private boolean checkForUp = false;
 
   DigitalInput bottomLeft = new DigitalInput(ClimbConstants.BOT_LEFT_LIMIT_ID);
   DigitalInput bottomRight = new DigitalInput(ClimbConstants.BOT_RIGHT_LIMIT_ID);
@@ -51,8 +55,6 @@ public class Climbsubsystem extends SubsystemBase {
 
     brake = new StaticBrake();
     
-    // climberArmLeft.setNeutralMode(NeutralModeValue.Brake);
-    // climberArmRight.setNeutralMode(NeutralModeValue.Brake);
     UtilMotor.configMotor(climberArmLeft, 0.11, 0.5, 0.0001, 0.12, 12, 40, true);
     UtilMotor.configMotor(climberArmRight, 0.11, 0.5, 0.0001, 0.12, 12, 40, true);
 
@@ -117,9 +119,45 @@ public class Climbsubsystem extends SubsystemBase {
     return (!bottomRight.get());
   }
 
+  public void setSetGoal(double left, double right) {
+    leftGoalDistance = left;
+    rightGoalDistance = right;
+  } 
+
+  public void upMotor() {
+    checkForUp = true;
+    leftPIDcontroller.setGoal(-leftGoalDistance);
+    rightPIDcontroller.setGoal(rightGoalDistance);
+  }
+
+  public void downMotor() {
+    checkForUp = false;
+    leftPIDcontroller.setGoal(-0.3);
+    rightPIDcontroller.setGoal(0.3);
+  }
+
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
+    double leftPIDvalue = leftPIDcontroller.calculate(getPositionLeft());
+    double rightPIDvalue = rightPIDcontroller.calculate(getPositionRight());
+
+    if (checkForUp && getTopLeftLimit()) {
+      leftPIDvalue = 0;
+    }
+    if (checkForUp && getTopRightLimit()) {
+      rightPIDvalue = 0;
+    }
+
+    if (!checkForUp && getBotLeftLimit()) {
+      leftPIDvalue = 0;
+    }
+    if (!checkForUp && getBotRightLimit()) {
+      rightPIDvalue = 0;
+    }
+
+
+    setSpeed(-leftPIDvalue / 4, rightPIDvalue / 4);
+    
 
   }
 }

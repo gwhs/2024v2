@@ -30,6 +30,8 @@ import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
 import frc.robot.commands.IntakeCommands.IntakeRejectNote;
 import frc.robot.commands.IntakeCommands.PickUpFromGroundAndPassToPizzaBox;
 import frc.robot.commands.IntakeCommands.SpinIntakePID;
+import frc.robot.commands.ReactionArmCommands.Extend;
+import frc.robot.commands.ReactionArmCommands.Retract;
 import frc.robot.commands.ledcommands.ChangeLEDColor;
 import frc.robot.commands.ledcommands.ChangeLEDToBlue;
 import frc.robot.commands.ledcommands.ChangeLEDToGreen;
@@ -65,7 +67,6 @@ public class GameRobotContainer implements BaseContainer {
                                                                          getDriveTrainName()));
         m_IntakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, "rio");
 
-
         m_ArmSubsystem = new ArmSubsystem(ArmSubsystem.Arm.ARM_ID, "CAN_Network", 
                         ArmSubsystem.Arm.ENCODER_DIO_SLOT);
 
@@ -97,9 +98,10 @@ public class GameRobotContainer implements BaseContainer {
                         .withPosition(5, 0);
         Shuffleboard.getTab("Climb").add("motor down", new MotorDown(m_ClimbSubsystem, m_drivebase)).withPosition(1, 1);
         Shuffleboard.getTab("Climb").add("motor up", new MotorUp(m_ClimbSubsystem, m_drivebase)).withPosition(0, 1);
-        Shuffleboard.getTab("Climb").add("climb prep", new PrepClimb(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem)).withPosition(4, 1);
+        Shuffleboard.getTab("Climb").add("climb prep", new PrepClimb(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_ReactionSubsystem)).withPosition(4, 1);
         Shuffleboard.getTab("Climb").add("climb & shoot", new ClimbAndShoot(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_PizzaBoxSubsystem)).withPosition(5, 1);
 
+        Shuffleboard.getTab("Climb").addDouble("Reaction Bar Angle", ()-> m_ReactionSubsystem.getPos());
 
         
         TeleopDrive closedFieldRel = new TeleopDrive(
@@ -133,10 +135,8 @@ public class GameRobotContainer implements BaseContainer {
       driverController.b().onTrue(new IntakeRejectNote(m_IntakeSubsystem));
 
 
-      // OperatorController.a().whileTrue(new MotorUp(m_Climbsubsystem, m_drivebase));
-      // OperatorController.b().whileTrue(new MotorDown(m_Climbsubsystem, m_drivebase));
-      // OperatorController.x().onTrue(new ScoreInTrap(m_PizzaBoxSubsystem, m_ArmSubsystem));
-      // OperatorController.y().onTrue(new SpinToArmAngle(m_ArmSubsystem, 135));
+      OperatorController.a().whileTrue(new Extend(m_ReactionSubsystem));
+      OperatorController.b().whileTrue(new Retract(m_ReactionSubsystem));
       
       //This should be a parallel command with other stuff
      /* / driverController.x().onTrue(new ChangeLEDToBlue(led));//pressing x on the controller runs a

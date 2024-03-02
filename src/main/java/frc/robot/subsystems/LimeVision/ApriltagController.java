@@ -3,6 +3,9 @@ package frc.robot.subsystems.LimeVision;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Translation2d;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 
@@ -12,7 +15,7 @@ public class ApriltagController extends SubsystemBase {
     private final LimeLightSub limeLightSub;
 
     // forward PID constants
-    private final double kPX = 0.5; //0.05
+    private final double kPX = 0.8; //0.05
     private final double kDX = 0;
     private final double kIX = 0;
 
@@ -97,6 +100,21 @@ public class ApriltagController extends SubsystemBase {
         return swerve.getPose().getRotation().getDegrees();
     }
 
+    //parallelTag command PID
+    public double getApriltagHeadingTest() {
+        if (limeLightSub.getID() > 0) {
+            double targetHeading = ApriltagConstants.APRILTAG_ROTATION[limeLightSub.getID()] - 180;
+            return limeLightSub.getBotPose()[5] - targetHeading;
+        }
+        return 0;
+    }
+    // aligning to facetag
+    public double updatePIDRotationTest() {
+        rotationOutput = PIDRotation.calculate(getApriltagHeadingTest());
+        return rotationOutput;
+    }
+
+
     //robot pose
     public double getHeading() {
         return swerve.getPose().getRotation().getDegrees();
@@ -148,19 +166,10 @@ public class ApriltagController extends SubsystemBase {
         return velocityError;
     }
 
-    // if robot is facing directly at tag, it should return 180. if more left -180 + offset. if more right 180 + offset i think
-    public double getApriltagHeadingTest() {
-        
+    public Pose2d getTargetPose() {
         if (limeLightSub.getID() > 0) {
-            double targetHeading = ApriltagConstants.APRILTAG_ROTATION[limeLightSub.getID()] - 180;
-            return limeLightSub.getBotPose()[5] - targetHeading;
+            return ApriltagConstants.TARGET_POSITION[limeLightSub.getID()];
         }
-        return 0;
-    }
-
-    // aligning to facetag
-    public double updatePIDRotationTest() {
-        rotationOutput = PIDRotation.calculate(getApriltagHeadingTest());
-        return rotationOutput;
+        return swerve.getPose();
     }
 }

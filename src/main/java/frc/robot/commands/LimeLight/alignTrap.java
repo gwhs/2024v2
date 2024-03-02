@@ -4,8 +4,8 @@
 
 package frc.robot.commands.LimeLight;
 
+import frc.robot.subsystems.LimeVision.ApriltagConstants;
 import frc.robot.subsystems.LimeVision.ApriltagController;
-import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -16,7 +16,6 @@ public class alignTrap extends Command {
   private final SwerveSubsystem driSwerveSubsystem;
   private final ApriltagController apriltagController;
 
-  private double robotHeading;
   /**
    * Creates a new ExampleCommand.
    *
@@ -32,13 +31,12 @@ public class alignTrap extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    robotHeading = apriltagController.getHeading();
     apriltagController.setTolerance("forward");
-    apriltagController.setPoint(0, "forward"); // fixed x distance from tag before crashing field perimeter
+    apriltagController.setPoint(ApriltagConstants.TargetDistance.FORWARD_TARGET, "forward"); // fixed x distance from tag before crashing field perimeter
     apriltagController.setTolerance("sideways");
-    apriltagController.setPoint(0, "sideways");
+    apriltagController.setPoint(ApriltagConstants.TargetDistance.SIDEWAYS_TARGET, "sideways");
     apriltagController.setTolerance("rotation");
-    apriltagController.setPoint(0, "rotation");
+    apriltagController.setPoint(ApriltagConstants.TargetDistance.ROTATION_TARGET, "rotation");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -48,14 +46,7 @@ public class alignTrap extends Command {
     double sideways = apriltagController.updatePIDSideways();
     double angle = apriltagController.updatePIDRotationTest();
 
-    // double dx = distance * Math.cos(robotHeading);
-    // double dy = distance * Math.sin(robotHeading);
-
-
-    
     driSwerveSubsystem.drive(new Translation2d(-forward, sideways), angle, false);
-    // driSwerveSubsystem.drive(new Translation2d(-distance, 0), angle, false);
-    
   }
   // Called once the command ends or is interrupted.
   @Override
@@ -64,6 +55,6 @@ public class alignTrap extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return apriltagController.atSetpoint("forward");
+    return apriltagController.atSetpoint("forward") && apriltagController.atSetpoint("rotation");
   }
 }

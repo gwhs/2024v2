@@ -4,6 +4,7 @@
 
 package frc.robot.commands.LimeLight;
 
+import frc.robot.subsystems.LimeVision.ApriltagConstants;
 import frc.robot.subsystems.LimeVision.ApriltagController;
 import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -34,7 +35,7 @@ public class Forward extends Command {
   public void initialize() {
     robotHeading = apriltagController.getHeading();
     apriltagController.setTolerance("forward");
-    apriltagController.setPoint(1, "forward"); // fixed x distance from tag before crashing field perimeter
+    apriltagController.setPoint(ApriltagConstants.TargetDistance.FORWARD_TARGET, "forward"); // fixed x distance from tag before crashing field perimeter
   }
 
   // Called every time the scheduler runs while the command is scheduled.

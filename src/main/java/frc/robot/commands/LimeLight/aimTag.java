@@ -4,7 +4,7 @@
 
 package frc.robot.commands.LimeLight;
 
-import frc.robot.Constants.LimeLightConstants;
+import frc.robot.subsystems.LimeVision.ApriltagConstants;
 import frc.robot.subsystems.LimeVision.ApriltagController;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -32,16 +32,15 @@ public class aimTag extends Command {
   @Override
   public void initialize() {
     apriltagController.setTolerance("rotation");
-    apriltagController.setPoint(0, "rotation");
+    apriltagController.setPoint(ApriltagConstants.TargetDistance.ROTATION_TARGET, "rotation");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     double angle = apriltagController.updatePIDRotation();
-    driSwerveSubsystem.drive(new Translation2d(0, 0), angle, true);
     
-
+    driSwerveSubsystem.drive(new Translation2d(0, 0), angle, true);
   }
 
   // Called once the command ends or is interrupted.

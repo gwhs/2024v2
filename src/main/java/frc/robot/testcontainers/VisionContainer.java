@@ -21,12 +21,12 @@ import frc.robot.BaseContainer;
 import frc.robot.Constants.LimeLightConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Robot;
-import frc.robot.commands.LimeLight.Align;
 import frc.robot.commands.LimeLight.Forward;
 import frc.robot.commands.LimeLight.Sideways;
 import frc.robot.commands.LimeLight.aimTag;
 import frc.robot.commands.LimeLight.alignTrap;
 import frc.robot.commands.LimeLight.parallelTag;
+import frc.robot.commands.driveCommands.driveToPose;
 import frc.robot.commands.driveCommands.rotateinPlace;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
@@ -142,22 +142,11 @@ public class VisionContainer implements BaseContainer
   private void configureBindings()
   {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
-    // driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-
-    // driverXbox.y().onTrue(new FaceAprilTag(drivebase, apriltagController));
-    // driverXbox.a().onTrue(new Sideways(drivebase, apriltagController));
-
-    // driverXbox.y().onTrue(new rotateinPlace(() -> 90, drivebase));
+    driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));  
+    
     driverXbox.y().onTrue(new InstantCommand(drivebase::resetStartPos));
-    driverXbox.x().onTrue(new Forward(drivebase, apriltagController));
-
-    // driverXbox.b().onTrue(new alignTrap(drivebase, apriltagController));
     operatorXbox.a().onTrue(new alignTrap(drivebase, apriltagController));
     operatorXbox.b().onTrue(new parallelTag(drivebase, apriltagController));
-    
-
-    driverXbox.a().onTrue(new Align(drivebase, apriltagController));
   }
 
   /**

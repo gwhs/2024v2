@@ -4,6 +4,7 @@
 
 package frc.robot.commands.LimeLight;
 
+import frc.robot.subsystems.LimeVision.ApriltagConstants;
 import frc.robot.subsystems.LimeVision.ApriltagController;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -32,15 +33,15 @@ public class Sideways extends Command {
   @Override
   public void initialize() {
     apriltagController.setTolerance("sideways");
-    apriltagController.setPoint(0, "sideways");
+    apriltagController.setPoint(ApriltagConstants.TargetDistance.SIDEWAYS_TARGET, "sideways");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
     distance = apriltagController.updatePIDSideways(); 
+
     driSwerveSubsystem.drive(new Translation2d(0, distance), 0, false);
-    
   }
 
   // Called once the command ends or is interrupted.

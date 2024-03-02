@@ -5,6 +5,7 @@
 package frc.robot.commands.LimeLight;
 
 import frc.robot.Constants.LimeLightConstants;
+import frc.robot.subsystems.LimeVision.ApriltagConstants;
 import frc.robot.subsystems.LimeVision.ApriltagController;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import edu.wpi.first.math.geometry.Translation2d;
@@ -32,7 +33,7 @@ public class parallelTag extends Command {
   @Override
   public void initialize() {
     apriltagController.setTolerance("rotation");
-    apriltagController.setPoint(0, "rotation");
+    apriltagController.setPoint(ApriltagConstants.TargetDistance.ROTATION_TARGET, "rotation");
   }
 
   // Called every time the scheduler runs while the command is scheduled.

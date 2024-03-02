@@ -36,7 +36,6 @@ public class wheelAlignForward extends Command {
   @Override
   public void execute() {
     driSwerveSubsystem.drive(new Translation2d(10, 0), 0, false);
-    
   }
 
   // Called once the command ends or is interrupted.

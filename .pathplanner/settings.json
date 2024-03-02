@@ -10,9 +10,11 @@
     "Starting from Mid Field Notes",
     "Wing Starting Point"
   ],
-  "autoFolders": [],
-  "defaultMaxVel": 1.0,
-  "defaultMaxAccel": 6.0,
+  "autoFolders": [
+    "New Folder"
+  ],
+  "defaultMaxVel": 4.8,
+  "defaultMaxAccel": 10.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,
   "maxModuleSpeed": 4.5

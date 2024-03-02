@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.261288368730585,
-        "y": 4.124382094918037
+        "x": 2.5085249599885775,
+        "y": 4.3
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3612883687305852,
-        "y": 4.124382094918037
+        "x": 1.6036046694061976,
+        "y": 5.704093176517309
       },
       "isLocked": false,
       "linkedName": "A3"
     },
     {
       "anchor": {
-        "x": 2.4,
-        "y": 5.53
+        "x": 2.45,
+        "y": 5.55
       },
       "prevControl": {
-        "x": 2.3,
-        "y": 5.53
+        "x": 1.6887664017838722,
+        "y": 5.6212015419751244
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,8 +32,8 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.0,
-    "maxAcceleration": 6.0,
+    "maxVelocity": 4.8,
+    "maxAcceleration": 10.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": "Notes Near Starting Zone",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -35.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

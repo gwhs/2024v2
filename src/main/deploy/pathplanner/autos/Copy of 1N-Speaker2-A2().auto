@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Speaker"
+            "name": "Speaker (subwoofer)"
           }
         },
         {
@@ -37,15 +37,9 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "A2-Speaker2"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "Speaker"
+            "name": "Speaker (A2)"
           }
         }
       ]

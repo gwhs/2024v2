@@ -76,12 +76,15 @@ public class GameRobotContainer implements BaseContainer {
                                                         ClimbConstants.MOTOR_LEFT_INVERTED, 
                                                         ClimbConstants.MOTOR_RIGHT_INVERTED, 
                                                         "rio"); //change arguments
+          closedFieldRel = new TeleopDrive(
+                                            m_drivebase,
+                                            () -> MathUtil.applyDeadband(-driverController.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
+                                            () -> MathUtil.applyDeadband(-driverController.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
+                                            () -> driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), () -> true);
+                                                  
 
         configureBindings();
 
-<<<<<<< HEAD
-        closedFieldRel = new TeleopDrive(
-=======
         Shuffleboard.getTab("Climb").addDouble("climb distance left", () -> m_Climbsubsystem.getPositionLeft());
         Shuffleboard.getTab("Climb").addDouble("climb distance right", () -> m_Climbsubsystem.getPositionRight());
         Shuffleboard.getTab("Climb").addBoolean("bot left limit", () -> m_Climbsubsystem.getBotLeftLimit());
@@ -91,7 +94,6 @@ public class GameRobotContainer implements BaseContainer {
 
 
         TeleopDrive closedFieldRel = new TeleopDrive(
->>>>>>> main
         m_drivebase,
         () -> MathUtil.applyDeadband(-driverController.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(-driverController.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
@@ -110,21 +112,6 @@ public class GameRobotContainer implements BaseContainer {
       
       driverController.x().onTrue(new SpinToArmAngle(m_ArmSubsystem, 240));
 
-<<<<<<< HEAD
-        driverController.a().onTrue(new IntakePickUpFromGround(m_IntakeSubsystem));
-        driverController.b().onTrue(new IntakePassNoteToPizzaBox(m_IntakeSubsystem));
-        driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
-
-         driverController.leftBumper().whileTrue(new DecreaseSpeed(closedFieldRel));
-        
-        //This should be a parallel command with other stuff
-       /* / driverController.x().onTrue(new ChangeLEDToBlue(led));//pressing x on the controller runs a
-        driverController.y().onTrue(new ChangeLEDToRed(led));
-        driverController.b().onTrue(new ChangeLEDToGreen(led));
-        driverController.a().onTrue(new ChangeLEDColor(led, 255, 0, 255));
-        driverController.rightBumper().onTrue(new ChangeLEDColor(led, 0, 0, 0));
-        */
-=======
       driverController.y().onTrue(new TestingOnlyShoot(m_PizzaBoxSubsystem, m_ArmSubsystem, 150));
 
       // driverController.x().onTrue(new SpinIntakePID(m_IntakeSubsystem, 0));
@@ -149,7 +136,6 @@ public class GameRobotContainer implements BaseContainer {
       driverController.a().onTrue(new ChangeLEDColor(led, 255, 0, 255));
       driverController.rightBumper().onTrue(new ChangeLEDColor(led, 0, 0, 0));
       */
->>>>>>> main
     }
 
     public void setMotorBrake(boolean brake)

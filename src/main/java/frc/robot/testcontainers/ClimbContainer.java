@@ -12,10 +12,10 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.ClimbConstants;
-import frc.robot.commands.ClimberCommands.MotorUp;
-import frc.robot.commands.ClimberCommands.ClimbDown;
-import frc.robot.commands.ClimberCommands.ClimbUp;
-import frc.robot.commands.ClimberCommands.MotorDown;
+import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
+import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorUp;
+import frc.robot.commands.ClimberCommands.AutoClimb.ClimbDown;
+import frc.robot.commands.ClimberCommands.AutoClimb.ClimbUp;
 import frc.robot.commands.ledcommands.ChangeLEDToGreen;
 import frc.robot.commands.ledcommands.ChangeLEDToRed;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
@@ -56,9 +56,9 @@ public class ClimbContainer implements BaseContainer {
         Shuffleboard.getTab("Climb").addBoolean("top left limit", () -> climbsubsystem.getTopLeftLimit());
         Shuffleboard.getTab("Climb").addBoolean("top right limit", () -> climbsubsystem.getTopRightLimit());
 
-        Shuffleboard.getTab("Climb").addDouble("roll", () -> swerve.getRoll().getDegrees());
-        Shuffleboard.getTab("Climb").addDouble("pitch", () -> swerve.getYaw().getDegrees());
-        Shuffleboard.getTab("Climb").addDouble("yaw", () -> swerve.getPitch().getDegrees());
+        // Shuffleboard.getTab("Climb").addDouble("roll", () -> swerve.getRoll().getDegrees());
+        // Shuffleboard.getTab("Climb").addDouble("pitch", () -> swerve.getYaw().getDegrees());
+        // Shuffleboard.getTab("Climb").addDouble("yaw", () -> swerve.getPitch().getDegrees());
         
         swerve.setDefaultCommand(closedFieldRel);  //TO CHANGE DRIVE BASE
 
@@ -69,11 +69,6 @@ public class ClimbContainer implements BaseContainer {
 
 
     private void configureBindings() {
-        
-        Shuffleboard.getTab("Climb").add("motor down", new MotorDown(climbsubsystem, swerve));
-        
-        //Shuffleboard.getTab("Climb").add("climb up", new ClimbUp(climbsubsystem, swerve));
-        //Shuffleboard.getTab("Climb").add("climb down", new ClimbDown(climbsubsystem, swerve));
                 
     }
 

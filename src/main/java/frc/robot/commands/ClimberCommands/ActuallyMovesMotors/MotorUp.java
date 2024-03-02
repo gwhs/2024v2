@@ -2,22 +2,22 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.ClimberCommands;
+package frc.robot.commands.ClimberCommands.ActuallyMovesMotors;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.ParallelDeadlineGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants.ClimbConstants;
 import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
-public class MotorDown extends Command {
-  /** Creates a new MotorDown. */
+public class MotorUp extends Command {
+  /** Creates a new MotorUp. */
 
-  private Climbsubsystem climbersubsystem;
-  private SwerveSubsystem swerve;
+  private final Climbsubsystem climbersubsystem;
+  private final SwerveSubsystem swerve;
+
+  
 
   private final double CLIMBER_PID_KP = 1.9;
   private final double CLIMBER_PID_KI = 0;
@@ -27,12 +27,12 @@ public class MotorDown extends Command {
   private ProfiledPIDController leftPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
   private ProfiledPIDController rightPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
 
-
   //constructor that takes in a Climbsubsystem object and a SwerveSubsystem obj
-  public MotorDown(Climbsubsystem c, SwerveSubsystem s) {
+  public MotorUp(Climbsubsystem c, SwerveSubsystem s) {
 
     climbersubsystem = c;
     swerve = s;
+
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.climbersubsystem);
@@ -41,8 +41,9 @@ public class MotorDown extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    leftPIDcontroller.setGoal(-0.3);
-    rightPIDcontroller.setGoal(0.3);
+    //climbersubsystem.upMotor();
+    leftPIDcontroller.setGoal(-198.94);
+    rightPIDcontroller.setGoal(198.4);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -52,12 +53,14 @@ public class MotorDown extends Command {
     double leftPIDvalue = leftPIDcontroller.calculate(climbersubsystem.getPositionLeft());
     double rightPIDvalue = rightPIDcontroller.calculate(climbersubsystem.getPositionRight());
 
-    climbersubsystem.setSpeed(-leftPIDvalue, rightPIDvalue);                   
+    climbersubsystem.setSpeed(-leftPIDvalue, rightPIDvalue);
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+
     climbersubsystem.stopClimbLeft();
     climbersubsystem.stopClimbRight(); 
   }
@@ -65,8 +68,8 @@ public class MotorDown extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.println("MotorDown command finished running");
-    return (climbersubsystem.getBotLeftLimit() && climbersubsystem.getBotRightLimit())
-            || (-climbersubsystem.getPositionLeft() <= 0.3 && climbersubsystem.getPositionRight() <= 0.3); 
+    //stops when reaches desired height
+    return (climbersubsystem.getTopLeftLimit() && climbersubsystem.getTopRightLimit())                                         
+            || (-climbersubsystem.getPositionLeft() >= ClimbConstants.CLIMB_DISTANCE && climbersubsystem.getPositionRight() >= ClimbConstants.CLIMB_DISTANCE); 
   }
 }

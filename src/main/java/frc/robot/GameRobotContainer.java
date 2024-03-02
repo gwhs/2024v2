@@ -11,10 +11,13 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.ClimberCommands.ClimbUp;
-import frc.robot.commands.ClimberCommands.MotorDown;
-import frc.robot.commands.ClimberCommands.MotorUp;
-import frc.robot.commands.ClimberCommands.Trap;
+import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
+import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorUp;
+import frc.robot.commands.ClimberCommands.AutoClimb.ClimbUp;
+import frc.robot.commands.ClimberCommands.AutoTrap.Trap;
+import frc.robot.commands.ClimberCommands.AutoTrap.TrapNoClimbDown;
+import frc.robot.commands.ClimberCommands.ClimbParts.ClimbAndShoot;
+import frc.robot.commands.ClimberCommands.ClimbParts.PrepClimb;
 import frc.robot.commands.Arm.ArmEmergencyStop;
 import frc.robot.commands.Arm.ScoreInAmp;
 import frc.robot.commands.Arm.ScoreInTrap;
@@ -79,17 +82,26 @@ public class GameRobotContainer implements BaseContainer {
 
         configureBindings();
 
-        Shuffleboard.getTab("Climb").addDouble("climb distance left", () -> m_ClimbSubsystem.getPositionLeft());
-        Shuffleboard.getTab("Climb").addDouble("climb distance right", () -> m_ClimbSubsystem.getPositionRight());
-        Shuffleboard.getTab("Climb").addBoolean("bot left limit", () -> m_ClimbSubsystem.getBotLeftLimit());
-        Shuffleboard.getTab("Climb").addBoolean("bot right limit", () -> m_ClimbSubsystem.getBotRightLimit());
-        Shuffleboard.getTab("Climb").addBoolean("top left limit", () -> m_ClimbSubsystem.getTopLeftLimit());
-        Shuffleboard.getTab("Climb").addBoolean("top right limit", () -> m_ClimbSubsystem.getTopRightLimit());
-        Shuffleboard.getTab("Climb").add("trap", new Trap(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem));
-        Shuffleboard.getTab("Climb").add("motor down", new MotorDown(m_ClimbSubsystem, m_drivebase));
-        Shuffleboard.getTab("Climb").add("motor up", new MotorUp(m_ClimbSubsystem, m_drivebase));
+
+        //All Climb Shuffleboard stuff (all in climb tab)
+        Shuffleboard.getTab("Climb").addDouble("climb distance left", () -> m_ClimbSubsystem.getPositionLeft()).withPosition(0, 0);
+        Shuffleboard.getTab("Climb").addDouble("climb distance right", () -> m_ClimbSubsystem.getPositionRight()).withPosition(1, 0);
+        Shuffleboard.getTab("Climb").addBoolean("bot left limit", () -> m_ClimbSubsystem.getBotLeftLimit()).withPosition(2, 1);
+        Shuffleboard.getTab("Climb").addBoolean("bot right limit", () -> m_ClimbSubsystem.getBotRightLimit()).withPosition(3, 1);
+        Shuffleboard.getTab("Climb").addBoolean("top left limit", () -> m_ClimbSubsystem.getTopLeftLimit()).withPosition(2, 0);
+        Shuffleboard.getTab("Climb").addBoolean("top right limit", () -> m_ClimbSubsystem.getTopRightLimit()).withPosition(3, 0);
+
+        Shuffleboard.getTab("Climb").add("full auto trap", new Trap(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem))
+                        .withPosition(4, 0);
+        Shuffleboard.getTab("Climb").add("trap no down", new TrapNoClimbDown(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem))
+                        .withPosition(5, 0);
+        Shuffleboard.getTab("Climb").add("motor down", new MotorDown(m_ClimbSubsystem, m_drivebase)).withPosition(1, 1);
+        Shuffleboard.getTab("Climb").add("motor up", new MotorUp(m_ClimbSubsystem, m_drivebase)).withPosition(0, 1);
+        Shuffleboard.getTab("Climb").add("climb prep", new PrepClimb(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem)).withPosition(4, 1);
+        Shuffleboard.getTab("Climb").add("climb & shoot", new ClimbAndShoot(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_PizzaBoxSubsystem)).withPosition(5, 1);
 
 
+        
         TeleopDrive closedFieldRel = new TeleopDrive(
         m_drivebase,
         () -> MathUtil.applyDeadband(-driverController.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),

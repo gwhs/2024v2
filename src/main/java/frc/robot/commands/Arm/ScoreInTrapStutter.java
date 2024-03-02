@@ -16,34 +16,34 @@ public class ScoreInTrapStutter extends SequentialCommandGroup {
   public ScoreInTrapStutter(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem) {
     addCommands(
         new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.TRAP_ANGLE).withTimeout(3),
-
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 50),
+//56/36
+        new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 100),
         Commands.waitSeconds(1),
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, -26, 50),
-        Commands.waitSeconds(.5),
+        new StopNoteContainerMotor(pizzaBoxSubsystem),
+        Commands.waitSeconds(.2),
 
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 50),
+        new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 100),
         Commands.waitSeconds(1),
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, -26, 50),
-        Commands.waitSeconds(.5),
+        new StopNoteContainerMotor(pizzaBoxSubsystem),
+        Commands.waitSeconds(.2),
 
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 50),
+        new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 100),
         Commands.waitSeconds(1),
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, -26, 50),
-        Commands.waitSeconds(.5),
+        new StopNoteContainerMotor(pizzaBoxSubsystem),
+        Commands.waitSeconds(.2),
 
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 50),
+        new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 100),
         Commands.waitSeconds(1),
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, -26, 50),
-        Commands.waitSeconds(.5),
+        new StopNoteContainerMotor(pizzaBoxSubsystem),
+        Commands.waitSeconds(.2),
 
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 50),
+        new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 100),
         Commands.waitSeconds(1),
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, -26, 50),
-        Commands.waitSeconds(.5),
+        new StopNoteContainerMotor(pizzaBoxSubsystem),
+        Commands.waitSeconds(.2),
 
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 50),
-        Commands.waitSeconds(1),        
+        new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 100),
+        Commands.waitSeconds(11),
 
         new StopNoteContainerMotor(pizzaBoxSubsystem),
         new SpinToArmAngle(armSubsystem, 135)

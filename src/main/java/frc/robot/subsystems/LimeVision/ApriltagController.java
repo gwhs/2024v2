@@ -20,12 +20,12 @@ public class ApriltagController extends SubsystemBase {
     private final double kIX = 0;
 
     // sideways PID constants
-    private final double kPThetaTx = 0.05; //0.02
+    private final double kPThetaTx = 0.02; //0.02
     private final double kDThetaTx = 0;
     private final double kIThetaTx = 0;    
 
     // rotation PID constants
-    private final double kPTheta = 0.06; //0.08
+    private final double kPTheta = 0.08; //0.08
     private final double kDTheta = 0;
     private final double kITheta = 0;
 
@@ -108,12 +108,19 @@ public class ApriltagController extends SubsystemBase {
         }
         return 0;
     }
+
+    // getting target rotation
+    public double getTargetHeading() {
+        if (limeLightSub.getID() > 0) {
+            return (ApriltagConstants.APRILTAG_ROTATION[limeLightSub.getID()] - 180);
+        }
+        return swerve.getPose().getRotation().getDegrees();
+    }
     // aligning to facetag
     public double updatePIDRotationTest() {
         rotationOutput = PIDRotation.calculate(getApriltagHeadingTest());
         return rotationOutput;
     }
-
 
     //robot pose
     public double getHeading() {

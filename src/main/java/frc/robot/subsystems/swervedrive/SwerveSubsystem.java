@@ -311,7 +311,7 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
-    
+
   }
 
   @Override
@@ -548,12 +548,11 @@ public class SwerveSubsystem extends SubsystemBase
     sm[testModule].setAngle(90);
 
     drive.set(100);
-
   }
 
   public void resetStartPos()
   {
-    resetOdometry(new Pose2d(3.64, 5.92, new Rotation2d(Math.toRadians(-60))));
+    resetOdometry(new Pose2d(3.89, 5.77, new Rotation2d(Math.toRadians(-60))));
     // swerveDrive.setGyro(new Rotation3d(0,0,Math.toRadians(180)));
   }
   

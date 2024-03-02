@@ -144,8 +144,10 @@ public class VisionContainer implements BaseContainer
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));  
     
     driverXbox.y().onTrue(new InstantCommand(drivebase::resetStartPos));
-    operatorXbox.a().onTrue(new alignTrap(drivebase, apriltagController));
-    operatorXbox.b().onTrue(new parallelTag(drivebase, apriltagController));
+    driverXbox.a().onTrue(new alignTrap(drivebase, apriltagController));
+    driverXbox.b().onTrue(new parallelTag(drivebase, apriltagController));
+
+    driverXbox.x().onTrue(drivebase.driveToPose(apriltagController.getTargetPose()));
   }
 
   /**

@@ -42,7 +42,6 @@ public class parallelTag extends Command {
     double angle = apriltagController.updatePIDRotationTest();
     driSwerveSubsystem.drive(new Translation2d(0, 0), angle, false);
     
-
   }
 
   // Called once the command ends or is interrupted.

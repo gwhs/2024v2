@@ -12,8 +12,6 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 public class toAmp extends Command {
     private final SwerveSubsystem m_Subsystem;
     private static int ampID;
-    private static double amp_X;
-    private static double amp_Y;
     private static double targetX;
     private static double targetY;
     private static PIDController PIDx;
@@ -60,11 +58,11 @@ public class toAmp extends Command {
   // Returns true when the command should end.
     @Override
     public boolean isFinished() {
-        if(ampID == 5 && (amp_Y -1 <= m_Subsystem.getPose().getY() && m_Subsystem.getPose().getY() <= amp_Y + 1))
+        if(ampID == 5 && (targetY -1 <= m_Subsystem.getPose().getY() && m_Subsystem.getPose().getY() <= targetY + 1))
         {
           return true;
         }
-        else if(ampID == 6 && (amp_Y - 0.9 <= m_Subsystem.getPose().getY() && m_Subsystem.getPose().getY() <= amp_Y + 0.9))
+        else if(ampID == 6 && (targetY -1 <= m_Subsystem.getPose().getY() && m_Subsystem.getPose().getY() <= targetY + 1))
         {
           return true;
         }

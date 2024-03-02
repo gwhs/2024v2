@@ -30,8 +30,8 @@ public class TeleopDrive extends Command
   private final DoubleSupplier   omega;
   private final BooleanSupplier  driveMode;
   private final SwerveController controller;
-  public boolean isFaceSpeaker;
-  public boolean isBackSpeaker;
+  public boolean isFaceSpeaker = false;
+  public boolean isBackSpeaker = false;
   public boolean isSlow;
   private final PIDController PID;
   private double currTheta;

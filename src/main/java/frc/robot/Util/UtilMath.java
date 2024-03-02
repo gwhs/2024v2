@@ -43,6 +43,7 @@ public class UtilMath {
     public static int whichAmp(Pose2d pose){
         if(pose.getX() < 324.865){
             return 6;
+            
         }
         else if (pose.getX() > 324.865){
             return 5;

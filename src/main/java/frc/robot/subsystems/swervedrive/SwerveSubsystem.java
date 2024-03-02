@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems.swervedrive;
 
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathConstraints;
@@ -54,7 +53,7 @@ public class SwerveSubsystem extends SubsystemBase
   /**
    * Maximum speed of the robot in meters per second, used to limit acceleration.
    */
-  public        double      maximumSpeed = Units.feetToMeters(6); //14.5
+  public        double      maximumSpeed = Units.feetToMeters(14.5); //14.5
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -312,9 +311,7 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
-   swervelib.SwerveModule[] sm = swerveDrive.getModules();
-  //  System.out.println(sm[2].getAbsolutePosition());
-  //  System.out.println(sm[2].getRelativePosition());
+    
   }
 
   @Override
@@ -504,6 +501,20 @@ public class SwerveSubsystem extends SubsystemBase
   }
 
   /**
+   * Gets the current roll angle of the robot, as reported by the imu.
+   *
+   * @return The heading as a {@link Rotation2d} angle
+   */
+  public Rotation2d getRoll()
+  {
+    return swerveDrive.getRoll();
+  }
+
+  public Rotation2d getYaw() {
+    return swerveDrive.getYaw();
+  }
+
+  /**
    * Add a fake vision reading for testing purposes.
    */
   public void addFakeVisionReading()
@@ -545,6 +556,10 @@ public class SwerveSubsystem extends SubsystemBase
     resetOdometry(new Pose2d(3.64, 5.92, new Rotation2d(Math.toRadians(-60))));
     // swerveDrive.setGyro(new Rotation3d(0,0,Math.toRadians(180)));
   }
-
   
+  public void actualVisionReading(Pose2d pose, double time)
+  {
+    swerveDrive.addVisionMeasurement(pose, time);
+  }
+
 }

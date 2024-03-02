@@ -3,19 +3,16 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.Arm;
-import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.PizzaBoxSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class StopNoteContainerMotor extends Command {
-
-  
-
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-  private final ArmSubsystem armSubsystem;
+  private final PizzaBoxSubsystem pizzaBoxSubsystem;
 
-  public StopNoteContainerMotor(ArmSubsystem armSubsystem) {
-    this.armSubsystem = armSubsystem;
-    addRequirements(armSubsystem);
+  public StopNoteContainerMotor(PizzaBoxSubsystem pizzaBoxSubsystem) {
+    this.pizzaBoxSubsystem = pizzaBoxSubsystem;
+    addRequirements(pizzaBoxSubsystem);
   }
 
   // Called when the command is initially scheduled.
@@ -25,7 +22,7 @@ public class StopNoteContainerMotor extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSubsystem.stopPizzaBoxMotor();
+    pizzaBoxSubsystem.stopPizzaBoxMotor();
   }
 
   // Called once the command ends or is interrupted.

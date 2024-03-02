@@ -1,165 +1,176 @@
 // Copyright (c) FIRST and other WPILib contributors.
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
-package frc.robot.subsystems;
-import frc.robot.Constants;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.ctre.phoenix6.controls.MotionMagicVoltage;
-import com.ctre.phoenix6.controls.VelocityVoltage;
-import com.ctre.phoenix6.controls.PositionVoltage;
+
+package frc.robot.subsystems;
+
 
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 import com.ctre.phoenix6.configs.TalonFXConfiguration; 
-import com.ctre.phoenix6.signals.ControlModeValue; 
-import com.ctre.phoenix6.configs.Slot0Configs;
-import edu.wpi.first.wpilibj.Counter;
-import edu.wpi.first.wpilibj.Encoder;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+
 import com.ctre.phoenix6.StatusCode;
-import edu.wpi.first.wpilibj.Servo;
 
-public class ArmSubsystem extends SubsystemBase {
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+import frc.robot.Util.UtilMotor;
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+//
+import edu.wpi.first.math.controller.ArmFeedforward;
+
+import com.ctre.phoenix6.controls.StaticBrake;
+import com.ctre.phoenix6.controls.VoltageOut;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+//
+
+
+public class ArmSubsystem extends ProfiledPIDSubsystem {
+
+  public static final class Arm {
+    public static final int kSlotIdx = 0;
+    public static final int kPIDLoopIdx = 0;
+    public static final int kTimeoutMs = 30;
+    public static final int ARM_MAX_ANGLE = 335;
+    public static final int ARM_MIN_ANGLE = 0;
+    public static final int ROTATION_TO_DEGREES = 360;
+    public static final double GEAR_RATIO = 118.587767088;
+    public static final double ENCODER_RAW_TO_ROTATION = 8132.;
+    public static final double ENCODER_OFFSET = -10.224; 
+    public static final int ARM_ID = 18;
+    //
+    public static final double KSVOLTS = 0; 
+    public static final double KGVOLTS = -.355;
+    //
+    //Arm ID Jalen Tolbert
+    public static final int ENCODER_DIO_SLOT = 0;
+    public static final int AMP_ANGLE = 335;
+    public static final int TRAP_ANGLE = 290;
+    public static final int SPEAKER_LOW_ANGLE = 100;
+    public static final int SPEAKER_HIGH_ANGLE = 204;
+    public static final int INTAKE_ANGLE = 64;
+    public static final int CLIMBING_ANGLE = 45;
+  }
+
   private TalonFX m_arm;
-  private Encoder m_encoder;
-  private TalonFX m_pizzaBox;
-  private Servo m_servo;
-  
-    
+  private DutyCycleEncoder m_encoder;
+  private ArmFeedforward armFeedForward;
+  public boolean emergencyStop = false;
 
-  public ArmSubsystem(int armId, String armCanbus, int pizzaBoxId, String pizzaBoxCanbus, int channel1, int channel2, int channelServo)
+  public ArmSubsystem(int armId, String armCanbus, int channel1)
   {
+    super(new ProfiledPIDController(4.5, .1, 0, new Constraints(2*Math.PI, 10)));
+    getController().setTolerance(2 * (Math.PI/180));
+    //TrapezoidProfile either velocity or position
       m_arm = new TalonFX(armId, armCanbus);
-      m_pizzaBox = new TalonFX(pizzaBoxId, pizzaBoxCanbus);
-      m_encoder = new Encoder(channel1, channel2, false, Counter.EncodingType.k4X);
-      m_servo = new Servo(channelServo);
+      m_encoder = new DutyCycleEncoder(channel1);
+      armFeedForward = new ArmFeedforward(Arm.KSVOLTS, Arm.KGVOLTS, 0, 0);
+          
+      targetArmAngle(encoderGetAngle());
+      enable();
 
+    UtilMotor.configMotor(m_arm, .11, 0, 0, .12, 15, 50, true);      
 
-      TalonFXConfiguration configs = new TalonFXConfiguration();
-      /* Voltage-based velocity requires a feed forward to account for the back-emf of the motor */
-      configs.Slot0.kP = 0.11; // An error of 1 rotation per second results in 2V output
-      configs.Slot0.kI = 0.5; // An error of 1 rotation per second increases output by 0.5V every second
-      configs.Slot0.kD = 0.0001; // A change of 1 rotation per second squared results in 0.01 volts output
-      configs.Slot0.kV = 0.12; // Falcon 500 is a 500kV motor, 500rpm per V = 8.333 rps per V, 1/8.33 = 0.12 volts / Rotation per second
-      // Peak output of 8 volts
-      configs.Voltage.PeakForwardVoltage = 8;
-      configs.Voltage.PeakReverseVoltage = -8;
-      
-      /* Torque-based velocity does not require a feed forward, as torque will accelerate the rotor up to the desired velocity by itself */
-      configs.Slot1.kP = 5; // An error of 1 rotation per second results in 5 amps output
-      configs.Slot1.kI = 0.1; // An error of 1 rotation per second increases output by 0.1 amps every second
-      configs.Slot1.kD = 0.001; // A change of 1000 rotation per second squared results in 1 amp output
-  
-      // Peak output of 40 amps
-      configs.TorqueCurrent.PeakForwardTorqueCurrent = 40;
-      configs.TorqueCurrent.PeakReverseTorqueCurrent = -40;
-  
-      /* Retry config apply up to 5 times, report if failure */
-      StatusCode motorStatus = StatusCode.StatusCodeNotInitialized;
-      StatusCode motorStatusArm = StatusCode.StatusCodeNotInitialized;
-      for (int i = 0; i < 5; ++i) {
-        motorStatusArm = m_arm.getConfigurator().apply(configs);
-        if (motorStatusArm .isOK()) break;
-      }      
-      for (int i = 0; i < 5; ++i) {
-        motorStatus = m_pizzaBox.getConfigurator().apply(configs);
-        if (motorStatus .isOK()) break;
-      }
-      if(!motorStatus.isOK()) {
-        System.out.println("Could not apply configs, error code: " + motorStatus.toString());
-      }
-      if(!motorStatusArm.isOK()) {
-        System.out.println("Could not apply configs, error code: " + motorStatusArm.toString());
-      }
-  
-      m_encoder.reset();
-      m_encoder.setSamplesToAverage(5);
-      m_encoder.setDistancePerPulse(1. / 256.);
-      m_encoder.setMinRate(1.0);
-    
+    Shuffleboard.getTab("Arm").addDouble("Encoder Angle", ()->encoderGetAngle()).withWidget(BuiltInWidgets.kGraph)
+    .withSize(3,3)
+    .withPosition(0, 0);
+    Shuffleboard.getTab("Arm").addDouble("Goal in degrees", ()->getController().getGoal().position * (180/Math.PI));
+
+    Shuffleboard.getTab("Arm").add("Arm PID", this.getController());
   }
 
-  // Sets arm angle in degrees with given velocity and acceleration
-  public void setAngle(double angle, double vel, double accel) {
+  //Looking at the left of the robot, counterclockwise arm spin is positive
+ public void spinArm(double speed)
+ {
+  if(speed < -15) { //Will not be less than minimum angle
+    speed = -15;
+  }
+  else if (speed > 15) { // Will not be greater than maximum angle
+    speed = 15;
+  }
+      VoltageOut armSpinRequest = new VoltageOut(-speed, true, false, false, false);
+      m_arm.setControl(armSpinRequest);
+ }
 
-    if(angle < Constants.Arm.ARM_MIN_ANGLE) { //Will not be less than minimum angle
-      angle = Constants.Arm.ARM_MIN_ANGLE;
-    }
-    else if (angle > Constants.Arm.ARM_MAX_ANGLE) { // Will not be greater than maximum angle
-      angle = Constants.Arm.ARM_MAX_ANGLE;
-    }
-
-    double adjustedAngle = (((angle - encoderGetAngle() + getArmAngle())) * Constants.Arm.GEAR_RATIO)/Constants.Arm.ROTATION_TO_DEGREES;
-    MotionMagicVoltage m_smoothArmMovement = new MotionMagicVoltage(adjustedAngle, false, 0, 0, false, false, false);
-
-    var talonFXConfigs = new TalonFXConfiguration();
-    talonFXConfigs.Slot0.kS = .24;
-    talonFXConfigs.Slot0.kV = .12;
-    talonFXConfigs.Slot0.kP = 4.8;
-    talonFXConfigs.Slot0.kI = 0;
-    talonFXConfigs.Slot0.kD = .1;
-
-
-    var motionMagicConfigs = talonFXConfigs.MotionMagic;
-    motionMagicConfigs.MotionMagicCruiseVelocity = vel;
-    motionMagicConfigs.MotionMagicAcceleration = accel; 
-    motionMagicConfigs.MotionMagicJerk = 1600; // 1600 rps/s^2 jerk (0.1 seconds)
-    m_arm.getConfigurator().apply(talonFXConfigs, 0.03);
-
-    m_smoothArmMovement.Slot = 0;
-
-    m_arm.setControl(m_smoothArmMovement);
+ public void targetArmAngle(double angle)
+ {
+  double calculatedAng = angle ;
+  if(calculatedAng  < Arm.ARM_MIN_ANGLE) { //Will not be less than minimum angle
+    calculatedAng = Arm.ARM_MIN_ANGLE;
+  }
+  else if (calculatedAng > Arm.ARM_MAX_ANGLE ) { // Will not be greater than maximum angle
+    calculatedAng = Arm.ARM_MAX_ANGLE;
   }
 
-  //Spins "Pizzabox" motor: velocity in rotations/sec and acceleration in rotations/sec^2
-  public void spinPizzaBoxMotor(double velocity, double acceleration){
-    VelocityVoltage spinPizzaBoxMotorRequest = new VelocityVoltage(velocity, acceleration, true, 0, 0, false, false, false);
-    m_pizzaBox.setControl(spinPizzaBoxMotorRequest);
-  }
-  //Sets the position of the Servo motor on the pizza box
-  public void setServoAngle(double angle) {
-    m_servo.setAngle(angle);
-  }
+  setGoal(calculatedAng * Math.PI/180);
+ }
 
-  //Returns the servo postion from 0.0 to 1.0 (0 degrees to 180 degrees)
-  public double getServoAngle() {
-    return m_servo.getAngle();
-  }
+
 
   //Stops arm motor
   public void stopArmMotor() {
     m_arm.stopMotor();
  }
 
- //Stops pizzaBox motor
- public void stopPizzaBoxMotor() {
-  m_pizzaBox.stopMotor();
-}
-
- public double getArmAngle(){
-  return m_arm.getPosition().getValue()/Constants.Arm.GEAR_RATIO * Constants.Arm.ROTATION_TO_DEGREES;
- }
-
- /* The pizza box is the motor on the holding container on the arm*/ 
- public double getPizzaBoxAngle(){
-  return m_pizzaBox.getPosition().getValue() * Constants.Arm.ROTATION_TO_DEGREES;
- }
-
  //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])
   public double encoderGetAngle() {
 
-    return m_encoder.getRaw()/Constants.Arm.ENCODER_RAW_TO_ROTATION * -Constants.Arm.ROTATION_TO_DEGREES;
+    return m_encoder.getAbsolutePosition()*Arm.ROTATION_TO_DEGREES - Arm.ENCODER_OFFSET;
   }
-  
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+
+  //Resets encoder angle to 0
+  public void resetEncoderAngle()
+  {
+    m_encoder.reset();
   }
 
   @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
+  public void useOutput(double output, State setPoint)
+  {
+    //Comment out for testing purposes
+    double feedForward = armFeedForward.calculate(setPoint.position, setPoint.velocity);
+    SmartDashboard.putNumber("feedForward calculation", feedForward);
+    SmartDashboard.putNumber("Output", output);
+    SmartDashboard.putNumber("setPoint position", setPoint.position);
+    SmartDashboard.putNumber("setPoint velocity", setPoint.velocity);
+    if(m_encoder.isConnected() && !emergencyStop)
+    {
+      spinArm(output + feedForward);
+    }
+    else
+    {
+      spinArm(0);
+    }
+    //System.out.println("Target Speed is " + (output));
   }
+
+  public boolean isEmergencyStop()
+  {
+    return m_encoder.isConnected() && !emergencyStop;
+  }
+
+  @Override
+  public double getMeasurement()
+  {
+    return encoderGetAngle() * Math.PI/180;
+  }
+
+  // @Override
+  // public void periodic()
+  // {
+  //   if(m_encoder.isConnected() && !emergencyStop && isEnabled())
+  //   {
+  //     enable();
+  //   }
+  //   else
+  //   {
+  //     disable();
+  //   }
+
+  // }
 }

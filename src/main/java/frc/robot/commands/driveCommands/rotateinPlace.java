@@ -56,8 +56,6 @@ public class rotateinPlace extends Command {
     angleRate = PID.calculate(currTheta);
     m_Subsystem.drive(pose, -angleRate, true);
     }
-    
-  
 
   // Called once the command ends or is interrupted.
   @Override
@@ -66,8 +64,7 @@ public class rotateinPlace extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-
     return PID.atSetpoint();
-}
+  }
 
 }

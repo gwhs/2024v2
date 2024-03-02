@@ -135,8 +135,8 @@ public class GameRobotContainer implements BaseContainer {
       driverController.b().onTrue(new IntakeRejectNote(m_IntakeSubsystem));
 
 
-      OperatorController.a().whileTrue(new Extend(m_ReactionSubsystem));
-      OperatorController.b().whileTrue(new Retract(m_ReactionSubsystem));
+      OperatorController.a().onTrue(new Extend(m_ReactionSubsystem));
+      OperatorController.b().onTrue(new Retract(m_ReactionSubsystem));
       
       //This should be a parallel command with other stuff
      /* / driverController.x().onTrue(new ChangeLEDToBlue(led));//pressing x on the controller runs a

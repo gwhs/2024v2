@@ -23,7 +23,7 @@ public class Climbsubsystem extends SubsystemBase {
   private TalonFX climberArmLeft;
   private TalonFX climberArmRight;
 
-  private final double CLIMBER_PID_KP = 1.9;
+  private final double CLIMBER_PID_KP = 2.5;
   private final double CLIMBER_PID_KI = 0;
   private final double CLIMBER_PID_KD = 0;
   private Constraints constraints = new Constraints(180.0, 300.0);
@@ -58,6 +58,8 @@ public class Climbsubsystem extends SubsystemBase {
     UtilMotor.configMotor(climberArmLeft, 0.11, 0.5, 0.0001, 0.12, 12, 40, true);
     UtilMotor.configMotor(climberArmRight, 0.11, 0.5, 0.0001, 0.12, 12, 40, true);
 
+    leftPIDcontroller.setGoal(getPositionLeft());
+    rightPIDcontroller.setGoal(getPositionRight());
   } 
 
 
@@ -156,7 +158,7 @@ public class Climbsubsystem extends SubsystemBase {
     }
 
 
-    setSpeed(-leftPIDvalue / 4, rightPIDvalue / 4);
+    setSpeed(-leftPIDvalue, rightPIDvalue);
     
 
   }

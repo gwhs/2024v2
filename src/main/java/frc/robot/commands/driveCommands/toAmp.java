@@ -38,11 +38,11 @@ public class toAmp extends Command {
         ampID = UtilMath.whichAmp(m_Subsystem.getPose());
         if (ampID == 6){
         targetX = Constants.FieldConstants.BLUE_AMP_6_X;
-        targetY = Constants.FieldConstants.BLUE_AMP_6_Y - 0.5;
+        targetY = Constants.FieldConstants.BLUE_AMP_6_Y - UtilMath.inchesToMeters(0.5);
     }
     else if (ampID == 5){
         targetX = Constants.FieldConstants.RED_AMP_5_X;
-        targetY = Constants.FieldConstants.RED_AMP_5_Y - 0.5;
+        targetY = Constants.FieldConstants.RED_AMP_5_Y - UtilMath.inchesToMeters(0.5);
     }
        pose = new Translation2d(targetX, targetY);
     }

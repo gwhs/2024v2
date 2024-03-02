@@ -134,10 +134,10 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   {
     //Comment out for testing purposes
     double feedForward = armFeedForward.calculate(setPoint.position, setPoint.velocity);
-    SmartDashboard.putNumber("feedForward calculation", feedForward);
-    SmartDashboard.putNumber("Output", output);
-    SmartDashboard.putNumber("setPoint position", setPoint.position);
-    SmartDashboard.putNumber("setPoint velocity", setPoint.velocity);
+    // SmartDashboard.putNumber("feedForward calculation", feedForward);
+    // SmartDashboard.putNumber("Output", output);
+    // SmartDashboard.putNumber("setPoint position", setPoint.position);
+    // SmartDashboard.putNumber("setPoint velocity", setPoint.velocity);
     if(m_encoder.isConnected() && !emergencyStop)
     {
       spinArm(output + feedForward);

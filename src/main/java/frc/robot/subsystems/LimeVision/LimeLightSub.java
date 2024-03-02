@@ -60,19 +60,19 @@ public class LimeLightSub extends SubsystemBase {
   @Override
   public void periodic() {
 
-    SmartDashboard.putNumber("tv", tv.getDouble(0));
-    SmartDashboard.putNumber("tx", tx.getDouble(0));
-    SmartDashboard.putNumber("ty", ty.getDouble(0));
-    SmartDashboard.putNumber("ta", ta.getDouble(0));
-    SmartDashboard.putNumber("theta", getTheta());
-    SmartDashboard.putNumber("AngleToTarget", getAngle());
+    // SmartDashboard.putNumber("tv", tv.getDouble(0));
+    // SmartDashboard.putNumber("tx", tx.getDouble(0));
+    // SmartDashboard.putNumber("ty", ty.getDouble(0));
+    // SmartDashboard.putNumber("ta", ta.getDouble(0));
+    // SmartDashboard.putNumber("theta", getTheta());
+    // SmartDashboard.putNumber("AngleToTarget", getAngle());
     
     // displaying error values
-    SmartDashboard.putNumber("Error Angle", getError());
+    // SmartDashboard.putNumber("Error Angle", getError());
 
     // This method will be called once per scheduler run
     double currTx = limelight_comm.get_entry_double("tx");
-    SmartDashboard.putNumber("tx", currTx);
+    // SmartDashboard.putNumber("tx", currTx);
     // System.out.println(currTx);
   }
 

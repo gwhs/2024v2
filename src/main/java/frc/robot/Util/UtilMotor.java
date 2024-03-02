@@ -5,6 +5,7 @@
 package frc.robot.Util;
 
 import com.ctre.phoenix6.StatusCode;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
@@ -31,8 +32,10 @@ public class UtilMotor {
     configs.Voltage.PeakReverseVoltage = -peakVoltage;
 
     // Peak output of 40 amps
-    configs.TorqueCurrent.PeakForwardTorqueCurrent = peakCurrent;
-    configs.TorqueCurrent.PeakReverseTorqueCurrent = -peakCurrent;
+    CurrentLimitsConfigs currentConfig = new CurrentLimitsConfigs();
+    currentConfig.withStatorCurrentLimitEnable(true);
+    currentConfig.withStatorCurrentLimit(peakCurrent);
+    
 
     if(brakeMode)
     {
@@ -48,6 +51,7 @@ public class UtilMotor {
     for (int i = 0; i < 5; ++i) {
       motorStatus = motor.getConfigurator().apply(configs);
       motorStatus = motor.getConfigurator().apply(motorOutput);
+      motorStatus = motor.getConfigurator().apply(currentConfig);
       if (motorStatus.isOK()) break;
     }
     if(!motorStatus.isOK()) {

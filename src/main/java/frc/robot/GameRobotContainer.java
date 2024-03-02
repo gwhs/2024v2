@@ -25,6 +25,7 @@ import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
 import frc.robot.commands.IntakeCommands.IntakeRejectNote;
 import frc.robot.commands.IntakeCommands.PickUpFromGroundAndPassToPizzaBox;
 import frc.robot.commands.IntakeCommands.SpinIntakePID;
+import frc.robot.commands.driveCommands.DecreaseSpeed;
 import frc.robot.commands.ledcommands.ChangeLEDColor;
 import frc.robot.commands.ledcommands.ChangeLEDToBlue;
 import frc.robot.commands.ledcommands.ChangeLEDToGreen;
@@ -47,6 +48,8 @@ public class GameRobotContainer implements BaseContainer {
     private final ArmSubsystem m_ArmSubsystem;
     private final PizzaBoxSubsystem m_PizzaBoxSubsystem;
     private final Climbsubsystem m_Climbsubsystem;
+
+    private final TeleopDrive closedFieldRel;
 
     public String getDriveTrainName(){
         return "swerve/hajel_kraken";
@@ -73,6 +76,12 @@ public class GameRobotContainer implements BaseContainer {
                                                         ClimbConstants.MOTOR_LEFT_INVERTED, 
                                                         ClimbConstants.MOTOR_RIGHT_INVERTED, 
                                                         "rio"); //change arguments
+          closedFieldRel = new TeleopDrive(
+                                            m_drivebase,
+                                            () -> MathUtil.applyDeadband(-driverController.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
+                                            () -> MathUtil.applyDeadband(-driverController.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
+                                            () -> driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), () -> true);
+                                                  
 
         configureBindings();
 
@@ -113,6 +122,8 @@ public class GameRobotContainer implements BaseContainer {
       driverController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem));
       //driverController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
       //driverController.b().onTrue(new IntakeRejectNote(m_IntakeSubsystem));
+
+      driverController.x().onTrue(new DecreaseSpeed(closedFieldRel));
 
 
       // OperatorController.a().whileTrue(new MotorUp(m_Climbsubsystem, m_drivebase));

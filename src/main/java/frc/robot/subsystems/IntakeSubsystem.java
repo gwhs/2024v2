@@ -120,6 +120,11 @@ public class IntakeSubsystem extends SubsystemBase {
     return m_noteSensor.get();
   }
 
+  public boolean isEmergencyStop()
+  {
+    return m_Encoder.isConnected() && !emergencyStop;
+  }
+  
   @Override
   public void periodic() {
     if(!(m_Encoder.isConnected()) || emergencyStop) {

@@ -25,6 +25,7 @@ public class ScoreInTrap extends SequentialCommandGroup {
         new StopNoteContainerMotor(pizzaBoxSubsystem),
         new SpinToArmAngle(armSubsystem, 135)
     );
+    pizzaBoxSubsystem.hasNote = false;
   }
 
   

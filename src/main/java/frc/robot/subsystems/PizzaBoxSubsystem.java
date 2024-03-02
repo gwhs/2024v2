@@ -29,6 +29,8 @@ public class PizzaBoxSubsystem extends SubsystemBase {
     public static final int START_SPIN_DEGREE = 100;
   }
 
+  public boolean hasNote = false;
+
   private TalonFX m_pizzaBox;
   private Servo m_servo;
 

@@ -164,7 +164,9 @@ public class DriveContainer implements BaseContainer
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    driverXbox.leftBumper().whileTrue(new DecreaseSpeed(closedFieldRel));
+    driverXbox.leftBumper().onTrue(new FaceSpeaker(closedFieldRel));
+    driverXbox.rightTrigger().onTrue(new BackSpeaker(closedFieldRel));
+
     driverXbox.y().whileTrue(new FaceSpeaker(closedFieldRel));
     driverXbox.a().whileTrue(new BackSpeaker(closedFieldRel));
 

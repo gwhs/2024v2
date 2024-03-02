@@ -139,12 +139,6 @@ public class GameRobotContainer implements BaseContainer {
       driverController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem));
       driverController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
       driverController.b().onTrue(new IntakeRejectNote(m_IntakeSubsystem));
-
-
-      // OperatorController.a().whileTrue(new MotorUp(m_Climbsubsystem, m_drivebase));
-      // OperatorController.b().whileTrue(new MotorDown(m_Climbsubsystem, m_drivebase));
-      // OperatorController.x().onTrue(new ScoreInTrap(m_PizzaBoxSubsystem, m_ArmSubsystem));
-      // OperatorController.y().onTrue(new SpinToArmAngle(m_ArmSubsystem, 135));
       
       //This should be a parallel command with other stuff
      /* / driverController.x().onTrue(new ChangeLEDToBlue(led));//pressing x on the controller runs a

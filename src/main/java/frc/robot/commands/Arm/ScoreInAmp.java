@@ -16,8 +16,8 @@ public class ScoreInAmp extends SequentialCommandGroup {
   public ScoreInAmp(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem) {
     addCommands(
         new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.AMP_ANGLE).withTimeout(3),
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 50),
-        Commands.waitSeconds(.1),
+        new SpinNoteContainerMotor(pizzaBoxSubsystem, 19, 100),
+        Commands.waitSeconds(.2),
         new StopNoteContainerMotor(pizzaBoxSubsystem),
         new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE)
     );

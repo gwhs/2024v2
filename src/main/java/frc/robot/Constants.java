@@ -56,8 +56,7 @@ public final class Constants
   public static final class LimeLightConstants {
 
     // for ryker
-    public static final double MAX_LIMELIGHT_ERROR_DEGREES =
-        1; // limelight max degrees off, max degrees error
+    public static final double MAX_LIMELIGHT_ERROR_DEGREES = 1; // limelight max degrees off, max degrees error
     public static final double CAMERA_HEIGHT = 84.5;
     public static final double TARGET_HEIGHT = 61;
     public static final double MOUNTING_ANGLE = -10;
@@ -66,6 +65,27 @@ public final class Constants
     public static final double TOP_DISTANCE_SHOOT = 42;
   }
 
+    
+  public static final class ClimbConstants {
+
+  public static final double CLIMBER_RATIO = 36;
+
+  public static final double CLIMB_DISTANCE = 5.5 * CLIMBER_RATIO; //distance we want it to go times the ratio
+  public static final double CLIMB_MOTOR_SPEED = 0.1 * CLIMBER_RATIO;
+
+  public static final int MOTOR_LEFT_ID = 21;
+  public static final boolean MOTOR_LEFT_INVERTED = false;
+  public static final boolean MOTOR_RIGHT_INVERTED = true;
+  public static final int MOTOR_RIGHT_ID = 14;
+
+  public static final int BOT_RIGHT_LIMIT_ID = 2;
+  public static final int BOT_LEFT_LIMIT_ID = 3;
+  public static final int TOP_RIGHT_LIMIT_ID = 4;
+  public static final int TOP_LEFT_LIMIT_ID = 5;
+
+  }
+  
+
   public static final class IntakeConstants {
     public static final int INTAKE_LOWER_INTAKE_ID = 55;
     public static final int INTAKE_SPIN_MOTOR_ID = 20;
@@ -73,11 +93,20 @@ public final class Constants
     public static final int INTAKE_NOTESENSOR_CHANNEL_ID = 7;
     public static final double TOLERANCE = 2; // in degrees
     public static final int GEAR_RATIO = 100;
-    public static final double NOTE_DELAY = 20; //change accordingly
+    public static final double NOTE_DELAY = 10; //change accordingly
     public static final double MAX_ARM_ANGLE = 77; //need to check max arm angle
     public static final double ROTATION_TO_DEGREES = 360;
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
     public static final double ENCODER_OFFSET = 25; //need to check the encoder value 
+  }
+
+  public static final class ReactionConstants {
+    public static final int reactionID = 32; //NEED TO CHANGE TO ACTUAL MOTOR
+    public static final String reactionCAN = "CAN_Network"; // or CAN_Network
+    public static double currentLimit = 10;
+    public static final double tolerance = 0.1;
+    public static final double retractedPosition = 1.2;
+    public static final double extendedPosition = -1.9;
   }
 
 

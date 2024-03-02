@@ -31,6 +31,7 @@ public class TeleopDrive extends Command
   private final BooleanSupplier  driveMode;
   private final SwerveController controller;
   public boolean isFaceSpeaker;
+  public boolean isBackSpeaker;
   public boolean isSlow;
   private final PIDController PID;
   private double currTheta;
@@ -60,7 +61,7 @@ public class TeleopDrive extends Command
   public void initialize()
   {
     currTheta = swerve.getHeading().getDegrees();
-    PID.setSetpoint(UtilMath.SpeakerTheta(swerve.getPose()));
+    PID.setSetpoint(UtilMath.FrontSpeakerTheta(swerve.getPose()));
     PID.setTolerance(Constants.FaceSpeakerConstants.THETA_TOLERANCE, Constants.FaceSpeakerConstants.STEADY_STATE_TOLERANCE);
     PID.setPID(Constants.FaceSpeakerConstants.kP, Constants.FaceSpeakerConstants.kI, Constants.FaceSpeakerConstants.kD);
     PID.enableContinuousInput(-180, 180);
@@ -88,7 +89,7 @@ public class TeleopDrive extends Command
     // Drive using raw values.
     if(isFaceSpeaker)
     {
-      PID.setSetpoint(UtilMath.SpeakerTheta(swerve.getPose()));
+      PID.setSetpoint(UtilMath.FrontSpeakerTheta(swerve.getPose()));
       angVelocity = PID.calculate(currTheta);
     }
 

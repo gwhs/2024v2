@@ -112,14 +112,16 @@ public class GameRobotContainer implements BaseContainer {
       
       driverController.x().onTrue(new SpinToArmAngle(m_ArmSubsystem, 240));
 
-      driverController.y().onTrue(new TestingOnlyShoot(m_PizzaBoxSubsystem, m_ArmSubsystem, 150));
-
+      //driverController.y().onTrue(new TestingOnlyShoot(m_PizzaBoxSubsystem, m_ArmSubsystem, 150));
+      driverController.y().onTrue(new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem)); 
       // driverController.x().onTrue(new SpinIntakePID(m_IntakeSubsystem, 0));
       // driverController.y().onTrue(new SpinIntakePID(m_IntakeSubsystem, 70));
-      driverController.a().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
+      //driverController.a().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
       //driverController.b().onTrue(new IntakePassNoteToPizzaBox(m_IntakeSubsystem, m_PizzaBoxSubsystem));
       driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
-      driverController.b().onTrue(new IntakeRejectNote(m_IntakeSubsystem));
+      driverController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem));
+      //driverController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
+      //driverController.b().onTrue(new IntakeRejectNote(m_IntakeSubsystem));
 
       driverController.x().onTrue(new DecreaseSpeed(closedFieldRel));
 

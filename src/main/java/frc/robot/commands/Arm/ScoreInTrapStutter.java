@@ -8,20 +8,29 @@ import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
-public class ScoreInAmp extends SequentialCommandGroup {
+public class ScoreInTrapStutter extends SequentialCommandGroup {
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   //velocity = 100 for testing shooting 
-  public ScoreInAmp(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem) {
+  public ScoreInTrapStutter(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem) {
     addCommands(
-        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.AMP_ANGLE).withTimeout(3),
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, 19, 100),
+        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.TRAP_ANGLE).withTimeout(3));
+
+
+    for(int index = 0; index < 8; index++)
+    {
+      addCommands(
+        new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 100),
         Commands.waitSeconds(.2),
         new StopNoteContainerMotor(pizzaBoxSubsystem),
-        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE)
+        Commands.waitSeconds(.2)
+      );
+    }
+
+    addCommands(
+        new StopNoteContainerMotor(pizzaBoxSubsystem),
+        new SpinToArmAngle(armSubsystem, 135)
     );
   }
-
-  
 }

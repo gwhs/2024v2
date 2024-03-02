@@ -6,6 +6,7 @@ package frc.robot.commands.ClimberCommands.ClimbParts;
 
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Arm.ScoreInTrap;
+import frc.robot.commands.Arm.ScoreInTrapStutter;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
@@ -22,7 +23,7 @@ public class ClimbAndShoot extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new MotorDown(c, s),
-      new ScoreInTrap(p, a)
+      new ScoreInTrapStutter(p, a)
     );
 
     addRequirements(c);

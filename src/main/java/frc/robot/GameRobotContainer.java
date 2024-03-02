@@ -21,6 +21,7 @@ import frc.robot.commands.ClimberCommands.ClimbParts.PrepClimb;
 import frc.robot.commands.Arm.ArmEmergencyStop;
 import frc.robot.commands.Arm.ScoreInAmp;
 import frc.robot.commands.Arm.ScoreInTrap;
+import frc.robot.commands.Arm.ScoreInTrapStutter;
 import frc.robot.commands.Arm.SpinAndSwing;
 import frc.robot.commands.Arm.SpinNoteContainerMotor;
 import frc.robot.commands.Arm.SpinToArmAngle;
@@ -123,20 +124,22 @@ public class GameRobotContainer implements BaseContainer {
       
       driverController.x().onTrue(new SpinToArmAngle(m_ArmSubsystem, 240));
 
-      driverController.y().onTrue(new TestingOnlyShoot(m_PizzaBoxSubsystem, m_ArmSubsystem, 150));
-
+      //driverController.y().onTrue(new TestingOnlyShoot(m_PizzaBoxSubsystem, m_ArmSubsystem, 150));
+      driverController.y().onTrue(new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem)); 
       // driverController.x().onTrue(new SpinIntakePID(m_IntakeSubsystem, 0));
       // driverController.y().onTrue(new SpinIntakePID(m_IntakeSubsystem, 70));
-      driverController.a().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
+      //driverController.a().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
       //driverController.b().onTrue(new IntakePassNoteToPizzaBox(m_IntakeSubsystem, m_PizzaBoxSubsystem));
       driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
       driverController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem));
-      driverController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
-      driverController.b().onTrue(new IntakeRejectNote(m_IntakeSubsystem));
+      //driverController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
+      //driverController.b().onTrue(new IntakeRejectNote(m_IntakeSubsystem));
 
 
       OperatorController.a().onTrue(new Extend(m_ReactionSubsystem));
       OperatorController.b().onTrue(new Retract(m_ReactionSubsystem));
+      OperatorController.x().onTrue(new ScoreInTrapStutter(m_PizzaBoxSubsystem, m_ArmSubsystem));
+      OperatorController.y().onTrue(new SpinToArmAngle(m_ArmSubsystem, 135));
       
       //This should be a parallel command with other stuff
      /* / driverController.x().onTrue(new ChangeLEDToBlue(led));//pressing x on the controller runs a

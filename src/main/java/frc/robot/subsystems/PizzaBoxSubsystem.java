@@ -17,6 +17,7 @@ import com.ctre.phoenix6.configs.TalonFXConfiguration;
 
 import com.ctre.phoenix6.StatusCode;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
@@ -66,6 +67,6 @@ public class PizzaBoxSubsystem extends SubsystemBase {
     System.out.println("getVelocity value is " + m_pizzaBox.getVelocity().getValue());
     System.out.println("getVelocity value is " + m_pizzaBox.getVelocity().getValue());
 
-    return m_pizzaBox.getVelocity().getValue() >= vel;
+    return m_pizzaBox.getRotorVelocity().getValue() >= vel;
   }
 }

@@ -4,38 +4,44 @@
 
 package frc.robot.commands.LimeLight;
 
-import frc.robot.subsystems.LimeVision.LimeLightSub;
+import frc.robot.subsystems.LimeVision.ApriltagConstants;
+import frc.robot.subsystems.LimeVision.ApriltagController;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
 
 /** An example command that uses an example subsystem. */
-public class FaceAprilTag extends Command {
+public class Sideways extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final SwerveSubsystem driSwerveSubsystem;
-  private final LimeLightSub limeLightSub;
+  private final ApriltagController apriltagController;
+
+  private double distance;
   /**
    * Creates a new ExampleCommand.
    *
    * @param subsystem The subsystem used by this command.
    */
-  public FaceAprilTag(SwerveSubsystem driSwerveSubsystem, LimeLightSub limeLightSub) {
+  public Sideways(SwerveSubsystem driSwerveSubsystem, ApriltagController apriltagController) {
     this.driSwerveSubsystem = driSwerveSubsystem;
-    this.limeLightSub = limeLightSub;
+    this.apriltagController = apriltagController;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(driSwerveSubsystem, limeLightSub);
+    addRequirements(driSwerveSubsystem, apriltagController);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    
+    apriltagController.setTolerance("sideways");
+    apriltagController.setPoint(ApriltagConstants.TargetDistance.SIDEWAYS_TARGET, "sideways");
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // driSwerveSubsystem.drive((0), limeLightSub.getTx(), false);
+    distance = apriltagController.updatePIDSideways(); 
 
+    driSwerveSubsystem.drive(new Translation2d(0, distance), 0, false);
   }
 
   // Called once the command ends or is interrupted.
@@ -45,6 +51,6 @@ public class FaceAprilTag extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return apriltagController.atSetpoint("sideways");
   }
 }

@@ -13,9 +13,11 @@ import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -25,6 +27,9 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
 import java.io.File;
 import java.util.function.DoubleSupplier;
+
+import org.opencv.core.RotatedRect;
+
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.SwerveDriveTest;
@@ -35,6 +40,8 @@ import swervelib.parser.SwerveDriveConfiguration;
 import swervelib.parser.SwerveParser;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
+import edu.wpi.first.math.kinematics.SwerveModulePosition;
+import edu.wpi.first.math.kinematics.SwerveModuleState;
 
 public class SwerveSubsystem extends SubsystemBase
 {
@@ -515,6 +522,21 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
   }
 
+  /**
+   * set wheel alignment
+   */
+  // public void lockPose() {
+  //   // Sets states
+  //   for (Pose2d pose2D : swerveDrive.getSwerveModulePoses(new Pose2d(0,0,new Rotation2d(0)))) {
+  //     SwerveModuleState desiredState =
+  //         new SwerveModuleState(0, pose2D.getRotation());
+  //     swerveModule.setDesiredState(desiredState, false, true);
+  //   }
+
+  //   // Update kinematics because we are not using setModuleStates
+  //   kinematics.toSwerveModuleStates(new ChassisSpeeds());
+  // }
+
   public void test() {
     swervelib.SwerveModule[] sm = swerveDrive.getModules();
     System.out.println("Swerve Module array size = " + sm.length);
@@ -526,13 +548,17 @@ public class SwerveSubsystem extends SubsystemBase
     sm[testModule].setAngle(90);
 
     drive.set(100);
-
   }
 
+  public void resetStartPos()
+  {
+    resetOdometry(new Pose2d(3.89, 5.77, new Rotation2d(Math.toRadians(-60))));
+    // swerveDrive.setGyro(new Rotation3d(0,0,Math.toRadians(180)));
+  }
+  
   public void actualVisionReading(Pose2d pose, double time)
   {
     swerveDrive.addVisionMeasurement(pose, time);
   }
-
 
 }

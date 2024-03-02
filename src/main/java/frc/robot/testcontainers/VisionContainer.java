@@ -4,21 +4,38 @@
 
 package frc.robot.testcontainers;
 
+import edu.wpi.first.apriltag.AprilTag;
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.BaseContainer;
+import frc.robot.Constants.LimeLightConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Robot;
+import frc.robot.commands.LimeLight.Forward;
+import frc.robot.commands.LimeLight.Sideways;
+import frc.robot.commands.LimeLight.aimTag;
+import frc.robot.commands.LimeLight.alignTrap;
+import frc.robot.commands.LimeLight.parallelTag;
+import frc.robot.commands.driveCommands.rotateinPlace;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
+import java.time.Instant;
+
+import frc.robot.subsystems.LimeVision.ApriltagController;
 import frc.robot.subsystems.LimeVision.LimeLightSub;
 
 /**
@@ -31,11 +48,12 @@ public class VisionContainer implements BaseContainer
 
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase;
+  private final LimeLightSub limeLightSub;
+  private final ShuffleboardTab limeLightTab;
+  private final ApriltagController apriltagController;
 
   CommandXboxController driverXbox = new CommandXboxController(0);
-
-  // limelight
-  LimeLightSub limeLightSub = new LimeLightSub("limelight");
+  CommandXboxController operatorXbox = new CommandXboxController(1);
 
   public String getDriveTrainName(){
     return "swerve/ryker_falcon";
@@ -47,7 +65,58 @@ public class VisionContainer implements BaseContainer
   public VisionContainer()
   {
     drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
-                                                                         getDriveTrainName()));
+                                                                         getDriveTrainName()));                       
+    limeLightSub = new LimeLightSub("limelight");
+    limeLightTab = Shuffleboard.getTab("Limelight");
+                                                                         
+    apriltagController = new ApriltagController(drivebase, limeLightSub); 
+                                                                      
+    // graphs sideways error
+    limeLightTab.addDouble("Sideways Output", ()->apriltagController.getErrorSideways())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(3, 0);
+    limeLightTab.addDouble("Forward Output", ()->apriltagController.getErrorForward())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(3, 0);
+    limeLightTab.addDouble("Rotation Output", ()->apriltagController.getErrorRotation())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(3, 0);
+    // limeLightTab.addDouble("Forward TA Output", ()->apriltagController.getErrorForwardTA())
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(3, 0);
+    
+    // limeLightTab.addDouble("Robot Heading", ()->apriltagController.getRobotHeading())
+    //   .withWidget(BuiltInWidgets.kGraph)
+    //   .withSize(3,3)
+    //   .withPosition(3, 0);
+
+      // limeLightTab.addDouble("Rotate Error", ()-> rotateinPlace.angleRate)
+      // .withWidget(BuiltInWidgets.kGraph)
+      // .withSize(3,3)
+      // .withPosition(3, 0);
+
+    limeLightTab.addNumber("Theta Distance", () -> apriltagController.getApriltagHeadingTest());
+    // limeLightTab.addNumber("Distance Bot Pose", ()-> apriltagController.getBotPoseDistance());
+    limeLightTab.addNumber("Distance X Input", ()-> apriltagController.getDistanceForward());
+    // limeLightTab.addNumber("Distance Y Input", ()-> apriltagController.getDistanceSideways());
+    // limeLightTab.addNumber("Distance Tx Input", ()-> limeLightSub.getTx());
+    limeLightTab.addNumber("Distance X Output", ()-> apriltagController.getErrorForward());
+    // limeLightTab.addNumber("Distance Y Output", ()-> apriltagController.getErrorSideways());
+    // limeLightTab.addNumber("Distance Tx Output", ()-> apriltagController.getErrorRotation());
+    // limeLightTab.addNumber("TA Size", ()-> limeLightSub.getTa());
+    // limeLightTab.addNumber("TA Distance", ()-> limeLightSub.getTaDistance());
+
+    limeLightTab.addNumber("Current Robot Heading", ()-> apriltagController.getHeading());
+    limeLightTab.addNumber("Get Tag Heading", ()-> apriltagController.getApriltagHeading());
+
+    limeLightTab.addNumber("Robot Pose X", ()-> drivebase.getPose().getX());
+    limeLightTab.addNumber("Robot Pose Y", ()-> drivebase.getPose().getY());
+
+    // limeLightSub.addNumber("TA", ()-> limeLightSub.getTa());
 
     // Configure the trigger bindings
     configureBindings();
@@ -72,8 +141,13 @@ public class VisionContainer implements BaseContainer
   private void configureBindings()
   {
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
-    driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
-    driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
+    driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));  
+    
+    driverXbox.y().onTrue(new InstantCommand(drivebase::resetStartPos));
+    driverXbox.a().onTrue(new alignTrap(drivebase, apriltagController));
+    driverXbox.b().onTrue(new parallelTag(drivebase, apriltagController));
+
+    driverXbox.x().onTrue(drivebase.driveToPose(apriltagController.getTargetPose()));
   }
 
   /**

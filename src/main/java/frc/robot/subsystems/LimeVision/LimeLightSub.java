@@ -8,21 +8,15 @@ package frc.robot.subsystems.LimeVision;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimeLightConstants;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 
 public class LimeLightSub extends SubsystemBase {
-
-  // PID constants
-  private final double kP = 0.04;
-  private final double kD = 0;
-  private final double kI = 0;
-  // Set target point
-  private static double setPoint = 0;
-
-  PIDController PIDVision = new PIDController(kP, kI, kD);
 
   // set up a new instance of NetworkTables (the api/library used to read values from limelight)
   NetworkTable networkTable = NetworkTableInstance.getDefault().getTable("limelight");
@@ -40,6 +34,13 @@ public class LimeLightSub extends SubsystemBase {
   NetworkTableEntry ts = networkTable.getEntry("ts"); // Skew or rotation (-90 degrees to 0 degrees)
   NetworkTableEntry pipe = networkTable.getEntry("getpipe");
 
+  NetworkTableEntry tid = networkTable.getEntry("tid"); // gets apriltag id
+
+  NetworkTableEntry botPoseBlue = networkTable.getEntry("botpose_wpiblue");
+  NetworkTableEntry botPoseRed = networkTable.getEntry("botpose_wpibred"); // botpose relative to red alliance
+
+  NetworkTableEntry botPose = networkTable.getEntry("botpose_wpiblue"); // botpose relatived to blue alliance
+
   // may be useful later
   private double kCameraHeight =
       LimeLightConstants.CAMERA_HEIGHT; // LimelightConstants.kCameraHeight;
@@ -52,9 +53,6 @@ public class LimeLightSub extends SubsystemBase {
   public LimeLightSub(String limelight_networktable_name) {
     limelight_comm = new LimeLightComms(limelight_networktable_name);
     limelight_comm.set_entry_double("ledMode", 3);
-    
-    // setting target point for PID
-    PIDVision.setSetpoint(setPoint);
   }
 
   @Override
@@ -66,14 +64,6 @@ public class LimeLightSub extends SubsystemBase {
     SmartDashboard.putNumber("ta", ta.getDouble(0));
     SmartDashboard.putNumber("theta", getTheta());
     SmartDashboard.putNumber("AngleToTarget", getAngle());
-    
-    // displaying error values
-    SmartDashboard.putNumber("Error Angle", getError());
-
-    // This method will be called once per scheduler run
-    double currTx = limelight_comm.get_entry_double("tx");
-    SmartDashboard.putNumber("tx", currTx);
-    // System.out.println(currTx);
   }
 
   public boolean hasTarget() {
@@ -85,9 +75,19 @@ public class LimeLightSub extends SubsystemBase {
     return Tx;
   }
 
+  public int getID() {
+    int id = (int) tid.getDouble(-1) - 1;
+    return id;
+  }
+
   public double getTy() {
     double Ty = ty.getDouble(0);
     return Ty;
+  }
+
+  public double getTa() {
+    double Ta = ta.getDouble(0);
+    return Ta;
   }
 
   public double getTheta() {
@@ -113,8 +113,19 @@ public class LimeLightSub extends SubsystemBase {
     return !(limelight_comm.get_entry_double("pipeline") < .5);
   }
 
-  // calculates error from target
-  public double getError() {
-    return PIDVision.calculate(getTx());
+  public double[] getBotPose() {
+    double[] botpose = new double[7];
+    if (getID() > 0) {
+      botpose = botPose.getDoubleArray(new double[7]);
+    }
+    return botpose;
+  }
+  
+  // ta error from expected ta size
+  public double getTaDistance() {
+    if (getID() > 0) {
+      return 85.0 - (getTa() * 100);
+    }
+    return 0;
   }
 }

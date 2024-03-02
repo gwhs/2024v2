@@ -14,6 +14,7 @@ public class SetupShuffleboard extends SubsystemBase {
 
   public static void setupShuffleboard(){
     Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5801").withSize(4,2).withPosition(5, 0);
+    Shuffleboard.getTab("GameTab");
 
   }
   @Override

@@ -4,6 +4,7 @@
 
 package frc.robot.commands.IntakeCommands;
 
+import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -27,7 +28,7 @@ public class IntakeResetArm extends Command {
 
     intakeSubsystem.stopArmMotor();
     intakeSubsystem.stopIntakeMotors();
-    new SpinIntakePID(intakeSubsystem, 0).schedule();
+    new SpinIntakePID(intakeSubsystem, Constants.IntakeConstants.UP_POSITION).schedule();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -18,27 +18,27 @@ public class ScoreInTrapStutter extends SequentialCommandGroup {
         new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.TRAP_ANGLE).withTimeout(3),
 //56/36
         new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 100),
-        Commands.waitSeconds(1),
+        Commands.waitSeconds(.5),
         new StopNoteContainerMotor(pizzaBoxSubsystem),
         Commands.waitSeconds(.2),
 
         new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 100),
-        Commands.waitSeconds(1),
+        Commands.waitSeconds(.5),
         new StopNoteContainerMotor(pizzaBoxSubsystem),
         Commands.waitSeconds(.2),
 
         new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 100),
-        Commands.waitSeconds(1),
+        Commands.waitSeconds(.5),
         new StopNoteContainerMotor(pizzaBoxSubsystem),
         Commands.waitSeconds(.2),
 
         new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 100),
-        Commands.waitSeconds(1),
+        Commands.waitSeconds(.5),
         new StopNoteContainerMotor(pizzaBoxSubsystem),
         Commands.waitSeconds(.2),
 
         new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 100),
-        Commands.waitSeconds(1),
+        Commands.waitSeconds(.5),
         new StopNoteContainerMotor(pizzaBoxSubsystem),
         Commands.waitSeconds(.2),
 

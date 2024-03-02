@@ -10,6 +10,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.Arm.ResetArm;
+import frc.robot.commands.IntakeCommands.IntakeResetArm;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PizzaBoxSubsystem;
@@ -34,7 +36,8 @@ public class SetupShuffleboard extends SubsystemBase {
 
     Shuffleboard.getTab("GameTab").addBoolean("Intake Running", ()-> intakeSubsystem.isEmergencyStop()).withSize(1, 1).withPosition(5, 3);
 
-    Shuffleboard.getTab("GameTab").add("Reset Arm", ()-> );
+    Shuffleboard.getTab("GameTab").add("Reset Arm", new ResetArm(armSubsystem, pizzaBoxSubsystem) ).withSize(1,1).withPosition(4,4);
+    Shuffleboard.getTab("GameTab").add("Reset Intake", new IntakeResetArm(intakeSubsystem)).withSize(1,1).withPosition(5,4);
 
   }
   @Override

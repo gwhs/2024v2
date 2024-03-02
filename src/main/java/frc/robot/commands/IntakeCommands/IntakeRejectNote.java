@@ -8,13 +8,12 @@ import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-public class IntakePickUpFromGround extends Command {
+public class IntakeRejectNote extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private IntakeSubsystem intakeSubsystem;
-  private boolean sensorValue;
 
-  public IntakePickUpFromGround(IntakeSubsystem subsystem) {
+  public IntakeRejectNote(IntakeSubsystem subsystem) {
     intakeSubsystem = subsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -23,12 +22,14 @@ public class IntakePickUpFromGround extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    intakeSubsystem.rejectIntake(100, 50);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    intakeSubsystem.spinIntakeMotor();
+    
   }
 
   // Called once the command ends or is interrupted.
@@ -42,11 +43,7 @@ public class IntakePickUpFromGround extends Command {
   // called every cycle
   @Override
   public boolean isFinished() {
-    sensorValue = intakeSubsystem.isNotePresent();
-    if(sensorValue) {
-      System.out.println("sensor");
-    }
-    return sensorValue;
+    return !intakeSubsystem.isNotePresent();
   }
 
 }

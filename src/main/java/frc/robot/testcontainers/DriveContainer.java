@@ -164,7 +164,7 @@ public class DriveContainer implements BaseContainer
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     driverXbox.leftBumper().whileTrue(new DecreaseSpeed(closedFieldRel));
-    driverXbox.a().onTrue(new toAmp(drivebase));
+    driverXbox.b().onTrue(new toAmp(drivebase));
 /
     
     

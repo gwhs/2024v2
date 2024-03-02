@@ -16,6 +16,9 @@ public class SetupShuffleboard extends SubsystemBase {
   public static void setupShuffleboard(SwerveSubsystem swerve){
     Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5801").withSize(4,2).withPosition(5, 0);
     Shuffleboard.getTab("GameTab").add("Filed", swerve.getField2d());
+    autoChooser = AutoBuilder.buildAutoChooser("0-S(Amp)-0");
+    Shuffleboard.getTab("Autonomous").add("Autonomous Chooser", autoChooser).withSize(2, 1);
+
   }
   @Override
   public void periodic() {

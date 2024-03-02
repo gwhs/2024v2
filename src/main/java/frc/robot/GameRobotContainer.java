@@ -102,8 +102,6 @@ public class GameRobotContainer implements BaseContainer {
 
 
     private void configureBindings() {
-      final PIDController intakeController = new PIDController(.005, .0, .0);
-      intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
       
       driverController.x().onTrue(new SpinToArmAngle(m_ArmSubsystem, 240));
 

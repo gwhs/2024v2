@@ -12,12 +12,6 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "Speaker (subwoofer)"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -26,20 +20,8 @@
                 "data": {
                   "pathName": "Speaker2-A2"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Speaker (A2)"
           }
         }
       ]

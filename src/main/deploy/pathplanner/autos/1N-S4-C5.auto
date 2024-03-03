@@ -12,12 +12,6 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "Speaker (S3)"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -25,12 +19,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "S3-C5"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
                 }
               }
             ]
@@ -40,12 +28,6 @@
           "type": "path",
           "data": {
             "pathName": "C5-S3"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Speaker (S3)"
           }
         }
       ]

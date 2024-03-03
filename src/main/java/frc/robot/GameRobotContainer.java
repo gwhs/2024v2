@@ -2,6 +2,8 @@ package frc.robot;
 
 import java.io.File;
 
+import javax.security.sasl.AuthorizeCallback;
+
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj.Filesystem;
@@ -53,6 +55,7 @@ public class GameRobotContainer implements BaseContainer {
     private final Climbsubsystem m_Climbsubsystem;
     private final LimeLightSub m_LimelightSubsystem;
 
+    private static SendableChooser<Command> autoChooser;
     private final TeleopDrive closedFieldRel;
 
     public String getDriveTrainName(){
@@ -108,7 +111,7 @@ public class GameRobotContainer implements BaseContainer {
 
         m_drivebase.setDefaultCommand(closedFieldRel);
 
-        SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem);
+        SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, autoChooser);
 
 
     }
@@ -145,6 +148,13 @@ public class GameRobotContainer implements BaseContainer {
       driverController.rightBumper().onTrue(new ChangeLEDColor(led, 0, 0, 0));
       */
     }
+
+   public Command getAutonomousCommand()
+  {
+    // An example command will be run in autonomous
+    //return drivebase.getAutonomousCommand("New Path", true);
+    return autoChooser.getSelected();
+  }
 
     public void setMotorBrake(boolean brake)
     {

@@ -124,7 +124,7 @@ public class GameRobotContainer implements BaseContainer {
       //driverController.b().onTrue(new IntakePassNoteToPizzaBox(m_IntakeSubsystem, m_PizzaBoxSubsystem));
       driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
       driverController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem));
-      //driverController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
+      driverController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
       //driverController.b().onTrue(new IntakeRejectNote(m_IntakeSubsystem));
       //driverController.b().onTrue(new IntakeResetArm(m_IntakeSubsystem));
 

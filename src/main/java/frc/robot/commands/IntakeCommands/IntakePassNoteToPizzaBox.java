@@ -37,7 +37,7 @@ public class IntakePassNoteToPizzaBox extends Command {
   @Override
   public void execute() {
     // pizzaBoxSubsystem.spinPizzaBoxMotor(-50, 10);
-    intakeSubsystem.spinIntakeMotor(50, 100);
+    intakeSubsystem.spinIntakeMotor(.7, 100);
   }
 
   // Called once the command ends or is interrupted.
@@ -47,7 +47,7 @@ public class IntakePassNoteToPizzaBox extends Command {
     pizzaBoxSubsystem.stopPizzaBoxMotor();
     intakeSubsystem.stopIntakeMotors();
     if(interrupted) {
-      intakeSubsystem.rejectIntake(30, 100);
+      intakeSubsystem.rejectIntake(1, 0);
     }
   }
 
@@ -62,7 +62,7 @@ public class IntakePassNoteToPizzaBox extends Command {
     if(prevSensorValue == true && currentSensorValue == false) {
       noteLatch = true;
     }  
-    if( timer +2 < Timer.getFPGATimestamp() && noteLatch) {
+    if( timer + 3 < Timer.getFPGATimestamp() && noteLatch) {
       noteLatch = false;
       return true; 
     }

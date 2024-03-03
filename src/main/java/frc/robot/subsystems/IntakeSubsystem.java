@@ -59,14 +59,14 @@ public class IntakeSubsystem extends SubsystemBase {
 
   // spin the intake motors, velocity is negative to intake note
   // velocity and accleration between -1.0 to 1.0
-  public void spinIntakeMotor(int intakeMotorVelocity, int intakeMotorAcceleration) {
+  public void spinIntakeMotor(double intakeMotorVelocity, double intakeMotorAcceleration) {
     // spinRequest1 = new VelocityVoltage(
     //   -intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0,false, false, false);
-    m_spinIntake.set(intakeMotorVelocity);
+    m_spinIntake.set(-intakeMotorVelocity);
   }
   
   // spin intake motors the opposite way, velocity is positive to reject intake
-  public void rejectIntake(int intakeMotorVelocity, int intakeMotorAcceleration) {
+  public void rejectIntake(double intakeMotorVelocity, double intakeMotorAcceleration) {
   //   spinRequest1 = new VelocityVoltage(
   //     intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0, false, false, false);
       m_spinIntake.set(intakeMotorVelocity);
@@ -85,18 +85,6 @@ public class IntakeSubsystem extends SubsystemBase {
     
   }  
 
-  public void setIntakeArmAngle(double angle) {
-    System.out.println("set intake angle method works");
-    
-    if(angle < 0) {
-      angle = 0;
-    }
-    else if (angle > Constants.IntakeConstants.MAX_ARM_ANGLE) {
-      angle = Constants.IntakeConstants.MAX_ARM_ANGLE;
-    }
-
-    //setGoal(angle);
-  }
 
   // stop intake motor
   public void stopIntakeMotors() {

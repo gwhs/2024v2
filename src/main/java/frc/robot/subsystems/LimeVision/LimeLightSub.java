@@ -72,7 +72,7 @@ public class LimeLightSub extends SubsystemBase {
   
 
   boolean verbose = false;//If we want to print values
-  boolean wantData = true;//If we want to accept limelight post esitmator
+  public boolean wantData = true;//If we want to accept limelight post esitmator
 
   // may be useful later
   private double kCameraHeight =

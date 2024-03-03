@@ -37,6 +37,7 @@ import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.PizzaBoxSubsystem;
+import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 public class GameRobotContainer implements BaseContainer {
@@ -50,6 +51,7 @@ public class GameRobotContainer implements BaseContainer {
     private final ArmSubsystem m_ArmSubsystem;
     private final PizzaBoxSubsystem m_PizzaBoxSubsystem;
     private final Climbsubsystem m_Climbsubsystem;
+    private final LimeLightSub m_LimelightSubsystem;
 
     private final TeleopDrive closedFieldRel;
 
@@ -77,7 +79,9 @@ public class GameRobotContainer implements BaseContainer {
                                                 Constants.ClimbConstants.MOTOR_RIGHT_ID, 
                                                 Constants.ClimbConstants.MOTOR_LEFT_INVERTED, 
                                                 Constants.ClimbConstants.MOTOR_RIGHT_INVERTED, 
-                                                        "rio"); //change arguments
+                                                        "rio");
+        
+        m_LimelightSubsystem  = new LimeLightSub("limelight", m_drivebase); 
           closedFieldRel = new TeleopDrive(
                                             m_drivebase,
                                             () -> MathUtil.applyDeadband(-driverController.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
@@ -104,7 +108,7 @@ public class GameRobotContainer implements BaseContainer {
 
         m_drivebase.setDefaultCommand(closedFieldRel);
 
-        SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem);
+        SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem);
 
 
     }

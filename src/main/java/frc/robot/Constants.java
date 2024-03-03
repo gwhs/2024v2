@@ -106,8 +106,8 @@ public final class Constants
     public static final String reactionCAN = "CAN_Network"; // or CAN_Network
     public static double currentLimit = 10;
     public static final double tolerance = 0.1;
-    public static final double retractedPosition = 1.2;
-    public static final double extendedPosition = -1.9;
+    public static final double retractedPosition = 0;
+    public static final double extendedPosition = -1.94;
   }
 
 

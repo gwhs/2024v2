@@ -99,5 +99,10 @@ public class IntakeSubsystem extends SubsystemBase {
   public boolean isNotePresent() {
     return m_noteSensor.get();
   }
+
+  @Override
+  public void periodic() {
+    // System.out.println(isNotePresent());
+  }
 }
 

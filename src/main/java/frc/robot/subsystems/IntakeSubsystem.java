@@ -99,10 +99,13 @@ public class IntakeSubsystem extends SubsystemBase {
   public boolean isNotePresent() {
     return m_noteSensor.get();
   }
+  public boolean isEmergencyStop() {
+    return m_Encoder.isConnected() && !emergencyStop;
+  }
 
   @Override
   public void periodic() {
-    System.out.println(isNotePresent());
+    //System.out.println(isNotePresent());
   }
 }
 

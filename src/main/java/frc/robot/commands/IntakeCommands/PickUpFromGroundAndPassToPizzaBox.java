@@ -32,7 +32,6 @@ public class PickUpFromGroundAndPassToPizzaBox extends SequentialCommandGroup {
         .andThen(new IntakePassNoteToPizzaBox(intakeSubsystem, pizzaBoxSubsystem).withTimeout(4))
         .andThen(new StopNoteContainerMotor(pizzaBoxSubsystem))
         .andThen(new StopIntakeMotors(intakeSubsystem))
-        .andThen(new WaitCommand(0.5))
         );
       pizzaBoxSubsystem.hasNote = true;
   }

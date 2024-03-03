@@ -114,8 +114,6 @@ public class LimeLightSub extends SubsystemBase {
     SmartDashboard.putNumber("tx", tx.getDouble(0));
     SmartDashboard.putNumber("ty", ty.getDouble(0));
     SmartDashboard.putNumber("ta", ta.getDouble(0));
-    SmartDashboard.putNumber("DistanceX Error X", getErrorFromMegaTagX());
-    SmartDashboard.putNumber("DistanceX Error Y", getErrorFromMegaTagY());
     
   }
   
@@ -153,26 +151,6 @@ public class LimeLightSub extends SubsystemBase {
     return angle;
   }
 
-  public double[] getBotPose() {
-    double[] botPose = null;
-    //SmartDashboard.putBoolean("Limelight Inititialized", isInitialized());
-    // if (hasTarget()) {
-      botPose = botpose.getDoubleArray(new double[7]);
-    // }
-    return botPose;
-  }
-
-  public double getPoseX() {
-    return getBotPose()[0];
-  }
-
-  public double getPoseY() {
-    return getBotPose()[1];
-  }
-
-  public double getThetaZ() {
-    return Math.abs(getBotPose()[5]);
-  }
 
   public double getPipeline() {
     double Pipeline = limelight_comm.get_entry_double("pipeline");
@@ -192,20 +170,6 @@ public class LimeLightSub extends SubsystemBase {
     return PIDVision.calculate(getTx());
   }
 
-  // calculates x-distance error
-  public double getErrorFromMegaTagX() {
-    return PIDVision.calculate(getPoseX());
-  }
-
-  // calculates y-distance error
-  public double getErrorFromMegaTagY() {
-    return PIDVisionY.calculate(getPoseY());
-  }
-
-  // calculates y-distance error
-  public double getThetaErrorFromMegaTag() {
-    return PIDVisionTheta.calculate(getThetaZ());
-  }
 
   public void setSetpointX(double point) {
     PIDVision.setSetpoint(point);
@@ -220,9 +184,7 @@ public class LimeLightSub extends SubsystemBase {
   }
 
 // megatag tx and ty, units in meters
-  public Pose2d getPose2D() {
-    return new Pose2d(Math.abs(getBotPose()[0]), Math.abs(getBotPose()[1]), Rotation2d.fromDegrees(getBotPose()[5]));
-  }
+
 
   public double[] getBlueBotPose(){
     double[] blueBotPose = this.blueBotPose.getDoubleArray(new double[11]);

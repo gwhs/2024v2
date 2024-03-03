@@ -5,6 +5,9 @@
 package frc.robot.testcontainers;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -15,8 +18,11 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Util.UtilMath;
 import frc.robot.Robot;
+import frc.robot.commands.driveCommands.BackSpeaker;
 import frc.robot.commands.driveCommands.DecreaseSpeed;
+import frc.robot.commands.driveCommands.FaceSpeaker;
 import frc.robot.commands.driveCommands.rotateinPlace;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
@@ -24,6 +30,8 @@ import frc.robot.commands.swervedrive.drivebase.AbsoluteDriveAdv;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
+
+import com.ctre.phoenix.Util;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -98,40 +106,34 @@ public class DriveContainer implements BaseContainer
         () -> driverXbox.getLeftTriggerAxis() - driverXbox.getRightTriggerAxis(), () -> true);
 
           configureBindings();
-     
-
+    drivebase.resetOdometry(new Pose2d(14.91, 5.49, new Rotation2d(0)));
     drivebase.setDefaultCommand(closedFieldRel);  //TO CHANGE DRIVE BASE
     //drivebase.test();
 
 
-    // ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
+    ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
     // ShuffleboardTab angleTab = Shuffleboard.getTab("Theta");
 
     // SmartDashboard.putData("Rotate To Speaker", new rotateinPlace(()->UtilMath.BLUESpeakerTheta(drivebase.getPose()), drivebase));
 
     // angleTab.addDouble("Estimated Theta", ()->UtilMath.BLUESpeakerTheta(drivebase.getPose()));
 
-    ShuffleboardTab angleTest = Shuffleboard.getTab("Rotate In Place");
-    SmartDashboard.putData("Rotate theta", new rotateinPlace(()->180, drivebase));
-    Shuffleboard.getTab("Rotate In Place").add("PID", 0).withWidget(BuiltInWidgets.kPIDController).getEntry();
+    ShuffleboardTab test = Shuffleboard.getTab("test");
+    
 
-    angleTest.addDouble("Rotation Error", () -> rotateinPlace.angleRate)
+
+    driveTrainShuffleboardTab.addDouble("X Position", ()->drivebase.getPose().getX())
       .withWidget(BuiltInWidgets.kGraph)
       .withSize(3,3)
       .withPosition(0, 0);
-
-    // driveTrainShuffleboardTab.addDouble("X Position", ()->drivebase.getPose().getX())
-    //   .withWidget(BuiltInWidgets.kGraph)
-    //   .withSize(3,3)
-    //   .withPosition(0, 0);
-    // driveTrainShuffleboardTab.addDouble("Y Position", ()->drivebase.getPose().getY())
-    //   .withWidget(BuiltInWidgets.kGraph)
-    //   .withSize(3,3)
-    //   .withPosition(3, 0);
-    // driveTrainShuffleboardTab.addDouble("Angel", ()->drivebase.getPose().getRotation().getDegrees())
-    //   .withWidget(BuiltInWidgets.kGraph)
-    //   .withSize(3,3)
-    //   .withPosition(6, 0);
+    driveTrainShuffleboardTab.addDouble("Y Position", ()->drivebase.getPose().getY())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(3, 0);
+    driveTrainShuffleboardTab.addDouble("Angel", ()->drivebase.getPose().getRotation().getDegrees())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(6, 0);
 
 
     // driveTrainShuffleboardTab.addDouble("X Velocity (m)", ()->drivebase.getFieldVelocity().vxMetersPerSecond)
@@ -162,7 +164,11 @@ public class DriveContainer implements BaseContainer
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    driverXbox.leftBumper().whileTrue(new DecreaseSpeed(closedFieldRel));
+    driverXbox.leftBumper().onTrue(new FaceSpeaker(closedFieldRel));
+    driverXbox.rightTrigger().onTrue(new BackSpeaker(closedFieldRel));
+
+    driverXbox.y().whileTrue(new FaceSpeaker(closedFieldRel));
+    driverXbox.a().whileTrue(new BackSpeaker(closedFieldRel));
 
     
     

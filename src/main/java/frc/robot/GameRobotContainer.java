@@ -8,10 +8,12 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.ClimbConstants;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.*;
 import frc.robot.commands.Arm.*;
+import frc.robot.commands.ClimberCommands.ClimbParts.ClimbAndShoot;
+import frc.robot.commands.ClimberCommands.ClimbParts.PrepClimb;
+import frc.robot.commands.ClimberCommands.ClimbParts.UnClimb;
 import frc.robot.commands.IntakeCommands.*;
 import frc.robot.commands.driveCommands.*;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
@@ -51,10 +53,10 @@ public class GameRobotContainer implements BaseContainer {
 
         //m_ledsubsystem = new LEDSubsystem(Constants.LEDConstants.ledPortNumber);
 
-        m_ClimbSubsystem = new Climbsubsystem( ClimbConstants.MOTOR_LEFT_ID, 
-                                                        ClimbConstants.MOTOR_RIGHT_ID, 
-                                                        ClimbConstants.MOTOR_LEFT_INVERTED, 
-                                                        ClimbConstants.MOTOR_RIGHT_INVERTED, 
+         m_ClimbSubsystem = new Climbsubsystem( Constants.ClimbConstants.MOTOR_LEFT_ID, 
+                                                Constants.ClimbConstants.MOTOR_RIGHT_ID, 
+                                                Constants.ClimbConstants.MOTOR_LEFT_INVERTED, 
+                                                Constants.ClimbConstants.MOTOR_RIGHT_INVERTED, 
                                                         "rio"); //change arguments
           closedFieldRel = new TeleopDrive(
                                             m_drivebase,
@@ -83,12 +85,20 @@ public class GameRobotContainer implements BaseContainer {
       driverController.b().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
       driverController.x().whileTrue(new DecreaseSpeed(closedFieldRel));
 
+      driverController.rightBumper().onTrue(new BackSpeaker(closedFieldRel));
+      driverController.leftBumper().onTrue(new FaceSpeaker(closedFieldRel));
+
 
       driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
 
 
       operatorController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem));
       operatorController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
+
+      operatorController.y().onTrue(new PrepClimb(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_ReactionSubsystem));
+      operatorController.b().onTrue(new ClimbAndShoot(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_PizzaBoxSubsystem));
+      operatorController.a().onTrue(new UnClimb(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem));
+      
 
       // operatorController.a().whileTrue(new MotorUp(m_Climbsubsystem, m_drivebase));
       // operatorController.b().whileTrue(new MotorDown(m_Climbsubsystem, m_drivebase));

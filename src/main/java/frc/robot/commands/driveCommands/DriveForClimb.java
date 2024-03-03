@@ -2,47 +2,45 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.IntakeCommands;
+package frc.robot.commands.driveCommands;
 
-import frc.robot.subsystems.IntakeSubsystem;
+import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
-public class IntakeNote extends Command {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
+public class DriveForClimb extends Command {
 
-  private IntakeSubsystem intakeSubsystem;
-
-  public IntakeNote(IntakeSubsystem subsystem) {
-    intakeSubsystem = subsystem;
-
+  private SwerveSubsystem swerve;
+  private double distance;
+  private double currentTime;
+  /** Creates a new DriveForClimb. */
+  public DriveForClimb(SwerveSubsystem s, double d) {
+    swerve = s;
+    distance = d;
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intakeSubsystem.spinIntakeMotor(1, 50);
+    
+    currentTime = Timer.getFPGATimestamp();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    
+    swerve.drive(new Translation2d(distance, 0), 0, false);
   }
 
   // Called once the command ends or is interrupted.
-  // runs once when isFinished is called
   @Override
-  public void end(boolean interrupted) {
-    intakeSubsystem.stopIntakeMotors();
-  }
+  public void end(boolean interrupted) {}
 
   // Returns true when the command should end.
-  // called every cycle
   @Override
   public boolean isFinished() {
-    return intakeSubsystem.isNotePresent();
+    return (currentTime + 0.75 < Timer.getFPGATimestamp());
   }
 }

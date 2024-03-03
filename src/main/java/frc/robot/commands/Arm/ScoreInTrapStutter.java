@@ -15,36 +15,20 @@ public class ScoreInTrapStutter extends SequentialCommandGroup {
   //velocity = 100 for testing shooting 
   public ScoreInTrapStutter(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem) {
     addCommands(
-        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.TRAP_ANGLE).withTimeout(3),
-//56/36
+        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.TRAP_ANGLE).withTimeout(3));
+
+
+    for(int index = 0; index < 8; index++)
+    {
+      addCommands(
         new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 100),
-        Commands.waitSeconds(.5),
-        new StopNoteContainerMotor(pizzaBoxSubsystem),
         Commands.waitSeconds(.2),
-
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 100),
-        Commands.waitSeconds(.5),
         new StopNoteContainerMotor(pizzaBoxSubsystem),
-        Commands.waitSeconds(.2),
+        Commands.waitSeconds(.2)
+      );
+    }
 
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 100),
-        Commands.waitSeconds(.5),
-        new StopNoteContainerMotor(pizzaBoxSubsystem),
-        Commands.waitSeconds(.2),
-
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 100),
-        Commands.waitSeconds(.5),
-        new StopNoteContainerMotor(pizzaBoxSubsystem),
-        Commands.waitSeconds(.2),
-
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 100),
-        Commands.waitSeconds(.5),
-        new StopNoteContainerMotor(pizzaBoxSubsystem),
-        Commands.waitSeconds(.2),
-
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 100),
-        Commands.waitSeconds(11),
-
+    addCommands(
         new StopNoteContainerMotor(pizzaBoxSubsystem),
         new SpinToArmAngle(armSubsystem, 135)
     );

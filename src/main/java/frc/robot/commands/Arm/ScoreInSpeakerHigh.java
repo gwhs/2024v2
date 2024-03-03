@@ -17,7 +17,7 @@ public class ScoreInSpeakerHigh extends SequentialCommandGroup {
     addCommands(
         new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.SPEAKER_HIGH_ANGLE).withTimeout(3),
         new SpinNoteContainerMotor(pizzaBoxSubsystem, 100, 100),
-        Commands.waitSeconds(.2),
+        Commands.waitUntil(()->pizzaBoxSubsystem.isAtVelocity(100*.95)).withTimeout(1),
         new SwingForwardServo(pizzaBoxSubsystem),
         Commands.waitSeconds(.2),
         new SwingBackServo(pizzaBoxSubsystem),

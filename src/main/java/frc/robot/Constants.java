@@ -97,8 +97,8 @@ public final class Constants
     public static final double MAX_ARM_ANGLE = 77; //need to check max arm angle
     public static final double ROTATION_TO_DEGREES = 360;
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
-    public static final double ENCODER_OFFSET = 25; //need to check the encoder value 
-    public static final double UP_POSITION = 75;
+    public static final double ENCODER_OFFSET = 26; //need to check the encoder value 
+    public static final double UP_POSITION = 77;
   }
 
   public static final class ReactionConstants {
@@ -106,8 +106,8 @@ public final class Constants
     public static final String reactionCAN = "CAN_Network"; // or CAN_Network
     public static double currentLimit = 10;
     public static final double tolerance = 0.1;
-    public static final double retractedPosition = 1.2;
-    public static final double extendedPosition = -1.9;
+    public static final double retractedPosition = 0;
+    public static final double extendedPosition = -1.94;
   }
 
 

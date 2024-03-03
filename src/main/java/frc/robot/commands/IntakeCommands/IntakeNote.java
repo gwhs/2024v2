@@ -8,16 +8,13 @@ import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
-public class SpinIntakeArmMotor extends Command {
+public class IntakeNote extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   private IntakeSubsystem intakeSubsystem;
-  private double angle;
-  private boolean sensorValue;
 
-  public SpinIntakeArmMotor(IntakeSubsystem subsystem, double targetAngle) {
+  public IntakeNote(IntakeSubsystem subsystem) {
     intakeSubsystem = subsystem;
-    angle = targetAngle;
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(intakeSubsystem);
@@ -26,7 +23,7 @@ public class SpinIntakeArmMotor extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intakeSubsystem.setIntakeArmAngle(angle);
+    intakeSubsystem.spinIntakeMotor(1, 50);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -39,14 +36,13 @@ public class SpinIntakeArmMotor extends Command {
   // runs once when isFinished is called
   @Override
   public void end(boolean interrupted) {
-
+    intakeSubsystem.stopIntakeMotors();
   }
 
   // Returns true when the command should end.
   // called every cycle
   @Override
   public boolean isFinished() {
-return false;
+    return intakeSubsystem.isNotePresent();
   }
-
 }

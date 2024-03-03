@@ -24,6 +24,7 @@ public class ScoreInSpeakerUnderHand extends SequentialCommandGroup {
       new StopNoteContainerMotor(pizzaBoxSubsystem),
       new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE)
     );
+    pizzaBoxSubsystem.hasNote = false;
   }
 
   

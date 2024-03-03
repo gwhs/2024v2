@@ -42,7 +42,7 @@ private double endPos;
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(currPos - endPos) < Constants.ReactionConstants.tolerance)
+    if (Math.abs(currPos - endPos) < Constants.ReactionConstants.tolerance || currPos >0)
     {
       return true;
     }

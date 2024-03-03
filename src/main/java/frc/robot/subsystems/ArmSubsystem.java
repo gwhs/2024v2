@@ -45,14 +45,14 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int ARM_ID = 18;
     //
     public static final double KSVOLTS = 0; 
-    public static final double KGVOLTS = -.355;
+    public static final double KGVOLTS = .355;
     //
     //Arm ID Jalen Tolbert
     public static final int ENCODER_DIO_SLOT = 0;
-    public static final int AMP_ANGLE = 335;
+    public static final int AMP_ANGLE = 322;
     public static final int TRAP_ANGLE = 290;
     public static final int SPEAKER_LOW_ANGLE = 120;
-    public static final int SPEAKER_HIGH_ANGLE = 230;
+    public static final int SPEAKER_HIGH_ANGLE = 235;
     public static final int INTAKE_ANGLE = 64;
     public static final int CLIMBING_ANGLE = 45;
   }
@@ -134,10 +134,10 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   {
     //Comment out for testing purposes
     double feedForward = armFeedForward.calculate(setPoint.position, setPoint.velocity);
-    SmartDashboard.putNumber("feedForward calculation", feedForward);
-    SmartDashboard.putNumber("Output", output);
-    SmartDashboard.putNumber("setPoint position", setPoint.position);
-    SmartDashboard.putNumber("setPoint velocity", setPoint.velocity);
+    // SmartDashboard.putNumber("feedForward calculation", feedForward);
+    // SmartDashboard.putNumber("Output", output);
+    // SmartDashboard.putNumber("setPoint position", setPoint.position);
+    // SmartDashboard.putNumber("setPoint velocity", setPoint.velocity);
     if(m_encoder.isConnected() && !emergencyStop)
     {
       spinArm(output + feedForward);

@@ -203,20 +203,16 @@ public class LimeLightSub extends SubsystemBase {
 
     if(hasTarget()){
       colorBotPose[9] = blueBotPose[9];
-      colorBotPose[11] = getTID()+1;
-
+      colorBotPose[11] = getTID();
     }
-    
 
     return colorBotPose; 
   }
 
-  public int getTID(){
-  
-    int tid = (int)this.tid.getDouble(-1)-1;
+  public long getTID(){
+    long tid = this.tid.getInteger(-1);
     
     return tid;
-    
   }
 
   public void setData(){

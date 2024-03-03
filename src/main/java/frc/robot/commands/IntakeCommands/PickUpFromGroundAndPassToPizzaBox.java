@@ -11,6 +11,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.IntakeCommands.*;
+import frc.robot.Constants;
 import frc.robot.commands.Arm.*;
 
 
@@ -26,7 +27,7 @@ public class PickUpFromGroundAndPassToPizzaBox extends SequentialCommandGroup {
         new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE)
         .alongWith(new IntakePickUpFromGroundPID(intakeSubsystem, 100, 50))
         .alongWith(new SpinNoteContainerMotor(pizzaBoxSubsystem, -50, 50))
-        .andThen(new SpinIntakePID(intakeSubsystem, 75))
+        .andThen(new SpinIntakePID(intakeSubsystem, Constants.IntakeConstants.UP_POSITION))
         .andThen(new StopNoteContainerMotor(pizzaBoxSubsystem))
         .andThen(new StopIntakeMotors(intakeSubsystem))
         );

@@ -66,9 +66,9 @@ public class MotorDown extends Command {
   @Override
   public boolean isFinished() {
     
-    double leftDelta = -climbersubsystem.getPositionLeft() - 0.3;
-    double rightDelta  = climbersubsystem.getPositionRight() - 0.3;
+    double leftDelta = -climbersubsystem.getPositionLeft() - 0.25;
+    double rightDelta  = climbersubsystem.getPositionRight() - 0.25;
     return (climbersubsystem.getBotLeftLimit() && climbersubsystem.getBotRightLimit())
-            || (Math.abs(leftDelta) < 1 && Math.abs(rightDelta) < 1); 
+            || (Math.abs(leftDelta) < 0.75 && Math.abs(rightDelta) < 0.75); 
   }
 }

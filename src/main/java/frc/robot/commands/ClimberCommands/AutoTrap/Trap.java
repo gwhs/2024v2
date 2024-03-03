@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.Arm.ScoreInTrap;
+import frc.robot.commands.Arm.ScoreInTrapStutter;
 import frc.robot.commands.ClimberCommands.AutoClimb.ClimbDown;
 import frc.robot.commands.ClimberCommands.AutoClimb.ClimbUp;
 import frc.robot.subsystems.ArmSubsystem;
@@ -29,15 +30,10 @@ public class Trap extends SequentialCommandGroup {
     addCommands(
           /*new align(), */
           new ClimbUp(c, s, a, r), 
-          new ScoreInTrap(p, a),
+          new ScoreInTrapStutter(p, a),
           new ClimbDown(c, s, a)
     );
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(c);
-    addRequirements(s);
-    addRequirements(a);
-    addRequirements(p);
-    addRequirements(r);
     
   }
 

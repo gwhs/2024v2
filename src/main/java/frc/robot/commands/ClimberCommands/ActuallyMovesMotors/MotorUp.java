@@ -69,6 +69,6 @@ public class MotorUp extends Command {
     double leftDelta = -climbersubsystem.getPositionLeft() - ClimbConstants.CLIMB_DISTANCE;
     double rightDelta  = climbersubsystem.getPositionRight() - ClimbConstants.CLIMB_DISTANCE;
     return (climbersubsystem.getTopLeftLimit() && climbersubsystem.getTopRightLimit())                                         
-            || (Math.abs(leftDelta) < 10 && Math.abs(rightDelta) < 10); 
+            || (Math.abs(leftDelta) < 20 && Math.abs(rightDelta) < 20); 
   }
 }

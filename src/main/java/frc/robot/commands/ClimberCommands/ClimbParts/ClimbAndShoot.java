@@ -20,12 +20,11 @@ public class ClimbAndShoot extends SequentialCommandGroup {
   /** Creates a new ClimbAndShoot. */
   public ClimbAndShoot(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a, PizzaBoxSubsystem p) {
     // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new MotorDown(c, s),
       new ScoreInTrapStutter(p, a)
     );
 
-    addRequirements(c);
+    
   }
 }

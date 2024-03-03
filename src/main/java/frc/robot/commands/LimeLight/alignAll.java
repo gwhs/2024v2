@@ -18,7 +18,6 @@ public class alignAll extends SequentialCommandGroup {
     addCommands(
         driSwerveSubsystem.driveToPose(apriltagController.getTargetPose()),
         Commands.waitSeconds(0.1),
-        new parallelTag(driSwerveSubsystem, apriltagController),
         new align(driSwerveSubsystem, apriltagController)
     );
   }

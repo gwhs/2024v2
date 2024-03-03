@@ -58,17 +58,18 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   // spin the intake motors, velocity is negative to intake note
+  // velocity and accleration between -1.0 to 1.0
   public void spinIntakeMotor(int intakeMotorVelocity, int intakeMotorAcceleration) {
-    spinRequest1 = new VelocityVoltage(
-      -intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0,false, false, false);
-    m_spinIntake.setControl(spinRequest1);
+    // spinRequest1 = new VelocityVoltage(
+    //   -intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0,false, false, false);
+    m_spinIntake.set(intakeMotorVelocity);
   }
   
   // spin intake motors the opposite way, velocity is positive to reject intake
   public void rejectIntake(int intakeMotorVelocity, int intakeMotorAcceleration) {
-    spinRequest1 = new VelocityVoltage(
-      intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0, false, false, false);
-      m_spinIntake.setControl(spinRequest1);
+  //   spinRequest1 = new VelocityVoltage(
+  //     intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0, false, false, false);
+      m_spinIntake.set(intakeMotorVelocity);
   }
 
   public void spinIntakeArm(double speed) {

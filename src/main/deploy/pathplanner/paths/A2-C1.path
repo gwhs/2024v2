@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.5500000000000003,
-        "y": 5.55
+        "x": 2.8830127018922203,
+        "y": 5.799999999999998
       },
       "isLocked": false,
       "linkedName": "A2"
@@ -20,8 +20,8 @@
         "y": 7.453927130076483
       },
       "prevControl": {
-        "x": 3.1850593861871492,
-        "y": 8.475703874484672
+        "x": 5.68,
+        "y": 7.453927130076483
       },
       "nextControl": null,
       "isLocked": false,
@@ -43,7 +43,7 @@
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Notes Near Starting Zone",
+  "folder": null,
   "previewStartingState": {
     "rotation": 0,
     "velocity": 0

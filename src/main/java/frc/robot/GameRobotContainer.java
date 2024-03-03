@@ -50,7 +50,7 @@ public class GameRobotContainer implements BaseContainer {
     private final ArmSubsystem m_ArmSubsystem;
     private final PizzaBoxSubsystem m_PizzaBoxSubsystem;
     private final Climbsubsystem m_Climbsubsystem;
-
+    private static SendableChooser<Command> autoChooser;
     private final TeleopDrive closedFieldRel;
 
     public String getDriveTrainName(){
@@ -104,7 +104,7 @@ public class GameRobotContainer implements BaseContainer {
 
         m_drivebase.setDefaultCommand(closedFieldRel);
 
-        SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem);
+        SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, autoChooser);
 
 
     }
@@ -141,6 +141,13 @@ public class GameRobotContainer implements BaseContainer {
       driverController.rightBumper().onTrue(new ChangeLEDColor(led, 0, 0, 0));
       */
     }
+
+   public Command getAutonomousCommand()
+  {
+    // An example command will be run in autonomous
+    //return drivebase.getAutonomousCommand("New Path", true);
+    return autoChooser.getSelected();
+  }
 
     public void setMotorBrake(boolean brake)
     {

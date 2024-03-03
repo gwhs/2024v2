@@ -13,21 +13,27 @@ public class IntakePickUpFromGroundPID extends PIDCommand {
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final IntakeSubsystem intakeSubsystem;
-  private int velocity;
-  private int accleration;
   private static PIDController intakeController = new PIDController(.015, .001, .0);
+  private double velocity;
+  private double accleration;
   
-  public IntakePickUpFromGroundPID(IntakeSubsystem intakeSubsystem, int velocity, int accleration) {
+  public IntakePickUpFromGroundPID(IntakeSubsystem intakeSubsystem, double velocity, double accleration) {
     super(intakeController, ()-> intakeSubsystem.encoderGetAngle(), () -> 0,
             (final double speed) -> 
-            {intakeSubsystem.spinIntakeArm(-speed);
-              intakeSubsystem.spinIntakeMotor(velocity, accleration);}
+            {
+              intakeSubsystem.spinIntakeArm(-speed);
+            }
             , intakeSubsystem);
-    this.intakeSubsystem = intakeSubsystem;
     intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
 
+    this.intakeSubsystem = intakeSubsystem;
     this.velocity = velocity;
     this.accleration = accleration;
+  }
+
+  @Override
+  public void initialize() {
+    intakeSubsystem.spinIntakeMotor(velocity, accleration);
   }
 
   //Returns true when the command should end.
@@ -35,12 +41,12 @@ public class IntakePickUpFromGroundPID extends PIDCommand {
   public boolean isFinished() {
     boolean sensorValue = intakeSubsystem.isNotePresent();
     if(sensorValue) {
-      intakeSubsystem.spinIntakeMotor(0, accleration);
-      //intakeSubsystem.stopArmMotor();
-      return sensorValue;
+      //intakeSubsystem.stopIntakeMotors();
+      intakeSubsystem.spinIntakeMotor(0, 0);
+      return true ;
     }
     else {
-      return sensorValue;
+      return false;
     }
   }
 

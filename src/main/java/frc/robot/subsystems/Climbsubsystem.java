@@ -4,13 +4,9 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.StatusCode;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.NeutralOut;
 import com.ctre.phoenix6.controls.StaticBrake;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
@@ -27,7 +23,7 @@ public class Climbsubsystem extends SubsystemBase {
   private TalonFX climberArmLeft;
   private TalonFX climberArmRight;
 
-  private final double CLIMBER_PID_KP = 1.9;
+  private final double CLIMBER_PID_KP = 2.5;
   private final double CLIMBER_PID_KI = 0;
   private final double CLIMBER_PID_KD = 0;
   private Constraints constraints = new Constraints(180.0, 300.0);
@@ -35,8 +31,10 @@ public class Climbsubsystem extends SubsystemBase {
   private ProfiledPIDController leftPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
   private ProfiledPIDController rightPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
 
-  private boolean upCheck = false;
-  private boolean downCheck = false;
+  private double leftGoalDistance = 198.94;
+  private double rightGoalDistance = 198.4;
+
+  private boolean checkForUp = false;
 
   DigitalInput bottomLeft = new DigitalInput(ClimbConstants.BOT_LEFT_LIMIT_ID);
   DigitalInput bottomRight = new DigitalInput(ClimbConstants.BOT_RIGHT_LIMIT_ID);
@@ -57,29 +55,13 @@ public class Climbsubsystem extends SubsystemBase {
 
     brake = new StaticBrake();
     
-    // climberArmLeft.setNeutralMode(NeutralModeValue.Brake);
-    // climberArmRight.setNeutralMode(NeutralModeValue.Brake);
     UtilMotor.configMotor(climberArmLeft, 0.11, 0.5, 0.0001, 0.12, 12, 40, true);
     UtilMotor.configMotor(climberArmRight, 0.11, 0.5, 0.0001, 0.12, 12, 40, true);
 
-    // climberArmLeft.setControl(brake);
-    // climberArmRight.setControl(brake);
-
+    leftPIDcontroller.setGoal(getPositionLeft());
+    rightPIDcontroller.setGoal(getPositionRight());
   } 
 
-  public void upMotor() {
-    upCheck = true;
-    downCheck = false;
-    leftPIDcontroller.setGoal(-198.94);
-    rightPIDcontroller.setGoal(198.4);
-  }
-
-  public void downMotor() {
-    downCheck = true;
-    upCheck = false;
-    leftPIDcontroller.setGoal(0.5);
-    rightPIDcontroller.setGoal(0.5);
-  }
 
   //makes the motor move
   public void setSpeed(double leftSpeed, double rightSpeed){ // speed should be in rotations per second
@@ -100,9 +82,6 @@ public class Climbsubsystem extends SubsystemBase {
                                                   false, 
                                                   false));
 
-    
-    // climberArmRight.setControl(new VelocityTorqueCurrentFOC(rightSpeed, 5, 0, 0, false, false, false));
-    // climberArmLeft.setControl(new VelocityTorqueCurrentFOC(leftSpeed, 5, 0, 0, false, false, false));
   }
 
   //makes motors stop spinning
@@ -142,37 +121,45 @@ public class Climbsubsystem extends SubsystemBase {
     return (!bottomRight.get());
   }
 
+  public void setSetGoal(double left, double right) {
+    leftGoalDistance = left;
+    rightGoalDistance = right;
+  } 
+
+  public void upMotor() {
+    checkForUp = true;
+    leftPIDcontroller.setGoal(-leftGoalDistance);
+    rightPIDcontroller.setGoal(rightGoalDistance);
+  }
+
+  public void downMotor() {
+    checkForUp = false;
+    leftPIDcontroller.setGoal(-0.3);
+    rightPIDcontroller.setGoal(0.3);
+  }
+
   @Override
   public void periodic() {
-    // This method will be called once per scheduler run
-    
     double leftPIDvalue = leftPIDcontroller.calculate(getPositionLeft());
     double rightPIDvalue = rightPIDcontroller.calculate(getPositionRight());
-    //System.out.println("left: " + leftPIDvalue + "/n right: " + rightPIDvalue);
-    if (upCheck && getTopLeftLimit()) {
+
+    if (checkForUp && getTopLeftLimit()) {
       leftPIDvalue = 0;
     }
-    else if (upCheck && getTopRightLimit()) {
+    if (checkForUp && getTopRightLimit()) {
       rightPIDvalue = 0;
     }
 
-    if (downCheck && getBotLeftLimit()) {
+    if (!checkForUp && getBotLeftLimit()) {
       leftPIDvalue = 0;
     }
-    else if (downCheck && getBotRightLimit()) {
+    if (!checkForUp && getBotRightLimit()) {
       rightPIDvalue = 0;
     }
 
-    if (upCheck) {
-      setSpeed(-leftPIDvalue / 4, rightPIDvalue / 4);
-    }
 
-    if (downCheck) {
-      setSpeed(-leftPIDvalue / 4, rightPIDvalue / 4);
-    }
-
+    setSpeed(-leftPIDvalue, rightPIDvalue);
     
-
 
   }
 }

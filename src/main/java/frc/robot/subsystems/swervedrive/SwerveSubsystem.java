@@ -11,15 +11,20 @@ import com.pathplanner.lib.path.PathPlannerPath;
 import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
 import com.pathplanner.lib.util.PIDConstants;
 import com.pathplanner.lib.util.ReplanningConfig;
+
+import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
@@ -514,8 +519,38 @@ System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
    */
   public void addFakeVisionReading()
   {
-    swerveDrive.addVisionMeasurement(new Pose2d(2, 2, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
+    swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
   }
 
-  
+    public void addActualVisionReading(Pose2d pose,double time, Matrix<N3, N1> matrix)
+  {
+    swerveDrive.addVisionMeasurement(pose, time, matrix);
+  }
+
+
+
+  public void test() {
+    swervelib.SwerveModule[] sm = swerveDrive.getModules();
+    System.out.println("Swerve Module array size = " + sm.length);
+
+    int testModule = 0;
+
+    SwerveMotor drive = sm[testModule].getDriveMotor();
+    SwerveMotor angle = sm[testModule].getAngleMotor();
+    sm[testModule].setAngle(90);
+
+    drive.set(100);
+
+  }
+
+  public void actualVisionReading(Pose2d pose, double time)
+  {
+    swerveDrive.addVisionMeasurement(pose, time);
+  }
+
+    public Field2d getField2d()
+  {
+    return swerveDrive.field;
+  }
+
 }

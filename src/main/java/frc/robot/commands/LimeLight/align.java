@@ -29,9 +29,9 @@ public class align extends Command {
   @Override
   public void initialize() {
     apriltagController.setTolerance("forward");
-    apriltagController.setPoint(ApriltagConstants.TargetDistance.FORWARD_TARGET, "forward");
+    apriltagController.setPoint("forward");
     apriltagController.setTolerance("sideways");
-    apriltagController.setPoint(ApriltagConstants.TargetDistance.SIDEWAYS_TARGET, "sideways");
+    apriltagController.setPoint("sideways");
   }
 
   // Called every time the scheduler runs while the command is scheduled.

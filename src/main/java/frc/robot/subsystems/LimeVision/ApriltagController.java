@@ -117,13 +117,13 @@ public class ApriltagController extends SubsystemBase {
     }
 
     // setsPoint PID
-    public void setPoint(double target, String PIDType) {
+    public void setPoint(String PIDType) {
         if (PIDType.toLowerCase().equals("forward")) {
-            PIDForward.setSetpoint(target);
+            PIDForward.setSetpoint(ApriltagConstants.TargetDistance.FORWARD_TARGET);
         } else if (PIDType.toLowerCase().equals("sideways")) {
-            PIDSideways.setSetpoint(target);
+            PIDSideways.setSetpoint(ApriltagConstants.TargetDistance.SIDEWAYS_TARGET);
         } else if (PIDType.toLowerCase().equals("rotation")) {
-            PIDRotation.setSetpoint(target);
+            PIDRotation.setSetpoint(ApriltagConstants.TargetDistance.ROTATION_TARGET);
         }
     }
     

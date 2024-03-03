@@ -29,7 +29,7 @@ public class parallelTag extends Command {
   @Override
   public void initialize() {
     apriltagController.setTolerance("rotation");
-    apriltagController.setPoint(ApriltagConstants.TargetDistance.ROTATION_TARGET, "rotation");
+    apriltagController.setPoint("rotation");
   }
 
   // Called every time the scheduler runs while the command is scheduled.

@@ -100,34 +100,9 @@ public class IntakeSubsystem extends SubsystemBase {
     return m_noteSensor.get();
   }
 
-  public boolean isEmergencyStop()
-  {
-    return m_Encoder.isConnected() && !emergencyStop;
-  }
-  
   @Override
   public void periodic() {
-    if(!(m_Encoder.isConnected()) || emergencyStop) {
-      m_moveIntakeArm.stopMotor(); 
-    }
-
+    System.out.println(isNotePresent());
   }
-
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
-  }
-
-  // @Override
-  // public void useOutput(double output, TrapezoidProfile.State setpoint) {
-  //   spinIntakeArm(output);
-  //   System.out.println(output);
-  // }
-
-  // @Override
-  // public double getMeasurement() {
-  //   System.out.println("encoder: " + encoderGetAngle());
-  //   return encoderGetAngle();
-  // }
 }
 

@@ -20,8 +20,10 @@ public class IntakePickUpFromGroundPID extends PIDCommand {
   public IntakePickUpFromGroundPID(IntakeSubsystem intakeSubsystem, int velocity, int accleration) {
     super(intakeController, ()-> intakeSubsystem.encoderGetAngle(), () -> 0,
             (final double speed) -> 
-            {intakeSubsystem.spinIntakeArm(-speed);
-              intakeSubsystem.spinIntakeMotor(velocity, accleration);}
+            {
+              intakeSubsystem.spinIntakeArm(-speed);
+              intakeSubsystem.spinIntakeMotor(velocity, accleration);
+            }
             , intakeSubsystem);
     this.intakeSubsystem = intakeSubsystem;
     intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
@@ -34,13 +36,14 @@ public class IntakePickUpFromGroundPID extends PIDCommand {
   @Override
   public boolean isFinished() {
     boolean sensorValue = intakeSubsystem.isNotePresent();
+    System.out.println(sensorValue); 
     if(sensorValue) {
-      intakeSubsystem.spinIntakeMotor(velocity / 4, accleration);
-      //intakeSubsystem.stopArmMotor();
-      return sensorValue;
+      //intakeSubsystem.spinIntakeMotor(0, accleration);
+      intakeSubsystem.stopIntakeMotors();
+      return true ;
     }
     else {
-      return sensorValue;
+      return false;
     }
   }
 

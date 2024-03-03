@@ -46,8 +46,9 @@ public class IntakeSubsystem extends SubsystemBase {
     m_Encoder = new DutyCycleEncoder(Constants.IntakeConstants.INTAKE_ENCODER_CHANNEL_ID);
     m_noteSensor = new DigitalInput(Constants.IntakeConstants.INTAKE_NOTESENSOR_CHANNEL_ID); 
 
-    UtilMotor.configMotor(m_moveIntakeArm, 0.11, 0.05, 0.01,  0.12, 80, 40, true);
-    
+    UtilMotor.configMotor(m_moveIntakeArm, 0.11, 0.05, 0.01,  0.12, 12, 80, true);
+    //UtilMotor.configMotor(m_spinIntake, 0, 0, 0,  0.12, 12, 80, true);
+
     Shuffleboard.getTab("Intake").addDouble("Encoder Angle", ()->encoderGetAngle()).withWidget(BuiltInWidgets.kGraph)
     .withSize(3,3)
     .withPosition(0, 0);;
@@ -122,6 +123,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
+
+    //System.out.println(isNotePresent()); 
     if(!(m_Encoder.isConnected()) || emergencyStop) {
       m_moveIntakeArm.stopMotor(); 
     }

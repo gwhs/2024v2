@@ -15,6 +15,7 @@ import frc.robot.commands.ClimberCommands.MotorDown;
 import frc.robot.commands.ClimberCommands.MotorUp;
 import frc.robot.commands.Arm.ArmEmergencyStop;
 import frc.robot.commands.Arm.ScoreInAmp;
+import frc.robot.commands.Arm.ScoreInSpeakerHigh;
 import frc.robot.commands.Arm.ScoreInTrap;
 import frc.robot.commands.Arm.SpinAndSwing;
 import frc.robot.commands.Arm.SpinNoteContainerMotor;
@@ -23,8 +24,10 @@ import frc.robot.commands.Arm.TestingOnlyShoot;
 import frc.robot.commands.IntakeCommands.IntakeEmergencyStop;
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
 import frc.robot.commands.IntakeCommands.IntakeRejectNote;
+import frc.robot.commands.IntakeCommands.IntakeResetArm;
 import frc.robot.commands.IntakeCommands.PickUpFromGroundAndPassToPizzaBox;
 import frc.robot.commands.IntakeCommands.SpinIntakePID;
+import frc.robot.commands.IntakeCommands.Testing;
 import frc.robot.commands.driveCommands.DecreaseSpeed;
 import frc.robot.commands.ledcommands.ChangeLEDColor;
 import frc.robot.commands.ledcommands.ChangeLEDToBlue;
@@ -111,19 +114,20 @@ public class GameRobotContainer implements BaseContainer {
       intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
       
       driverController.x().onTrue(new SpinToArmAngle(m_ArmSubsystem, 240));
+      driverController.b().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
 
       //driverController.y().onTrue(new TestingOnlyShoot(m_PizzaBoxSubsystem, m_ArmSubsystem, 150));
       driverController.y().onTrue(new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem)); 
       // driverController.x().onTrue(new SpinIntakePID(m_IntakeSubsystem, 0));
       // driverController.y().onTrue(new SpinIntakePID(m_IntakeSubsystem, 70));
-      //driverController.a().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
+      driverController.a().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
       //driverController.b().onTrue(new IntakePassNoteToPizzaBox(m_IntakeSubsystem, m_PizzaBoxSubsystem));
       driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
       driverController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem));
       //driverController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
       //driverController.b().onTrue(new IntakeRejectNote(m_IntakeSubsystem));
+      //driverController.b().onTrue(new IntakeResetArm(m_IntakeSubsystem));
 
-      driverController.x().onTrue(new DecreaseSpeed(closedFieldRel));
 
 
       // OperatorController.a().whileTrue(new MotorUp(m_Climbsubsystem, m_drivebase));

@@ -7,7 +7,7 @@ package frc.robot.commands.IntakeCommands;
 import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PizzaBoxSubsystem;
-
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class IntakePassNoteToPizzaBox extends Command {
@@ -18,13 +18,14 @@ public class IntakePassNoteToPizzaBox extends Command {
   private boolean prevSensorValue = false;
   private boolean currentSensorValue = false;
   private boolean noteLatch = false;
-  private int counter = 0;
+  private double timer = 0;
 
   public IntakePassNoteToPizzaBox(IntakeSubsystem subsystem, PizzaBoxSubsystem pizzaBoxSubsystem) {
     intakeSubsystem = subsystem;
     this.pizzaBoxSubsystem = pizzaBoxSubsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
+    timer = Timer.getFPGATimestamp(); 
     addRequirements(pizzaBoxSubsystem, intakeSubsystem);
   }
 
@@ -61,13 +62,9 @@ public class IntakePassNoteToPizzaBox extends Command {
     if(prevSensorValue == true && currentSensorValue == false) {
       noteLatch = true;
     }  
-    if(counter > Constants.IntakeConstants.NOTE_DELAY && noteLatch) {
-      System.out.println("hiiiiiiiiiiii");
+    if( timer +2 < Timer.getFPGATimestamp() && noteLatch) {
       noteLatch = false;
       return true; 
-    }
-    else {
-      counter++;
     }
     return false;
   }

@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimeLightConstants;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
-import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.numbers.N1;
@@ -27,24 +26,6 @@ import frc.robot.testcontainers.VisionContainer;
 import swervelib.SwerveDrive;
 
 public class LimeLightSub extends SubsystemBase {
-
-  // PID constants
-  private final double kP = 0.5;
-  private final double kD = 0.2;
-  private final double kI = 0;
-  // private static double distanceFromAprilTag = 0;
-  public static Pose2d currentPose;
-
-  
-  
-
-  private PIDController PIDVision = new PIDController(kP, kI, kD);
-  private PIDController PIDVisionY = new PIDController(kP, kI, kD);
-  private PIDController PIDVisionTheta = new PIDController(kP, kI, kD);
-
-  
-
-
 
   // set up a new instance of NetworkTables (the api/library used to read values from limelight)
   NetworkTable networkTable = NetworkTableInstance.getDefault().getTable("limelight");  
@@ -68,8 +49,6 @@ public class LimeLightSub extends SubsystemBase {
   NetworkTableEntry blueBotPose = networkTable.getEntry("botpose_wpiblue");
   NetworkTableEntry targetSpace = networkTable.getEntry("botpose_targetspace");
   NetworkTableEntry tid = networkTable.getEntry("tid");
-  
-  
 
   boolean verbose = false;//If we want to print values
   boolean wantData = true;//If we want to accept limelight post esitmator
@@ -151,7 +130,6 @@ public class LimeLightSub extends SubsystemBase {
     return angle;
   }
 
-
   public double getPipeline() {
     double Pipeline = limelight_comm.get_entry_double("pipeline");
     return Pipeline;
@@ -163,24 +141,6 @@ public class LimeLightSub extends SubsystemBase {
 
   public boolean checkPipe() {
     return !(limelight_comm.get_entry_double("pipeline") < .5);
-  }
-
-  // calculates error from target
-  public double getError() {
-    return PIDVision.calculate(getTx());
-  }
-
-
-  public void setSetpointX(double point) {
-    PIDVision.setSetpoint(point);
-  }
-
-  public void setSetpointY(double point) {
-    PIDVisionY.setSetpoint(point);
-  }
-
-  public void setSetpointTheta(double point) {
-    PIDVisionTheta.setSetpoint(point);
   }
 
 // megatag tx and ty, units in meters
@@ -213,6 +173,12 @@ public class LimeLightSub extends SubsystemBase {
     long tid = this.tid.getInteger(-1);
     
     return tid;
+  }
+
+  // apriltag controller
+  public int getID() {
+    int id = (int) tid.getDouble(-1) - 1;
+    return id;
   }
 
   public void setData(){

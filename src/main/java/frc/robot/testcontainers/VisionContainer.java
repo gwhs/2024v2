@@ -76,14 +76,8 @@ public class VisionContainer implements BaseContainer
         () -> MathUtil.applyDeadband(-driverXbox.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
         () -> MathUtil.applyDeadband(-driverXbox.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
         () -> driverXbox.getLeftTriggerAxis() - driverXbox.getRightTriggerAxis(), () -> true);
-
-    TeleopDrive autoAlignVision = new TeleopDrive(
-        drivebase,
-        () -> 0,
-        () -> 0, 
-        () -> -limeLightSub.getError(), () -> true);
         
-    
+  
     drivebase.setDefaultCommand(closedFieldRel);  //TO CHANGE DRIVE BASE
     // CommandScheduler.getInstance().schedule(new AddVisionData(drivebase, limeLightSub));
     

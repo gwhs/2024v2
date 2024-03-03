@@ -44,13 +44,14 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 public class GameRobotContainer implements BaseContainer {
 
     CommandXboxController driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
-    CommandXboxController OperatorController = new CommandXboxController(OperatorConstants.kOperatorControllerPort);
+    CommandXboxController operatorController = new CommandXboxController(OperatorConstants.kOperatorControllerPort);
   
     private final SwerveSubsystem m_drivebase;
     private final IntakeSubsystem m_IntakeSubsystem;
     private final ArmSubsystem m_ArmSubsystem;
     private final PizzaBoxSubsystem m_PizzaBoxSubsystem;
     private final Climbsubsystem m_Climbsubsystem;
+    //private final LEDSubsystem m_ledsubsystem;
 
     private final TeleopDrive closedFieldRel;
 
@@ -72,9 +73,9 @@ public class GameRobotContainer implements BaseContainer {
         m_PizzaBoxSubsystem = new PizzaBoxSubsystem(PizzaBoxSubsystem.PizzaBox.PIZZABOX_ID, 
                     "rio", PizzaBoxSubsystem.PizzaBox.SERVO_PWN_SLOT);
 
-        LEDSubsystem led = new LEDSubsystem(Constants.LEDConstants.ledPortNumber);
+        //m_ledsubsystem = new LEDSubsystem(Constants.LEDConstants.ledPortNumber);
 
-         m_Climbsubsystem = new Climbsubsystem( ClimbConstants.MOTOR_LEFT_ID, 
+        m_Climbsubsystem = new Climbsubsystem( ClimbConstants.MOTOR_LEFT_ID, 
                                                         ClimbConstants.MOTOR_RIGHT_ID, 
                                                         ClimbConstants.MOTOR_LEFT_INVERTED, 
                                                         ClimbConstants.MOTOR_RIGHT_INVERTED, 
@@ -87,61 +88,26 @@ public class GameRobotContainer implements BaseContainer {
                                                   
 
         configureBindings();
-
-        Shuffleboard.getTab("Climb").addDouble("climb distance left", () -> m_Climbsubsystem.getPositionLeft());
-        Shuffleboard.getTab("Climb").addDouble("climb distance right", () -> m_Climbsubsystem.getPositionRight());
-        Shuffleboard.getTab("Climb").addBoolean("bot left limit", () -> m_Climbsubsystem.getBotLeftLimit());
-        Shuffleboard.getTab("Climb").addBoolean("bot right limit", () -> m_Climbsubsystem.getBotRightLimit());
-        Shuffleboard.getTab("Climb").addBoolean("top left limit", () -> m_Climbsubsystem.getTopLeftLimit());
-        Shuffleboard.getTab("Climb").addBoolean("top right limit", () -> m_Climbsubsystem.getTopRightLimit());
-
-
-        TeleopDrive closedFieldRel = new TeleopDrive(
-        m_drivebase,
-        () -> MathUtil.applyDeadband(-driverController.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(-driverController.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), () -> true);
-
         m_drivebase.setDefaultCommand(closedFieldRel);
-
-
-
     }
 
 
-    private void configureBindings() {
-      final PIDController intakeController = new PIDController(.005, .0, .0);
-      intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
+    private void configureBindings() {      
       
-      driverController.x().onTrue(new SpinToArmAngle(m_ArmSubsystem, 240));
-      driverController.b().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
+      driverController.y().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
+      driverController.a().onTrue(new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem)); 
+      driverController.x().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
+      driverController.b().whileTrue(new DecreaseSpeed(closedFieldRel));
 
-      //driverController.y().onTrue(new TestingOnlyShoot(m_PizzaBoxSubsystem, m_ArmSubsystem, 150));
-      driverController.y().onTrue(new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem)); 
-      // driverController.x().onTrue(new SpinIntakePID(m_IntakeSubsystem, 0));
-      // driverController.y().onTrue(new SpinIntakePID(m_IntakeSubsystem, 70));
-      driverController.a().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
-      //driverController.b().onTrue(new IntakePassNoteToPizzaBox(m_IntakeSubsystem, m_PizzaBoxSubsystem));
       driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
       driverController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem));
       driverController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
-      //driverController.b().onTrue(new IntakeRejectNote(m_IntakeSubsystem));
-      //driverController.b().onTrue(new IntakeResetArm(m_IntakeSubsystem));
 
-
-
-      // OperatorController.a().whileTrue(new MotorUp(m_Climbsubsystem, m_drivebase));
-      // OperatorController.b().whileTrue(new MotorDown(m_Climbsubsystem, m_drivebase));
-      // OperatorController.x().onTrue(new ScoreInTrap(m_PizzaBoxSubsystem, m_ArmSubsystem));
-      // OperatorController.y().onTrue(new SpinToArmAngle(m_ArmSubsystem, 135));
+      // operatorController.a().whileTrue(new MotorUp(m_Climbsubsystem, m_drivebase));
+      // operatorController.b().whileTrue(new MotorDown(m_Climbsubsystem, m_drivebase));
+      // operatorController.x().onTrue(new ScoreInTrap(m_PizzaBoxSubsystem, m_ArmSubsystem));
+      // operatorController.y().onTrue(new SpinToArmAngle(m_ArmSubsystem, 135));
       
-      //This should be a parallel command with other stuff
-     /* / driverController.x().onTrue(new ChangeLEDToBlue(led));//pressing x on the controller runs a
-      driverController.y().onTrue(new ChangeLEDToRed(led));
-      driverController.b().onTrue(new ChangeLEDToGreen(led));
-      driverController.a().onTrue(new ChangeLEDColor(led, 255, 0, 255));
-      driverController.rightBumper().onTrue(new ChangeLEDColor(led, 0, 0, 0));
-      */
     }
 
     public void setMotorBrake(boolean brake)

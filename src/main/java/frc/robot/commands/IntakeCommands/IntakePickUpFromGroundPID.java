@@ -13,8 +13,6 @@ public class IntakePickUpFromGroundPID extends PIDCommand {
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final IntakeSubsystem intakeSubsystem;
-  private double velocity;
-  private double accleration;
   private static PIDController intakeController = new PIDController(.015, .001, .0);
   
   public IntakePickUpFromGroundPID(IntakeSubsystem intakeSubsystem, double velocity, double accleration) {
@@ -22,14 +20,13 @@ public class IntakePickUpFromGroundPID extends PIDCommand {
             (final double speed) -> 
             {
               intakeSubsystem.spinIntakeArm(-speed);
-              intakeSubsystem.spinIntakeMotor(velocity, accleration);
             }
             , intakeSubsystem);
-    this.intakeSubsystem = intakeSubsystem;
     intakeController.setTolerance(Constants.IntakeConstants.TOLERANCE);
 
-    this.velocity = velocity;
-    this.accleration = accleration;
+    this.intakeSubsystem = intakeSubsystem;
+
+    intakeSubsystem.spinIntakeMotor(velocity, accleration);
   }
 
   //Returns true when the command should end.
@@ -37,7 +34,6 @@ public class IntakePickUpFromGroundPID extends PIDCommand {
   public boolean isFinished() {
     boolean sensorValue = intakeSubsystem.isNotePresent();
     if(sensorValue) {
-      //intakeSubsystem.spinIntakeMotor(0, accleration);
       intakeSubsystem.stopIntakeMotors();
       return true ;
     }

@@ -52,9 +52,6 @@ public class IntakeSubsystem extends SubsystemBase {
     Shuffleboard.getTab("Intake").addDouble("Encoder Angle", ()->encoderGetAngle()).withWidget(BuiltInWidgets.kGraph)
     .withSize(3,3)
     .withPosition(0, 0);;
-    Shuffleboard.getTab("Intake").addDouble("Motor Angle", ()->getArmPos()).withWidget(BuiltInWidgets.kGraph)
-    .withSize(3,3)
-    .withPosition(3, 0);;
   }
 
   // spin the intake motors, velocity is negative to intake note
@@ -73,18 +70,16 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public void spinIntakeArm(double speed) {
-  if(speed < -1) { // Will not be less than minimum angle
-    speed = -1;
-  }
-  else if (speed > 1) { // Will not be greater than maximum angle
-    speed = 1;
-  }
-  if(m_Encoder.isConnected() && !emergencyStop) {
+    if(speed < -1) { // Will not be less than minimum angle
+      speed = -1;
+    }
+    else if (speed > 1) { // Will not be greater than maximum angle
+      speed = 1;
+    }
+    if(m_Encoder.isConnected() && !emergencyStop) {
       m_moveIntakeArm.set(speed);
     }
-    
   }  
-
 
   // stop intake motor
   public void stopIntakeMotors() {
@@ -96,11 +91,6 @@ public class IntakeSubsystem extends SubsystemBase {
     m_moveIntakeArm.stopMotor();
   }
 
-  // returns the position of the angle of the lowering motor
-  public double getArmPos() {
-    return m_moveIntakeArm.getPosition().getValue()/Constants.IntakeConstants.GEAR_RATIO * Constants.IntakeConstants.ROTATION_TO_DEGREES;
-  }
-
   public double encoderGetAngle() {
     return ((m_Encoder.getAbsolutePosition() * Constants.IntakeConstants.ROTATION_TO_DEGREES) - Constants.IntakeConstants.ENCODER_OFFSET); 
   }
@@ -109,32 +99,5 @@ public class IntakeSubsystem extends SubsystemBase {
   public boolean isNotePresent() {
     return m_noteSensor.get();
   }
-
-  @Override
-  public void periodic() {
-
-    //System.out.println(isNotePresent()); 
-    if(!(m_Encoder.isConnected()) || emergencyStop) {
-      m_moveIntakeArm.stopMotor(); 
-    }
-
-  }
-
-  @Override
-  public void simulationPeriodic() {
-    // This method will be called once per scheduler run during simulation
-  }
-
-  // @Override
-  // public void useOutput(double output, TrapezoidProfile.State setpoint) {
-  //   spinIntakeArm(output);
-  //   System.out.println(output);
-  // }
-
-  // @Override
-  // public double getMeasurement() {
-  //   System.out.println("encoder: " + encoderGetAngle());
-  //   return encoderGetAngle();
-  // }
 }
 

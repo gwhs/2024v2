@@ -15,6 +15,7 @@ import frc.robot.commands.IntakeCommands.IntakeResetArm;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PizzaBoxSubsystem;
+import frc.robot.subsystems.LimelightHelpers.LimelightHelpers;
 import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBox;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
@@ -26,7 +27,8 @@ public class SetupShuffleboard extends SubsystemBase {
   }
 
   public static void setupShuffleboard(SwerveSubsystem swerve, PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem){
-    Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5801").withSize(4,3).withPosition(5, 0);
+    LimelightHelpers.setStreamMode_PiPSecondary("limelight");
+    //Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5800").withSize(4,3).withPosition(5, 0);
     Shuffleboard.getTab("GameTab").add("Filed", swerve.getField2d()).withSize(4, 3).withPosition(0, 0);
     autoChooser = AutoBuilder.buildAutoChooser("0-S(Amp)-0");
     Shuffleboard.getTab("GameTab").add("Autonomous Chooser", autoChooser).withSize(2, 1).withPosition(0, 0);

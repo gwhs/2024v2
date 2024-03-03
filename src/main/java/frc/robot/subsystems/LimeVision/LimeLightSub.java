@@ -122,7 +122,7 @@ public class LimeLightSub extends SubsystemBase {
   }
     // This method will be called once per scheduler run
     double currTx = limelight_comm.get_entry_double("tx");
-    SmartDashboard.putNumber("tx", currTx);
+    // SmartDashboard.putNumber("tx", currTx);
     // System.out.println(currTx);
     
   }

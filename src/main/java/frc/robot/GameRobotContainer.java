@@ -5,6 +5,8 @@ import java.io.File;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -25,6 +27,7 @@ public class GameRobotContainer implements BaseContainer {
     CommandXboxController driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
     CommandXboxController operatorController = new CommandXboxController(OperatorConstants.kOperatorControllerPort);
   
+
     private final SwerveSubsystem m_drivebase;
     private final IntakeSubsystem m_IntakeSubsystem;
     private final ArmSubsystem m_ArmSubsystem;
@@ -67,6 +70,7 @@ public class GameRobotContainer implements BaseContainer {
 
         m_ReactionSubsystem = new ReactionSubsystem(Constants.ReactionConstants.reactionID, Constants.ReactionConstants.reactionCAN);
 
+
         TeleopDrive closedFieldRel = new TeleopDrive(
         m_drivebase,
         () -> MathUtil.applyDeadband(-driverController.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
@@ -74,11 +78,16 @@ public class GameRobotContainer implements BaseContainer {
         () -> driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), () -> true);
 
         m_drivebase.setDefaultCommand(closedFieldRel);
+
+        SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem);
+
         configureBindings();
+
+
     }
 
 
-    private void configureBindings() {      
+    private void configureBindings() {
       
       driverController.y().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
       driverController.a().onTrue(new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem)); 

@@ -31,13 +31,13 @@ public class IntakePassNoteToPizzaBox extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    intakeSubsystem.spinIntakeMotor(1, 100);
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // pizzaBoxSubsystem.spinPizzaBoxMotor(-50, 10);
-    intakeSubsystem.spinIntakeMotor(.7, 100);
   }
 
   // Called once the command ends or is interrupted.
@@ -62,7 +62,7 @@ public class IntakePassNoteToPizzaBox extends Command {
     if(prevSensorValue == true && currentSensorValue == false) {
       noteLatch = true;
     }  
-    if( timer + 3 < Timer.getFPGATimestamp() && noteLatch) {
+    if( timer + 5 < Timer.getFPGATimestamp() && noteLatch) {
       noteLatch = false;
       return true; 
     }

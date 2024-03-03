@@ -102,7 +102,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    // System.out.println(isNotePresent());
+    System.out.println(isNotePresent());
   }
 }
 

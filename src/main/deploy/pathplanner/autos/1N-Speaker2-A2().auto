@@ -26,12 +26,6 @@
                 "data": {
                   "pathName": "Speaker2-A2"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
               }
             ]
           }
@@ -40,12 +34,6 @@
           "type": "path",
           "data": {
             "pathName": "A2-Speaker2"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Speaker"
           }
         }
       ]

@@ -77,6 +77,7 @@ public class IntakeSubsystem extends SubsystemBase {
       speed = 1;
     }
     if(m_Encoder.isConnected() && !emergencyStop) {
+      System.out.println(speed);
       m_moveIntakeArm.set(speed);
     }
   }  
@@ -105,7 +106,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    //System.out.println(isNotePresent());
+    System.out.println(isNotePresent());
   }
 }
 

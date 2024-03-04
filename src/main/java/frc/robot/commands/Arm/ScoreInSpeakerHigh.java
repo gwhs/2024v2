@@ -15,12 +15,13 @@ public class ScoreInSpeakerHigh extends SequentialCommandGroup {
   //velocity = 100 for testing shooting 
   public ScoreInSpeakerHigh(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem) {
     addCommands(
-        new SpinArmAndPizzaBox(pizzaBoxSubsystem, armSubsystem, ArmSubsystem.Arm.SPEAKER_HIGH_ANGLE, 100).withTimeout(5),
+        new SpinArmAndPizzaBox(pizzaBoxSubsystem, armSubsystem, 242, 100).withTimeout(2),
         new SpinNoteContainerMotor(pizzaBoxSubsystem, 100, 100),
-        Commands.waitSeconds(.5),
+        Commands.waitSeconds(0.8),
         new SwingForwardServo(pizzaBoxSubsystem),
         Commands.waitSeconds(.2),
         new SwingBackServo(pizzaBoxSubsystem),
+        Commands.waitSeconds(0.5),
         new StopNoteContainerMotor(pizzaBoxSubsystem),
         new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE)
     );

@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Speaker (subwoofer)"
+            "name": "Speaker"
           }
         },
         {
@@ -26,20 +26,8 @@
                 "data": {
                   "pathName": "Speaker2-A2"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
               }
             ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Speaker (A2)"
           }
         }
       ]

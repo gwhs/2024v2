@@ -12,12 +12,6 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "Speaker (S3)"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -25,25 +19,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "S3-C5"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Wait (half a second)"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intake"
-                      }
-                    }
-                  ]
                 }
               }
             ]
@@ -56,12 +31,6 @@
           }
         },
         {
-          "type": "named",
-          "data": {
-            "name": "Speaker (S3)"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -70,20 +39,8 @@
                 "data": {
                   "pathName": "S3-A3"
                 }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
               }
             ]
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": null
           }
         }
       ]

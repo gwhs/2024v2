@@ -27,6 +27,7 @@ import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import edu.wpi.first.networktables.GenericEntry;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
@@ -84,17 +85,13 @@ public class GameRobotContainer implements BaseContainer {
         m_ReactionSubsystem = new ReactionSubsystem(Constants.ReactionConstants.reactionID, Constants.ReactionConstants.reactionCAN);
 
         autoChooser = AutoBuilder.buildAutoChooser("");
-        TeleopDrive closedFieldRel = new TeleopDrive(
-        m_drivebase,
-        () -> MathUtil.applyDeadband(-driverController.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(-driverController.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), () -> true);
 
         m_drivebase.setDefaultCommand(closedFieldRel);
 
         SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, m_ClimbSubsystem, m_ReactionSubsystem, autoChooser);
 
         configureBindings();
+        configurePathPlannerCommands();
 
 
     }
@@ -106,6 +103,9 @@ public class GameRobotContainer implements BaseContainer {
       driverController.a().onTrue(new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem)); 
       driverController.b().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
       driverController.x().whileTrue(new DecreaseSpeed(closedFieldRel));
+
+      // driverController.b().onTrue(new SpinIntakePID(m_IntakeSubsystem, 0));
+      // driverController.x().onTrue(new SpinIntakePID(m_IntakeSubsystem, 77));
 
       driverController.rightBumper().onTrue(new BackSpeaker(closedFieldRel));
       driverController.leftBumper().onTrue(new FaceSpeaker(closedFieldRel));
@@ -120,6 +120,9 @@ public class GameRobotContainer implements BaseContainer {
       operatorController.y().onTrue(new PrepClimb(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_ReactionSubsystem));
       operatorController.b().onTrue(new ClimbAndShoot(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_PizzaBoxSubsystem));
       operatorController.a().onTrue(new UnClimb(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem));
+      operatorController.x().onTrue(new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
+
+      driverController.leftBumper().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, Shuffleboard.getTab("GameTab").add("Angle", 242).getEntry().getDouble(245)));
     }
 
     private void configurePathPlannerCommands() { //register rest of commands when get them

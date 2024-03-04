@@ -12,12 +12,6 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "Speaker (S3)"
-          }
-        },
-        {
           "type": "parallel",
           "data": {
             "commands": [
@@ -25,12 +19,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "S1-A1"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
                 }
               }
             ]
@@ -44,25 +32,6 @@
                 "type": "path",
                 "data": {
                   "pathName": "A1-A2"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Speaker (A1-A2)"
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intake"
-                      }
-                    }
-                  ]
                 }
               }
             ]

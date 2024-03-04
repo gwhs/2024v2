@@ -99,13 +99,10 @@ public class GameRobotContainer implements BaseContainer {
 
     private void configureBindings() {
       
-      driverController.y().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
+      driverController.y().onTrue(new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
       driverController.a().onTrue(new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem)); 
       driverController.b().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
-      driverController.x().whileTrue(new DecreaseSpeed(closedFieldRel));
-
-      // driverController.b().onTrue(new SpinIntakePID(m_IntakeSubsystem, 0));
-      // driverController.x().onTrue(new SpinIntakePID(m_IntakeSubsystem, 77));
+      driverController.x().toggleOnTrue(new DecreaseSpeed(closedFieldRel));
 
       driverController.rightBumper().onTrue(new BackSpeaker(closedFieldRel));
       driverController.leftBumper().onTrue(new FaceSpeaker(closedFieldRel));
@@ -120,7 +117,9 @@ public class GameRobotContainer implements BaseContainer {
       operatorController.y().onTrue(new PrepClimb(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_ReactionSubsystem));
       operatorController.b().onTrue(new ClimbAndShoot(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_PizzaBoxSubsystem));
       operatorController.a().onTrue(new UnClimb(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem));
-      operatorController.x().onTrue(new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
+      // operatorController.x().onTrue(new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
+
+      operatorController.rightStick().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
 
       driverController.leftBumper().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, Shuffleboard.getTab("GameTab").add("Angle", 242).getEntry().getDouble(245)));
     }

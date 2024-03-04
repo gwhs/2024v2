@@ -28,7 +28,6 @@ public class UnClimb extends SequentialCommandGroup {
       addCommands(
         new MotorUp(c, s),
         new ParallelCommandGroup(new WaitCommand(4), new Retract(r).withTimeout(0.5))
-        //,new MotorDown(c, s)
       );
   }
 }

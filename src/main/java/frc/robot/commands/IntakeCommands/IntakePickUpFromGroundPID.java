@@ -42,7 +42,7 @@ public class IntakePickUpFromGroundPID extends PIDCommand {
     boolean sensorValue = intakeSubsystem.isNotePresent();
     if(sensorValue) {
       //intakeSubsystem.stopIntakeMotors();
-      //intakeSubsystem.spinIntakeMotor(0, 0);
+      intakeSubsystem.spinIntakeMotor(0, 0);
       return true ;
     }
     else {

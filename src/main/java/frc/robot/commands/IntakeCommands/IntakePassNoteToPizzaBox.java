@@ -47,7 +47,7 @@ public class IntakePassNoteToPizzaBox extends Command {
     pizzaBoxSubsystem.stopPizzaBoxMotor();
     intakeSubsystem.stopIntakeMotors();
     if(interrupted) {
-      intakeSubsystem.rejectIntake(1, 0);
+      new IntakeRejectNote(intakeSubsystem).schedule();
     }
   }
 

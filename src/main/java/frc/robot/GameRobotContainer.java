@@ -85,11 +85,6 @@ public class GameRobotContainer implements BaseContainer {
         m_ReactionSubsystem = new ReactionSubsystem(Constants.ReactionConstants.reactionID, Constants.ReactionConstants.reactionCAN);
 
         autoChooser = AutoBuilder.buildAutoChooser("");
-        TeleopDrive closedFieldRel = new TeleopDrive(
-        m_drivebase,
-        () -> MathUtil.applyDeadband(-driverController.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(-driverController.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), () -> true);
 
         m_drivebase.setDefaultCommand(closedFieldRel);
 

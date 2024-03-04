@@ -96,6 +96,7 @@ public class GameRobotContainer implements BaseContainer {
         SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, autoChooser);
 
         configureBindings();
+        configurePathPlannerCommands();
 
 
     }
@@ -107,6 +108,9 @@ public class GameRobotContainer implements BaseContainer {
       driverController.a().onTrue(new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem)); 
       driverController.b().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
       driverController.x().whileTrue(new DecreaseSpeed(closedFieldRel));
+
+      // driverController.b().onTrue(new SpinIntakePID(m_IntakeSubsystem, 0));
+      // driverController.x().onTrue(new SpinIntakePID(m_IntakeSubsystem, 77));
 
       driverController.rightBumper().onTrue(new BackSpeaker(closedFieldRel));
       driverController.leftBumper().onTrue(new FaceSpeaker(closedFieldRel));

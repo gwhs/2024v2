@@ -109,6 +109,7 @@ public class TeleopDrive extends Command
 
     if(isSlow)
     {
+      System.out.println("slowing");
       xVelocity *= 0.25;
       yVelocity *= 0.25;
       angVelocity *= 0.25;

@@ -45,38 +45,52 @@ public class SetupShuffleboard extends SubsystemBase {
     // Shuffleboard.getTab("GameTab").add("Camera",usbCamera);
     // Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5800").withSize(4,3).withPosition(5, 0);
     
-    Shuffleboard.getTab("GameTab").add("Filed", swerve.getField2d()).withSize(4, 3).withPosition(0, 0);
-    Shuffleboard.getTab("GameTab").add("Autonomous Chooser", chooser).withSize(2, 1).withPosition(0, 0);
+    Shuffleboard.getTab("GameTab").add("Filed", swerve.getField2d())
+      .withSize(3, 2)
+      .withPosition(0, 0);
+    Shuffleboard.getTab("GameTab").add("Autonomous Chooser", chooser)
+      .withSize(2, 1)
+      .withPosition(0, 2);
 
-    Shuffleboard.getTab("GameTab").addBoolean("Note In Pizza Box", ()-> pizzaBoxSubsystem.hasNote);
+    Shuffleboard.getTab("GameTab").addBoolean("Note In Pizza Box", ()-> pizzaBoxSubsystem.hasNote)
+      .withPosition(0,0);
+
     Shuffleboard.getTab("GameTab").addBoolean("Arm Running", ()-> armSubsystem.isEmergencyStop())
-        .withSize(1, 1).withPosition(4, 3);
+        .withSize(1, 1)
+        .withPosition(4, 3);
 
     Shuffleboard.getTab("GameTab").addBoolean("Intake Running", ()-> intakeSubsystem.isEmergencyStop())
-        .withSize(1, 1).withPosition(5, 3);
+        .withSize(1, 1)
+        .withPosition(5, 3);
 
     Shuffleboard.getTab("GameTab").add("Reset Arm", new ResetArm(armSubsystem, pizzaBoxSubsystem) )
-        .withSize(1,1).withPosition(4,4);
+        .withSize(1,1)
+        .withPosition(4,4);
     Shuffleboard.getTab("GameTab").add("Reset Intake", new IntakeResetArm(intakeSubsystem))
-        .withSize(1,1).withPosition(5,4);
+        .withSize(1,1)
+        .withPosition(5,4);
 
     Shuffleboard.getTab("GameTab").add("Disable Pose Estimator", new toggleLimelightPoseEstimation(limelightSubsystem))
-        .withSize(1,1).withPosition(2,1);
+        .withSize(1,1)
+        .withPosition(3,4);
 
-        ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
-    
-        driveTrainShuffleboardTab.addDouble("X Position", ()->swerve.getPose().getX())
-          .withWidget(BuiltInWidgets.kGraph)
-          .withSize(3,3)
-          .withPosition(0, 0);
-        driveTrainShuffleboardTab.addDouble("Y Position", ()->swerve.getPose().getY())
-          .withWidget(BuiltInWidgets.kGraph)
-          .withSize(3,3)
-          .withPosition(3, 0);
-        driveTrainShuffleboardTab.addDouble("Angel", ()->swerve.getPose().getRotation().getDegrees())
-          .withWidget(BuiltInWidgets.kGraph)
-          .withSize(3,3)
-          .withPosition(6, 0);
+
+
+
+    ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
+
+    driveTrainShuffleboardTab.addDouble("X Position", ()->swerve.getPose().getX())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(0, 0);
+    driveTrainShuffleboardTab.addDouble("Y Position", ()->swerve.getPose().getY())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(3, 0);
+    driveTrainShuffleboardTab.addDouble("Angel", ()->swerve.getPose().getRotation().getDegrees())
+      .withWidget(BuiltInWidgets.kGraph)
+      .withSize(3,3)
+      .withPosition(6, 0);
 
 
     //Climb stuff (all in climb tab)

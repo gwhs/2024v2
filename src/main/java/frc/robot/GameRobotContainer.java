@@ -80,7 +80,7 @@ public class GameRobotContainer implements BaseContainer {
                                           () -> MathUtil.applyDeadband(-driverController.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
                                           () -> driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), () -> true);
 
-
+        configurePathPlannerCommands();
         autoChooser = AutoBuilder.buildAutoChooser("");
 
         m_drivebase.setDefaultCommand(closedFieldRel);
@@ -88,7 +88,7 @@ public class GameRobotContainer implements BaseContainer {
         SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, m_ClimbSubsystem, m_ReactionSubsystem, autoChooser);
 
         configureBindings();
-        configurePathPlannerCommands();
+        
     }
 
 

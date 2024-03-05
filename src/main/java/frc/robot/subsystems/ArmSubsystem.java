@@ -7,12 +7,8 @@ package frc.robot.subsystems;
 
 
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix6.configs.TalonFXConfiguration; 
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
-
-import com.ctre.phoenix6.StatusCode;
 
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
@@ -24,7 +20,6 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 //
 import edu.wpi.first.math.controller.ArmFeedforward;
 
-import com.ctre.phoenix6.controls.StaticBrake;
 import com.ctre.phoenix6.controls.VoltageOut;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 //
@@ -93,8 +88,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   else if (speed > 15) { // Will not be greater than maximum angle
     speed = 15;
   }
-      VoltageOut armSpinRequest = new VoltageOut(-speed, true, false, false, false);
-      m_arm.setControl(armSpinRequest);
+  VoltageOut armSpinRequest = new VoltageOut(-speed, true, false, false, false);
+  m_arm.setControl(armSpinRequest);
  }
 
  public void targetArmAngle(double angle)
@@ -134,11 +129,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   {
     //Comment out for testing purposes
     double feedForward = armFeedForward.calculate(setPoint.position, setPoint.velocity);
-    // SmartDashboard.putNumber("feedForward calculation", feedForward);
-    // SmartDashboard.putNumber("Output", output);
-    // SmartDashboard.putNumber("setPoint position", setPoint.position);
-    // SmartDashboard.putNumber("setPoint velocity", setPoint.velocity);
-    if(m_encoder.isConnected() && !emergencyStop)
+    if(!isEmergencyStop())
     {
       spinArm(output + feedForward);
     }
@@ -146,7 +137,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     {
       spinArm(0);
     }
-    //System.out.println("Target Speed is " + (output));
   }
 
   public boolean isEmergencyStop()
@@ -159,18 +149,4 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   {
     return encoderGetAngle() * Math.PI/180;
   }
-
-  // @Override
-  // public void periodic()
-  // {
-  //   if(m_encoder.isConnected() && !emergencyStop && isEnabled())
-  //   {
-  //     enable();
-  //   }
-  //   else
-  //   {
-  //     disable();
-  //   }
-
-  // }
 }

@@ -19,7 +19,9 @@ import frc.robot.commands.ClimberCommands.AutoTrap.Trap;
 import frc.robot.commands.ClimberCommands.AutoTrap.TrapNoClimbDown;
 import frc.robot.commands.ClimberCommands.ClimbParts.ClimbAndShoot;
 import frc.robot.commands.ClimberCommands.ClimbParts.PrepClimb;
+import frc.robot.commands.ClimberCommands.ClimbParts.StopClimb;
 import frc.robot.commands.ClimberCommands.ClimbParts.UnClimb;
+import frc.robot.commands.ClimberCommands.ClimbParts.UnClimbPartTwoThatWillBringDownTheMotor;
 import frc.robot.commands.IntakeCommands.IntakeResetArm;
 import frc.robot.commands.LimelightCommands.toggleLimelightPoseEstimation;
 import frc.robot.subsystems.ArmSubsystem;
@@ -101,15 +103,15 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("Climb").addBoolean("top left limit", () -> climbSubsystem.getTopLeftLimit()).withPosition(2, 0);
     Shuffleboard.getTab("Climb").addBoolean("top right limit", () -> climbSubsystem.getTopRightLimit()).withPosition(3, 0);
 
-    Shuffleboard.getTab("Climb").add("full auto trap", new Trap(climbSubsystem, swerve, armSubsystem, pizzaBoxSubsystem, reactionSubsystem))
-                    .withPosition(4, 0);
-    Shuffleboard.getTab("Climb").add("trap no down", new TrapNoClimbDown(climbSubsystem, swerve, armSubsystem, pizzaBoxSubsystem, reactionSubsystem))
-                    .withPosition(5, 0);
     Shuffleboard.getTab("Climb").add("motor down", new MotorDown(climbSubsystem, swerve)).withPosition(1, 1);
     Shuffleboard.getTab("Climb").add("motor up", new MotorUp(climbSubsystem, swerve)).withPosition(0, 1);
-    Shuffleboard.getTab("Climb").add("climb prep", new PrepClimb(climbSubsystem, swerve, armSubsystem, reactionSubsystem)).withPosition(4, 1);
-    Shuffleboard.getTab("Climb").add("climb & shoot", new ClimbAndShoot(climbSubsystem, swerve, armSubsystem, pizzaBoxSubsystem)).withPosition(5, 1);
-    Shuffleboard.getTab("Climb").add("unclimb", new UnClimb(climbSubsystem, swerve, armSubsystem, pizzaBoxSubsystem, reactionSubsystem)).withPosition(6, 1);
+
+    Shuffleboard.getTab("Climb").add("climb prep", new PrepClimb(climbSubsystem, swerve, armSubsystem, reactionSubsystem)).withPosition(4, 0);
+    Shuffleboard.getTab("Climb").add("climb & shoot", new ClimbAndShoot(climbSubsystem, swerve, armSubsystem, pizzaBoxSubsystem)).withPosition(5, 0);
+    Shuffleboard.getTab("Climb").add("unclimb1", new UnClimb(climbSubsystem, swerve, armSubsystem, pizzaBoxSubsystem, reactionSubsystem)).withPosition(4, 1);
+    Shuffleboard.getTab("Climb").add("unclimb2", new UnClimbPartTwoThatWillBringDownTheMotor(climbSubsystem, swerve, armSubsystem)).withPosition(5, 1);
+
+    Shuffleboard.getTab("Climb").add("STOP CLIMB!!!!", new StopClimb(climbSubsystem)).withSize(2, 1).withPosition(2, 2);
 
     Shuffleboard.getTab("Climb").addDouble("Reaction Bar Angle", ()-> reactionSubsystem.getPos()).withPosition(9, 4);
 

@@ -86,7 +86,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   else if (speed > 15) { // Will not be greater than maximum angle
     speed = 15;
   }
-  System.out.println(speed);
   VoltageOut armSpinRequest = new VoltageOut(-speed, true, false, false, false);
   m_arm.setControl(armSpinRequest);
  }
@@ -140,7 +139,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   public boolean isEmergencyStop()
   {
-    return m_encoder.isConnected() && !emergencyStop;
+    return !(m_encoder.isConnected() && !emergencyStop);
   }
 
   @Override

@@ -96,7 +96,7 @@ public class IntakeSubsystem extends SubsystemBase {
     return !m_noteSensor.get();
   }
   public boolean isEmergencyStop() {
-    return m_Encoder.isConnected() && !emergencyStop;
+    return !(m_Encoder.isConnected() && !emergencyStop);
   }
 
   @Override

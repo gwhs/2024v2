@@ -12,12 +12,7 @@ import frc.robot.Util.UtilMotor;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 
 import com.ctre.phoenix6.hardware.TalonFX;
-
-import com.ctre.phoenix6.configs.TalonFXConfiguration; 
-
-import com.ctre.phoenix6.StatusCode;
 import edu.wpi.first.wpilibj.Servo;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 
 
 
@@ -27,7 +22,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
 
     public static final int PIZZABOX_ID = 23;
     public static final int SERVO_PWN_SLOT = 0;
-    public static final int START_SPIN_DEGREE = 100;
+    public static final int START_SPIN_DEGREE = 120;
   }
 
   public boolean hasNote = false;
@@ -69,7 +64,5 @@ public class PizzaBoxSubsystem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {
-    //SmartDashboard.putNumber("Velocity", m_pizzaBox.getRotorVelocity().getValueAsDouble());
-  }
+  public void periodic() {  }
 }

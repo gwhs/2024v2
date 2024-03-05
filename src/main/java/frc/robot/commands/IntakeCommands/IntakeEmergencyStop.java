@@ -16,14 +16,18 @@ public class IntakeEmergencyStop extends Command {
 
   public IntakeEmergencyStop(IntakeSubsystem subsystem) {
     intakeSubsystem = subsystem;
-
-    // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    Command i = CommandScheduler.getInstance().requiring(intakeSubsystem);
+    if(i != null)
+    {
+      i.cancel();
+    }
+
+    intakeSubsystem.stopArmMotor();
     intakeSubsystem.emergencyStop = !intakeSubsystem.emergencyStop;
   }
 
@@ -37,14 +41,13 @@ public class IntakeEmergencyStop extends Command {
   // runs once when isFinished is called
   @Override
   public void end(boolean interrupted) {
-    intakeSubsystem.stopArmMotor();
   }
 
   // Returns true when the command should end.
   // called every cycle
   @Override
   public boolean isFinished() {
-    return intakeSubsystem.emergencyStop;
+    return true;
   }
 
 }

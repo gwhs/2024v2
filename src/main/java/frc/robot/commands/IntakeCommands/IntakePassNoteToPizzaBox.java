@@ -32,7 +32,7 @@ public class IntakePassNoteToPizzaBox extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intakeSubsystem.spinIntakeMotor(.8, 100);
+    intakeSubsystem.spinIntakeMotor(.7, 100);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

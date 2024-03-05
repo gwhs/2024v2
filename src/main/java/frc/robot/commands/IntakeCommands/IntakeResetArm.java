@@ -16,9 +16,6 @@ public class IntakeResetArm extends Command {
 
   public IntakeResetArm(IntakeSubsystem subsystem) {
     intakeSubsystem = subsystem;
-
-    
-
   }
 
   // Called when the command is initially scheduled.

@@ -27,7 +27,7 @@ public class PickUpFromGroundAndPassToPizzaBox extends SequentialCommandGroup {
     addCommands(
         new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE).withTimeout(3)
         .alongWith(new IntakePickUpFromGroundPID(intakeSubsystem, 0.8, 0.0))
-        .andThen(new SpinNoteContainerMotor(pizzaBoxSubsystem, -50, 100))
+        .andThen(new SpinNoteContainerMotor(pizzaBoxSubsystem, -30, 100))
         .andThen(new SpinIntakePID(intakeSubsystem, Constants.IntakeConstants.UP_POSITION))
         .andThen(new IntakePassNoteToPizzaBox(intakeSubsystem, pizzaBoxSubsystem).withTimeout(8))
         .andThen(Commands.runOnce(() -> {

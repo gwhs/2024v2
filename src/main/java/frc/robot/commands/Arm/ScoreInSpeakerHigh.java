@@ -5,7 +5,6 @@
 package frc.robot.commands.Arm;
 import frc.robot.subsystems.PizzaBoxSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class ScoreInSpeakerHigh extends SequentialCommandGroup {
@@ -17,7 +16,6 @@ public class ScoreInSpeakerHigh extends SequentialCommandGroup {
     addCommands(
       new ScoreInSpeakerAdjustable(pizzaBoxSubsystem, armSubsystem, 242)
     );
-    pizzaBoxSubsystem.hasNote = false;
   }
 
   

@@ -30,7 +30,10 @@ public class ScoreInTrapStutter extends SequentialCommandGroup {
 
     addCommands(
         new StopNoteContainerMotor(pizzaBoxSubsystem),
-        new SpinToArmAngle(armSubsystem, 135)
+        new SpinToArmAngle(armSubsystem, 135),
+        Commands.runOnce(() -> {
+          pizzaBoxSubsystem.hasNote = false;
+          })
     );
   }
 

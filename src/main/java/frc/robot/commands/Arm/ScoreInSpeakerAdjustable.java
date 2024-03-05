@@ -23,7 +23,10 @@ public class ScoreInSpeakerAdjustable extends SequentialCommandGroup {
       new SwingBackServo(pizzaBoxSubsystem),
       Commands.waitSeconds(0.5),
       new StopNoteContainerMotor(pizzaBoxSubsystem),
-      new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE)
+      new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE),
+      Commands.runOnce(() -> {
+        pizzaBoxSubsystem.hasNote = false;
+        })
     );
   }  
 }

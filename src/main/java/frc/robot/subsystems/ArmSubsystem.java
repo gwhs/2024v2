@@ -75,8 +75,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     .withSize(3,3)
     .withPosition(0, 0);
     Shuffleboard.getTab("Arm").addDouble("Goal in degrees", ()->getController().getGoal().position * (180/Math.PI));
-
-    Shuffleboard.getTab("Arm").add("Arm PID", this.getController());
   }
 
   //Looking at the left of the robot, counterclockwise arm spin is positive
@@ -88,6 +86,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   else if (speed > 15) { // Will not be greater than maximum angle
     speed = 15;
   }
+  System.out.println(speed);
   VoltageOut armSpinRequest = new VoltageOut(-speed, true, false, false, false);
   m_arm.setControl(armSpinRequest);
  }

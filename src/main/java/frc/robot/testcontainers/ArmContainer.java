@@ -100,7 +100,7 @@ public class ArmContainer implements BaseContainer {
 
         // m_driverController.a().onTrue(new SpinAndSwing(pizzaBox, arm, 270, 100));
 
-        Shuffleboard.getTab("Arm").addDouble("encoder",()->arm.encoderGetAngle());
+        //Shuffleboard.getTab("Arm").addDouble("encoder",()->arm.encoderGetAngle());
         
 
 

@@ -51,28 +51,27 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("GameTab").add("Autonomous Chooser", chooser)
       .withSize(2, 1)
       .withPosition(0, 2);
+    Shuffleboard.getTab("GameTab").add("Disable Pose Estimator", new toggleLimelightPoseEstimation(limelightSubsystem))
+        .withSize(1,1)
+        .withPosition(2,2);
 
     Shuffleboard.getTab("GameTab").addBoolean("Note In Pizza Box", ()-> pizzaBoxSubsystem.hasNote)
-      .withPosition(0,0);
+      .withPosition(0,3);
 
     Shuffleboard.getTab("GameTab").addBoolean("Arm Running", ()-> armSubsystem.isEmergencyStop())
         .withSize(1, 1)
-        .withPosition(4, 3);
+        .withPosition(3, 0);
 
     Shuffleboard.getTab("GameTab").addBoolean("Intake Running", ()-> intakeSubsystem.isEmergencyStop())
         .withSize(1, 1)
-        .withPosition(5, 3);
+        .withPosition(4, 0);
 
     Shuffleboard.getTab("GameTab").add("Reset Arm", new ResetArm(armSubsystem, pizzaBoxSubsystem) )
         .withSize(1,1)
-        .withPosition(4,4);
+        .withPosition(3,1);
     Shuffleboard.getTab("GameTab").add("Reset Intake", new IntakeResetArm(intakeSubsystem))
         .withSize(1,1)
-        .withPosition(5,4);
-
-    Shuffleboard.getTab("GameTab").add("Disable Pose Estimator", new toggleLimelightPoseEstimation(limelightSubsystem))
-        .withSize(1,1)
-        .withPosition(3,4);
+        .withPosition(4,1);
 
 
 
@@ -94,7 +93,7 @@ public class SetupShuffleboard extends SubsystemBase {
 
 
     //Climb stuff (all in climb tab)
-     Shuffleboard.getTab("Climb").addDouble("climb distance left", () -> climbSubsystem.getPositionLeft()).withPosition(0, 0);
+    Shuffleboard.getTab("Climb").addDouble("climb distance left", () -> climbSubsystem.getPositionLeft()).withPosition(0, 0);
     Shuffleboard.getTab("Climb").addDouble("climb distance right", () -> climbSubsystem.getPositionRight()).withPosition(1, 0);
     Shuffleboard.getTab("Climb").addBoolean("bot left limit", () -> climbSubsystem.getBotLeftLimit()).withPosition(2, 1);
     Shuffleboard.getTab("Climb").addBoolean("bot right limit", () -> climbSubsystem.getBotRightLimit()).withPosition(3, 1);

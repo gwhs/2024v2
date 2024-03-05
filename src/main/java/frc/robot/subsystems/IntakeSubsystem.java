@@ -93,7 +93,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   // stop motor once note is in place, starts again once the arm position is brought up
   public boolean isNotePresent() {
-    return m_noteSensor.get();
+    return !m_noteSensor.get();
   }
   public boolean isEmergencyStop() {
     return m_Encoder.isConnected() && !emergencyStop;

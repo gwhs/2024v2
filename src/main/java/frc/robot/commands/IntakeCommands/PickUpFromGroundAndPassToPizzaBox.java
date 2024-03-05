@@ -26,10 +26,10 @@ public class PickUpFromGroundAndPassToPizzaBox extends SequentialCommandGroup {
   public PickUpFromGroundAndPassToPizzaBox(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
     addCommands(
         new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE).withTimeout(3)
-        .alongWith(new IntakePickUpFromGroundPID(intakeSubsystem, 0.8, 0.0))
-        .andThen(new SpinNoteContainerMotor(pizzaBoxSubsystem, -70, 100))
-        .andThen(new SpinIntakePID(intakeSubsystem, Constants.IntakeConstants.UP_POSITION))
-        .andThen(new IntakePassNoteToPizzaBox(intakeSubsystem, pizzaBoxSubsystem).withTimeout(8))
+        // .alongWith(new IntakePickUpFromGroundPID(intakeSubsystem, 0.8, 0.0))
+        // .andThen(new SpinNoteContainerMotor(pizzaBoxSubsystem, -70, 100))
+        // .andThen(new SpinIntakePID(intakeSubsystem, Constants.IntakeConstants.UP_POSITION))
+        // .andThen(new IntakePassNoteToPizzaBox(intakeSubsystem, pizzaBoxSubsystem).withTimeout(8))
         .andThen(Commands.runOnce(() -> {
               pizzaBoxSubsystem.hasNote = true;
               }))

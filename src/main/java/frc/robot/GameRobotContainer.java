@@ -6,9 +6,7 @@ import javax.security.sasl.AuthorizeCallback;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -16,7 +14,6 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.*;
 import frc.robot.commands.Arm.*;
 import frc.robot.commands.ClimberCommands.ClimbParts.ClimbAndShoot;
 import frc.robot.commands.ClimberCommands.ClimbParts.PrepClimb;
@@ -75,14 +72,15 @@ public class GameRobotContainer implements BaseContainer {
                                                         "rio");
         
         m_LimelightSubsystem  = new LimeLightSub("limelight", m_drivebase); 
-          closedFieldRel = new TeleopDrive(
-                                            m_drivebase,
-                                            () -> MathUtil.applyDeadband(-driverController.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
-                                            () -> MathUtil.applyDeadband(-driverController.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
-                                            () -> driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), () -> true);
-                                                  
 
         m_ReactionSubsystem = new ReactionSubsystem(Constants.ReactionConstants.reactionID, Constants.ReactionConstants.reactionCAN);
+
+        closedFieldRel = new TeleopDrive(
+                                          m_drivebase,
+                                          () -> MathUtil.applyDeadband(-driverController.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
+                                          () -> MathUtil.applyDeadband(-driverController.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
+                                          () -> driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), () -> true);
+
 
         autoChooser = AutoBuilder.buildAutoChooser("");
 
@@ -92,8 +90,6 @@ public class GameRobotContainer implements BaseContainer {
 
         configureBindings();
         configurePathPlannerCommands();
-
-
     }
 
 
@@ -145,8 +141,6 @@ public class GameRobotContainer implements BaseContainer {
    */
   public Command getAutonomousCommand()
   {
-    // An example command will be run in autonomous
-    //return drivebase.getAutonomousCommand("New Path", true);
     return autoChooser.getSelected();
   }
 

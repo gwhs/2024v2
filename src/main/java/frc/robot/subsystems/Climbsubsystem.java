@@ -126,6 +126,11 @@ public class Climbsubsystem extends SubsystemBase {
     rightGoalDistance = right;
   } 
 
+  public void stopClimbMotorInCaseOfEmergencySoThisWillStopTheClimbNoMatterIfItIsGoingUpOrDown() {
+    leftPIDcontroller.setGoal(getPositionLeft());
+    rightPIDcontroller.setGoal(getPositionRight());
+  }
+
   public void upMotor() {
     checkForUp = true;
     leftPIDcontroller.setGoal(-leftGoalDistance);

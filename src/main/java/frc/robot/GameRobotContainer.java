@@ -15,9 +15,7 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.Arm.*;
-import frc.robot.commands.ClimberCommands.ClimbParts.ClimbAndShoot;
-import frc.robot.commands.ClimberCommands.ClimbParts.PrepClimb;
-import frc.robot.commands.ClimberCommands.ClimbParts.UnClimb;
+import frc.robot.commands.ClimberCommands.ClimbParts.*;
 import frc.robot.commands.IntakeCommands.*;
 import frc.robot.commands.driveCommands.*;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
@@ -113,6 +111,8 @@ public class GameRobotContainer implements BaseContainer {
       operatorController.y().onTrue(new PrepClimb(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_ReactionSubsystem));
       operatorController.b().onTrue(new ClimbAndShoot(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_PizzaBoxSubsystem));
       operatorController.a().onTrue(new UnClimb(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem));
+      //operatorController._().onTrue(new UnClimbPartTwoThatWillBringDownTheMotor(m_ClimbSubsystem, m_drivebase));
+      //operatorController._().onTrue(new StopClimb(m_ClimbSubsystem));
       // operatorController.x().onTrue(new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
 
       operatorController.rightStick().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));

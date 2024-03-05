@@ -4,34 +4,27 @@
 
 package frc.robot.commands.ClimberCommands.ClimbParts;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.Arm.SpinToArmAngle;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
-import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorUp;
-import frc.robot.commands.ReactionArmCommands.Retract;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
-import frc.robot.subsystems.PizzaBoxSubsystem;
-import frc.robot.subsystems.ReactionSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class UnClimb extends SequentialCommandGroup {
-  /** Creates a new UnClimb. */
-  public UnClimb(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a, PizzaBoxSubsystem p, ReactionSubsystem r) {
+public class UnClimbPartTwoThatWillBringDownTheMotor extends SequentialCommandGroup {
+  /** Creates a new UnClimbPartTwoThatWillBringDownTheMotor. */
+  public UnClimbPartTwoThatWillBringDownTheMotor(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new SpinToArmAngle(a, 135).withTimeout(1)
     );
-    if (true || Math.abs(a.encoderGetAngle() - 130) <= 5) 
-      addCommands(
-        new MotorUp(c, s).withTimeout(5),
-        new Retract(r).withTimeout(0.5)
+    if (true || Math.abs(a.encoderGetAngle() - 130) <= 5)
+    addCommands(
+      new MotorDown(c, s).withTimeout(5)
     );
   }
 }

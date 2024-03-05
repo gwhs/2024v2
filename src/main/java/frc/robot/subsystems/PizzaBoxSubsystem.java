@@ -22,7 +22,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
 
     public static final int PIZZABOX_ID = 23;
     public static final int SERVO_PWN_SLOT = 0;
-    public static final int START_SPIN_DEGREE = 120;
+    public static final int START_SPIN_DEGREE = 180;
   }
 
   public boolean hasNote = false;

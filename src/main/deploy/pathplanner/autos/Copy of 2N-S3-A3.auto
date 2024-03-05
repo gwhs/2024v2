@@ -33,12 +33,6 @@
                 "data": {
                   "pathName": "A3-A2"
                 }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": []
-                }
               }
             ]
           }

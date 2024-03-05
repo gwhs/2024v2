@@ -117,9 +117,9 @@ public class GameRobotContainer implements BaseContainer {
       //operatorController._().onTrue(new StopClimb(m_ClimbSubsystem));
       // operatorController.x().onTrue(new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
 
-      //operatorController.rightStick().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
+      operatorController.rightStick().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
 
-      //driverController.leftBumper().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, Shuffleboard.getTab("Arm").add("Angle", 242).getEntry().getDouble(245)));
+      driverController.leftBumper().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, Shuffleboard.getTab("Arm").add("Angle", 242).getEntry().getDouble(245)));
     }
 
     private void configurePathPlannerCommands() { //register rest of commands when get them

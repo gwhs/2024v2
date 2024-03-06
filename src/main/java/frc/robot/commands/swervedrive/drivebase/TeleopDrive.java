@@ -54,6 +54,9 @@ public class TeleopDrive extends Command
     this.driveMode = driveMode;
     this.controller = swerve.getSwerveController();
     this.PID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
+    this.PID.setTolerance(Constants.FaceSpeakerConstants.THETA_TOLERANCE, Constants.FaceSpeakerConstants.STEADY_STATE_TOLERANCE);
+    this.PID.setPID(Constants.FaceSpeakerConstants.kP, Constants.FaceSpeakerConstants.kI, Constants.FaceSpeakerConstants.kD);
+    this.PID.enableContinuousInput(-180, 180);
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerve);

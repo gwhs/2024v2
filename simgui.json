@@ -1,85 +1,24 @@
 {
-<<<<<<< HEAD
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/SmartDashboard/Field": "Field2d",
-      "/SmartDashboard/Pigeon 2 (v6) [30]": "Gyro"
-    },
-    "windows": {
-      "/FMSInfo": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Field": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/SmartDashboard/Pigeon 2 (v6) [30]": {
-        "window": {
-          "visible": true
-        }
-      }
-    }
-  },
-  "NetworkTables": {
-    "transitory": {
-      "LiveWindow": {
-        "open": true
-      }
-    }
-  },
-  "NetworkTables Info": {
-    "Clients": {
-      "open": true
-    },
-    "shuffleboard@1": {
-      "Subscribers": {
-        "open": true
-      },
-      "open": true
-    },
-=======
-  "HALProvider": {
-    "Other Devices": {
-      "Talon FX (v6)[0]": {
-        "header": {
-          "open": true
-        }
-      }
-    }
-  },
-  "NTProvider": {
-    "types": {
-      "/FMSInfo": "FMSInfo",
-      "/Shuffleboard/Arm/Arm PID": "ProfiledPIDController",
-      "/Shuffleboard/Climb/climb down": "Command",
-      "/Shuffleboard/Climb/climb up": "Command",
+      "/Shuffleboard/Climb/STOP CLIMB!!!!": "Command",
+      "/Shuffleboard/Climb/climb & shoot": "Command",
+      "/Shuffleboard/Climb/climb prep": "Command",
+      "/Shuffleboard/Climb/motor down": "Command",
+      "/Shuffleboard/Climb/motor up": "Command",
+      "/Shuffleboard/Climb/unclimb1": "Command",
+      "/Shuffleboard/Climb/unclimb2": "Command",
       "/Shuffleboard/GameTab/Autonomous Chooser": "String Chooser",
+      "/Shuffleboard/GameTab/Disable Pose Estimator": "Command",
       "/Shuffleboard/GameTab/Filed": "Field2d",
       "/Shuffleboard/GameTab/Reset Arm": "Command",
       "/Shuffleboard/GameTab/Reset Intake": "Command",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Pigeon 2 (v6) [30]": "Gyro"
-    },
-    "windows": {
-      "/SmartDashboard/Field": {
-        "bottom": 1476,
-        "height": 8.210550308227539,
-        "left": 150,
-        "right": 2961,
-        "top": 79,
-        "width": 16.541748046875,
-        "window": {
-          "visible": true
-        }
-      }
     }
   },
   "NetworkTables Info": {
->>>>>>> main
     "visible": true
   }
 }

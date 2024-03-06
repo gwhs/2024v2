@@ -48,7 +48,8 @@ public class IntakePassNoteToPizzaBox extends Command {
     pizzaBoxSubsystem.stopPizzaBoxMotor();
     intakeSubsystem.stopIntakeMotors();
     if(interrupted) {
-      new IntakeRejectNote(intakeSubsystem).schedule();
+      System.out.println("************************************************************************************************************************************************************************************************************************************************************************************");
+      andThen(new IntakeRejectNote(intakeSubsystem));
     }
   }
 
@@ -65,6 +66,7 @@ public class IntakePassNoteToPizzaBox extends Command {
     }  
     if( timer + 2 < Timer.getFPGATimestamp() && noteLatch) {
       noteLatch = false;
+      System.out.println("e /n eeee /n eeee /n eeee /n eeeee /n eeeeee");
       return true; 
     }
     return false;

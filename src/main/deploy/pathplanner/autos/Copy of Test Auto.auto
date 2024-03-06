@@ -14,7 +14,19 @@
         {
           "type": "named",
           "data": {
-            "name": "Speaker (A2)"
+            "name": "Speaker (S2) to Intake"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 3.0
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Speaker (S2)"
           }
         }
       ]

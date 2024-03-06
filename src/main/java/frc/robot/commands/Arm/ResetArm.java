@@ -23,8 +23,16 @@ public class ResetArm extends Command{
 
   }
   public void initialize() {   
-    CommandScheduler.getInstance().requiring(armSubsystem).cancel();
-    CommandScheduler.getInstance().requiring(pizzaBoxSubsystem).cancel();
+    Command c = CommandScheduler.getInstance().requiring(armSubsystem);
+    if(c != null) {
+      c.cancel();
+    }
+
+    Command p = CommandScheduler.getInstance().requiring(pizzaBoxSubsystem);
+    if(p != null) {
+      p.cancel();
+    }
+    
     armSubsystem.stopArmMotor();
     pizzaBoxSubsystem.stopPizzaBoxMotor();
     new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE).schedule();

@@ -2,8 +2,10 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.ClimberCommands;
+package frc.robot.commands.ClimberCommands.ActuallyMovesMotors;
 
+import edu.wpi.first.math.controller.ProfiledPIDController;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants.ClimbConstants;
 import frc.robot.subsystems.Climbsubsystem;
@@ -14,6 +16,14 @@ public class MotorUp extends Command {
 
   private final Climbsubsystem climbersubsystem;
   private final SwerveSubsystem swerve;
+
+  // private final double CLIMBER_PID_KP = 1.9;
+  // private final double CLIMBER_PID_KI = 0;
+  // private final double CLIMBER_PID_KD = 0;
+  // private Constraints constraints = new Constraints(180.0, 300.0);
+
+  // private ProfiledPIDController leftPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
+  // private ProfiledPIDController rightPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
 
   //constructor that takes in a Climbsubsystem object and a SwerveSubsystem obj
   public MotorUp(Climbsubsystem c, SwerveSubsystem s) {
@@ -29,50 +39,36 @@ public class MotorUp extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    //climbersubsystem.upMotor();
+    // leftPIDcontroller.setGoal(-198.94);
+    // rightPIDcontroller.setGoal(198.4);
     climbersubsystem.upMotor();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // double leftSpeed = ClimbConstants.CLIMB_MOTOR_SPEED;
-    // double rightSpeed = ClimbConstants.CLIMB_MOTOR_SPEED;
 
-    // //TEST THIS LATER
-    // if (swerve.getRoll().getDegrees() < -0.1) {
-    //   leftSpeed += 2;
-    // } else if (swerve.getRoll().getDegrees() > 0.1) {
-    //   rightSpeed += 2;
-    // }
+    // double leftPIDvalue = leftPIDcontroller.calculate(climbersubsystem.getPositionLeft());
+    // double rightPIDvalue = rightPIDcontroller.calculate(climbersubsystem.getPositionRight());
 
-    //climbersubsystem.setSpeed(leftSpeed, rightSpeed); //sets the speed (in rotations/sec) to the value set in Constants file 
-    //robot climbs down but motors go up so positive velocity
-    if (climbersubsystem.getTopLeftLimit()) {
-      climbersubsystem.stopClimbLeft();
-    }
-
-    if (climbersubsystem.getTopRightLimit()) {
-      climbersubsystem.stopClimbRight();
-    }
+    // climbersubsystem.setSpeed(-leftPIDvalue, rightPIDvalue);
+    
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    // while (climbersubsystem.getTopLimit()) {
-    //   climbersubsystem.setSpeed(ClimbConstants.CLIMB_MOTOR_SPEED/4, ClimbConstants.CLIMB_MOTOR_SPEED/4);
-    // }
-    
-    climbersubsystem.stopClimbLeft();
-    climbersubsystem.stopClimbRight(); 
+
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     //stops when reaches desired height
-    System.out.println("MotorUp command is finished running");
+    double leftDelta = -climbersubsystem.getPositionLeft() - ClimbConstants.CLIMB_DISTANCE;
+    double rightDelta  = climbersubsystem.getPositionRight() - ClimbConstants.CLIMB_DISTANCE;
     return (climbersubsystem.getTopLeftLimit() && climbersubsystem.getTopRightLimit())                                         
-            || (-climbersubsystem.getPositionLeft() >= ClimbConstants.CLIMB_DISTANCE && climbersubsystem.getPositionLeft() >= ClimbConstants.CLIMB_DISTANCE); 
+            || (Math.abs(leftDelta) < 20 && Math.abs(rightDelta) < 20); 
   }
 }

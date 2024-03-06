@@ -1,0 +1,61 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 1.4006716902322698,
+      "y": 4.118900460023142
+    },
+    "rotation": 0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S3-A3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A3-Speaker3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Speaker3-A2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A2-Speaker2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Speaker2-C1"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C1-Speaker2"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Speaker2-W1"
+          }
+        }
+      ]
+    }
+  },
+  "folder": null,
+  "choreoAuto": false
+}

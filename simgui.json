@@ -1,18 +1,21 @@
 {
-  "HALProvider": {
-    "Other Devices": {
-      "Talon FX (v6)[0]": {
-        "header": {
-          "open": true
-        }
-      }
-    }
-  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
-      "/Shuffleboard/Climb/climb down": "Command",
-      "/Shuffleboard/Climb/climb up": "Command"
+      "/Shuffleboard/Climb/STOP CLIMB!!!!": "Command",
+      "/Shuffleboard/Climb/climb & shoot": "Command",
+      "/Shuffleboard/Climb/climb prep": "Command",
+      "/Shuffleboard/Climb/motor down": "Command",
+      "/Shuffleboard/Climb/motor up": "Command",
+      "/Shuffleboard/Climb/unclimb1": "Command",
+      "/Shuffleboard/Climb/unclimb2": "Command",
+      "/Shuffleboard/GameTab/Autonomous Chooser": "String Chooser",
+      "/Shuffleboard/GameTab/Disable Pose Estimator": "Command",
+      "/Shuffleboard/GameTab/Filed": "Field2d",
+      "/Shuffleboard/GameTab/Reset Arm": "Command",
+      "/Shuffleboard/GameTab/Reset Intake": "Command",
+      "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Pigeon 2 (v6) [30]": "Gyro"
     }
   },
   "NetworkTables Info": {

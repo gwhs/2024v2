@@ -26,7 +26,11 @@ public class StartStop extends SequentialCommandGroup {
     this.intakeSubsystem = intakeSubsystem ; 
 
     for( int i = 0 ; i < cycleAmount ; i ++ ){
-      addCommands( new IntakeNote(intakeSubsystem), Commands.waitSeconds((int)secondsInbetween)); 
+      addCommands( 
+        new IntakeNote(intakeSubsystem), 
+        Commands.waitSeconds(secondsInbetween),
+        new StopIntakeMotors(intakeSubsystem),
+        Commands.waitSeconds(secondsInbetween)); 
     }
 
   }

@@ -1,6 +1,7 @@
 package frc.robot.commands.Arm;
 import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 
 public class ArmEmergencyStop extends Command{
@@ -13,9 +14,13 @@ public class ArmEmergencyStop extends Command{
   public ArmEmergencyStop(ArmSubsystem armSubsystem)
   {
     this.armSubsystem = armSubsystem;
-    addRequirements(armSubsystem);
   }
   public void initialize() {   
+    Command c = CommandScheduler.getInstance().requiring(armSubsystem);
+    if(c != null) {
+      c.cancel();
+    }
+
     armSubsystem.emergencyStop = !armSubsystem.emergencyStop;
   }
   

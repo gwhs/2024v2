@@ -16,15 +16,16 @@ public class IntakeResetArm extends Command {
 
   public IntakeResetArm(IntakeSubsystem subsystem) {
     intakeSubsystem = subsystem;
-
-    
-
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    CommandScheduler.getInstance().requiring(intakeSubsystem).cancel();
+    Command i = CommandScheduler.getInstance().requiring(intakeSubsystem);
+    if(i != null)
+    {
+      i.cancel();
+    }
 
     intakeSubsystem.stopArmMotor();
     intakeSubsystem.stopIntakeMotors();

@@ -19,6 +19,7 @@ public class IntakePassNoteToPizzaBox extends Command {
   private boolean currentSensorValue = false;
   private boolean noteLatch = false;
   private double timer = 0;
+  private double initTimer = 0;
 
   public IntakePassNoteToPizzaBox(IntakeSubsystem subsystem, PizzaBoxSubsystem pizzaBoxSubsystem) {
     intakeSubsystem = subsystem;
@@ -33,7 +34,8 @@ public class IntakePassNoteToPizzaBox extends Command {
   public void initialize() {
     currentSensorValue = true;
     intakeSubsystem.spinIntakeMotor(.7, 100);
-    timer = Timer.getFPGATimestamp(); 
+    pizzaBoxSubsystem.spinPizzaBoxMotor(-30, 100);
+    initTimer = Timer.getFPGATimestamp(); 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -62,11 +64,10 @@ public class IntakePassNoteToPizzaBox extends Command {
     currentSensorValue = intakeSubsystem.isNotePresent();
 
     if(prevSensorValue == true && currentSensorValue == false) {
+      timer = Timer.getFPGATimestamp(); 
       noteLatch = true;
     }  
-    if( timer + 2 < Timer.getFPGATimestamp() && noteLatch) {
-      noteLatch = false;
-      System.out.println("e /n eeee /n eeee /n eeee /n eeeee /n eeeeee");
+    if((timer + 1 < Timer.getFPGATimestamp() && noteLatch) || (initTimer + 5 < Timer.getFPGATimestamp())) {
       return true; 
     }
     return false;

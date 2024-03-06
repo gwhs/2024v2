@@ -25,6 +25,7 @@ import frc.robot.Robot;
 import frc.robot.commands.driveCommands.BackSpeaker;
 import frc.robot.commands.driveCommands.DecreaseSpeed;
 import frc.robot.commands.driveCommands.FaceSpeaker;
+import frc.robot.commands.driveCommands.rotate180;
 import frc.robot.commands.driveCommands.rotateinPlace;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteDrive;
 import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
@@ -173,7 +174,7 @@ public class DriveContainer implements BaseContainer
     // Schedule `ExampleCommand` when `exampleCondition` changes to `true`
     driverXbox.start().onTrue(new InstantCommand(drivebase::zeroGyro));    
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
-    driverXbox.leftBumper().onTrue(new FaceSpeaker(closedFieldRel));
+    driverXbox.leftBumper().onTrue(new rotate180(closedFieldRel));
     driverXbox.rightTrigger().onTrue(new BackSpeaker(closedFieldRel));
 
     driverXbox.y().whileTrue(new FaceSpeaker(closedFieldRel));

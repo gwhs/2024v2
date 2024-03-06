@@ -68,7 +68,7 @@ public class TeleopDrive extends Command
       PID.setTolerance(Constants.FaceSpeakerConstants.THETA_TOLERANCE, Constants.FaceSpeakerConstants.STEADY_STATE_TOLERANCE);
       PID.setPID(Constants.FaceSpeakerConstants.kP, Constants.FaceSpeakerConstants.kI, Constants.FaceSpeakerConstants.kD);
     }
-    else if(isBackSpeaker)
+    else if(isBackSpeaker || isRotate)
     {
       PID.setSetpoint(UtilMath.BackSpeakerTheta(swerve.getPose()));
       PID.setTolerance(Constants.FaceSpeakerConstants.THETA_TOLERANCE, Constants.FaceSpeakerConstants.STEADY_STATE_TOLERANCE);
@@ -110,7 +110,6 @@ public class TeleopDrive extends Command
 
     if(isSlow)
     {
-      System.out.println("slowing");
       xVelocity *= 0.25;
       yVelocity *= 0.25;
       angVelocity *= 0.25;
@@ -118,6 +117,8 @@ public class TeleopDrive extends Command
 
     if(isRotate)
     {
+      PID.setSetpoint(UtilMath.BackSpeakerTheta(swerve.getPose()));
+      angVelocity = PID.calculate(currTheta);
       angVelocity = PID.calculate(angVelocity) / 4;
     }
     swerve.drive(new Translation2d(xVelocity * swerve.maximumSpeed, yVelocity * swerve.maximumSpeed),

@@ -7,6 +7,7 @@ package frc.robot.commands.swervedrive.drivebase;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
@@ -33,7 +34,8 @@ public class TeleopDrive extends Command
   public boolean isFaceSpeaker = false;
   public boolean isBackSpeaker = false;
   public boolean isSlow;
-  public boolean isRotate;
+  public boolean isIntakeSpeaker;
+  public boolean isSourceSpeaker;
   private final PIDController PID;
   private double currTheta;
 
@@ -68,7 +70,7 @@ public class TeleopDrive extends Command
       PID.setTolerance(Constants.FaceSpeakerConstants.THETA_TOLERANCE, Constants.FaceSpeakerConstants.STEADY_STATE_TOLERANCE);
       PID.setPID(Constants.FaceSpeakerConstants.kP, Constants.FaceSpeakerConstants.kI, Constants.FaceSpeakerConstants.kD);
     }
-    else if(isBackSpeaker || isRotate)
+    else if(isBackSpeaker)
     {
       PID.setSetpoint(UtilMath.BackSpeakerTheta(swerve.getPose()));
       PID.setTolerance(Constants.FaceSpeakerConstants.THETA_TOLERANCE, Constants.FaceSpeakerConstants.STEADY_STATE_TOLERANCE);
@@ -115,17 +117,28 @@ public class TeleopDrive extends Command
       angVelocity *= 0.25;
     }
 
-    if(isRotate && swerve.getPose().getRotation().getDegrees() == 0)
+    if(isIntakeSpeaker)
     {
+      if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
       PID.setSetpoint(180);
-      angVelocity = PID.calculate(currTheta);
-      angVelocity = PID.calculate(angVelocity) / 4;
+      angVelocity = angVelocity + PID.calculate(currTheta);
     }
-    else if(isRotate && swerve.getPose().getRotation().getDegrees() == 180)
+    else
     {
+        PID.setSetpoint(0);
+      angVelocity = angVelocity + PID.calculate(currTheta);
+    }
+
+    if(isSourceSpeaker)
+    {
+       if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
       PID.setSetpoint(0);
-      angVelocity = PID.calculate(currTheta);
-      angVelocity = PID.calculate(angVelocity) / 4;
+      angVelocity = angVelocity + PID.calculate(currTheta);
+    }
+    else
+    {
+        PID.setSetpoint(180);
+      angVelocity = angVelocity + PID.calculate(currTheta);
     }
     
     swerve.drive(new Translation2d(xVelocity * swerve.maximumSpeed, yVelocity * swerve.maximumSpeed),

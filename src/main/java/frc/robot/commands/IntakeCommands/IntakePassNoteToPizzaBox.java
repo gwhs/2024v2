@@ -47,10 +47,10 @@ public class IntakePassNoteToPizzaBox extends Command {
   public void end(boolean interrupted) {
     pizzaBoxSubsystem.stopPizzaBoxMotor();
     intakeSubsystem.stopIntakeMotors();
-    if(interrupted) {
-      System.out.println("************************************************************************************************************************************************************************************************************************************************************************************");
-      andThen(new IntakeRejectNote(intakeSubsystem));
-    }
+    // if(interrupted) {
+    //   System.out.println("************************************************************************************************************************************************************************************************************************************************************************************");
+    //   andThen(new IntakeRejectNote(intakeSubsystem));
+    // }
   }
 
   // Returns true when the command should end; called every cycle

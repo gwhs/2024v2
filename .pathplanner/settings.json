@@ -11,9 +11,9 @@
     "Wing Starting Point"
   ],
   "autoFolders": [
-    "New Folder"
+    "Game Autos"
   ],
-  "defaultMaxVel": 0.2,
+  "defaultMaxVel": 4.0,
   "defaultMaxAccel": 10.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,

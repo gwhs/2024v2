@@ -22,6 +22,7 @@ import frc.robot.commands.ClimberCommands.ClimbParts.PrepClimb;
 import frc.robot.commands.ClimberCommands.ClimbParts.StopClimb;
 import frc.robot.commands.ClimberCommands.ClimbParts.UnClimb;
 import frc.robot.commands.ClimberCommands.ClimbParts.UnClimbPartTwoThatWillBringDownTheMotor;
+import frc.robot.commands.IntakeCommands.IntakeRejectNote;
 import frc.robot.commands.IntakeCommands.IntakeResetArm;
 import frc.robot.commands.LimelightCommands.toggleLimelightPoseEstimation;
 import frc.robot.subsystems.ArmSubsystem;
@@ -74,6 +75,7 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("GameTab").add("Reset Intake", new IntakeResetArm(intakeSubsystem))
         .withSize(1,1)
         .withPosition(4,1);
+    // Shuffleboard.getTab("GameTab").add("IntakeRejectNote", new IntakeRejectNote(intakeSubsystem));
 
 
 

@@ -18,20 +18,27 @@
           }
         },
         {
-          "type": "wait",
+          "type": "parallel",
           "data": {
-            "waitTime": 3.0
+            "commands": [
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 3.0
+                }
+              }
+            ]
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Speaker (S2)"
+            "name": "Speaker (A2)"
           }
         }
       ]
     }
   },
-  "folder": "New Folder",
+  "folder": "Game Autos",
   "choreoAuto": false
 }

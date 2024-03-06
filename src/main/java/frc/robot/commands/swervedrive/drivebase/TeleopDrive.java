@@ -115,12 +115,19 @@ public class TeleopDrive extends Command
       angVelocity *= 0.25;
     }
 
-    if(isRotate)
+    if(isRotate && swerve.getPose().getRotation().getDegrees() == 0)
     {
-      PID.setSetpoint(UtilMath.BackSpeakerTheta(swerve.getPose()));
+      PID.setSetpoint(180);
       angVelocity = PID.calculate(currTheta);
       angVelocity = PID.calculate(angVelocity) / 4;
     }
+    else if(isRotate && swerve.getPose().getRotation().getDegrees() == 180)
+    {
+      PID.setSetpoint(0);
+      angVelocity = PID.calculate(currTheta);
+      angVelocity = PID.calculate(angVelocity) / 4;
+    }
+    
     swerve.drive(new Translation2d(xVelocity * swerve.maximumSpeed, yVelocity * swerve.maximumSpeed),
                  angVelocity * controller.config.maxAngularVelocity,
                  driveMode.getAsBoolean());

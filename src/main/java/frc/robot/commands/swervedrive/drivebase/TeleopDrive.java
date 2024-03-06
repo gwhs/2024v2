@@ -33,6 +33,7 @@ public class TeleopDrive extends Command
   public boolean isFaceSpeaker = false;
   public boolean isBackSpeaker = false;
   public boolean isSlow;
+  public boolean isRotate;
   private final PIDController PID;
   private double currTheta;
 
@@ -112,6 +113,11 @@ public class TeleopDrive extends Command
       xVelocity *= 0.25;
       yVelocity *= 0.25;
       angVelocity *= 0.25;
+    }
+
+    if(isRotate)
+    {
+      angVelocity = PID.calculate(angVelocity) / 4;
     }
     swerve.drive(new Translation2d(xVelocity * swerve.maximumSpeed, yVelocity * swerve.maximumSpeed),
                  angVelocity * controller.config.maxAngularVelocity,

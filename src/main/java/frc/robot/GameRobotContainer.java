@@ -156,5 +156,10 @@ public class GameRobotContainer implements BaseContainer {
   {
     m_drivebase.setMotorBrake(brake);
   }
+
+  public Command teleopInitReset() {
+    return new ResetArm(m_ArmSubsystem, m_PizzaBoxSubsystem)
+           .andThen(new IntakeResetArm(m_IntakeSubsystem));
+  }
 }
 

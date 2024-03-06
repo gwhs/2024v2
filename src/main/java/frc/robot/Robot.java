@@ -44,6 +44,7 @@ public class Robot extends LoggedRobot  {
   private Command m_autonomousCommand;
 
   private BaseContainer m_baseContainer;
+  private GameRobotContainer gameRobotContainer;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -61,7 +62,8 @@ public class Robot extends LoggedRobot  {
     
     switch (container){
       case GAME:
-        m_baseContainer = new GameRobotContainer();
+        gameRobotContainer = new GameRobotContainer();
+        m_baseContainer = gameRobotContainer;
         break;
       case INTAKE:
         m_baseContainer = new IntakeContainer();
@@ -140,6 +142,8 @@ public class Robot extends LoggedRobot  {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    gameRobotContainer.teleopInitReset().schedule();
   }
 
   /** This function is called periodically during operator control. */

@@ -37,6 +37,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
       m_servo = new Servo(channelServo);
     
     //UtilMotor.configMotor(m_pizzaBox, .11, 0, 0, .12, 15, 50, false);      
+    UtilMotor.configMotorStatorCurrent(m_pizzaBox, 80);
   }
 
   //Spins "Pizzabox" motor: velocity in rotations/sec and acceleration in rotations/sec^2

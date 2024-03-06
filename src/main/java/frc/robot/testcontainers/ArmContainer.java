@@ -20,7 +20,6 @@ import frc.robot.commands.Arm.StopNoteContainerMotor;
 
 import frc.robot.commands.Arm.SwingForwardServo;
 import frc.robot.commands.Arm.SwingBackServo;
-import frc.robot.commands.Arm.SpinAndSwing;
 import frc.robot.commands.Arm.SpinToArmAngle;
 
 import frc.robot.commands.IntakeCommands.IntakePassNoteToPizzaBox;
@@ -68,9 +67,6 @@ public class ArmContainer implements BaseContainer {
         
 //Pick Up and Put in PizzaBox Command
         m_driverController.a().onTrue(new PickUpFromGroundAndPassToPizzaBox(pizzaBox, arm, intakeSubsystem));
-
-        m_driverController.y().onTrue(new SpinAndSwing(pizzaBox, arm, 245, 100));
-
         m_driverController.x().whileTrue(new SpinNoteContainerMotor(pizzaBox, 400, 100));
 
     }

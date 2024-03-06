@@ -29,6 +29,10 @@ public class IntakeEmergencyStop extends Command {
 
     intakeSubsystem.stopArmMotor();
     intakeSubsystem.emergencyStop = !intakeSubsystem.emergencyStop;
+
+    if(intakeSubsystem.emergencyStop == false) {
+      new IntakeResetArm(intakeSubsystem).schedule();
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.

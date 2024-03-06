@@ -97,6 +97,8 @@ public class GameRobotContainer implements BaseContainer {
       driverController.b().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
       driverController.x().whileTrue(new DecreaseSpeed(closedFieldRel));
 
+      driverController.rightStick().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
+
       driverController.rightBumper().onTrue(new BackSpeaker(closedFieldRel));
       //driverController.leftBumper().onTrue(new FaceSpeaker(closedFieldRel));
 
@@ -111,10 +113,10 @@ public class GameRobotContainer implements BaseContainer {
       operatorController.x().onTrue(new UnClimbPartTwoThatWillBringDownTheMotor(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem));
       operatorController.start().onTrue(new StopClimb(m_ClimbSubsystem));
 
-      operatorController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem));
+      operatorController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem, m_PizzaBoxSubsystem));
       operatorController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
 
-      operatorController.rightStick().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
+      //operatorController.rightStick().onTrue();
 
       driverController.leftBumper().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, Shuffleboard.getTab("Arm").add("Angle", 242).getEntry().getDouble(245)));
     }
@@ -134,9 +136,9 @@ public class GameRobotContainer implements BaseContainer {
   //   return autoChooser.getSelected();
   // }
 
-    public void setMotorBrake(boolean brake)
-    {
-      m_drivebase.setMotorBrake(brake);
-    }
+  public void setMotorBrake(boolean brake)
+  {
+    m_drivebase.setMotorBrake(brake);
+  }
 }
 

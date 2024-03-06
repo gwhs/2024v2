@@ -14,7 +14,7 @@ public class ScoreInSpeakerHigh extends SequentialCommandGroup {
   //velocity = 100 for testing shooting 
   public ScoreInSpeakerHigh(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem) {
     addCommands(
-      new ScoreInSpeakerAdjustable(pizzaBoxSubsystem, armSubsystem, 242)
+      new ScoreInSpeakerAdjustable(pizzaBoxSubsystem, armSubsystem, ArmSubsystem.Arm.SPEAKER_HIGH_ANGLE)
     );
   }
 

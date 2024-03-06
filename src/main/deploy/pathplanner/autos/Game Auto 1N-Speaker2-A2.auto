@@ -2,26 +2,19 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.25,
-      "y": 6.64
+      "x": 1.3535296301361848,
+      "y": 5.545221859674489
     },
-    "rotation": 50.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
         {
-          "type": "parallel",
+          "type": "named",
           "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S1-A1"
-                }
-              }
-            ]
+            "name": "Speaker (S2) to Intake"
           }
         },
         {
@@ -29,23 +22,29 @@
           "data": {
             "commands": [
               {
+                "type": "wait",
+                "data": {
+                  "waitTime": 3.0
+                }
+              },
+              {
                 "type": "path",
                 "data": {
-                  "pathName": "A1-A2"
+                  "pathName": "Speaker2-A2"
                 }
               }
             ]
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "C1-Speaker2"
+            "name": "Speaker (S2)"
           }
         }
       ]
     }
   },
-  "folder": "New Folder",
+  "folder": "Game Autos",
   "choreoAuto": false
 }

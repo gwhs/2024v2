@@ -31,6 +31,7 @@ public class IntakePassNoteToPizzaBox extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    currentSensorValue = true;
     intakeSubsystem.spinIntakeMotor(.7, 100);
     timer = Timer.getFPGATimestamp(); 
   }
@@ -62,7 +63,7 @@ public class IntakePassNoteToPizzaBox extends Command {
     if(prevSensorValue == true && currentSensorValue == false) {
       noteLatch = true;
     }  
-    if( timer + 5 < Timer.getFPGATimestamp() && noteLatch) {
+    if( timer + 3 < Timer.getFPGATimestamp() && noteLatch) {
       noteLatch = false;
       return true; 
     }

@@ -15,15 +15,15 @@ public class ScoreInSpeakerAdjustable extends SequentialCommandGroup {
   //velocity = 100 for testing shooting 
   public ScoreInSpeakerAdjustable(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, double angle) {
     addCommands(
-      new SpinArmAndPizzaBox(pizzaBoxSubsystem, armSubsystem, angle, 100).withTimeout(4),
+      new SpinArmAndPizzaBox(pizzaBoxSubsystem, armSubsystem, angle, 100).withTimeout(2),
       new SpinNoteContainerMotor(pizzaBoxSubsystem, 100, 100),
       Commands.waitUntil(()->pizzaBoxSubsystem.isAtVelocity(90)).withTimeout(0.5),
       new SwingForwardServo(pizzaBoxSubsystem),
       Commands.waitSeconds(.2),
       new SwingBackServo(pizzaBoxSubsystem),
-      Commands.waitSeconds(0.5),
+      Commands.waitSeconds(0.2),
       new StopNoteContainerMotor(pizzaBoxSubsystem),
-      new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE).withTimeout(3),
+      new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE).withTimeout(0.1),
       Commands.runOnce(() -> {
         pizzaBoxSubsystem.hasNote = false;
         })

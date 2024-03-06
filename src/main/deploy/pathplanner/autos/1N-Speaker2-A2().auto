@@ -29,12 +29,6 @@
               }
             ]
           }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "A2-Speaker2"
-          }
         }
       ]
     }

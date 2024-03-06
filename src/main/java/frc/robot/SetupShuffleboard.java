@@ -60,11 +60,11 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("GameTab").addBoolean("Note In Pizza Box", ()-> pizzaBoxSubsystem.hasNote)
       .withPosition(0,3);
 
-    Shuffleboard.getTab("GameTab").addBoolean("Arm Running", ()-> armSubsystem.isEmergencyStop())
+    Shuffleboard.getTab("GameTab").addBoolean("Arm Running", ()-> !armSubsystem.isEmergencyStop())
         .withSize(1, 1)
         .withPosition(3, 0);
 
-    Shuffleboard.getTab("GameTab").addBoolean("Intake Running", ()-> intakeSubsystem.isEmergencyStop())
+    Shuffleboard.getTab("GameTab").addBoolean("Intake Running", ()-> !intakeSubsystem.isEmergencyStop())
         .withSize(1, 1)
         .withPosition(4, 0);
 

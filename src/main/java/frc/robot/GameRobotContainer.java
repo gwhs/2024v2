@@ -99,7 +99,7 @@ public class GameRobotContainer implements BaseContainer {
       driverController.y().onTrue(new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
       driverController.a().onTrue(new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem)); 
       driverController.b().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
-      driverController.x().toggleOnTrue(new DecreaseSpeed(closedFieldRel));
+      driverController.x().whileTrue(new DecreaseSpeed(closedFieldRel));
 
       driverController.rightBumper().onTrue(new BackSpeaker(closedFieldRel));
       //driverController.leftBumper().onTrue(new FaceSpeaker(closedFieldRel));
@@ -132,9 +132,10 @@ public class GameRobotContainer implements BaseContainer {
     NamedCommands.registerCommand("Speaker", new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
     NamedCommands.registerCommand("Speaker (underhand)", new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
     NamedCommands.registerCommand("Speaker (subwoofer)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 227.22));
-    NamedCommands.registerCommand("Speaker (A2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 227.81));
+    NamedCommands.registerCommand("Speaker (A2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 238));
     NamedCommands.registerCommand("Speaker (S2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 240));
     NamedCommands.registerCommand("Speaker (A3-A2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 225.37));
+    NamedCommands.registerCommand("Speaker (S2) to Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 240).andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
     NamedCommands.registerCommand("print", new PrintCommand("Testing! is this printing? if this is, then the register command thing works for PathPlanner / Autonomous. If not, uh oh we may be doomed"));
   }
 

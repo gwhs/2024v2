@@ -232,7 +232,7 @@ public class LimeLightSub extends SubsystemBase {
             xyStds = 0.5; 
             degStds = 6;
 
-            System.out.println("lime light data");
+            //System.out.println("lime light data");
         
         }
         else if ((temp[9] < distancefromLimeLight) && (distance < distancefromAprilTag)) { //Checks if within distance of apriltag and limelight

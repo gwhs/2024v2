@@ -59,7 +59,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   public ArmSubsystem(int armId, String armCanbus, int channel1)
   {
-    super(new ProfiledPIDController(6, .25, 0, new Constraints(3.5*Math.PI, 27)));
+    super(new ProfiledPIDController(5.5, .25, 0, new Constraints(3.5*Math.PI, 27)));
     getController().setTolerance(2 * (Math.PI/180));
     //TrapezoidProfile either velocity or position
       m_arm = new TalonFX(armId, armCanbus);
@@ -72,8 +72,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     UtilMotor.configMotor(m_arm, .11, 0, 0, .12, 15, 50, true);      
 
     Shuffleboard.getTab("Arm").addDouble("Encoder Angle", ()->encoderGetAngle()).withWidget(BuiltInWidgets.kGraph)
-    .withSize(3,3)
-    .withPosition(0, 0);
+    .withSize(3,3);
     Shuffleboard.getTab("Arm").addDouble("Goal in degrees", ()->getController().getGoal().position * (180/Math.PI));
   }
 

@@ -25,7 +25,6 @@ public class IntakePassNoteToPizzaBox extends Command {
     this.pizzaBoxSubsystem = pizzaBoxSubsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    timer = Timer.getFPGATimestamp(); 
     addRequirements(pizzaBoxSubsystem, intakeSubsystem);
   }
 
@@ -33,6 +32,7 @@ public class IntakePassNoteToPizzaBox extends Command {
   @Override
   public void initialize() {
     intakeSubsystem.spinIntakeMotor(.7, 100);
+    timer = Timer.getFPGATimestamp(); 
   }
 
   // Called every time the scheduler runs while the command is scheduled.

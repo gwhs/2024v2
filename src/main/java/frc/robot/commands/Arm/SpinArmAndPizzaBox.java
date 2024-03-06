@@ -37,6 +37,7 @@ public class SpinArmAndPizzaBox extends Command {
   @Override
   public void initialize() {
     armSubsystem.targetArmAngle(angle);
+    pizzaBoxSubsystem.spinPizzaBoxMotor(-5, 100);
   }
 
   @Override

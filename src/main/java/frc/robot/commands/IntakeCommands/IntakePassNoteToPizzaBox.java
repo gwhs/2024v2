@@ -63,7 +63,7 @@ public class IntakePassNoteToPizzaBox extends Command {
     if(prevSensorValue == true && currentSensorValue == false) {
       noteLatch = true;
     }  
-    if( timer + 3 < Timer.getFPGATimestamp() && noteLatch) {
+    if( timer + 2 < Timer.getFPGATimestamp() && noteLatch) {
       noteLatch = false;
       return true; 
     }

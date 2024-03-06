@@ -7,10 +7,10 @@ package frc.robot.commands.driveCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 
-public class rotate180 extends Command {
-  /** Creates a new rotate180. */
+public class SourceSlow extends Command {
   private final TeleopDrive base;
-  public rotate180(TeleopDrive drive) {
+  /** Creates a new IntakeSlow. */
+  public SourceSlow(TeleopDrive drive) {
     // Use addRequirements() here to declare subsystem dependencies.
     base = drive;
   }
@@ -18,7 +18,7 @@ public class rotate180 extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-     base.isRotate = true;
+    base.isSourceSpeaker = true;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -28,7 +28,7 @@ public class rotate180 extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    base.isRotate = false;
+    base.isSourceSpeaker = true;
   }
 
   // Returns true when the command should end.

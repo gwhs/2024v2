@@ -123,25 +123,31 @@ public class TeleopDrive extends Command
     if(isIntakeSpeaker)
     {
       if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
-      PID.setSetpoint(180);
-      angVelocity = angVelocity + PID.calculate(currTheta);
-    }
-    else
-    {
-        PID.setSetpoint(0);
-      angVelocity = angVelocity + PID.calculate(currTheta);
+      {
+       PID.setSetpoint(180);
+        angVelocity = angVelocity + PID.calculate(currTheta);
+      }
+      else
+      {
+          PID.setSetpoint(0);
+          angVelocity = angVelocity + PID.calculate(currTheta);
+      }
+     
     }
 
     if(isSourceSpeaker)
     {
        if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
-      PID.setSetpoint(0);
-      angVelocity = angVelocity + PID.calculate(currTheta);
-    }
-    else
-    {
-        PID.setSetpoint(180);
-      angVelocity = angVelocity + PID.calculate(currTheta);
+       {
+        PID.setSetpoint(0);
+        angVelocity = angVelocity + PID.calculate(currTheta);
+       }
+       else
+       {
+          PID.setSetpoint(180);
+          angVelocity = angVelocity + PID.calculate(currTheta);
+       }
+      
     }
     
     swerve.drive(new Translation2d(xVelocity * swerve.maximumSpeed, yVelocity * swerve.maximumSpeed),

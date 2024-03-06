@@ -29,7 +29,6 @@ import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 
-import com.pathplanner.lib.auto.AutoBuilder;
 
 import frc.robot.subsystems.LimeVision.LimeLightSub;
 
@@ -44,8 +43,6 @@ public class VisionContainer implements BaseContainer
 
   // The robot's subsystems and commands are defined here...
   private final SwerveSubsystem drivebase;
-  private final SendableChooser<Command> autoChooser;
-
   CommandXboxController driverXbox = new CommandXboxController(0);
 
   // limelight
@@ -62,7 +59,7 @@ public class VisionContainer implements BaseContainer
   {
     drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          getDriveTrainName()));
-    autoChooser = AutoBuilder.buildAutoChooser();
+  
    
 
     
@@ -127,10 +124,10 @@ public class VisionContainer implements BaseContainer
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand(){
-   return autoChooser.getSelected();
+  // public Command getAutonomousCommand(){
+  //  return autoChooser.getSelected();
    
-  }
+  // }
   //   // An example command will be run in autonomous
   //   return drivebase.getAutonomousCommand("New Path", true);
   // }

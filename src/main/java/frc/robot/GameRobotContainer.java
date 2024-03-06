@@ -25,15 +25,11 @@ import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import edu.wpi.first.networktables.GenericEntry;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
-
 public class GameRobotContainer implements BaseContainer {
 
     CommandXboxController driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
     CommandXboxController operatorController = new CommandXboxController(OperatorConstants.kOperatorControllerPort);
 
-    private final SendableChooser<Command> autoChooser;
   
     private final SwerveSubsystem m_drivebase;
     private final IntakeSubsystem m_IntakeSubsystem;
@@ -81,11 +77,11 @@ public class GameRobotContainer implements BaseContainer {
                                           () -> driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), () -> true);
 
         configurePathPlannerCommands();
-        autoChooser = AutoBuilder.buildAutoChooser("Copy of Test Auto");
+       
 
         m_drivebase.setDefaultCommand(closedFieldRel);
 
-        SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, m_ClimbSubsystem, m_ReactionSubsystem, autoChooser);
+        SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, m_ClimbSubsystem, m_ReactionSubsystem);
 
         configureBindings();
         
@@ -125,19 +121,7 @@ public class GameRobotContainer implements BaseContainer {
 
     private void configurePathPlannerCommands() { //register rest of commands when get them
     
-    NamedCommands.registerCommand("Wait (half a second)", new WaitCommand(0.5));
-    NamedCommands.registerCommand("Wait (one second)", new WaitCommand(1));
-    NamedCommands.registerCommand("Intake", new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
-    NamedCommands.registerCommand("Amp", new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem));
-    NamedCommands.registerCommand("Speaker", new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
-    NamedCommands.registerCommand("Speaker (underhand)", new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
-    NamedCommands.registerCommand("Speaker (subwoofer)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 227.22));
-    NamedCommands.registerCommand("Speaker (A2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 243));
-    NamedCommands.registerCommand("Speaker (S2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 240));
-    NamedCommands.registerCommand("Speaker (A3-A2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 225.37));
-    NamedCommands.registerCommand("Speaker (S2) to Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 240)
-                                  .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
-    NamedCommands.registerCommand("print", new PrintCommand("Testing! is this printing? if this is, then the register command thing works for PathPlanner / Autonomous. If not, uh oh we may be doomed"));
+  
   }
 
   /**
@@ -145,10 +129,10 @@ public class GameRobotContainer implements BaseContainer {
    *
    * @return the command to run in autonomous
    */
-  public Command getAutonomousCommand()
-  {
-    return autoChooser.getSelected();
-  }
+  // public Command getAutonomousCommand()
+  // {
+  //   return autoChooser.getSelected();
+  // }
 
     public void setMotorBrake(boolean brake)
     {

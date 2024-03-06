@@ -35,8 +35,6 @@ import frc.robot.subsystems.LEDSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import java.io.File;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.auto.NamedCommands;
 
 /**
  * This class is where the bulk of the robot should be declared. Since Command-based is a "declarative" paradigm, very
@@ -176,6 +174,8 @@ public class DriveContainer implements BaseContainer
     driverXbox.x().onTrue(new InstantCommand(drivebase::addFakeVisionReading));
     driverXbox.leftBumper().onTrue(new rotate180(closedFieldRel));
     driverXbox.rightTrigger().onTrue(new BackSpeaker(closedFieldRel));
+
+
 
     driverXbox.y().whileTrue(new FaceSpeaker(closedFieldRel));
     driverXbox.a().whileTrue(new BackSpeaker(closedFieldRel));

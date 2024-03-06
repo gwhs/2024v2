@@ -4,8 +4,6 @@
 
 package frc.robot;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-
 import edu.wpi.first.cscore.MjpegServer;
 import edu.wpi.first.cscore.UsbCamera;
 import edu.wpi.first.wpilibj.shuffleboard.*;
@@ -42,7 +40,7 @@ public class SetupShuffleboard extends SubsystemBase {
   public SetupShuffleboard() {
   }
 
-  public static void setupShuffleboard(SwerveSubsystem swerve, PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, LimeLightSub limelightSubsystem, Climbsubsystem climbSubsystem, ReactionSubsystem reactionSubsystem, SendableChooser<Command> chooser){
+  public static void setupShuffleboard(SwerveSubsystem swerve, PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, LimeLightSub limelightSubsystem, Climbsubsystem climbSubsystem, ReactionSubsystem reactionSubsystem){
     //LimelightHelpers.setStreamMode_PiPSecondary("limelight");
     // Shuffleboard.getTab("GameTab").add("Camera",usbCamera);
     // Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5800").withSize(4,3).withPosition(5, 0);
@@ -50,9 +48,9 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("GameTab").add("Filed", swerve.getField2d())
       .withSize(3, 2)
       .withPosition(0, 0);
-    Shuffleboard.getTab("GameTab").add("Autonomous Chooser", chooser)
-      .withSize(2, 1)
-      .withPosition(0, 2);
+    // Shuffleboard.getTab("GameTab").add("Autonomous Chooser", chooser)
+    //   .withSize(2, 1)
+    //   .withPosition(0, 2);
     Shuffleboard.getTab("GameTab").add("Disable Pose Estimator", new toggleLimelightPoseEstimation(limelightSubsystem))
         .withSize(1,1)
         .withPosition(2,2);

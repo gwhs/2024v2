@@ -15,10 +15,9 @@
     "1. C",
     "2. A+A",
     "2. A+C",
-    "3. A+A+C",
-    "Simple"
+    "3. A+A+C"
   ],
-  "defaultMaxVel": 4.0,
+  "defaultMaxVel": 1.0,
   "defaultMaxAccel": 10.0,
   "defaultMaxAngVel": 540.0,
   "defaultMaxAngAccel": 720.0,

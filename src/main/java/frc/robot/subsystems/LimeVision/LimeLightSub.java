@@ -71,7 +71,7 @@ public class LimeLightSub extends SubsystemBase {
   
   
 
-  boolean verbose = false;//If we want to print values
+  boolean verbose = true;//If we want to print values
   public boolean wantData = false;//If we want to accept limelight post esitmator
 
   // may be useful later

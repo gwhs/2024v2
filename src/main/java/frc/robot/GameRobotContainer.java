@@ -81,7 +81,7 @@ public class GameRobotContainer implements BaseContainer {
                                           () -> driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), () -> true);
 
         configurePathPlannerCommands();
-        autoChooser = AutoBuilder.buildAutoChooser("Copy of Test Auto");
+        autoChooser = AutoBuilder.buildAutoChooser("Test Auto");
 
         m_drivebase.setDefaultCommand(closedFieldRel);
 
@@ -107,6 +107,11 @@ public class GameRobotContainer implements BaseContainer {
       //driverController.leftBumper().onTrue(new FaceSpeaker(closedFieldRel));
 
       driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
+
+      driverController.povUp().whileTrue(new DriveForwardRobotOriented(closedFieldRel));
+      driverController.povDown().whileTrue(new DriveBackwardRobotOriented(closedFieldRel));
+      driverController.povLeft().whileTrue(new DriveLeftRobotOriented(closedFieldRel));
+      driverController.povRight().whileTrue(new DriveRightRobotOriented(closedFieldRel));
 
 
       /* Operator Controllers */

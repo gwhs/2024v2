@@ -36,6 +36,11 @@ public class TeleopDrive extends Command
   private final PIDController PID;
   private double currTheta;
 
+  public boolean DriveForwardRobotOriented = false;
+  public boolean DriveBackwardRobotOriented = false;
+  public boolean DriveRightRobotOriented = false;
+  public boolean DriveLeftRobotOriented = false;
+
   /**
    * Creates a new ExampleCommand.
    *
@@ -85,14 +90,6 @@ public class TeleopDrive extends Command
     double angVelocity = Math.pow(omega.getAsDouble(), 3);
     currTheta = swerve.getHeading().getDegrees();
 
-
-    // SmartDashboard.putNumber("vX", xVelocity);
-    // SmartDashboard.putNumber("vY", yVelocity);
-    // SmartDashboard.putNumber("omega", angVelocity);
-    // SmartDashboard.putNumber("rawX", xVelocity *swerve.maximumSpeed);
-    // SmartDashboard.putNumber("rawY", yVelocity *swerve.maximumSpeed);
-    // SmartDashboard.putNumber("rawAng", angVelocity * controller.config.maxAngularVelocity);
-
     
 
     // Drive using raw values.
@@ -113,9 +110,33 @@ public class TeleopDrive extends Command
       yVelocity *= 0.25;
       angVelocity *= 0.25;
     }
-    swerve.drive(new Translation2d(xVelocity * swerve.maximumSpeed, yVelocity * swerve.maximumSpeed),
+
+    double frontback = 0;
+    double leftright = 0;
+    if(DriveForwardRobotOriented) {
+      frontback += .8;
+    }
+
+    if(DriveBackwardRobotOriented) {
+      frontback += -.8;
+    }
+
+    if(DriveLeftRobotOriented) {
+      leftright += .8;
+    }
+
+    if(DriveLeftRobotOriented) {
+      leftright += -.8;
+    }
+
+    if(frontback != 0 || leftright != 0) {
+      swerve.drive(new Translation2d(frontback, leftright), 0, false);
+    }
+    else {
+      swerve.drive(new Translation2d(xVelocity * swerve.maximumSpeed, yVelocity * swerve.maximumSpeed),
                  angVelocity * controller.config.maxAngularVelocity,
                  driveMode.getAsBoolean());
+    }
   }
 
   // Called once the command ends or is interrupted.

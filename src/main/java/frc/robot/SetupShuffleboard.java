@@ -24,17 +24,14 @@ import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBox;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 public class SetupShuffleboard extends SubsystemBase {
-  /** Creates a new SetupShuffleboard. */
-  private static UsbCamera usbCamera = new UsbCamera("USB Camera", 1);
-  private static MjpegServer mjpegServer = new MjpegServer("Serve_USB CAMERA", 1181);
+  
 
   public SetupShuffleboard() {
   }
 
   public static void setupShuffleboard(SwerveSubsystem swerve, PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, LimeLightSub limelightSubsystem, SendableChooser<Command> chooser){
-    //LimelightHelpers.setStreamMode_PiPSecondary("limelight");
-    Shuffleboard.getTab("GameTab").add("Camera",usbCamera);
-    // Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5800").withSize(4,3).withPosition(5, 0);
+    LimelightHelpers.setStreamMode_PiPSecondary("limelight");
+    Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5800").withSize(4,3).withPosition(5, 0);
     
     Shuffleboard.getTab("GameTab").add("Filed", swerve.getField2d()).withSize(4, 3).withPosition(0, 0);
     chooser = AutoBuilder.buildAutoChooser("0-S(Amp)-0");

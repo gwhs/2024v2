@@ -39,6 +39,7 @@ public class SetupShuffleboard extends SubsystemBase {
   /** Creates a new SetupShuffleboard. */
   // private static UsbCamera usbCamera = new UsbCamera("USB Camera", 1);
   // private static MjpegServer mjpegServer = new MjpegServer("Serve_USB CAMERA", 1181);
+  
 
   public SetupShuffleboard() {
   }

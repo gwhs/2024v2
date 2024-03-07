@@ -104,14 +104,9 @@ public class GameRobotContainer implements BaseContainer {
       driverController.rightStick().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
 
       driverController.rightBumper().onTrue(new BackSpeaker(closedFieldRel));
-      //driverController.leftBumper().onTrue(new FaceSpeaker(closedFieldRel));
+      driverController.leftBumper().onTrue(new FaceSpeaker(closedFieldRel));
 
       driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
-
-      driverController.povUp().whileTrue(new DriveForwardRobotOriented(closedFieldRel));
-      driverController.povDown().whileTrue(new DriveBackwardRobotOriented(closedFieldRel));
-      driverController.povLeft().whileTrue(new DriveLeftRobotOriented(closedFieldRel));
-      driverController.povRight().whileTrue(new DriveRightRobotOriented(closedFieldRel));
 
 
       /* Operator Controllers */
@@ -142,9 +137,9 @@ public class GameRobotContainer implements BaseContainer {
     NamedCommands.registerCommand("Speaker (underhand)", new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
     NamedCommands.registerCommand("Speaker (subwoofer)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 227.22));
 
-    NamedCommands.registerCommand("Speaker (A1)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 243));
-    NamedCommands.registerCommand("Speaker (A2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 243));
-    NamedCommands.registerCommand("Speaker (A3)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 243));
+    NamedCommands.registerCommand("Speaker (A1)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 248));
+    NamedCommands.registerCommand("Speaker (A2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 248));
+    NamedCommands.registerCommand("Speaker (A3)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 248));
 
     NamedCommands.registerCommand("Speaker (A1-A2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 225.37));
     NamedCommands.registerCommand("Speaker (A2-A3)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 225.37));
@@ -163,7 +158,7 @@ public class GameRobotContainer implements BaseContainer {
     NamedCommands.registerCommand("Speaker (S3) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 240)
                                   .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
 
-    NamedCommands.registerCommand("Speaker (A1-A2) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 0)
+    NamedCommands.registerCommand("Speaker (A1-A2) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 240)
                                   .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
     NamedCommands.registerCommand("Speaker (A2-A3) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 0)
                                   .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));

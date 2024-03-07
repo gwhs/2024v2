@@ -45,7 +45,6 @@ public class SetupShuffleboard extends SubsystemBase {
 
   public static void setupShuffleboard(SwerveSubsystem swerve, PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, LimeLightSub limelightSubsystem, Climbsubsystem climbSubsystem, ReactionSubsystem reactionSubsystem, SendableChooser<Command> chooser){
     // LimelightHelpers.setStreamMode_PiPSecondary("limelight");
-    // // Shuffleboard.getTab("GameTab").add("Camera",usbCamera);
     // Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5800").withSize(4,3).withPosition(5, 0);
     
     Shuffleboard.getTab("GameTab").add("Filed", swerve.getField2d())
@@ -75,7 +74,8 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("GameTab").add("Reset Intake", new IntakeResetArm(intakeSubsystem))
         .withSize(1,1)
         .withPosition(4,1);
-    Shuffleboard.getTab("GameTab").add("IntakeRejectNote", new IntakeRejectNote(intakeSubsystem));
+    Shuffleboard.getTab("GameTab").add("IntakeRejectNote", new IntakeRejectNote(intakeSubsystem))
+        .withPosition(4,3);
 
 
 

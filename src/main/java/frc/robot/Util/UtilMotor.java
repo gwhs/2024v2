@@ -18,7 +18,7 @@ public class UtilMotor {
     currentConfig.withStatorCurrentLimitEnable(true);
     currentConfig.withStatorCurrentLimit(current);
 
-    //motor.getConfigurator().apply(currentConfig);
+    motor.getConfigurator().apply(currentConfig);
   }
 
     public static void configMotor(TalonFX motor) {

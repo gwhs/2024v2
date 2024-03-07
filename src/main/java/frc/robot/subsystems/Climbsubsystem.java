@@ -31,8 +31,8 @@ public class Climbsubsystem extends SubsystemBase {
   private ProfiledPIDController leftPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
   private ProfiledPIDController rightPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
 
-  private double leftGoalDistance = 170.94;
-  private double rightGoalDistance = 170.4;
+  private double leftGoalDistance = 190.94;
+  private double rightGoalDistance = 190.4;
 
   private boolean checkForUp = false;
   private boolean emergencyStop = false;

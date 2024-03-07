@@ -5,7 +5,6 @@
 package frc.robot.commands.Arm;
 import frc.robot.subsystems.PizzaBoxSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class ScoreInSpeakerHigh extends SequentialCommandGroup {
@@ -15,16 +14,8 @@ public class ScoreInSpeakerHigh extends SequentialCommandGroup {
   //velocity = 100 for testing shooting 
   public ScoreInSpeakerHigh(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem) {
     addCommands(
-        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.SPEAKER_HIGH_ANGLE).withTimeout(3),
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, 100, 100),
-        Commands.waitUntil(()->pizzaBoxSubsystem.isAtVelocity(100*.95)).withTimeout(1),
-        new SwingForwardServo(pizzaBoxSubsystem),
-        Commands.waitSeconds(.2),
-        new SwingBackServo(pizzaBoxSubsystem),
-        new StopNoteContainerMotor(pizzaBoxSubsystem),
-        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE)
+      new ScoreInSpeakerAdjustable(pizzaBoxSubsystem, armSubsystem, ArmSubsystem.Arm.SPEAKER_HIGH_ANGLE)
     );
-    pizzaBoxSubsystem.hasNote = false;
   }
 
   

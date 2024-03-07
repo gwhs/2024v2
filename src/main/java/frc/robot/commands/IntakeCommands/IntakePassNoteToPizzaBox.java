@@ -19,20 +19,23 @@ public class IntakePassNoteToPizzaBox extends Command {
   private boolean currentSensorValue = false;
   private boolean noteLatch = false;
   private double timer = 0;
+  private double initTimer = 0;
 
   public IntakePassNoteToPizzaBox(IntakeSubsystem subsystem, PizzaBoxSubsystem pizzaBoxSubsystem) {
     intakeSubsystem = subsystem;
     this.pizzaBoxSubsystem = pizzaBoxSubsystem;
 
     // Use addRequirements() here to declare subsystem dependencies.
-    timer = Timer.getFPGATimestamp(); 
     addRequirements(pizzaBoxSubsystem, intakeSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intakeSubsystem.spinIntakeMotor(1, 100);
+    currentSensorValue = true;
+    intakeSubsystem.spinIntakeMotor(.7, 100);
+    pizzaBoxSubsystem.spinPizzaBoxMotor(-30, 100);
+    initTimer = Timer.getFPGATimestamp(); 
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -46,9 +49,10 @@ public class IntakePassNoteToPizzaBox extends Command {
   public void end(boolean interrupted) {
     pizzaBoxSubsystem.stopPizzaBoxMotor();
     intakeSubsystem.stopIntakeMotors();
-    if(interrupted) {
-      intakeSubsystem.rejectIntake(1, 0);
-    }
+    // if(interrupted) {
+    //   System.out.println("************************************************************************************************************************************************************************************************************************************************************************************");
+    //   andThen(new IntakeRejectNote(intakeSubsystem));
+    // }
   }
 
   // Returns true when the command should end; called every cycle
@@ -60,10 +64,10 @@ public class IntakePassNoteToPizzaBox extends Command {
     currentSensorValue = intakeSubsystem.isNotePresent();
 
     if(prevSensorValue == true && currentSensorValue == false) {
+      timer = Timer.getFPGATimestamp(); 
       noteLatch = true;
     }  
-    if( timer + 5 < Timer.getFPGATimestamp() && noteLatch) {
-      noteLatch = false;
+    if((timer + 1 < Timer.getFPGATimestamp() && noteLatch) || (initTimer + 5 < Timer.getFPGATimestamp())) {
       return true; 
     }
     return false;

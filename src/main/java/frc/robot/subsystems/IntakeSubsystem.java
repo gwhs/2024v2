@@ -6,18 +6,12 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants;
 import frc.robot.Util.UtilMotor;
 
-import com.ctre.phoenix6.StatusCode;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
-import com.ctre.phoenix6.controls.NeutralOut;
-import com.ctre.phoenix6.controls.StaticBrake;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
-import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -48,10 +42,13 @@ public class IntakeSubsystem extends SubsystemBase {
 
     UtilMotor.configMotor(m_moveIntakeArm, 0.11, 0.05, 0.01,  0.12, 12, 80, true);
     //UtilMotor.configMotor(m_spinIntake, 0, 0, 0,  0.12, 12, 80, true);
+    UtilMotor.configMotorStatorCurrent(m_spinIntake, 80);
 
     Shuffleboard.getTab("Intake").addDouble("Encoder Angle", ()->encoderGetAngle()).withWidget(BuiltInWidgets.kGraph)
     .withSize(3,3)
-    .withPosition(0, 0);;
+    .withPosition(0, 0);
+
+    Shuffleboard.getTab("Intake").addBoolean("Sensor value", () -> isNotePresent());
   }
 
   // spin the intake motors, velocity is negative to intake note
@@ -76,7 +73,7 @@ public class IntakeSubsystem extends SubsystemBase {
     else if (speed > 1) { // Will not be greater than maximum angle
       speed = 1;
     }
-    if(m_Encoder.isConnected() && !emergencyStop) {
+    if(!isEmergencyStop()) {
       m_moveIntakeArm.set(speed);
     }
   }  
@@ -97,10 +94,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
   // stop motor once note is in place, starts again once the arm position is brought up
   public boolean isNotePresent() {
-    return m_noteSensor.get();
+    return !m_noteSensor.get();
   }
   public boolean isEmergencyStop() {
-    return m_Encoder.isConnected() && !emergencyStop;
+    return !(m_Encoder.isConnected() && !emergencyStop);
   }
 
   @Override

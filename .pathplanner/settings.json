@@ -1,0 +1,26 @@
+{
+  "robotWidth": 0.8382,
+  "robotLength": 0.8382,
+  "holonomicMode": true,
+  "pathFolders": [
+    "Amp",
+    "Speaker",
+    "Notes Near Starting Zone",
+    "Starting Zone",
+    "Starting from Mid Field Notes",
+    "Wing Starting Point"
+  ],
+  "autoFolders": [
+    "1. A",
+    "1. C",
+    "2. A+A",
+    "2. A+C",
+    "3. A+A+C",
+    "Simple"
+  ],
+  "defaultMaxVel": 4.0,
+  "defaultMaxAccel": 10.0,
+  "defaultMaxAngVel": 540.0,
+  "defaultMaxAngAccel": 720.0,
+  "maxModuleSpeed": 4.5
+}

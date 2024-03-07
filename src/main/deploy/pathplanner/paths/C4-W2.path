@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.9,
+        "y": 2.1547939244237972
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 7.999999999999999,
+        "y": 2.1547939244237972
+      },
+      "isLocked": false,
+      "linkedName": "C4"
+    },
+    {
+      "anchor": {
+        "x": 6.168597721810829,
+        "y": 1.489908364432114
+      },
+      "prevControl": {
+        "x": 6.0685977218108285,
+        "y": 1.489908364432114
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "W2"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 4.0,
+    "maxAcceleration": 10.0,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -30.0,
+    "rotateFast": true
+  },
+  "reversed": false,
+  "folder": "Starting from Mid Field Notes",
+  "previewStartingState": {
+    "rotation": 0,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

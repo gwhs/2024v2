@@ -35,6 +35,7 @@ public class Climbsubsystem extends SubsystemBase {
   private double rightGoalDistance = 198.4;
 
   private boolean checkForUp = false;
+  private boolean emergencyStop = false;
 
   DigitalInput bottomLeft = new DigitalInput(ClimbConstants.BOT_LEFT_LIMIT_ID);
   DigitalInput bottomRight = new DigitalInput(ClimbConstants.BOT_RIGHT_LIMIT_ID);
@@ -126,6 +127,17 @@ public class Climbsubsystem extends SubsystemBase {
     rightGoalDistance = right;
   } 
 
+  public void stopClimbMotorInCaseOfEmergencySoThisWillStopTheClimbNoMatterIfItIsGoingUpOrDown() {
+    if(!emergencyStop) {
+      leftPIDcontroller.setGoal(getPositionLeft());
+      rightPIDcontroller.setGoal(getPositionRight());
+      emergencyStop = true;
+    }
+    else{
+      emergencyStop = false;
+    }
+  }
+
   public void upMotor() {
     checkForUp = true;
     leftPIDcontroller.setGoal(-leftGoalDistance);
@@ -156,9 +168,10 @@ public class Climbsubsystem extends SubsystemBase {
     if (!checkForUp && getBotRightLimit()) {
       rightPIDvalue = 0;
     }
-
-
-    setSpeed(-leftPIDvalue, rightPIDvalue);
+    
+    if (!emergencyStop) {
+      setSpeed(-leftPIDvalue, rightPIDvalue);
+    }
     
 
   }

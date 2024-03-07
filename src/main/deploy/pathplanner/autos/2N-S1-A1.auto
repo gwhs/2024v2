@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Speaker (S3)"
+            "name": "Speaker (S1)"
           }
         },
         {
@@ -28,32 +28,13 @@
                 }
               },
               {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "A1-A2"
-                }
-              },
-              {
                 "type": "sequential",
                 "data": {
                   "commands": [
                     {
-                      "type": "named",
+                      "type": "wait",
                       "data": {
-                        "name": "Speaker (A1-A2)"
+                        "waitTime": 0.5
                       }
                     },
                     {
@@ -69,14 +50,46 @@
           }
         },
         {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Speaker (A1-A2) then Intake"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 0.5
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "A1-A2"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "Speaker (S3)"
+            "name": "Speaker (A2)"
           }
         }
       ]
     }
   },
-  "folder": "New Folder",
+  "folder": "2. A+A",
   "choreoAuto": false
 }

@@ -4,6 +4,11 @@
 
 package frc.robot;
 
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -22,7 +27,7 @@ import frc.robot.testcontainers.ReactionArmContainer;
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends TimedRobot {
+public class Robot extends LoggedRobot  {
 
   public static final String GAME = "Game"; 
   public static final String INTAKE = "Intake";
@@ -39,6 +44,7 @@ public class Robot extends TimedRobot {
   private Command m_autonomousCommand;
 
   private BaseContainer m_baseContainer;
+  private GameRobotContainer gameRobotContainer;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -48,10 +54,16 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and use the subsystems needed
     // for the specific robot
+
+    String logfolder = "/home/lvuser";
+    Logger.addDataReceiver(new WPILOGWriter(logfolder));
+    Logger.addDataReceiver(new NT4Publisher());
+    Logger.start();
     
     switch (container){
       case GAME:
-        m_baseContainer = new GameRobotContainer();
+        gameRobotContainer = new GameRobotContainer();
+        m_baseContainer = gameRobotContainer;
         break;
       case INTAKE:
         m_baseContainer = new IntakeContainer();
@@ -99,7 +111,9 @@ public class Robot extends TimedRobot {
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    CommandScheduler.getInstance().cancelAll();
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -128,6 +142,8 @@ public class Robot extends TimedRobot {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    gameRobotContainer.teleopInitReset().schedule();
   }
 
   /** This function is called periodically during operator control. */

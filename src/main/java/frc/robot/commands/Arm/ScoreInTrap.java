@@ -23,9 +23,11 @@ public class ScoreInTrap extends SequentialCommandGroup {
         new SwingBackServo(pizzaBoxSubsystem),
         Commands.waitSeconds(.5),
         new StopNoteContainerMotor(pizzaBoxSubsystem),
-        new SpinToArmAngle(armSubsystem, 135)
+        new SpinToArmAngle(armSubsystem, 135),
+        Commands.runOnce(() -> {
+          pizzaBoxSubsystem.hasNote = false;
+          })
     );
-    pizzaBoxSubsystem.hasNote = false;
   }
 
   

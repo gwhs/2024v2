@@ -22,10 +22,11 @@ public class ScoreInAmp extends SequentialCommandGroup {
         Commands.waitSeconds(.2),
         new SwingBackServo(pizzaBoxSubsystem),
         new StopNoteContainerMotor(pizzaBoxSubsystem),
-        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE)
+        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE),
+        Commands.runOnce(() -> {
+          pizzaBoxSubsystem.hasNote = false;
+          })
     );
-
-    pizzaBoxSubsystem.hasNote = false;
   }
 
   

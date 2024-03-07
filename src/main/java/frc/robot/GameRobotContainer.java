@@ -11,26 +11,30 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.InstantCommand;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.commands.*;
 import frc.robot.commands.Arm.*;
-import frc.robot.commands.ClimberCommands.ClimbParts.ClimbAndShoot;
-import frc.robot.commands.ClimberCommands.ClimbParts.PrepClimb;
-import frc.robot.commands.ClimberCommands.ClimbParts.UnClimb;
+import frc.robot.commands.ClimberCommands.ClimbParts.*;
 import frc.robot.commands.IntakeCommands.*;
 import frc.robot.commands.driveCommands.*;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import edu.wpi.first.networktables.GenericEntry;
+
+import com.pathplanner.lib.auto.AutoBuilder;
+import com.pathplanner.lib.auto.NamedCommands;
 
 public class GameRobotContainer implements BaseContainer {
 
     CommandXboxController driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
     CommandXboxController operatorController = new CommandXboxController(OperatorConstants.kOperatorControllerPort);
-  
 
+    private final SendableChooser<Command> autoChooser;
+  
     private final SwerveSubsystem m_drivebase;
     private final IntakeSubsystem m_IntakeSubsystem;
     private final ArmSubsystem m_ArmSubsystem;
@@ -40,7 +44,6 @@ public class GameRobotContainer implements BaseContainer {
     private final ReactionSubsystem m_ReactionSubsystem;
     private final LimeLightSub m_LimelightSubsystem;
 
-    private static SendableChooser<Command> autoChooser;
     private final TeleopDrive closedFieldRel;
 
     public String getDriveTrainName(){
@@ -68,71 +71,124 @@ public class GameRobotContainer implements BaseContainer {
                                                         "rio");
         
         m_LimelightSubsystem  = new LimeLightSub("limelight", m_drivebase); 
-          closedFieldRel = new TeleopDrive(
-                                            m_drivebase,
-                                            () -> MathUtil.applyDeadband(-driverController.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
-                                            () -> MathUtil.applyDeadband(-driverController.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
-                                            () -> driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), () -> true);
-                                                  
 
         m_ReactionSubsystem = new ReactionSubsystem(Constants.ReactionConstants.reactionID, Constants.ReactionConstants.reactionCAN);
 
+        closedFieldRel = new TeleopDrive(
+                                          m_drivebase,
+                                          () -> MathUtil.applyDeadband(-driverController.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
+                                          () -> MathUtil.applyDeadband(-driverController.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
+                                          () -> driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), () -> true);
 
-        TeleopDrive closedFieldRel = new TeleopDrive(
-        m_drivebase,
-        () -> MathUtil.applyDeadband(-driverController.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
-        () -> MathUtil.applyDeadband(-driverController.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
-        () -> driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), () -> true);
+        configurePathPlannerCommands();
+        autoChooser = AutoBuilder.buildAutoChooser("Copy of Test Auto");
 
         m_drivebase.setDefaultCommand(closedFieldRel);
 
-        SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, autoChooser);
+        SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, m_ClimbSubsystem, m_ReactionSubsystem, autoChooser);
 
         configureBindings();
-
-
+        
     }
 
 
     private void configureBindings() {
+
+      /* Driver Controller */
       
-      driverController.y().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
+      driverController.y().onTrue(new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
       driverController.a().onTrue(new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem)); 
       driverController.b().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
       driverController.x().whileTrue(new DecreaseSpeed(closedFieldRel));
 
-      driverController.rightBumper().onTrue(new BackSpeaker(closedFieldRel));
-      driverController.leftBumper().onTrue(new FaceSpeaker(closedFieldRel));
+      driverController.rightStick().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
 
+      driverController.rightBumper().onTrue(new BackSpeaker(closedFieldRel));
+      //driverController.leftBumper().onTrue(new FaceSpeaker(closedFieldRel));
 
       driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
 
 
-      operatorController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem));
-      operatorController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
+      /* Operator Controllers */
 
       operatorController.y().onTrue(new PrepClimb(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_ReactionSubsystem));
       operatorController.b().onTrue(new ClimbAndShoot(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_PizzaBoxSubsystem));
       operatorController.a().onTrue(new UnClimb(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem));
-      
+      operatorController.x().onTrue(new UnClimbPartTwoThatWillBringDownTheMotor(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem));
+      operatorController.start().onTrue(new StopClimb(m_ClimbSubsystem));
 
-      // operatorController.a().whileTrue(new MotorUp(m_Climbsubsystem, m_drivebase));
-      // operatorController.b().whileTrue(new MotorDown(m_Climbsubsystem, m_drivebase));
-      // operatorController.x().onTrue(new ScoreInTrap(m_PizzaBoxSubsystem, m_ArmSubsystem));
-      // operatorController.y().onTrue(new SpinToArmAngle(m_ArmSubsystem, 135));
-      
+      operatorController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem, m_PizzaBoxSubsystem));
+      operatorController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
+
+      //operatorController.rightStick().onTrue();
+
+      driverController.leftBumper().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, Shuffleboard.getTab("Arm").add("Angle", 242).getEntry().getDouble(245)));
     }
 
-   public Command getAutonomousCommand()
+    private void configurePathPlannerCommands() { //register rest of commands when get them
+    
+    NamedCommands.registerCommand("Wait (half a second)", new WaitCommand(0.5));
+    NamedCommands.registerCommand("Wait (one second)", new WaitCommand(1));
+
+    NamedCommands.registerCommand("Intake", new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
+
+    NamedCommands.registerCommand("Amp", new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem));
+
+    NamedCommands.registerCommand("Speaker (underhand)", new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
+    NamedCommands.registerCommand("Speaker (subwoofer)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 227.22));
+
+    NamedCommands.registerCommand("Speaker (A1)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 243));
+    NamedCommands.registerCommand("Speaker (A2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 243));
+    NamedCommands.registerCommand("Speaker (A3)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 243));
+
+    NamedCommands.registerCommand("Speaker (A1-A2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 225.37));
+    NamedCommands.registerCommand("Speaker (A2-A3)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 225.37));
+
+    NamedCommands.registerCommand("Speaker (A3-A2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 225.37));
+    NamedCommands.registerCommand("Speaker (A2-A1)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 225.37));
+
+    NamedCommands.registerCommand("Speaker (S1)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 240));
+    NamedCommands.registerCommand("Speaker (S2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 240));
+    NamedCommands.registerCommand("Speaker (S3)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 240));
+
+    NamedCommands.registerCommand("Speaker (S1) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 240)
+                                  .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
+    NamedCommands.registerCommand("Speaker (S2) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 240)
+                                  .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
+    NamedCommands.registerCommand("Speaker (S3) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 240)
+                                  .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
+
+    NamedCommands.registerCommand("Speaker (A1-A2) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 0)
+                                  .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
+    NamedCommands.registerCommand("Speaker (A2-A3) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 0)
+                                  .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
+
+    NamedCommands.registerCommand("Speaker (A3-A2) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 0)
+                                  .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
+    NamedCommands.registerCommand("Speaker (A2-A1) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 0)
+                                  .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
+
+    NamedCommands.registerCommand("print", new PrintCommand("Testing! is this printing? if this is, then the register command thing works for PathPlanner / Autonomous. If not, uh oh we may be doomed"));
+  }
+
+  /**
+   * Use this to pass the autonomous command to the main {@link Robot} class.
+   *
+   * @return the command to run in autonomous
+   */
+  public Command getAutonomousCommand()
   {
-    // An example command will be run in autonomous
-    //return drivebase.getAutonomousCommand("New Path", true);
     return autoChooser.getSelected();
   }
 
-    public void setMotorBrake(boolean brake)
-    {
-      m_drivebase.setMotorBrake(brake);
-    }
+  public void setMotorBrake(boolean brake)
+  {
+    m_drivebase.setMotorBrake(brake);
+  }
+
+  public Command teleopInitReset() {
+    return new ResetArm(m_ArmSubsystem, m_PizzaBoxSubsystem)
+           .andThen(new IntakeResetArm(m_IntakeSubsystem));
+  }
 }
 

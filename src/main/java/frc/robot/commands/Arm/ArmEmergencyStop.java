@@ -1,22 +1,34 @@
 package frc.robot.commands.Arm;
 import frc.robot.subsystems.ArmSubsystem;
+import frc.robot.subsystems.PizzaBoxSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
 
 public class ArmEmergencyStop extends Command{
   
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ArmSubsystem armSubsystem;
+  private final PizzaBoxSubsystem pizzaBoxSubsystem;
     // Called when the command is initially scheduled.
     
 
-  public ArmEmergencyStop(ArmSubsystem armSubsystem)
+  public ArmEmergencyStop(ArmSubsystem armSubsystem, PizzaBoxSubsystem pizzaBoxSubsystem)
   {
     this.armSubsystem = armSubsystem;
-    addRequirements(armSubsystem);
+    this.pizzaBoxSubsystem = pizzaBoxSubsystem;
   }
   public void initialize() {   
+    Command c = CommandScheduler.getInstance().requiring(armSubsystem);
+    if(c != null) {
+      c.cancel();
+    }
+
     armSubsystem.emergencyStop = !armSubsystem.emergencyStop;
+
+    if(armSubsystem.emergencyStop == false) {
+      new ResetArm(armSubsystem, pizzaBoxSubsystem).schedule();
+    }
   }
   
 

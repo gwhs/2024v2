@@ -60,35 +60,10 @@
           "data": {
             "name": "Speaker (S3)"
           }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              },
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "S3-A3"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Speaker (A3)"
-          }
         }
       ]
     }
   },
-  "folder": "Game Autos",
+  "folder": "1. C",
   "choreoAuto": false
 }

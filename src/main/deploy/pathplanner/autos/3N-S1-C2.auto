@@ -86,10 +86,54 @@
           "data": {
             "name": "Speaker (A2)"
           }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "A2-C2"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 5.0
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C2-A2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Speaker (A2)"
+          }
         }
       ]
     }
   },
-  "folder": "2. A+A",
+  "folder": "3. A+A+C",
   "choreoAuto": false
 }

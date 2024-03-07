@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Speaker (S1) to Intake"
+            "name": "Speaker (S1)"
           }
         },
         {
@@ -56,7 +56,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Speaker (A1) to Speaker (A2) to Intake"
+                  "name": "Speaker (A1-A2) then Intake"
                 }
               },
               {
@@ -86,10 +86,54 @@
           "data": {
             "name": "Speaker (A2)"
           }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "A2-C1"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 5.0
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "C1-A2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Speaker (A2)"
+          }
         }
       ]
     }
   },
-  "folder": "Game Autos",
+  "folder": "3. A+A+C",
   "choreoAuto": false
 }

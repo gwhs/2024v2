@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.178464664621639,
-        "y": 6.078036771458159
+        "x": 2.4,
+        "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.278464664621638,
-        "y": 6.078036771458159
+        "x": 4.2768612784015865,
+        "y": 6.405827590542485
       },
       "isLocked": false,
-      "linkedName": "W1"
+      "linkedName": "A2"
     },
     {
       "anchor": {
@@ -20,8 +20,8 @@
         "y": 5.949104965257007
       },
       "prevControl": {
-        "x": 7.7135339152276,
-        "y": 5.949104965257007
+        "x": 6.255992654638661,
+        "y": 6.640044321458116
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,13 +39,13 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": -19.85521436932113,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Wing Starting Point",
+  "folder": "Notes Near Starting Zone",
   "previewStartingState": {
-    "rotation": 0.0,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

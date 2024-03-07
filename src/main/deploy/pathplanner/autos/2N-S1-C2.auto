@@ -12,9 +12,41 @@
     "data": {
       "commands": [
         {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Speaker (S1) then Intake"
+                }
+              },
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "S1-A1"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "Speaker (S1)"
+            "name": "Speaker (A1)"
           }
         },
         {
@@ -24,7 +56,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S1-A1"
+                  "pathName": "A1-C2"
                 }
               },
               {
@@ -34,7 +66,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.5
+                        "waitTime": 5.0
                       }
                     },
                     {
@@ -50,46 +82,20 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Speaker (A1-A2) then Intake"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "A1-A2"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
+            "pathName": "C2-A1"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Speaker (A2)"
+            "name": "Speaker (A1)"
           }
         }
       ]
     }
   },
-  "folder": "2. A+A",
+  "folder": "2. A+C",
   "choreoAuto": false
 }

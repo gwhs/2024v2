@@ -12,9 +12,41 @@
     "data": {
       "commands": [
         {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Speaker (S1) then Intake"
+                }
+              },
+              {
+                "type": "parallel",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.0
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "S1-A1"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "Speaker (S1)"
+            "name": "Speaker (A1)"
           }
         },
         {
@@ -24,7 +56,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S1-A1"
+                  "pathName": "A1-C1"
                 }
               },
               {
@@ -34,7 +66,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.5
+                        "waitTime": 5.0
                       }
                     },
                     {
@@ -50,78 +82,20 @@
           }
         },
         {
-          "type": "parallel",
+          "type": "path",
           "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Speaker (A1) to Speaker (A2) to Intake"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "A1-A2"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Speaker (A2) to Speaker (A3) to Intake"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 3.0
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "A2-A3"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
+            "pathName": "C1-A1"
           }
         },
         {
           "type": "named",
           "data": {
-            "name": "Speaker (A3)"
+            "name": "Speaker (A1)"
           }
         }
       ]
     }
   },
-  "folder": "Game Autos",
+  "folder": "2. A+C",
   "choreoAuto": false
 }

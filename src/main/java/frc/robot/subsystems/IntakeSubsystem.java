@@ -50,15 +50,15 @@ public class IntakeSubsystem extends SubsystemBase {
         .withPosition(0, 0);
 
     Shuffleboard.getTab("Intake").addBoolean("Sensor value", () -> isNotePresent());
-    Logger.recordOutput("Intake/EncoderAngle", encoderGetAngle());
-    Logger.recordOutput("Intake/SensorValue", isNotePresent());
-    Logger.recordOutput("Intake/Motor/StatorCurrent", m_spinIntake.getStatorCurrent().getValueAsDouble());
-    Logger.recordOutput("Intake/Motor/SupplyCurrent", m_spinIntake.getSupplyCurrent().getValueAsDouble());
-    Logger.recordOutput("Intake/Motor/TorqueCurrent", m_spinIntake.getTorqueCurrent().getValueAsDouble());
-    Logger.recordOutput("Intake/Motor/Velocity", m_spinIntake.getVelocity().getValueAsDouble());
-    Logger.recordOutput("Intake/ArmMotor/StatorCurrent", m_moveIntakeArm.getStatorCurrent().getValueAsDouble());
-    Logger.recordOutput("Intake/ArmMotor/SupplyCurrent", m_moveIntakeArm.getSupplyCurrent().getValueAsDouble());
-    Logger.recordOutput("Intake/ArmMotor/TorqueCurrent", m_moveIntakeArm.getTorqueCurrent().getValueAsDouble());
+    // Logger.recordOutput("Intake/EncoderAngle", encoderGetAngle());
+    // Logger.recordOutput("Intake/SensorValue", isNotePresent());
+    // Logger.recordOutput("Intake/Motor/StatorCurrent", m_spinIntake.getStatorCurrent().getValueAsDouble());
+    // Logger.recordOutput("Intake/Motor/SupplyCurrent", m_spinIntake.getSupplyCurrent().getValueAsDouble());
+    // Logger.recordOutput("Intake/Motor/TorqueCurrent", m_spinIntake.getTorqueCurrent().getValueAsDouble());
+    // Logger.recordOutput("Intake/Motor/Velocity", m_spinIntake.getVelocity().getValueAsDouble());
+    // Logger.recordOutput("Intake/ArmMotor/StatorCurrent", m_moveIntakeArm.getStatorCurrent().getValueAsDouble());
+    // Logger.recordOutput("Intake/ArmMotor/SupplyCurrent", m_moveIntakeArm.getSupplyCurrent().getValueAsDouble());
+    // Logger.recordOutput("Intake/ArmMotor/TorqueCurrent", m_moveIntakeArm.getTorqueCurrent().getValueAsDouble());
   }
 
   // spin the intake motors, velocity is negative to intake note

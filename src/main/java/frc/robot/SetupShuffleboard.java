@@ -74,7 +74,6 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("GameTab").add("IntakeRejectNote", new IntakeRejectNote(intakeSubsystem))
       .withPosition(4,2);
     
-
       
 
     ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");

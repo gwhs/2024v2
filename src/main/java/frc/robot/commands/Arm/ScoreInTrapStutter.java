@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.Arm;
+
 import frc.robot.subsystems.PizzaBoxSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -12,7 +13,6 @@ public class ScoreInTrapStutter extends SequentialCommandGroup {
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-  //velocity = 100 for testing shooting 
   public ScoreInTrapStutter(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem) {
     addCommands(
         new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.TRAP_ANGLE).withTimeout(3));

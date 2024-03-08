@@ -10,10 +10,7 @@ public class ResetArm extends Command{
   
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ArmSubsystem armSubsystem;
-    private final PizzaBoxSubsystem pizzaBoxSubsystem;
-
-    // Called when the command is initially scheduled.
-    
+  private final PizzaBoxSubsystem pizzaBoxSubsystem;
 
   public ResetArm(ArmSubsystem armSubsystem, PizzaBoxSubsystem pizzaBoxSubsystem)
   {
@@ -21,6 +18,7 @@ public class ResetArm extends Command{
     this.pizzaBoxSubsystem = pizzaBoxSubsystem;
 
   }
+  
   public void initialize() {   
     Command c = CommandScheduler.getInstance().requiring(armSubsystem);
     if(c != null) {

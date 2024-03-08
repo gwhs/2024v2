@@ -3,12 +3,13 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.Arm;
+
 import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class SpinToArmAngle extends Command {
 
-    private double angle;
+  private double angle;
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ArmSubsystem armSubsystem;
@@ -33,7 +34,6 @@ public class SpinToArmAngle extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    
     return armSubsystem.getController().atGoal(); 
   }
 }

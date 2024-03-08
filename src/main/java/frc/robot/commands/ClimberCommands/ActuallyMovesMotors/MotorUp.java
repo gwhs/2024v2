@@ -15,49 +15,26 @@ public class MotorUp extends Command {
   private final Climbsubsystem climbersubsystem;
   private final SwerveSubsystem swerve;
 
-  // private final double CLIMBER_PID_KP = 1.9;
-  // private final double CLIMBER_PID_KI = 0;
-  // private final double CLIMBER_PID_KD = 0;
-  // private Constraints constraints = new Constraints(180.0, 300.0);
-
-  // private ProfiledPIDController leftPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
-  // private ProfiledPIDController rightPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
-
   //constructor that takes in a Climbsubsystem object and a SwerveSubsystem obj
   public MotorUp(Climbsubsystem c, SwerveSubsystem s) {
 
     climbersubsystem = c;
     swerve = s;
 
-
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.climbersubsystem);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    //climbersubsystem.upMotor();
-    // leftPIDcontroller.setGoal(-198.94);
-    // rightPIDcontroller.setGoal(198.4);
     climbersubsystem.upMotor();
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-
-    // double leftPIDvalue = leftPIDcontroller.calculate(climbersubsystem.getPositionLeft());
-    // double rightPIDvalue = rightPIDcontroller.calculate(climbersubsystem.getPositionRight());
-
-    // climbersubsystem.setSpeed(-leftPIDvalue, rightPIDvalue);
-    
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-
   }
 
   // Returns true when the command should end.

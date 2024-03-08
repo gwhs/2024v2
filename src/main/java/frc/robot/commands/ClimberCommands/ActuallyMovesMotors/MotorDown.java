@@ -14,50 +14,27 @@ public class MotorDown extends Command {
   private Climbsubsystem climbersubsystem;
   private SwerveSubsystem swerve;
 
-  // private final double CLIMBER_PID_KP = 1.9;
-  // private final double CLIMBER_PID_KI = 0;
-  // private final double CLIMBER_PID_KD = 0;
-  // private Constraints constraints = new Constraints(180.0, 300.0);
-
-  // private ProfiledPIDController leftPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
-  // private ProfiledPIDController rightPIDcontroller = new ProfiledPIDController(CLIMBER_PID_KP, CLIMBER_PID_KI, CLIMBER_PID_KD, constraints); 
-
-
   //constructor that takes in a Climbsubsystem object and a SwerveSubsystem obj
   public MotorDown(Climbsubsystem c, SwerveSubsystem s) {
-
     climbersubsystem = c;
     swerve = s;
 
-    // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(this.climbersubsystem);
   }
 
-  // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    // leftPIDcontroller.setGoal(-0.3);
-    // rightPIDcontroller.setGoal(0.3);
     climbersubsystem.downMotor();
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-
-    // double leftPIDvalue = leftPIDcontroller.calculate(climbersubsystem.getPositionLeft());
-    // double rightPIDvalue = rightPIDcontroller.calculate(climbersubsystem.getPositionRight());
-
-    // climbersubsystem.setSpeed(-leftPIDvalue, rightPIDvalue);                   
+  public void execute() {               
   }
 
-  // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
- 
   }
 
-  // Returns true when the command should end.
   @Override
   public boolean isFinished() {
     

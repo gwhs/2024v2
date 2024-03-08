@@ -129,9 +129,9 @@ public class Climbsubsystem extends SubsystemBase {
 
   public void stopClimbMotorInCaseOfEmergencySoThisWillStopTheClimbNoMatterIfItIsGoingUpOrDown() {
     if(!emergencyStop) {
+      emergencyStop = true;
       leftPIDcontroller.setGoal(getPositionLeft());
       rightPIDcontroller.setGoal(getPositionRight());
-      emergencyStop = true;
     }
     else{
       emergencyStop = false;

@@ -32,9 +32,8 @@ public class PizzaBoxSubsystem extends SubsystemBase {
 
   public PizzaBoxSubsystem(int pizzaBoxId, String pizzaBoxCanbus, int channelServo)
   {
-
-      m_pizzaBox = new TalonFX(pizzaBoxId, pizzaBoxCanbus);
-      m_servo = new Servo(channelServo);
+    m_pizzaBox = new TalonFX(pizzaBoxId, pizzaBoxCanbus);
+    m_servo = new Servo(channelServo);
     
     //UtilMotor.configMotor(m_pizzaBox, .11, 0, 0, .12, 15, 50, false);      
     UtilMotor.configMotorStatorCurrent(m_pizzaBox, 80);
@@ -60,7 +59,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
     m_pizzaBox.stopMotor();
   }
 
-  public boolean isAtVelocity(double vel){
+  public boolean isAtVelocity(double vel) {
     return m_pizzaBox.getRotorVelocity().getValue() >= vel;
   }
 

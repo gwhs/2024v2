@@ -50,7 +50,11 @@ public class TeleopDrive extends Command
     this.omega = omega;
     this.driveMode = driveMode;
     this.controller = swerve.getSwerveController();
+
     this.PID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
+    this.PID.setTolerance(Constants.FaceSpeakerConstants.THETA_TOLERANCE, Constants.FaceSpeakerConstants.STEADY_STATE_TOLERANCE);
+    this.PID.setPID(Constants.FaceSpeakerConstants.kP, Constants.FaceSpeakerConstants.kI, Constants.FaceSpeakerConstants.kD);
+    this.PID.enableContinuousInput(-180, 180);
 
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerve);
@@ -60,20 +64,6 @@ public class TeleopDrive extends Command
   @Override
   public void initialize()
   {
-    currTheta = swerve.getHeading().getDegrees();
-    if(isFaceSpeaker)
-    {
-      PID.setSetpoint(UtilMath.FrontSpeakerTheta(swerve.getPose()));
-      PID.setTolerance(Constants.FaceSpeakerConstants.THETA_TOLERANCE, Constants.FaceSpeakerConstants.STEADY_STATE_TOLERANCE);
-      PID.setPID(Constants.FaceSpeakerConstants.kP, Constants.FaceSpeakerConstants.kI, Constants.FaceSpeakerConstants.kD);
-    }
-    else if(isBackSpeaker)
-    {
-      PID.setSetpoint(UtilMath.BackSpeakerTheta(swerve.getPose()));
-      PID.setTolerance(Constants.FaceSpeakerConstants.THETA_TOLERANCE, Constants.FaceSpeakerConstants.STEADY_STATE_TOLERANCE);
-      PID.setPID(Constants.FaceSpeakerConstants.kP, Constants.FaceSpeakerConstants.kI, Constants.FaceSpeakerConstants.kD);
-    }
-    PID.enableContinuousInput(-180, 180);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -83,9 +73,8 @@ public class TeleopDrive extends Command
     double xVelocity   = Math.pow(vX.getAsDouble(), 3);
     double yVelocity   = Math.pow(vY.getAsDouble(), 3);
     double angVelocity = Math.pow(omega.getAsDouble(), 3);
-    currTheta = swerve.getHeading().getDegrees();
-
     
+    currTheta = swerve.getHeading().getDegrees();
 
     // Drive using raw values.
     if(isFaceSpeaker)

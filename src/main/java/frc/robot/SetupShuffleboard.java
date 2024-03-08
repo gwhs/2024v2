@@ -24,6 +24,7 @@ import frc.robot.commands.ClimberCommands.ClimbParts.UnClimb;
 import frc.robot.commands.ClimberCommands.ClimbParts.UnClimbPartTwoThatWillBringDownTheMotor;
 import frc.robot.commands.IntakeCommands.IntakeRejectNote;
 import frc.robot.commands.IntakeCommands.IntakeResetArm;
+import frc.robot.commands.LimelightCommands.toggleCameraMode;
 import frc.robot.commands.LimelightCommands.toggleLimelightPoseEstimation;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
@@ -57,6 +58,9 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("GameTab").add("Disable Pose Estimator", new toggleLimelightPoseEstimation(limelightSubsystem))
         .withSize(1,1)
         .withPosition(2,2);
+    Shuffleboard.getTab("GameTab").add("Toggle Camera Mode", new toggleCameraMode(limelightSubsystem))
+        .withSize(1,1)
+        .withPosition(3,2);
 
     Shuffleboard.getTab("GameTab").addBoolean("Note In Pizza Box", ()-> pizzaBoxSubsystem.hasNote)
       .withPosition(0,3);

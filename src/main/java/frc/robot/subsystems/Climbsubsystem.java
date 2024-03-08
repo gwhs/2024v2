@@ -168,12 +168,13 @@ public class Climbsubsystem extends SubsystemBase {
     if (!checkForUp && getBotRightLimit()) {
       rightPIDvalue = 0;
     }
-    
-    if (!emergencyStop) {
-      setSpeed(-leftPIDvalue, rightPIDvalue);
+
+    if(emergencyStop) {
+      leftPIDvalue = 0;
+      rightPIDvalue = 0;
     }
     
-
+    setSpeed(-leftPIDvalue, rightPIDvalue);
   }
 }
 

@@ -28,7 +28,7 @@ public class TeleopDrive extends Command
   private final DoubleSupplier   vX;
   private final DoubleSupplier   vY;
   private final DoubleSupplier   omega;
-  private final BooleanSupplier  driveMode;
+  public BooleanSupplier  driveMode;
   private final SwerveController controller;
   public boolean isFaceSpeaker = false;
   public boolean isBackSpeaker = false;
@@ -36,10 +36,7 @@ public class TeleopDrive extends Command
   private final PIDController PID;
   private double currTheta;
 
-  public boolean DriveForwardRobotOriented = false;
-  public boolean DriveBackwardRobotOriented = false;
-  public boolean DriveRightRobotOriented = false;
-  public boolean DriveLeftRobotOriented = false;
+  public boolean isRobotOriented = false;
 
   /**
    * Creates a new ExampleCommand.
@@ -111,32 +108,9 @@ public class TeleopDrive extends Command
       angVelocity *= 0.25;
     }
 
-    double frontback = 0;
-    double leftright = 0;
-    if(DriveForwardRobotOriented) {
-      frontback += .8;
-    }
-
-    if(DriveBackwardRobotOriented) {
-      frontback += -.8;
-    }
-
-    if(DriveLeftRobotOriented) {
-      leftright += .8;
-    }
-
-    if(DriveLeftRobotOriented) {
-      leftright += -.8;
-    }
-
-    if(frontback != 0 || leftright != 0) {
-      swerve.drive(new Translation2d(frontback, leftright), 0, false);
-    }
-    else {
-      swerve.drive(new Translation2d(xVelocity * swerve.maximumSpeed, yVelocity * swerve.maximumSpeed),
-                 angVelocity * controller.config.maxAngularVelocity,
-                 driveMode.getAsBoolean());
-    }
+    swerve.drive(new Translation2d(xVelocity * swerve.maximumSpeed, yVelocity * swerve.maximumSpeed),
+                angVelocity * controller.config.maxAngularVelocity,
+                driveMode.getAsBoolean());
   }
 
   // Called once the command ends or is interrupted.

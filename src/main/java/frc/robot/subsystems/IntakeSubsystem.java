@@ -43,6 +43,7 @@ public class IntakeSubsystem extends SubsystemBase {
     UtilMotor.configMotor(m_moveIntakeArm, 0.11, 0.05, 0.01,  0.12, 12, 80, true);
     //UtilMotor.configMotor(m_spinIntake, 0, 0, 0,  0.12, 12, 80, true);
     UtilMotor.configMotorStatorCurrent(m_spinIntake, 80);
+    UtilMotor.configMotorSupplyCurrent(m_spinIntake, 80);
 
     Shuffleboard.getTab("Intake").addDouble("Encoder Angle", ()->encoderGetAngle()).withWidget(BuiltInWidgets.kGraph)
     .withSize(3,3)

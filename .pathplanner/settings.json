@@ -10,7 +10,16 @@
     "Starting from Mid Field Notes",
     "Wing Starting Point"
   ],
-  "autoFolders": [],
+  "autoFolders": [
+    "0. No Leave",
+    "1. A",
+    "1. C",
+    "2. A+A",
+    "2. A+C",
+    "2. C+C",
+    "3. A+A+A",
+    "3. A+A+C"
+  ],
   "defaultMaxVel": 2.0,
   "defaultMaxAccel": 5.0,
   "defaultMaxAngVel": 540.0,

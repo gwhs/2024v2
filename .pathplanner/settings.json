@@ -11,14 +11,12 @@
     "Wing Starting Point"
   ],
   "autoFolders": [
-    "0. No Leave",
     "1. A",
     "1. C",
     "2. A+A",
     "2. A+C",
-    "2. C+C",
-    "3. A+A+A",
-    "3. A+A+C"
+    "3. A+A+C",
+    "0."
   ],
   "defaultMaxVel": 2.0,
   "defaultMaxAccel": 5.0,

@@ -34,7 +34,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 5.0
+                        "waitTime": 3.0
                       }
                     },
                     {
@@ -72,22 +72,9 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intake"
-                      }
-                    }
-                  ]
+                  "name": "Intake"
                 }
               }
             ]
@@ -102,6 +89,6 @@
       ]
     }
   },
-  "folder": "2. A+C",
+  "folder": null,
   "choreoAuto": false
 }

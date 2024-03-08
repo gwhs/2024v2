@@ -28,22 +28,9 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 0.5
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intake"
-                      }
-                    }
-                  ]
+                  "name": "Intake"
                 }
               }
             ]
@@ -66,7 +53,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.5
+                        "waitTime": 3.0
                       }
                     },
                     {
@@ -106,14 +93,14 @@
                       "data": {
                         "waitTime": 5.0
                       }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake"
+                      }
                     }
                   ]
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
                 }
               }
             ]
@@ -134,6 +121,6 @@
       ]
     }
   },
-  "folder": "3. A+A+C",
+  "folder": null,
   "choreoAuto": false
 }

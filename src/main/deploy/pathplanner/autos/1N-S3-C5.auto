@@ -34,7 +34,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 5.0
+                        "waitTime": 3.0
                       }
                     },
                     {
@@ -64,6 +64,6 @@
       ]
     }
   },
-  "folder": "1. C",
+  "folder": null,
   "choreoAuto": false
 }

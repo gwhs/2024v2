@@ -60,22 +60,9 @@
                 }
               },
               {
-                "type": "sequential",
+                "type": "named",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 2.0
-                      }
-                    },
-                    {
-                      "type": "named",
-                      "data": {
-                        "name": "Intake"
-                      }
-                    }
-                  ]
+                  "name": "Intake"
                 }
               }
             ]
@@ -90,6 +77,6 @@
       ]
     }
   },
-  "folder": "2. A+A",
+  "folder": null,
   "choreoAuto": false
 }

@@ -72,7 +72,7 @@ public class LimeLightSub extends SubsystemBase {
   
 
   boolean verbose = true;//If we want to print values
-  public boolean wantData = false;//If we want to accept limelight post esitmator
+  public boolean wantData = true;//If we want to accept limelight post esitmator
 
   // may be useful later
   private double kCameraHeight =
@@ -230,14 +230,14 @@ public class LimeLightSub extends SubsystemBase {
         LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
         if(limelightMeasurement.tagCount >= 2 ){ //Checks if Limelight sees 2 Apriltag
             xyStds = 0.5; 
-            degStds = 6;
+            degStds = 6 * Math.PI / 180;
 
             //System.out.println("lime light data");
         
         }
         else if ((temp[9] < distancefromLimeLight) && (distance < distancefromAprilTag)) { //Checks if within distance of apriltag and limelight
             xyStds = 1.0;
-            degStds = 12;
+            degStds = 12 * Math.PI / 180;
 
         }
         else{

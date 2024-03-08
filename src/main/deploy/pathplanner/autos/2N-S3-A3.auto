@@ -14,7 +14,7 @@
         {
           "type": "named",
           "data": {
-            "name": "Speaker (S3)"
+            "name": "Speaker (S3) "
           }
         },
         {
@@ -34,7 +34,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.5
+                        "waitTime": 2.0
                       }
                     },
                     {
@@ -66,7 +66,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 0.5
+                        "waitTime": 2.0
                       }
                     },
                     {

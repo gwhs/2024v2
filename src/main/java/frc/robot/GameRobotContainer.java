@@ -121,6 +121,8 @@ public class GameRobotContainer implements BaseContainer {
       operatorController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
 
       operatorController.rightStick().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, Shuffleboard.getTab("Arm").add("Angle", 242).getEntry().getDouble(245)));
+     // operatorController.leftStick().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, Shuffleboard.getTab("GameTab").add("Offset", 242).getEntry().getDouble(245)));
+
       //operatorController.leftStick().onTrue();
     }
 

@@ -60,7 +60,7 @@ public class SetupShuffleboard extends SubsystemBase {
         .withPosition(2,2);
     Shuffleboard.getTab("GameTab").add("Toggle Camera Mode", new toggleCameraMode(limelightSubsystem))
         .withSize(1,1)
-        .withPosition(3,2);
+        .withPosition(1,3);
 
     Shuffleboard.getTab("GameTab").addBoolean("Note In Pizza Box", ()-> pizzaBoxSubsystem.hasNote)
       .withPosition(0,3);
@@ -80,7 +80,7 @@ public class SetupShuffleboard extends SubsystemBase {
         .withSize(1,1)
         .withPosition(4,1);
     Shuffleboard.getTab("GameTab").add("IntakeRejectNote", new IntakeRejectNote(intakeSubsystem))
-        .withPosition(3,2);
+        .withPosition(4,2);
     
 
 

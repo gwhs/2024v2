@@ -16,6 +16,8 @@ import frc.robot.commands.ClimberCommands.ClimbParts.PrepClimb;
 import frc.robot.commands.ClimberCommands.ClimbParts.StopClimb;
 import frc.robot.commands.ClimberCommands.ClimbParts.UnClimb;
 import frc.robot.commands.ClimberCommands.ClimbParts.UnClimbPartTwoThatWillBringDownTheMotor;
+import frc.robot.commands.IntakeCommands.DecreaseIntakeOffset;
+import frc.robot.commands.IntakeCommands.IncreaseIntakeOffset;
 import frc.robot.commands.IntakeCommands.IntakeRejectNote;
 import frc.robot.commands.IntakeCommands.IntakeResetArm;
 import frc.robot.commands.LimelightCommands.toggleCameraMode;
@@ -79,7 +81,10 @@ public class SetupShuffleboard extends SubsystemBase {
       .withPosition(4, 4);
      Shuffleboard.getTab("GameTab").add("Retract Reaction Bar", new Retract(reactionSubsystem))
       .withPosition(5, 4);
-    
+    Shuffleboard.getTab("GameTab").add("Increase Intake Offset", new IncreaseIntakeOffset())
+      .withPosition(4, 5);
+    Shuffleboard.getTab("GameTab").add("Decrease Intake Offset", new DecreaseIntakeOffset())
+      .withPosition(5,5);
 
     
 

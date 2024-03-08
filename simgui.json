@@ -11,11 +11,40 @@
       "/Shuffleboard/Climb/unclimb2": "Command",
       "/Shuffleboard/GameTab/Autonomous Chooser": "String Chooser",
       "/Shuffleboard/GameTab/Disable Pose Estimator": "Command",
+      "/Shuffleboard/GameTab/Field": "Field2d",
       "/Shuffleboard/GameTab/Filed": "Field2d",
+      "/Shuffleboard/GameTab/IntakeRejectNote": "Command",
       "/Shuffleboard/GameTab/Reset Arm": "Command",
       "/Shuffleboard/GameTab/Reset Intake": "Command",
+      "/Shuffleboard/GameTab/Toggle Camera Mode": "Command",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Pigeon 2 (v6) [30]": "Gyro"
+    },
+    "windows": {
+      "/Shuffleboard/GameTab/Autonomous Chooser": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/GameTab/Field": {
+        "bottom": 1476,
+        "height": 8.210550308227539,
+        "left": 150,
+        "right": 2961,
+        "top": 79,
+        "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Field": {
+        "bottom": 1476,
+        "height": 8.210550308227539,
+        "left": 150,
+        "right": 2961,
+        "top": 79,
+        "width": 16.541748046875
+      }
     }
   },
   "NetworkTables Info": {

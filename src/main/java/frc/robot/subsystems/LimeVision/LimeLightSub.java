@@ -35,6 +35,8 @@ public class LimeLightSub extends SubsystemBase {
   // private static double distanceFromAprilTag = 0;
   public static Pose2d currentPose;
 
+  public boolean cameraMode = false;
+
   
   
 

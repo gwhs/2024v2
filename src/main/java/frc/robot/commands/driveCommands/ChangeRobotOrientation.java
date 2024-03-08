@@ -7,10 +7,10 @@ package frc.robot.commands.driveCommands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 
-public class DriveRightRobotOriented extends Command {
+public class ChangeRobotOrientation extends Command {
   private final TeleopDrive drive;
   /** Creates a new FaceSpeaker. */
-  public DriveRightRobotOriented(TeleopDrive drivebase) {
+  public ChangeRobotOrientation(TeleopDrive drivebase) {
     // Use addRequirements() here to declare subsystem dependencies.
     drive = drivebase;
   }
@@ -18,7 +18,14 @@ public class DriveRightRobotOriented extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    drive.DriveRightRobotOriented = true;
+    drive.isRobotOriented = !drive.isRobotOriented;
+
+    if(!drive.isRobotOriented) {
+      drive.driveMode = () -> true;
+    }
+    else {
+      drive.driveMode = () -> false;
+    }
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -28,12 +35,11 @@ public class DriveRightRobotOriented extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    drive.DriveRightRobotOriented = false;
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return false;
+    return true;
   }
 }

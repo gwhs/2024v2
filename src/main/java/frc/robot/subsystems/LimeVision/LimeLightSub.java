@@ -35,6 +35,8 @@ public class LimeLightSub extends SubsystemBase {
   // private static double distanceFromAprilTag = 0;
   public static Pose2d currentPose;
 
+  public boolean cameraMode = false;
+
   
   
 
@@ -72,7 +74,7 @@ public class LimeLightSub extends SubsystemBase {
   
 
   boolean verbose = true;//If we want to print values
-  public boolean wantData = false;//If we want to accept limelight post esitmator
+  public boolean wantData = true;//If we want to accept limelight post esitmator
 
   // may be useful later
   private double kCameraHeight =
@@ -230,14 +232,14 @@ public class LimeLightSub extends SubsystemBase {
         LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
         if(limelightMeasurement.tagCount >= 2 ){ //Checks if Limelight sees 2 Apriltag
             xyStds = 0.5; 
-            degStds = 6;
+            degStds = 6 * Math.PI / 180;
 
             //System.out.println("lime light data");
         
         }
         else if ((temp[9] < distancefromLimeLight) && (distance < distancefromAprilTag)) { //Checks if within distance of apriltag and limelight
             xyStds = 1.0;
-            degStds = 12;
+            degStds = 12 * Math.PI / 180;
 
         }
         else{
@@ -245,7 +247,7 @@ public class LimeLightSub extends SubsystemBase {
         }
           stds.set(0,0,xyStds);
           stds.set(1,0,xyStds);
-          stds.set(2,0, degStds);
+          stds.set(2,0, degStds * Math.PI / 180);
           Rotation2d degree = new Rotation2d(temp[5]* Math.PI / 180);
           Pose2d newPose = new Pose2d(temp[0],temp[1],degree); //creates new pose2d with limelight data
           

@@ -76,7 +76,8 @@ public class SetupShuffleboard extends SubsystemBase {
         .withSize(1,1)
         .withPosition(4,1);
     Shuffleboard.getTab("GameTab").add("IntakeRejectNote", new IntakeRejectNote(intakeSubsystem))
-        .withPosition(4,3);
+        .withPosition(3,2);
+    
 
 
 

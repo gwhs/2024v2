@@ -17,12 +17,9 @@ import frc.robot.Util.UtilMotor;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
-//
 import edu.wpi.first.math.controller.ArmFeedforward;
 
 import com.ctre.phoenix6.controls.VoltageOut;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-//
 
 
 public class ArmSubsystem extends ProfiledPIDSubsystem {

@@ -6,14 +6,7 @@ package frc.robot.commands.Arm;
 import frc.robot.subsystems.PizzaBoxSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.Arm.SpinNoteContainerMotor;
-import frc.robot.commands.Arm.StopNoteContainerMotor;
-import frc.robot.commands.Arm.SwingForwardServo;
-import frc.robot.commands.Arm.SwingBackServo;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class SpinArmAndPizzaBox extends Command {
   private PizzaBoxSubsystem pizzaBoxSubsystem;

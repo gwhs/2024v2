@@ -7,7 +7,6 @@ import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 public class IntakePickUpFromGroundPID extends PIDCommand {
 

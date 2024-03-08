@@ -10,7 +10,6 @@ import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.commands.Arm.SpinToArmAngle;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorUp;
-import frc.robot.commands.ReactionArmCommands.Extend;
 import frc.robot.commands.driveCommands.DriveForClimb;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;

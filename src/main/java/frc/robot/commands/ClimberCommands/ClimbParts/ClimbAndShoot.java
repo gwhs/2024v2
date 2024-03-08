@@ -4,11 +4,9 @@
 
 package frc.robot.commands.ClimberCommands.ClimbParts;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Arm.*;
-import frc.robot.commands.Arm.ScoreInTrapStutter;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
@@ -25,8 +23,8 @@ public class ClimbAndShoot extends SequentialCommandGroup {
     addCommands (
       new SpinToArmAngle(a, 135).withTimeout(1),
       Commands.waitUntil(()->Math.abs(a.encoderGetAngle() - 130) <= 5),
-        new MotorDown(c, s).withTimeout(5),
-        new ScoreInTrapStutter(p, a))
+      new MotorDown(c, s).withTimeout(5),
+      new ScoreInTrapStutter(p, a))
     ;
 
     

@@ -1,10 +1,7 @@
 package frc.robot.testcontainers;
 
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.BaseContainer;
-import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.ledcommands.ChangeLEDColor;
 import frc.robot.commands.ledcommands.ChangeLEDToBlue;
 import frc.robot.commands.ledcommands.ChangeLEDToGreen;
@@ -19,8 +16,8 @@ public class LEDContainer implements BaseContainer {
     LEDSubsystem led = new LEDSubsystem(ledPortNumber);
     
     // todo: add intake subsystem
-    private final CommandXboxController m_driverController =
-        new CommandXboxController(OperatorConstants.kDriverControllerPort);
+    // private final CommandXboxController m_driverController =
+    //     new CommandXboxController(OperatorConstants.kDriverControllerPort);
 
     public LEDContainer() {
         configureBindings();
@@ -36,9 +33,9 @@ public class LEDContainer implements BaseContainer {
     }
 
 
-    private Command ChangeLEDColor(LEDSubsystem led2, int i, int j, int k) {
-        // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'ChangeLEDColor'");
-    }
+    // private Command ChangeLEDColor(LEDSubsystem led2, int i, int j, int k) {
+    //     // TODO Auto-generated method stub
+    //     throw new UnsupportedOperationException("Unimplemented method 'ChangeLEDColor'");
+    // }
 
 }

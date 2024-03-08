@@ -4,20 +4,11 @@ import java.io.File;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.BaseContainer;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Constants.ClimbConstants;
-import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
-import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorUp;
-import frc.robot.commands.ClimberCommands.AutoClimb.ClimbDown;
-import frc.robot.commands.ClimberCommands.AutoClimb.ClimbUp;
-import frc.robot.commands.ledcommands.ChangeLEDToGreen;
-import frc.robot.commands.ledcommands.ChangeLEDToRed;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -42,8 +33,8 @@ public class ClimbContainer implements BaseContainer {
         () -> driverXbox.getLeftTriggerAxis() - driverXbox.getRightTriggerAxis(), () -> true);
   
     // NEED TO DO: climb command should autoalign then climb then shoot and then maybe climb back down
-    private final CommandXboxController m_driverController =
-        new CommandXboxController(0);
+    // private final CommandXboxController m_driverController =
+    //     new CommandXboxController(0);
 
     
 

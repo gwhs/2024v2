@@ -522,30 +522,9 @@ System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
     swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
   }
 
-    public void addActualVisionReading(Pose2d pose,double time, Matrix<N3, N1> matrix)
+  public void addActualVisionReading(Pose2d pose,double time, Matrix<N3, N1> matrix)
   {
     swerveDrive.addVisionMeasurement(pose, time, matrix);
-  }
-
-
-
-  public void test() {
-    swervelib.SwerveModule[] sm = swerveDrive.getModules();
-    System.out.println("Swerve Module array size = " + sm.length);
-
-    int testModule = 0;
-
-    SwerveMotor drive = sm[testModule].getDriveMotor();
-    SwerveMotor angle = sm[testModule].getAngleMotor();
-    sm[testModule].setAngle(90);
-
-    drive.set(100);
-
-  }
-
-  public void actualVisionReading(Pose2d pose, double time)
-  {
-    swerveDrive.addVisionMeasurement(pose, time);
   }
 
     public Field2d getField2d()

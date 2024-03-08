@@ -2,8 +2,6 @@ package frc.robot;
 
 import java.io.File;
 
-import javax.security.sasl.AuthorizeCallback;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;

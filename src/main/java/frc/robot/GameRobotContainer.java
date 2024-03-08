@@ -140,11 +140,11 @@ public class GameRobotContainer implements BaseContainer {
     NamedCommands.registerCommand("Speaker (A2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 248));
     NamedCommands.registerCommand("Speaker (A3)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 248));
 
-    NamedCommands.registerCommand("Speaker (A1-A2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 225.37));
-    NamedCommands.registerCommand("Speaker (A2-A3)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 225.37));
+    NamedCommands.registerCommand("Speaker (A1-A2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 245));
+    NamedCommands.registerCommand("Speaker (A2-A3)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 245));
 
-    NamedCommands.registerCommand("Speaker (A3-A2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 225.37));
-    NamedCommands.registerCommand("Speaker (A2-A1)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 225.37));
+    NamedCommands.registerCommand("Speaker (A3-A2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 245));
+    NamedCommands.registerCommand("Speaker (A2-A1)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 245));
 
     NamedCommands.registerCommand("Speaker (S1)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 240));
     NamedCommands.registerCommand("Speaker (S2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 240));
@@ -157,14 +157,14 @@ public class GameRobotContainer implements BaseContainer {
     NamedCommands.registerCommand("Speaker (S3) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 240)
                                   .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
 
-    NamedCommands.registerCommand("Speaker (A1-A2) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 240)
+    NamedCommands.registerCommand("Speaker (A1-A2) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 245)
                                   .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
-    NamedCommands.registerCommand("Speaker (A2-A3) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 0)
+    NamedCommands.registerCommand("Speaker (A2-A3) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 245)
                                   .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
 
-    NamedCommands.registerCommand("Speaker (A3-A2) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 0)
+    NamedCommands.registerCommand("Speaker (A3-A2) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 245)
                                   .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
-    NamedCommands.registerCommand("Speaker (A2-A1) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 0)
+    NamedCommands.registerCommand("Speaker (A2-A1) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 245)
                                   .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
 
     NamedCommands.registerCommand("print", new PrintCommand("Testing! is this printing? if this is, then the register command thing works for PathPlanner / Autonomous. If not, uh oh we may be doomed"));

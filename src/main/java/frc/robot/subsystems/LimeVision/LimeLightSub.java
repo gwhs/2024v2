@@ -74,7 +74,7 @@ public class LimeLightSub extends SubsystemBase {
   
 
   boolean verbose = true;//If we want to print values
-  public boolean wantData = true;//If we want to accept limelight post esitmator
+  public boolean wantData = false;//If we want to accept limelight post esitmator
 
   // may be useful later
   private double kCameraHeight =
@@ -122,10 +122,6 @@ public class LimeLightSub extends SubsystemBase {
   if(wantData){
     setData();
   }
-    // This method will be called once per scheduler run
-    double currTx = limelight_comm.get_entry_double("tx");
-    // SmartDashboard.putNumber("tx", currTx);
-    // System.out.println(currTx);
     
   }
 

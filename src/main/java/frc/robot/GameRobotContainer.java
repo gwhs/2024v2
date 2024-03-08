@@ -125,12 +125,11 @@ public class GameRobotContainer implements BaseContainer {
       operatorController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem, m_PizzaBoxSubsystem));
       operatorController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
 
-      //operatorController.rightStick().onTrue();
-
-      driverController.leftBumper().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, Shuffleboard.getTab("Arm").add("Angle", 242).getEntry().getDouble(245)));
+      operatorController.rightStick().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, Shuffleboard.getTab("Arm").add("Angle", 242).getEntry().getDouble(245)));
+      //operatorController.leftStick().onTrue();
     }
 
-    private void configurePathPlannerCommands() { //register rest of commands when get them
+    private void configurePathPlannerCommands() {
     
     NamedCommands.registerCommand("Wait (half a second)", new WaitCommand(0.5));
     NamedCommands.registerCommand("Wait (one second)", new WaitCommand(1));

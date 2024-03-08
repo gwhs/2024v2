@@ -36,8 +36,6 @@ public class TeleopDrive extends Command
   private final PIDController PID;
   private double currTheta;
 
-  public boolean isRobotOriented = false;
-
   /**
    * Creates a new ExampleCommand.
    *

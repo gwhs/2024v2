@@ -78,13 +78,13 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("GameTab").add("IntakeRejectNote", new IntakeRejectNote(intakeSubsystem))
       .withPosition(4,2);
     Shuffleboard.getTab("GameTab").add("Extend Reaction Bar", new Extend(reactionSubsystem))
-      .withPosition(4, 4);
+      .withPosition(3, 3);
      Shuffleboard.getTab("GameTab").add("Retract Reaction Bar", new Retract(reactionSubsystem))
-      .withPosition(5, 4);
+      .withPosition(4, 3);
     Shuffleboard.getTab("GameTab").add("Increase Intake Offset", new IncreaseIntakeOffset())
-      .withPosition(4, 5);
+      .withPosition(3, 4);
     Shuffleboard.getTab("GameTab").add("Decrease Intake Offset", new DecreaseIntakeOffset())
-      .withPosition(5,5);
+      .withPosition(4,4);
 
     
 

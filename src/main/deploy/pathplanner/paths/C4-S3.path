@@ -3,44 +3,44 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.9,
-        "y": 2.1547939244237972
+        "x": 7.930642280685416,
+        "y": 2.1665047609695787
       },
       "prevControl": null,
       "nextControl": {
-        "x": 5.365969077159265,
-        "y": 1.2179270007612764
+        "x": 5.396611357844681,
+        "y": 1.2296378373070578
       },
       "isLocked": false,
       "linkedName": "C4"
     },
     {
       "anchor": {
-        "x": 1.25,
-        "y": 4.118900460023142
+        "x": 0.8009808327308976,
+        "y": 4.440124264863915
       },
       "prevControl": {
-        "x": 3.1728859892812498,
-        "y": 2.342167309156301
+        "x": 2.7238668220121474,
+        "y": 2.6633911139970734
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "S3"
+      "linkedName": "Speaker 3"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.0,
+    "maxVelocity": 3.0,
     "maxAcceleration": 10.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -50.0,
-    "rotateFast": true
+    "rotation": -59.0,
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "Starting from Mid Field Notes",

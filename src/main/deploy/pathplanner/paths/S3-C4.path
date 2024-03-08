@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 1.25,
-        "y": 4.118900460023142
+        "x": 0.8009808327308976,
+        "y": 4.440124264863915
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.3062840848934183,
-        "y": 1.6629387895009728
+        "x": 2.379705757984981,
+        "y": 2.365588982247864
       },
       "isLocked": false,
-      "linkedName": "S3"
+      "linkedName": "Speaker 3"
     },
     {
       "anchor": {
-        "x": 7.9,
-        "y": 2.1547939244237972
+        "x": 7.930642280685416,
+        "y": 2.1665047609695787
       },
       "prevControl": {
-        "x": 6.712715279924141,
-        "y": 1.3350353662190912
+        "x": 5.857824212082089,
+        "y": 1.4053003854937813
       },
       "nextControl": null,
       "isLocked": false,
@@ -32,20 +32,20 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.0,
+    "maxVelocity": 3.0,
     "maxAcceleration": 10.0,
     "maxAngularVelocity": 540.0,
     "maxAngularAcceleration": 720.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 35.909723079177645,
-    "rotateFast": true
+    "rotation": 38.0,
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "Starting Zone",
   "previewStartingState": {
-    "rotation": -50.0,
+    "rotation": -59.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

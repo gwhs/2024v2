@@ -20,8 +20,8 @@
         "y": 6.72
       },
       "prevControl": {
-        "x": 1.622507375783982,
-        "y": 6.650931400324339
+        "x": 1.7238989114212167,
+        "y": 6.394116753996703
       },
       "nextControl": null,
       "isLocked": false,
@@ -39,8 +39,8 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
-    "rotateFast": false
+    "rotation": 36.72834886415037,
+    "rotateFast": true
   },
   "reversed": false,
   "folder": "Notes Near Starting Zone",

@@ -56,9 +56,9 @@ public class Robot extends LoggedRobot  {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and use the subsystems needed
     // for the specific robot
-    LimelightHelpers.setStreamMode_PiPSecondary("limelight");
+    // LimelightHelpers.setStreamMode_PiPSecondary("limelight");
 
-    Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5800").withSize(4,3).withPosition(5, 0);
+    // Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5800").withSize(4,3).withPosition(5, 0);
 
     String logfolder = "/home/lvuser";
     Logger.addDataReceiver(new WPILOGWriter(logfolder));
@@ -110,6 +110,8 @@ public class Robot extends LoggedRobot  {
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
+    //     LimelightHelpers.setStreamMode_PiPSecondary("limelight");
+    // Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5800").withSize(4,3).withPosition(5, 0);
     CommandScheduler.getInstance().run();
     
   }

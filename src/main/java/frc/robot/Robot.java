@@ -143,7 +143,9 @@ public class Robot extends LoggedRobot  {
       m_autonomousCommand.cancel();
     }
 
-    gameRobotContainer.teleopInitReset().schedule();
+    if(gameRobotContainer != null) {
+      gameRobotContainer.teleopInitReset().schedule();
+    }
   }
 
   /** This function is called periodically during operator control. */

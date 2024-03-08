@@ -20,14 +20,13 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class UnClimb extends SequentialCommandGroup {
   /** Creates a new UnClimb. */
-  public UnClimb(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a, PizzaBoxSubsystem p, ReactionSubsystem r) {
+  public UnClimb(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a, PizzaBoxSubsystem p) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new SpinToArmAngle(a, 135).withTimeout(1),
       Commands.waitUntil(()->Math.abs(a.encoderGetAngle() - 130) <= 5),
-      new MotorUp(c, s).withTimeout(5),
-      new Retract(r).withTimeout(0.5)
+      new MotorUp(c, s).withTimeout(5)
     );
   }
 }

@@ -10,9 +10,11 @@ import org.littletonrobotics.junction.networktables.NT4Publisher;
 import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 import edu.wpi.first.wpilibj.TimedRobot;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.ReactionSubsystem;
+import frc.robot.subsystems.LimelightHelpers.LimelightHelpers;
 import frc.robot.testcontainers.ArmContainer;
 import frc.robot.testcontainers.ClimbContainer;
 import frc.robot.testcontainers.DriveContainer;
@@ -54,6 +56,9 @@ public class Robot extends LoggedRobot  {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and use the subsystems needed
     // for the specific robot
+    LimelightHelpers.setStreamMode_PiPSecondary("limelight");
+
+    Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5800").withSize(4,3).withPosition(5, 0);
 
     String logfolder = "/home/lvuser";
     Logger.addDataReceiver(new WPILOGWriter(logfolder));

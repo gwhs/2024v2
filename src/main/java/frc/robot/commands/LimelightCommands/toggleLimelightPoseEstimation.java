@@ -10,8 +10,10 @@ import frc.robot.subsystems.LimeVision.LimeLightSub;
 public class toggleLimelightPoseEstimation extends Command {
   /** Creates a new toggleLimelightPoseEstimation. */
   LimeLightSub limeSub;
+  
   public toggleLimelightPoseEstimation(LimeLightSub l) {
     // Use addRequirements() here to declare subsystem dependencies.
+    this.limeSub = l;
   }
 
   // Called when the command is initially scheduled.

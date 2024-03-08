@@ -20,6 +20,8 @@ import frc.robot.commands.IntakeCommands.IntakeRejectNote;
 import frc.robot.commands.IntakeCommands.IntakeResetArm;
 import frc.robot.commands.LimelightCommands.toggleCameraMode;
 import frc.robot.commands.LimelightCommands.toggleLimelightPoseEstimation;
+import frc.robot.commands.ReactionArmCommands.Extend;
+import frc.robot.commands.ReactionArmCommands.Retract;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -73,6 +75,12 @@ public class SetupShuffleboard extends SubsystemBase {
       .withPosition(4,1);
     Shuffleboard.getTab("GameTab").add("IntakeRejectNote", new IntakeRejectNote(intakeSubsystem))
       .withPosition(4,2);
+    Shuffleboard.getTab("GameTab").add("Extend Reaction Bar", new Extend(reactionSubsystem))
+      .withPosition(4, 4);
+     Shuffleboard.getTab("GameTab").add("Retract Reaction Bar", new Retract(reactionSubsystem))
+      .withPosition(5, 4);
+    
+
     
 
       

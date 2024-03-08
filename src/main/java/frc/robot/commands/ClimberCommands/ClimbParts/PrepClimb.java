@@ -22,7 +22,7 @@ public class PrepClimb extends SequentialCommandGroup {
       new SpinToArmAngle(a, 135).withTimeout(3),
       Commands.waitUntil(()->Math.abs(a.encoderGetAngle() - 130) <= 5),
       new ParallelCommandGroup(new Extend(r).withTimeout(0.5), 
-                               new MotorUp(c, s).withTimeout(5))
+                               new MotorUp(c, s).withTimeout(3))
     );
   
     // Use addRequirements() here to declare subsystem dependencies.

@@ -26,7 +26,7 @@ public class UnClimb extends SequentialCommandGroup {
     addCommands(
       new SpinToArmAngle(a, 135).withTimeout(1),
       Commands.waitUntil(()->Math.abs(a.encoderGetAngle() - 130) <= 5),
-      new MotorUp(c, s).withTimeout(5)
+      new MotorUp(c, s).withTimeout(3)
     );
   }
 }

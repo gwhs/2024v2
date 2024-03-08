@@ -66,6 +66,11 @@ public class Climbsubsystem extends SubsystemBase {
 
   //makes the motor move
   public void setSpeed(double leftSpeed, double rightSpeed){ // speed should be in rotations per second
+    if(emergencyStop) {
+      leftSpeed = 0;
+      rightSpeed = 0;
+    }
+
     climberArmLeft.setControl(new VelocityVoltage(-leftSpeed, 
                                                   50, // rotations per second^2
                                                   true, // if we bought it then set true and get more power
@@ -166,11 +171,6 @@ public class Climbsubsystem extends SubsystemBase {
       leftPIDvalue = 0;
     }
     if (!checkForUp && getBotRightLimit()) {
-      rightPIDvalue = 0;
-    }
-
-    if(emergencyStop) {
-      leftPIDvalue = 0;
       rightPIDvalue = 0;
     }
     

@@ -155,6 +155,11 @@ public class Climbsubsystem extends SubsystemBase {
     rightPIDcontroller.setGoal(30); //-0.3
   }
 
+  public void downMotorHarmony() {
+    checkForUp = false;
+    
+  }
+
   @Override
   public void periodic() {
     double leftPIDvalue = leftPIDcontroller.calculate(getPositionLeft());

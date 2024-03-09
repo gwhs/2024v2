@@ -75,7 +75,8 @@ public class SwerveSubsystem extends SubsystemBase
     System.out.println("}");
 
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary objects being created.
-    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
+    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.NONE;
+    // 3/8/2024 changed from HIGH to NONE to see if prevent loop overrun
     try
     {
       //swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed);

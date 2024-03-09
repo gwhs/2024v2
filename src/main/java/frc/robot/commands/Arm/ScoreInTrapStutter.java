@@ -7,6 +7,7 @@ package frc.robot.commands.Arm;
 import frc.robot.subsystems.PizzaBoxSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class ScoreInTrapStutter extends SequentialCommandGroup {
@@ -15,6 +16,7 @@ public class ScoreInTrapStutter extends SequentialCommandGroup {
 
   public ScoreInTrapStutter(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem) {
     addCommands(
+      new PrintCommand("Score in trp stutter initialize"),
         new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.TRAP_ANGLE).withTimeout(3));
 
 
@@ -33,7 +35,8 @@ public class ScoreInTrapStutter extends SequentialCommandGroup {
         new SpinToArmAngle(armSubsystem, 135).withTimeout(1),
         Commands.runOnce(() -> {
           pizzaBoxSubsystem.hasNote = false;
-          })
+          }),
+          new PrintCommand("scorein trap stutter finished")
     );
   }
 

@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.SystemCheck;
 import frc.robot.commands.CancelAllCommands;
 import frc.robot.commands.Arm.ResetArm;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
@@ -126,7 +127,7 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("Climb").addDouble("Reaction Bar Angle", ()-> reactionSubsystem.getPos()).withPosition(9, 4);
 
 
-    //Shuffleboard.getTab("System Check")
+    Shuffleboard.getTab("System Check").add("check", new SystemCheck(armSubsystem, climbSubsystem, intakeSubsystem, pizzaBoxSubsystem, reactionSubsystem, swerve));
   }
   @Override
   public void periodic() {

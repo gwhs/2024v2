@@ -4,10 +4,17 @@
 
 package frc.robot;
 
-import org.littletonrobotics.junction.LoggedRobot;
-import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.networktables.NT4Publisher;
-import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+import com.ctre.phoenix6.SignalLogger;
+
+import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.TimedRobot;
+
+// import org.littletonrobotics.junction.LoggedRobot;
+// import org.littletonrobotics.junction.Logger;
+// import org.littletonrobotics.junction.networktables.NT4Publisher;
+// import org.littletonrobotics.junction.wpilog.WPILOGWriter;
 
 
 import edu.wpi.first.wpilibj2.command.Command;
@@ -26,7 +33,7 @@ import frc.robot.testcontainers.ReactionArmContainer;
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends LoggedRobot  {
+public class Robot extends TimedRobot  {
 
   public static final String GAME = "Game"; 
   public static final String INTAKE = "Intake";
@@ -57,10 +64,16 @@ public class Robot extends LoggedRobot  {
 
     // Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5800").withSize(4,3).withPosition(5, 0);
 
-    String logfolder = "/home/lvuser";
-    Logger.addDataReceiver(new WPILOGWriter(logfolder));
-    Logger.addDataReceiver(new NT4Publisher());
-    Logger.start();
+    // String logfolder = "/home/lvuser";
+    // Logger.addDataReceiver(new WPILOGWriter(logfolder));
+    // Logger.addDataReceiver(new NT4Publisher());
+    // Logger.start();
+
+    SignalLogger.enableAutoLogging(false);
+    SignalLogger.stop();
+
+    DataLogManager.start();
+    DriverStation.startDataLog(DataLogManager.getLog());
     
     switch (container){
       case GAME:
@@ -126,6 +139,7 @@ public class Robot extends LoggedRobot  {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_baseContainer.getAutonomousCommand();
+   
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -150,6 +164,8 @@ public class Robot extends LoggedRobot  {
     if(gameRobotContainer != null) {
       gameRobotContainer.teleopInitReset().schedule();
     }
+
+  
   }
 
   /** This function is called periodically during operator control. */

@@ -44,7 +44,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int AMP_ANGLE = 322;
     public static final int TRAP_ANGLE = 290;
     public static final int SPEAKER_LOW_ANGLE = 165;
-    public static final int SPEAKER_HIGH_ANGLE = 242;
+    public static final int SPEAKER_HIGH_ANGLE = 238;
     public static final int INTAKE_ANGLE = 66;
     public static final int CLIMBING_ANGLE = 45;
   }

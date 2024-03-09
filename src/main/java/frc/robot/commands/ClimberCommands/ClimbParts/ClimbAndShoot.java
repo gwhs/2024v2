@@ -8,9 +8,12 @@ import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Arm.*;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
+import frc.robot.commands.ReactionArmCommands.Extend;
+import frc.robot.commands.ReactionArmCommands.Retract;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.PizzaBoxSubsystem;
+import frc.robot.subsystems.ReactionSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -18,12 +21,12 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ClimbAndShoot extends SequentialCommandGroup {
   /** Creates a new ClimbAndShoot. */
-  public ClimbAndShoot(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a, PizzaBoxSubsystem p) {
+  public ClimbAndShoot(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a, PizzaBoxSubsystem p, ReactionSubsystem r) {
     // Add your commands in the addCommands() call, e.g.
     addCommands (
       new SpinToArmAngle(a, 135).withTimeout(1),
       Commands.waitUntil(()->Math.abs(a.encoderGetAngle() - 130) <= 5),
-      new MotorDown(c, s).withTimeout(3),
+      new MotorDown(c, s).withTimeout(3).alongWith(new Extend(r)),
       new ScoreInTrapStutter(p, a)
       );
 

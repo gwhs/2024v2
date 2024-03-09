@@ -24,7 +24,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private DutyCycleEncoder m_Encoder;
   private DigitalInput m_noteSensor; // sensor to check if note is present in intake
   private VelocityVoltage spinRequest1;
-  public boolean emergencyStop = false;
+  public boolean emergencyStop = true;
 
   /*
    * int lowerIntakeId: Id for lowerng motors for the intake
@@ -66,7 +66,9 @@ public class IntakeSubsystem extends SubsystemBase {
     // spinRequest1 = new VelocityVoltage(
     // -intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0,false, false,
     // false);
-    m_spinIntake.set(-intakeMotorVelocity);
+    if (!emergencyStop) {
+        m_spinIntake.set(-intakeMotorVelocity);
+    }
   }
 
   // spin intake motors the opposite way, velocity is positive to reject intake
@@ -74,7 +76,9 @@ public class IntakeSubsystem extends SubsystemBase {
     // spinRequest1 = new VelocityVoltage(
     // intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0, false, false,
     // false);
-    m_spinIntake.set(intakeMotorVelocity);
+    if (!emergencyStop) {
+      m_spinIntake.set(intakeMotorVelocity);
+    }
   }
 
   public void spinIntakeArm(double speed) {

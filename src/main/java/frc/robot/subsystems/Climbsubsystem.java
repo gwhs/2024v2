@@ -151,8 +151,8 @@ public class Climbsubsystem extends SubsystemBase {
 
   public void downMotor() {
     checkForUp = false;
-    leftPIDcontroller.setGoal(-0.3);
-    rightPIDcontroller.setGoal(0.3);
+    leftPIDcontroller.setGoal(-30); //-0.3
+    rightPIDcontroller.setGoal(30); //-0.3
   }
 
   @Override

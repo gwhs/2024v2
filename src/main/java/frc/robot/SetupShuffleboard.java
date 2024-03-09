@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.commands.CancelAllCommands;
 import frc.robot.commands.Arm.ResetArm;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorUp;
@@ -85,7 +86,7 @@ public class SetupShuffleboard extends SubsystemBase {
       .withPosition(6, 3);
     Shuffleboard.getTab("GameTab").add("Decrease Intake Offset", new DecreaseIntakeOffset())
       .withPosition(5,3);
-
+    Shuffleboard.getTab("GameTab").add("CLEAR ALL COMMANDS", new CancelAllCommands()).withPosition(7,3);
     
 
     ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");

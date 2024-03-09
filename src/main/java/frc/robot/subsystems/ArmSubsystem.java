@@ -52,7 +52,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   private TalonFX m_arm;
   private DutyCycleEncoder m_encoder;
   private ArmFeedforward armFeedForward;
-  public boolean emergencyStop = false;
+  public boolean emergencyStop = true;
 
   public ArmSubsystem(int armId, String armCanbus, int channel1)
   {

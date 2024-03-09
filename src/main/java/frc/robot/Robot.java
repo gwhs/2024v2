@@ -69,8 +69,8 @@ public class Robot extends TimedRobot  {
     // Logger.addDataReceiver(new NT4Publisher());
     // Logger.start();
 
-    SignalLogger.enableAutoLogging(true);
-    SignalLogger.start();
+    SignalLogger.enableAutoLogging(false);
+    SignalLogger.stop();
 
     DataLogManager.start();
     DriverStation.startDataLog(DataLogManager.getLog());

@@ -33,7 +33,7 @@ public class IntakePassNoteToPizzaBox extends Command {
   public void initialize() {
     System.out.println("Intake pass note to pizzabox initialize");
     currentSensorValue = true;
-    intakeSubsystem.spinIntakeMotor(1, 100);
+    intakeSubsystem.spinIntakeMotor(0.5, 100);
     pizzaBoxSubsystem.spinPizzaBoxMotor(-30, 100);
     initTimer = Timer.getFPGATimestamp(); 
   }

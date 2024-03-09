@@ -44,8 +44,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int AMP_ANGLE = 322;
     public static final int TRAP_ANGLE = 290;
     public static final int SPEAKER_LOW_ANGLE = 165;
-    public static final int SPEAKER_HIGH_ANGLE = 242;
-    public static final int INTAKE_ANGLE = 64;
+    public static final int SPEAKER_HIGH_ANGLE = 238;
+    public static final int INTAKE_ANGLE = 66;
     public static final int CLIMBING_ANGLE = 45;
   }
 
@@ -56,7 +56,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   public ArmSubsystem(int armId, String armCanbus, int channel1)
   {
-    super(new ProfiledPIDController(5.5, .25, 0, new Constraints(3.5*Math.PI, 27)));
+    super(new ProfiledPIDController(5, .25, 0, new Constraints(3.5*Math.PI, 27)));
     getController().setTolerance(2 * (Math.PI/180));
     //TrapezoidProfile either velocity or position
       m_arm = new TalonFX(armId, armCanbus);

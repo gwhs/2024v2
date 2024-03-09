@@ -92,11 +92,11 @@ public final class Constants
     public static final int INTAKE_ENCODER_CHANNEL_ID = 9; 
     public static final int INTAKE_NOTESENSOR_CHANNEL_ID = 8;
     public static final double TOLERANCE = 4; // in degrees
-    public static final double MAX_ARM_ANGLE = 80; //need to check max arm angle
+    public static final double MAX_ARM_ANGLE = 82; //need to check max arm angle
     public static final double ROTATION_TO_DEGREES = 360;
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
-    public static final double ENCODER_OFFSET = 178; //need to check the encoder value 
-    public static final double UP_POSITION = 80;
+    public static double ENCODER_OFFSET = 151; //need to check the encoder value 
+    public static final double UP_POSITION = 82;
   }
 
   public static final class ReactionConstants {
@@ -105,7 +105,7 @@ public final class Constants
     public static double currentLimit = 10;
     public static final double tolerance = 0.1;
     public static final double retractedPosition = 0;
-    public static final double extendedPosition = -1.94;
+    public static final double extendedPosition = -2.5;
   }
 
 

@@ -5,6 +5,7 @@
 package frc.robot.commands.ClimberCommands.ClimbParts;
 
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Arm.SpinToArmAngle;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorUp;
@@ -24,9 +25,11 @@ public class UnClimb extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
+      new PrintCommand("unclimb initialize"),
       new SpinToArmAngle(a, 135).withTimeout(1),
       Commands.waitUntil(()->Math.abs(a.encoderGetAngle() - 130) <= 5),
-      new MotorUp(c, s).withTimeout(5)
+      new MotorUp(c, s).withTimeout(5),
+      new PrintCommand("unclimb finished")
     );
   }
 }

@@ -5,6 +5,7 @@
 package frc.robot.commands.ClimberCommands.ClimbParts;
 
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Arm.SpinToArmAngle;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
@@ -25,7 +26,7 @@ public class UnClimbPartTwoThatWillBringDownTheMotor extends SequentialCommandGr
     addCommands(
       new SpinToArmAngle(a, 135).withTimeout(1),
       Commands.waitUntil(()->Math.abs(a.encoderGetAngle() - 130) <= 5),
-      new Retract(r).withTimeout(0.5),
-      new MotorDown(c, s).withTimeout(5));
+      new Retract(r).withTimeout(0.5)
+      .alongWith(new MotorDown(c, s).withTimeout(3)));
   }
 }

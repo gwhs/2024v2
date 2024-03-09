@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.SystemCheck;
+import frc.robot.commands.CancelAllCommands;
 import frc.robot.commands.Arm.ResetArm;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorUp;
@@ -17,6 +18,8 @@ import frc.robot.commands.ClimberCommands.ClimbParts.PrepClimb;
 import frc.robot.commands.ClimberCommands.ClimbParts.StopClimb;
 import frc.robot.commands.ClimberCommands.ClimbParts.UnClimb;
 import frc.robot.commands.ClimberCommands.ClimbParts.UnClimbPartTwoThatWillBringDownTheMotor;
+import frc.robot.commands.IntakeCommands.DecreaseIntakeOffset;
+import frc.robot.commands.IntakeCommands.IncreaseIntakeOffset;
 import frc.robot.commands.IntakeCommands.IntakeRejectNote;
 import frc.robot.commands.IntakeCommands.IntakeResetArm;
 import frc.robot.commands.LimelightCommands.toggleCameraMode;
@@ -77,14 +80,15 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("GameTab").add("IntakeRejectNote", new IntakeRejectNote(intakeSubsystem))
       .withPosition(4,2);
     Shuffleboard.getTab("GameTab").add("Extend Reaction Bar", new Extend(reactionSubsystem))
-      .withPosition(4, 4);
+      .withPosition(3, 3);
      Shuffleboard.getTab("GameTab").add("Retract Reaction Bar", new Retract(reactionSubsystem))
-      .withPosition(5, 4);
+      .withPosition(4, 3);
+    Shuffleboard.getTab("GameTab").add("Increase Intake Offset", new IncreaseIntakeOffset())
+      .withPosition(6, 3);
+    Shuffleboard.getTab("GameTab").add("Decrease Intake Offset", new DecreaseIntakeOffset())
+      .withPosition(5,3);
+    Shuffleboard.getTab("GameTab").add("CLEAR ALL COMMANDS", new CancelAllCommands()).withPosition(7,3);
     
-
-    
-
-      
 
     ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
 
@@ -114,7 +118,7 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("Climb").add("motor up", new MotorUp(climbSubsystem, swerve)).withPosition(0, 1);
 
     Shuffleboard.getTab("Climb").add("climb prep", new PrepClimb(climbSubsystem, swerve, armSubsystem, reactionSubsystem)).withPosition(4, 0);
-    Shuffleboard.getTab("Climb").add("climb & shoot", new ClimbAndShoot(climbSubsystem, swerve, armSubsystem, pizzaBoxSubsystem)).withPosition(5, 0);
+    Shuffleboard.getTab("Climb").add("climb & shoot", new ClimbAndShoot(climbSubsystem, swerve, armSubsystem, pizzaBoxSubsystem, reactionSubsystem)).withPosition(5, 0);
     Shuffleboard.getTab("Climb").add("unclimb1", new UnClimb(climbSubsystem, swerve, armSubsystem, pizzaBoxSubsystem)).withPosition(4, 1);
     Shuffleboard.getTab("Climb").add("unclimb2", new UnClimbPartTwoThatWillBringDownTheMotor(climbSubsystem, swerve, armSubsystem, reactionSubsystem)).withPosition(5, 1);
 

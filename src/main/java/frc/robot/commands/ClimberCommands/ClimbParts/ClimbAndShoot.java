@@ -27,7 +27,7 @@ public class ClimbAndShoot extends SequentialCommandGroup {
     addCommands (
       new PrintCommand("climb and shoot initialize"),
       new SpinToArmAngle(a, 135).withTimeout(1),
-      Commands.waitUntil(()->Math.abs(a.encoderGetAngle() - 130) <= 5),
+      Commands.waitUntil(()-> a.checkEncoderAngleForClimb()),
       new MotorDown(c, s).withTimeout(3).alongWith(new Extend(r)),
       new ScoreInTrapStutter(p, a),
       new PrintCommand("climb and shoot finished")

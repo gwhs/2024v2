@@ -5,6 +5,7 @@
 package frc.robot.commands.ClimberCommands.ClimbParts;
 
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Arm.*;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
@@ -21,10 +22,12 @@ public class ClimbAndShoot extends SequentialCommandGroup {
   public ClimbAndShoot(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a, PizzaBoxSubsystem p) {
     // Add your commands in the addCommands() call, e.g.
     addCommands (
+      new PrintCommand("climb and shoot initialize"),
       new SpinToArmAngle(a, 135).withTimeout(1),
       Commands.waitUntil(()->Math.abs(a.encoderGetAngle() - 130) <= 5),
       new MotorDown(c, s).withTimeout(5),
-      new ScoreInTrapStutter(p, a)
+      new ScoreInTrapStutter(p, a),
+      new PrintCommand("climb and shoot finished")
       );
 
     

@@ -31,6 +31,7 @@ public class IntakePassNoteToPizzaBox extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    System.out.println("Intake pass note to pizzabox initialize");
     currentSensorValue = true;
     intakeSubsystem.spinIntakeMotor(1, 100);
     pizzaBoxSubsystem.spinPizzaBoxMotor(-30, 100);
@@ -46,6 +47,7 @@ public class IntakePassNoteToPizzaBox extends Command {
   // runs once when isFinished is called
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Intake pass note to pizzabox finished");
     pizzaBoxSubsystem.stopPizzaBoxMotor();
     intakeSubsystem.stopIntakeMotors();
     // if(interrupted) {

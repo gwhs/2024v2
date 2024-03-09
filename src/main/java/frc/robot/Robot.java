@@ -69,8 +69,8 @@ public class Robot extends TimedRobot  {
     // Logger.addDataReceiver(new NT4Publisher());
     // Logger.start();
 
-    SignalLogger.enableAutoLogging(false);
-    SignalLogger.stop();
+    SignalLogger.enableAutoLogging(true);
+    SignalLogger.start();
 
     DataLogManager.start();
     DriverStation.startDataLog(DataLogManager.getLog());
@@ -139,8 +139,7 @@ public class Robot extends TimedRobot  {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_baseContainer.getAutonomousCommand();
-    SignalLogger.enableAutoLogging(false);
-    SignalLogger.stop();
+   
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -166,8 +165,7 @@ public class Robot extends TimedRobot  {
       gameRobotContainer.teleopInitReset().schedule();
     }
 
-    SignalLogger.enableAutoLogging(false);
-    SignalLogger.stop();
+  
   }
 
   /** This function is called periodically during operator control. */

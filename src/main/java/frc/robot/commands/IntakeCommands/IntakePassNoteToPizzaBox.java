@@ -32,7 +32,7 @@ public class IntakePassNoteToPizzaBox extends Command {
   @Override
   public void initialize() {
     currentSensorValue = true;
-    intakeSubsystem.spinIntakeMotor(1, 100);
+    intakeSubsystem.spinIntakeMotor(0.5, 100);
     pizzaBoxSubsystem.spinPizzaBoxMotor(-30, 100);
     initTimer = Timer.getFPGATimestamp(); 
   }

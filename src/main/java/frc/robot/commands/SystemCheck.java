@@ -37,9 +37,9 @@ public class SystemCheck extends SequentialCommandGroup {
       new ClimbAndShoot(c, s, a, p, r), new WaitCommand(2),
       new UnClimb(c, s, a, p), new WaitCommand(2),
       new UnClimbPartTwoThatWillBringDownTheMotor(c, s, a, r), new WaitCommand(2),
-      new PickUpFromGroundAndPassToPizzaBox(p, a, i), new WaitCommand(2),
-      new PickUpFromGroundAndPassToPizzaBox(p, a, i), new WaitCommand(2),
-      new ScoreInAmp(p, a), new WaitCommand(2),
+      // new PickUpFromGroundAndPassToPizzaBox(p, a, i), new WaitCommand(2),
+      // new PickUpFromGroundAndPassToPizzaBox(p, a, i), new WaitCommand(2),
+      // new ScoreInAmp(p, a), new WaitCommand(2),
       new ScoreInSpeakerUnderHand(p, a), new WaitCommand(2)
 
     );

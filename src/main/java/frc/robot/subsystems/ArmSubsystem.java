@@ -119,8 +119,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   }
 
   public boolean checkEncoderAngleForClimb() {
-    return true;
-    //return (encoderGetAngle() >= 125 && encoderGetAngle() <= 180);
+    return (encoderGetAngle() >= 125 && encoderGetAngle() <= 180);
   }
 
   @Override

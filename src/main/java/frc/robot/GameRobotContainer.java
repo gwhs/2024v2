@@ -100,7 +100,7 @@ public class GameRobotContainer implements BaseContainer {
       driverController.b().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem, 10));
       driverController.x().whileTrue(new DecreaseSpeed(closedFieldRel));
 
-      //driverController.rightStick().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
+      driverController.rightStick().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
       //driverController.leftStick().onTrue(new ChangeRobotOrientation(closedFieldRel));
 
       //driverController.rightBumper().onTrue(new BackSpeaker(closedFieldRel));
@@ -117,9 +117,8 @@ public class GameRobotContainer implements BaseContainer {
       operatorController.x().onTrue(new UnClimbPartTwoThatWillBringDownTheMotor(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_ReactionSubsystem));
       operatorController.start().onTrue(new StopClimb(m_ClimbSubsystem));
 
-      //operatorController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem, m_PizzaBoxSubsystem));
-      operatorController.leftBumper().onTrue(new SpinPizzaBoxSource(m_PizzaBoxSubsystem));
-
+      operatorController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem, m_PizzaBoxSubsystem));
+      operatorController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
       // operatorController.  ?? ().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, Shuffleboard.getTab("Arm").add("Angle", 242).getEntry().getDouble(245)));
       
 

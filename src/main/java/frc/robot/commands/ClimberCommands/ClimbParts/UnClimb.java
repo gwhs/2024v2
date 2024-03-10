@@ -26,8 +26,8 @@ public class UnClimb extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       new PrintCommand("unclimb initialize"),
-      new SpinToArmAngle(a, 135).withTimeout(1),
-      Commands.waitUntil(()->a.checkEncoderAngleForClimb()),
+      // new SpinToArmAngle(a, 135).withTimeout(1),
+      // Commands.waitUntil(()->a.checkEncoderAngleForClimb()),
       new MotorUp(c, s).withTimeout(5),
       new PrintCommand("unclimb finished")
     );

@@ -24,8 +24,8 @@ public class UnClimbPartTwoThatWillBringDownTheMotor extends SequentialCommandGr
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new SpinToArmAngle(a, 135).withTimeout(1),
-      Commands.waitUntil(()->a.checkEncoderAngleForClimb()),
+      // new SpinToArmAngle(a, 135).withTimeout(1),
+      // Commands.waitUntil(()->a.checkEncoderAngleForClimb()),
       new Retract(r).withTimeout(0.5)
       .alongWith(new MotorDown(c, s).withTimeout(3)));
   }

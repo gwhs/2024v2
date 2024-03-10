@@ -24,7 +24,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private DutyCycleEncoder m_Encoder;
   private DigitalInput m_noteSensor; // sensor to check if note is present in intake
   private VelocityVoltage spinRequest1;
-  public boolean emergencyStop = false;
+  public boolean emergencyStop = true;
 
   /*
    * int lowerIntakeId: Id for lowerng motors for the intake

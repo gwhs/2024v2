@@ -79,7 +79,7 @@ public class GameRobotContainer implements BaseContainer {
                                           () -> driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), () -> true);
 
         configurePathPlannerCommands();
-        autoChooser = AutoBuilder.buildAutoChooser("Test Auto");
+        autoChooser = AutoBuilder.buildAutoChooser("0N-S1-noLeave (underhand)");
 
 
         m_drivebase.setDefaultCommand(closedFieldRel);

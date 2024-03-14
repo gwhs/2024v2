@@ -3,13 +3,13 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.Arm;
+import frc.robot.subsystems.PizzaBoxSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
+
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.commands.Arm.SpinNoteContainerMotor;
 import frc.robot.commands.Arm.StopNoteContainerMotor;
-import frc.robot.commands.Arm.SwingBack;
-import frc.robot.commands.Arm.SwingForward;
 import frc.robot.commands.Arm.SwingForwardServo;
 import frc.robot.commands.Arm.SwingBackServo;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -18,15 +18,18 @@ public class SpinAndSwing extends SequentialCommandGroup {
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-  public SpinAndSwing(ArmSubsystem armSubsystem) {
+  //velocity = 100 for testing shooting 
+  public SpinAndSwing(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, double angle, double vel) {
     addCommands(
-        new SpinNoteContainerMotor (armSubsystem, 100, 150),
-        Commands.waitSeconds(.5), 
-        new SwingForwardServo(armSubsystem),
-        new SwingBackServo(armSubsystem),
-        new StopNoteContainerMotor(armSubsystem)
+        new SpinArmAndPizzaBox(pizzaBoxSubsystem, armSubsystem, angle, vel),
+        new SpinNoteContainerMotor(pizzaBoxSubsystem, vel, 500),
+        Commands.waitUntil(()->pizzaBoxSubsystem.isAtVelocity(vel*.95)),
+        new SwingForwardServo(pizzaBoxSubsystem),
+        Commands.waitSeconds(.2),
+        new SwingBackServo(pizzaBoxSubsystem),
+        new StopNoteContainerMotor(pizzaBoxSubsystem),
+        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE)
         );
-
   }
 
   

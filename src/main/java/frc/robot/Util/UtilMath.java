@@ -5,6 +5,7 @@
 package frc.robot.Util;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.wpilibj.DriverStation;
 
 /** Add your docs here. */
 public class UtilMath {
@@ -16,20 +17,63 @@ public class UtilMath {
 
 
     public static double caclucateRotateTheta(Pose2d pose, double targetX, double targetY){
-        double calucatedRad = Math.atan2((targetY-pose.getY()), (targetX-pose.getX()));
-        return  Math.toDegrees(calucatedRad);
+        double calucatedRad = Math.atan((targetY-pose.getY())/ (targetX-pose.getX()));
+        
+        return  Math.abs(Math.toDegrees(calucatedRad));
     }
 
-    public static double BLUESpeakerTheta(Pose2d pose)
+    public static double FrontSpeakerTheta(Pose2d pose)
     {
-
-        return caclucateRotateTheta(pose, BLUE_SPEAKER_Y, BLUE_SPEAKER_X);
+        if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
+        {
+             if(pose.getY() >= BLUE_SPEAKER_Y)
+        {
+            return -180+caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
+        }
+        else if(pose.getY() <= BLUE_SPEAKER_Y)
+        {
+            return 180-caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
+        }
+        }
+        else if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
+        {
+            if(pose.getY() >= RED_SPEAKER_Y)
+            {
+                return -caclucateRotateTheta(pose, RED_SPEAKER_X, RED_SPEAKER_Y);
+            }
+            else if(pose.getY() <= RED_SPEAKER_Y)
+            {
+                return caclucateRotateTheta(pose, RED_SPEAKER_X, RED_SPEAKER_Y);
+            }
+        }
+        return caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
+       
     }
-
-    public static double REDSpeakerTheta(Pose2d pose)
+     public static double BackSpeakerTheta(Pose2d pose)
     {
-
-        return caclucateRotateTheta(pose, RED_SPEAKER_Y, RED_SPEAKER_X);
-    
+        if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
+        {
+             if(pose.getY() >= BLUE_SPEAKER_Y)
+        {
+            return caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
+        }
+        else if(pose.getY() <= BLUE_SPEAKER_Y)
+        {
+            return -caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
+        }
+        }
+        else if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
+        {
+            if(pose.getY() >= RED_SPEAKER_Y)
+            {
+                return 180-caclucateRotateTheta(pose, RED_SPEAKER_X, RED_SPEAKER_Y);
+            }
+            else if(pose.getY() <= RED_SPEAKER_Y)
+            {
+                return -180+caclucateRotateTheta(pose, RED_SPEAKER_X, RED_SPEAKER_Y);
+            }
+        }
+        return caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
+       
     }
 }

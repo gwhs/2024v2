@@ -22,28 +22,18 @@ public class SpinToArmAngle extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("hello");
     armSubsystem.targetArmAngle(angle);
   }
 
-  // Called every time the scheduler runs while the command is scheduled.
   @Override
-  public void execute() {
-    // if(armSubsystem.getController().atGoal())
-    // {
+  public void end(boolean interrupted){
+  }
 
-    // }
-}
-
-  // Called once the command ends or is interrupted.
-  @Override
-  public void end(boolean interrupted) {
-}
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    System.out.println("end");
+    
     return armSubsystem.getController().atGoal(); 
   }
 }

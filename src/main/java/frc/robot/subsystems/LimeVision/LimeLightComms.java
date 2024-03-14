@@ -26,7 +26,7 @@ public class LimeLightComms {
   ty 	Vertical Offset From Crosshair To Target (LL1: -20.5 degrees to 20.5 degrees | LL2: -24.85 to 24.85 degrees)
   ta 	Target Area (0% of image to 100% of image)
   ts 	Skew or rotation (-90 degrees to 0 degrees)
-  tl 	The pipeline’s latency contribution (ms) Add at least 11ms for image capture latency.
+  tl 	The pipeline's latency contribution (ms) Add at least 11ms for image capture latency.
   tshort 	Sidelength of shortest side of the fitted bounding box (pixels)
   tlong 	Sidelength of longest side of the fitted bounding box (pixels)
   thor 	Horizontal sidelength of the rough bounding box (0 - 320 pixels)
@@ -77,14 +77,14 @@ public class LimeLightComms {
    2 	force blink
    3 	force on
 
-   camMode 	Sets limelight’s operation mode
+   camMode 	Sets limelight's operation mode
    0 	Vision processor
    1 	Driver Camera (Increases exposure, disables vision processing)
 
-   pipeline 	Sets limelight’s current pipeline
+   pipeline 	Sets limelight's current pipeline
    0 .. 9 	Select pipeline 0..9
 
-   stream 	Sets limelight’s streaming mode
+   stream 	Sets limelight's streaming mode
    0 	Standard - Side-by-side streams if a webcam is attached to Limelight
    1 	PiP Main - The secondary camera stream is placed in the lower-right corner of the primary camera stream
    2 	PiP Secondary - The primary camera stream is placed in the lower-right corner of the secondary camera stream

@@ -4,16 +4,23 @@
 
 package frc.robot;
 
+import org.littletonrobotics.junction.LoggedRobot;
+import org.littletonrobotics.junction.Logger;
+import org.littletonrobotics.junction.networktables.NT4Publisher;
+import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+
 import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.subsystems.LEDSubsystem;
+import frc.robot.subsystems.ReactionSubsystem;
 import frc.robot.testcontainers.ArmContainer;
 import frc.robot.testcontainers.ClimbContainer;
 import frc.robot.testcontainers.DriveContainer;
 import frc.robot.testcontainers.IntakeContainer;
 import frc.robot.testcontainers.VisionContainer;
 import frc.robot.testcontainers.LEDContainer;
+import frc.robot.testcontainers.ReactionArmContainer;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -21,7 +28,7 @@ import frc.robot.testcontainers.LEDContainer;
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends TimedRobot {
+public class Robot extends LoggedRobot  {
 
   public static final String GAME = "Game"; 
   public static final String INTAKE = "Intake";
@@ -30,7 +37,8 @@ public class Robot extends TimedRobot {
   public static final String CLIMB = "Climb";
   public static final String VISION = "Vision";
   public static final String LED = "LED";
-
+  public static final String REACTION = "REACTION";
+  
   // change this to match the subsystem container you want to use, or GAME for complete robot
   public static final String container = LED;
 
@@ -46,6 +54,11 @@ public class Robot extends TimedRobot {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and use the subsystems needed
     // for the specific robot
+
+    String logfolder = "/home/lvuser";
+    Logger.addDataReceiver(new WPILOGWriter(logfolder));
+    Logger.addDataReceiver(new NT4Publisher());
+    Logger.start();
     
     switch (container){
       case GAME:
@@ -70,7 +83,11 @@ public class Robot extends TimedRobot {
       case LED:
         m_baseContainer = new LEDContainer();
         break;
+      case REACTION:
+        m_baseContainer = new ReactionArmContainer();
+        break;
     }  
+
    
   }
 

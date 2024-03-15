@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.SystemCheck;
+import frc.robot.Util.UtilMath;
 import frc.robot.commands.CancelAllCommands;
 import frc.robot.commands.Arm.ResetArm;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
@@ -33,6 +34,7 @@ import frc.robot.subsystems.PizzaBoxSubsystem;
 import frc.robot.subsystems.ReactionSubsystem;
 import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import swervelib.SwerveDrive;
 
 public class SetupShuffleboard extends SubsystemBase {
   /** Creates a new SetupShuffleboard. */
@@ -128,6 +130,8 @@ public class SetupShuffleboard extends SubsystemBase {
 
 
     Shuffleboard.getTab("System Check").add("check", new SystemCheck(armSubsystem, climbSubsystem, intakeSubsystem, pizzaBoxSubsystem, reactionSubsystem, swerve));
+  
+    Shuffleboard.getTab("Arm").addDouble("distance", ()-> UtilMath.distanceFromBlueSpeaker(swerve.getPose()));
   }
   @Override
   public void periodic() {

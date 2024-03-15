@@ -97,6 +97,9 @@ public final class Constants
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
     public static double ENCODER_OFFSET = 271; //need to check the encoder value 
     public static final double UP_POSITION = 75;
+    
+    //Source Intake Constants
+    public static final double SOURCE_INTAKE_ANGLE = 170;
   }
 
   public static final class ReactionConstants {

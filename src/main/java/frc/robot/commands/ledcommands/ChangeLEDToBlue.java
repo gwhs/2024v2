@@ -4,9 +4,9 @@
 
 package frc.robot.commands.ledcommands;
 
-import frc.robot.subsystems.LEDSubsystem;
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj.util.*;
+import edu.wpi.first.wpilibj2.command.*;
 
 /** An example command that uses an example subsystem. */
 public class ChangeLEDToBlue extends Command {

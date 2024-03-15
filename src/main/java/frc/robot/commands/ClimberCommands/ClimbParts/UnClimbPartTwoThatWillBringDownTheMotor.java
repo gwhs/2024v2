@@ -4,16 +4,10 @@
 
 package frc.robot.commands.ClimberCommands.ClimbParts;
 
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.Arm.SpinToArmAngle;
-import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
-import frc.robot.commands.ReactionArmCommands.Retract;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.Climbsubsystem;
-import frc.robot.subsystems.ReactionSubsystem;
-import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.*;
+import frc.robot.commands.ReactionArmCommands.*;
+import frc.robot.subsystems.*;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

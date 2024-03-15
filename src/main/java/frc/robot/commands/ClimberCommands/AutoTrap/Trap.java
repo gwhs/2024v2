@@ -4,15 +4,11 @@
 
 package frc.robot.commands.ClimberCommands.AutoTrap;
 
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import frc.robot.commands.Arm.ScoreInTrapStutter;
-import frc.robot.commands.ClimberCommands.AutoClimb.ClimbDown;
-import frc.robot.commands.ClimberCommands.AutoClimb.ClimbUp;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.Climbsubsystem;
-import frc.robot.subsystems.PizzaBoxSubsystem;
-import frc.robot.subsystems.ReactionSubsystem;
-import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.commands.Arm.*;
+import frc.robot.commands.ClimberCommands.AutoClimb.*;
+import frc.robot.subsystems.*;
+import frc.robot.subsystems.swervedrive.*;
 
 public class Trap extends SequentialCommandGroup {
 

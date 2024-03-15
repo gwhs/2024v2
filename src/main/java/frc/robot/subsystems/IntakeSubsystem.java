@@ -6,24 +6,20 @@
 
 package frc.robot.subsystems;
 
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
-import frc.robot.Util.UtilMotor;
+import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.*;
+import frc.robot.Util.*;
 
-import com.ctre.phoenix6.controls.VelocityVoltage;
-import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.hardware.*;
 
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.shuffleboard.*;
 
 public class IntakeSubsystem extends SubsystemBase {
   private TalonFX m_moveIntakeArm; // motor of arm
   private TalonFX m_spinIntake; // motor of intake
   private DutyCycleEncoder m_Encoder;
   private DigitalInput m_noteSensor; // sensor to check if note is present in intake
-  private VelocityVoltage spinRequest1;
   public boolean emergencyStop = false;
 
   /*
@@ -64,9 +60,6 @@ public class IntakeSubsystem extends SubsystemBase {
   // spin the intake motors, velocity is negative to intake note
   // velocity and accleration between -1.0 to 1.0
   public void spinIntakeMotor(double intakeMotorVelocity, double intakeMotorAcceleration) {
-    // spinRequest1 = new VelocityVoltage(
-    // -intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0,false, false,
-    // false);
     if (!emergencyStop) {
         m_spinIntake.set(-intakeMotorVelocity);
     }
@@ -74,9 +67,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
   // spin intake motors the opposite way, velocity is positive to reject intake
   public void rejectIntake(double intakeMotorVelocity, double intakeMotorAcceleration) {
-    // spinRequest1 = new VelocityVoltage(
-    // intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0, false, false,
-    // false);
     if (!emergencyStop) {
       m_spinIntake.set(intakeMotorVelocity);
     }

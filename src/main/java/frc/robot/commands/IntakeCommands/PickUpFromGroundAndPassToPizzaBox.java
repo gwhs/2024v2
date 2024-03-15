@@ -4,11 +4,8 @@
 
 package frc.robot.commands.IntakeCommands;
 
-import frc.robot.subsystems.PizzaBoxSubsystem;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-
-import edu.wpi.first.wpilibj2.command.Commands;
+import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj2.command.*;
 import frc.robot.Constants;
 import frc.robot.commands.Arm.*;
 

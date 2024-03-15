@@ -4,17 +4,12 @@
 
 package frc.robot.commands.ClimberCommands.AutoClimb;
 
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
-import frc.robot.commands.Arm.SpinToArmAngle;
-import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
-import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorUp;
-import frc.robot.commands.driveCommands.DriveForClimb;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.Climbsubsystem;
-import frc.robot.subsystems.ReactionSubsystem;
-import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.commands.Arm.*;
+import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.*;
+import frc.robot.commands.driveCommands.*;
+import frc.robot.subsystems.*;
+import frc.robot.subsystems.swervedrive.*;
 
 public class ClimbUp extends SequentialCommandGroup {
 

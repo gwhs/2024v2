@@ -5,34 +5,18 @@
 package frc.robot;
 
 import edu.wpi.first.wpilibj.shuffleboard.*;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.commands.SystemCheck;
-import frc.robot.commands.CancelAllCommands;
-import frc.robot.commands.Arm.ResetArm;
-import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
-import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorUp;
-import frc.robot.commands.ClimberCommands.ClimbParts.ClimbAndShoot;
-import frc.robot.commands.ClimberCommands.ClimbParts.PrepClimb;
-import frc.robot.commands.ClimberCommands.ClimbParts.StopClimb;
-import frc.robot.commands.ClimberCommands.ClimbParts.UnClimb;
-import frc.robot.commands.ClimberCommands.ClimbParts.UnClimbPartTwoThatWillBringDownTheMotor;
-import frc.robot.commands.IntakeCommands.DecreaseIntakeOffset;
-import frc.robot.commands.IntakeCommands.IncreaseIntakeOffset;
-import frc.robot.commands.IntakeCommands.IntakeRejectNote;
-import frc.robot.commands.IntakeCommands.IntakeResetArm;
-import frc.robot.commands.LimelightCommands.toggleCameraMode;
-import frc.robot.commands.LimelightCommands.toggleLimelightPoseEstimation;
-import frc.robot.commands.ReactionArmCommands.Extend;
-import frc.robot.commands.ReactionArmCommands.Retract;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.Climbsubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.PizzaBoxSubsystem;
-import frc.robot.subsystems.ReactionSubsystem;
-import frc.robot.subsystems.LimeVision.LimeLightSub;
-import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import edu.wpi.first.wpilibj.smartdashboard.*;
+import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.commands.*;
+import frc.robot.commands.Arm.*;
+import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.*;
+import frc.robot.commands.ClimberCommands.ClimbParts.*;
+import frc.robot.commands.IntakeCommands.*;
+import frc.robot.commands.LimelightCommands.*;
+import frc.robot.commands.ReactionArmCommands.*;
+import frc.robot.subsystems.*;
+import frc.robot.subsystems.LimeVision.*;
+import frc.robot.subsystems.swervedrive.*;
 
 public class SetupShuffleboard extends SubsystemBase {
   /** Creates a new SetupShuffleboard. */

@@ -4,8 +4,8 @@
 
 package frc.robot.commands.IntakeCommands;
 
-import frc.robot.subsystems.IntakeSubsystem;
-import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj2.command.*;
 
 public class StopIntakeMotors extends Command {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})

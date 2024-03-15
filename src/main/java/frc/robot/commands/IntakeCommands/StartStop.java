@@ -3,9 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.IntakeCommands;
-import frc.robot.subsystems.IntakeSubsystem;
-import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.subsystems.*;
+import edu.wpi.first.wpilibj2.command.*;
 
 public class StartStop extends SequentialCommandGroup {
   

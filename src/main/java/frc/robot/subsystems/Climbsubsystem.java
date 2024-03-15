@@ -4,16 +4,15 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.controls.StaticBrake;
-import com.ctre.phoenix6.controls.VelocityVoltage;
-import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.controls.*;
+import com.ctre.phoenix6.hardware.*;
 
-import edu.wpi.first.math.controller.ProfiledPIDController;
-import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.ClimbConstants;
-import frc.robot.Util.UtilMotor;
+import edu.wpi.first.math.controller.*;
+import edu.wpi.first.math.trajectory.TrapezoidProfile.*;
+import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.Constants.*;
+import frc.robot.Util.*;
 
 
 

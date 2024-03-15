@@ -1,16 +1,14 @@
 package frc.robot.subsystems;
 
-import  edu.wpi.first.wpilibj.AddressableLED;
-import edu.wpi.first.wpilibj.AddressableLEDBuffer;
-import edu.wpi.first.wpilibj.util.Color;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import  edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.util.*;
+import edu.wpi.first.wpilibj2.command.*;
 
 
 public class LEDSubsystem extends SubsystemBase {
 
   private AddressableLED m_led;
   private AddressableLEDBuffer m_ledBuffer;
-  private int m_rainbowFirstPixelHue;
 
   // Store what the last hue of the first pixel is
   // private int m_rainbowFirstPixelHue;

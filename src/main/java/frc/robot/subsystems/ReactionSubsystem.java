@@ -4,10 +4,10 @@
 
 package frc.robot.subsystems;
 
-import com.ctre.phoenix6.configs.MotorOutputConfigs;
-import com.ctre.phoenix6.hardware.TalonFX;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import com.ctre.phoenix6.signals.NeutralModeValue;
+import com.ctre.phoenix6.configs.*;
+import com.ctre.phoenix6.hardware.*;
+import edu.wpi.first.wpilibj2.command.*;
+import com.ctre.phoenix6.signals.*;
 
 public class ReactionSubsystem extends SubsystemBase {
   private TalonFX m_reactionArm;

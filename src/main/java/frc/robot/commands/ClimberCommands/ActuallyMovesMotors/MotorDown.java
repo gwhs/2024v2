@@ -4,9 +4,8 @@
 
 package frc.robot.commands.ClimberCommands.ActuallyMovesMotors;
 
-import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.subsystems.Climbsubsystem;
-import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import edu.wpi.first.wpilibj2.command.*;
+import frc.robot.subsystems.*;
 
 public class MotorDown extends Command {
   /** Creates a new MotorDown. */

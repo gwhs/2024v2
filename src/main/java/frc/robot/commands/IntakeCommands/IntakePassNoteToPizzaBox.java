@@ -4,10 +4,9 @@
 
 package frc.robot.commands.IntakeCommands;
 
-import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PizzaBoxSubsystem;
-
+import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class IntakePassNoteToPizzaBox extends Command {
@@ -18,7 +17,8 @@ public class IntakePassNoteToPizzaBox extends Command {
   private boolean prevSensorValue = false;
   private boolean currentSensorValue = false;
   private boolean noteLatch = false;
-  private int counter = 0;
+  private double timer = 0;
+  private double initTimer = 0;
 
   public IntakePassNoteToPizzaBox(IntakeSubsystem subsystem, PizzaBoxSubsystem pizzaBoxSubsystem) {
     intakeSubsystem = subsystem;
@@ -30,24 +30,30 @@ public class IntakePassNoteToPizzaBox extends Command {
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    System.out.println("Intake pass note to pizzabox initialize");
+    currentSensorValue = true;
+    intakeSubsystem.spinIntakeMotor(0.8, 100);
+    pizzaBoxSubsystem.spinPizzaBoxMotor(-30, 100);
+    initTimer = Timer.getFPGATimestamp(); 
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    // pizzaBoxSubsystem.spinPizzaBoxMotor(-50, 10);
-    intakeSubsystem.spinIntakeMotor(50, 100);
   }
 
   // Called once the command ends or is interrupted.
   // runs once when isFinished is called
   @Override
   public void end(boolean interrupted) {
+    System.out.println("Intake pass note to pizzabox finished");
     pizzaBoxSubsystem.stopPizzaBoxMotor();
     intakeSubsystem.stopIntakeMotors();
-    if(interrupted) {
-      intakeSubsystem.rejectIntake(30, 100);
-    }
+    // if(interrupted) {
+    //   System.out.println("************************************************************************************************************************************************************************************************************************************************************************************");
+    //   andThen(new IntakeRejectNote(intakeSubsystem));
+    // }
   }
 
   // Returns true when the command should end; called every cycle
@@ -59,15 +65,12 @@ public class IntakePassNoteToPizzaBox extends Command {
     currentSensorValue = intakeSubsystem.isNotePresent();
 
     if(prevSensorValue == true && currentSensorValue == false) {
+      timer = Timer.getFPGATimestamp(); 
       noteLatch = true;
     }  
-    if(counter > Constants.IntakeConstants.NOTE_DELAY && noteLatch) {
-      System.out.println("hiiiiiiiiiiii");
+    if((timer + 1 < Timer.getFPGATimestamp() && noteLatch) || (initTimer + 5 < Timer.getFPGATimestamp())) {
       noteLatch = false;
       return true; 
-    }
-    else {
-      counter++;
     }
     return false;
   }

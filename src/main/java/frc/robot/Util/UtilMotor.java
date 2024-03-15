@@ -13,6 +13,25 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 /** Add your docs here. */
 public class UtilMotor {
+  public static void configMotorSupplyCurrent(TalonFX motor, double current) {
+    CurrentLimitsConfigs currentConfig = new CurrentLimitsConfigs();
+    currentConfig.withSupplyCurrentLimitEnable(true);
+    currentConfig.withSupplyCurrentLimit(current);
+    currentConfig.withSupplyCurrentThreshold(current + 10);
+    currentConfig.withSupplyTimeThreshold(1);
+
+    motor.getConfigurator().apply(currentConfig);
+  }
+
+
+  public static void configMotorStatorCurrent(TalonFX motor, double current) {
+    CurrentLimitsConfigs currentConfig = new CurrentLimitsConfigs();
+    currentConfig.withStatorCurrentLimitEnable(true);                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                      
+    currentConfig.withStatorCurrentLimit(current);
+
+    motor.getConfigurator().apply(currentConfig);
+  }
+
     public static void configMotor(TalonFX motor) {
         configMotor(motor, 0.11, 0.5, 0.0001, 0.12, 8, 40, true);
     }

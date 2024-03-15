@@ -1,0 +1,52 @@
+{
+  "version": 1.0,
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 7.930642280685416,
+        "y": 2.1665047609695787
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.396611357844681,
+        "y": 1.2296378373070578
+      },
+      "isLocked": false,
+      "linkedName": "C4"
+    },
+    {
+      "anchor": {
+        "x": 0.8,
+        "y": 4.440124264863915
+      },
+      "prevControl": {
+        "x": 2.7228859892812496,
+        "y": 2.6633911139970734
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Speaker 3"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "eventMarkers": [],
+  "globalConstraints": {
+    "maxVelocity": 1.5,
+    "maxAcceleration": 3.5,
+    "maxAngularVelocity": 540.0,
+    "maxAngularAcceleration": 720.0
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -59.0,
+    "rotateFast": false
+  },
+  "reversed": false,
+  "folder": "Starting from Mid Field Notes",
+  "previewStartingState": {
+    "rotation": 35.91,
+    "velocity": 0
+  },
+  "useDefaultConstraints": true
+}

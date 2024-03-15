@@ -24,6 +24,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
@@ -74,12 +75,13 @@ public class SwerveSubsystem extends SubsystemBase
     System.out.println("}");
 
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary objects being created.
-    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
+    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.NONE;
+    // 3/8/2024 changed from HIGH to NONE to see if prevent loop overrun
     try
     {
-      swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed);
+      //swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed);
       // Alternative method if you don't want to supply the conversion factor via JSON files.
-      // swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed, angleConversionFactor, driveConversionFactor);
+      swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed, angleConversionFactor, driveConversionFactor);
     } catch (Exception e)
     {
       throw new RuntimeException(e);
@@ -111,9 +113,9 @@ public class SwerveSubsystem extends SubsystemBase
         this::getRobotVelocity, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         this::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                                         new PIDConstants(5.0,0,0),
+                                         new PIDConstants(1.0,0,0),
                                          // Translation PID constants
-                                         new PIDConstants(50,0.32,0),
+                                         new PIDConstants(10,0,0),
                                          // Rotation PID constants
                                          4.5,
                                          // Max module speed, in m/s
@@ -161,6 +163,7 @@ public class SwerveSubsystem extends SubsystemBase
         swerveDrive.getMaximumAngularVelocity(), Units.degreesToRadians(720));
 
 // Since AutoBuilder is configured, we can use it to build pathfinding commands
+
     return AutoBuilder.pathfindToPose(
         pose,
         constraints,
@@ -519,31 +522,14 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
   }
 
-    public void addActualVisionReading(Pose2d pose,double time, Matrix<N3, N1> matrix)
+  public void addActualVisionReading(Pose2d pose,double time, Matrix<N3, N1> matrix)
   {
     swerveDrive.addVisionMeasurement(pose, time, matrix);
   }
 
-
-
-  public void test() {
-    swervelib.SwerveModule[] sm = swerveDrive.getModules();
-    System.out.println("Swerve Module array size = " + sm.length);
-
-    int testModule = 0;
-
-    SwerveMotor drive = sm[testModule].getDriveMotor();
-    SwerveMotor angle = sm[testModule].getAngleMotor();
-    sm[testModule].setAngle(90);
-
-    drive.set(100);
-
-  }
-
-  public void actualVisionReading(Pose2d pose, double time)
+    public Field2d getField2d()
   {
-    swerveDrive.addVisionMeasurement(pose, time);
+    return swerveDrive.field;
   }
-
 
 }

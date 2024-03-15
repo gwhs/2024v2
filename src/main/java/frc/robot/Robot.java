@@ -4,15 +4,22 @@
 
 package frc.robot;
 
-import org.littletonrobotics.junction.LoggedRobot;
-import org.littletonrobotics.junction.Logger;
-import org.littletonrobotics.junction.networktables.NT4Publisher;
-import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+import com.ctre.phoenix6.SignalLogger;
 
+import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
+
+// import org.littletonrobotics.junction.LoggedRobot;
+// import org.littletonrobotics.junction.Logger;
+// import org.littletonrobotics.junction.networktables.NT4Publisher;
+// import org.littletonrobotics.junction.wpilog.WPILOGWriter;
+
+
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.ReactionSubsystem;
 import frc.robot.testcontainers.ArmContainer;
 import frc.robot.testcontainers.ClimbContainer;
 import frc.robot.testcontainers.DriveContainer;
@@ -27,7 +34,7 @@ import frc.robot.testcontainers.ReactionArmContainer;
  * the package after creating this project, you must also update the build.gradle file in the
  * project.
  */
-public class Robot extends LoggedRobot  {
+public class Robot extends TimedRobot  {
 
   public static final String GAME = "Game"; 
   public static final String INTAKE = "Intake";
@@ -53,11 +60,20 @@ public class Robot extends LoggedRobot  {
   public void robotInit() {
     // Instantiate our RobotContainer.  This will perform all our button bindings, and use the subsystems needed
     // for the specific robot
+    // LimelightHelpers.setStreamMode_PiPSecondary("limelight");
 
-    String logfolder = "/home/lvuser";
-    Logger.addDataReceiver(new WPILOGWriter(logfolder));
-    Logger.addDataReceiver(new NT4Publisher());
-    Logger.start();
+    // Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5800").withSize(4,3).withPosition(5, 0);
+
+    // String logfolder = "/home/lvuser";
+    // Logger.addDataReceiver(new WPILOGWriter(logfolder));
+    // Logger.addDataReceiver(new NT4Publisher());
+    // Logger.start();
+
+    SignalLogger.enableAutoLogging(true);
+    SignalLogger.start();
+
+    DataLogManager.start();
+    DriverStation.startDataLog(DataLogManager.getLog());
     
     switch (container){
       case GAME:
@@ -103,13 +119,17 @@ public class Robot extends LoggedRobot  {
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
+    //     LimelightHelpers.setStreamMode_PiPSecondary("limelight");
+    // Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5800").withSize(4,3).withPosition(5, 0);
     CommandScheduler.getInstance().run();
     
   }
 
   /** This function is called once each time the robot enters Disabled mode. */
   @Override
-  public void disabledInit() {}
+  public void disabledInit() {
+    CommandScheduler.getInstance().cancelAll();
+  }
 
   @Override
   public void disabledPeriodic() {}
@@ -118,6 +138,7 @@ public class Robot extends LoggedRobot  {
   @Override
   public void autonomousInit() {
     m_autonomousCommand = m_baseContainer.getAutonomousCommand();
+   
 
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
@@ -138,6 +159,10 @@ public class Robot extends LoggedRobot  {
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
     }
+
+    m_baseContainer.teleopInitReset().schedule();
+
+  
   }
 
   /** This function is called periodically during operator control. */

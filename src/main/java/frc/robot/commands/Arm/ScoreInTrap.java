@@ -3,6 +3,7 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.Arm;
+
 import frc.robot.subsystems.PizzaBoxSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -12,7 +13,6 @@ public class ScoreInTrap extends SequentialCommandGroup {
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-  //velocity = 100 for testing shooting 
   public ScoreInTrap(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem) {
     addCommands(
         new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.TRAP_ANGLE).withTimeout(3),
@@ -23,7 +23,10 @@ public class ScoreInTrap extends SequentialCommandGroup {
         new SwingBackServo(pizzaBoxSubsystem),
         Commands.waitSeconds(.5),
         new StopNoteContainerMotor(pizzaBoxSubsystem),
-        new SpinToArmAngle(armSubsystem, 135)
+        new SpinToArmAngle(armSubsystem, 135),
+        Commands.runOnce(() -> {
+          pizzaBoxSubsystem.hasNote = false;
+          })
     );
   }
 

@@ -21,10 +21,7 @@ import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import frc.robot.subsystems.LimelightHelpers.LimelightHelpers;
-import frc.robot.subsystems.LimelightHelpers.LimelightHelpers.LimelightTarget_Fiducial;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
-import frc.robot.testcontainers.VisionContainer;
-import swervelib.SwerveDrive;
 
 public class LimeLightSub extends SubsystemBase {
 
@@ -34,6 +31,8 @@ public class LimeLightSub extends SubsystemBase {
   private final double kI = 0;
   // private static double distanceFromAprilTag = 0;
   public static Pose2d currentPose;
+
+  public boolean cameraMode = false;
 
   
   
@@ -71,8 +70,8 @@ public class LimeLightSub extends SubsystemBase {
   
   
 
-  boolean verbose = false;//If we want to print values
-  boolean wantData = true;//If we want to accept limelight post esitmator
+  boolean verbose = true;//If we want to print values
+  public boolean wantData = false;//If we want to accept limelight post esitmator
 
   // may be useful later
   private double kCameraHeight =
@@ -120,10 +119,6 @@ public class LimeLightSub extends SubsystemBase {
   if(wantData){
     setData();
   }
-    // This method will be called once per scheduler run
-    double currTx = limelight_comm.get_entry_double("tx");
-    SmartDashboard.putNumber("tx", currTx);
-    // System.out.println(currTx);
     
   }
 
@@ -230,12 +225,14 @@ public class LimeLightSub extends SubsystemBase {
         LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
         if(limelightMeasurement.tagCount >= 2 ){ //Checks if Limelight sees 2 Apriltag
             xyStds = 0.5; 
-            degStds = 6;
+            degStds = 6 * Math.PI / 180;
+
+            //System.out.println("lime light data");
         
         }
         else if ((temp[9] < distancefromLimeLight) && (distance < distancefromAprilTag)) { //Checks if within distance of apriltag and limelight
             xyStds = 1.0;
-            degStds = 12;
+            degStds = 12 * Math.PI / 180;
 
         }
         else{
@@ -243,7 +240,7 @@ public class LimeLightSub extends SubsystemBase {
         }
           stds.set(0,0,xyStds);
           stds.set(1,0,xyStds);
-          stds.set(2,0, degStds);
+          stds.set(2,0, degStds * Math.PI / 180);
           Rotation2d degree = new Rotation2d(temp[5]* Math.PI / 180);
           Pose2d newPose = new Pose2d(temp[0],temp[1],degree); //creates new pose2d with limelight data
           

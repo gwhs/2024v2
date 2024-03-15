@@ -3,17 +3,11 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.Arm;
+
 import frc.robot.subsystems.PizzaBoxSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 
-import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.Arm.SpinNoteContainerMotor;
-import frc.robot.commands.Arm.StopNoteContainerMotor;
-import frc.robot.commands.Arm.SwingForwardServo;
-import frc.robot.commands.Arm.SwingBackServo;
-import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 
 public class SpinArmAndPizzaBox extends Command {
   private PizzaBoxSubsystem pizzaBoxSubsystem;
@@ -29,14 +23,12 @@ public class SpinArmAndPizzaBox extends Command {
     this.armSubsystem = armSubsystem;
     this.angle = angle;
     this.vel = vel;
-
-
-      
   }
     // Called when the command is initially scheduled.
   @Override
   public void initialize() {
     armSubsystem.targetArmAngle(angle);
+    pizzaBoxSubsystem.spinPizzaBoxMotor(-5, 100);
   }
 
   @Override
@@ -55,8 +47,6 @@ public class SpinArmAndPizzaBox extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return  armSubsystem.getController().atGoal();
+    return armSubsystem.getController().atGoal();
   } 
-
-  
 }

@@ -5,26 +5,18 @@
 package frc.robot.subsystems;
 
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
-import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
 import com.ctre.phoenix6.signals.NeutralModeValue;
-import com.ctre.phoenix6.controls.NeutralOut;
-import com.ctre.phoenix6.controls.StaticBrake;
 
 public class ReactionSubsystem extends SubsystemBase {
   private TalonFX m_reactionArm;
   /** Creates a new ReactionSubsystem. */
   public ReactionSubsystem(int armID, String canbus) {
     m_reactionArm = new TalonFX(armID, canbus);
-      MotorOutputConfigs motorOutput = new MotorOutputConfigs();
-  
-      TalonFXConfiguration configs = new TalonFXConfiguration();
-
-      motorOutput.NeutralMode = NeutralModeValue.Brake;
-
-      m_reactionArm.getConfigurator().apply(motorOutput);
+    MotorOutputConfigs motorOutput = new MotorOutputConfigs();
+    motorOutput.NeutralMode = NeutralModeValue.Brake;
+    m_reactionArm.getConfigurator().apply(motorOutput);
       
   }
 

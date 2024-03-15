@@ -7,18 +7,18 @@ import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
 public class SpinIntakePID extends PIDCommand {
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final IntakeSubsystem intakeSubsystem;
-  private static PIDController intakeController = new PIDController(.015, .001, .0);
+  private static PIDController intakeController = new PIDController(.025, .001, .0);
   
   public SpinIntakePID(IntakeSubsystem intakeSubsystem, final double targetAngle) {
     super(intakeController, ()-> intakeSubsystem.encoderGetAngle(), () -> targetAngle,
             (final double speed) -> 
-            {intakeSubsystem.spinIntakeArm(-speed);
+            {
+              intakeSubsystem.spinIntakeArm(-speed);
             }
             , intakeSubsystem);
     this.intakeSubsystem = intakeSubsystem;

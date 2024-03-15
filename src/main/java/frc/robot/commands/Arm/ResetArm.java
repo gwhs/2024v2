@@ -1,6 +1,5 @@
 package frc.robot.commands.Arm;
-import frc.robot.Constants;
-import frc.robot.commands.IntakeCommands.SpinIntakePID;
+
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.PizzaBoxSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -11,10 +10,7 @@ public class ResetArm extends Command{
   
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final ArmSubsystem armSubsystem;
-    private final PizzaBoxSubsystem pizzaBoxSubsystem;
-
-    // Called when the command is initially scheduled.
-    
+  private final PizzaBoxSubsystem pizzaBoxSubsystem;
 
   public ResetArm(ArmSubsystem armSubsystem, PizzaBoxSubsystem pizzaBoxSubsystem)
   {
@@ -22,9 +18,18 @@ public class ResetArm extends Command{
     this.pizzaBoxSubsystem = pizzaBoxSubsystem;
 
   }
+  
   public void initialize() {   
-    CommandScheduler.getInstance().requiring(armSubsystem).cancel();
-    CommandScheduler.getInstance().requiring(pizzaBoxSubsystem).cancel();
+    Command c = CommandScheduler.getInstance().requiring(armSubsystem);
+    if(c != null) {
+      c.cancel();
+    }
+
+    Command p = CommandScheduler.getInstance().requiring(pizzaBoxSubsystem);
+    if(p != null) {
+      p.cancel();
+    }
+    
     armSubsystem.stopArmMotor();
     pizzaBoxSubsystem.stopPizzaBoxMotor();
     new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE).schedule();

@@ -40,9 +40,6 @@ public class VisionContainer implements BaseContainer
 
   CommandXboxController driverXbox = new CommandXboxController(0);
 
-  // limelight
-  private final LimeLightSub limeLightSub;
-
   public String getDriveTrainName(){
     return "swerve/ryker_falcon";
   }
@@ -59,7 +56,7 @@ public class VisionContainer implements BaseContainer
 
     
 
-    limeLightSub = new LimeLightSub("limelight", drivebase);                                                                   
+    new LimeLightSub("limelight", drivebase);                                                                   
     // Configure the trigger bindings
     configureBindings();
 

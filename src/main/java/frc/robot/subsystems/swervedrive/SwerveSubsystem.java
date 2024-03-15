@@ -163,7 +163,6 @@ public class SwerveSubsystem extends SubsystemBase
         swerveDrive.getMaximumAngularVelocity(), Units.degreesToRadians(720));
 
 // Since AutoBuilder is configured, we can use it to build pathfinding commands
-System.out.println("OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO");
 
     return AutoBuilder.pathfindToPose(
         pose,

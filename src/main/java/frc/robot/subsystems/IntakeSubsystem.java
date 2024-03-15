@@ -24,7 +24,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private DutyCycleEncoder m_Encoder;
   private DigitalInput m_noteSensor; // sensor to check if note is present in intake
   private VelocityVoltage spinRequest1;
-  public boolean emergencyStop = true;
+  public boolean emergencyStop = false;
 
   /*
    * int lowerIntakeId: Id for lowerng motors for the intake
@@ -116,10 +116,5 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public boolean isEmergencyStop() {
     return !(m_Encoder.isConnected() && !emergencyStop);
-  }
-
-  @Override
-  public void periodic() {
-    // System.out.println(isNotePresent());
   }
 }

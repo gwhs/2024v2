@@ -19,9 +19,9 @@ public class ClimbDown extends SequentialCommandGroup {
   public ClimbDown(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a) {
 
     addCommands(
-          new MotorUp(c, s),
+          new MotorUp(c),
           new ParallelCommandGroup(new DriveForClimb(s, 0.4)/* , new Retract(r)*/),
-          new MotorDown(c, s)
+          new MotorDown(c)
     );
 
     // Use addRequirements() here to declare subsystem dependencies.

@@ -9,6 +9,7 @@ import com.ctre.phoenix6.SignalLogger;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.RobotBase;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
 
 // import org.littletonrobotics.junction.LoggedRobot;
@@ -50,7 +51,6 @@ public class Robot extends TimedRobot  {
   private Command m_autonomousCommand;
 
   private BaseContainer m_baseContainer;
-  private GameRobotContainer gameRobotContainer;
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -77,8 +77,7 @@ public class Robot extends TimedRobot  {
     
     switch (container){
       case GAME:
-        gameRobotContainer = new GameRobotContainer();
-        m_baseContainer = gameRobotContainer;
+        m_baseContainer = new GameRobotContainer();
         break;
       case INTAKE:
         m_baseContainer = new IntakeContainer();
@@ -161,9 +160,7 @@ public class Robot extends TimedRobot  {
       m_autonomousCommand.cancel();
     }
 
-    if(gameRobotContainer != null) {
-      gameRobotContainer.teleopInitReset().schedule();
-    }
+    m_baseContainer.teleopInitReset().schedule();
 
   
   }

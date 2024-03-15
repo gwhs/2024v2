@@ -13,13 +13,11 @@ public class MotorUp extends Command {
   /** Creates a new MotorUp. */
 
   private final Climbsubsystem climbersubsystem;
-  private final SwerveSubsystem swerve;
 
   //constructor that takes in a Climbsubsystem object and a SwerveSubsystem obj
-  public MotorUp(Climbsubsystem c, SwerveSubsystem s) {
+  public MotorUp(Climbsubsystem c) {
 
     climbersubsystem = c;
-    swerve = s;
 
     addRequirements(this.climbersubsystem);
   }
@@ -43,6 +41,7 @@ public class MotorUp extends Command {
   @Override
   public boolean isFinished() {
     //stops when reaches desired height
+    //TO-DO: Use Constants
     double leftDelta = -climbersubsystem.getPositionLeft() - ClimbConstants.CLIMB_DISTANCE;
     double rightDelta  = climbersubsystem.getPositionRight() - ClimbConstants.CLIMB_DISTANCE;
     return (climbersubsystem.getTopLeftLimit() && climbersubsystem.getTopRightLimit())                                         

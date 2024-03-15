@@ -114,13 +114,13 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("Climb").addBoolean("top left limit", () -> climbSubsystem.getTopLeftLimit()).withPosition(2, 0);
     Shuffleboard.getTab("Climb").addBoolean("top right limit", () -> climbSubsystem.getTopRightLimit()).withPosition(3, 0);
 
-    Shuffleboard.getTab("Climb").add("motor down", new MotorDown(climbSubsystem, swerve)).withPosition(1, 1);
-    Shuffleboard.getTab("Climb").add("motor up", new MotorUp(climbSubsystem, swerve)).withPosition(0, 1);
+    Shuffleboard.getTab("Climb").add("motor down", new MotorDown(climbSubsystem)).withPosition(1, 1);
+    Shuffleboard.getTab("Climb").add("motor up", new MotorUp(climbSubsystem)).withPosition(0, 1);
 
     Shuffleboard.getTab("Climb").add("climb prep", new PrepClimb(climbSubsystem, swerve, armSubsystem, reactionSubsystem)).withPosition(4, 0);
     Shuffleboard.getTab("Climb").add("climb & shoot", new ClimbAndShoot(climbSubsystem, swerve, armSubsystem, pizzaBoxSubsystem, reactionSubsystem)).withPosition(5, 0);
-    Shuffleboard.getTab("Climb").add("unclimb1", new UnClimb(climbSubsystem, swerve, armSubsystem, pizzaBoxSubsystem)).withPosition(4, 1);
-    Shuffleboard.getTab("Climb").add("unclimb2", new UnClimbPartTwoThatWillBringDownTheMotor(climbSubsystem, swerve, armSubsystem, reactionSubsystem)).withPosition(5, 1);
+    Shuffleboard.getTab("Climb").add("unclimb1", new UnClimb(climbSubsystem)).withPosition(4, 1);
+    Shuffleboard.getTab("Climb").add("unclimb2", new UnClimbPartTwoThatWillBringDownTheMotor(climbSubsystem, reactionSubsystem)).withPosition(5, 1);
 
     Shuffleboard.getTab("Climb").add("STOP CLIMB!!!!", new StopClimb(climbSubsystem)).withSize(2, 1).withPosition(2, 2);
 

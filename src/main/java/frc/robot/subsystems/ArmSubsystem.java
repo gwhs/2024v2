@@ -6,20 +6,18 @@
 package frc.robot.subsystems;
 
 
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
-
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
-import frc.robot.Util.UtilMotor;
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
-import edu.wpi.first.math.controller.ArmFeedforward;
-
-import com.ctre.phoenix6.controls.VoltageOut;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+import frc.robot.Util.UtilMotor;
 
 
 public class ArmSubsystem extends ProfiledPIDSubsystem {
@@ -45,14 +43,14 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int TRAP_ANGLE = 290;
     public static final int SPEAKER_LOW_ANGLE = 165;
     public static final int SPEAKER_HIGH_ANGLE = 238;
-    public static final int INTAKE_ANGLE = 66;
+    public static final int INTAKE_ANGLE = 64;
     public static final int CLIMBING_ANGLE = 45;
   }
 
   private TalonFX m_arm;
   private DutyCycleEncoder m_encoder;
   private ArmFeedforward armFeedForward;
-  public boolean emergencyStop = true;
+  public boolean emergencyStop = false;
 
   public ArmSubsystem(int armId, String armCanbus, int channel1)
   {
@@ -71,6 +69,10 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     Shuffleboard.getTab("Arm").addDouble("Encoder Angle", ()->encoderGetAngle()).withWidget(BuiltInWidgets.kGraph)
     .withSize(3,3);
     Shuffleboard.getTab("Arm").addDouble("Goal in degrees", ()->getController().getGoal().position * (180/Math.PI));
+    
+    Shuffleboard.getTab("Arm").addDouble("Arm Stator Current", () -> m_arm.getStatorCurrent().getValueAsDouble());
+    Shuffleboard.getTab("Arm").addDouble("Arm Rotor Velocity", () -> m_arm.getRotorVelocity().getValueAsDouble());
+    Shuffleboard.getTab("Arm").addDouble("Arm Temperature", () -> m_arm.getDeviceTemp().getValueAsDouble());
   }
 
   //Looking at the left of the robot, counterclockwise arm spin is positive

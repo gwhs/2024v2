@@ -24,7 +24,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private DutyCycleEncoder m_Encoder;
   private DigitalInput m_noteSensor; // sensor to check if note is present in intake
   private VelocityVoltage spinRequest1;
-  public boolean emergencyStop = true;
+  public boolean emergencyStop = false;
 
   /*
    * int lowerIntakeId: Id for lowerng motors for the intake
@@ -50,6 +50,14 @@ public class IntakeSubsystem extends SubsystemBase {
 
     Shuffleboard.getTab("Intake").addBoolean("Sensor value", () -> isNotePresent());
     m_Encoder.reset();
+    Shuffleboard.getTab("Intake").addDouble("IntakeArm Stator Current", () -> m_moveIntakeArm.getStatorCurrent().getValueAsDouble());
+    Shuffleboard.getTab("Intake").addDouble("Intake Rotor Velocity", () -> m_moveIntakeArm.getRotorVelocity().getValueAsDouble());
+    Shuffleboard.getTab("Intake").addDouble("Intake Temperature", () -> m_moveIntakeArm.getDeviceTemp().getValueAsDouble());
+    
+    Shuffleboard.getTab("Intake").addDouble("SpinArm Stator Current", () -> m_spinIntake.getStatorCurrent().getValueAsDouble());
+    Shuffleboard.getTab("Intake").addDouble("Spin Rotor Velocity", () -> m_spinIntake.getRotorVelocity().getValueAsDouble());
+    Shuffleboard.getTab("Intake").addDouble("Spin Temperature", () -> m_spinIntake.getDeviceTemp().getValueAsDouble());
+
     // Logger.recordOutput("Intake/EncoderAngle", encoderGetAngle());
     // Logger.recordOutput("Intake/SensorValue", isNotePresent());
     // Logger.recordOutput("Intake/Motor/StatorCurrent", m_spinIntake.getStatorCurrent().getValueAsDouble());

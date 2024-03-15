@@ -21,10 +21,9 @@ public class PrepClimb extends SequentialCommandGroup {
   public PrepClimb(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a, ReactionSubsystem r) {
     addCommands(
       new PrintCommand("prepclimb initialize"),
-      // new SpinToArmAngle(a, 135).withTimeout(3),
-      // Commands.waitUntil(()->a.checkEncoderAngleForClimb()),
-      new ParallelCommandGroup(new Extend(r).withTimeout(0.5), 
-                               new MotorUp(c, s).withTimeout(5)),
+      new SpinToArmAngle(a, 260).withTimeout(1),
+      Commands.waitUntil(()->a.checkEncoderAngleForClimb()), 
+      new MotorUp(c, s).withTimeout(5),
       new PrintCommand("prepclimb finished")
     );
   

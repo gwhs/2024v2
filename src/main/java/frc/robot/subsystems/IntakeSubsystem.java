@@ -16,6 +16,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 
 public class IntakeSubsystem extends SubsystemBase {
@@ -76,6 +77,7 @@ public class IntakeSubsystem extends SubsystemBase {
     // -intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0,false, false,
     // false);
     if (!emergencyStop) {
+      SmartDashboard.putNumber("Intake spin motor speed", intakeMotorVelocity);
         m_spinIntake.set(-intakeMotorVelocity);
     }
   }
@@ -85,9 +87,7 @@ public class IntakeSubsystem extends SubsystemBase {
     // spinRequest1 = new VelocityVoltage(
     // intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0, false, false,
     // false);
-    if (!emergencyStop) {
-      m_spinIntake.set(intakeMotorVelocity);
-    }
+    spinIntakeMotor(-intakeMotorVelocity, intakeMotorAcceleration);
   }
 
   public void spinIntakeArm(double speed) {
@@ -97,6 +97,7 @@ public class IntakeSubsystem extends SubsystemBase {
       speed = 1;
     }
     if (!isEmergencyStop()) {
+      SmartDashboard.putNumber("Intake Arm speed", speed)
       m_moveIntakeArm.set(speed);
     }
   }

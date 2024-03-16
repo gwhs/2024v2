@@ -16,6 +16,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
 import frc.robot.Util.UtilMotor;
 
@@ -131,6 +132,9 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     double feedForward = armFeedForward.calculate(setPoint.position, setPoint.velocity);
     if(!isEmergencyStop())
     {
+      SmartDashboard.putNumber("Arm PID output", output);
+      SmartDashboard.putNumber("Arm feed forward", feedForward);
+      SmartDashboard.putNumber("Arm speed", output + feedForward);
       spinArm(output + feedForward);
     }
     else

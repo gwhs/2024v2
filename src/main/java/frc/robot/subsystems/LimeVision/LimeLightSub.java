@@ -8,6 +8,7 @@ package frc.robot.subsystems.LimeVision;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -34,8 +35,9 @@ public class LimeLightSub extends SubsystemBase {
 
   public boolean cameraMode = false;
 
-  
-  
+  StructPublisher<Pose2d> robotPosePublisher = NetworkTableInstance.getDefault().getStructTopic("Robot Pose", Pose2d.struct).publish();
+  StructPublisher<Pose2d> limelightAcceptedPosePublisher = NetworkTableInstance.getDefault().getStructTopic("Limelight Accepted Pose", Pose2d.struct).publish();
+  StructPublisher<Pose2d> limelightRejectedPosePublisher = NetworkTableInstance.getDefault().getStructTopic("Limelight Rejected Pose", Pose2d.struct).publish();
 
   private PIDController PIDVision = new PIDController(kP, kI, kD);
   private PIDController PIDVisionY = new PIDController(kP, kI, kD);
@@ -119,6 +121,9 @@ public class LimeLightSub extends SubsystemBase {
   if(wantData){
     setData();
   }
+
+  Pose2d currentPose = drivebase.getPose();
+  robotPosePublisher.set(currentPose);
     
   }
 
@@ -217,6 +222,9 @@ public class LimeLightSub extends SubsystemBase {
     double distancefromAprilTag = 0.8; //0.8
     double distancefromLimeLight = 2.5; //2.5
 
+    Rotation2d degree = new Rotation2d(temp[5]* Math.PI / 180);
+    Pose2d newPose = new Pose2d(temp[0],temp[1],degree);
+
     if(hasTarget()){
        
         double xyStds= 0;
@@ -226,25 +234,22 @@ public class LimeLightSub extends SubsystemBase {
         if(limelightMeasurement.tagCount >= 2 ){ //Checks if Limelight sees 2 Apriltag
             xyStds = 0.5; 
             degStds = 6 * Math.PI / 180;
-
-            //System.out.println("lime light data");
-        
         }
         else if ((temp[9] < distancefromLimeLight) && (distance < distancefromAprilTag)) { //Checks if within distance of apriltag and limelight
             xyStds = 1.0;
             degStds = 12 * Math.PI / 180;
-
         }
         else{
+          limelightRejectedPosePublisher.set(newPose);
           return;
         }
-          stds.set(0,0,xyStds);
-          stds.set(1,0,xyStds);
-          stds.set(2,0, degStds * Math.PI / 180);
-          Rotation2d degree = new Rotation2d(temp[5]* Math.PI / 180);
-          Pose2d newPose = new Pose2d(temp[0],temp[1],degree); //creates new pose2d with limelight data
-          
-          drivebase.addActualVisionReading(newPose ,Timer.getFPGATimestamp() - (temp[6]/1000.0),stds); //Changes standard dev base on apriltags and drive
+        stds.set(0,0,xyStds);
+        stds.set(1,0,xyStds);
+        stds.set(2,0, degStds * Math.PI / 180);
+        
+        limelightAcceptedPosePublisher.set(newPose);
+        
+        drivebase.addActualVisionReading(newPose ,Timer.getFPGATimestamp() - (temp[6]/1000.0),stds); //Changes standard dev base on apriltags and drive
   }
 
   }

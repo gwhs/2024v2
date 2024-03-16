@@ -45,7 +45,10 @@ public class IntakeRejectNote extends Command {
   // called every cycle
   @Override
   public boolean isFinished() {
-    return (!intakeSubsystem.isNotePresent() && timer + 1 < Timer.getFPGATimestamp()) || timer + 5 < Timer.getFPGATimestamp();
+    double now = Timer.getFPGATimestamp();
+    return (!intakeSubsystem.isNotePresent() 
+    && timer + 1 < now) 
+    || timer + 5 < now;
   }
 
 }

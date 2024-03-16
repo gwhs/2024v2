@@ -12,12 +12,10 @@ public class MotorDown extends Command {
   /** Creates a new MotorDown. */
 
   private Climbsubsystem climbersubsystem;
-  private SwerveSubsystem swerve;
 
   //constructor that takes in a Climbsubsystem object and a SwerveSubsystem obj
-  public MotorDown(Climbsubsystem c, SwerveSubsystem s) {
+  public MotorDown(Climbsubsystem c) {
     climbersubsystem = c;
-    swerve = s;
 
     addRequirements(this.climbersubsystem);
   }
@@ -39,7 +37,7 @@ public class MotorDown extends Command {
 
   @Override
   public boolean isFinished() {
-    
+    //TO-DO: instead of 0.25, use constants.
     double leftDelta = -climbersubsystem.getPositionLeft() - 0.25;
     double rightDelta  = climbersubsystem.getPositionRight() - 0.25;
     return (climbersubsystem.getBotLeftLimit() && climbersubsystem.getBotRightLimit())

@@ -7,6 +7,7 @@ package frc.robot.commands.swervedrive.drivebase;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.Util.UtilMath;
@@ -68,9 +69,24 @@ public class TeleopDrive extends Command
   @Override
   public void execute()
   {
-    double xVelocity   = Math.pow(vX.getAsDouble(), 3);
-    double yVelocity   = Math.pow(vY.getAsDouble(), 3);
-    double angVelocity = Math.pow(omega.getAsDouble(), 3);
+     double angVelocity;
+     double xVelocity;
+     double yVelocity;
+    if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
+{
+     xVelocity   = -Math.pow(vX.getAsDouble(), 3);
+     yVelocity   = -Math.pow(vY.getAsDouble(), 3);
+     angVelocity = -Math.pow(omega.getAsDouble(), 3);
+
+}
+else{
+     xVelocity   = Math.pow(vX.getAsDouble(), 3);
+     yVelocity   = Math.pow(vY.getAsDouble(), 3);
+     angVelocity = Math.pow(omega.getAsDouble(), 3);
+     swerve.resetOdometry(swerve.getPose());
+}
+    
+   
     
     currTheta = swerve.getHeading().getDegrees();
 
@@ -92,6 +108,8 @@ public class TeleopDrive extends Command
       yVelocity *= 0.25;
       angVelocity *= 0.25;
     }
+
+
 
     swerve.drive(new Translation2d(xVelocity * swerve.maximumSpeed, yVelocity * swerve.maximumSpeed),
                 angVelocity * controller.config.maxAngularVelocity,

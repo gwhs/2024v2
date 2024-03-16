@@ -33,7 +33,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int ROTATION_TO_DEGREES = 360;
     public static final double GEAR_RATIO = 118.587767088;
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
-    public static final double ENCODER_OFFSET = 0; 
+    public static final double ENCODER_OFFSET = 25; 
     public static final int ARM_ID = 18;
     //
     public static final double KSVOLTS = 0; 

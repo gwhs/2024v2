@@ -31,6 +31,11 @@ public final class Constants
     public static final PIDFConfig angleAutoPID = new PIDFConfig(0.4, 0, 0.01);
 
     public static final double MAX_ACCELERATION = 2;
+
+    public static final double SHOOT_FROM_NOTE_PICKUP_ANGLE = 248;
+    public static final double SHOOT_FROM_BETWIXT_ANGLE = 245;
+    public static final double S1_ANGLE = 241;
+    public static final double S2_ANGLE = 236;
   }
 
   public static final class Drivebase

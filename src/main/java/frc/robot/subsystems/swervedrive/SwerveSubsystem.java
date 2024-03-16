@@ -4,41 +4,27 @@
 
 package frc.robot.subsystems.swervedrive;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
-
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
+import com.pathplanner.lib.auto.*;
+import com.pathplanner.lib.commands.*;
+import com.pathplanner.lib.path.*;
+import com.pathplanner.lib.util.*;
+import edu.wpi.first.math.*;
+import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.math.numbers.*;
+import edu.wpi.first.math.trajectory.*;
+import edu.wpi.first.math.util.*;
+import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.smartdashboard.*;
+import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.*;
 import java.io.File;
-import java.util.function.DoubleSupplier;
-import swervelib.SwerveController;
-import swervelib.SwerveDrive;
-import swervelib.SwerveDriveTest;
-import swervelib.math.SwerveMath;
-import swervelib.motors.SwerveMotor;
-import swervelib.parser.SwerveControllerConfiguration;
-import swervelib.parser.SwerveDriveConfiguration;
-import swervelib.parser.SwerveParser;
-import swervelib.telemetry.SwerveDriveTelemetry;
-import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
+import java.util.function.*;
+import swervelib.*;
+import swervelib.math.*;
+import swervelib.parser.*;
+import swervelib.telemetry.*;
+import swervelib.telemetry.SwerveDriveTelemetry.*;
 
 public class SwerveSubsystem extends SubsystemBase
 {
@@ -74,12 +60,13 @@ public class SwerveSubsystem extends SubsystemBase
     System.out.println("}");
 
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary objects being created.
-    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
+    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.NONE;
+    // 3/8/2024 changed from HIGH to NONE to see if prevent loop overrun
     try
     {
-      swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed);
+      //swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed);
       // Alternative method if you don't want to supply the conversion factor via JSON files.
-      // swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed, angleConversionFactor, driveConversionFactor);
+      swerveDrive = new SwerveParser(directory).createSwerveDrive(maximumSpeed, angleConversionFactor, driveConversionFactor);
     } catch (Exception e)
     {
       throw new RuntimeException(e);
@@ -111,9 +98,9 @@ public class SwerveSubsystem extends SubsystemBase
         this::getRobotVelocity, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         this::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                                         new PIDConstants(5.0,0,0),
+                                         new PIDConstants(1.0,0,0),
                                          // Translation PID constants
-                                         new PIDConstants(50,0.32,0),
+                                         new PIDConstants(10,0,0),
                                          // Rotation PID constants
                                          4.5,
                                          // Max module speed, in m/s
@@ -161,6 +148,7 @@ public class SwerveSubsystem extends SubsystemBase
         swerveDrive.getMaximumAngularVelocity(), Units.degreesToRadians(720));
 
 // Since AutoBuilder is configured, we can use it to build pathfinding commands
+
     return AutoBuilder.pathfindToPose(
         pose,
         constraints,
@@ -519,31 +507,19 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive.addVisionMeasurement(new Pose2d(3, 3, Rotation2d.fromDegrees(65)), Timer.getFPGATimestamp());
   }
 
-    public void addActualVisionReading(Pose2d pose,double time, Matrix<N3, N1> matrix)
+  public void addActualVisionReading(Pose2d pose,double time, Matrix<N3, N1> matrix)
   {
     swerveDrive.addVisionMeasurement(pose, time, matrix);
   }
 
-
-
-  public void test() {
-    swervelib.SwerveModule[] sm = swerveDrive.getModules();
-    System.out.println("Swerve Module array size = " + sm.length);
-
-    int testModule = 0;
-
-    SwerveMotor drive = sm[testModule].getDriveMotor();
-    SwerveMotor angle = sm[testModule].getAngleMotor();
-    sm[testModule].setAngle(90);
-
-    drive.set(100);
-
-  }
-
-  public void actualVisionReading(Pose2d pose, double time)
+    public Field2d getField2d()
   {
-    swerveDrive.addVisionMeasurement(pose, time);
+    return swerveDrive.field;
   }
 
+  public void setHeading()
+  {
+    resetOdometry(new Pose2d(new Translation2d(), new Rotation2d(Math.PI)));
+  }
 
 }

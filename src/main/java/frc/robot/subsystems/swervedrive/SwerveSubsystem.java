@@ -4,6 +4,7 @@
 
 package frc.robot.subsystems.swervedrive;
 
+import com.ctre.phoenix6.hardware.TalonFX;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathConstraints;
@@ -29,6 +30,7 @@ import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -38,8 +40,10 @@ import java.util.function.DoubleSupplier;
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.SwerveDriveTest;
+import swervelib.SwerveModule;
 import swervelib.math.SwerveMath;
 import swervelib.motors.SwerveMotor;
+import swervelib.motors.TalonFXSwerve;
 import swervelib.parser.SwerveControllerConfiguration;
 import swervelib.parser.SwerveDriveConfiguration;
 import swervelib.parser.SwerveParser;
@@ -106,6 +110,18 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive.setHeadingCorrection(false); // Heading correction should only be used while controlling the robot via angle.
     swerveDrive.setCosineCompensator(!SwerveDriveTelemetry.isSimulation); // Disables cosine compensation for simulations since it causes discrepancies not seen in real life.
     setupPathPlanner();
+
+
+    // Log motor data
+    SwerveModule[] sm_array = swerveDrive.getModules();
+    for(int i = 0; i < sm_array.length; i++){
+      SwerveModule sm = sm_array[i];
+      SwerveMotor driveMotor = sm.getDriveMotor();
+      SwerveMotor angleMotor = sm.getAngleMotor();
+
+      // TalonFX driveMotorTalon = (TalonFX)driveMotor.getMotor();
+      // TalonFX angleMotorTalon = (TalonFX) angleMotor.getMotor();
+    }
   }
 
   /**

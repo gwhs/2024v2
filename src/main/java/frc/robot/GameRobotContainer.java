@@ -99,9 +99,9 @@ public class GameRobotContainer implements BaseContainer {
       /* Driver Controller */
       //RE-ENABLE BUTTONS;
       
-      // driverController.y().onTrue(new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
-      // driverController.a().onTrue(new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem)); 
-      // driverController.b().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem, 10));
+      driverController.y().onTrue(new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
+      driverController.a().onTrue(new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem)); 
+      driverController.b().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem, 10));
       driverController.x().whileTrue(new DecreaseSpeed(closedFieldRel));
 
       //  driverController.rightStick().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
@@ -117,8 +117,8 @@ public class GameRobotContainer implements BaseContainer {
 
       operatorController.y().onTrue(new PrepClimb(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_ReactionSubsystem));
       operatorController.b().onTrue(new ClimbAndShoot(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem));
-      operatorController.a().onTrue(new UnClimb(m_ClimbSubsystem));
-      operatorController.x().onTrue(new UnClimbPartTwoThatWillBringDownTheMotor(m_ClimbSubsystem, m_ReactionSubsystem));
+      operatorController.a().onTrue(new UnClimb(m_ClimbSubsystem, m_ArmSubsystem, m_ReactionSubsystem));
+      operatorController.x().onTrue(new UnClimbPartTwoThatWillBringDownTheMotor(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_ReactionSubsystem));
       operatorController.start().onTrue(new StopClimb(m_ClimbSubsystem));
 
       operatorController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem, m_PizzaBoxSubsystem));

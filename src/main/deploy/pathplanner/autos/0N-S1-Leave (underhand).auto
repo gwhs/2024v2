@@ -1,0 +1,43 @@
+{
+  "version": 1.0,
+  "startingPose": {
+    "position": {
+      "x": 0.75,
+      "y": 6.69
+    },
+    "rotation": -121.0
+  },
+  "command": {
+    "type": "sequential",
+    "data": {
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "Speaker (underhand)"
+          }
+        },
+        {
+          "type": "wait",
+          "data": {
+            "waitTime": 2.0
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S1-Leave (pt.1)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "S1-Leave (pt.2)"
+          }
+        }
+      ]
+    }
+  },
+  "folder": "0.",
+  "choreoAuto": false
+}

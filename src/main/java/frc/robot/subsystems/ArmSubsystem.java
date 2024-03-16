@@ -6,20 +6,20 @@
 package frc.robot.subsystems;
 
 
+import com.ctre.phoenix6.controls.VoltageOut;
 import com.ctre.phoenix6.hardware.TalonFX;
 
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
-
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
-import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
-import frc.robot.Util.UtilMotor;
+import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
-import edu.wpi.first.math.controller.ArmFeedforward;
-
-import com.ctre.phoenix6.controls.VoltageOut;
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
+import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+import frc.robot.Constants;
+import frc.robot.Util.UtilMotor;
 
 
 public class ArmSubsystem extends ProfiledPIDSubsystem {
@@ -33,7 +33,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int ROTATION_TO_DEGREES = 360;
     public static final double GEAR_RATIO = 118.587767088;
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
-    public static final double ENCODER_OFFSET = -21.43+40; 
+    public static final double ENCODER_OFFSET = 25; 
     public static final int ARM_ID = 18;
     //
     public static final double KSVOLTS = 0; 
@@ -45,7 +45,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int TRAP_ANGLE = 290;
     public static final int SPEAKER_LOW_ANGLE = 165;
     public static final int SPEAKER_HIGH_ANGLE = 238;
-    public static final int INTAKE_ANGLE = 66;
+    public static final int INTAKE_ANGLE = 60;
     public static final int CLIMBING_ANGLE = 45;
   }
 
@@ -59,18 +59,26 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     super(new ProfiledPIDController(5.35, .25, 0, new Constraints(3.5*Math.PI, 27)));
     getController().setTolerance(2 * (Math.PI/180));
     //TrapezoidProfile either velocity or position
-      m_arm = new TalonFX(armId, armCanbus);
+      // m_arm = new TalonFX(armId, armCanbus);
       m_encoder = new DutyCycleEncoder(channel1);
       armFeedForward = new ArmFeedforward(Arm.KSVOLTS, Arm.KGVOLTS, 0, 0);
           
       targetArmAngle(encoderGetAngle());
       enable();
+      //m_encoder.reset();
 
-    UtilMotor.configMotor(m_arm, .11, 0, 0, .12, 15, 50, true);      
+    // UtilMotor.configMotor(m_arm, .11, 0, 0, .12, 15, 50, true);      
 
     Shuffleboard.getTab("Arm").addDouble("Encoder Angle", ()->encoderGetAngle()).withWidget(BuiltInWidgets.kGraph)
     .withSize(3,3);
     Shuffleboard.getTab("Arm").addDouble("Goal in degrees", ()->getController().getGoal().position * (180/Math.PI));
+    
+    // Shuffleboard.getTab("Arm").addDouble("Arm Stator Current", () -> m_arm.getStatorCurrent().getValueAsDouble());
+    // Shuffleboard.getTab("Arm").addDouble("Arm Rotor Velocity", () -> m_arm.getRotorVelocity().getValueAsDouble());
+    // Shuffleboard.getTab("Arm").addDouble("Arm Acceleration", () -> m_arm.getAcceleration().getValueAsDouble());
+    // Shuffleboard.getTab("Arm").addDouble("Arm Temperature", () -> m_arm.getDeviceTemp().getValueAsDouble());
+
+    Shuffleboard.getTab("Arm").addDouble("Arm Encoder test get()", () -> (m_encoder.get() * Constants.IntakeConstants.ROTATION_TO_DEGREES));
   }
 
   //Looking at the left of the robot, counterclockwise arm spin is positive
@@ -83,7 +91,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     speed = 15;
   }
   VoltageOut armSpinRequest = new VoltageOut(-speed, true, false, false, false);
-  m_arm.setControl(armSpinRequest);
+  // m_arm.setControl(armSpinRequest);
  }
 
  public void targetArmAngle(double angle)
@@ -103,7 +111,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   //Stops arm motor
   public void stopArmMotor() {
-    m_arm.stopMotor();
+    // m_arm.stopMotor();
  }
 
  //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])
@@ -119,7 +127,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   }
 
   public boolean checkEncoderAngleForClimb() {
-    return (encoderGetAngle() >= 125 && encoderGetAngle() <= 180);
+    return (encoderGetAngle() >= 125 && encoderGetAngle() <= 270);
   }
 
   @Override
@@ -129,6 +137,9 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     double feedForward = armFeedForward.calculate(setPoint.position, setPoint.velocity);
     if(!isEmergencyStop())
     {
+      SmartDashboard.putNumber("Arm PID output", output);
+      SmartDashboard.putNumber("Arm feed forward", feedForward);
+      SmartDashboard.putNumber("Arm speed", output + feedForward);
       spinArm(output + feedForward);
     }
     else

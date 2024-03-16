@@ -14,17 +14,25 @@ import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.numbers.*;
 import edu.wpi.first.math.trajectory.*;
 import edu.wpi.first.math.util.*;
+import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.*;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.*;
 import java.io.File;
-import java.util.function.*;
-import swervelib.*;
-import swervelib.math.*;
-import swervelib.parser.*;
-import swervelib.telemetry.*;
-import swervelib.telemetry.SwerveDriveTelemetry.*;
+import java.util.function.DoubleSupplier;
+import swervelib.SwerveController;
+import swervelib.SwerveDrive;
+import swervelib.SwerveDriveTest;
+import swervelib.SwerveModule;
+import swervelib.math.SwerveMath;
+import swervelib.motors.SwerveMotor;
+import swervelib.parser.SwerveControllerConfiguration;
+import swervelib.parser.SwerveDriveConfiguration;
+import swervelib.parser.SwerveParser;
+import swervelib.telemetry.SwerveDriveTelemetry;
+import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
 public class SwerveSubsystem extends SubsystemBase
 {
@@ -37,6 +45,18 @@ public class SwerveSubsystem extends SubsystemBase
    * Maximum speed of the robot in meters per second, used to limit acceleration.
    */
   public        double      maximumSpeed = Units.feetToMeters(14.5); //14.5
+
+  private StructArrayPublisher<SwerveModuleState> swerveStatePublisher = NetworkTableInstance.getDefault()
+    .getStructArrayTopic("Swerve State", SwerveModuleState.struct).publish();
+
+  private StructPublisher<Translation3d> robotAccelerationPublisher = NetworkTableInstance.getDefault()
+    .getStructTopic("Robot Acceleration", Translation3d.struct).publish();
+
+  private StructPublisher<ChassisSpeeds> robotFieldVelocityPublisher = NetworkTableInstance.getDefault()
+    .getStructTopic("Robot Field Velocity", ChassisSpeeds.struct).publish();
+
+  private StructPublisher<ChassisSpeeds> robotRobotVelocityPublisher = NetworkTableInstance.getDefault()
+    .getStructTopic("Robot Velocity", ChassisSpeeds.struct).publish();
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -74,6 +94,18 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive.setHeadingCorrection(false); // Heading correction should only be used while controlling the robot via angle.
     swerveDrive.setCosineCompensator(!SwerveDriveTelemetry.isSimulation); // Disables cosine compensation for simulations since it causes discrepancies not seen in real life.
     setupPathPlanner();
+
+
+    // Log motor data
+    SwerveModule[] sm_array = swerveDrive.getModules();
+    for(int i = 0; i < sm_array.length; i++){
+      SwerveModule sm = sm_array[i];
+      SwerveMotor driveMotor = sm.getDriveMotor();
+      SwerveMotor angleMotor = sm.getAngleMotor();
+
+      // TalonFX driveMotorTalon = (TalonFX)driveMotor.getMotor();
+      // TalonFX angleMotorTalon = (TalonFX) angleMotor.getMotor();
+    }
   }
 
   /**
@@ -100,7 +132,7 @@ public class SwerveSubsystem extends SubsystemBase
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
                                          new PIDConstants(1.0,0,0),
                                          // Translation PID constants
-                                         new PIDConstants(10,0,0),
+                                         new PIDConstants(9,0,0),
                                          // Rotation PID constants
                                          4.5,
                                          // Max module speed, in m/s
@@ -296,7 +328,11 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
-
+    swerveStatePublisher.set(swerveDrive.getStates());
+    robotAccelerationPublisher.set(swerveDrive.getAccel().get());
+    robotFieldVelocityPublisher.set(swerveDrive.getFieldVelocity());
+    robotRobotVelocityPublisher.set(swerveDrive.getRobotVelocity());
+    
   }
 
   @Override

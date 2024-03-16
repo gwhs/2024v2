@@ -16,6 +16,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 
 public class IntakeSubsystem extends SubsystemBase {
@@ -50,6 +51,19 @@ public class IntakeSubsystem extends SubsystemBase {
 
     Shuffleboard.getTab("Intake").addBoolean("Sensor value", () -> isNotePresent());
     m_Encoder.reset();
+    Shuffleboard.getTab("Intake").addDouble("IntakeArm Stator Current", () -> m_moveIntakeArm.getStatorCurrent().getValueAsDouble());
+    Shuffleboard.getTab("Intake").addDouble("Intake Rotor Velocity", () -> m_moveIntakeArm.getRotorVelocity().getValueAsDouble());
+    Shuffleboard.getTab("Intake").addDouble("Intake Acceleration", () -> m_moveIntakeArm.getAcceleration().getValueAsDouble());
+    Shuffleboard.getTab("Intake").addDouble("Intake Temperature", () -> m_moveIntakeArm.getDeviceTemp().getValueAsDouble());
+    
+    Shuffleboard.getTab("Intake").addDouble("Spin Intake Stator Current", () -> m_spinIntake.getStatorCurrent().getValueAsDouble());
+    Shuffleboard.getTab("Intake").addDouble("Spin Intake Rotor Velocity", () -> m_spinIntake.getRotorVelocity().getValueAsDouble());
+    Shuffleboard.getTab("Intake").addDouble("Spin Intake Acceleration", () -> m_spinIntake.getAcceleration().getValueAsDouble());
+    Shuffleboard.getTab("Intake").addDouble("Spin Intake Temperature", () -> m_spinIntake.getDeviceTemp().getValueAsDouble());
+
+    //m_Encoder.reset();
+    Shuffleboard.getTab("Intake").addDouble("Intake Encoder test get()", () -> (m_Encoder.get() * Constants.IntakeConstants.ROTATION_TO_DEGREES));
+
     // Logger.recordOutput("Intake/EncoderAngle", encoderGetAngle());
     // Logger.recordOutput("Intake/SensorValue", isNotePresent());
     // Logger.recordOutput("Intake/Motor/StatorCurrent", m_spinIntake.getStatorCurrent().getValueAsDouble());
@@ -68,6 +82,7 @@ public class IntakeSubsystem extends SubsystemBase {
     // -intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0,false, false,
     // false);
     if (!emergencyStop) {
+      SmartDashboard.putNumber("Intake spin motor speed", intakeMotorVelocity);
         m_spinIntake.set(-intakeMotorVelocity);
     }
   }
@@ -77,9 +92,7 @@ public class IntakeSubsystem extends SubsystemBase {
     // spinRequest1 = new VelocityVoltage(
     // intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0, false, false,
     // false);
-    if (!emergencyStop) {
-      m_spinIntake.set(intakeMotorVelocity);
-    }
+    spinIntakeMotor(-intakeMotorVelocity, intakeMotorAcceleration);
   }
 
   public void spinIntakeArm(double speed) {
@@ -89,6 +102,7 @@ public class IntakeSubsystem extends SubsystemBase {
       speed = 1;
     }
     if (!isEmergencyStop()) {
+      SmartDashboard.putNumber("Intake Arm speed", speed);
       m_moveIntakeArm.set(speed);
     }
   }

@@ -18,6 +18,7 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.ProfiledPIDSubsystem;
+import frc.robot.Constants;
 import frc.robot.Util.UtilMotor;
 
 
@@ -75,6 +76,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     Shuffleboard.getTab("Arm").addDouble("Arm Rotor Velocity", () -> m_arm.getRotorVelocity().getValueAsDouble());
     Shuffleboard.getTab("Arm").addDouble("Arm Acceleration", () -> m_arm.getAcceleration().getValueAsDouble());
     Shuffleboard.getTab("Arm").addDouble("Arm Temperature", () -> m_arm.getDeviceTemp().getValueAsDouble());
+
+    Shuffleboard.getTab("Arm").addDouble("Arm Encoder test get()", () -> (m_encoder.get() * Constants.IntakeConstants.ROTATION_TO_DEGREES));
   }
 
   //Looking at the left of the robot, counterclockwise arm spin is positive

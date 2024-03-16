@@ -16,6 +16,7 @@ import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.math.geometry.Translation3d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
 import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
 import edu.wpi.first.math.kinematics.SwerveModuleState;
@@ -25,6 +26,7 @@ import edu.wpi.first.math.trajectory.Trajectory;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.smartdashboard.Field2d;
@@ -58,6 +60,15 @@ public class SwerveSubsystem extends SubsystemBase
 
   private StructArrayPublisher<SwerveModuleState> swerveStatePublisher = NetworkTableInstance.getDefault()
     .getStructArrayTopic("Swerve State", SwerveModuleState.struct).publish();
+
+  private StructPublisher<Translation3d> robotAccelerationPublisher = NetworkTableInstance.getDefault()
+    .getStructTopic("Robot Acceleration", Translation3d.struct).publish();
+
+  private StructPublisher<ChassisSpeeds> robotFieldVelocityPublisher = NetworkTableInstance.getDefault()
+    .getStructTopic("Robot Field Velocity", ChassisSpeeds.struct).publish();
+
+  private StructPublisher<ChassisSpeeds> robotRobotVelocityPublisher = NetworkTableInstance.getDefault()
+    .getStructTopic("Robot Velocity", ChassisSpeeds.struct).publish();
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -318,6 +329,10 @@ public class SwerveSubsystem extends SubsystemBase
   public void periodic()
   {
     swerveStatePublisher.set(swerveDrive.getStates());
+    robotAccelerationPublisher.set(swerveDrive.getAccel().get());
+    robotFieldVelocityPublisher.set(swerveDrive.getFieldVelocity());
+    robotRobotVelocityPublisher.set(swerveDrive.getRobotVelocity());
+    
   }
 
   @Override

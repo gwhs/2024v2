@@ -97,7 +97,7 @@ public class IntakeSubsystem extends SubsystemBase {
       speed = 1;
     }
     if (!isEmergencyStop()) {
-      SmartDashboard.putNumber("Intake Arm speed", speed)
+      SmartDashboard.putNumber("Intake Arm speed", speed);
       m_moveIntakeArm.set(speed);
     }
   }

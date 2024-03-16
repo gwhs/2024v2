@@ -83,7 +83,7 @@ else{
      xVelocity   = Math.pow(vX.getAsDouble(), 3);
      yVelocity   = Math.pow(vY.getAsDouble(), 3);
      angVelocity = Math.pow(omega.getAsDouble(), 3);
-     swerve.resetOdometry(swerve.getPose());
+     swerve.setHeading();
 }
     
    

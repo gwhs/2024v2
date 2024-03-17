@@ -74,16 +74,16 @@ public class TeleopDrive extends Command
      double yVelocity;
     if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
 {
-     xVelocity   = -Math.pow(vX.getAsDouble(), 3);
-     yVelocity   = -Math.pow(vY.getAsDouble(), 3);
-     angVelocity = -Math.pow(omega.getAsDouble(), 3);
-
-}
-else{
      xVelocity   = Math.pow(vX.getAsDouble(), 3);
      yVelocity   = Math.pow(vY.getAsDouble(), 3);
      angVelocity = Math.pow(omega.getAsDouble(), 3);
-     swerve.setHeading();
+
+}
+else
+{
+     xVelocity   = -Math.pow(vX.getAsDouble(), 3);
+     yVelocity   = -Math.pow(vY.getAsDouble(), 3);
+     angVelocity = Math.pow(omega.getAsDouble(), 3);
 }
     
    

@@ -14,6 +14,7 @@ import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.numbers.*;
 import edu.wpi.first.math.trajectory.*;
 import edu.wpi.first.math.util.*;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.networktables.StructArrayPublisher;
 import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.*;

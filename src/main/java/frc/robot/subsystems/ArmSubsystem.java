@@ -59,7 +59,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     super(new ProfiledPIDController(5.35, .25, 0, new Constraints(3.5*Math.PI, 27)));
     getController().setTolerance(2 * (Math.PI/180));
     //TrapezoidProfile either velocity or position
-      // m_arm = new TalonFX(armId, armCanbus);
+      m_arm = new TalonFX(armId, armCanbus);
       m_encoder = new DutyCycleEncoder(channel1);
       armFeedForward = new ArmFeedforward(Arm.KSVOLTS, Arm.KGVOLTS, 0, 0);
           
@@ -67,16 +67,16 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
       enable();
       //m_encoder.reset();
 
-    // UtilMotor.configMotor(m_arm, .11, 0, 0, .12, 15, 50, true);      
+    UtilMotor.configMotor(m_arm, .11, 0, 0, .12, 15, 50, true);      
 
     Shuffleboard.getTab("Arm").addDouble("Encoder Angle", ()->encoderGetAngle()).withWidget(BuiltInWidgets.kGraph)
     .withSize(3,3);
     Shuffleboard.getTab("Arm").addDouble("Goal in degrees", ()->getController().getGoal().position * (180/Math.PI));
     
-    // Shuffleboard.getTab("Arm").addDouble("Arm Stator Current", () -> m_arm.getStatorCurrent().getValueAsDouble());
-    // Shuffleboard.getTab("Arm").addDouble("Arm Rotor Velocity", () -> m_arm.getRotorVelocity().getValueAsDouble());
-    // Shuffleboard.getTab("Arm").addDouble("Arm Acceleration", () -> m_arm.getAcceleration().getValueAsDouble());
-    // Shuffleboard.getTab("Arm").addDouble("Arm Temperature", () -> m_arm.getDeviceTemp().getValueAsDouble());
+    Shuffleboard.getTab("Arm").addDouble("Arm Stator Current", () -> m_arm.getStatorCurrent().getValueAsDouble());
+    Shuffleboard.getTab("Arm").addDouble("Arm Rotor Velocity", () -> m_arm.getRotorVelocity().getValueAsDouble());
+    Shuffleboard.getTab("Arm").addDouble("Arm Acceleration", () -> m_arm.getAcceleration().getValueAsDouble());
+    Shuffleboard.getTab("Arm").addDouble("Arm Temperature", () -> m_arm.getDeviceTemp().getValueAsDouble());
 
     Shuffleboard.getTab("Arm").addDouble("Arm Encoder test get()", () -> (m_encoder.get() * Constants.IntakeConstants.ROTATION_TO_DEGREES));
   }
@@ -91,7 +91,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     speed = 15;
   }
   VoltageOut armSpinRequest = new VoltageOut(-speed, true, false, false, false);
-  // m_arm.setControl(armSpinRequest);
+  m_arm.setControl(armSpinRequest);
  }
 
  public void targetArmAngle(double angle)
@@ -111,7 +111,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   //Stops arm motor
   public void stopArmMotor() {
-    // m_arm.stopMotor();
+    m_arm.stopMotor();
  }
 
  //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])

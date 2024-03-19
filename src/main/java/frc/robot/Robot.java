@@ -27,6 +27,7 @@ import frc.robot.testcontainers.IntakeContainer;
 import frc.robot.testcontainers.VisionContainer;
 import frc.robot.testcontainers.LEDContainer;
 import frc.robot.testcontainers.ReactionArmContainer;
+import frc.robot.testcontainers.RykerRobotContainer;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -44,9 +45,10 @@ public class Robot extends TimedRobot  {
   public static final String VISION = "Vision";
   public static final String LED = "LED";
   public static final String REACTION = "REACTION";
+  public static final String RYKER = "RYKER";
   
   // change this to match the subsystem container you want to use, or GAME for complete robot
-  public static final String container = GAME;
+  public static final String container = RYKER;
 
   private Command m_autonomousCommand;
 
@@ -100,6 +102,9 @@ public class Robot extends TimedRobot  {
         break;
       case REACTION:
         m_baseContainer = new ReactionArmContainer();
+        break;
+      case RYKER:
+        m_baseContainer = new RykerRobotContainer();
         break;
     }  
 

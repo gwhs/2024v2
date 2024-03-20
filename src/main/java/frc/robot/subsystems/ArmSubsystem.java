@@ -65,7 +65,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
           
       targetArmAngle(encoderGetAngle());
       enable();
-      // m_encoder.reset();
+      //m_encoder.reset();
 
     UtilMotor.configMotor(m_arm, .11, 0, 0, .12, 15, 50, true);      
 

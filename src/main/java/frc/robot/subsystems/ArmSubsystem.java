@@ -33,7 +33,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int ROTATION_TO_DEGREES = 360;
     public static final double GEAR_RATIO = 118.587767088;
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
-    public static final double ENCODER_OFFSET = 25; 
+    public static final double ENCODER_OFFSET = 21; 
     public static final int ARM_ID = 18;
     //
     public static final double KSVOLTS = 0; 
@@ -56,7 +56,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   public ArmSubsystem(int armId, String armCanbus, int channel1)
   {
-    super(new ProfiledPIDController(5.35, .25, 0, new Constraints(3.5*Math.PI, 27)));
+    super(new ProfiledPIDController(5.4, .25, 0, new Constraints(3.5*Math.PI, 27)));
     getController().setTolerance(2 * (Math.PI/180));
     //TrapezoidProfile either velocity or position
       m_arm = new TalonFX(armId, armCanbus);
@@ -65,7 +65,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
           
       targetArmAngle(encoderGetAngle());
       enable();
-      //m_encoder.reset();
+      // m_encoder.reset();
 
     UtilMotor.configMotor(m_arm, .11, 0, 0, .12, 15, 50, true);      
 
@@ -84,13 +84,13 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   //Looking at the left of the robot, counterclockwise arm spin is positive
  public void spinArm(double speed)
  {
-  if(speed < -15) { //Will not be less than minimum angle
+  if(speed < -15) { 
     speed = -15;
   }
-  else if (speed > 15) { // Will not be greater than maximum angle
+  else if (speed > 15) { 
     speed = 15;
   }
-  VoltageOut armSpinRequest = new VoltageOut(-speed, true, false, false, false);
+  VoltageOut armSpinRequest = new VoltageOut(speed, true, false, false, false);
   m_arm.setControl(armSpinRequest);
  }
 
@@ -117,7 +117,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
  //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])
   public double encoderGetAngle() {
 
-    return m_encoder.getAbsolutePosition()*Arm.ROTATION_TO_DEGREES - Arm.ENCODER_OFFSET;
+    return m_encoder.get()*Arm.ROTATION_TO_DEGREES - Arm.ENCODER_OFFSET;
   }
 
   //Resets encoder angle to 0

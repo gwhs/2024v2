@@ -50,7 +50,7 @@ public class IntakeSubsystem extends SubsystemBase {
         .withPosition(0, 0);
 
     Shuffleboard.getTab("Intake").addBoolean("Sensor value", () -> isNotePresent());
-    m_Encoder.reset();
+    //m_Encoder.reset();
     Shuffleboard.getTab("Intake").addDouble("IntakeArm Stator Current", () -> m_moveIntakeArm.getStatorCurrent().getValueAsDouble());
     Shuffleboard.getTab("Intake").addDouble("Intake Rotor Velocity", () -> m_moveIntakeArm.getRotorVelocity().getValueAsDouble());
     Shuffleboard.getTab("Intake").addDouble("Intake Acceleration", () -> m_moveIntakeArm.getAcceleration().getValueAsDouble());
@@ -118,7 +118,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public double encoderGetAngle() {
-    return ((m_Encoder.getAbsolutePosition() * Constants.IntakeConstants.ROTATION_TO_DEGREES)
+    return ((m_Encoder.get() * Constants.IntakeConstants.ROTATION_TO_DEGREES)
         - Constants.IntakeConstants.ENCODER_OFFSET);
   }
 

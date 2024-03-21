@@ -59,13 +59,13 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     super(new ProfiledPIDController(5.4, .25, 0, new Constraints(3.5*Math.PI, 27)));
     getController().setTolerance(2 * (Math.PI/180));
     //TrapezoidProfile either velocity or position
-      m_arm = new TalonFX(armId, armCanbus);
-      m_encoder = new DutyCycleEncoder(channel1);
-      armFeedForward = new ArmFeedforward(Arm.KSVOLTS, Arm.KGVOLTS, 0, 0);
-          
-      targetArmAngle(encoderGetAngle());
-      enable();
-      //m_encoder.reset();
+    m_arm = new TalonFX(armId, armCanbus);
+    m_encoder = new DutyCycleEncoder(channel1);
+    armFeedForward = new ArmFeedforward(Arm.KSVOLTS, Arm.KGVOLTS, 0, 0);
+        
+    targetArmAngle(encoderGetAngle());
+    enable();
+    //m_encoder.reset();
 
     UtilMotor.configMotor(m_arm, .11, 0, 0, .12, 15, 50, true);      
 
@@ -82,30 +82,30 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   }
 
   //Looking at the left of the robot, counterclockwise arm spin is positive
- public void spinArm(double speed)
- {
-  if(speed < -15) { 
-    speed = -15;
-  }
-  else if (speed > 15) { 
-    speed = 15;
-  }
-  VoltageOut armSpinRequest = new VoltageOut(speed, true, false, false, false);
-  m_arm.setControl(armSpinRequest);
- }
-
- public void targetArmAngle(double angle)
- {
-  double calculatedAng = angle ;
-  if(calculatedAng  < Arm.ARM_MIN_ANGLE) { //Will not be less than minimum angle
-    calculatedAng = Arm.ARM_MIN_ANGLE;
-  }
-  else if (calculatedAng > Arm.ARM_MAX_ANGLE ) { // Will not be greater than maximum angle
-    calculatedAng = Arm.ARM_MAX_ANGLE;
+  public void spinArm(double speed)
+  {
+    if(speed < -15) { 
+      speed = -15;
+    }
+    else if (speed > 15) { 
+      speed = 15;
+    }
+    VoltageOut armSpinRequest = new VoltageOut(speed, true, false, false, false);
+    m_arm.setControl(armSpinRequest);
   }
 
-  setGoal(calculatedAng * Math.PI/180);
- }
+  public void targetArmAngle(double angle)
+  {
+    double calculatedAng = angle ;
+    if(calculatedAng  < Arm.ARM_MIN_ANGLE) { //Will not be less than minimum angle
+      calculatedAng = Arm.ARM_MIN_ANGLE;
+    }
+    else if (calculatedAng > Arm.ARM_MAX_ANGLE ) { // Will not be greater than maximum angle
+      calculatedAng = Arm.ARM_MAX_ANGLE;
+    }
+
+    setGoal(calculatedAng * Math.PI/180);
+  }
 
 
 

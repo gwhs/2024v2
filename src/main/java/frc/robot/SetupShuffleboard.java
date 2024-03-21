@@ -12,6 +12,7 @@ import frc.robot.commands.SystemCheck;
 import frc.robot.Util.UtilMath;
 import frc.robot.commands.CancelAllCommands;
 import frc.robot.commands.Arm.ResetArm;
+import frc.robot.commands.Arm.ScoreInTrapStutter;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorUp;
 import frc.robot.commands.ClimberCommands.ClimbParts.ClimbAndShoot;
@@ -132,6 +133,9 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("System Check").add("check", new SystemCheck(armSubsystem, climbSubsystem, intakeSubsystem, pizzaBoxSubsystem, reactionSubsystem, swerve));
   
     Shuffleboard.getTab("Arm").addDouble("distance", ()-> UtilMath.distanceFromBlueSpeaker(swerve.getPose()));
+
+    Shuffleboard.getTab("Arm").add("stutter trap", new ScoreInTrapStutter(pizzaBoxSubsystem, armSubsystem));
+
   }
   @Override
   public void periodic() {

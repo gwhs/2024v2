@@ -40,9 +40,9 @@ public class PizzaBoxSubsystem extends SubsystemBase {
     UtilMotor.configMotorStatorCurrent(m_pizzaBox, 80);
 
     
-    Shuffleboard.getTab("Pizza").addDouble("IntakeArm Stator Current", () -> m_pizzaBox.getStatorCurrent().getValueAsDouble());
-    Shuffleboard.getTab("Pizza").addDouble("Rotor Velocity", () -> m_pizzaBox.getRotorVelocity().getValueAsDouble());
-    Shuffleboard.getTab("Pizza").addDouble("Temperature", () -> m_pizzaBox.getDeviceTemp().getValueAsDouble());
+    Shuffleboard.getTab("Pizza").addDouble("Pizzabox Stator Current", () -> m_pizzaBox.getStatorCurrent().getValueAsDouble());
+    Shuffleboard.getTab("Pizza").addDouble("Pizzabox Rotor Velocity", () -> m_pizzaBox.getRotorVelocity().getValueAsDouble());
+    Shuffleboard.getTab("Pizza").addDouble("Pizzabox Temperature", () -> m_pizzaBox.getDeviceTemp().getValueAsDouble());
   }
 
   //Spins "Pizzabox" motor: velocity in rotations/sec and acceleration in rotations/sec^2

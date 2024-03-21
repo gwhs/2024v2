@@ -51,10 +51,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
     Shuffleboard.getTab("Intake").addBoolean("Sensor value", () -> isNotePresent());
     //m_Encoder.reset();
-    Shuffleboard.getTab("Intake").addDouble("IntakeArm Stator Current", () -> m_moveIntakeArm.getStatorCurrent().getValueAsDouble());
-    Shuffleboard.getTab("Intake").addDouble("Intake Rotor Velocity", () -> m_moveIntakeArm.getRotorVelocity().getValueAsDouble());
-    Shuffleboard.getTab("Intake").addDouble("Intake Acceleration", () -> m_moveIntakeArm.getAcceleration().getValueAsDouble());
-    Shuffleboard.getTab("Intake").addDouble("Intake Temperature", () -> m_moveIntakeArm.getDeviceTemp().getValueAsDouble());
+    Shuffleboard.getTab("Intake").addDouble("Intake Arm Stator Current", () -> m_moveIntakeArm.getStatorCurrent().getValueAsDouble());
+    Shuffleboard.getTab("Intake").addDouble("Intake Arm Rotor Velocity", () -> m_moveIntakeArm.getRotorVelocity().getValueAsDouble());
+    Shuffleboard.getTab("Intake").addDouble("Intake Arm Acceleration", () -> m_moveIntakeArm.getAcceleration().getValueAsDouble());
+    Shuffleboard.getTab("Intake").addDouble("Intake Arm Temperature", () -> m_moveIntakeArm.getDeviceTemp().getValueAsDouble());
     
     Shuffleboard.getTab("Intake").addDouble("Spin Intake Stator Current", () -> m_spinIntake.getStatorCurrent().getValueAsDouble());
     Shuffleboard.getTab("Intake").addDouble("Spin Intake Rotor Velocity", () -> m_spinIntake.getRotorVelocity().getValueAsDouble());

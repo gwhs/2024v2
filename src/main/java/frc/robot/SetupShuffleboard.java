@@ -91,22 +91,6 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("GameTab").add("Decrease Intake Offset", new DecreaseIntakeOffset())
       .withPosition(5,3);
     Shuffleboard.getTab("GameTab").add("CLEAR ALL COMMANDS", new CancelAllCommands()).withPosition(7,3);
-    
-
-    ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
-
-    driveTrainShuffleboardTab.addDouble("X Position", ()->swerve.getPose().getX())
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(0, 0);
-    driveTrainShuffleboardTab.addDouble("Y Position", ()->swerve.getPose().getY())
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(3, 0);
-    driveTrainShuffleboardTab.addDouble("Angel", ()->swerve.getPose().getRotation().getDegrees())
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(6, 0);
 
 
     //Climb stuff (all in climb tab)

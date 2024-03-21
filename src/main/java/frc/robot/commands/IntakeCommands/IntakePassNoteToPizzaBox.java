@@ -68,7 +68,7 @@ public class IntakePassNoteToPizzaBox extends Command {
       timer = Timer.getFPGATimestamp(); 
       noteLatch = true;
     }  
-    if((noteLatch) || (initTimer + 5 < Timer.getFPGATimestamp())) {
+    if((timer + .5 < Timer.getFPGATimestamp() && noteLatch) || (initTimer + 5 < Timer.getFPGATimestamp())) {
       noteLatch = false;
       return true; 
     }

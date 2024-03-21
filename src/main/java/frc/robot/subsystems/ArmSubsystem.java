@@ -41,7 +41,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     //
     //Arm ID Jalen Tolbert
     public static final int ENCODER_DIO_SLOT = 0;
-    public static final int AMP_ANGLE = 322;
+    public static final int AMP_ANGLE = 300;
     public static final int TRAP_ANGLE = 290;
     public static final int SPEAKER_LOW_ANGLE = 165;
     public static final int SPEAKER_HIGH_ANGLE = 238;

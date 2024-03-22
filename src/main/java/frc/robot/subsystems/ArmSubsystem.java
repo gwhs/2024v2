@@ -38,8 +38,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int ARM_ID = 18;
     //
     public static final double KP = 5.5;
-    public static final double KI = 0;
-    public static final double KD = 0;
+    public static final double KI = 0.1;
+    public static final double KD = 0.01;
     public static final double KSVOLTS = .28; 
     public static final double KGVOLTS = .355;
     public static final double KVVOLTS = 0;

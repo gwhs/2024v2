@@ -13,6 +13,7 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -36,8 +37,15 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final double ENCODER_OFFSET = 21; 
     public static final int ARM_ID = 18;
     //
-    public static final double KSVOLTS = 0; 
+    public static final double KP = 5.4;
+    public static final double KI = 0.25;
+    public static final double KD = 0;
+    public static final double KSVOLTS = .28; 
     public static final double KGVOLTS = .355;
+    public static final double KVVOLTS = 0;
+    public static final double KAVOLTS = 0;
+    public static final double VEL = 3.5 * Math.PI;
+    public static final double ACC = 27;
     //
     //Arm ID Jalen Tolbert
     public static final int ENCODER_DIO_SLOT = 0;
@@ -56,12 +64,12 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
   public ArmSubsystem(int armId, String armCanbus, int channel1)
   {
-    super(new ProfiledPIDController(5.4, .25, 0, new Constraints(3.5*Math.PI, 27)));
+    super(new ProfiledPIDController(Arm.KP, Arm.KI, Arm.KD, new Constraints(Arm.VEL, Arm.ACC)));
     getController().setTolerance(2 * (Math.PI/180));
     //TrapezoidProfile either velocity or position
     m_arm = new TalonFX(armId, armCanbus);
     m_encoder = new DutyCycleEncoder(channel1);
-    armFeedForward = new ArmFeedforward(Arm.KSVOLTS, Arm.KGVOLTS, 0, 0);
+    armFeedForward = new ArmFeedforward(Arm.KSVOLTS, Arm.KGVOLTS, Arm.KVVOLTS, Arm.KAVOLTS);
         
     targetArmAngle(encoderGetAngle());
     enable();
@@ -78,7 +86,15 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     Shuffleboard.getTab("Arm").addDouble("Arm Acceleration", () -> m_arm.getAcceleration().getValueAsDouble());
     Shuffleboard.getTab("Arm").addDouble("Arm Temperature", () -> m_arm.getDeviceTemp().getValueAsDouble());
 
-    Shuffleboard.getTab("Arm").addDouble("Arm Encoder test get()", () -> (m_encoder.get() * Constants.IntakeConstants.ROTATION_TO_DEGREES));
+    DataLogManager.log("Arm P: " + Arm.KP);
+    DataLogManager.log("Arm I: " + Arm.KI);
+    DataLogManager.log("Arm D: " + Arm.KD);
+    DataLogManager.log("Arm Velocity: " + Arm.VEL);
+    DataLogManager.log("Arm Acceleration: " + Arm.ACC);
+    DataLogManager.log("Arm kS: " + Arm.KSVOLTS);
+    DataLogManager.log("Arm kG: " + Arm.KGVOLTS);
+    DataLogManager.log("Arm kV: " + Arm.KVVOLTS);
+    DataLogManager.log("Arm kA: " + Arm.KAVOLTS);
   }
 
   //Looking at the left of the robot, counterclockwise arm spin is positive

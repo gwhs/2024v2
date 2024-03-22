@@ -62,7 +62,6 @@ public class IntakeSubsystem extends SubsystemBase {
     Shuffleboard.getTab("Intake").addDouble("Spin Intake Temperature", () -> m_spinIntake.getDeviceTemp().getValueAsDouble());
 
     //m_Encoder.reset();
-    Shuffleboard.getTab("Intake").addDouble("Intake Encoder test get()", () -> (m_Encoder.get() * Constants.IntakeConstants.ROTATION_TO_DEGREES));
 
     // Logger.recordOutput("Intake/EncoderAngle", encoderGetAngle());
     // Logger.recordOutput("Intake/SensorValue", isNotePresent());

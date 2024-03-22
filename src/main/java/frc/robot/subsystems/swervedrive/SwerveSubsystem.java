@@ -119,8 +119,11 @@ public class SwerveSubsystem extends SubsystemBase
       SwerveMotor driveMotor = sm.getDriveMotor();
       SwerveMotor angleMotor = sm.getAngleMotor();
 
-      // TalonFX driveMotorTalon = (TalonFX)driveMotor.getMotor();
-      // TalonFX angleMotorTalon = (TalonFX) angleMotor.getMotor();
+      TalonFX driveMotorTalon = (TalonFX)driveMotor.getMotor();
+      TalonFX angleMotorTalon = (TalonFX) angleMotor.getMotor();
+
+      Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Drive Motor StatorCurrent", () -> driveMotorTalon.getStatorCurrent().getValueAsDouble());
+      Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Angle Motor StatorCurrent", () -> angleMotorTalon.getStatorCurrent().getValueAsDouble());
     }
   }
 

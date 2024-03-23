@@ -116,7 +116,7 @@ public class SetupShuffleboard extends SubsystemBase {
 
     Shuffleboard.getTab("System Check").add("check", new SystemCheck(armSubsystem, climbSubsystem, intakeSubsystem, pizzaBoxSubsystem, reactionSubsystem, swerve));
   
-    Shuffleboard.getTab("Arm").addDouble("distance", ()-> UtilMath.distanceFromBlueSpeaker(swerve.getPose()));
+    Shuffleboard.getTab("Arm").addDouble("distance from blue speaker", ()-> UtilMath.distanceFromBlueSpeaker(swerve.getPose()));
 
     Shuffleboard.getTab("Arm").add("stutter trap", new ScoreInTrapStutter(pizzaBoxSubsystem, armSubsystem));
 

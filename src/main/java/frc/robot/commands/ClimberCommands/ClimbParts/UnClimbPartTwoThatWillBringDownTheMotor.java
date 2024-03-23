@@ -4,6 +4,7 @@
 
 package frc.robot.commands.ClimberCommands.ClimbParts;
 
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -23,8 +24,11 @@ public class UnClimbPartTwoThatWillBringDownTheMotor extends SequentialCommandGr
   public UnClimbPartTwoThatWillBringDownTheMotor(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a, ReactionSubsystem r) {
 
     addCommands(
+      Commands.runOnce(()->DataLogManager.log("Command Start: UnClimbPartTwo")),
       new SpinToArmAngle(a, 135).withTimeout(1),
       Commands.waitUntil(()->a.checkEncoderAngleForClimb()),
-      new MotorDown(c).withTimeout(3));
+      new MotorDown(c).withTimeout(3),
+      Commands.runOnce(()->DataLogManager.log("Command End: UnClimbPartTwo"))
+      );
   }
 }

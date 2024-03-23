@@ -41,8 +41,8 @@ public class IntakeSubsystem extends SubsystemBase {
     m_noteSensor = new DigitalInput(Constants.IntakeConstants.INTAKE_NOTESENSOR_CHANNEL_ID);
 
     UtilMotor.configMotor(m_moveIntakeArm, 0.11, 0.05, 0.01, 0.12, 12, 80, true);
-    // UtilMotor.configMotor(m_spinIntake, 0, 0, 0, 0.12, 12, 80, true);
-    UtilMotor.configMotorStatorCurrent(m_spinIntake, 60);
+    UtilMotor.configMotor(m_spinIntake, 0.11, 0.05, 0.01, 0.12, 12, 60, false);
+    //UtilMotor.configMotorStatorCurrent(m_spinIntake, 60);
     UtilMotor.configMotorSupplyCurrent(m_spinIntake, 80);
 
     Shuffleboard.getTab("Intake").addDouble("Encoder Angle", () -> encoderGetAngle()).withWidget(BuiltInWidgets.kGraph)
@@ -77,12 +77,21 @@ public class IntakeSubsystem extends SubsystemBase {
   // spin the intake motors, velocity is negative to intake note
   // velocity and accleration between -1.0 to 1.0
   public void spinIntakeMotor(double intakeMotorVelocity, double intakeMotorAcceleration) {
-    // spinRequest1 = new VelocityVoltage(
-    // -intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0,false, false,
-    // false);
+    if(intakeMotorVelocity > 1) {
+      intakeMotorVelocity = 1;
+    }
+    else if (intakeMotorVelocity < -1) {
+      intakeMotorVelocity = -1;
+    }
+
     if (!emergencyStop) {
+      // m_spinIntake.set(-intakeMotorVelocity);
+
+      intakeMotorVelocity *= 50;
+      spinRequest1 = new VelocityVoltage(-intakeMotorVelocity, 100, true, 0, 0,false, false, false);
+      m_spinIntake.setControl(spinRequest1);
+
       SmartDashboard.putNumber("Intake spin motor speed", intakeMotorVelocity);
-        m_spinIntake.set(-intakeMotorVelocity);
     }
   }
 

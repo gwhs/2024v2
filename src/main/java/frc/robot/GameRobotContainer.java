@@ -16,6 +16,7 @@ import frc.robot.commands.Arm.*;
 import frc.robot.commands.ClimberCommands.ClimbParts.*;
 import frc.robot.commands.IntakeCommands.*;
 import frc.robot.commands.driveCommands.*;
+import frc.robot.commands.swervedrive.drivebase.AbsoluteFieldDrive;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.LimeVision.LimeLightSub;
@@ -41,6 +42,8 @@ public class GameRobotContainer implements BaseContainer {
     private final LimeLightSub m_LimelightSubsystem;
 
     private final TeleopDrive closedFieldRel;
+
+    private final AbsoluteFieldDrive absoluteFieldDrive;
 
     public String getDriveTrainName(){
       return "swerve/hajel_kraken";
@@ -78,6 +81,10 @@ public class GameRobotContainer implements BaseContainer {
                                           () -> MathUtil.applyDeadband(-driverController.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
                                           () -> driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), () -> true);
 
+        absoluteFieldDrive = new AbsoluteFieldDrive(m_drivebase,
+                                                    () -> MathUtil.applyDeadband(-driverController.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
+                                                    () -> MathUtil.applyDeadband(-driverController.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
+                                                    () -> driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis());
         configurePathPlannerCommands();
         autoChooser = AutoBuilder.buildAutoChooser("0N-S1-noLeave (underhand)");
 

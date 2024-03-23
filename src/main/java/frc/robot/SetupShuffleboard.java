@@ -28,6 +28,8 @@ import frc.robot.commands.LimelightCommands.toggleCameraMode;
 import frc.robot.commands.LimelightCommands.toggleLimelightPoseEstimation;
 import frc.robot.commands.ReactionArmCommands.Extend;
 import frc.robot.commands.ReactionArmCommands.Retract;
+import frc.robot.commands.driveCommands.ResetTeleopDrive;
+import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -46,7 +48,9 @@ public class SetupShuffleboard extends SubsystemBase {
   public SetupShuffleboard() {
   }
 
-  public static void setupShuffleboard(SwerveSubsystem swerve, PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, LimeLightSub limelightSubsystem, Climbsubsystem climbSubsystem, ReactionSubsystem reactionSubsystem, SendableChooser<Command> chooser){
+  public static void setupShuffleboard(SwerveSubsystem swerve, PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, 
+                                       IntakeSubsystem intakeSubsystem, LimeLightSub limelightSubsystem, Climbsubsystem climbSubsystem, 
+                                       ReactionSubsystem reactionSubsystem, SendableChooser<Command> chooser, TeleopDrive teleopDrive) {
     // LimelightHelpers.setStreamMode_PiPSecondary("limelight");
     // Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5800").withSize(4,3).withPosition(5, 0);
     
@@ -91,6 +95,7 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("GameTab").add("Decrease Intake Offset", new DecreaseIntakeOffset())
       .withPosition(5,3);
     Shuffleboard.getTab("GameTab").add("CLEAR ALL COMMANDS", new CancelAllCommands()).withPosition(7,3);
+    Shuffleboard.getTab("GameTab").add("RESET TELEOP DRIVE", new ResetTeleopDrive(teleopDrive)).withPosition(9,0);
 
 
     //Climb stuff (all in climb tab)

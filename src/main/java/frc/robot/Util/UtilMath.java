@@ -26,13 +26,15 @@ public class UtilMath {
 
     public static double SourceIntakeHeading(Pose2d pose)
     {
-        if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
+        if(DriverStation.getAlliance().isPresent() && 
+        DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
         {
-            return 45;
+            return 60;
         }
-        else if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
+        else if(DriverStation.getAlliance().isPresent() &&
+         DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
         {
-            return 135;
+            return 120;
         }
         else
         {

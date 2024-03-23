@@ -94,4 +94,11 @@ public class UtilMath {
         return caclucateRotateTheta(pose, BLUE_SPEAKER_X, BLUE_SPEAKER_Y);
        
     }
+
+    public static double distanceFromBlueSpeaker(Pose2d pose) {
+        double robotX = pose.getX();
+        double robotY = pose.getY();
+
+        return Math.sqrt(Math.pow(BLUE_SPEAKER_X - robotX, 2) + Math.pow(BLUE_SPEAKER_Y - robotY, 2));
+    }
 }

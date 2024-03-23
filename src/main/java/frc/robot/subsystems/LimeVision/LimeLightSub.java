@@ -8,19 +8,30 @@ package frc.robot.subsystems.LimeVision;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructArrayPublisher;
+import edu.wpi.first.networktables.StructPublisher;
+import edu.wpi.first.util.struct.Struct;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimeLightConstants;
+
+import java.nio.ByteBuffer;
+
+import edu.wpi.first.apriltag.AprilTag;
+import edu.wpi.first.apriltag.AprilTagFieldLayout;
+import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 import frc.robot.subsystems.LimelightHelpers.LimelightHelpers;
+import frc.robot.subsystems.LimelightHelpers.LimelightHelpers.LimelightTarget_Fiducial;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 public class LimeLightSub extends SubsystemBase {
@@ -34,8 +45,9 @@ public class LimeLightSub extends SubsystemBase {
 
   public boolean cameraMode = false;
 
-  
-  
+  StructPublisher<Pose2d> robotPosePublisher = NetworkTableInstance.getDefault().getStructTopic("Robot Pose", Pose2d.struct).publish();
+  StructPublisher<Pose2d> limelightAcceptedPosePublisher = NetworkTableInstance.getDefault().getStructTopic("Limelight Accepted Pose", Pose2d.struct).publish();
+  StructPublisher<Pose2d> limelightRejectedPosePublisher = NetworkTableInstance.getDefault().getStructTopic("Limelight Rejected Pose", Pose2d.struct).publish();
 
   private PIDController PIDVision = new PIDController(kP, kI, kD);
   private PIDController PIDVisionY = new PIDController(kP, kI, kD);
@@ -71,7 +83,7 @@ public class LimeLightSub extends SubsystemBase {
   
 
   boolean verbose = true;//If we want to print values
-  public boolean wantData = false;//If we want to accept limelight post esitmator
+  public boolean wantData = true;//If we want to accept limelight post esitmator
 
   // may be useful later
   private double kCameraHeight =
@@ -81,11 +93,16 @@ public class LimeLightSub extends SubsystemBase {
 
   private LimeLightComms limelight_comm;
   private SwerveSubsystem drivebase;
+  private String limelight_networktable_name;
+  AprilTagFieldLayout aprilTagFields = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
+
+  StructArrayPublisher<AprilTag> aprilTagPublisher = NetworkTableInstance.getDefault().getStructArrayTopic("April Tags in sight", new AprilTagStruct()).publish();
 
   /** Creates a new LimeLightSub. */
   public LimeLightSub(String limelight_networktable_name, SwerveSubsystem drivebase) {
     limelight_comm = new LimeLightComms(limelight_networktable_name);
     limelight_comm.set_entry_double("ledMode", 3);
+    this.limelight_networktable_name = limelight_networktable_name;
     if(verbose){
       Shuffleboard.getTab("Limelight").addDouble("BotPose TX", ()->getBlueBotPose()[0]);
       Shuffleboard.getTab("Limelight").addDouble("BotPose TY", ()->getBlueBotPose()[1]);
@@ -119,6 +136,9 @@ public class LimeLightSub extends SubsystemBase {
   if(wantData){
     setData();
   }
+
+  Pose2d currentPose = drivebase.getPose();
+  robotPosePublisher.set(currentPose);
     
   }
 
@@ -217,35 +237,87 @@ public class LimeLightSub extends SubsystemBase {
     double distancefromAprilTag = 0.8; //0.8
     double distancefromLimeLight = 2.5; //2.5
 
+    Rotation2d degree = new Rotation2d(temp[5]* Math.PI / 180);
+    Pose2d newPose = new Pose2d(temp[0],temp[1],degree);
+
     if(hasTarget()){
        
         double xyStds= 0;
         double degStds = 0;
         Matrix<N3, N1> stds = new Matrix<N3, N1>(Nat.N3(), Nat.N1());
         LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+
+        // Publish April Tag data to network table as april tag objects
+        LimelightTarget_Fiducial[] visibleTarget = LimelightHelpers.getLatestResults(limelight_networktable_name).targetingResults.targets_Fiducials;
+        AprilTag[] aprilTags = new AprilTag[visibleTarget.length];
+        for(int i = 0; i < aprilTags.length; i++) {
+          int tagID = (int) visibleTarget[i].fiducialID;
+          AprilTag tag = new AprilTag(tagID, aprilTagFields.getTagPose(tagID).get());
+          aprilTags[i] = tag;
+        }
+        aprilTagPublisher.set(aprilTags);
+
+
         if(limelightMeasurement.tagCount >= 2 ){ //Checks if Limelight sees 2 Apriltag
             xyStds = 0.5; 
             degStds = 6 * Math.PI / 180;
-
-            //System.out.println("lime light data");
-        
         }
         else if ((temp[9] < distancefromLimeLight) && (distance < distancefromAprilTag)) { //Checks if within distance of apriltag and limelight
             xyStds = 1.0;
             degStds = 12 * Math.PI / 180;
-
         }
         else{
+          limelightRejectedPosePublisher.set(newPose);
           return;
         }
-          stds.set(0,0,xyStds);
-          stds.set(1,0,xyStds);
-          stds.set(2,0, degStds * Math.PI / 180);
-          Rotation2d degree = new Rotation2d(temp[5]* Math.PI / 180);
-          Pose2d newPose = new Pose2d(temp[0],temp[1],degree); //creates new pose2d with limelight data
-          
-          drivebase.addActualVisionReading(newPose ,Timer.getFPGATimestamp() - (temp[6]/1000.0),stds); //Changes standard dev base on apriltags and drive
+        stds.set(0,0,xyStds);
+        stds.set(1,0,xyStds);
+        stds.set(2,0, degStds);
+        
+        limelightAcceptedPosePublisher.set(newPose);
+        
+        drivebase.addActualVisionReading(newPose ,Timer.getFPGATimestamp() - (temp[6]/1000.0),stds); //Changes standard dev base on apriltags and drive
+    }
+  }
+  
+  class AprilTagStruct implements Struct<AprilTag> {
+  @Override
+  public Class<AprilTag> getTypeClass() {
+    return AprilTag.class;
   }
 
+  @Override
+  public String getTypeString() {
+    return "struct:AprilTag";
   }
+
+  @Override
+  public int getSize() {
+    return kSizeInt8 + Pose3d.struct.getSize();
+  }
+
+  @Override
+  public String getSchema() {
+    return "uint8 ID;Pose3d pose";
+  }
+
+  @Override
+  public Struct<?>[] getNested() {
+    return new Struct<?>[] {Pose3d.struct};
+  }
+
+  @Override
+  public AprilTag unpack(ByteBuffer bb) {
+    int id = (int) bb.get();
+    Pose3d pose = Pose3d.struct.unpack(bb);
+    return new AprilTag(id, pose);
+  }
+
+  @Override
+  public void pack(ByteBuffer bb, AprilTag value) {
+    bb.put((byte) value.ID);
+    Pose3d.struct.pack(bb, value.pose);
+  }
+}
+
 }

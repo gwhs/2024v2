@@ -34,7 +34,7 @@ public class IntakePassNoteToPizzaBox extends Command {
     System.out.println("Intake pass note to pizzabox initialize");
     currentSensorValue = true;
     intakeSubsystem.spinIntakeMotor(0.8, 100);
-    pizzaBoxSubsystem.spinPizzaBoxMotor(-30, 100);
+    pizzaBoxSubsystem.spinPizzaBoxMotor(-60, 100);
     initTimer = Timer.getFPGATimestamp(); 
   }
 
@@ -68,7 +68,7 @@ public class IntakePassNoteToPizzaBox extends Command {
       timer = Timer.getFPGATimestamp(); 
       noteLatch = true;
     }  
-    if((timer + 1 < Timer.getFPGATimestamp() && noteLatch) || (initTimer + 5 < Timer.getFPGATimestamp())) {
+    if((timer + .5 < Timer.getFPGATimestamp() && noteLatch) || (initTimer + 5 < Timer.getFPGATimestamp())) {
       noteLatch = false;
       return true; 
     }

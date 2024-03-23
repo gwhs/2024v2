@@ -7,7 +7,7 @@ package frc.robot.commands.IntakeCommands;
 import frc.robot.subsystems.PizzaBoxSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
-
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.Constants;
 import frc.robot.commands.Arm.*;
@@ -22,14 +22,16 @@ public class PickUpFromGroundAndPassToPizzaBox extends SequentialCommandGroup {
   //velocity = 100 for testing shooting 
   public PickUpFromGroundAndPassToPizzaBox(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, double intakeTimeout) {
     addCommands(
-        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE).withTimeout(2)
-        .alongWith((new IntakePickUpFromGroundPID(intakeSubsystem, 0.8, 0.0).withTimeout(intakeTimeout))
-        .andThen(new SpinIntakePID(intakeSubsystem, Constants.IntakeConstants.UP_POSITION)))
-        .andThen(new IntakePassNoteToPizzaBox(intakeSubsystem, pizzaBoxSubsystem).withTimeout(6))
-        .andThen(Commands.runOnce(() -> {
-              pizzaBoxSubsystem.hasNote = true;
-              }))
-        );
+      Commands.runOnce(()->DataLogManager.log("Command Start: PickUpFromGroundAndPassToPizzaBox")),
+      new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE).withTimeout(2)
+      .alongWith((new IntakePickUpFromGroundPID(intakeSubsystem, 0.8, 0.0).withTimeout(intakeTimeout))
+      .andThen(new SpinIntakePID(intakeSubsystem, Constants.IntakeConstants.UP_POSITION)))
+      .andThen(new IntakePassNoteToPizzaBox(intakeSubsystem, pizzaBoxSubsystem).withTimeout(6))
+      .andThen(Commands.runOnce(() -> {
+            pizzaBoxSubsystem.hasNote = true;
+            })),
+      Commands.runOnce(()->DataLogManager.log("Command End: PickUpFromGroundAndPassToPizzaBox"))    
+      );
   }
 
   public PickUpFromGroundAndPassToPizzaBox(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {

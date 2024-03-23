@@ -34,13 +34,13 @@
   "globalConstraints": {
     "maxVelocity": 2.5,
     "maxAcceleration": 3.0,
-    "maxAngularVelocity": 180.0,
-    "maxAngularAcceleration": 100.0
+    "maxAngularVelocity": 20.0,
+    "maxAngularAcceleration": 50.0
   },
   "goalEndState": {
     "velocity": 0,
     "rotation": -26.089999999999975,
-    "rotateFast": true
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "Notes Near Starting Zone",

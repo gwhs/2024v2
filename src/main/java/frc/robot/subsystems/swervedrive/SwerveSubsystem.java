@@ -104,8 +104,17 @@ public class SwerveSubsystem extends SubsystemBase
       SwerveMotor driveMotor = sm.getDriveMotor();
       SwerveMotor angleMotor = sm.getAngleMotor();
 
-      // TalonFX driveMotorTalon = (TalonFX)driveMotor.getMotor();
-      // TalonFX angleMotorTalon = (TalonFX) angleMotor.getMotor();
+      TalonFX driveMotorTalon = (TalonFX)driveMotor.getMotor();
+      TalonFX angleMotorTalon = (TalonFX) angleMotor.getMotor();
+
+      Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Drive Motor StatorCurrent", () -> driveMotorTalon.getStatorCurrent().getValueAsDouble());
+      Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Angle Motor StatorCurrent", () -> angleMotorTalon.getStatorCurrent().getValueAsDouble());
+
+      Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Drive Motor Velocity", () -> driveMotorTalon.getRotorVelocity().getValueAsDouble());
+      Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Angle Motor Velocity", () -> angleMotorTalon.getRotorVelocity().getValueAsDouble());
+
+      Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Drive Motor Temp", () -> driveMotorTalon.getDeviceTemp().getValueAsDouble());
+      Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Angle Motor Temp", () -> angleMotorTalon.getDeviceTemp().getValueAsDouble());
     }
   }
 
@@ -133,7 +142,7 @@ public class SwerveSubsystem extends SubsystemBase
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
                                          new PIDConstants(1.0,0,0),
                                          // Translation PID constants
-                                         new PIDConstants(9,0,0),
+                                         new PIDConstants(7.75,0,0),
                                          // Rotation PID constants
                                          4.5,
                                          // Max module speed, in m/s
@@ -330,7 +339,7 @@ public class SwerveSubsystem extends SubsystemBase
   public void periodic()
   {
     swerveStatePublisher.set(swerveDrive.getStates());
-    robotAccelerationPublisher.set(swerveDrive.getAccel().get());
+    //robotAccelerationPublisher.set(swerveDrive.getAccel().get());
     robotFieldVelocityPublisher.set(swerveDrive.getFieldVelocity());
     robotRobotVelocityPublisher.set(swerveDrive.getRobotVelocity());
     

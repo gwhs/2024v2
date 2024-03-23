@@ -104,7 +104,7 @@ public class GameRobotContainer implements BaseContainer {
       driverController.b().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem, 10));
       driverController.x().whileTrue(new DecreaseSpeed(closedFieldRel));
 
-      //  driverController.rightStick().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
+        driverController.rightStick().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
       //driverController.leftStick().onTrue(new ChangeRobotOrientation(closedFieldRel));
 
       //driverController.rightBumper().onTrue(new BackSpeaker(closedFieldRel));

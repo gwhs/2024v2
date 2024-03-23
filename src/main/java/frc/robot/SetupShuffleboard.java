@@ -12,6 +12,7 @@ import frc.robot.commands.SystemCheck;
 import frc.robot.Util.UtilMath;
 import frc.robot.commands.CancelAllCommands;
 import frc.robot.commands.Arm.ResetArm;
+import frc.robot.commands.Arm.ScoreInTrapStutter;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorUp;
 import frc.robot.commands.ClimberCommands.ClimbParts.ClimbAndShoot;
@@ -90,22 +91,6 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("GameTab").add("Decrease Intake Offset", new DecreaseIntakeOffset())
       .withPosition(5,3);
     Shuffleboard.getTab("GameTab").add("CLEAR ALL COMMANDS", new CancelAllCommands()).withPosition(7,3);
-    
-
-    ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
-
-    driveTrainShuffleboardTab.addDouble("X Position", ()->swerve.getPose().getX())
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(0, 0);
-    driveTrainShuffleboardTab.addDouble("Y Position", ()->swerve.getPose().getY())
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(3, 0);
-    driveTrainShuffleboardTab.addDouble("Angel", ()->swerve.getPose().getRotation().getDegrees())
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(6, 0);
 
 
     //Climb stuff (all in climb tab)
@@ -132,6 +117,9 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("System Check").add("check", new SystemCheck(armSubsystem, climbSubsystem, intakeSubsystem, pizzaBoxSubsystem, reactionSubsystem, swerve));
   
     Shuffleboard.getTab("Arm").addDouble("distance from blue speaker", ()-> UtilMath.distanceFromBlueSpeaker(swerve.getPose()));
+
+    Shuffleboard.getTab("Arm").add("stutter trap", new ScoreInTrapStutter(pizzaBoxSubsystem, armSubsystem));
+
   }
   @Override
   public void periodic() {

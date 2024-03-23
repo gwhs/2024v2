@@ -92,10 +92,10 @@ public final class Constants
     public static final int INTAKE_ENCODER_CHANNEL_ID = 9; 
     public static final int INTAKE_NOTESENSOR_CHANNEL_ID = 8;
     public static final double TOLERANCE = 4; // in degrees--- TO-DO: Tune Tolerance, intake is not lowering enough.
-    public static final double MAX_ARM_ANGLE = 82; //need to check max arm angle
+    public static final double MAX_ARM_ANGLE = 85; //need to check max arm angle
     public static final double ROTATION_TO_DEGREES = 360;
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
-    public static double ENCODER_OFFSET = 184.5; //need to check the encoder value 
+    public static double ENCODER_OFFSET = 181.5; //need to check the encoder value 
     public static final double UP_POSITION = 79;
   }
 

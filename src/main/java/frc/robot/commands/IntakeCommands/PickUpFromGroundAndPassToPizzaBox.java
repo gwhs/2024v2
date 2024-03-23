@@ -33,6 +33,6 @@ public class PickUpFromGroundAndPassToPizzaBox extends SequentialCommandGroup {
   }
 
   public PickUpFromGroundAndPassToPizzaBox(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
-    this(pizzaBoxSubsystem, armSubsystem, intakeSubsystem, 5);
+    this(pizzaBoxSubsystem, armSubsystem, intakeSubsystem, 2);
   }  
 }

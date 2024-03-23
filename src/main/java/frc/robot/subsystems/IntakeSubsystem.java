@@ -41,8 +41,8 @@ public class IntakeSubsystem extends SubsystemBase {
     m_noteSensor = new DigitalInput(Constants.IntakeConstants.INTAKE_NOTESENSOR_CHANNEL_ID);
 
     UtilMotor.configMotor(m_moveIntakeArm, 0.11, 0.05, 0.01, 0.12, 12, 80, true);
-    // UtilMotor.configMotor(m_spinIntake, 0, 0, 0, 0.12, 12, 80, true);
-    UtilMotor.configMotorStatorCurrent(m_spinIntake, 60);
+    UtilMotor.configMotor(m_spinIntake, 0.11, 0.05, 0.01, 0.12, 12, 60, false);
+    //UtilMotor.configMotorStatorCurrent(m_spinIntake, 60);
     UtilMotor.configMotorSupplyCurrent(m_spinIntake, 80);
 
     Shuffleboard.getTab("Intake").addDouble("Encoder Angle", () -> encoderGetAngle()).withWidget(BuiltInWidgets.kGraph)
@@ -50,11 +50,11 @@ public class IntakeSubsystem extends SubsystemBase {
         .withPosition(0, 0);
 
     Shuffleboard.getTab("Intake").addBoolean("Sensor value", () -> isNotePresent());
-    m_Encoder.reset();
-    Shuffleboard.getTab("Intake").addDouble("IntakeArm Stator Current", () -> m_moveIntakeArm.getStatorCurrent().getValueAsDouble());
-    Shuffleboard.getTab("Intake").addDouble("Intake Rotor Velocity", () -> m_moveIntakeArm.getRotorVelocity().getValueAsDouble());
-    Shuffleboard.getTab("Intake").addDouble("Intake Acceleration", () -> m_moveIntakeArm.getAcceleration().getValueAsDouble());
-    Shuffleboard.getTab("Intake").addDouble("Intake Temperature", () -> m_moveIntakeArm.getDeviceTemp().getValueAsDouble());
+    //m_Encoder.reset();
+    Shuffleboard.getTab("Intake").addDouble("Intake Arm Stator Current", () -> m_moveIntakeArm.getStatorCurrent().getValueAsDouble());
+    Shuffleboard.getTab("Intake").addDouble("Intake Arm Rotor Velocity", () -> m_moveIntakeArm.getRotorVelocity().getValueAsDouble());
+    Shuffleboard.getTab("Intake").addDouble("Intake Arm Acceleration", () -> m_moveIntakeArm.getAcceleration().getValueAsDouble());
+    Shuffleboard.getTab("Intake").addDouble("Intake Arm Temperature", () -> m_moveIntakeArm.getDeviceTemp().getValueAsDouble());
     
     Shuffleboard.getTab("Intake").addDouble("Spin Intake Stator Current", () -> m_spinIntake.getStatorCurrent().getValueAsDouble());
     Shuffleboard.getTab("Intake").addDouble("Spin Intake Rotor Velocity", () -> m_spinIntake.getRotorVelocity().getValueAsDouble());
@@ -62,7 +62,6 @@ public class IntakeSubsystem extends SubsystemBase {
     Shuffleboard.getTab("Intake").addDouble("Spin Intake Temperature", () -> m_spinIntake.getDeviceTemp().getValueAsDouble());
 
     //m_Encoder.reset();
-    Shuffleboard.getTab("Intake").addDouble("Intake Encoder test get()", () -> (m_Encoder.get() * Constants.IntakeConstants.ROTATION_TO_DEGREES));
 
     // Logger.recordOutput("Intake/EncoderAngle", encoderGetAngle());
     // Logger.recordOutput("Intake/SensorValue", isNotePresent());
@@ -78,12 +77,21 @@ public class IntakeSubsystem extends SubsystemBase {
   // spin the intake motors, velocity is negative to intake note
   // velocity and accleration between -1.0 to 1.0
   public void spinIntakeMotor(double intakeMotorVelocity, double intakeMotorAcceleration) {
-    // spinRequest1 = new VelocityVoltage(
-    // -intakeMotorVelocity, intakeMotorAcceleration, true, 0, 0,false, false,
-    // false);
+    if(intakeMotorVelocity > 1) {
+      intakeMotorVelocity = 1;
+    }
+    else if (intakeMotorVelocity < -1) {
+      intakeMotorVelocity = -1;
+    }
+
     if (!emergencyStop) {
+      // m_spinIntake.set(-intakeMotorVelocity);
+
+      intakeMotorVelocity *= 50;
+      spinRequest1 = new VelocityVoltage(-intakeMotorVelocity, 100, true, 0, 0,false, false, false);
+      m_spinIntake.setControl(spinRequest1);
+
       SmartDashboard.putNumber("Intake spin motor speed", intakeMotorVelocity);
-        m_spinIntake.set(-intakeMotorVelocity);
     }
   }
 
@@ -118,7 +126,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public double encoderGetAngle() {
-    return ((m_Encoder.getAbsolutePosition() * Constants.IntakeConstants.ROTATION_TO_DEGREES)
+    return ((m_Encoder.get() * Constants.IntakeConstants.ROTATION_TO_DEGREES)
         - Constants.IntakeConstants.ENCODER_OFFSET);
   }
 

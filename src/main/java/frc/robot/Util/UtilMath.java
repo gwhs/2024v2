@@ -13,8 +13,8 @@ public class UtilMath {
     public static final double BLUE_SPEAKER_Y = 5.5479; //in meters
     public static final double RED_SPEAKER_X = 16.5793; //in meters
     public static final double RED_SPEAKER_Y = 5.5479; //in meters
-    public static final int RED_SOURCE_HEADING_ANGLE = 135;
-    public static final int BLUE_SOURCE_HEADING_ANGLE = 45;
+    public static final int RED_SOURCE_HEADING_ANGLE = 120;
+    public static final int BLUE_SOURCE_HEADING_ANGLE = 60;
 
 
 
@@ -29,12 +29,12 @@ public class UtilMath {
         if(DriverStation.getAlliance().isPresent() && 
         DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
         {
-            return 60;
+            return BLUE_SOURCE_HEADING_ANGLE;
         }
         else if(DriverStation.getAlliance().isPresent() &&
          DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
         {
-            return 120;
+            return RED_SOURCE_HEADING_ANGLE;
         }
         else
         {

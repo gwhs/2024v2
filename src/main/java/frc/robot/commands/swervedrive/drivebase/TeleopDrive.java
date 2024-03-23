@@ -65,6 +65,10 @@ public class TeleopDrive extends Command
   @Override
   public void initialize()
   {
+      isFaceSpeaker = false;
+      isBackSpeaker = false;
+      isSlow = false;
+      isHeadingLock = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.

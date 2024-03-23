@@ -36,8 +36,8 @@ public class PizzaBoxSubsystem extends SubsystemBase {
     m_pizzaBox = new TalonFX(pizzaBoxId, pizzaBoxCanbus);
     m_servo = new Servo(channelServo);
     
-    //UtilMotor.configMotor(m_pizzaBox, .11, 0, 0, .12, 15, 50, false);      
-    UtilMotor.configMotorStatorCurrent(m_pizzaBox, 80);
+    UtilMotor.configMotor(m_pizzaBox, .11, 0, 0, .12, 15, 80, false);      
+    //UtilMotor.configMotorStatorCurrent(m_pizzaBox, 80);
 
     
     Shuffleboard.getTab("Pizza").addDouble("Pizzabox Stator Current", () -> m_pizzaBox.getStatorCurrent().getValueAsDouble());

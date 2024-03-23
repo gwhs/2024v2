@@ -105,6 +105,11 @@ public class TeleopDrive extends Command
       angVelocity *= slowFactor;
     }
 
+    if(isHeadingLock)
+    {
+       PID.setSetpoint(UtilMath.SourceIntakeHeading(swerve.getPose()));
+       angVelocity += PID.calculate(currTheta);
+    }
 
 
     swerve.drive(new Translation2d(xVelocity * swerve.maximumSpeed, yVelocity * swerve.maximumSpeed),

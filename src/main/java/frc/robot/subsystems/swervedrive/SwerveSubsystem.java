@@ -124,6 +124,12 @@ public class SwerveSubsystem extends SubsystemBase
 
       Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Drive Motor StatorCurrent", () -> driveMotorTalon.getStatorCurrent().getValueAsDouble());
       Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Angle Motor StatorCurrent", () -> angleMotorTalon.getStatorCurrent().getValueAsDouble());
+
+      Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Drive Motor Velocity", () -> driveMotorTalon.getRotorVelocity().getValueAsDouble());
+      Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Angle Motor Velocity", () -> angleMotorTalon.getRotorVelocity().getValueAsDouble());
+
+      Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Drive Motor Temp", () -> driveMotorTalon.getDeviceTemp().getValueAsDouble());
+      Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Angle Motor Temp", () -> angleMotorTalon.getDeviceTemp().getValueAsDouble());
     }
   }
 

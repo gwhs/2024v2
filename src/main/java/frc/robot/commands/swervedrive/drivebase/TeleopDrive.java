@@ -69,22 +69,15 @@ public class TeleopDrive extends Command
   @Override
   public void execute()
   {
-     double angVelocity;
-     double xVelocity;
-     double yVelocity;
-    if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
-{
-     xVelocity   = Math.pow(vX.getAsDouble(), 3);
-     yVelocity   = Math.pow(vY.getAsDouble(), 3);
-     angVelocity = Math.pow(omega.getAsDouble(), 3);
-
-}
-else
-{
-     xVelocity   = -Math.pow(vX.getAsDouble(), 3);
-     yVelocity   = -Math.pow(vY.getAsDouble(), 3);
-     angVelocity = Math.pow(omega.getAsDouble(), 3);
-}
+     double xVelocity   = Math.pow(vX.getAsDouble(), 3);
+     double yVelocity   = Math.pow(vY.getAsDouble(), 3);
+     double angVelocity = Math.pow(omega.getAsDouble(), 3);
+    if(DriverStation.getAlliance().isPresent() &&
+     DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
+    {
+      xVelocity *= -1;
+      yVelocity *= -1;
+    }
     
    
     
@@ -104,9 +97,10 @@ else
 
     if(isSlow)
     {
-      xVelocity *= 0.25;
-      yVelocity *= 0.25;
-      angVelocity *= 0.25;
+      double slowFactor = 0.25;
+      xVelocity *= slowFactor;
+      yVelocity *= slowFactor;
+      angVelocity *= slowFactor;
     }
 
 

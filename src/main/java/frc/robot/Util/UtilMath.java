@@ -94,9 +94,10 @@ public class UtilMath {
     public static double getArmAngle(Pose2d pose, boolean underHand) {
         double distance = distanceFromSpeaker(pose);
         if (underHand) {
-            return treeUnderHand.get(distance);
+            //return treeUnderHand.get(distance);
         } else {
-            return treeOverHand.get(distance);
+            //return treeOverHand.get(distance);
         }
+        return 90;
     }
 }

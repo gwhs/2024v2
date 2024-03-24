@@ -5,6 +5,7 @@
 package frc.robot.Util;
 
 import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.DriverStation;
 
 /** Add your docs here. */
@@ -13,6 +14,8 @@ public class UtilMath {
     public static final double BLUE_SPEAKER_Y = 5.5479; //in meters
     public static final double RED_SPEAKER_X = 16.5793; //in meters
     public static final double RED_SPEAKER_Y = 5.5479; //in meters
+    public static InterpolatingDoubleTreeMap treeOverHand;
+    public static InterpolatingDoubleTreeMap treeUnderHand;
     
 
 
@@ -77,10 +80,23 @@ public class UtilMath {
        
     }
 
-    public static double distanceFromBlueSpeaker(Pose2d pose) {
+    public static double distanceFromSpeaker(Pose2d pose) {
         double robotX = pose.getX();
         double robotY = pose.getY();
+        
+        if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) {
+            return Math.sqrt(Math.pow(BLUE_SPEAKER_X - robotX, 2) + Math.pow(BLUE_SPEAKER_Y - robotY, 2));
+        } else {
+            return Math.sqrt(Math.pow(RED_SPEAKER_X - robotX, 2) + Math.pow(RED_SPEAKER_Y - robotY, 2));
+        }
+    }
 
-        return Math.sqrt(Math.pow(BLUE_SPEAKER_X - robotX, 2) + Math.pow(BLUE_SPEAKER_Y - robotY, 2));
+    public static double getArmAngle(Pose2d pose, boolean underHand) {
+        double distance = distanceFromSpeaker(pose);
+        if (underHand) {
+            return treeUnderHand.get(distance);
+        } else {
+            return treeOverHand.get(distance);
+        }
     }
 }

@@ -7,6 +7,9 @@ package frc.robot.commands.Arm;
 import frc.robot.subsystems.PizzaBoxSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
 
+import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class SpinArmAndPizzaBox extends Command {
@@ -14,6 +17,8 @@ public class SpinArmAndPizzaBox extends Command {
   private ArmSubsystem armSubsystem;
   private double angle;
   private double vel;
+
+  private DoubleSupplier angleUpdate;
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
@@ -23,6 +28,14 @@ public class SpinArmAndPizzaBox extends Command {
     this.armSubsystem = armSubsystem;
     this.angle = angle;
     this.vel = vel;
+  }
+
+  public SpinArmAndPizzaBox(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, DoubleSupplier angle, double vel) {
+    this.pizzaBoxSubsystem = pizzaBoxSubsystem;
+    this.armSubsystem = armSubsystem;
+    this.angle = angle.getAsDouble();
+    this.vel = vel;
+    angleUpdate = angle;
   }
     // Called when the command is initially scheduled.
   @Override
@@ -36,6 +49,10 @@ public class SpinArmAndPizzaBox extends Command {
     if(armSubsystem.encoderGetAngle() > PizzaBoxSubsystem.PizzaBox.START_SPIN_DEGREE)
     {
       pizzaBoxSubsystem.spinPizzaBoxMotor(vel, 500);
+    }
+
+    if (angleUpdate != null) {
+      armSubsystem.targetArmAngle(angleUpdate.getAsDouble());
     }
   }
 

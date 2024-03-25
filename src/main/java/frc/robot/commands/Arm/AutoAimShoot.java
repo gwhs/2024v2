@@ -24,13 +24,13 @@ public class AutoAimShoot extends SequentialCommandGroup {
     if (underhand) {
       addCommands(
         new FaceSpeaker(t),
-        new ScoreInSpeakerAdjustable(p, a, UtilMath.getArmAngle(s.getPose(), underhand)),
+        new ScoreInSpeakerAdjustable(p, a, ()-> UtilMath.getArmAngle(s.getPose(), underhand)),
         new FaceSpeaker(t)
         );
     } else {
       addCommands(
         new BackSpeaker(t),
-        new ScoreInSpeakerAdjustable(p, a, UtilMath.getArmAngle(s.getPose(), underhand)),
+        new ScoreInSpeakerAdjustable(p, a, ()-> UtilMath.getArmAngle(s.getPose(), underhand)),
         new BackSpeaker(t)
       );
     }

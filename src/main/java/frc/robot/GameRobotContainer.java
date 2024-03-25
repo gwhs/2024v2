@@ -195,5 +195,9 @@ public class GameRobotContainer implements BaseContainer {
     return new ResetArm(m_ArmSubsystem, m_PizzaBoxSubsystem) 
            .andThen(new IntakeResetArm(m_IntakeSubsystem));
   }
+
+  public Command autoInitReset() {
+    return new IntakeResetArm(m_IntakeSubsystem);
+  }
 }
 

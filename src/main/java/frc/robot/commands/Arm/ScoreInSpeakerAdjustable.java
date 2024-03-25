@@ -16,7 +16,7 @@ public class ScoreInSpeakerAdjustable extends SequentialCommandGroup {
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
-  // IF YOU CHANGE AYTHING IN THIS ONE MAKE SURE YOU CHANGE THE BOTTOM ONE TOO
+  // IF YOU CHANGE AYTHING IN THIS ONE MAKE SURE YOU CHANGE THE BOTTOM ONE TOO; THE BOTTOM ONE IS FOR THE ARM ANGLE WHILE MOVING
   public ScoreInSpeakerAdjustable(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, double angle) {
     addCommands(
       new SpinArmAndPizzaBox(pizzaBoxSubsystem, armSubsystem, angle, 100).withTimeout(2),

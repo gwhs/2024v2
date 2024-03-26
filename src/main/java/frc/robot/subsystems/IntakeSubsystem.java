@@ -126,7 +126,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public double encoderGetAngle() {
-    return ((m_Encoder.get() * Constants.IntakeConstants.ROTATION_TO_DEGREES)
+    return ((m_Encoder.getAbsolutePosition() * Constants.IntakeConstants.ROTATION_TO_DEGREES)
         - Constants.IntakeConstants.ENCODER_OFFSET);
   }
 

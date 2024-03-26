@@ -6,6 +6,7 @@ package frc.robot.commands.swervedrive.drivebase;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -32,6 +33,7 @@ public class TeleopDrive extends Command
   public boolean isFaceSpeaker = false;
   public boolean isBackSpeaker = false;
   public boolean isSlow;
+  public boolean isHeadingLock;
   private final PIDController PID;
   private double currTheta;
 
@@ -63,6 +65,10 @@ public class TeleopDrive extends Command
   @Override
   public void initialize()
   {
+      isFaceSpeaker = false;
+      isBackSpeaker = false;
+      isSlow = false;
+      isHeadingLock = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -103,6 +109,11 @@ public class TeleopDrive extends Command
       angVelocity *= slowFactor;
     }
 
+    if(isHeadingLock)
+    {
+       PID.setSetpoint(UtilMath.SourceIntakeHeading(swerve.getPose()));
+       angVelocity += PID.calculate(currTheta);
+    }
 
 
     swerve.drive(new Translation2d(xVelocity * swerve.maximumSpeed, yVelocity * swerve.maximumSpeed),

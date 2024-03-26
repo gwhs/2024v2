@@ -47,7 +47,7 @@ public class Robot extends TimedRobot  {
   public static final String REACTION = "REACTION";
   
   // change this to match the subsystem container you want to use, or GAME for complete robot
-  public static final String container = GAME;
+  public static final String container = DRIVE;
 
   private Command m_autonomousCommand;
 

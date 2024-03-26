@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.SystemCheck;
+import frc.robot.Constants.Drivebase;
 import frc.robot.Util.UtilMath;
 import frc.robot.commands.CancelAllCommands;
 import frc.robot.commands.Arm.AutoAimShoot;
@@ -31,6 +32,7 @@ import frc.robot.commands.ReactionArmCommands.Extend;
 import frc.robot.commands.ReactionArmCommands.Retract;
 import frc.robot.commands.driveCommands.ResetTeleopDrive;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
+import frc.robot.commands.driveCommands.LockHeadingToSourceForIntake;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -101,6 +103,8 @@ public class SetupShuffleboard extends SubsystemBase {
       .withPosition(9,1);
     Shuffleboard.getTab("GameTab").add("underhand auto shoot", new AutoAimShoot(swerve, armSubsystem, pizzaBoxSubsystem, teleopDrive, true))
       .withPosition(9,2);
+
+    Shuffleboard.getTab("TEST COMMAND").add("TEST", new LockHeadingToSourceForIntake(drive, armSubsystem, pizzaBoxSubsystem));
 
 
     //Climb stuff (all in climb tab)

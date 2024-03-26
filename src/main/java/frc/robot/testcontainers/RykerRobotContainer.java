@@ -44,5 +44,7 @@ public class RykerRobotContainer implements BaseContainer {
     driverController.x().whileTrue(new DecreaseSpeed(closedFieldRel));
 
     driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
+
+    driverController.leftBumper().whileTrue(new InstantCommand(m_drivebase::lock));
   }
 }

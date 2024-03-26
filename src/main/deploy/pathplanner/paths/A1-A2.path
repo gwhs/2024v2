@@ -8,8 +8,8 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.7327978123648722,
-        "y": 5.862635999970391
+        "x": 1.6067905459634015,
+        "y": 6.780574360007493
       },
       "isLocked": false,
       "linkedName": "A1"
@@ -20,8 +20,8 @@
         "y": 5.55
       },
       "prevControl": {
-        "x": 1.9432984237861441,
-        "y": 5.479270058988672
+        "x": 1.44283883432246,
+        "y": 5.445538993788401
       },
       "nextControl": null,
       "isLocked": false,
@@ -34,8 +34,8 @@
   "globalConstraints": {
     "maxVelocity": 2.5,
     "maxAcceleration": 3.0,
-    "maxAngularVelocity": 20.0,
-    "maxAngularAcceleration": 50.0
+    "maxAngularVelocity": 15.0,
+    "maxAngularAcceleration": 30.0
   },
   "goalEndState": {
     "velocity": 0,

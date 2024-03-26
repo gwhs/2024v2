@@ -84,7 +84,7 @@ public class GameRobotContainer implements BaseContainer {
 
 
         configurePathPlannerCommands();
-        autoChooser = AutoBuilder.buildAutoChooser("0N-S1-noLeave (underhand)");
+        autoChooser = AutoBuilder.buildAutoChooser("2N-S2-A3");
 
 
         m_drivebase.setDefaultCommand(closedFieldRel);

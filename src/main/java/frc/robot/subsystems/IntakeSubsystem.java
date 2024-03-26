@@ -88,7 +88,7 @@ public class IntakeSubsystem extends SubsystemBase {
       // m_spinIntake.set(-intakeMotorVelocity);
 
       intakeMotorVelocity *= 50;
-      spinRequest1 = new VelocityVoltage(-intakeMotorVelocity, 100, true, 0, 0,false, false, false);
+      spinRequest1 = new VelocityVoltage(-intakeMotorVelocity, 150, true, 0, 0,false, false, false);
       m_spinIntake.setControl(spinRequest1);
 
       SmartDashboard.putNumber("Intake spin motor speed", intakeMotorVelocity);

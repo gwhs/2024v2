@@ -104,7 +104,7 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("GameTab").add("underhand auto shoot", new AutoAimShoot(swerve, armSubsystem, pizzaBoxSubsystem, teleopDrive, true))
       .withPosition(9,2);
 
-    Shuffleboard.getTab("TEST COMMAND").add("TEST", new LockHeadingToSourceForIntake(drive, armSubsystem, pizzaBoxSubsystem));
+    Shuffleboard.getTab("TEST COMMAND").add("TEST", new LockHeadingToSourceForIntake(teleopDrive, armSubsystem, pizzaBoxSubsystem));
 
 
     //Climb stuff (all in climb tab)

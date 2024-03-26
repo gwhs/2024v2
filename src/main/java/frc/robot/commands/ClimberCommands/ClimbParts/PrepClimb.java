@@ -4,7 +4,10 @@
 
 package frc.robot.commands.ClimberCommands.ClimbParts;
 
+import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
+import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -20,15 +23,11 @@ public class PrepClimb extends SequentialCommandGroup {
   /** Creates a new PrepClimb. */
   public PrepClimb(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a, ReactionSubsystem r) {
     addCommands(
-      new PrintCommand("prepclimb initialize"),
-      // new SpinToArmAngle(a, 135).withTimeout(3),
-      // Commands.waitUntil(()->a.checkEncoderAngleForClimb()),
-      new ParallelCommandGroup(new Extend(r).withTimeout(0.5), 
-                               new MotorUp(c).withTimeout(5)),
-      new PrintCommand("prepclimb finished")
+      Commands.runOnce(()->DataLogManager.log("Command Start: PrepClimb")),
+      new SpinToArmAngle(a, 260).withTimeout(1),
+      Commands.waitUntil(()->a.checkEncoderAngleForClimb()), 
+      new MotorUp(c).withTimeout(5),
+      Commands.runOnce(()->DataLogManager.log("Command End: PrepClimb"))
     );
-  
-    // Use addRequirements() here to declare subsystem dependencies.
-    
   }
 }

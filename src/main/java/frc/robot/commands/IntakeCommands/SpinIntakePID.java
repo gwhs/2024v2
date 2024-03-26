@@ -6,6 +6,7 @@ package frc.robot.commands.IntakeCommands;
 import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.PIDCommand;
 
 public class SpinIntakePID extends PIDCommand {

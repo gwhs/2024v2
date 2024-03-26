@@ -8,6 +8,9 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.math.geometry.Translation2d;
+import edu.wpi.first.util.datalog.DataLog;
+import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -35,6 +38,10 @@ public class rotateinPlace extends Command {
     pose = new Translation2d();
 
     addRequirements(m_Subsystem);
+
+    DataLogManager.log("rotate in place P: " + Constants.DriveConstants.kP);
+    DataLogManager.log("rotate in place I: " + Constants.DriveConstants.kI);
+    DataLogManager.log("rotate in place D: " + Constants.DriveConstants.kD);
   }
 
   // Called when the command is initially scheduled.
@@ -53,9 +60,11 @@ public class rotateinPlace extends Command {
   public void execute() {
     currTheta = m_Subsystem.getHeading().getDegrees();
 
-    angleRate = PID.calculate(currTheta);
+    angleRate = PID.calculate(currTheta) / 4;
     m_Subsystem.drive(pose, -angleRate, true);
-    }
+
+    SmartDashboard.getNumber("Rotate In Place Angle PID Output", angleRate / 4);
+  }
     
   
 

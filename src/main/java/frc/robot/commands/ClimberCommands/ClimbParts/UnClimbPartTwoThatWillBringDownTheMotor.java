@@ -4,6 +4,7 @@
 
 package frc.robot.commands.ClimberCommands.ClimbParts;
 
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -20,11 +21,14 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class UnClimbPartTwoThatWillBringDownTheMotor extends SequentialCommandGroup {
   /** Creates a new UnClimbPartTwoThatWillBringDownTheMotor. */
-  public UnClimbPartTwoThatWillBringDownTheMotor(Climbsubsystem c, ReactionSubsystem r) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+  public UnClimbPartTwoThatWillBringDownTheMotor(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a, ReactionSubsystem r) {
+
     addCommands(
-      new Retract(r).withTimeout(0.5)
-      .alongWith(new MotorDown(c).withTimeout(3)));
+      Commands.runOnce(()->DataLogManager.log("Command Start: UnClimbPartTwo")),
+      new SpinToArmAngle(a, 135).withTimeout(1),
+      Commands.waitUntil(()->a.checkEncoderAngleForClimb()),
+      new MotorDown(c).withTimeout(3),
+      Commands.runOnce(()->DataLogManager.log("Command End: UnClimbPartTwo"))
+      );
   }
 }

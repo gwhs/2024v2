@@ -22,5 +22,9 @@ public interface BaseContainer
 
     default Command teleopInitReset() {
        return Commands.none();
-      }
+    }
+
+    default Command autoInitReset() {
+       return Commands.none();
+    }
 }

@@ -338,8 +338,8 @@ public class SwerveSubsystem extends SubsystemBase
   {
     swerveStatePublisher.set(swerveDrive.getStates());
     //robotAccelerationPublisher.set(swerveDrive.getAccel().get());
-    robotFieldVelocityPublisher.set(swerveDrive.getFieldVelocity());
-    robotRobotVelocityPublisher.set(swerveDrive.getRobotVelocity());
+    //robotFieldVelocityPublisher.set(swerveDrive.getFieldVelocity());
+    //robotRobotVelocityPublisher.set(swerveDrive.getRobotVelocity());
     
   }
 

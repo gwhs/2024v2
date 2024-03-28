@@ -30,7 +30,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int kPIDLoopIdx = 0;
     public static final int kTimeoutMs = 30;
     public static final int ARM_MAX_ANGLE = 335;
-    public static final int ARM_MIN_ANGLE = 0;
+    public static final int ARM_MIN_ANGLE = 10;
     public static final int ROTATION_TO_DEGREES = 360;
     public static final double GEAR_RATIO = 118.587767088;
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
@@ -83,7 +83,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     
     Shuffleboard.getTab("Arm").addDouble("Arm Stator Current", () -> m_arm.getStatorCurrent().getValueAsDouble());
     Shuffleboard.getTab("Arm").addDouble("Arm Rotor Velocity", () -> m_arm.getRotorVelocity().getValueAsDouble());
-    Shuffleboard.getTab("Arm").addDouble("Arm Acceleration", () -> m_arm.getAcceleration().getValueAsDouble());
     Shuffleboard.getTab("Arm").addDouble("Arm Temperature", () -> m_arm.getDeviceTemp().getValueAsDouble());
 
     DataLogManager.log("Arm P: " + Arm.KP);

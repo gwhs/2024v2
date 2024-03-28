@@ -94,9 +94,9 @@ public class LimeLightSub extends SubsystemBase {
   private LimeLightComms limelight_comm;
   private SwerveSubsystem drivebase;
   private String limelight_networktable_name;
-  AprilTagFieldLayout aprilTagFields = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
+  //AprilTagFieldLayout aprilTagFields = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
 
-  StructArrayPublisher<AprilTag> aprilTagPublisher = NetworkTableInstance.getDefault().getStructArrayTopic("April Tags in sight", new AprilTagStruct()).publish();
+  //StructArrayPublisher<AprilTag> aprilTagPublisher = NetworkTableInstance.getDefault().getStructArrayTopic("April Tags in sight", new AprilTagStruct()).publish();
 
   /** Creates a new LimeLightSub. */
   public LimeLightSub(String limelight_networktable_name, SwerveSubsystem drivebase) {
@@ -104,17 +104,8 @@ public class LimeLightSub extends SubsystemBase {
     limelight_comm.set_entry_double("ledMode", 3);
     this.limelight_networktable_name = limelight_networktable_name;
     if(verbose){
-      Shuffleboard.getTab("Limelight").addDouble("BotPose TX", ()->getBlueBotPose()[0]);
-      Shuffleboard.getTab("Limelight").addDouble("BotPose TY", ()->getBlueBotPose()[1]);
-      Shuffleboard.getTab("Limelight").addDouble("BotPose TZ", ()->getBlueBotPose()[2]);
-      Shuffleboard.getTab("Limelight").addDouble("BotPose RX", ()->getBlueBotPose()[3]);
-      Shuffleboard.getTab("Limelight").addDouble("BotPose RY", ()->getBlueBotPose()[4]);
-      Shuffleboard.getTab("Limelight").addDouble("BotPose RZ", ()->getBlueBotPose()[5]);
-      Shuffleboard.getTab("Limelight").addDouble("BotPose ms", ()->getBlueBotPose()[6]);
       Shuffleboard.getTab("Limelight").addDouble("Tag Count", ()->getBlueBotPose()[7]);
-      Shuffleboard.getTab("Limelight").addDouble("Tag Span", ()->getBlueBotPose()[8]);
       Shuffleboard.getTab("Limelight").addDouble("Average Distance", ()->getBlueBotPose()[9]);
-      Shuffleboard.getTab("Limelight").addDouble("Average Area", ()->getBlueBotPose()[10]);
       Shuffleboard.getTab("Limelight").addDouble("Tag ID", ()->getBlueBotPose()[11]);
     }
     
@@ -124,15 +115,6 @@ public class LimeLightSub extends SubsystemBase {
 
   @Override
   public void periodic() {
-
-  if(verbose){      
-    SmartDashboard.putNumber("tv", tv.getDouble(0));
-    SmartDashboard.putNumber("tx", tx.getDouble(0));
-    SmartDashboard.putNumber("ty", ty.getDouble(0));
-    SmartDashboard.putNumber("ta", ta.getDouble(0));
-    
-  }
-  
   if(wantData){
     setData();
   }
@@ -248,14 +230,14 @@ public class LimeLightSub extends SubsystemBase {
         LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
 
         // Publish April Tag data to network table as april tag objects
-        LimelightTarget_Fiducial[] visibleTarget = LimelightHelpers.getLatestResults(limelight_networktable_name).targetingResults.targets_Fiducials;
-        AprilTag[] aprilTags = new AprilTag[visibleTarget.length];
-        for(int i = 0; i < aprilTags.length; i++) {
-          int tagID = (int) visibleTarget[i].fiducialID;
-          AprilTag tag = new AprilTag(tagID, aprilTagFields.getTagPose(tagID).get());
-          aprilTags[i] = tag;
-        }
-        aprilTagPublisher.set(aprilTags);
+        // LimelightTarget_Fiducial[] visibleTarget = LimelightHelpers.getLatestResults(limelight_networktable_name).targetingResults.targets_Fiducials;
+        // AprilTag[] aprilTags = new AprilTag[visibleTarget.length];
+        // for(int i = 0; i < aprilTags.length; i++) {
+        //   int tagID = (int) visibleTarget[i].fiducialID;
+        //   AprilTag tag = new AprilTag(tagID, aprilTagFields.getTagPose(tagID).get());
+        //   aprilTags[i] = tag;
+        // }
+        // aprilTagPublisher.set(aprilTags);
 
 
         if(limelightMeasurement.tagCount >= 2 ){ //Checks if Limelight sees 2 Apriltag
@@ -280,44 +262,44 @@ public class LimeLightSub extends SubsystemBase {
     }
   }
   
-  class AprilTagStruct implements Struct<AprilTag> {
-  @Override
-  public Class<AprilTag> getTypeClass() {
-    return AprilTag.class;
-  }
+//   class AprilTagStruct implements Struct<AprilTag> {
+//   @Override
+//   public Class<AprilTag> getTypeClass() {
+//     return AprilTag.class;
+//   }
 
-  @Override
-  public String getTypeString() {
-    return "struct:AprilTag";
-  }
+//   @Override
+//   public String getTypeString() {
+//     return "struct:AprilTag";
+//   }
 
-  @Override
-  public int getSize() {
-    return kSizeInt8 + Pose3d.struct.getSize();
-  }
+//   @Override
+//   public int getSize() {
+//     return kSizeInt8 + Pose3d.struct.getSize();
+//   }
 
-  @Override
-  public String getSchema() {
-    return "uint8 ID;Pose3d pose";
-  }
+//   @Override
+//   public String getSchema() {
+//     return "uint8 ID;Pose3d pose";
+//   }
 
-  @Override
-  public Struct<?>[] getNested() {
-    return new Struct<?>[] {Pose3d.struct};
-  }
+//   @Override
+//   public Struct<?>[] getNested() {
+//     return new Struct<?>[] {Pose3d.struct};
+//   }
 
-  @Override
-  public AprilTag unpack(ByteBuffer bb) {
-    int id = (int) bb.get();
-    Pose3d pose = Pose3d.struct.unpack(bb);
-    return new AprilTag(id, pose);
-  }
+//   @Override
+//   public AprilTag unpack(ByteBuffer bb) {
+//     int id = (int) bb.get();
+//     Pose3d pose = Pose3d.struct.unpack(bb);
+//     return new AprilTag(id, pose);
+//   }
 
-  @Override
-  public void pack(ByteBuffer bb, AprilTag value) {
-    bb.put((byte) value.ID);
-    Pose3d.struct.pack(bb, value.pose);
-  }
-}
+//   @Override
+//   public void pack(ByteBuffer bb, AprilTag value) {
+//     bb.put((byte) value.ID);
+//     Pose3d.struct.pack(bb, value.pose);
+//   }
+// }
 
 }

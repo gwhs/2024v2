@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -129,6 +130,11 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("Arm").addDouble("distance from speaker", ()-> UtilMath.distanceFromSpeaker(swerve.getPose()));
 
     Shuffleboard.getTab("Arm").add("stutter trap", new ScoreInTrapStutter(pizzaBoxSubsystem, armSubsystem));
+
+    DataLogManager.log("rotate in place P: " + Constants.DriveConstants.kP);
+    DataLogManager.log("rotate in place I: " + Constants.DriveConstants.kI);
+    DataLogManager.log("rotate in place D: " + Constants.DriveConstants.kD);
+
 
   }
   @Override

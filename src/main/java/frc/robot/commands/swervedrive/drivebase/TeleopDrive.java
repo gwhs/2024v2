@@ -112,7 +112,7 @@ public class TeleopDrive extends Command
     if(isHeadingLock)
     {
        PID.setSetpoint(UtilMath.SourceIntakeHeading(swerve.getPose()));
-       angVelocity += PID.calculate(currTheta);
+       angVelocity += PID.calculate(currTheta)/4;
     }
 
 

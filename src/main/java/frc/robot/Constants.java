@@ -98,7 +98,7 @@ public final class Constants
     public static double ENCODER_OFFSET = 58; //need to check the encoder value 
     public static final double UP_POSITION = 79;
 
-    public static final double SOURCE_INTAKE_ANGLE = 80;
+    public static final double SOURCE_INTAKE_ANGLE = 160;
   }
 
   public static final class ReactionConstants {

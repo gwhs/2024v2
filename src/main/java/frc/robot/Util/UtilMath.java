@@ -17,8 +17,8 @@ public class UtilMath {
     public static InterpolatingDoubleTreeMap treeOverHand;
     public static InterpolatingDoubleTreeMap treeUnderHand;
     
-    public static final int RED_SOURCE_HEADING_ANGLE = 120;
-    public static final int BLUE_SOURCE_HEADING_ANGLE = 60;
+    public static final int RED_SOURCE_HEADING_ANGLE = -120;
+    public static final int BLUE_SOURCE_HEADING_ANGLE = -60;
 
 
 

@@ -18,7 +18,7 @@
     "3. A+A+C",
     "0."
   ],
-  "defaultMaxVel": 2.5,
+  "defaultMaxVel": 1.5,
   "defaultMaxAccel": 3.0,
   "defaultMaxAngVel": 15.0,
   "defaultMaxAngAccel": 30.0,

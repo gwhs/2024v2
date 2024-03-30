@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": "Notes Near Starting Zone",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 37.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

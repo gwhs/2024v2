@@ -12,15 +12,15 @@
         "y": 6.75
       },
       "isLocked": false,
-      "linkedName": "A1"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.37,
+        "x": 1.33,
         "y": 5.54412553269551
       },
       "prevControl": {
-        "x": 1.2699999999999998,
+        "x": 1.2299999999999998,
         "y": 5.54412553269551
       },
       "nextControl": null,
@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": "Notes Near Starting Zone",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 37.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

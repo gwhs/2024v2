@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.75,
-        "y": 6.69
+        "x": 0.72,
+        "y": 6.67
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.8500000000000002,
-        "y": 6.69
+        "x": 0.8200000000000002,
+        "y": 6.67
       },
       "isLocked": false,
       "linkedName": "S1"
@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": "Starting Zone",
   "previewStartingState": {
-    "rotation": 59.0,
+    "rotation": 60.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

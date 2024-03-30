@@ -14,6 +14,7 @@ import frc.robot.commands.ReactionArmCommands.Retract;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.ReactionSubsystem;
+import frc.robot.subsystems.ArmSubsystem.Arm;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
@@ -25,9 +26,10 @@ public class UnClimbPartTwoThatWillBringDownTheMotor extends SequentialCommandGr
 
     addCommands(
       Commands.runOnce(()->DataLogManager.log("Command Start: UnClimbPartTwo")),
-      new SpinToArmAngle(a, 135).withTimeout(1),
+      new SpinToArmAngle(a, 250).withTimeout(1),
       Commands.waitUntil(()->a.checkEncoderAngleForClimb()),
       new MotorDown(c).withTimeout(3),
+      new SpinToArmAngle(a, Arm.INTAKE_ANGLE),
       Commands.runOnce(()->DataLogManager.log("Command End: UnClimbPartTwo"))
       );
   }

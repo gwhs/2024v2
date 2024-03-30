@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.testcontainers.AbsFieldDriveContainer;
 import frc.robot.testcontainers.ArmContainer;
 import frc.robot.testcontainers.ClimbContainer;
 import frc.robot.testcontainers.DriveContainer;
@@ -46,6 +47,7 @@ public class Robot extends TimedRobot  {
   public static final String LED = "LED";
   public static final String REACTION = "REACTION";
   public static final String RYKER = "RYKER";
+  public static final String ABSOLUTE_DRIVE =  "ABS";
   
   // change this to match the subsystem container you want to use, or GAME for complete robot
   public static final String container = RYKER;
@@ -106,6 +108,8 @@ public class Robot extends TimedRobot  {
       case RYKER:
         m_baseContainer = new RykerRobotContainer();
         break;
+      case ABSOLUTE_DRIVE:
+        m_baseContainer = new AbsFieldDriveContainer();
     }  
 
    

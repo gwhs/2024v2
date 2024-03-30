@@ -14,8 +14,6 @@ public class UtilMath {
     public static final double BLUE_SPEAKER_Y = 5.5479; //in meters
     public static final double RED_SPEAKER_X = 16.5793; //in meters
     public static final double RED_SPEAKER_Y = 5.5479; //in meters
-    public static InterpolatingDoubleTreeMap treeOverHand;
-    public static InterpolatingDoubleTreeMap treeUnderHand;
     
 
 

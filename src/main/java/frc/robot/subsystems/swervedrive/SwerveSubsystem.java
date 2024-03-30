@@ -48,15 +48,6 @@ public class SwerveSubsystem extends SubsystemBase
   private StructArrayPublisher<SwerveModuleState> swerveStatePublisher = NetworkTableInstance.getDefault()
     .getStructArrayTopic("Swerve State", SwerveModuleState.struct).publish();
 
-  private StructPublisher<Translation3d> robotAccelerationPublisher = NetworkTableInstance.getDefault()
-    .getStructTopic("Robot Acceleration", Translation3d.struct).publish();
-
-  private StructPublisher<ChassisSpeeds> robotFieldVelocityPublisher = NetworkTableInstance.getDefault()
-    .getStructTopic("Robot Field Velocity", ChassisSpeeds.struct).publish();
-
-  private StructPublisher<ChassisSpeeds> robotRobotVelocityPublisher = NetworkTableInstance.getDefault()
-    .getStructTopic("Robot Velocity", ChassisSpeeds.struct).publish();
-
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
    *
@@ -107,9 +98,6 @@ public class SwerveSubsystem extends SubsystemBase
 
       Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Drive Motor StatorCurrent", () -> driveMotorTalon.getStatorCurrent().getValueAsDouble());
       Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Angle Motor StatorCurrent", () -> angleMotorTalon.getStatorCurrent().getValueAsDouble());
-
-      // Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Drive Motor Velocity", () -> driveMotorTalon.getRotorVelocity().getValueAsDouble());
-      // Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Angle Motor Velocity", () -> angleMotorTalon.getRotorVelocity().getValueAsDouble());
 
       Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Drive Motor Temp", () -> driveMotorTalon.getDeviceTemp().getValueAsDouble());
       Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Angle Motor Temp", () -> angleMotorTalon.getDeviceTemp().getValueAsDouble());
@@ -337,10 +325,6 @@ public class SwerveSubsystem extends SubsystemBase
   public void periodic()
   {
     swerveStatePublisher.set(swerveDrive.getStates());
-    //robotAccelerationPublisher.set(swerveDrive.getAccel().get());
-    //robotFieldVelocityPublisher.set(swerveDrive.getFieldVelocity());
-    //robotRobotVelocityPublisher.set(swerveDrive.getRobotVelocity());
-    
   }
 
   @Override

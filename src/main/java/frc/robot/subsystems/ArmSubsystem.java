@@ -73,12 +73,10 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
         
     targetArmAngle(encoderGetAngle());
     enable();
-    // m_encoder.reset();
 
     UtilMotor.configMotor(m_arm, .11, 0, 0, .12, 15, 50, true);      
 
-    Shuffleboard.getTab("Arm").addDouble("Encoder Angle", ()->encoderGetAngle()).withWidget(BuiltInWidgets.kGraph)
-    .withSize(3,3);
+    Shuffleboard.getTab("Arm").addDouble("Encoder Angle", ()->encoderGetAngle());
     Shuffleboard.getTab("Arm").addDouble("Goal in degrees", ()->getController().getGoal().position * (180/Math.PI));
     
     Shuffleboard.getTab("Arm").addDouble("Arm Stator Current", () -> m_arm.getStatorCurrent().getValueAsDouble());
@@ -135,12 +133,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     return m_encoder.getAbsolutePosition()*Arm.ROTATION_TO_DEGREES - Arm.ENCODER_OFFSET;
   }
 
-  //Resets encoder angle to 0
-  public void resetEncoderAngle()
-  {
-    m_encoder.reset();
-  }
-
   public boolean checkEncoderAngleForClimb() {
     return (encoderGetAngle() >= 125 && encoderGetAngle() <= 270);
   }
@@ -155,6 +147,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
       SmartDashboard.putNumber("Arm PID output", output);
       SmartDashboard.putNumber("Arm feed forward", feedForward);
       SmartDashboard.putNumber("Arm speed", output + feedForward);
+      SmartDashboard.putNumber("Arm FF setPoint Position", setPoint.position);
+      SmartDashboard.putNumber("Arm FF setPoint velocity", setPoint.velocity);
       spinArm(output + feedForward);
     }
     else

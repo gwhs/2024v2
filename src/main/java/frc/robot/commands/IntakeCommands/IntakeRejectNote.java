@@ -24,7 +24,7 @@ public class IntakeRejectNote extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    intakeSubsystem.rejectIntake(100, 50);
+    intakeSubsystem.rejectIntake(1, 50);
     timer = Timer.getFPGATimestamp();
   }
 

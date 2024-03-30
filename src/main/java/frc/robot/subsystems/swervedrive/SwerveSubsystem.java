@@ -4,40 +4,32 @@
 
 package frc.robot.subsystems.swervedrive;
 
-import com.pathplanner.lib.auto.AutoBuilder;
-import com.pathplanner.lib.commands.PathPlannerAuto;
-import com.pathplanner.lib.path.PathConstraints;
-import com.pathplanner.lib.path.PathPlannerPath;
-import com.pathplanner.lib.util.HolonomicPathFollowerConfig;
-import com.pathplanner.lib.util.PIDConstants;
-import com.pathplanner.lib.util.ReplanningConfig;
-
-import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
-import edu.wpi.first.math.geometry.Translation2d;
-import edu.wpi.first.math.kinematics.ChassisSpeeds;
-import edu.wpi.first.math.kinematics.SwerveDriveKinematics;
-import edu.wpi.first.math.numbers.N1;
-import edu.wpi.first.math.numbers.N3;
-import edu.wpi.first.math.trajectory.Trajectory;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.Timer;
-import edu.wpi.first.wpilibj.smartdashboard.Field2d;
-import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.Config;
+import com.ctre.phoenix6.hardware.TalonFX;
+import com.pathplanner.lib.auto.*;
+import com.pathplanner.lib.commands.*;
+import com.pathplanner.lib.path.*;
+import com.pathplanner.lib.util.*;
+import edu.wpi.first.math.*;
+import edu.wpi.first.math.geometry.*;
+import edu.wpi.first.math.kinematics.*;
+import edu.wpi.first.math.numbers.*;
+import edu.wpi.first.math.trajectory.*;
+import edu.wpi.first.math.util.*;
+import edu.wpi.first.networktables.*;
+import edu.wpi.first.wpilibj.*;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.smartdashboard.*;
+import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.*;
 import java.io.File;
 import java.util.function.DoubleSupplier;
 import swervelib.SwerveController;
 import swervelib.SwerveDrive;
 import swervelib.SwerveDriveTest;
+import swervelib.SwerveModule;
 import swervelib.math.SwerveMath;
 import swervelib.motors.SwerveMotor;
-import swervelib.parser.SwerveControllerConfiguration;
-import swervelib.parser.SwerveDriveConfiguration;
-import swervelib.parser.SwerveParser;
+import swervelib.parser.*;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
 
@@ -52,6 +44,9 @@ public class SwerveSubsystem extends SubsystemBase
    * Maximum speed of the robot in meters per second, used to limit acceleration.
    */
   public        double      maximumSpeed = Units.feetToMeters(14.5); //14.5
+
+  private StructArrayPublisher<SwerveModuleState> swerveStatePublisher = NetworkTableInstance.getDefault()
+    .getStructArrayTopic("Swerve State", SwerveModuleState.struct).publish();
 
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
@@ -89,6 +84,24 @@ public class SwerveSubsystem extends SubsystemBase
     swerveDrive.setHeadingCorrection(false); // Heading correction should only be used while controlling the robot via angle.
     swerveDrive.setCosineCompensator(!SwerveDriveTelemetry.isSimulation); // Disables cosine compensation for simulations since it causes discrepancies not seen in real life.
     setupPathPlanner();
+
+
+    // Log motor data
+    SwerveModule[] sm_array = swerveDrive.getModules();
+    for(int i = 0; i < sm_array.length; i++){
+      SwerveModule sm = sm_array[i];
+      SwerveMotor driveMotor = sm.getDriveMotor();
+      SwerveMotor angleMotor = sm.getAngleMotor();
+
+      TalonFX driveMotorTalon = (TalonFX)driveMotor.getMotor();
+      TalonFX angleMotorTalon = (TalonFX) angleMotor.getMotor();
+
+      Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Drive Motor StatorCurrent", () -> driveMotorTalon.getStatorCurrent().getValueAsDouble());
+      Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Angle Motor StatorCurrent", () -> angleMotorTalon.getStatorCurrent().getValueAsDouble());
+
+      Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Drive Motor Temp", () -> driveMotorTalon.getDeviceTemp().getValueAsDouble());
+      Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Angle Motor Temp", () -> angleMotorTalon.getDeviceTemp().getValueAsDouble());
+    }
   }
 
   /**
@@ -113,9 +126,9 @@ public class SwerveSubsystem extends SubsystemBase
         this::getRobotVelocity, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
         this::setChassisSpeeds, // Method that will drive the robot given ROBOT RELATIVE ChassisSpeeds
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
-                                         new PIDConstants(1.0,0,0),
+                                         new PIDConstants(1,0,0),
                                          // Translation PID constants
-                                         new PIDConstants(10,0,0),
+                                         new PIDConstants(7.75,0,0),
                                          // Rotation PID constants
                                          4.5,
                                          // Max module speed, in m/s
@@ -311,7 +324,7 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
-
+    swerveStatePublisher.set(swerveDrive.getStates());
   }
 
   @Override
@@ -530,6 +543,11 @@ public class SwerveSubsystem extends SubsystemBase
     public Field2d getField2d()
   {
     return swerveDrive.field;
+  }
+
+  public void setHeading()
+  {
+    resetOdometry(new Pose2d(new Translation2d(), new Rotation2d(Math.PI)));
   }
 
 }

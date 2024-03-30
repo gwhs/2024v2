@@ -4,13 +4,17 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.SystemCheck;
+import frc.robot.Constants.Drivebase;
+import frc.robot.Util.UtilMath;
 import frc.robot.commands.CancelAllCommands;
 import frc.robot.commands.Arm.ResetArm;
+import frc.robot.commands.Arm.ScoreInTrapStutter;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorUp;
 import frc.robot.commands.ClimberCommands.ClimbParts.ClimbAndShoot;
@@ -26,6 +30,9 @@ import frc.robot.commands.LimelightCommands.toggleCameraMode;
 import frc.robot.commands.LimelightCommands.toggleLimelightPoseEstimation;
 import frc.robot.commands.ReactionArmCommands.Extend;
 import frc.robot.commands.ReactionArmCommands.Retract;
+import frc.robot.commands.driveCommands.ResetTeleopDrive;
+import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
+import frc.robot.commands.driveCommands.LockHeadingToSourceForIntake;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -33,6 +40,7 @@ import frc.robot.subsystems.PizzaBoxSubsystem;
 import frc.robot.subsystems.ReactionSubsystem;
 import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
+import swervelib.SwerveDrive;
 
 public class SetupShuffleboard extends SubsystemBase {
   /** Creates a new SetupShuffleboard. */
@@ -43,7 +51,9 @@ public class SetupShuffleboard extends SubsystemBase {
   public SetupShuffleboard() {
   }
 
-  public static void setupShuffleboard(SwerveSubsystem swerve, PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, LimeLightSub limelightSubsystem, Climbsubsystem climbSubsystem, ReactionSubsystem reactionSubsystem, SendableChooser<Command> chooser){
+  public static void setupShuffleboard(SwerveSubsystem swerve, PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, 
+                                       IntakeSubsystem intakeSubsystem, LimeLightSub limelightSubsystem, Climbsubsystem climbSubsystem, 
+                                       ReactionSubsystem reactionSubsystem, SendableChooser<Command> chooser, TeleopDrive teleopDrive) {
     // LimelightHelpers.setStreamMode_PiPSecondary("limelight");
     // Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5800").withSize(4,3).withPosition(5, 0);
     
@@ -88,22 +98,9 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("GameTab").add("Decrease Intake Offset", new DecreaseIntakeOffset())
       .withPosition(5,3);
     Shuffleboard.getTab("GameTab").add("CLEAR ALL COMMANDS", new CancelAllCommands()).withPosition(7,3);
-    
+    Shuffleboard.getTab("GameTab").add("RESET TELEOP DRIVE", new ResetTeleopDrive(teleopDrive)).withPosition(9,0);
 
-    ShuffleboardTab driveTrainShuffleboardTab = Shuffleboard.getTab("Drive Train");
-
-    driveTrainShuffleboardTab.addDouble("X Position", ()->swerve.getPose().getX())
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(0, 0);
-    driveTrainShuffleboardTab.addDouble("Y Position", ()->swerve.getPose().getY())
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(3, 0);
-    driveTrainShuffleboardTab.addDouble("Angel", ()->swerve.getPose().getRotation().getDegrees())
-      .withWidget(BuiltInWidgets.kGraph)
-      .withSize(3,3)
-      .withPosition(6, 0);
+    Shuffleboard.getTab("TEST COMMAND").add("TEST", new LockHeadingToSourceForIntake(teleopDrive, armSubsystem, pizzaBoxSubsystem));
 
 
     //Climb stuff (all in climb tab)
@@ -119,8 +116,8 @@ public class SetupShuffleboard extends SubsystemBase {
 
     Shuffleboard.getTab("Climb").add("climb prep", new PrepClimb(climbSubsystem, swerve, armSubsystem, reactionSubsystem)).withPosition(4, 0);
     Shuffleboard.getTab("Climb").add("climb & shoot", new ClimbAndShoot(climbSubsystem, swerve, armSubsystem, pizzaBoxSubsystem, reactionSubsystem)).withPosition(5, 0);
-    Shuffleboard.getTab("Climb").add("unclimb1", new UnClimb(climbSubsystem)).withPosition(4, 1);
-    Shuffleboard.getTab("Climb").add("unclimb2", new UnClimbPartTwoThatWillBringDownTheMotor(climbSubsystem, reactionSubsystem)).withPosition(5, 1);
+    Shuffleboard.getTab("Climb").add("unclimb1", new UnClimb(climbSubsystem, armSubsystem, reactionSubsystem)).withPosition(4, 1);
+    Shuffleboard.getTab("Climb").add("unclimb2", new UnClimbPartTwoThatWillBringDownTheMotor(climbSubsystem, swerve, armSubsystem, reactionSubsystem)).withPosition(5, 1);
 
     Shuffleboard.getTab("Climb").add("STOP CLIMB!!!!", new StopClimb(climbSubsystem)).withSize(2, 1).withPosition(2, 2);
 
@@ -128,6 +125,16 @@ public class SetupShuffleboard extends SubsystemBase {
 
 
     Shuffleboard.getTab("System Check").add("check", new SystemCheck(armSubsystem, climbSubsystem, intakeSubsystem, pizzaBoxSubsystem, reactionSubsystem, swerve));
+  
+    Shuffleboard.getTab("Arm").addDouble("distance from speaker", ()-> UtilMath.distanceFromSpeaker(swerve.getPose()));
+
+    Shuffleboard.getTab("Arm").add("stutter trap", new ScoreInTrapStutter(pizzaBoxSubsystem, armSubsystem));
+
+    DataLogManager.log("rotate in place P: " + Constants.DriveConstants.kP);
+    DataLogManager.log("rotate in place I: " + Constants.DriveConstants.kI);
+    DataLogManager.log("rotate in place D: " + Constants.DriveConstants.kD);
+
+
   }
   @Override
   public void periodic() {

@@ -8,11 +8,12 @@ package frc.robot.subsystems.LimeVision;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableEntry;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.networktables.StructPublisher;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.LimeLightConstants;
+
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.Nat;
 import edu.wpi.first.math.controller.PIDController;
@@ -29,20 +30,18 @@ public class LimeLightSub extends SubsystemBase {
   private final double kP = 0.5;
   private final double kD = 0.2;
   private final double kI = 0;
-  // private static double distanceFromAprilTag = 0;
+
   public static Pose2d currentPose;
 
   public boolean cameraMode = false;
 
-  
-  
+  StructPublisher<Pose2d> robotPosePublisher = NetworkTableInstance.getDefault().getStructTopic("Robot Pose", Pose2d.struct).publish();
+  StructPublisher<Pose2d> limelightAcceptedPosePublisher = NetworkTableInstance.getDefault().getStructTopic("Limelight Accepted Pose", Pose2d.struct).publish();
+  StructPublisher<Pose2d> limelightRejectedPosePublisher = NetworkTableInstance.getDefault().getStructTopic("Limelight Rejected Pose", Pose2d.struct).publish();
 
   private PIDController PIDVision = new PIDController(kP, kI, kD);
   private PIDController PIDVisionY = new PIDController(kP, kI, kD);
   private PIDController PIDVisionTheta = new PIDController(kP, kI, kD);
-
-  
-
 
 
   // set up a new instance of NetworkTables (the api/library used to read values from limelight)
@@ -63,15 +62,11 @@ public class LimeLightSub extends SubsystemBase {
   NetworkTableEntry pipe = networkTable.getEntry("getpipe");
 
   // botpose megatag
-  NetworkTableEntry botpose = networkTable.getEntry("botpose");
   NetworkTableEntry blueBotPose = networkTable.getEntry("botpose_wpiblue");
-  NetworkTableEntry targetSpace = networkTable.getEntry("botpose_targetspace");
   NetworkTableEntry tid = networkTable.getEntry("tid");
-  
-  
 
   boolean verbose = true;//If we want to print values
-  public boolean wantData = false;//If we want to accept limelight post esitmator
+  public boolean wantData = true;//If we want to accept limelight post esitmator
 
   // may be useful later
   private double kCameraHeight =
@@ -81,23 +76,16 @@ public class LimeLightSub extends SubsystemBase {
 
   private LimeLightComms limelight_comm;
   private SwerveSubsystem drivebase;
+  private String limelight_networktable_name;
 
   /** Creates a new LimeLightSub. */
   public LimeLightSub(String limelight_networktable_name, SwerveSubsystem drivebase) {
     limelight_comm = new LimeLightComms(limelight_networktable_name);
     limelight_comm.set_entry_double("ledMode", 3);
+    this.limelight_networktable_name = limelight_networktable_name;
     if(verbose){
-      Shuffleboard.getTab("Limelight").addDouble("BotPose TX", ()->getBlueBotPose()[0]);
-      Shuffleboard.getTab("Limelight").addDouble("BotPose TY", ()->getBlueBotPose()[1]);
-      Shuffleboard.getTab("Limelight").addDouble("BotPose TZ", ()->getBlueBotPose()[2]);
-      Shuffleboard.getTab("Limelight").addDouble("BotPose RX", ()->getBlueBotPose()[3]);
-      Shuffleboard.getTab("Limelight").addDouble("BotPose RY", ()->getBlueBotPose()[4]);
-      Shuffleboard.getTab("Limelight").addDouble("BotPose RZ", ()->getBlueBotPose()[5]);
-      Shuffleboard.getTab("Limelight").addDouble("BotPose ms", ()->getBlueBotPose()[6]);
       Shuffleboard.getTab("Limelight").addDouble("Tag Count", ()->getBlueBotPose()[7]);
-      Shuffleboard.getTab("Limelight").addDouble("Tag Span", ()->getBlueBotPose()[8]);
       Shuffleboard.getTab("Limelight").addDouble("Average Distance", ()->getBlueBotPose()[9]);
-      Shuffleboard.getTab("Limelight").addDouble("Average Area", ()->getBlueBotPose()[10]);
       Shuffleboard.getTab("Limelight").addDouble("Tag ID", ()->getBlueBotPose()[11]);
     }
     
@@ -107,18 +95,12 @@ public class LimeLightSub extends SubsystemBase {
 
   @Override
   public void periodic() {
-
-  if(verbose){      
-    SmartDashboard.putNumber("tv", tv.getDouble(0));
-    SmartDashboard.putNumber("tx", tx.getDouble(0));
-    SmartDashboard.putNumber("ty", ty.getDouble(0));
-    SmartDashboard.putNumber("ta", ta.getDouble(0));
-    
-  }
-  
   if(wantData){
     setData();
   }
+
+  Pose2d currentPose = drivebase.getPose();
+  robotPosePublisher.set(currentPose);
     
   }
 
@@ -217,35 +199,35 @@ public class LimeLightSub extends SubsystemBase {
     double distancefromAprilTag = 0.8; //0.8
     double distancefromLimeLight = 2.5; //2.5
 
+    Rotation2d degree = new Rotation2d(temp[5]* Math.PI / 180);
+    Pose2d newPose = new Pose2d(temp[0],temp[1],degree);
+
     if(hasTarget()){
        
         double xyStds= 0;
         double degStds = 0;
         Matrix<N3, N1> stds = new Matrix<N3, N1>(Nat.N3(), Nat.N1());
         LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
+
         if(limelightMeasurement.tagCount >= 2 ){ //Checks if Limelight sees 2 Apriltag
             xyStds = 0.5; 
             degStds = 6 * Math.PI / 180;
-
-            //System.out.println("lime light data");
-        
         }
         else if ((temp[9] < distancefromLimeLight) && (distance < distancefromAprilTag)) { //Checks if within distance of apriltag and limelight
             xyStds = 1.0;
             degStds = 12 * Math.PI / 180;
-
         }
         else{
+          limelightRejectedPosePublisher.set(newPose);
           return;
         }
-          stds.set(0,0,xyStds);
-          stds.set(1,0,xyStds);
-          stds.set(2,0, degStds * Math.PI / 180);
-          Rotation2d degree = new Rotation2d(temp[5]* Math.PI / 180);
-          Pose2d newPose = new Pose2d(temp[0],temp[1],degree); //creates new pose2d with limelight data
-          
-          drivebase.addActualVisionReading(newPose ,Timer.getFPGATimestamp() - (temp[6]/1000.0),stds); //Changes standard dev base on apriltags and drive
-  }
-
+        stds.set(0,0,xyStds);
+        stds.set(1,0,xyStds);
+        stds.set(2,0, degStds);
+        
+        limelightAcceptedPosePublisher.set(newPose);
+        
+        drivebase.addActualVisionReading(newPose ,Timer.getFPGATimestamp() - (temp[6]/1000.0),stds); //Changes standard dev base on apriltags and drive
+    }
   }
 }

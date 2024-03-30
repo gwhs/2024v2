@@ -32,15 +32,13 @@ public class SystemCheck extends SequentialCommandGroup {
     
     addCommands(
       //TO-DO: Add condition for different systemcheck if arm/intake is broken
-      new Extend(r), new WaitCommand(2),
-      new Retract(r), new WaitCommand(2),
       new PrepClimb(c, s, a, r), new WaitCommand(2),
       new ClimbAndShoot(c, s, a, p, r), new WaitCommand(2),
-      new UnClimb(c), new WaitCommand(2),
-      new UnClimbPartTwoThatWillBringDownTheMotor(c, r), new WaitCommand(2),
-      // new PickUpFromGroundAndPassToPizzaBox(p, a, i), new WaitCommand(2),
-      // new PickUpFromGroundAndPassToPizzaBox(p, a, i), new WaitCommand(2),
-      // new ScoreInAmp(p, a), new WaitCommand(2),
+      new UnClimb(c, a, r), new WaitCommand(2),
+      new UnClimbPartTwoThatWillBringDownTheMotor(c, s, a, r), new WaitCommand(2),
+      new PickUpFromGroundAndPassToPizzaBox(p, a, i), new WaitCommand(2),
+      new PickUpFromGroundAndPassToPizzaBox(p, a, i), new WaitCommand(2),
+      new ScoreInAmp(p, a), new WaitCommand(2),
       new ScoreInSpeakerUnderHand(p, a), new WaitCommand(2)
 
     );

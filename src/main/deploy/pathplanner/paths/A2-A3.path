@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5,
+        "x": 2.45,
         "y": 5.55
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.405508436232879,
-        "y": 5.51726860258339
+        "x": 1.5675856037874687,
+        "y": 4.9771055319571404
       },
       "isLocked": false,
       "linkedName": "A2"
@@ -17,11 +17,11 @@
     {
       "anchor": {
         "x": 2.5,
-        "y": 4.251033666118688
+        "y": 4.3
       },
       "prevControl": {
         "x": 1.8066202427403453,
-        "y": 4.590566855544632
+        "y": 4.639533189425944
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,14 +33,14 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 1.5,
-    "maxAcceleration": 3.5,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 30.0,
+    "maxAngularAcceleration": 30.0
   },
   "goalEndState": {
     "velocity": 0,
     "rotation": -26.089999999999975,
-    "rotateFast": true
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "Notes Near Starting Zone",

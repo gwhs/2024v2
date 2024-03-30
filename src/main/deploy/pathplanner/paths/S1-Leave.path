@@ -3,25 +3,25 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.8455861704876034,
-        "y": 6.616622648366552
+        "x": 0.7713800042984719,
+        "y": 6.640452511674254
       },
       "prevControl": null,
       "nextControl": {
-        "x": 1.454549670868242,
-        "y": 6.991369417831561
+        "x": 1.1831587615221761,
+        "y": 7.187749496967226
       },
       "isLocked": false,
-      "linkedName": "S1"
+      "linkedName": "Speaker 1"
     },
     {
       "anchor": {
-        "x": 4.733583903687064,
-        "y": 6.230165042355762
+        "x": 3.8435603262076694,
+        "y": 7.5
       },
       "prevControl": {
-        "x": 3.733583903687064,
-        "y": 6.230165042355762
+        "x": 2.309440738710292,
+        "y": 7.476578326908437
       },
       "nextControl": null,
       "isLocked": false,
@@ -33,14 +33,14 @@
   "eventMarkers": [],
   "globalConstraints": {
     "maxVelocity": 1.5,
-    "maxAcceleration": 3.5,
-    "maxAngularVelocity": 540.0,
-    "maxAngularAcceleration": 720.0
+    "maxAcceleration": 3.0,
+    "maxAngularVelocity": 30.0,
+    "maxAngularAcceleration": 30.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0,
-    "rotateFast": true
+    "rotation": 0.0,
+    "rotateFast": false
   },
   "reversed": false,
   "folder": "Starting Zone",

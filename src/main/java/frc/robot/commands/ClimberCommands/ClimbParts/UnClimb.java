@@ -4,6 +4,7 @@
 
 package frc.robot.commands.ClimberCommands.ClimbParts;
 
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -21,11 +22,15 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class UnClimb extends SequentialCommandGroup {
   /** Creates a new UnClimb. */
-  public UnClimb(Climbsubsystem c) {
+  public UnClimb(Climbsubsystem c, ArmSubsystem a, ReactionSubsystem r) {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      new MotorUp(c).withTimeout(5)
+      Commands.runOnce(()->DataLogManager.log("Command Start: UnClimb")),
+      new SpinToArmAngle(a, 260).withTimeout(1),
+      Commands.waitUntil(()->a.checkEncoderAngleForClimb()),
+      new MotorUp(c).alongWith(new Retract(r)).withTimeout(5),
+      Commands.runOnce(()->DataLogManager.log("Command End: UnClimb"))
     );
   }
 }

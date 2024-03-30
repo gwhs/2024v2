@@ -20,6 +20,7 @@ import edu.wpi.first.wpilibj.TimedRobot;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.Util.UtilMath;
 import frc.robot.testcontainers.ArmContainer;
 import frc.robot.testcontainers.ClimbContainer;
 import frc.robot.testcontainers.DriveContainer;
@@ -69,8 +70,8 @@ public class Robot extends TimedRobot  {
     // Logger.addDataReceiver(new NT4Publisher());
     // Logger.start();
 
-    SignalLogger.enableAutoLogging(true);
-    SignalLogger.start();
+    //SignalLogger.enableAutoLogging(true);
+    //SignalLogger.start();
 
     DataLogManager.start();
     DriverStation.startDataLog(DataLogManager.getLog());
@@ -103,6 +104,9 @@ public class Robot extends TimedRobot  {
         break;
     }  
 
+      //UtilMath.treeOverHand.put();
+      
+      //UtilMath.treeUnderHand.put();
    
   }
 
@@ -137,6 +141,7 @@ public class Robot extends TimedRobot  {
   /** This autonomous runs the autonomous command selected by your {@link RobotContainer} class. */
   @Override
   public void autonomousInit() {
+    m_baseContainer.autoInitReset().schedule();
     m_autonomousCommand = m_baseContainer.getAutonomousCommand();
    
 

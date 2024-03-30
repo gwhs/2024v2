@@ -2,6 +2,7 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/Shuffleboard/Arm/stutter trap": "Command",
       "/Shuffleboard/Climb/STOP CLIMB!!!!": "Command",
       "/Shuffleboard/Climb/climb & shoot": "Command",
       "/Shuffleboard/Climb/climb prep": "Command",
@@ -10,22 +11,24 @@
       "/Shuffleboard/Climb/unclimb1": "Command",
       "/Shuffleboard/Climb/unclimb2": "Command",
       "/Shuffleboard/GameTab/Autonomous Chooser": "String Chooser",
+      "/Shuffleboard/GameTab/CLEAR ALL COMMANDS": "Command",
+      "/Shuffleboard/GameTab/Decrease Intake Offset": "Command",
       "/Shuffleboard/GameTab/Disable Pose Estimator": "Command",
+      "/Shuffleboard/GameTab/Extend Reaction Bar": "Command",
       "/Shuffleboard/GameTab/Field": "Field2d",
       "/Shuffleboard/GameTab/Filed": "Field2d",
+      "/Shuffleboard/GameTab/Increase Intake Offset": "Command",
       "/Shuffleboard/GameTab/IntakeRejectNote": "Command",
       "/Shuffleboard/GameTab/Reset Arm": "Command",
       "/Shuffleboard/GameTab/Reset Intake": "Command",
+      "/Shuffleboard/GameTab/Retract Reaction Bar": "Command",
       "/Shuffleboard/GameTab/Toggle Camera Mode": "Command",
+      "/Shuffleboard/System Check/check": "Command",
+      "/Shuffleboard/TEST COMMAND/TEST": "Command",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Pigeon 2 (v6) [30]": "Gyro"
     },
     "windows": {
-      "/Shuffleboard/GameTab/Autonomous Chooser": {
-        "window": {
-          "visible": true
-        }
-      },
       "/Shuffleboard/GameTab/Field": {
         "bottom": 1476,
         "height": 8.210550308227539,

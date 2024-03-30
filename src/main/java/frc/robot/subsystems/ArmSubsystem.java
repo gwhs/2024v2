@@ -44,8 +44,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final double KGVOLTS = .0;
     public static final double KVVOLTS = 1.7;
     public static final double KAVOLTS = 0;
-    public static final double VEL = 3.5 * Math.PI;
-    public static final double ACC = 30;
+    public static final double VEL = 90 * Math.PI / 180;
+    public static final double ACC = 180 * Math.PI / 180;
     //
     //Arm ID Jalen Tolbert
     public static final int ENCODER_DIO_SLOT = 0;

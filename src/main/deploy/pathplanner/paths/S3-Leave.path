@@ -8,20 +8,20 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 0.8690078435791664,
-        "y": 4.215901156481343
+        "x": 0.7284778050297884,
+        "y": 0.9719994332998654
       },
       "isLocked": false,
       "linkedName": "Speaker 3"
     },
     {
       "anchor": {
-        "x": 2.4148382676223257,
-        "y": 1.8503121742334787
+        "x": 2.789585037087334,
+        "y": 1.0188427794829902
       },
       "prevControl": {
-        "x": 2.250886555981385,
-        "y": 2.119661414786453
+        "x": 0.9158511897622923,
+        "y": 1.0773969622118975
       },
       "nextControl": null,
       "isLocked": false,
@@ -34,7 +34,7 @@
   "globalConstraints": {
     "maxVelocity": 1.5,
     "maxAcceleration": 3.0,
-    "maxAngularVelocity": 15.0,
+    "maxAngularVelocity": 30.0,
     "maxAngularAcceleration": 30.0
   },
   "goalEndState": {

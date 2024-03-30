@@ -20,19 +20,13 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 2.0
+            "waitTime": 7.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "S1-Leave (pt.1)"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "S1-Leave (pt.2)"
+            "pathName": "S1-Leave"
           }
         }
       ]

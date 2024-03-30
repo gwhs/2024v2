@@ -2,8 +2,8 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3535296301361848,
-      "y": 5.545221859674489
+      "x": 1.37,
+      "y": 5.54
     },
     "rotation": 0
   },
@@ -28,7 +28,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 3.0
+                        "waitTime": 2.75
                       }
                     },
                     {
@@ -44,14 +44,51 @@
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "A2-S2"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "Speaker (A2)"
+            "name": "Speaker (S2)"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "S2-A1"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A1-S2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Speaker (S2)"
           }
         }
       ]
     }
   },
-  "folder": "1. A",
+  "folder": "Hajel Path",
   "choreoAuto": false
 }

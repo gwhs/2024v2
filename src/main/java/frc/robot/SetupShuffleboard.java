@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.SystemCheck;
 import frc.robot.Util.UtilMath;
 import frc.robot.commands.CancelAllCommands;
-import frc.robot.commands.Arm.AutoAimShoot;
 import frc.robot.commands.Arm.ResetArm;
 import frc.robot.commands.Arm.ScoreInTrapStutter;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
@@ -98,10 +97,6 @@ public class SetupShuffleboard extends SubsystemBase {
       .withPosition(5,3);
     Shuffleboard.getTab("GameTab").add("CLEAR ALL COMMANDS", new CancelAllCommands()).withPosition(7,3);
     Shuffleboard.getTab("GameTab").add("RESET TELEOP DRIVE", new ResetTeleopDrive(teleopDrive)).withPosition(9,0);
-    Shuffleboard.getTab("GameTab").add("overhand auto shoot", new AutoAimShoot(swerve, armSubsystem, pizzaBoxSubsystem, teleopDrive, false))
-      .withPosition(9,1);
-    Shuffleboard.getTab("GameTab").add("underhand auto shoot", new AutoAimShoot(swerve, armSubsystem, pizzaBoxSubsystem, teleopDrive, true))
-      .withPosition(9,2);
 
 
     //Climb stuff (all in climb tab)

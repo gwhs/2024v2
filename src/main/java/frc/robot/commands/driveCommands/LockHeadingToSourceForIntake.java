@@ -27,13 +27,12 @@ public class LockHeadingToSourceForIntake extends Command {
   public void initialize() {
     drive.isHeadingLock = true;
     pizzaBoxSubsystem.spinPizzaBoxMotor(-50, 100);
-
+    armSubsystem.targetArmAngle(Constants.IntakeConstants.SOURCE_INTAKE_ANGLE);
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    armSubsystem.targetArmAngle(Constants.IntakeConstants.SOURCE_INTAKE_ANGLE);
   }
 
   // Called once the command ends or is interrupted.
@@ -42,7 +41,6 @@ public class LockHeadingToSourceForIntake extends Command {
     drive.isHeadingLock = false;
     pizzaBoxSubsystem.stopPizzaBoxMotor();
     armSubsystem.targetArmAngle(90);
-
   }
 
   // Returns true when the command should end.

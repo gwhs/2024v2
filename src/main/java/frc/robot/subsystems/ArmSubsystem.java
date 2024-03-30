@@ -42,9 +42,9 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final double KD = 0.15;
     public static final double KSVOLTS = 1.5; 
     public static final double KGVOLTS = .0;
-    public static final double KVVOLTS = 1.7;
+    public static final double KVVOLTS = 2;
     public static final double KAVOLTS = 0;
-    public static final double VEL = 90 * Math.PI / 180;
+    public static final double VEL = 100 * Math.PI / 180;
     public static final double ACC = 180 * Math.PI / 180;
     //
     //Arm ID Jalen Tolbert
@@ -61,6 +61,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   private DutyCycleEncoder m_encoder;
   private ArmFeedforward armFeedForward;
   public boolean emergencyStop = false;
+  private double prevArmAngle;
 
   public ArmSubsystem(int armId, String armCanbus, int channel1)
   {
@@ -73,6 +74,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
         
     targetArmAngle(encoderGetAngle());
     enable();
+
+    prevArmAngle = encoderGetAngle();
 
     UtilMotor.configMotor(m_arm, .11, 0, 0, .12, 15, 50, true);      
 
@@ -166,5 +169,13 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   public double getMeasurement()
   {
     return encoderGetAngle() * Math.PI/180;
+  }
+
+  @Override
+  public void periodic() {
+    double currentArmAngle = encoderGetAngle();
+    if (Math.abs(currentArmAngle - prevArmAngle) >= 50) {
+      emergencyStop = true;
+    }
   }
 }

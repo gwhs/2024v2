@@ -40,7 +40,7 @@ public class IntakeSubsystem extends SubsystemBase {
     m_Encoder = new DutyCycleEncoder(Constants.IntakeConstants.INTAKE_ENCODER_CHANNEL_ID);
     m_noteSensor = new DigitalInput(Constants.IntakeConstants.INTAKE_NOTESENSOR_CHANNEL_ID);
 
-    UtilMotor.configMotor(m_moveIntakeArm, 0.11, 0.05, 0.01, 0.12, 12, 80, true);
+    UtilMotor.configMotor(m_moveIntakeArm, 0.11, 0.05, 0.01, 0.12, 12, 60, true);
     UtilMotor.configMotor(m_spinIntake, 0.11, 0.05, 0.01, 0.12, 12, 60, false);
     //UtilMotor.configMotorStatorCurrent(m_spinIntake, 60);
     UtilMotor.configMotorSupplyCurrent(m_spinIntake, 80);
@@ -87,7 +87,7 @@ public class IntakeSubsystem extends SubsystemBase {
     if (!emergencyStop) {
       // m_spinIntake.set(-intakeMotorVelocity);
 
-      intakeMotorVelocity *= 50;
+      intakeMotorVelocity *= 100;
       spinRequest1 = new VelocityVoltage(-intakeMotorVelocity, 150, true, 0, 0,false, false, false);
       m_spinIntake.setControl(spinRequest1);
 

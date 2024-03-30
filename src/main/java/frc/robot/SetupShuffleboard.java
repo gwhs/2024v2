@@ -4,6 +4,7 @@
 
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -12,7 +13,6 @@ import frc.robot.commands.SystemCheck;
 import frc.robot.Constants.Drivebase;
 import frc.robot.Util.UtilMath;
 import frc.robot.commands.CancelAllCommands;
-import frc.robot.commands.Arm.AutoAimShoot;
 import frc.robot.commands.Arm.ResetArm;
 import frc.robot.commands.Arm.ScoreInTrapStutter;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
@@ -99,10 +99,6 @@ public class SetupShuffleboard extends SubsystemBase {
       .withPosition(5,3);
     Shuffleboard.getTab("GameTab").add("CLEAR ALL COMMANDS", new CancelAllCommands()).withPosition(7,3);
     Shuffleboard.getTab("GameTab").add("RESET TELEOP DRIVE", new ResetTeleopDrive(teleopDrive)).withPosition(9,0);
-    Shuffleboard.getTab("GameTab").add("overhand auto shoot", new AutoAimShoot(swerve, armSubsystem, pizzaBoxSubsystem, teleopDrive, false))
-      .withPosition(9,1);
-    Shuffleboard.getTab("GameTab").add("underhand auto shoot", new AutoAimShoot(swerve, armSubsystem, pizzaBoxSubsystem, teleopDrive, true))
-      .withPosition(9,2);
 
     Shuffleboard.getTab("TEST COMMAND").add("TEST", new LockHeadingToSourceForIntake(teleopDrive, armSubsystem, pizzaBoxSubsystem));
 
@@ -133,6 +129,11 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("Arm").addDouble("distance from speaker", ()-> UtilMath.distanceFromSpeaker(swerve.getPose()));
 
     Shuffleboard.getTab("Arm").add("stutter trap", new ScoreInTrapStutter(pizzaBoxSubsystem, armSubsystem));
+
+    DataLogManager.log("rotate in place P: " + Constants.DriveConstants.kP);
+    DataLogManager.log("rotate in place I: " + Constants.DriveConstants.kI);
+    DataLogManager.log("rotate in place D: " + Constants.DriveConstants.kD);
+
 
   }
   @Override

@@ -30,19 +30,19 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int kPIDLoopIdx = 0;
     public static final int kTimeoutMs = 30;
     public static final int ARM_MAX_ANGLE = 335;
-    public static final int ARM_MIN_ANGLE = 0;
+    public static final int ARM_MIN_ANGLE = 10;
     public static final int ROTATION_TO_DEGREES = 360;
     public static final double GEAR_RATIO = 118.587767088;
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
     public static final double ENCODER_OFFSET = 21.8; 
     public static final int ARM_ID = 18;
     //
-    public static final double KP = 5.7;
+    public static final double KP = 5.9;
     public static final double KI = 0.1;
-    public static final double KD = 0.01;
-    public static final double KSVOLTS = 1; 
+    public static final double KD = 0.13;
+    public static final double KSVOLTS = 1.5; 
     public static final double KGVOLTS = .0;
-    public static final double KVVOLTS = 0;
+    public static final double KVVOLTS = 1.5;
     public static final double KAVOLTS = 0;
     public static final double VEL = 3.5 * Math.PI;
     public static final double ACC = 30;
@@ -73,17 +73,14 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
         
     targetArmAngle(encoderGetAngle());
     enable();
-    // m_encoder.reset();
 
     UtilMotor.configMotor(m_arm, .11, 0, 0, .12, 15, 50, true);      
 
-    Shuffleboard.getTab("Arm").addDouble("Encoder Angle", ()->encoderGetAngle()).withWidget(BuiltInWidgets.kGraph)
-    .withSize(3,3);
+    Shuffleboard.getTab("Arm").addDouble("Encoder Angle", ()->encoderGetAngle());
     Shuffleboard.getTab("Arm").addDouble("Goal in degrees", ()->getController().getGoal().position * (180/Math.PI));
     
     Shuffleboard.getTab("Arm").addDouble("Arm Stator Current", () -> m_arm.getStatorCurrent().getValueAsDouble());
     Shuffleboard.getTab("Arm").addDouble("Arm Rotor Velocity", () -> m_arm.getRotorVelocity().getValueAsDouble());
-    Shuffleboard.getTab("Arm").addDouble("Arm Acceleration", () -> m_arm.getAcceleration().getValueAsDouble());
     Shuffleboard.getTab("Arm").addDouble("Arm Temperature", () -> m_arm.getDeviceTemp().getValueAsDouble());
 
     DataLogManager.log("Arm P: " + Arm.KP);
@@ -136,12 +133,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     return m_encoder.getAbsolutePosition()*Arm.ROTATION_TO_DEGREES - Arm.ENCODER_OFFSET;
   }
 
-  //Resets encoder angle to 0
-  public void resetEncoderAngle()
-  {
-    m_encoder.reset();
-  }
-
   public boolean checkEncoderAngleForClimb() {
     return (encoderGetAngle() >= 125 && encoderGetAngle() <= 270);
   }
@@ -156,6 +147,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
       SmartDashboard.putNumber("Arm PID output", output);
       SmartDashboard.putNumber("Arm feed forward", feedForward);
       SmartDashboard.putNumber("Arm speed", output + feedForward);
+      SmartDashboard.putNumber("Arm FF setPoint Position", setPoint.position);
+      SmartDashboard.putNumber("Arm FF setPoint velocity", setPoint.velocity);
       spinArm(output + feedForward);
     }
     else

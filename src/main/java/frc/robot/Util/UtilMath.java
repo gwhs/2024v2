@@ -14,8 +14,6 @@ public class UtilMath {
     public static final double BLUE_SPEAKER_Y = 5.5479; //in meters
     public static final double RED_SPEAKER_X = 16.5793; //in meters
     public static final double RED_SPEAKER_Y = 5.5479; //in meters
-    public static InterpolatingDoubleTreeMap treeOverHand;
-    public static InterpolatingDoubleTreeMap treeUnderHand;
     
     public static final int RED_SOURCE_HEADING_ANGLE = -120;
     public static final int BLUE_SOURCE_HEADING_ANGLE = -60;
@@ -110,15 +108,5 @@ public class UtilMath {
         } else {
             return Math.sqrt(Math.pow(RED_SPEAKER_X - robotX, 2) + Math.pow(RED_SPEAKER_Y - robotY, 2));
         }
-    }
-
-    public static double getArmAngle(Pose2d pose, boolean underHand) {
-        double distance = distanceFromSpeaker(pose);
-        if (underHand) {
-            //return treeUnderHand.get(distance);
-        } else {
-            //return treeOverHand.get(distance);
-        }
-        return 90;
     }
 }

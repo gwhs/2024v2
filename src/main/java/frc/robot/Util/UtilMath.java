@@ -90,14 +90,4 @@ public class UtilMath {
             return Math.sqrt(Math.pow(RED_SPEAKER_X - robotX, 2) + Math.pow(RED_SPEAKER_Y - robotY, 2));
         }
     }
-
-    public static double getArmAngle(Pose2d pose, boolean underHand) {
-        double distance = distanceFromSpeaker(pose);
-        if (underHand) {
-            //return treeUnderHand.get(distance);
-        } else {
-            //return treeOverHand.get(distance);
-        }
-        return 90;
-    }
 }

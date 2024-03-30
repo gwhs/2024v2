@@ -50,7 +50,7 @@ public class Robot extends TimedRobot  {
   public static final String ABSOLUTE_DRIVE =  "ABS";
   
   // change this to match the subsystem container you want to use, or GAME for complete robot
-  public static final String container = RYKER;
+  public static final String container = ABSOLUTE_DRIVE;
 
   private Command m_autonomousCommand;
 

@@ -57,9 +57,11 @@ public class rotateinPlace extends Command {
     currTheta = m_Subsystem.getHeading().getDegrees();
 
     angleRate = PID.calculate(currTheta) / 4;
-    m_Subsystem.drive(pose, -angleRate, true);
+    m_Subsystem.drive(pose, angleRate, true);
 
     SmartDashboard.putNumber("Rotate In Place Angle PID Output", angleRate / 4);
+    SmartDashboard.putNumber("Rotate In Place Angle curr angle", currTheta);
+    SmartDashboard.putNumber("Rotate In Place Angle goal", PID.getSetpoint());
   }
     
   

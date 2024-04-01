@@ -23,9 +23,9 @@ public class ClimbUp extends SequentialCommandGroup {
   public ClimbUp(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a, ReactionSubsystem r) {
     addCommands(
           new ParallelCommandGroup(new SpinToArmAngle(a, 135)/* , new Extend(r)*/),
-                  new SequentialCommandGroup(new WaitCommand(0.5), new MotorUp(c)),
+                  new SequentialCommandGroup(new WaitCommand(0.5), new MotorUp(c, a)),
           new DriveForClimb(s, -0.4),
-          new MotorDown(c)
+          new MotorDown(c, a)
     );
     
     // Use addRequirements() here to declare subsystem dependencies.

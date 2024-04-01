@@ -36,6 +36,7 @@ public class Climbsubsystem extends SubsystemBase {
 
   private boolean checkForUp = false;
   private boolean emergencyStop = false;
+  public boolean armAngleCheck = true;
 
   DigitalInput bottomLeft = new DigitalInput(ClimbConstants.BOT_LEFT_LIMIT_ID);
   DigitalInput bottomRight = new DigitalInput(ClimbConstants.BOT_RIGHT_LIMIT_ID);
@@ -155,15 +156,15 @@ public class Climbsubsystem extends SubsystemBase {
     rightPIDcontroller.setGoal(.3); //0.3
   }
 
-  public void downMotorHarmony() {
-    checkForUp = false;
-    
-  }
-
   @Override
   public void periodic() {
     double leftPIDvalue = leftPIDcontroller.calculate(getPositionLeft());
     double rightPIDvalue = rightPIDcontroller.calculate(getPositionRight());
+
+    if (!armAngleCheck) {
+      leftPIDvalue = 0;
+      rightPIDvalue = 0;
+    }
 
     if (checkForUp && getTopLeftLimit()) {
       leftPIDvalue = 0;

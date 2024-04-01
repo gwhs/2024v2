@@ -13,7 +13,6 @@ import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import frc.robot.commands.Arm.SpinToArmAngle;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorUp;
-import frc.robot.commands.ReactionArmCommands.Extend;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.ReactionSubsystem;
@@ -24,9 +23,11 @@ public class PrepClimb extends SequentialCommandGroup {
   public PrepClimb(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a, ReactionSubsystem r) {
     addCommands(
       Commands.runOnce(()->DataLogManager.log("Command Start: PrepClimb")),
+      new SpinToArmAngle(a, ArmSubsystem.Arm.AMP_ANGLE).withTimeout(2),
+      //servo stuff
       new SpinToArmAngle(a, 250).withTimeout(1),
       Commands.waitUntil(()->a.checkEncoderAngleForClimb()), 
-      new MotorUp(c).withTimeout(5),
+      new MotorUp(c, a).withTimeout(5),
       Commands.runOnce(()->DataLogManager.log("Command End: PrepClimb"))
     );
   }

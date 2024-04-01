@@ -111,8 +111,8 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("Climb").addBoolean("top left limit", () -> climbSubsystem.getTopLeftLimit()).withPosition(2, 0);
     Shuffleboard.getTab("Climb").addBoolean("top right limit", () -> climbSubsystem.getTopRightLimit()).withPosition(3, 0);
 
-    Shuffleboard.getTab("Climb").add("motor down", new MotorDown(climbSubsystem)).withPosition(1, 1);
-    Shuffleboard.getTab("Climb").add("motor up", new MotorUp(climbSubsystem)).withPosition(0, 1);
+    Shuffleboard.getTab("Climb").add("motor down", new MotorDown(climbSubsystem, armSubsystem)).withPosition(1, 1);
+    Shuffleboard.getTab("Climb").add("motor up", new MotorUp(climbSubsystem, armSubsystem)).withPosition(0, 1);
 
     Shuffleboard.getTab("Climb").add("climb prep", new PrepClimb(climbSubsystem, swerve, armSubsystem, reactionSubsystem)).withPosition(4, 0);
     Shuffleboard.getTab("Climb").add("climb & shoot", new ClimbAndShoot(climbSubsystem, swerve, armSubsystem, pizzaBoxSubsystem, reactionSubsystem)).withPosition(5, 0);

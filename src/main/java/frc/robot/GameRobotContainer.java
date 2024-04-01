@@ -3,7 +3,6 @@ package frc.robot;
 import java.io.File;
 
 import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -85,7 +84,7 @@ public class GameRobotContainer implements BaseContainer {
 
         m_drivebase.setDefaultCommand(closedFieldRel);
 
-        //SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, m_ClimbSubsystem, m_ReactionSubsystem, autoChooser, closedFieldRel);
+        SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, m_ClimbSubsystem, m_ReactionSubsystem, autoChooser, closedFieldRel);
 
         configureBindings();
         
@@ -121,9 +120,10 @@ public class GameRobotContainer implements BaseContainer {
 
       operatorController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem, m_PizzaBoxSubsystem));
       operatorController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
-      GenericEntry s = Shuffleboard.getTab("Arm").add("Angle", 240).getEntry();
-      operatorController.leftStick().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, ()->s.getDouble(245)));
-      operatorController.rightStick().whileTrue(new SpinArmCommand(m_ArmSubsystem));
+
+      operatorController.leftStick().whileTrue(new LockHeadingToSourceForIntake(closedFieldRel, m_ArmSubsystem, m_PizzaBoxSubsystem));
+      // operatorController.  ?? ().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, Shuffleboard.getTab("Arm").add("Angle", 242).getEntry().getDouble(245)));
+      operatorController.rightStick().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, Shuffleboard.getTab("Arm").add("Angle", 240).getEntry().getDouble(245)));
       
     }
 

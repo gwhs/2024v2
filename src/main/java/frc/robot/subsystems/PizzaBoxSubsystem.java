@@ -12,6 +12,8 @@ import frc.robot.Util.UtilMotor;
 import com.ctre.phoenix6.controls.VelocityVoltage;
 
 import com.ctre.phoenix6.hardware.TalonFX;
+
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 
@@ -39,10 +41,11 @@ public class PizzaBoxSubsystem extends SubsystemBase {
     UtilMotor.configMotor(m_pizzaBox, .5, 0, 0, .12, 15, 80, false);      
     //UtilMotor.configMotorStatorCurrent(m_pizzaBox, 80);
 
-    
-    Shuffleboard.getTab("Pizza").addDouble("Pizzabox Stator Current", () -> m_pizzaBox.getStatorCurrent().getValueAsDouble());
-    Shuffleboard.getTab("Pizza").addDouble("Pizzabox Rotor Velocity", () -> m_pizzaBox.getRotorVelocity().getValueAsDouble());
-    Shuffleboard.getTab("Pizza").addDouble("Pizzabox Temperature", () -> m_pizzaBox.getDeviceTemp().getValueAsDouble());
+    if(DriverStation.isTest()) {
+      Shuffleboard.getTab("Pizza").addDouble("Pizzabox Stator Current", () -> m_pizzaBox.getStatorCurrent().getValueAsDouble());
+      Shuffleboard.getTab("Pizza").addDouble("Pizzabox Rotor Velocity", () -> m_pizzaBox.getRotorVelocity().getValueAsDouble());
+      Shuffleboard.getTab("Pizza").addDouble("Pizzabox Temperature", () -> m_pizzaBox.getDeviceTemp().getValueAsDouble());
+    }
   }
 
   //Spins "Pizzabox" motor: velocity in rotations/sec and acceleration in rotations/sec^2

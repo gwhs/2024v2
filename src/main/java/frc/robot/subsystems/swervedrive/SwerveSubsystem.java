@@ -86,21 +86,23 @@ public class SwerveSubsystem extends SubsystemBase
     setupPathPlanner();
 
 
-    // Log motor data
-    SwerveModule[] sm_array = swerveDrive.getModules();
-    for(int i = 0; i < sm_array.length; i++){
-      SwerveModule sm = sm_array[i];
-      SwerveMotor driveMotor = sm.getDriveMotor();
-      SwerveMotor angleMotor = sm.getAngleMotor();
+    if(DriverStation.isTest()) {
+      // Log motor data
+      SwerveModule[] sm_array = swerveDrive.getModules();
+      for(int i = 0; i < sm_array.length; i++){
+        SwerveModule sm = sm_array[i];
+        SwerveMotor driveMotor = sm.getDriveMotor();
+        SwerveMotor angleMotor = sm.getAngleMotor();
 
-      TalonFX driveMotorTalon = (TalonFX)driveMotor.getMotor();
-      TalonFX angleMotorTalon = (TalonFX) angleMotor.getMotor();
+        TalonFX driveMotorTalon = (TalonFX)driveMotor.getMotor();
+        TalonFX angleMotorTalon = (TalonFX) angleMotor.getMotor();
 
-      Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Drive Motor StatorCurrent", () -> driveMotorTalon.getStatorCurrent().getValueAsDouble());
-      Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Angle Motor StatorCurrent", () -> angleMotorTalon.getStatorCurrent().getValueAsDouble());
+        Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Drive Motor StatorCurrent", () -> driveMotorTalon.getStatorCurrent().getValueAsDouble());
+        Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Angle Motor StatorCurrent", () -> angleMotorTalon.getStatorCurrent().getValueAsDouble());
 
-      Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Drive Motor Temp", () -> driveMotorTalon.getDeviceTemp().getValueAsDouble());
-      Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Angle Motor Temp", () -> angleMotorTalon.getDeviceTemp().getValueAsDouble());
+        Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Drive Motor Temp", () -> driveMotorTalon.getDeviceTemp().getValueAsDouble());
+        Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Angle Motor Temp", () -> angleMotorTalon.getDeviceTemp().getValueAsDouble());
+      }
     }
   }
 

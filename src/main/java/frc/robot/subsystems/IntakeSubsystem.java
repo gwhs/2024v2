@@ -14,6 +14,7 @@ import com.ctre.phoenix6.controls.VelocityVoltage;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.DigitalInput;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
@@ -45,21 +46,19 @@ public class IntakeSubsystem extends SubsystemBase {
     //UtilMotor.configMotorStatorCurrent(m_spinIntake, 60);
     UtilMotor.configMotorSupplyCurrent(m_spinIntake, 80);
 
-    Shuffleboard.getTab("Intake").addDouble("Encoder Angle", () -> encoderGetAngle()).withWidget(BuiltInWidgets.kGraph)
-        .withSize(3, 3)
-        .withPosition(0, 0);
+    Shuffleboard.getTab("Intake").addDouble("Encoder Angle", () -> encoderGetAngle());
 
     Shuffleboard.getTab("Intake").addBoolean("Sensor value", () -> isNotePresent());
-    //m_Encoder.reset();
-    Shuffleboard.getTab("Intake").addDouble("Intake Arm Stator Current", () -> m_moveIntakeArm.getStatorCurrent().getValueAsDouble());
-    Shuffleboard.getTab("Intake").addDouble("Intake Arm Rotor Velocity", () -> m_moveIntakeArm.getRotorVelocity().getValueAsDouble());
-    Shuffleboard.getTab("Intake").addDouble("Intake Arm Acceleration", () -> m_moveIntakeArm.getAcceleration().getValueAsDouble());
-    Shuffleboard.getTab("Intake").addDouble("Intake Arm Temperature", () -> m_moveIntakeArm.getDeviceTemp().getValueAsDouble());
     
-    Shuffleboard.getTab("Intake").addDouble("Spin Intake Stator Current", () -> m_spinIntake.getStatorCurrent().getValueAsDouble());
-    Shuffleboard.getTab("Intake").addDouble("Spin Intake Rotor Velocity", () -> m_spinIntake.getRotorVelocity().getValueAsDouble());
-    Shuffleboard.getTab("Intake").addDouble("Spin Intake Acceleration", () -> m_spinIntake.getAcceleration().getValueAsDouble());
-    Shuffleboard.getTab("Intake").addDouble("Spin Intake Temperature", () -> m_spinIntake.getDeviceTemp().getValueAsDouble());
+    if(DriverStation.isTest()) {
+      Shuffleboard.getTab("Intake").addDouble("Intake Arm Stator Current", () -> m_moveIntakeArm.getStatorCurrent().getValueAsDouble());
+      Shuffleboard.getTab("Intake").addDouble("Intake Arm Rotor Velocity", () -> m_moveIntakeArm.getRotorVelocity().getValueAsDouble());
+      Shuffleboard.getTab("Intake").addDouble("Intake Arm Temperature", () -> m_moveIntakeArm.getDeviceTemp().getValueAsDouble());
+      
+      Shuffleboard.getTab("Intake").addDouble("Spin Intake Stator Current", () -> m_spinIntake.getStatorCurrent().getValueAsDouble());
+      Shuffleboard.getTab("Intake").addDouble("Spin Intake Rotor Velocity", () -> m_spinIntake.getRotorVelocity().getValueAsDouble());
+      Shuffleboard.getTab("Intake").addDouble("Spin Intake Temperature", () -> m_spinIntake.getDeviceTemp().getValueAsDouble());
+    }
 
     //m_Encoder.reset();
 

@@ -84,7 +84,12 @@ public class GameRobotContainer implements BaseContainer {
 
         m_drivebase.setDefaultCommand(closedFieldRel);
 
-        SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, m_ClimbSubsystem, m_ReactionSubsystem, autoChooser, closedFieldRel);
+        //SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, m_ClimbSubsystem, m_ReactionSubsystem, autoChooser, closedFieldRel);
+
+        Shuffleboard.getTab("Arm").add("270", new SpinToArmAngle(m_ArmSubsystem, 270));
+        Shuffleboard.getTab("Arm").add("2nd forward", new SwingForwardServoTheSecond(m_PizzaBoxSubsystem));
+        Shuffleboard.getTab("Arm").add("2nd backward", new SwingBackServoTheSecond(m_PizzaBoxSubsystem));
+
 
         configureBindings();
         

@@ -83,6 +83,7 @@ public final class Constants
   public static final int TOP_RIGHT_LIMIT_ID = 4;
   public static final int TOP_LEFT_LIMIT_ID = 5;
 
+  public static final int CLIMB_ARM_ANGLE = 355;
   }
   
 

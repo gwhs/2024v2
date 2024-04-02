@@ -51,7 +51,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     //Arm ID Jalen Tolbert
     public static final int ENCODER_DIO_SLOT = 0;
     public static final int AMP_ANGLE = 300;
-    public static final int TRAP_ANGLE = 290;
+    public static final int TRAP_ANGLE = 270;
     public static final int SPEAKER_LOW_ANGLE = 165;
     public static final int SPEAKER_HIGH_ANGLE = 238;
     public static final int INTAKE_ANGLE = 60;
@@ -152,7 +152,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   {
     //Comment out for testing purposes
     double feedForward = armFeedForward.calculate(setPoint.position, setPoint.velocity);
-    if(!isEmergencyStop())
+    if(true || !isEmergencyStop())
     {
       SmartDashboard.putNumber("Arm PID output", output);
       SmartDashboard.putNumber("Arm feed forward", feedForward);
@@ -178,12 +178,16 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     return encoderGetAngle() * Math.PI/180;
   }
 
-  // @Override
-  // public void periodic() {
-  //   double currentArmAngle = encoderGetAngle();
-  //   if (Math.abs(currentArmAngle - prevArmAngle) >= 50) {
-  //     emergencyStop = true;
-  //   }
-  //   prevArmAngle = currentArmAngle;
-  // }
+  @Override
+  public void periodic() {
+    double currentArmAngle = encoderGetAngle();
+    // if (Math.abs(currentArmAngle - prevArmAngle) >= 50) {
+    //   emergencyStop = true;
+    // }
+    // prevArmAngle = currentArmAngle;
+
+    // if (currentArmAngle <= Arm.ARM_MIN_ANGLE || currentArmAngle > Arm.ARM_MAX_ANGLE) {
+    //   emergencyStop = true;
+    // }
+  }
 }

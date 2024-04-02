@@ -109,7 +109,7 @@ public class IntakeSubsystem extends SubsystemBase {
     } else if (speed > 1) { // Will not be greater than maximum angle
       speed = 1;
     }
-    if (!isEmergencyStop()) {
+    if (true || !isEmergencyStop()) {
       SmartDashboard.putNumber("Intake Arm speed", speed);
       m_moveIntakeArm.set(speed);
     }

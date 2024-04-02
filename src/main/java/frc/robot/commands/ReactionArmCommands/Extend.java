@@ -10,8 +10,8 @@ import frc.robot.subsystems.ReactionSubsystem;
 
 public class Extend extends Command {
   private final ReactionSubsystem m_Subsystem;
-  private double currPos; //position in rotation
-  private double endPos;
+  //private double currPos; //position in rotation
+  //private double endPos;
   /** Creates a new Extend. */
   public Extend(ReactionSubsystem subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
@@ -22,30 +22,27 @@ public class Extend extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    currPos = m_Subsystem.getPos();
-    endPos = Constants.ReactionConstants.extendedPosition; //adds the current position to the final which is the end pos.
+    //currPos = m_Subsystem.getPos();
+    //endPos = Constants.ReactionConstants.extendedPosition; //adds the current position to the final which is the end pos.
     m_Subsystem.spinForward();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    currPos = m_Subsystem.getPos();
+    //currPos = m_Subsystem.getPos();
   }
 
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
-    m_Subsystem.stop();
+    // m_Subsystem.stop();
   }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    if (Math.abs(currPos - endPos) < Constants.ReactionConstants.tolerance)
-    {
-      return true;
-    }
-    return false;
+    //return (Math.abs(currPos - endPos) < Constants.ReactionConstants.tolerance);
+    return m_Subsystem.PIDcontroller.atSetpoint();
   }
 }

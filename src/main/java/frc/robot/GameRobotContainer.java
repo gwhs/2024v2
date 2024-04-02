@@ -190,13 +190,13 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command teleopInitReset() {
-    return new SwingBackServoTheSecond(m_PizzaBoxSubsystem).withTimeout(1)
-           .andThen(new ResetArm(m_ArmSubsystem, m_PizzaBoxSubsystem)).withTimeout(1)
-           .andThen(new IntakeResetArm(m_IntakeSubsystem)).withTimeout(1);
+    return new SwingBackServoTheSecond(m_PizzaBoxSubsystem)
+           .andThen(new ResetArm(m_ArmSubsystem, m_PizzaBoxSubsystem))
+           .andThen(new IntakeResetArm(m_IntakeSubsystem));
   }
 
   public Command autoInitReset() {
-    return new IntakeResetArm(m_IntakeSubsystem).withTimeout(1);
+    return new IntakeResetArm(m_IntakeSubsystem);
   }
 }
 

@@ -155,7 +155,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   {
     //Comment out for testing purposes
     double feedForward = armFeedForward.calculate(setPoint.position, setPoint.velocity);
-    if(true || !isEmergencyStop())
+    if(!isEmergencyStop())
     {
       SmartDashboard.putNumber("Arm PID output", output);
       SmartDashboard.putNumber("Arm feed forward", feedForward);

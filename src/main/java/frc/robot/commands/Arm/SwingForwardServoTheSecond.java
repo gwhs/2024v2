@@ -27,7 +27,6 @@ public class SwingForwardServoTheSecond extends Command{
 
   @Override
   public boolean isFinished() {
-    double motorAng = pizzaBoxSubsystem.getServoAngle();
-    return Math.abs(motorAng - 200) < .001;
+    return true;
   }
 }

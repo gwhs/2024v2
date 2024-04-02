@@ -77,19 +77,19 @@ public class SetupShuffleboard extends SubsystemBase {
       Shuffleboard.getTab("Climb").addBoolean("top right limit", () -> climbSubsystem.getTopRightLimit()).withPosition(3, 0);
       
 
-    Shuffleboard.getTab("Climb").add("unclimb1", new UnClimb(climbSubsystem, armSubsystem, reactionSubsystem)).withPosition(4, 1);
-    Shuffleboard.getTab("Climb").add("unclimb2", new UnClimbPartTwoThatWillBringDownTheMotor(climbSubsystem, swerve, armSubsystem, reactionSubsystem, pizzaBoxSubsystem)).withPosition(5, 1);
+      Shuffleboard.getTab("Climb").add("unclimb1", new UnClimb(climbSubsystem, armSubsystem, reactionSubsystem)).withPosition(4, 1);
+      Shuffleboard.getTab("Climb").add("unclimb2", new UnClimbPartTwoThatWillBringDownTheMotor(climbSubsystem, swerve, armSubsystem, reactionSubsystem, pizzaBoxSubsystem)).withPosition(5, 1);
 
-    Shuffleboard.getTab("Climb").add("STOP CLIMB!!!!", new StopClimb(climbSubsystem)).withSize(2, 1).withPosition(2, 2);
+      Shuffleboard.getTab("Climb").add("STOP CLIMB!!!!", new StopClimb(climbSubsystem)).withSize(2, 1).withPosition(2, 2);
 
-    Shuffleboard.getTab("Climb").addDouble("Reaction Bar Angle", ()-> reactionSubsystem.getPos()).withPosition(9, 4);
- 
-    Shuffleboard.getTab("Arm").addDouble("distance from speaker", ()-> UtilMath.distanceFromSpeaker(swerve.getPose()));
+      Shuffleboard.getTab("Climb").addDouble("Reaction Bar Angle", ()-> reactionSubsystem.getPos()).withPosition(9, 4);
+  
+      Shuffleboard.getTab("Arm").addDouble("distance from speaker", ()-> UtilMath.distanceFromSpeaker(swerve.getPose()));
 
-    Shuffleboard.getTab("Arm").add("stutter trap", new ScoreInTrapStutter(pizzaBoxSubsystem, armSubsystem));
+      Shuffleboard.getTab("Arm").add("stutter trap", new ScoreInTrapStutter(pizzaBoxSubsystem, armSubsystem));
 
-    Shuffleboard.getTab("Pizza Box").add("Swing Servo Forward", new SwingForwardServoTheSecond(pizzaBoxSubsystem));
-    Shuffleboard.getTab("Pizza Box").add("Swing Servo back", new SwingBackServoTheSecond(pizzaBoxSubsystem));
+      Shuffleboard.getTab("Pizza Box").add("Swing Servo Forward", new SwingForwardServoTheSecond(pizzaBoxSubsystem));
+      Shuffleboard.getTab("Pizza Box").add("Swing Servo back", new SwingBackServoTheSecond(pizzaBoxSubsystem));
 
 
     }
@@ -100,15 +100,15 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("GameTab").add("Autonomous Chooser", chooser)
       .withSize(2, 1)
       .withPosition(0, 2);
-    Shuffleboard.getTab("GameTab").add("Disable Pose Estimator", new toggleLimelightPoseEstimation(limelightSubsystem))
-      .withSize(1,1)
-      .withPosition(2,2);
-    Shuffleboard.getTab("GameTab").add("Toggle Camera Mode", new toggleCameraMode(limelightSubsystem))
-      .withSize(1,1)
-      .withPosition(1,3);
+    // Shuffleboard.getTab("GameTab").add("Disable Pose Estimator", new toggleLimelightPoseEstimation(limelightSubsystem))
+    //   .withSize(1,1)
+    //   .withPosition(2,2);
+    // Shuffleboard.getTab("GameTab").add("Toggle Camera Mode", new toggleCameraMode(limelightSubsystem))
+    //   .withSize(1,1)
+    //   .withPosition(1,3);
 
-    Shuffleboard.getTab("GameTab").addBoolean("Note In Pizza Box", ()-> pizzaBoxSubsystem.hasNote)
-      .withPosition(0,3);
+    // Shuffleboard.getTab("GameTab").addBoolean("Note In Pizza Box", ()-> pizzaBoxSubsystem.hasNote)
+    //   .withPosition(0,3);
 
     Shuffleboard.getTab("GameTab").addBoolean("Arm Running", ()-> !armSubsystem.isEmergencyStop())
       .withSize(1, 1)
@@ -124,7 +124,7 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("GameTab").add("Reset Intake", new IntakeResetArm(intakeSubsystem))
       .withSize(1,1)
       .withPosition(4,1);
-    Shuffleboard.getTab("GameTab").add("IntakeRejectNote", new IntakeRejectNote(intakeSubsystem))
+    Shuffleboard.getTab("GameTab").add("Intake Reject Note", new IntakeRejectNote(intakeSubsystem))
       .withPosition(4,2);
     Shuffleboard.getTab("GameTab").add("Extend Reaction Bar", new Extend(reactionSubsystem))
       .withPosition(3, 3);
@@ -138,7 +138,7 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("GameTab").add("RESET TELEOP DRIVE", new ResetTeleopDrive(teleopDrive)).withPosition(9,0);
     Shuffleboard.getTab("GameTab").add("Straighten", new StraightenWheelCommand(swerve)).withPosition(9, 1);
 
-    Shuffleboard.getTab("TEST COMMAND").add("TEST", new LockHeadingToSourceForIntake(teleopDrive, armSubsystem, pizzaBoxSubsystem));
+    // Shuffleboard.getTab("TEST COMMAND").add("TEST", new LockHeadingToSourceForIntake(teleopDrive, armSubsystem, pizzaBoxSubsystem));
 
 
   

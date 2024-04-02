@@ -20,7 +20,7 @@ public class StraightenWheelCommand extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    ChassisSpeeds speed = new ChassisSpeeds(1,1,0);
+    ChassisSpeeds speed = new ChassisSpeeds(1,0,0);
     m_Subsystem.driveFieldOriented(speed);
     }
 

@@ -14,6 +14,7 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
 import edu.wpi.first.wpilibj.DataLogManager;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -51,7 +52,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     //Arm ID Jalen Tolbert
     public static final int ENCODER_DIO_SLOT = 0;
     public static final int AMP_ANGLE = 300;
-    public static final int TRAP_ANGLE = 290;
+    public static final int TRAP_ANGLE = 270;
     public static final int SPEAKER_LOW_ANGLE = 165;
     public static final int SPEAKER_HIGH_ANGLE = 238;
     public static final int INTAKE_ANGLE = 60;
@@ -84,9 +85,11 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     Shuffleboard.getTab("Arm").addDouble("Encoder Angle", ()->encoderGetAngle());
     Shuffleboard.getTab("Arm").addDouble("Goal in degrees", ()->getController().getGoal().position * (180/Math.PI));
     
-    Shuffleboard.getTab("Arm").addDouble("Arm Stator Current", () -> m_arm.getStatorCurrent().getValueAsDouble());
-    Shuffleboard.getTab("Arm").addDouble("Arm Rotor Velocity", () -> m_arm.getRotorVelocity().getValueAsDouble());
-    Shuffleboard.getTab("Arm").addDouble("Arm Temperature", () -> m_arm.getDeviceTemp().getValueAsDouble());
+    if(DriverStation.isTest()) {
+      Shuffleboard.getTab("Arm").addDouble("Arm Stator Current", () -> m_arm.getStatorCurrent().getValueAsDouble());
+      Shuffleboard.getTab("Arm").addDouble("Arm Rotor Velocity", () -> m_arm.getRotorVelocity().getValueAsDouble());
+      Shuffleboard.getTab("Arm").addDouble("Arm Temperature", () -> m_arm.getDeviceTemp().getValueAsDouble());
+    }
 
     DataLogManager.log("Arm P: " + Arm.KP);
     DataLogManager.log("Arm I: " + Arm.KI);
@@ -178,12 +181,16 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     return encoderGetAngle() * Math.PI/180;
   }
 
-  // @Override
-  // public void periodic() {
-  //   double currentArmAngle = encoderGetAngle();
-  //   if (Math.abs(currentArmAngle - prevArmAngle) >= 50) {
-  //     emergencyStop = true;
-  //   }
-  //   prevArmAngle = currentArmAngle;
-  // }
+  @Override
+  public void periodic() {
+    double currentArmAngle = encoderGetAngle();
+    // if (Math.abs(currentArmAngle - prevArmAngle) >= 50) {
+    //   emergencyStop = true;
+    // }
+    // prevArmAngle = currentArmAngle;
+
+    // if (currentArmAngle <= Arm.ARM_MIN_ANGLE || currentArmAngle > Arm.ARM_MAX_ANGLE) {
+    //   emergencyStop = true;
+    // }
+  }
 }

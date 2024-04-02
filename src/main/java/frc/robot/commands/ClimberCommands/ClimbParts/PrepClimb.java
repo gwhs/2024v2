@@ -27,7 +27,7 @@ public class PrepClimb extends SequentialCommandGroup {
   public PrepClimb(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a, ReactionSubsystem r, PizzaBoxSubsystem p) {
     addCommands(
       Commands.runOnce(()->DataLogManager.log("Command Start: PrepClimb")),
-      new SpinToArmAngle(a, 330).withTimeout(2),
+      new SpinToArmAngle(a, 270).withTimeout(2),
       new SwingForwardServoTheSecond(p),
       new SpinToArmAngle(a, Constants.ClimbConstants.CLIMB_ARM_ANGLE).withTimeout(1),
       Commands.waitUntil(()->a.checkEncoderAngleForClimb()), 

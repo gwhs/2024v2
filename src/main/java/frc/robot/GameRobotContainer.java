@@ -61,7 +61,7 @@ public class GameRobotContainer implements BaseContainer {
                         ArmSubsystem.Arm.ENCODER_DIO_SLOT);
 
         m_PizzaBoxSubsystem = new PizzaBoxSubsystem(PizzaBoxSubsystem.PizzaBox.PIZZABOX_ID, 
-                    "rio", PizzaBoxSubsystem.PizzaBox.SERVO_PWN_SLOT);
+                    "rio", PizzaBoxSubsystem.PizzaBox.SERVO_PWN_SLOT, PizzaBoxSubsystem.PizzaBox.SERVO_PWN_SLOT_THE_SECOND);
 
         //m_ledsubsystem = new LEDSubsystem(Constants.LEDConstants.ledPortNumber);
 

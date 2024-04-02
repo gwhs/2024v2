@@ -23,6 +23,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
 
     public static final int PIZZABOX_ID = 23;
     public static final int SERVO_PWN_SLOT = 0;
+        public static final int SERVO_PWN_SLOT_THE_SECOND = 1;
     public static final int START_SPIN_DEGREE = 180;
   }
 
@@ -30,12 +31,13 @@ public class PizzaBoxSubsystem extends SubsystemBase {
 
   private TalonFX m_pizzaBox;
   private Servo m_servo;
+  private Servo m_servo_the_second;
 
-  public PizzaBoxSubsystem(int pizzaBoxId, String pizzaBoxCanbus, int channelServo)
+  public PizzaBoxSubsystem(int pizzaBoxId, String pizzaBoxCanbus, int channelServo, int channelServoTheSecond)
   {
     m_pizzaBox = new TalonFX(pizzaBoxId, pizzaBoxCanbus);
+    m_servo_the_second = new Servo(channelServoTheSecond);
     m_servo = new Servo(channelServo);
-    
     UtilMotor.configMotor(m_pizzaBox, .5, 0, 0, .12, 15, 80, false);      
     //UtilMotor.configMotorStatorCurrent(m_pizzaBox, 80);
 
@@ -54,10 +56,16 @@ public class PizzaBoxSubsystem extends SubsystemBase {
   public void setServoAngle(double angle) {
     m_servo.setAngle(angle);
   }
+   public void setServoAngleTheSecond(double angle) {
+    m_servo_the_second.setAngle(angle);
+  }
 
   //Returns the servo postion from 0.0 to 1.0 (0 degrees to 180 degrees)
   public double getServoAngle() {
     return m_servo.getAngle();
+  }
+  public double getServoAngleTheSecond() {
+    return m_servo_the_second.getAngle();
   }
 
   //Stops pizzaBox motor

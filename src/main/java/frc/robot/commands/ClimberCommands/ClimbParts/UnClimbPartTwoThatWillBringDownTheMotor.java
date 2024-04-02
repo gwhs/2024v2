@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.Arm.SpinToArmAngle;
 import frc.robot.commands.Arm.SwingBackServoTheSecond;
@@ -32,8 +33,9 @@ public class UnClimbPartTwoThatWillBringDownTheMotor extends SequentialCommandGr
       new SpinToArmAngle(a, Constants.ClimbConstants.CLIMB_ARM_ANGLE).withTimeout(1),
       Commands.waitUntil(()->a.checkEncoderAngleForClimb()),
       new MotorDown(c, a).withTimeout(3),
-      new SpinToArmAngle(a, 270),
+      new SpinToArmAngle(a, Constants.ClimbConstants.CLIMB_ARM_ARNGLE_FOR_SERVO),
       new SwingBackServoTheSecond(p),
+      new WaitCommand(0.5),
       new SpinToArmAngle(a, Arm.INTAKE_ANGLE),
       Commands.runOnce(()->DataLogManager.log("Command End: UnClimbPartTwo"))
       );

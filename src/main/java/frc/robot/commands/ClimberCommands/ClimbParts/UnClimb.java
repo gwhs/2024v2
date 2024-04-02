@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants;
 import frc.robot.commands.Arm.SpinToArmAngle;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorUp;
 import frc.robot.commands.ReactionArmCommands.Retract;
@@ -27,7 +28,7 @@ public class UnClimb extends SequentialCommandGroup {
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
       Commands.runOnce(()->DataLogManager.log("Command Start: UnClimb")),
-      new SpinToArmAngle(a, 250).withTimeout(1),
+      new SpinToArmAngle(a, Constants.ClimbConstants.CLIMB_ARM_ANGLE).withTimeout(1),
       Commands.waitUntil(()->a.checkEncoderAngleForClimb()),
       new MotorUp(c, a).withTimeout(5),
       new Retract(r).withTimeout(1),

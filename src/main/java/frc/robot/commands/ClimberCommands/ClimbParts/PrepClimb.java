@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.InstantCommand;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.Arm.SpinToArmAngle;
 import frc.robot.commands.Arm.SwingForwardServoTheSecond;
@@ -27,8 +28,9 @@ public class PrepClimb extends SequentialCommandGroup {
   public PrepClimb(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a, ReactionSubsystem r, PizzaBoxSubsystem p) {
     addCommands(
       Commands.runOnce(()->DataLogManager.log("Command Start: PrepClimb")),
-      new SpinToArmAngle(a, 270).withTimeout(2),
+      new SpinToArmAngle(a, Constants.ClimbConstants.CLIMB_ARM_ARNGLE_FOR_SERVO).withTimeout(2),
       new SwingForwardServoTheSecond(p),
+      new WaitCommand(0.5),
       new SpinToArmAngle(a, Constants.ClimbConstants.CLIMB_ARM_ANGLE).withTimeout(1),
       Commands.waitUntil(()->a.checkEncoderAngleForClimb()), 
       new MotorUp(c, a).withTimeout(5),

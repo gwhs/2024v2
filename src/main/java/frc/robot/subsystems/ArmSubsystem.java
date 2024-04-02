@@ -123,6 +123,10 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
       speed = -1;
     }
 
+    if(isEmergencyStop()) {
+      speed = 0;
+    }
+
     if(booster)
     {
       speed = Arm.MAX_VOLT;

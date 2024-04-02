@@ -94,9 +94,9 @@ public class SetupShuffleboard extends SubsystemBase {
 
     }
     
-    Shuffleboard.getTab("GameTab").add("Field", swerve.getField2d())
-      .withSize(3, 2)
-      .withPosition(0, 0);
+    // Shuffleboard.getTab("GameTab").add("Field", swerve.getField2d())
+    //   .withSize(3, 2)
+    //   .withPosition(0, 0);
     Shuffleboard.getTab("GameTab").add("Autonomous Chooser", chooser)
       .withSize(2, 1)
       .withPosition(0, 2);
@@ -111,18 +111,14 @@ public class SetupShuffleboard extends SubsystemBase {
     //   .withPosition(0,3);
 
     Shuffleboard.getTab("GameTab").addBoolean("Arm Running", ()-> !armSubsystem.isEmergencyStop())
-      .withSize(1, 1)
       .withPosition(3, 0);
 
     Shuffleboard.getTab("GameTab").addBoolean("Intake Running", ()-> !intakeSubsystem.isEmergencyStop())
-      .withSize(1, 1)
       .withPosition(4, 0);
 
     Shuffleboard.getTab("GameTab").add("Reset Arm", new ResetArm(armSubsystem, pizzaBoxSubsystem) )
-      .withSize(1,1)
       .withPosition(3,1);
     Shuffleboard.getTab("GameTab").add("Reset Intake", new IntakeResetArm(intakeSubsystem))
-      .withSize(1,1)
       .withPosition(4,1);
     Shuffleboard.getTab("GameTab").add("Intake Reject Note", new IntakeRejectNote(intakeSubsystem))
       .withPosition(4,2);

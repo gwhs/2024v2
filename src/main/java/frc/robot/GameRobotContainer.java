@@ -86,11 +86,6 @@ public class GameRobotContainer implements BaseContainer {
 
         //SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, m_ClimbSubsystem, m_ReactionSubsystem, autoChooser, closedFieldRel);
 
-        Shuffleboard.getTab("Arm").add("270", new SpinToArmAngle(m_ArmSubsystem, 270));
-        Shuffleboard.getTab("Arm").add("2nd forward", new SwingForwardServoTheSecond(m_PizzaBoxSubsystem));
-        Shuffleboard.getTab("Arm").add("2nd backward", new SwingBackServoTheSecond(m_PizzaBoxSubsystem));
-
-
         configureBindings();
         
     }
@@ -117,10 +112,10 @@ public class GameRobotContainer implements BaseContainer {
 
       /* Operator Controllers */
 
-      operatorController.y().onTrue(new PrepClimb(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_ReactionSubsystem));
+      operatorController.y().onTrue(new PrepClimb(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_ReactionSubsystem, m_PizzaBoxSubsystem));
       operatorController.b().onTrue(new ClimbAndShoot(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem));
       operatorController.a().onTrue(new UnClimb(m_ClimbSubsystem, m_ArmSubsystem, m_ReactionSubsystem));
-      operatorController.x().onTrue(new UnClimbPartTwoThatWillBringDownTheMotor(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_ReactionSubsystem));
+      operatorController.x().onTrue(new UnClimbPartTwoThatWillBringDownTheMotor(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_ReactionSubsystem, m_PizzaBoxSubsystem));
       operatorController.start().onTrue(new StopClimb(m_ClimbSubsystem));
 
       operatorController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem, m_PizzaBoxSubsystem));
@@ -195,13 +190,13 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command teleopInitReset() {
-    return new SwingBackServoTheSecond(m_PizzaBoxSubsystem)
-           .andThen(new ResetArm(m_ArmSubsystem, m_PizzaBoxSubsystem))
-           .andThen(new IntakeResetArm(m_IntakeSubsystem));
+    return new SwingBackServoTheSecond(m_PizzaBoxSubsystem).withTimeout(1)
+           .andThen(new ResetArm(m_ArmSubsystem, m_PizzaBoxSubsystem)).withTimeout(1)
+           .andThen(new IntakeResetArm(m_IntakeSubsystem)).withTimeout(1);
   }
 
   public Command autoInitReset() {
-    return new IntakeResetArm(m_IntakeSubsystem);
+    return new IntakeResetArm(m_IntakeSubsystem).withTimeout(1);
   }
 }
 

@@ -33,6 +33,7 @@ import frc.robot.commands.LimelightCommands.toggleLimelightPoseEstimation;
 import frc.robot.commands.ReactionArmCommands.Extend;
 import frc.robot.commands.ReactionArmCommands.Retract;
 import frc.robot.commands.driveCommands.ResetTeleopDrive;
+import frc.robot.commands.driveCommands.StraightenWheelCommand;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.commands.driveCommands.LockHeadingToSourceForIntake;
 import frc.robot.subsystems.ArmSubsystem;
@@ -101,6 +102,7 @@ public class SetupShuffleboard extends SubsystemBase {
       .withPosition(5,3);
     Shuffleboard.getTab("GameTab").add("CLEAR ALL COMMANDS", new CancelAllCommands()).withPosition(7,3);
     Shuffleboard.getTab("GameTab").add("RESET TELEOP DRIVE", new ResetTeleopDrive(teleopDrive)).withPosition(9,0);
+    Shuffleboard.getTab("GameTab").add("Straighten", new StraightenWheelCommand(swerve)).withPosition(9, 1);
 
     Shuffleboard.getTab("TEST COMMAND").add("TEST", new LockHeadingToSourceForIntake(teleopDrive, armSubsystem, pizzaBoxSubsystem));
 

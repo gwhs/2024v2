@@ -3,6 +3,7 @@ package frc.robot;
 import java.io.File;
 
 import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -122,8 +123,8 @@ public class GameRobotContainer implements BaseContainer {
       operatorController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
 
       operatorController.leftStick().whileTrue(new LockHeadingToSourceForIntake(closedFieldRel, m_ArmSubsystem, m_PizzaBoxSubsystem));
-      // operatorController.  ?? ().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, Shuffleboard.getTab("Arm").add("Angle", 242).getEntry().getDouble(245)));
-      operatorController.rightStick().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, Shuffleboard.getTab("Arm").add("Angle", 240).getEntry().getDouble(245)));
+      GenericEntry s = Shuffleboard.getTab("Arm").add("Angle", 236).getEntry();
+      operatorController.rightStick().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, ()->s.getDouble(236)));
       
     }
 

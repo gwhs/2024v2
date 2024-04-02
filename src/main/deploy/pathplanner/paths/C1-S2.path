@@ -3,29 +3,29 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 6.178464664621639,
-        "y": 6.078036771458159
+        "x": 7.848666424864946,
+        "y": 7.436381206571257
       },
       "prevControl": null,
       "nextControl": {
-        "x": 6.278464664621638,
-        "y": 6.078036771458159
+        "x": 7.948666424864945,
+        "y": 7.436381206571257
       },
       "isLocked": false,
-      "linkedName": "W1"
+      "linkedName": "C1"
     },
     {
       "anchor": {
-        "x": 7.84,
-        "y": 5.93
+        "x": 1.3535296301361848,
+        "y": 5.545221859674489
       },
       "prevControl": {
-        "x": 7.739999999999999,
-        "y": 5.93
+        "x": 1.253529630136185,
+        "y": 5.545221859674489
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "C2"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -34,18 +34,18 @@
   "globalConstraints": {
     "maxVelocity": 1.5,
     "maxAcceleration": 3.0,
-    "maxAngularVelocity": 15.0,
+    "maxAngularVelocity": 30.0,
     "maxAngularAcceleration": 30.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 0.0,
+    "rotation": 0,
     "rotateFast": false
   },
   "reversed": false,
-  "folder": "Wing Starting Point",
+  "folder": "Starting from Mid Field Notes",
   "previewStartingState": {
-    "rotation": 0.0,
+    "rotation": 0,
     "velocity": 0
   },
   "useDefaultConstraints": true

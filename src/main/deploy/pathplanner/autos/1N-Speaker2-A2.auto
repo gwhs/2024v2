@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.3535296301361848,
+      "x": 1.33,
       "y": 5.545221859674489
     },
     "rotation": 0
@@ -34,7 +34,7 @@
                     {
                       "type": "path",
                       "data": {
-                        "pathName": "Speaker2-A2"
+                        "pathName": "S2-A2"
                       }
                     }
                   ]

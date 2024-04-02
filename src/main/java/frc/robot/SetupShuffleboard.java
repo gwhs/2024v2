@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.SystemCheck;
+import frc.robot.Constants.Drivebase;
 import frc.robot.Util.UtilMath;
 import frc.robot.commands.CancelAllCommands;
 import frc.robot.commands.Arm.ResetArm;
@@ -33,6 +34,7 @@ import frc.robot.commands.ReactionArmCommands.Extend;
 import frc.robot.commands.ReactionArmCommands.Retract;
 import frc.robot.commands.driveCommands.ResetTeleopDrive;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
+import frc.robot.commands.driveCommands.LockHeadingToSourceForIntake;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -100,6 +102,8 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("GameTab").add("CLEAR ALL COMMANDS", new CancelAllCommands()).withPosition(7,3);
     Shuffleboard.getTab("GameTab").add("RESET TELEOP DRIVE", new ResetTeleopDrive(teleopDrive)).withPosition(9,0);
 
+    Shuffleboard.getTab("TEST COMMAND").add("TEST", new LockHeadingToSourceForIntake(teleopDrive, armSubsystem, pizzaBoxSubsystem));
+
 
     //Climb stuff (all in climb tab)
     Shuffleboard.getTab("Climb").addDouble("climb distance left", () -> climbSubsystem.getPositionLeft()).withPosition(0, 0);
@@ -109,8 +113,8 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("Climb").addBoolean("top left limit", () -> climbSubsystem.getTopLeftLimit()).withPosition(2, 0);
     Shuffleboard.getTab("Climb").addBoolean("top right limit", () -> climbSubsystem.getTopRightLimit()).withPosition(3, 0);
 
-    Shuffleboard.getTab("Climb").add("motor down", new MotorDown(climbSubsystem)).withPosition(1, 1);
-    Shuffleboard.getTab("Climb").add("motor up", new MotorUp(climbSubsystem)).withPosition(0, 1);
+    Shuffleboard.getTab("Climb").add("motor down", new MotorDown(climbSubsystem, armSubsystem)).withPosition(1, 1);
+    Shuffleboard.getTab("Climb").add("motor up", new MotorUp(climbSubsystem, armSubsystem)).withPosition(0, 1);
 
     Shuffleboard.getTab("Climb").add("climb prep", new PrepClimb(climbSubsystem, swerve, armSubsystem, reactionSubsystem)).withPosition(4, 0);
     Shuffleboard.getTab("Climb").add("climb & shoot", new ClimbAndShoot(climbSubsystem, swerve, armSubsystem, pizzaBoxSubsystem, reactionSubsystem)).withPosition(5, 0);

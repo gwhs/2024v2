@@ -3,16 +3,16 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 0.8,
-        "y": 4.440124264863915
+        "x": 0.72,
+        "y": 4.44
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.378724925254083,
-        "y": 2.365588982247864
+        "x": 2.298724925254083,
+        "y": 2.36546471738395
       },
       "isLocked": false,
-      "linkedName": "Speaker 3"
+      "linkedName": null
     },
     {
       "anchor": {
@@ -34,7 +34,7 @@
   "globalConstraints": {
     "maxVelocity": 1.5,
     "maxAcceleration": 3.0,
-    "maxAngularVelocity": 15.0,
+    "maxAngularVelocity": 30.0,
     "maxAngularAcceleration": 30.0
   },
   "goalEndState": {
@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": "Starting Zone",
   "previewStartingState": {
-    "rotation": -59.0,
+    "rotation": -60.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

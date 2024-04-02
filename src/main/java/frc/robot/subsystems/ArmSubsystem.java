@@ -36,16 +36,17 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
     public static final double ENCODER_OFFSET = 21.8; 
     public static final int ARM_ID = 18;
+
     //
-    public static final double KP = 5.9;
-    public static final double KI = 0.1;
-    public static final double KD = 0.13;
+    public static final double KP = 5.8;
+    public static final double KI = 0;
+    public static final double KD = 0;
     public static final double KSVOLTS = 1.5; 
-    public static final double KGVOLTS = .0;
-    public static final double KVVOLTS = 1.5;
+    public static final double KGVOLTS = 0;
+    public static final double KVVOLTS = 1.8;
     public static final double KAVOLTS = 0;
-    public static final double VEL = 3.5 * Math.PI;
-    public static final double ACC = 30;
+    public static final double VEL = 230 * Math.PI / 180;
+    public static final double ACC = 360 * Math.PI / 180;
     //
     //Arm ID Jalen Tolbert
     public static final int ENCODER_DIO_SLOT = 0;
@@ -61,6 +62,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   private DutyCycleEncoder m_encoder;
   private ArmFeedforward armFeedForward;
   public boolean emergencyStop = false;
+  private double prevArmAngle;
+  public boolean booster = false;
 
   public ArmSubsystem(int armId, String armCanbus, int channel1)
   {
@@ -73,12 +76,12 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
         
     targetArmAngle(encoderGetAngle());
     enable();
-    // m_encoder.reset();
+
+    prevArmAngle = encoderGetAngle();
 
     UtilMotor.configMotor(m_arm, .11, 0, 0, .12, 15, 50, true);      
 
-    Shuffleboard.getTab("Arm").addDouble("Encoder Angle", ()->encoderGetAngle()).withWidget(BuiltInWidgets.kGraph)
-    .withSize(3,3);
+    Shuffleboard.getTab("Arm").addDouble("Encoder Angle", ()->encoderGetAngle());
     Shuffleboard.getTab("Arm").addDouble("Goal in degrees", ()->getController().getGoal().position * (180/Math.PI));
     
     Shuffleboard.getTab("Arm").addDouble("Arm Stator Current", () -> m_arm.getStatorCurrent().getValueAsDouble());
@@ -104,6 +107,11 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     }
     else if (speed > 15) { 
       speed = 15;
+    }
+
+    if(booster)
+    {
+      speed = -15;
     }
     VoltageOut armSpinRequest = new VoltageOut(speed, true, false, false, false);
     m_arm.setControl(armSpinRequest);
@@ -135,12 +143,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     return m_encoder.getAbsolutePosition()*Arm.ROTATION_TO_DEGREES - Arm.ENCODER_OFFSET;
   }
 
-  //Resets encoder angle to 0
-  public void resetEncoderAngle()
-  {
-    m_encoder.reset();
-  }
-
   public boolean checkEncoderAngleForClimb() {
     return (encoderGetAngle() >= 125 && encoderGetAngle() <= 270);
   }
@@ -155,6 +157,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
       SmartDashboard.putNumber("Arm PID output", output);
       SmartDashboard.putNumber("Arm feed forward", feedForward);
       SmartDashboard.putNumber("Arm speed", output + feedForward);
+      SmartDashboard.putNumber("Arm FF setPoint Position", setPoint.position * 180 / Math.PI);
+      SmartDashboard.putNumber("Arm FF setPoint velocity", setPoint.velocity * 180 / Math.PI);
       spinArm(output + feedForward);
     }
     else
@@ -173,4 +177,13 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   {
     return encoderGetAngle() * Math.PI/180;
   }
+
+  // @Override
+  // public void periodic() {
+  //   double currentArmAngle = encoderGetAngle();
+  //   if (Math.abs(currentArmAngle - prevArmAngle) >= 50) {
+  //     emergencyStop = true;
+  //   }
+  //   prevArmAngle = currentArmAngle;
+  // }
 }

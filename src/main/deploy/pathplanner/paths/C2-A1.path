@@ -34,7 +34,7 @@
   "globalConstraints": {
     "maxVelocity": 1.5,
     "maxAcceleration": 3.0,
-    "maxAngularVelocity": 15.0,
+    "maxAngularVelocity": 30.0,
     "maxAngularAcceleration": 30.0
   },
   "goalEndState": {
@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": "Starting from Mid Field Notes",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -18.565352613122048,
     "velocity": 0
   },
   "useDefaultConstraints": true

@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.75,
-      "y": 6.69
+      "x": 0.72,
+      "y": 6.67
     },
-    "rotation": -121.0
+    "rotation": -120.0
   },
   "command": {
     "type": "sequential",
@@ -20,19 +20,13 @@
         {
           "type": "wait",
           "data": {
-            "waitTime": 2.0
+            "waitTime": 7.0
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "S1-Leave (pt.1)"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "S1-Leave (pt.2)"
+            "pathName": "S1-Leave"
           }
         }
       ]

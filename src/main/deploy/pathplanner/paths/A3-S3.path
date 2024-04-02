@@ -16,16 +16,16 @@
     },
     {
       "anchor": {
-        "x": 1.25,
-        "y": 4.118900460023142
+        "x": 0.72,
+        "y": 4.44
       },
       "prevControl": {
-        "x": 1.1499999999999997,
-        "y": 4.118900460023142
+        "x": 0.6199999999999997,
+        "y": 4.44
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "S3"
+      "linkedName": null
     }
   ],
   "rotationTargets": [],
@@ -34,18 +34,18 @@
   "globalConstraints": {
     "maxVelocity": 1.5,
     "maxAcceleration": 3.0,
-    "maxAngularVelocity": 15.0,
+    "maxAngularVelocity": 30.0,
     "maxAngularAcceleration": 30.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -55.0,
+    "rotation": -60.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Notes Near Starting Zone",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": -37.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

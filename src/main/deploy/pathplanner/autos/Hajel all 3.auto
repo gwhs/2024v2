@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.35,
+      "x": 1.33,
       "y": 5.54
     },
     "rotation": 0
@@ -43,22 +43,22 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Speaker2-A2"
+                  "pathName": "S2-A2"
                 }
               }
             ]
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Speaker (A2)"
+            "pathName": "A2-S2"
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "A2-Speaker2"
+            "name": "Speaker (S2)"
           }
         },
         {
@@ -87,22 +87,22 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Speaker2-A1"
+                  "pathName": "S2-A1"
                 }
               }
             ]
           }
         },
         {
-          "type": "named",
+          "type": "path",
           "data": {
-            "name": "Speaker (A1)"
+            "pathName": "A1-S2"
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "A1-Speaker2"
+            "name": "Speaker (S2)"
           }
         },
         {
@@ -131,21 +131,27 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "Speaker2-A3"
+                  "pathName": "S2-A3"
                 }
               }
             ]
           }
         },
         {
+          "type": "path",
+          "data": {
+            "pathName": "A3-S2"
+          }
+        },
+        {
           "type": "named",
           "data": {
-            "name": "Speaker (A3)"
+            "name": "Speaker (S2)"
           }
         }
       ]
     }
   },
-  "folder": null,
+  "folder": "Hajel",
   "choreoAuto": false
 }

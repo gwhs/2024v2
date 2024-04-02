@@ -49,8 +49,6 @@ public class GameRobotContainer implements BaseContainer {
 
 
     public GameRobotContainer() {
-    //       LimelightHelpers.setStreamMode_PiPSecondary("limelight");
-    // Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5800").withSize(4,3).withPosition(5, 0);
         m_drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
                                                                          getDriveTrainName()));
         m_IntakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, "rio");
@@ -73,7 +71,7 @@ public class GameRobotContainer implements BaseContainer {
 
         m_ReactionSubsystem = new ReactionSubsystem(Constants.ReactionConstants.reactionID, Constants.ReactionConstants.reactionCAN);
 
-   closedFieldRel = new TeleopDrive(
+        closedFieldRel = new TeleopDrive(
                                           m_drivebase,
                                           () -> MathUtil.applyDeadband(-driverController.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
                                           () -> MathUtil.applyDeadband(-driverController.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
@@ -127,10 +125,6 @@ public class GameRobotContainer implements BaseContainer {
       operatorController.leftStick().whileTrue(new LockHeadingToSourceForIntake(closedFieldRel, m_ArmSubsystem, m_PizzaBoxSubsystem));
       GenericEntry s = Shuffleboard.getTab("Arm").add("Angle", 236).getEntry();
       operatorController.rightStick().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, ()->s.getDouble(236)));
-      
-      Shuffleboard.getTab("Arm").add("Extend", new Extend(m_ReactionSubsystem));
-      Shuffleboard.getTab("Arm").add("Retract", new Retract(m_ReactionSubsystem));
-      Shuffleboard.getTab("Arm").addDouble("Reaction Bar Angle", ()-> m_ReactionSubsystem.getPos()).withPosition(9, 4);
     }
 
     private void configurePathPlannerCommands() {

@@ -16,8 +16,8 @@
     "3. A+A+C",
     "Hajel"
   ],
-  "defaultMaxVel": 1.0,
-  "defaultMaxAccel": 2.0,
+  "defaultMaxVel": 2.0,
+  "defaultMaxAccel": 1.0,
   "defaultMaxAngVel": 30.0,
   "defaultMaxAngAccel": 30.0,
   "maxModuleSpeed": 4.0

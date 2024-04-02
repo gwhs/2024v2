@@ -153,7 +153,17 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   @Override
   public void useOutput(double output, State setPoint)
   {
-    //Comment out for testing purposes
+    double currentArmAngle = encoderGetAngle();
+    if (Math.abs(currentArmAngle - prevArmAngle) >= 50) {
+      emergencyStop = true;
+    }
+    prevArmAngle = currentArmAngle;
+
+    if (currentArmAngle <= Arm.ARM_MIN_ANGLE || currentArmAngle > Arm.ARM_MAX_ANGLE) {
+      emergencyStop = true;
+    }
+
+
     double feedForward = armFeedForward.calculate(setPoint.position, setPoint.velocity);
     if(!isEmergencyStop())
     {
@@ -179,18 +189,5 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   public double getMeasurement()
   {
     return encoderGetAngle() * Math.PI/180;
-  }
-
-  @Override
-  public void periodic() {
-    double currentArmAngle = encoderGetAngle();
-    // if (Math.abs(currentArmAngle - prevArmAngle) >= 50) {
-    //   emergencyStop = true;
-    // }
-    // prevArmAngle = currentArmAngle;
-
-    // if (currentArmAngle <= Arm.ARM_MIN_ANGLE || currentArmAngle > Arm.ARM_MAX_ANGLE) {
-    //   emergencyStop = true;
-    // }
   }
 }

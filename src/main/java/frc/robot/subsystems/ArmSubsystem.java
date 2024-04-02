@@ -45,7 +45,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final double KD = 0;
     public static final double KSVOLTS = 1.5; 
     public static final double KGVOLTS = 0;
-    public static final double KVVOLTS = 1.8;
+    public static final double KVVOLTS = 1.5;
     public static final double KAVOLTS = 0;
     public static final double VEL = 230 * Math.PI / 180;
     public static final double ACC = 360 * Math.PI / 180;
@@ -114,8 +114,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     }
 
     if(encoderGetAngle() >= 300) {
-      if (speed > 0.8) {
-        speed = 0.8;
+      if (speed > 1) {
+        speed = 1;
       }
     }
 

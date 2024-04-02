@@ -173,10 +173,10 @@ public class Climbsubsystem extends SubsystemBase {
       rightPIDvalue = 0;
     }
 
-    if (!checkForUp && getBotLeftLimit()) {
+    if (!checkForUp && getBotLeftLimit() && getPositionLeft() > -15) {
       leftPIDvalue = 0;
     }
-    if (!checkForUp && getBotRightLimit()) {
+    if (!checkForUp && getBotRightLimit() && getPositionRight() < 15) {
       rightPIDvalue = 0;
     }
     

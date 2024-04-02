@@ -9,6 +9,8 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.PIDController;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants;
+
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public class ReactionSubsystem extends SubsystemBase {
@@ -24,7 +26,7 @@ public class ReactionSubsystem extends SubsystemBase {
     MotorOutputConfigs motorOutput = new MotorOutputConfigs();
     motorOutput.NeutralMode = NeutralModeValue.Brake;
     m_reactionArm.getConfigurator().apply(motorOutput);
-      
+    PIDcontroller.setTolerance(Constants.ReactionConstants.tolerance);
   }
 
   @Override
@@ -37,7 +39,7 @@ public class ReactionSubsystem extends SubsystemBase {
     if (PIDvalue < -1)
       PIDvalue = -1;
 
-    
+    m_reactionArm.set(PIDvalue);
   }
 
   public void spinForward()

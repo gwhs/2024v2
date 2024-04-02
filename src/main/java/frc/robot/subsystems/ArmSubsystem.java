@@ -113,11 +113,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
       speed = Arm.MAX_VOLT;
     }
 
-    if(booster)
-    {
-      speed = Arm.MAX_VOLT;
-    }
-
     if(encoderGetAngle() >= 300) {
       if (speed > 0.5) {
         speed = 0.5;
@@ -126,6 +121,11 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
     if(encoderGetAngle() >= 332) {
       speed = -1;
+    }
+
+    if(booster)
+    {
+      speed = Arm.MAX_VOLT;
     }
 
     SmartDashboard.putNumber("Arm speed", speed);

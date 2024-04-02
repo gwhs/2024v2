@@ -195,7 +195,8 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command teleopInitReset() {
-    return new ResetArm(m_ArmSubsystem, m_PizzaBoxSubsystem) 
+    return new SwingBackServoTheSecond(m_PizzaBoxSubsystem)
+           .andThen(new ResetArm(m_ArmSubsystem, m_PizzaBoxSubsystem))
            .andThen(new IntakeResetArm(m_IntakeSubsystem));
   }
 

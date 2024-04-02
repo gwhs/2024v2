@@ -14,7 +14,7 @@ public class SwingForwardServoTheSecond extends Command{
     addRequirements(pizzaBoxSubsystem);
   }
   public void initialize() {
-    pizzaBoxSubsystem.setServoAngleTheSecond(180);
+    pizzaBoxSubsystem.setServoAngleTheSecond(200);
   }
   
   @Override
@@ -28,6 +28,6 @@ public class SwingForwardServoTheSecond extends Command{
   @Override
   public boolean isFinished() {
     double motorAng = pizzaBoxSubsystem.getServoAngle();
-    return Math.abs(motorAng - 180) < .001;
+    return Math.abs(motorAng - 200) < .001;
   }
 }

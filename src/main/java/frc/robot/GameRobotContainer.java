@@ -14,6 +14,8 @@ import frc.robot.Util.UtilMath;
 import frc.robot.commands.Arm.*;
 import frc.robot.commands.ClimberCommands.ClimbParts.*;
 import frc.robot.commands.IntakeCommands.*;
+import frc.robot.commands.ReactionArmCommands.Extend;
+import frc.robot.commands.ReactionArmCommands.Retract;
 import frc.robot.commands.driveCommands.*;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.*;
@@ -126,6 +128,9 @@ public class GameRobotContainer implements BaseContainer {
       GenericEntry s = Shuffleboard.getTab("Arm").add("Angle", 236).getEntry();
       operatorController.rightStick().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, ()->s.getDouble(236)));
       
+      Shuffleboard.getTab("Arm").add("Extend", new Extend(m_ReactionSubsystem));
+      Shuffleboard.getTab("Arm").add("Retract", new Retract(m_ReactionSubsystem));
+      Shuffleboard.getTab("Arm").addDouble("Reaction Bar Angle", ()-> m_ReactionSubsystem.getPos()).withPosition(9, 4);
     }
 
     private void configurePathPlannerCommands() {

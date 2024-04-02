@@ -117,16 +117,18 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     {
       speed = Arm.MAX_VOLT;
     }
-    
-    if(encoderGetAngle() < 0) {
-      speed = -5;
-    }
 
     if(encoderGetAngle() >= 300) {
       if (speed > 0.5) {
         speed = 0.5;
       }
     }
+
+    if(encoderGetAngle() >= 332) {
+      speed = -1;
+    }
+
+    SmartDashboard.putNumber("Arm speed", speed);
 
     VoltageOut armSpinRequest = new VoltageOut(speed, true, false, false, false);
     m_arm.setControl(armSpinRequest);
@@ -177,7 +179,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     {
       SmartDashboard.putNumber("Arm PID output", output);
       SmartDashboard.putNumber("Arm feed forward", feedForward);
-      SmartDashboard.putNumber("Arm speed", output + feedForward);
       SmartDashboard.putNumber("Arm FF setPoint Position", setPoint.position * 180 / Math.PI);
       SmartDashboard.putNumber("Arm FF setPoint velocity", setPoint.velocity * 180 / Math.PI);
       spinArm(output + feedForward);

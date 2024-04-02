@@ -30,13 +30,14 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int kSlotIdx = 0;
     public static final int kPIDLoopIdx = 0;
     public static final int kTimeoutMs = 30;
-    public static final int ARM_MAX_ANGLE = 335;
+    public static final int ARM_MAX_ANGLE = 330;
     public static final int ARM_MIN_ANGLE = 10;
     public static final int ROTATION_TO_DEGREES = 360;
     public static final double GEAR_RATIO = 118.587767088;
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
     public static final double ENCODER_OFFSET = 21.8; 
     public static final int ARM_ID = 18;
+    public static final int MAX_VOLT = 12;
 
     //
     public static final double KP = 5.8;
@@ -105,17 +106,28 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   //Looking at the left of the robot, counterclockwise arm spin is positive
   public void spinArm(double speed)
   {
-    if(speed < -15) { 
-      speed = -15;
+    if(speed < -Arm.MAX_VOLT) { 
+      speed = -Arm.MAX_VOLT;
     }
-    else if (speed > 15) { 
-      speed = 15;
+    else if (speed > Arm.MAX_VOLT) { 
+      speed = Arm.MAX_VOLT;
     }
 
     if(booster)
     {
-      speed = -15;
+      speed = Arm.MAX_VOLT;
     }
+    
+    if(encoderGetAngle() < 0) {
+      speed = -5;
+    }
+
+    if(encoderGetAngle() >= 300) {
+      if (speed > 0.5) {
+        speed = 0.5;
+      }
+    }
+
     VoltageOut armSpinRequest = new VoltageOut(speed, true, false, false, false);
     m_arm.setControl(armSpinRequest);
   }
@@ -158,10 +170,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
       emergencyStop = true;
     }
     prevArmAngle = currentArmAngle;
-
-    if (currentArmAngle <= Arm.ARM_MIN_ANGLE || currentArmAngle > Arm.ARM_MAX_ANGLE) {
-      emergencyStop = true;
-    }
 
 
     double feedForward = armFeedForward.calculate(setPoint.position, setPoint.velocity);

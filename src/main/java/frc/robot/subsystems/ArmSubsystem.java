@@ -40,7 +40,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int MAX_VOLT = 12;
 
     //
-    public static final double KP = 6;
+    public static final double KP = 6.5;
     public static final double KI = 0;
     public static final double KD = 0;
     public static final double KSVOLTS = 1.5; 
@@ -54,8 +54,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int ENCODER_DIO_SLOT = 0;
     public static final int AMP_ANGLE = 300;
     public static final int TRAP_ANGLE = 270;
-    public static final int SPEAKER_LOW_ANGLE = 165;
-    public static final int SPEAKER_HIGH_ANGLE = 238;
+    public static final int SPEAKER_LOW_ANGLE = 160;
+    public static final int SPEAKER_HIGH_ANGLE = 236;
     public static final int INTAKE_ANGLE = 63;
     public static final int CLIMBING_ANGLE = 45;
   }

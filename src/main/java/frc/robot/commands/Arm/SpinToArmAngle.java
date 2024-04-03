@@ -23,13 +23,11 @@ public class SpinToArmAngle extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    System.out.println("Spin to arm angle initialize");
     armSubsystem.targetArmAngle(angle);
   }
 
   @Override
   public void end(boolean interrupted){
-    System.out.println("Spin to arm angle finished");
   }
 
 

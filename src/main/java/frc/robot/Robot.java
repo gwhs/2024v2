@@ -70,8 +70,9 @@ public class Robot extends TimedRobot  {
     // Logger.addDataReceiver(new NT4Publisher());
     // Logger.start();
 
-    //SignalLogger.enableAutoLogging(true);
-    //SignalLogger.start();
+    SignalLogger.setPath("/home/lvuser/log/");
+    SignalLogger.enableAutoLogging(true);
+    SignalLogger.start();
 
     DataLogManager.start();
     DriverStation.startDataLog(DataLogManager.getLog());

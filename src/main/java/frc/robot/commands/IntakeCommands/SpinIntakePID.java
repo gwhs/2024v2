@@ -13,7 +13,7 @@ public class SpinIntakePID extends PIDCommand {
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final IntakeSubsystem intakeSubsystem;
-  private static PIDController intakeController = new PIDController(.025, .001, .0);
+  private static PIDController intakeController = new PIDController(.03, 0, .0);
   
   public SpinIntakePID(IntakeSubsystem intakeSubsystem, final double targetAngle) {
     super(intakeController, ()-> intakeSubsystem.encoderGetAngle(), () -> targetAngle,

@@ -93,13 +93,19 @@ public class TeleopDrive extends Command
     // Drive using raw values.
     if(isFaceSpeaker)
     {
-      PID.setSetpoint(UtilMath.FrontSpeakerTheta(swerve.getPose()));
+      double ang = UtilMath.FrontSpeakerTheta(swerve.getPose());
+      PID.setSetpoint(ang);
       angVelocity = PID.calculate(currTheta);
+      SmartDashboard.putNumber("isFaceSpeaker Goal", ang);
+      SmartDashboard.putNumber("isFaceSpeaker Result", angVelocity);
     }
     else if(isBackSpeaker)
     {
-      PID.setSetpoint(UtilMath.BackSpeakerTheta(swerve.getPose()));
+      double ang = UtilMath.BackSpeakerTheta(swerve.getPose());
+      PID.setSetpoint(ang);
       angVelocity = PID.calculate(currTheta);
+      SmartDashboard.putNumber("isBackSpeaker Goal", ang);
+      SmartDashboard.putNumber("isBackSpeaker Result", angVelocity);
     }
 
     if(isSlow)

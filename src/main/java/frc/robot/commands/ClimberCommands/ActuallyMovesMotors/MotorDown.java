@@ -25,7 +25,6 @@ public class MotorDown extends Command {
 
   @Override
   public void initialize() {
-    System.out.println("Initialize motor down");
     climbersubsystem.downMotor();
   }
 
@@ -36,7 +35,6 @@ public class MotorDown extends Command {
 
   @Override
   public void end(boolean interrupted) {
-    System.out.println("finish motor down");
   }
 
   @Override

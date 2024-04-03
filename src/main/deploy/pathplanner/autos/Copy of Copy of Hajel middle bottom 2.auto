@@ -2,15 +2,53 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.37,
+      "x": 1.33,
       "y": 5.54
     },
-    "rotation": 0.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
     "data": {
       "commands": [
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Speaker (S2) then Intake"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 2.75
+                      }
+                    },
+                    {
+                      "type": "path",
+                      "data": {
+                        "pathName": "S2-A2"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "A2-S2"
+          }
+        },
         {
           "type": "named",
           "data": {
@@ -24,26 +62,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S2-A2"
-                }
-              },
-              {
-                "type": "named",
-                "data": {
-                  "name": "Intake"
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": null
+                  "pathName": "S2-A3"
                 }
               },
               {
@@ -53,45 +72,7 @@
                     {
                       "type": "wait",
                       "data": {
-                        "waitTime": 3.0
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "A2-A1"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "Speaker (A2)"
-          }
-        },
-        {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "path",
-                "data": {
-                  "pathName": "A1-C1"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 5.0
+                        "waitTime": 0.65
                       }
                     },
                     {
@@ -107,9 +88,41 @@
           }
         },
         {
-          "type": "path",
+          "type": "named",
           "data": {
-            "pathName": "C1-A1"
+            "name": "Speaker (A3)"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "A3-A1"
+                }
+              },
+              {
+                "type": "sequential",
+                "data": {
+                  "commands": [
+                    {
+                      "type": "wait",
+                      "data": {
+                        "waitTime": 1.2
+                      }
+                    },
+                    {
+                      "type": "named",
+                      "data": {
+                        "name": "Intake"
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
           }
         },
         {
@@ -121,6 +134,6 @@
       ]
     }
   },
-  "folder": "3. A+A+C",
+  "folder": "Hajel",
   "choreoAuto": false
 }

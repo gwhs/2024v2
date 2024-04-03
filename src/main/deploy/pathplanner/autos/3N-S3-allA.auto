@@ -50,7 +50,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Speaker (A3-A2) then Intake"
+                  "name": null
                 }
               },
               {
@@ -82,7 +82,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Speaker (A2-A1) then Intake"
+                  "name": null
                 }
               },
               {

@@ -84,11 +84,11 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     if (!emergencyStop) {
-      // m_spinIntake.set(-intakeMotorVelocity);
+      m_spinIntake.set(-intakeMotorVelocity);
 
-      intakeMotorVelocity *= 100;
-      spinRequest1 = new VelocityVoltage(-intakeMotorVelocity, 150, true, 0, 0,false, false, false);
-      m_spinIntake.setControl(spinRequest1);
+      // intakeMotorVelocity *= 100;
+      // spinRequest1 = new VelocityVoltage(-intakeMotorVelocity, 150, true, 0, 0,false, false, false);
+      // m_spinIntake.setControl(spinRequest1);
 
       SmartDashboard.putNumber("Intake spin motor speed", intakeMotorVelocity);
     }

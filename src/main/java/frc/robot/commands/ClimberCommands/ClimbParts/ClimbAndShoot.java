@@ -28,7 +28,7 @@ public class ClimbAndShoot extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     addCommands (
       Commands.runOnce(()->DataLogManager.log("Command Start: ClimbAndShoot")),
-      new SpinToArmAngle(a, Constants.ClimbConstants.CLIMB_ARM_ANGLE).withTimeout(1),
+      new SpinToArmAngle(a, Constants.ClimbConstants.CLIMB_ARM_ANGLE).withTimeout(0.5),
       Commands.waitUntil(()->a.checkEncoderAngleForClimb()),
       new MotorDown(c, a).alongWith(new Extend(r)).withTimeout(3),
       new ScoreInTrapStutter(p, a),

@@ -45,9 +45,6 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public        double      maximumSpeed = Units.feetToMeters(14.5); //14.5
 
-  private StructArrayPublisher<SwerveModuleState> swerveStatePublisher = NetworkTableInstance.getDefault()
-    .getStructArrayTopic("Swerve State", SwerveModuleState.struct).publish();
-
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
    *
@@ -70,7 +67,7 @@ public class SwerveSubsystem extends SubsystemBase
     System.out.println("}");
 
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary objects being created.
-    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.NONE;
+    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     // 3/8/2024 changed from HIGH to NONE to see if prevent loop overrun
     try
     {
@@ -81,7 +78,7 @@ public class SwerveSubsystem extends SubsystemBase
     {
       throw new RuntimeException(e);
     }
-    swerveDrive.setHeadingCorrection(false); // Heading correction should only be used while controlling the robot via angle.
+    swerveDrive.setHeadingCorrection(true); // Heading correction should only be used while controlling the robot via angle.
     swerveDrive.setCosineCompensator(!SwerveDriveTelemetry.isSimulation); // Disables cosine compensation for simulations since it causes discrepancies not seen in real life.
     setupPathPlanner();
 
@@ -326,7 +323,6 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
-    swerveStatePublisher.set(swerveDrive.getStates());
   }
 
   @Override

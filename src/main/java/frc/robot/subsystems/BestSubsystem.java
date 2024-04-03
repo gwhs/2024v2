@@ -11,11 +11,11 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class BestSubsystem extends SubsystemBase {
 
-  private static Orchestra orchestra;
+  private static Orchestra orchestra = new Orchestra();
 
   /** Creates a new BestSubsystem. */
   public BestSubsystem() {
-    orchestra = new Orchestra();
+    
   }
 
   public static void join(TalonFX motor) {

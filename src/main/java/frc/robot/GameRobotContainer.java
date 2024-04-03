@@ -112,7 +112,7 @@ public class GameRobotContainer implements BaseContainer {
 
       driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
 
-      Shuffleboard.getTab("Arm").add(new a(""));
+      Shuffleboard.getTab("Arm").add(new a("christmas.chrp"));
       Shuffleboard.getTab("Arm").add(new b());
       /* Operator Controllers */
 

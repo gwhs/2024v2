@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Util.UtilMath;
+import frc.robot.commands.a;
 import frc.robot.commands.Arm.*;
 import frc.robot.commands.ClimberCommands.ClimbParts.*;
 import frc.robot.commands.IntakeCommands.*;
@@ -110,7 +111,7 @@ public class GameRobotContainer implements BaseContainer {
 
       driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
 
-
+      Shuffleboard.getTab("Arm").add(new a(""));
       /* Operator Controllers */
 
       operatorController.y().onTrue(new PrepClimb(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_ReactionSubsystem, m_PizzaBoxSubsystem));

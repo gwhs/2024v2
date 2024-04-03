@@ -4,30 +4,26 @@
 
 package frc.robot.subsystems;
 
-import java.util.ArrayList;
-import java.util.Collection;
-
 import com.ctre.phoenix6.Orchestra;
-import com.ctre.phoenix6.hardware.ParentDevice;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class BestSubsystem extends SubsystemBase {
 
-  private static Collection<ParentDevice> whole = new ArrayList<ParentDevice>();
   private static Orchestra orchestra;
 
   /** Creates a new BestSubsystem. */
   public BestSubsystem() {
-    orchestra = new Orchestra(whole);
+    orchestra = new Orchestra();
   }
 
   public static void join(TalonFX motor) {
-    whole.add(motor);
+    orchestra.addInstrument(motor);
   }
 
-  public static void start() {
+  public static void start(String title) {
+    orchestra.loadMusic(title);
     orchestra.play();
   }
 

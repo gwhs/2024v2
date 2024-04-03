@@ -85,7 +85,7 @@ public class GameRobotContainer implements BaseContainer {
 
         m_drivebase.setDefaultCommand(closedFieldRel);
 
-        //SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, m_ClimbSubsystem, m_ReactionSubsystem, autoChooser, closedFieldRel);
+        SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, m_ClimbSubsystem, m_ReactionSubsystem, autoChooser, closedFieldRel);
 
         configureBindings();
         

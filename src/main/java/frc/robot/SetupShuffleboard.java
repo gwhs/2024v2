@@ -16,6 +16,7 @@ import frc.robot.Util.UtilMath;
 import frc.robot.commands.CancelAllCommands;
 import frc.robot.commands.Arm.ResetArm;
 import frc.robot.commands.Arm.ScoreInTrapStutter;
+import frc.robot.commands.Arm.SpinToArmAngle;
 import frc.robot.commands.Arm.SwingBackServoTheSecond;
 import frc.robot.commands.Arm.SwingForwardServoTheSecond;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
@@ -81,11 +82,14 @@ public class SetupShuffleboard extends SubsystemBase {
 
       Shuffleboard.getTab("Arm").add("stutter trap", new ScoreInTrapStutter(pizzaBoxSubsystem, armSubsystem));
 
-      Shuffleboard.getTab("Pizza Box").add("Swing Servo Forward", new SwingForwardServoTheSecond(pizzaBoxSubsystem));
-      Shuffleboard.getTab("Pizza Box").add("Swing Servo back", new SwingBackServoTheSecond(pizzaBoxSubsystem));
+      
 
 
     }
+
+    Shuffleboard.getTab("Pizza Box").add("270", new SpinToArmAngle(armSubsystem, 270));
+    Shuffleboard.getTab("Pizza Box").add("Swing Servo Forward", new SwingForwardServoTheSecond(pizzaBoxSubsystem));
+    Shuffleboard.getTab("Pizza Box").add("Swing Servo back", new SwingBackServoTheSecond(pizzaBoxSubsystem));
 
     Shuffleboard.getTab("Arm").addDouble("distance from speaker", ()-> UtilMath.distanceFromSpeaker(swerve.getPose()));
 

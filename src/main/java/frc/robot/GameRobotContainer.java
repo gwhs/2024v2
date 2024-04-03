@@ -110,7 +110,6 @@ public class GameRobotContainer implements BaseContainer {
 
       driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
 
-
       /* Operator Controllers */
 
       operatorController.y().onTrue(new PrepClimb(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_ReactionSubsystem, m_PizzaBoxSubsystem));

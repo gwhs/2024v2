@@ -31,10 +31,11 @@ public class IntakePassNoteToPizzaBox extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    pizzaBoxSubsystem.spinPizzaBoxMotor(-60, 100);
     System.out.println("Intake pass note to pizzabox initialize");
     currentSensorValue = true;
     intakeSubsystem.spinIntakeMotor(0.8, 100);
-    pizzaBoxSubsystem.spinPizzaBoxMotor(-60, 100);
+    //pizzaBoxSubsystem.spinPizzaBoxMotor(-60, 100);
     initTimer = Timer.getFPGATimestamp(); 
   }
 

@@ -101,6 +101,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     DataLogManager.log("Arm kG: " + Arm.KGVOLTS);
     DataLogManager.log("Arm kV: " + Arm.KVVOLTS);
     DataLogManager.log("Arm kA: " + Arm.KAVOLTS);
+
+    BestSubsystem.join(m_arm);
   }
 
   //Looking at the left of the robot, counterclockwise arm spin is positive

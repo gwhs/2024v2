@@ -21,6 +21,8 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.*;
+import frc.robot.subsystems.BestSubsystem;
+
 import java.io.File;
 import java.util.function.DoubleSupplier;
 import swervelib.SwerveController;
@@ -86,17 +88,21 @@ public class SwerveSubsystem extends SubsystemBase
     setupPathPlanner();
 
 
-    if(DriverStation.isTest()) {
-      // Log motor data
-      SwerveModule[] sm_array = swerveDrive.getModules();
-      for(int i = 0; i < sm_array.length; i++){
-        SwerveModule sm = sm_array[i];
-        SwerveMotor driveMotor = sm.getDriveMotor();
-        SwerveMotor angleMotor = sm.getAngleMotor();
+    
+    // Log motor data
+    SwerveModule[] sm_array = swerveDrive.getModules();
+    for(int i = 0; i < sm_array.length; i++){
+      SwerveModule sm = sm_array[i];
+      SwerveMotor driveMotor = sm.getDriveMotor();
+      SwerveMotor angleMotor = sm.getAngleMotor();
 
-        TalonFX driveMotorTalon = (TalonFX)driveMotor.getMotor();
-        TalonFX angleMotorTalon = (TalonFX) angleMotor.getMotor();
+      TalonFX driveMotorTalon = (TalonFX)driveMotor.getMotor();
+      TalonFX angleMotorTalon = (TalonFX) angleMotor.getMotor();
 
+      BestSubsystem.join(driveMotorTalon);
+      BestSubsystem.join(angleMotorTalon);
+      
+      if(DriverStation.isTest()) {
         Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Drive Motor StatorCurrent", () -> driveMotorTalon.getStatorCurrent().getValueAsDouble());
         Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Angle Motor StatorCurrent", () -> angleMotorTalon.getStatorCurrent().getValueAsDouble());
 

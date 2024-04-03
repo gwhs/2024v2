@@ -62,6 +62,9 @@ public class Climbsubsystem extends SubsystemBase {
 
     leftPIDcontroller.setGoal(getPositionLeft());
     rightPIDcontroller.setGoal(getPositionRight());
+
+    BestSubsystem.join(climberArmLeft);
+    BestSubsystem.join(climberArmRight);
   } 
 
 

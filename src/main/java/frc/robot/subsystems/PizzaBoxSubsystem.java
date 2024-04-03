@@ -48,6 +48,8 @@ public class PizzaBoxSubsystem extends SubsystemBase {
       Shuffleboard.getTab("Pizza").addDouble("Pizzabox Rotor Velocity", () -> m_pizzaBox.getRotorVelocity().getValueAsDouble());
       Shuffleboard.getTab("Pizza").addDouble("Pizzabox Temperature", () -> m_pizzaBox.getDeviceTemp().getValueAsDouble());
     }
+
+    BestSubsystem.join(m_pizzaBox);
   }
 
   //Spins "Pizzabox" motor: velocity in rotations/sec and acceleration in rotations/sec^2

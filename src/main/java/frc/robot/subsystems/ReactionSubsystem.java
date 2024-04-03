@@ -27,6 +27,8 @@ public class ReactionSubsystem extends SubsystemBase {
     motorOutput.NeutralMode = NeutralModeValue.Brake;
     m_reactionArm.getConfigurator().apply(motorOutput);
     PIDcontroller.setTolerance(Constants.ReactionConstants.tolerance);
+
+    BestSubsystem.join(m_reactionArm);
   }
 
   @Override

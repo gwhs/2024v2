@@ -18,6 +18,8 @@ public class UtilMath {
     public static final int RED_SOURCE_HEADING_ANGLE = -120;
     public static final int BLUE_SOURCE_HEADING_ANGLE = -60;
 
+    public static InterpolatingDoubleTreeMap overhand = new InterpolatingDoubleTreeMap();
+
 
 
     public static double caclucateRotateTheta(Pose2d pose, double targetX, double targetY){

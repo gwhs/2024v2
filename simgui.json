@@ -38,6 +38,11 @@
       "/SmartDashboard/Pigeon 2 (v6) [30]": "Gyro"
     },
     "windows": {
+      "/Shuffleboard/GameTab/Autonomous Chooser": {
+        "window": {
+          "visible": true
+        }
+      },
       "/Shuffleboard/GameTab/Field": {
         "bottom": 1476,
         "height": 8.210550308227539,

@@ -116,13 +116,6 @@ public class UtilMath {
     }
 
     public static double distanceFromSpeaker(Supplier<Pose2d> pose) {
-        double robotX = pose.get().getX();
-        double robotY = pose.get().getY();
-        
-        if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) {
-            return Math.sqrt(Math.pow(BLUE_SPEAKER_X - robotX, 2) + Math.pow(BLUE_SPEAKER_Y - robotY, 2));
-        } else {
-            return Math.sqrt(Math.pow(RED_SPEAKER_X - robotX, 2) + Math.pow(RED_SPEAKER_Y - robotY, 2));
-        }
+        return distanceFromSpeaker(pose.get());
     }
 }

@@ -47,20 +47,7 @@ public class IntakeSubsystem extends SubsystemBase {
     UtilMotor.configMotorSupplyCurrent(m_spinIntake, 80);
 
     Shuffleboard.getTab("Intake").addDouble("Encoder Angle", () -> encoderGetAngle());
-
     Shuffleboard.getTab("Intake").addBoolean("Sensor value", () -> isNotePresent());
-    
-    if(DriverStation.isTest()) {
-      Shuffleboard.getTab("Intake").addDouble("Intake Arm Stator Current", () -> m_moveIntakeArm.getStatorCurrent().getValueAsDouble());
-      Shuffleboard.getTab("Intake").addDouble("Intake Arm Rotor Velocity", () -> m_moveIntakeArm.getRotorVelocity().getValueAsDouble());
-      Shuffleboard.getTab("Intake").addDouble("Intake Arm Temperature", () -> m_moveIntakeArm.getDeviceTemp().getValueAsDouble());
-      
-      Shuffleboard.getTab("Intake").addDouble("Spin Intake Stator Current", () -> m_spinIntake.getStatorCurrent().getValueAsDouble());
-      Shuffleboard.getTab("Intake").addDouble("Spin Intake Rotor Velocity", () -> m_spinIntake.getRotorVelocity().getValueAsDouble());
-      Shuffleboard.getTab("Intake").addDouble("Spin Intake Temperature", () -> m_spinIntake.getDeviceTemp().getValueAsDouble());
-    }
-
-    //m_Encoder.reset();
 
     // Logger.recordOutput("Intake/EncoderAngle", encoderGetAngle());
     // Logger.recordOutput("Intake/SensorValue", isNotePresent());

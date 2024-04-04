@@ -1,4 +1,11 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "window": {
+        "visible": false
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
@@ -18,7 +25,9 @@
       "/Shuffleboard/GameTab/Field": "Field2d",
       "/Shuffleboard/GameTab/Filed": "Field2d",
       "/Shuffleboard/GameTab/Increase Intake Offset": "Command",
+      "/Shuffleboard/GameTab/Intake Reject Note": "Command",
       "/Shuffleboard/GameTab/IntakeRejectNote": "Command",
+      "/Shuffleboard/GameTab/RESET TELEOP DRIVE": "Command",
       "/Shuffleboard/GameTab/Reset Arm": "Command",
       "/Shuffleboard/GameTab/Reset Intake": "Command",
       "/Shuffleboard/GameTab/Retract Reaction Bar": "Command",
@@ -55,5 +64,8 @@
   },
   "NetworkTables Info": {
     "visible": true
+  },
+  "NetworkTables View": {
+    "visible": false
   }
 }

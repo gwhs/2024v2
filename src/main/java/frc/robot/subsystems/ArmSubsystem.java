@@ -40,7 +40,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int MAX_VOLT = 12;
 
     //
-    public static final double KP = 6.5;
+    public static final double KP = 8;
     public static final double KI = 0;
     public static final double KD = 0;
     public static final double KSVOLTS = 1.5; 
@@ -85,12 +85,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
     Shuffleboard.getTab("Arm").addDouble("Encoder Angle", ()->encoderGetAngle());
     Shuffleboard.getTab("Arm").addDouble("Goal in degrees", ()->getController().getGoal().position * (180/Math.PI));
-    
-    if(DriverStation.isTest()) {
-      Shuffleboard.getTab("Arm").addDouble("Arm Stator Current", () -> m_arm.getStatorCurrent().getValueAsDouble());
-      Shuffleboard.getTab("Arm").addDouble("Arm Rotor Velocity", () -> m_arm.getRotorVelocity().getValueAsDouble());
-      Shuffleboard.getTab("Arm").addDouble("Arm Temperature", () -> m_arm.getDeviceTemp().getValueAsDouble());
-    }
 
     DataLogManager.log("Arm P: " + Arm.KP);
     DataLogManager.log("Arm I: " + Arm.KI);

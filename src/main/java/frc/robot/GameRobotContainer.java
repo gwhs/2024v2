@@ -108,7 +108,8 @@ public class GameRobotContainer implements BaseContainer {
       driverController.rightBumper().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, ()->UtilMath.overhand.get(UtilMath.distanceFromSpeaker(()->m_drivebase.getPose()))));
       //driverController.leftBumper().onTrue(new FaceSpeaker(closedFieldRel));
 
-      driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
+      //driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
+      driverController.start().onTrue(new InstantCommand(m_drivebase::setHeading));
 
       /* Operator Controllers */
 

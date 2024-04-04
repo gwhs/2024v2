@@ -540,7 +540,19 @@ public class SwerveSubsystem extends SubsystemBase
 
   public void setHeading()
   {
-    resetOdometry(new Pose2d(new Translation2d(), new Rotation2d(Math.PI)));
+    double xPos = getPose().getX();
+    double yPos = getPose().getY();
+
+    if(DriverStation.getAlliance().isPresent() &&
+     DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
+    {
+      resetOdometry(new Pose2d(xPos, yPos, new Rotation2d(Math.PI)));
+    } else if (DriverStation.getAlliance().isPresent() &&
+     DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
+    {
+      resetOdometry(new Pose2d(xPos, yPos, new Rotation2d(0)));
+    }
+    //resetOdometry(new Pose2d(new Translation2d(), new Rotation2d(Math.PI)));
   }
 
 }

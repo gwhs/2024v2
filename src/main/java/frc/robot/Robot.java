@@ -105,7 +105,8 @@ public class Robot extends TimedRobot  {
         break;
     }  
 
-      //UtilMath.overhand.put();
+      UtilMath.overhand.put(1.33, 236d); //S2
+      UtilMath.overhand.put(2.45, 245d); //A2
       
       //UtilMath.treeUnderHand.put();
    

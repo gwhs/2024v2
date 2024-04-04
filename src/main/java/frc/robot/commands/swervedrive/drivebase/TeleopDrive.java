@@ -33,6 +33,7 @@ public class TeleopDrive extends Command
   private final SwerveController controller;
   public boolean isFaceSpeaker = false;
   public boolean isBackSpeaker = false;
+  public boolean faceAmp = false;
   public boolean isSlow;
   public boolean isHeadingLock;
   private final PIDController PID;
@@ -108,6 +109,13 @@ public class TeleopDrive extends Command
       SmartDashboard.putNumber("isBackSpeaker Result", angVelocity);
     }
 
+    if (faceAmp) {
+      PID.setSetpoint(90);
+      angVelocity = PID.calculate(currTheta);
+      SmartDashboard.putNumber("faceAmp Goal", 90);
+      SmartDashboard.putNumber("faceAmp Result", angVelocity);
+    }
+
     if(isSlow)
     {
       double slowFactor = 0.25;
@@ -123,7 +131,6 @@ public class TeleopDrive extends Command
        angVelocity += result;
        SmartDashboard.putNumber("heading Lock Result", result);
     }
-
 
     swerve.drive(new Translation2d(xVelocity * swerve.maximumSpeed, yVelocity * swerve.maximumSpeed),
                 angVelocity * controller.config.maxAngularVelocity,

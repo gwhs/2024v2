@@ -23,9 +23,9 @@ public class Aimbot extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     // addCommands(new FooCommand(), new BarCommand());
     addCommands(
-      Commands.runOnce(()-> {t.isSlow = true; t.isFaceSpeaker = true;}),
+      Commands.runOnce(()-> {t.isSlow = true; t.isBackSpeaker = true;}),
       new ScoreInSpeakerAdjustable(p, a, ()-> UtilMath.overhand.get(UtilMath.distanceFromSpeaker(()-> s.getPose()))),
-      Commands.runOnce(()-> {t.isSlow = false; t.isFaceSpeaker = false;})
+      Commands.runOnce(()-> {t.isSlow = false; t.isBackSpeaker = false;})
     );
   }
 }

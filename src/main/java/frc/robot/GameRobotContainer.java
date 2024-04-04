@@ -175,7 +175,8 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command autoInitReset() {
-    return new IntakeResetArm(m_IntakeSubsystem).withTimeout(3);
+    return new IntakeResetArm(m_IntakeSubsystem).withTimeout(3)
+    .alongWith(new Retract(m_ReactionSubsystem));
   }
 }
 

@@ -1,11 +1,17 @@
 package frc.robot;
 
 import java.io.File;
+import java.util.Map;
+import java.util.function.Supplier;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.Filesystem;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInWidgets;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardComponent;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.shuffleboard.SimpleWidget;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -90,6 +96,7 @@ public class GameRobotContainer implements BaseContainer {
         //SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, m_ClimbSubsystem, m_ReactionSubsystem, autoChooser, closedFieldRel);
 
         configureBindings();
+        tune();
         
     }
 
@@ -112,8 +119,7 @@ public class GameRobotContainer implements BaseContainer {
 
       driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
 
-      Shuffleboard.getTab("Arm").add(new a("christmas.chrp"));
-      Shuffleboard.getTab("Arm").add(new b());
+
       /* Operator Controllers */
 
       operatorController.y().onTrue(new PrepClimb(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_ReactionSubsystem, m_PizzaBoxSubsystem));
@@ -175,6 +181,23 @@ public class GameRobotContainer implements BaseContainer {
                                   .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
     NamedCommands.registerCommand("Speaker (A2-A1) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 245)
                                   .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
+  }
+
+  public void tune() {
+    
+    SendableChooser<String> d = new SendableChooser<String>();
+    
+    d.setDefaultOption("christmas", "chirstmas.chrp");
+    d.addOption("beethoven", "beethoven 9th 4th.chrp");
+    d.addOption("star", "star.chrp");
+    d.addOption("twinkle", "twinkle star.chrp");
+
+    Shuffleboard.getTab("haha").add(d);
+    Supplier<String> selected = ()-> d.getSelected();
+
+    Shuffleboard.getTab("haha").add(new a(selected));
+
+    Shuffleboard.getTab("haha").add(new b());
   }
 
   /**

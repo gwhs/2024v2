@@ -23,6 +23,7 @@ public class BestSubsystem extends SubsystemBase {
   }
 
   public static void start(String title) {
+    orchestra.stop();
     orchestra.loadMusic(title);
     orchestra.play();
   }

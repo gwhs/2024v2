@@ -136,7 +136,7 @@ public class SetupShuffleboard extends SubsystemBase {
 
     // Shuffleboard.getTab("TEST COMMAND").add("TEST", new LockHeadingToSourceForIntake(teleopDrive, armSubsystem, pizzaBoxSubsystem));
 
-    Shuffleboard.getTab("System Check").add("check", new SystemCheck(armSubsystem, climbSubsystem, intakeSubsystem, pizzaBoxSubsystem, reactionSubsystem, swerve));
+    Shuffleboard.getTab("System Check").add("check", new SystemCheck(armSubsystem, climbSubsystem, intakeSubsystem, pizzaBoxSubsystem, reactionSubsystem, swerve, teleopDrive));
  
     DataLogManager.log("rotate in place P: " + Constants.DriveConstants.kP);
     DataLogManager.log("rotate in place I: " + Constants.DriveConstants.kI);

@@ -98,7 +98,7 @@ public class GameRobotContainer implements BaseContainer {
       //RE-ENABLE BUTTONS;
       
       driverController.y().onTrue(new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
-      driverController.a().onTrue(new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem)); 
+      driverController.a().onTrue(new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem, closedFieldRel)); 
       driverController.b().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem, 10));
       driverController.x().whileTrue(new DecreaseSpeed(closedFieldRel));
 

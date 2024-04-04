@@ -105,14 +105,17 @@ public class GameRobotContainer implements BaseContainer {
       driverController.rightStick().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
       driverController.back().onTrue(new ChangeRobotOrientation(closedFieldRel));
 
-      driverController.rightBumper().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, ()->UtilMath.overhand.get(UtilMath.distanceFromSpeaker(()->m_drivebase.getPose()))));
+      //driverController.rightBumper().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, ()->UtilMath.overhand.get(UtilMath.distanceFromSpeaker(()->m_drivebase.getPose()))));
       //driverController.leftBumper().onTrue(new FaceSpeaker(closedFieldRel));
+
+      driverController.rightBumper().onTrue(new Aimbot(closedFieldRel, m_ArmSubsystem, m_PizzaBoxSubsystem, m_drivebase));
+      driverController.leftBumper().onTrue(new FaceAmp(closedFieldRel));
 
       //driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
       driverController.start().onTrue(new InstantCommand(m_drivebase::setHeading));
 
       /* Operator Controllers */
-print"Hello World!"
+
       operatorController.y().onTrue(new PrepClimb(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_ReactionSubsystem, m_PizzaBoxSubsystem));
       operatorController.b().onTrue(new ClimbAndShoot(m_ClimbSubsystem, m_drivebase, m_ArmSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem));
       operatorController.a().onTrue(new UnClimb(m_ClimbSubsystem, m_ArmSubsystem, m_ReactionSubsystem));

@@ -81,15 +81,11 @@ public class SetupShuffleboard extends SubsystemBase {
       Shuffleboard.getTab("Climb").addDouble("Reaction Bar Angle", ()-> reactionSubsystem.getPos()).withPosition(9, 4);
 
       Shuffleboard.getTab("Arm").add("stutter trap", new ScoreInTrapStutter(pizzaBoxSubsystem, armSubsystem));
-
-      
-
-
     }
 
-    Shuffleboard.getTab("Pizza Box").add("270", new SpinToArmAngle(armSubsystem, 270));
-    Shuffleboard.getTab("Pizza Box").add("Swing Servo Forward", new SwingForwardServoTheSecond(pizzaBoxSubsystem));
-    Shuffleboard.getTab("Pizza Box").add("Swing Servo back", new SwingBackServoTheSecond(pizzaBoxSubsystem));
+    // Shuffleboard.getTab("Pizza Box").add("270", new SpinToArmAngle(armSubsystem, 270));
+    // Shuffleboard.getTab("Pizza Box").add("Swing Servo Forward", new SwingForwardServoTheSecond(pizzaBoxSubsystem));
+    // Shuffleboard.getTab("Pizza Box").add("Swing Servo back", new SwingBackServoTheSecond(pizzaBoxSubsystem));
 
     Shuffleboard.getTab("Arm").addDouble("distance from speaker", ()-> UtilMath.distanceFromSpeaker(swerve.getPose()));
 
@@ -136,12 +132,10 @@ public class SetupShuffleboard extends SubsystemBase {
       .withPosition(5,3);
     Shuffleboard.getTab("GameTab").add("CLEAR ALL COMMANDS", new CancelAllCommands()).withPosition(7,3);
     Shuffleboard.getTab("GameTab").add("RESET TELEOP DRIVE", new ResetTeleopDrive(teleopDrive)).withPosition(9,0);
-    Shuffleboard.getTab("GameTab").add("Straighten", new StraightenWheelCommand(swerve)).withPosition(9, 1);
+    // Shuffleboard.getTab("GameTab").add("Straighten", new StraightenWheelCommand(swerve)).withPosition(9, 1);
 
     // Shuffleboard.getTab("TEST COMMAND").add("TEST", new LockHeadingToSourceForIntake(teleopDrive, armSubsystem, pizzaBoxSubsystem));
 
-
-  
     Shuffleboard.getTab("System Check").add("check", new SystemCheck(armSubsystem, climbSubsystem, intakeSubsystem, pizzaBoxSubsystem, reactionSubsystem, swerve));
  
     DataLogManager.log("rotate in place P: " + Constants.DriveConstants.kP);
@@ -149,9 +143,5 @@ public class SetupShuffleboard extends SubsystemBase {
     DataLogManager.log("rotate in place D: " + Constants.DriveConstants.kD);
 
 
-  }
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
   }
 }

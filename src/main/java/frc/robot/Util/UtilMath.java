@@ -4,6 +4,8 @@
 
 package frc.robot.Util;
 
+import java.util.function.Supplier;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.interpolation.InterpolatingDoubleTreeMap;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -17,6 +19,9 @@ public class UtilMath {
     
     public static final int RED_SOURCE_HEADING_ANGLE = -120;
     public static final int BLUE_SOURCE_HEADING_ANGLE = -60;
+
+    public static InterpolatingDoubleTreeMap overhand = new InterpolatingDoubleTreeMap();
+    
 
 
 
@@ -108,5 +113,9 @@ public class UtilMath {
         } else {
             return Math.sqrt(Math.pow(RED_SPEAKER_X - robotX, 2) + Math.pow(RED_SPEAKER_Y - robotY, 2));
         }
+    }
+
+    public static double distanceFromSpeaker(Supplier<Pose2d> pose) {
+        return distanceFromSpeaker(pose.get());
     }
 }

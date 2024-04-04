@@ -56,7 +56,6 @@ public class TeleopDrive extends Command
 
     this.PID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
     this.PID.setTolerance(Constants.FaceSpeakerConstants.THETA_TOLERANCE, Constants.FaceSpeakerConstants.STEADY_STATE_TOLERANCE);
-    this.PID.setPID(Constants.FaceSpeakerConstants.kP, Constants.FaceSpeakerConstants.kI, Constants.FaceSpeakerConstants.kD);
     this.PID.enableContinuousInput(-180, 180);
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -80,6 +79,7 @@ public class TeleopDrive extends Command
      double xVelocity   = Math.pow(vX.getAsDouble(), 3);
      double yVelocity   = Math.pow(vY.getAsDouble(), 3);
      double angVelocity = Math.pow(omega.getAsDouble(), 3);
+     
     if(DriverStation.getAlliance().isPresent() &&
      DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
     {
@@ -87,11 +87,17 @@ public class TeleopDrive extends Command
       yVelocity *= -1;
     }
     
-   
-    
     currTheta = swerve.getHeading().getDegrees();
+    SmartDashboard.putNumber("Robot Rotation", currTheta);
 
-    // Drive using raw values.
+    if(isSlow)
+    {
+      double slowFactor = 0.25;
+      xVelocity *= slowFactor;
+      yVelocity *= slowFactor;
+      angVelocity *= slowFactor;
+    }
+
     if(isFaceSpeaker)
     {
       double ang = UtilMath.FrontSpeakerTheta(swerve.getPose());
@@ -116,20 +122,14 @@ public class TeleopDrive extends Command
       SmartDashboard.putNumber("faceAmp Result", angVelocity);
     }
 
-    if(isSlow)
-    {
-      double slowFactor = 0.25;
-      xVelocity *= slowFactor;
-      yVelocity *= slowFactor;
-      angVelocity *= slowFactor;
-    }
-
     if(isHeadingLock)
     {
-       PID.setSetpoint(UtilMath.SourceIntakeHeading(swerve.getPose()));
-       double result =  PID.calculate(currTheta)/4;
-       angVelocity += result;
-       SmartDashboard.putNumber("heading Lock Result", result);
+      double theta = UtilMath.SourceIntakeHeading(swerve.getPose());
+      PID.setSetpoint(theta);
+      double result =  PID.calculate(currTheta);
+      angVelocity += result;
+      SmartDashboard.putNumber("heading Lock Goal", theta);
+      SmartDashboard.putNumber("heading Lock Result", result);
     }
 
     swerve.drive(new Translation2d(xVelocity * swerve.maximumSpeed, yVelocity * swerve.maximumSpeed),

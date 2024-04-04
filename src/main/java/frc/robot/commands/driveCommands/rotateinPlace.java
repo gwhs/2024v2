@@ -47,7 +47,7 @@ public class rotateinPlace extends Command {
     currTheta = m_Subsystem.getHeading().getDegrees();
     PID.setSetpoint(targetTheta);
     PID.setTolerance(Constants.DriveConstants.THETA_TOLERANCE, Constants.DriveConstants.STEADY_STATE_TOLERANCE);
-    PID.setPID(0.005, 0, 0);
+    // PID.setPID(0.005, 0, 0);
     PID.enableContinuousInput(-180, 180);
   }
 

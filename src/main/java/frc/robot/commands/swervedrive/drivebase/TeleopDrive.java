@@ -81,7 +81,7 @@ public class TeleopDrive extends Command
      double angVelocity = Math.pow(omega.getAsDouble(), 3);
      
     if(DriverStation.getAlliance().isPresent() &&
-     DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
+     DriverStation.getAlliance().get() == DriverStation.Alliance.Red && driveMode.getAsBoolean())
     {
       xVelocity *= -1;
       yVelocity *= -1;

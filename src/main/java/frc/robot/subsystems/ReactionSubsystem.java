@@ -44,7 +44,7 @@ public class ReactionSubsystem extends SubsystemBase {
 
   public void spinForward()
   {
-    PIDcontroller.setSetpoint(-2.5);
+    PIDcontroller.setSetpoint(-3);
   }
   public void spinBackward()
   {

@@ -30,31 +30,33 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     public static final int kSlotIdx = 0;
     public static final int kPIDLoopIdx = 0;
     public static final int kTimeoutMs = 30;
-    public static final int ARM_MAX_ANGLE = 335;
+    public static final int ARM_MAX_ANGLE = 330;
     public static final int ARM_MIN_ANGLE = 10;
     public static final int ROTATION_TO_DEGREES = 360;
     public static final double GEAR_RATIO = 118.587767088;
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
     public static final double ENCODER_OFFSET = 21.8; 
     public static final int ARM_ID = 18;
+    public static final int MAX_VOLT = 12;
+
     //
-    public static final double KP = 6;
-    public static final double KI = 0.1;
-    public static final double KD = 0.15;
+    public static final double KP = 8;
+    public static final double KI = 0;
+    public static final double KD = 0;
     public static final double KSVOLTS = 1.5; 
-    public static final double KGVOLTS = .0;
-    public static final double KVVOLTS = 2;
+    public static final double KGVOLTS = 0;
+    public static final double KVVOLTS = 1.5;
     public static final double KAVOLTS = 0;
-    public static final double VEL = 100 * Math.PI / 180;
-    public static final double ACC = 180 * Math.PI / 180;
+    public static final double VEL = 230 * Math.PI / 180;
+    public static final double ACC = 360 * Math.PI / 180;
     //
     //Arm ID Jalen Tolbert
     public static final int ENCODER_DIO_SLOT = 0;
     public static final int AMP_ANGLE = 300;
-    public static final int TRAP_ANGLE = 290;
-    public static final int SPEAKER_LOW_ANGLE = 165;
-    public static final int SPEAKER_HIGH_ANGLE = 238;
-    public static final int INTAKE_ANGLE = 60;
+    public static final int TRAP_ANGLE = 275;
+    public static final int SPEAKER_LOW_ANGLE = 160;
+    public static final int SPEAKER_HIGH_ANGLE = 236;
+    public static final int INTAKE_ANGLE = 63;
     public static final int CLIMBING_ANGLE = 45;
   }
 
@@ -63,6 +65,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   private ArmFeedforward armFeedForward;
   public boolean emergencyStop = false;
   private double prevArmAngle;
+  public boolean booster = false;
 
   public ArmSubsystem(int armId, String armCanbus, int channel1)
   {
@@ -82,12 +85,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
 
     Shuffleboard.getTab("Arm").addDouble("Encoder Angle", ()->encoderGetAngle());
     Shuffleboard.getTab("Arm").addDouble("Goal in degrees", ()->getController().getGoal().position * (180/Math.PI));
-    
-    if(DriverStation.isTest()) {
-      Shuffleboard.getTab("Arm").addDouble("Arm Stator Current", () -> m_arm.getStatorCurrent().getValueAsDouble());
-      Shuffleboard.getTab("Arm").addDouble("Arm Rotor Velocity", () -> m_arm.getRotorVelocity().getValueAsDouble());
-      Shuffleboard.getTab("Arm").addDouble("Arm Temperature", () -> m_arm.getDeviceTemp().getValueAsDouble());
-    }
 
     DataLogManager.log("Arm P: " + Arm.KP);
     DataLogManager.log("Arm I: " + Arm.KI);
@@ -103,12 +100,34 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   //Looking at the left of the robot, counterclockwise arm spin is positive
   public void spinArm(double speed)
   {
-    if(speed < -15) { 
-      speed = -15;
+    if(speed < -Arm.MAX_VOLT) { 
+      speed = -Arm.MAX_VOLT;
     }
-    else if (speed > 15) { 
-      speed = 15;
+    else if (speed > Arm.MAX_VOLT) { 
+      speed = Arm.MAX_VOLT;
     }
+
+    if(encoderGetAngle() >= 300) {
+      if (speed > 1) {
+        speed = 1;
+      }
+    }
+
+    if(encoderGetAngle() >= 332) {
+      speed = -1;
+    }
+
+    if(isEmergencyStop()) {
+      speed = 0;
+    }
+
+    if(booster)
+    {
+      speed = Arm.MAX_VOLT;
+    }
+
+    SmartDashboard.putNumber("Arm speed", speed);
+
     VoltageOut armSpinRequest = new VoltageOut(speed, true, false, false, false);
     m_arm.setControl(armSpinRequest);
   }
@@ -146,15 +165,20 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   @Override
   public void useOutput(double output, State setPoint)
   {
-    //Comment out for testing purposes
+    double currentArmAngle = encoderGetAngle();
+    if (Math.abs(currentArmAngle - prevArmAngle) >= 50) {
+      emergencyStop = true;
+    }
+    prevArmAngle = currentArmAngle;
+
+
     double feedForward = armFeedForward.calculate(setPoint.position, setPoint.velocity);
     if(!isEmergencyStop())
     {
       SmartDashboard.putNumber("Arm PID output", output);
       SmartDashboard.putNumber("Arm feed forward", feedForward);
-      SmartDashboard.putNumber("Arm speed", output + feedForward);
-      SmartDashboard.putNumber("Arm FF setPoint Position", setPoint.position);
-      SmartDashboard.putNumber("Arm FF setPoint velocity", setPoint.velocity);
+      SmartDashboard.putNumber("Arm FF setPoint Position", setPoint.position * 180 / Math.PI);
+      SmartDashboard.putNumber("Arm FF setPoint velocity", setPoint.velocity * 180 / Math.PI);
       spinArm(output + feedForward);
     }
     else
@@ -172,13 +196,5 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   public double getMeasurement()
   {
     return encoderGetAngle() * Math.PI/180;
-  }
-
-  @Override
-  public void periodic() {
-    double currentArmAngle = encoderGetAngle();
-    if (Math.abs(currentArmAngle - prevArmAngle) >= 50) {
-      emergencyStop = true;
-    }
   }
 }

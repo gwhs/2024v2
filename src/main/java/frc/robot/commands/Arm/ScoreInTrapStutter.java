@@ -5,6 +5,7 @@
 package frc.robot.commands.Arm;
 
 import frc.robot.subsystems.PizzaBoxSubsystem;
+import frc.robot.Constants;
 import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
@@ -17,7 +18,7 @@ public class ScoreInTrapStutter extends SequentialCommandGroup {
   public ScoreInTrapStutter(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem) {
     addCommands(
       new PrintCommand("Score in trp stutter initialize"),
-        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.TRAP_ANGLE).withTimeout(3));
+      new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.TRAP_ANGLE).withTimeout(3));
 
 
     for(int index = 0; index < 8; index++)
@@ -34,11 +35,11 @@ public class ScoreInTrapStutter extends SequentialCommandGroup {
 
     addCommands(
         new StopNoteContainerMotor(pizzaBoxSubsystem),
-        new SpinToArmAngle(armSubsystem, 260).withTimeout(1),
+        new SpinToArmAngle(armSubsystem, Constants.ClimbConstants.CLIMB_ARM_ANGLE).withTimeout(1),
         Commands.runOnce(() -> {
           pizzaBoxSubsystem.hasNote = false;
           }),
-          new PrintCommand("scorein trap stutter finished")
+        new PrintCommand("scorein trap stutter finished")
     );
   }
 

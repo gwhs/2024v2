@@ -5,34 +5,36 @@
 package frc.robot.commands.ClimberCommands.ActuallyMovesMotors;
 
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
-import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 public class MotorDown extends Command {
   /** Creates a new MotorDown. */
 
   private Climbsubsystem climbersubsystem;
+  private ArmSubsystem armsubsystem;
 
   //constructor that takes in a Climbsubsystem object and a SwerveSubsystem obj
-  public MotorDown(Climbsubsystem c) {
+  public MotorDown(Climbsubsystem c, ArmSubsystem a) {
+   
     climbersubsystem = c;
+    armsubsystem = a;
 
     addRequirements(this.climbersubsystem);
   }
 
   @Override
   public void initialize() {
-    System.out.println("Initialize motor down");
     climbersubsystem.downMotor();
   }
 
   @Override
-  public void execute() {               
+  public void execute() {   
+    climbersubsystem.armAngleCheck = armsubsystem.checkEncoderAngleForClimb();            
   }
 
   @Override
   public void end(boolean interrupted) {
-    System.out.println("finish motor down");
   }
 
   @Override

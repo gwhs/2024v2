@@ -2,41 +2,41 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.ledcommands;
+package frc.robot.commands.Arm;
 
-import frc.robot.subsystems.LEDSubsystem;
-import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.ArmSubsystem;
 
-/** An example command that uses an example subsystem. */
-public class ChangeLEDToGreen extends Command {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-
-  private final LEDSubsystem ledSubsystem;
-
-  public ChangeLEDToGreen(LEDSubsystem ledSubsystem) {
-    this.ledSubsystem = ledSubsystem;
+public class SpinArmCommand extends Command {
+  /** Creates a new SpinArmCommand. */
+  private final ArmSubsystem m_ArmSubsystem;
+  public SpinArmCommand(ArmSubsystem m_ArmSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(ledSubsystem);
+    this.m_ArmSubsystem = m_ArmSubsystem;
+    addRequirements(m_ArmSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_ArmSubsystem.booster = true;
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ledSubsystem.setColor(0, 255, 0);
+
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+    m_ArmSubsystem.booster = false;
+  }
 
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ledSubsystem.getColor(1).equals(new Color(0, 255, 0));
+    return false;
   }
 }

@@ -3,49 +3,49 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 7.872088097956508,
-        "y": 0.9251560871167382
+        "x": 7.826244114026691,
+        "y": 0.779488482053888
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.782137282098908,
-        "y": 0.9688464833904297
+        "x": 7.736293298169091,
+        "y": 0.8231788783275794
       },
       "isLocked": false,
       "linkedName": "C5"
     },
     {
       "anchor": {
-        "x": 0.8,
-        "y": 4.440124264863915
+        "x": 0.72,
+        "y": 4.44
       },
       "prevControl": {
-        "x": 2.1958983447210816,
-        "y": 2.7336561332717624
+        "x": 2.1158983447210815,
+        "y": 2.733531868407848
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "Speaker 3"
+      "linkedName": "S3"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.5,
-    "maxAcceleration": 3.0,
-    "maxAngularVelocity": 30.0,
-    "maxAngularAcceleration": 30.0
+    "maxVelocity": 2.0,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 50.0,
+    "maxAngularAcceleration": 100.0
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": -59.0,
+    "rotation": -60.0,
     "rotateFast": false
   },
   "reversed": false,
   "folder": "Starting from Mid Field Notes",
   "previewStartingState": {
-    "rotation": -20.0,
+    "rotation": -2.726310993906272,
     "velocity": 0.0
   },
   "useDefaultConstraints": true

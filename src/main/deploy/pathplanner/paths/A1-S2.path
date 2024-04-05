@@ -12,15 +12,15 @@
         "y": 6.75
       },
       "isLocked": false,
-      "linkedName": "A1"
+      "linkedName": null
     },
     {
       "anchor": {
-        "x": 1.37,
+        "x": 1.33,
         "y": 5.54412553269551
       },
       "prevControl": {
-        "x": 1.2699999999999998,
+        "x": 1.23,
         "y": 5.54412553269551
       },
       "nextControl": null,
@@ -32,10 +32,10 @@
   "constraintZones": [],
   "eventMarkers": [],
   "globalConstraints": {
-    "maxVelocity": 1.5,
-    "maxAcceleration": 3.0,
-    "maxAngularVelocity": 30.0,
-    "maxAngularAcceleration": 30.0
+    "maxVelocity": 2.0,
+    "maxAcceleration": 2.0,
+    "maxAngularVelocity": 50.0,
+    "maxAngularAcceleration": 100.0
   },
   "goalEndState": {
     "velocity": 0,
@@ -45,7 +45,7 @@
   "reversed": false,
   "folder": "Notes Near Starting Zone",
   "previewStartingState": {
-    "rotation": 0,
+    "rotation": 37.0,
     "velocity": 0
   },
   "useDefaultConstraints": true

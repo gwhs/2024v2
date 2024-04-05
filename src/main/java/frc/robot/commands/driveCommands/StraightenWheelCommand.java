@@ -2,32 +2,31 @@
 // Open Source Software; you can modify and/or share it under the terms of
 // the WPILib BSD license file in the root directory of this project.
 
-package frc.robot.commands.ledcommands;
+package frc.robot.commands.driveCommands;
 
-import frc.robot.subsystems.LEDSubsystem;
-import edu.wpi.first.wpilibj.util.Color;
+import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
-/** An example command that uses an example subsystem. */
-public class ChangeLEDToGreen extends Command {
-  @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
-
-  private final LEDSubsystem ledSubsystem;
-
-  public ChangeLEDToGreen(LEDSubsystem ledSubsystem) {
-    this.ledSubsystem = ledSubsystem;
+public class StraightenWheelCommand extends Command {
+  /** Creates a new StraightenWheelCommand. */
+  private final SwerveSubsystem m_Subsystem;
+  public StraightenWheelCommand(SwerveSubsystem m_Subsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
-    addRequirements(ledSubsystem);
+    this.m_Subsystem = m_Subsystem;
+    addRequirements(m_Subsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
+  public void initialize() {
+    m_Subsystem.drive(new Translation2d(1, 0), 0, false);
+    }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    ledSubsystem.setColor(0, 255, 0);
+
   }
 
   // Called once the command ends or is interrupted.
@@ -37,6 +36,6 @@ public class ChangeLEDToGreen extends Command {
   // Returns true when the command should end.
   @Override
   public boolean isFinished() {
-    return ledSubsystem.getColor(1).equals(new Color(0, 255, 0));
+    return true;
   }
 }

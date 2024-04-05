@@ -20,8 +20,8 @@ public class ArmContainer implements BaseContainer {
         ArmSubsystem arm = new ArmSubsystem(ArmSubsystem.Arm.ARM_ID, "CAN_Network", 
                         ArmSubsystem.Arm.ENCODER_DIO_SLOT);
 
-        PizzaBoxSubsystem pizzaBox = new PizzaBoxSubsystem(PizzaBoxSubsystem.PizzaBox.PIZZABOX_ID, 
-                    "rio", PizzaBoxSubsystem.PizzaBox.SERVO_PWN_SLOT);
+        // PizzaBoxSubsystem pizzaBox = new PizzaBoxSubsystem(PizzaBoxSubsystem.PizzaBox.PIZZABOX_ID, 
+        //             "rio", PizzaBoxSubsystem.PizzaBox.SERVO_PWN_SLOT);
                         
         private IntakeSubsystem intakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, "rio");
         
@@ -36,8 +36,8 @@ public class ArmContainer implements BaseContainer {
         arm.enable();
         
 //Pick Up and Put in PizzaBox Command
-        m_driverController.a().onTrue(new PickUpFromGroundAndPassToPizzaBox(pizzaBox, arm, intakeSubsystem));
-        m_driverController.x().whileTrue(new SpinNoteContainerMotor(pizzaBox, 400, 100));
+        // m_driverController.a().onTrue(new PickUpFromGroundAndPassToPizzaBox(pizzaBox, arm, intakeSubsystem));
+        // m_driverController.x().whileTrue(new SpinNoteContainerMotor(pizzaBox, 400, 100));
 
     }
 

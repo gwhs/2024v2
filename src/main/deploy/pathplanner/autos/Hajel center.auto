@@ -2,17 +2,36 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 2.0400914981573175,
-      "y": 5.632912378520905
+      "x": 0.72,
+      "y": 4.44
     },
-    "rotation": 0
+    "rotation": -60.0
   },
   "command": {
     "type": "sequential",
     "data": {
-      "commands": []
+      "commands": [
+        {
+          "type": "named",
+          "data": {
+            "name": "Speaker (S3)"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "go to center"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "center"
+          }
+        }
+      ]
     }
   },
-  "folder": "Hajel Path",
+  "folder": "Hajel",
   "choreoAuto": false
 }

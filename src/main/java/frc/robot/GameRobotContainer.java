@@ -141,7 +141,7 @@ public class GameRobotContainer implements BaseContainer {
                                                                                   new rotateinPlace(()-> UtilMath.BackSpeakerTheta(m_drivebase.getPose()), m_drivebase)));
       NamedCommands.registerCommand("Speaker (A2)", new ParallelDeadlineGroup(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 245), 
                                                                                   new rotateinPlace(()-> UtilMath.BackSpeakerTheta(m_drivebase.getPose()), m_drivebase)));
-      NamedCommands.registerCommand("Speaker (A3)", new ParallelDeadlineGroup(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 248), 
+      NamedCommands.registerCommand("Speaker (A3)", new ParallelDeadlineGroup(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 250), 
                                                                                   new rotateinPlace(()-> UtilMath.BackSpeakerTheta(m_drivebase.getPose()), m_drivebase)));
 
       NamedCommands.registerCommand("Speaker (S1)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 241));

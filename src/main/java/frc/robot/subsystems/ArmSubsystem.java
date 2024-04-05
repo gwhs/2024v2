@@ -13,6 +13,7 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -168,6 +169,8 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     double currentArmAngle = encoderGetAngle();
     if (Math.abs(currentArmAngle - prevArmAngle) >= 50) {
       DataLogManager.log("Arm Emergency Stop: Arm encoder jumped");
+      DataLogManager.log("Arm Emergency Stop: Current Arm Angle = " + currentArmAngle);
+      DataLogManager.log("Arm Emergency Stop: Arm Prev Angle = " + prevArmAngle);
       emergencyStop = true;
     }
     prevArmAngle = currentArmAngle;

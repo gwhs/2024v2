@@ -103,6 +103,12 @@ public class TeleopDrive extends Command
       double ang = UtilMath.FrontSpeakerTheta(swerve.getPose());
       PID.setSetpoint(ang);
       angVelocity = PID.calculate(currTheta);
+      if(angVelocity > Constants.DriveConstants.MAX_RANGE) {
+        angVelocity = Constants.DriveConstants.MAX_RANGE;
+      }
+      else if(angVelocity < -Constants.DriveConstants.MAX_RANGE) {
+        angVelocity = -Constants.DriveConstants.MAX_RANGE;
+      }
       SmartDashboard.putNumber("isFaceSpeaker Goal", ang);
       SmartDashboard.putNumber("isFaceSpeaker Result", angVelocity);
     }
@@ -111,6 +117,12 @@ public class TeleopDrive extends Command
       double ang = UtilMath.BackSpeakerTheta(swerve.getPose());
       PID.setSetpoint(ang);
       angVelocity = PID.calculate(currTheta);
+      if(angVelocity > Constants.DriveConstants.MAX_RANGE) {
+        angVelocity = Constants.DriveConstants.MAX_RANGE;
+      }
+      else if(angVelocity < -Constants.DriveConstants.MAX_RANGE) {
+        angVelocity = -Constants.DriveConstants.MAX_RANGE;
+      }
       SmartDashboard.putNumber("isBackSpeaker Goal", ang);
       SmartDashboard.putNumber("isBackSpeaker Result", angVelocity);
     }
@@ -118,6 +130,12 @@ public class TeleopDrive extends Command
     if (faceAmp) {
       PID.setSetpoint(90);
       angVelocity = PID.calculate(currTheta);
+      if(angVelocity > Constants.DriveConstants.MAX_RANGE) {
+        angVelocity = Constants.DriveConstants.MAX_RANGE;
+      }
+      else if(angVelocity < -Constants.DriveConstants.MAX_RANGE) {
+        angVelocity = -Constants.DriveConstants.MAX_RANGE;
+      }
       SmartDashboard.putNumber("faceAmp Goal", 90);
       SmartDashboard.putNumber("faceAmp Result", angVelocity);
     }
@@ -127,6 +145,12 @@ public class TeleopDrive extends Command
       double theta = UtilMath.SourceIntakeHeading(swerve.getPose());
       PID.setSetpoint(theta);
       double result =  PID.calculate(currTheta);
+      if(result > Constants.DriveConstants.MAX_RANGE) {
+        result = Constants.DriveConstants.MAX_RANGE;
+      }
+      else if(result < -Constants.DriveConstants.MAX_RANGE) {
+        result = -Constants.DriveConstants.MAX_RANGE;
+      }
       angVelocity += result;
       SmartDashboard.putNumber("heading Lock Goal", theta);
       SmartDashboard.putNumber("heading Lock Result", result);

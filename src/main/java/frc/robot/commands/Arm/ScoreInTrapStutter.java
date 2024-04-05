@@ -24,7 +24,7 @@ public class ScoreInTrapStutter extends SequentialCommandGroup {
     for(int index = 0; index < 8; index++)
     {
       addCommands(
-        new SpinNoteContainerMotor(pizzaBoxSubsystem, 50, 100),
+        new SpinNoteContainerMotor(pizzaBoxSubsystem, 80, 100),
         new SwingForwardServo(pizzaBoxSubsystem),
         Commands.waitSeconds(.2),
         new SwingBackServo(pizzaBoxSubsystem),

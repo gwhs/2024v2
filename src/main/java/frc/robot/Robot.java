@@ -72,6 +72,7 @@ public class Robot extends TimedRobot  {
     DriverStation.startDataLog(DataLogManager.getLog());
 
     UtilMath.overhand.put(1.33, 236d); //S2
+    UtilMath.overhand.put(1.79, 240.5);
     UtilMath.overhand.put(2.45, 245d); //A2 
     
     switch (container){

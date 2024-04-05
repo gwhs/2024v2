@@ -36,7 +36,7 @@ public class UnClimbPartTwoThatWillBringDownTheMotor extends SequentialCommandGr
       new SpinToArmAngle(a, Constants.ClimbConstants.CLIMB_ARM_ARNGLE_FOR_SERVO).withTimeout(2.5),
       new SwingBackServoTheSecond(p),
       new WaitCommand(0.7),
-      new SpinToArmAngle(a, Arm.INTAKE_ANGLE),
+      new SpinToArmAngle(a, Arm.INTAKE_ANGLE).withTimeout(.1),
       Commands.runOnce(()->DataLogManager.log("Command End: UnClimbPartTwo"))
       );
   }

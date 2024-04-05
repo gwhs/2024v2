@@ -167,6 +167,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   {
     double currentArmAngle = encoderGetAngle();
     if (Math.abs(currentArmAngle - prevArmAngle) >= 50) {
+      DataLogManager.log("Arm Emergency Stop: Arm encoder jumped");
       emergencyStop = true;
     }
     prevArmAngle = currentArmAngle;

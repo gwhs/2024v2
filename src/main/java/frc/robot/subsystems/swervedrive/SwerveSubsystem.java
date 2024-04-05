@@ -128,7 +128,7 @@ public class SwerveSubsystem extends SubsystemBase
                                          // Max module speed, in m/s
                                          swerveDrive.swerveDriveConfiguration.getDriveBaseRadiusMeters(),
                                          // Drive base radius in meters. Distance from robot center to furthest module.
-                                         new ReplanningConfig(true, true)
+                                         new ReplanningConfig(true, true,.25,.25)
                                          // Default path replanning config. See the API for the options here
         ),
         () -> {

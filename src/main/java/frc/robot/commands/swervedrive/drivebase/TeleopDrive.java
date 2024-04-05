@@ -128,7 +128,7 @@ public class TeleopDrive extends Command
     }
 
     if (faceAmp) {
-      PID.setSetpoint(90);
+      PID.setSetpoint(-90);
       angVelocity = PID.calculate(currTheta);
       if(angVelocity > Constants.DriveConstants.MAX_RANGE) {
         angVelocity = Constants.DriveConstants.MAX_RANGE;
@@ -136,7 +136,7 @@ public class TeleopDrive extends Command
       else if(angVelocity < -Constants.DriveConstants.MAX_RANGE) {
         angVelocity = -Constants.DriveConstants.MAX_RANGE;
       }
-      SmartDashboard.putNumber("faceAmp Goal", 90);
+      SmartDashboard.putNumber("faceAmp Goal", -90);
       SmartDashboard.putNumber("faceAmp Result", angVelocity);
     }
 

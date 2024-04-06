@@ -75,7 +75,8 @@ public class GameRobotContainer implements BaseContainer {
                                           m_drivebase,
                                           () -> MathUtil.applyDeadband(-driverController.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
                                           () -> MathUtil.applyDeadband(-driverController.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
-                                          () -> driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), () -> true);
+                                          () -> (MathUtil.applyDeadband(driverController.getLeftTriggerAxis(), OperatorConstants.ROTATION_DEADBAND) - MathUtil.applyDeadband(driverController.getRightTriggerAxis(), OperatorConstants.ROTATION_DEADBAND)), 
+                                          () -> true);
 
 
 

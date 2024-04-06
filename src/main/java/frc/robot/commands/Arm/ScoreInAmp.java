@@ -23,12 +23,12 @@ public class ScoreInAmp extends SequentialCommandGroup {
         new SwingForwardServo(pizzaBoxSubsystem),
         Commands.waitSeconds(.3),
         new SwingBackServo(pizzaBoxSubsystem),
-        new StopNoteContainerMotor(pizzaBoxSubsystem),
-        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE).withTimeout(3),
         Commands.runOnce(() -> {
           pizzaBoxSubsystem.hasNote = false;
           drive.faceAmp = false;
-          })
+          }),
+        new StopNoteContainerMotor(pizzaBoxSubsystem),
+        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE).withTimeout(3)
     );
   }
 

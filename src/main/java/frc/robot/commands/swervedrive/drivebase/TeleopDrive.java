@@ -35,8 +35,8 @@ public class TeleopDrive extends Command
   public boolean isFaceSpeaker = false;
   public boolean isBackSpeaker = false;
   public boolean faceAmp = false;
-  public boolean isSlow;
-  public boolean isHeadingLock;
+  public boolean isSlow = false;
+  public boolean isHeadingLock = false;
   public boolean faceSpeaker = false;
   private final PIDController PID;
   private double currTheta;
@@ -60,6 +60,7 @@ public class TeleopDrive extends Command
     this.PID.setTolerance(Constants.FaceSpeakerConstants.THETA_TOLERANCE, Constants.FaceSpeakerConstants.STEADY_STATE_TOLERANCE);
     this.PID.enableContinuousInput(-180, 180);
 
+    
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerve);
   }

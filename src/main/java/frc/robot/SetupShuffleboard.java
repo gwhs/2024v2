@@ -146,6 +146,14 @@ public class SetupShuffleboard extends SubsystemBase {
     DataLogManager.log("rotate in place I: " + Constants.DriveConstants.kI);
     DataLogManager.log("rotate in place D: " + Constants.DriveConstants.kD);
 
+    Shuffleboard.getTab("LogBooleans").addBoolean("isFaceSpeaker", ()-> teleopDrive.isFaceSpeaker);
+    Shuffleboard.getTab("LogBooleans").addBoolean("isBackSpeaker", ()-> teleopDrive.isBackSpeaker);
+    Shuffleboard.getTab("LogBooleans").addBoolean("faceAmp", ()-> teleopDrive.faceAmp);
+    Shuffleboard.getTab("LogBooleans").addBoolean("isSlow", ()-> teleopDrive.isSlow);
+    Shuffleboard.getTab("LogBooleans").addBoolean("isHeadingLock", ()-> teleopDrive.isHeadingLock);
+    Shuffleboard.getTab("LogBooleans").addBoolean("faceSpeaker", ()-> teleopDrive.faceSpeaker);
+    
+
 
   }
 }

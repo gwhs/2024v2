@@ -167,6 +167,7 @@ public class TeleopDrive extends Command
     {
       double theta = UtilMath.SourceIntakeHeading(swerve.getPose());
       PID.setSetpoint(theta);
+
       double result =  PID.calculate(currTheta);
       if(result > Constants.DriveConstants.MAX_RANGE) {
         result = Constants.DriveConstants.MAX_RANGE;

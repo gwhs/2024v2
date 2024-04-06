@@ -118,14 +118,14 @@ public final class Constants
     public static final int ledPortNumber = 9;
   }
   public static final class DriveConstants {
-    public static final double kP = 0.03; 
+    public static final double kP = 0.05; 
     public static final double kI = 0; 
     public static final double kD = 0; 
     public static final double THETA_TOLERANCE = 0.1;
     public static final double STEADY_STATE_TOLERANCE = 0.1;
 
     
-    public static final double MAX_RANGE = 0.3;
+    public static final double MAX_RANGE = 0.4;
   }
 
   public static final class FaceSpeakerConstants

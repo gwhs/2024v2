@@ -66,7 +66,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   private ArmFeedforward armFeedForward;
   public boolean emergencyStop = false;
   private double prevArmAngle;
-  public boolean booster = false;
 
   public ArmSubsystem(int armId, String armCanbus, int channel1)
   {
@@ -115,18 +114,12 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     }
 
     if(encoderGetAngle() >= 332) {
-      speed = -1;
+      speed = -5;
     }
 
     if(isEmergencyStop()) {
       speed = 0;
     }
-
-    if(booster)
-    {
-      speed = Arm.MAX_VOLT;
-    }
-
     SmartDashboard.putNumber("Arm speed", speed);
 
     VoltageOut armSpinRequest = new VoltageOut(speed, true, false, false, false);

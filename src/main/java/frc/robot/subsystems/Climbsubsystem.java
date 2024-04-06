@@ -34,8 +34,8 @@ public class Climbsubsystem extends SubsystemBase {
 
   private double leftGoalDistance = 193.94;
   private double rightGoalDistance = 193.4;
-  private double leftDownGoalDistance = 0.3;
-  private double rightDownGoalDistance = 0.3;
+  private double leftDownGoalDistance = 12.3;
+  private double rightDownGoalDistance = 12.3;
 
   private boolean checkForUp = false;
   private boolean emergencyStop = false;

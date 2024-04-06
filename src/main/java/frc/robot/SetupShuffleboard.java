@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.SystemCheck;
 import frc.robot.Constants.Drivebase;
@@ -133,9 +134,10 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("GameTab").add("CLEAR ALL COMMANDS", new CancelAllCommands()).withPosition(7,3);
     Shuffleboard.getTab("GameTab").add("RESET TELEOP DRIVE", new ResetTeleopDrive(teleopDrive)).withPosition(9,0);
     // Shuffleboard.getTab("GameTab").add("Straighten", new StraightenWheelCommand(swerve)).withPosition(9, 1);
+    Shuffleboard.getTab("GameTab").add("Lower Climb Height", Commands.runOnce(()-> climbSubsystem.moveSetGoalForGoingDown())).withPosition(0, 0);
 
     // Shuffleboard.getTab("TEST COMMAND").add("TEST", new LockHeadingToSourceForIntake(teleopDrive, armSubsystem, pizzaBoxSubsystem));
-
+    
     Shuffleboard.getTab("System Check").add("check", new SystemCheck(armSubsystem, climbSubsystem, intakeSubsystem, pizzaBoxSubsystem, reactionSubsystem, swerve, teleopDrive));
  
     DataLogManager.log("rotate in place P: " + Constants.DriveConstants.kP);

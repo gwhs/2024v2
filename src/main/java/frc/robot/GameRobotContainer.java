@@ -180,8 +180,8 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command autoInitReset() {
-    return new IntakeResetArm(m_IntakeSubsystem).withTimeout(3)
-    .alongWith(new Retract(m_ReactionSubsystem));
+    return new WaitCommand(0.02).andThen(new IntakeResetArm(m_IntakeSubsystem).withTimeout(3)
+    .alongWith(new Retract(m_ReactionSubsystem)));
   }
 }
 

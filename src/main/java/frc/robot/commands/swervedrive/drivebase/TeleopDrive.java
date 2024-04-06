@@ -147,12 +147,12 @@ public class TeleopDrive extends Command
     {
       if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
       {
-         PID.setSetpoint(0);
+         PID.setSetpoint(-180);
          angVelocity = PID.calculate(currTheta);
       }
       else
       {
-         PID.setSetpoint(-180);
+         PID.setSetpoint(0);
          angVelocity = PID.calculate(currTheta);
       }
      

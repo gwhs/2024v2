@@ -21,7 +21,7 @@ public class ScoreInTrapStutter extends SequentialCommandGroup {
       new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.TRAP_ANGLE).withTimeout(3));
 
 
-    for(int index = 0; index < 8; index++)
+    for(int index = 0; index < 1; index++)
     {
       addCommands(
         new SpinNoteContainerMotor(pizzaBoxSubsystem, 80, 100),
@@ -29,7 +29,7 @@ public class ScoreInTrapStutter extends SequentialCommandGroup {
         Commands.waitSeconds(.2),
         new SwingBackServo(pizzaBoxSubsystem),
         new StopNoteContainerMotor(pizzaBoxSubsystem),
-        Commands.waitSeconds(.2)
+        Commands.waitSeconds(2)
       );
     }
 

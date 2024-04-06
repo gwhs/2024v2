@@ -128,6 +128,7 @@ public class GameRobotContainer implements BaseContainer {
       operatorController.leftStick().whileTrue(new LockHeadingToSourceForIntake(closedFieldRel, m_ArmSubsystem, m_PizzaBoxSubsystem));
       // GenericEntry s = Shuffleboard.getTab("Arm").add("Angle", 236).getEntry();
       // operatorController.rightStick().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, ()->s.getDouble(236)));
+      operatorController.rightStick().whileTrue(new FaceSpeaker(closedFieldRel));
     }
 
     private void configurePathPlannerCommands() {

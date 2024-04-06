@@ -136,7 +136,7 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("GameTab").add("RESET TELEOP DRIVE", new ResetTeleopDrive(teleopDrive)).withPosition(9,0);
     // Shuffleboard.getTab("GameTab").add("Straighten", new StraightenWheelCommand(swerve)).withPosition(9, 1);
     Shuffleboard.getTab("GameTab").add("Lower Climb Height", Commands.runOnce(()-> climbSubsystem.moveSetGoalForGoingDown())).withPosition(0, 0);
-    Shuffleboard.getTab("GameTab").add("Suck note in", new SpinNoteContainerMotor(pizzaBoxSubsystem, -5, 100));
+    Shuffleboard.getTab("GameTab").add("Suck note in", new SpinNoteContainerMotor(pizzaBoxSubsystem, -5, 100)).withPosition(0, 1);
 
     // Shuffleboard.getTab("TEST COMMAND").add("TEST", new LockHeadingToSourceForIntake(teleopDrive, armSubsystem, pizzaBoxSubsystem));
     

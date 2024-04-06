@@ -65,7 +65,7 @@ public class Robot extends TimedRobot  {
     // Logger.start();
 
     SignalLogger.setPath("/home/lvuser/log/");
-    SignalLogger.enableAutoLogging(true);
+    SignalLogger.enableAutoLogging(false);
     SignalLogger.start();
 
     DataLogManager.start();

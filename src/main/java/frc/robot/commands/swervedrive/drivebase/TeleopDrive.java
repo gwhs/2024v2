@@ -145,27 +145,23 @@ public class TeleopDrive extends Command
 
     if (faceSpeaker)
     {
-      if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
-      {
-         PID.setSetpoint(-180);
-         angVelocity = PID.calculate(currTheta);
+      double result = 0;
+      if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue){
+        PID.setSetpoint(-180);
       }
-      else
-      {
-         PID.setSetpoint(0);
-         angVelocity = PID.calculate(currTheta);
+      else{
+        PID.setSetpoint(0);
       }
+      result = PID.calculate(currTheta);
      
-    if(angVelocity > Constants.DriveConstants.MAX_RANGE)
-    {
-            angVelocity = Constants.DriveConstants.MAX_RANGE;
+      if(result > Constants.DriveConstants.MAX_RANGE){
+        result = Constants.DriveConstants.MAX_RANGE;
+      }
+      else if(result < -Constants.DriveConstants.MAX_RANGE){
+        result = -Constants.DriveConstants.MAX_RANGE;
+      }
+      angVelocity += result;
     }
-    else if(angVelocity < -Constants.DriveConstants.MAX_RANGE)
-    {
-           angVelocity = -Constants.DriveConstants.MAX_RANGE;
-        
-    }
-  }
 
     if(isHeadingLock)
     {

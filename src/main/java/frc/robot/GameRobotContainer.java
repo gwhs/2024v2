@@ -174,9 +174,9 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command teleopInitReset() {
-    return new ResetArm(m_ArmSubsystem, m_PizzaBoxSubsystem).withTimeout(3)
-           .alongWith(new IntakeResetArm(m_IntakeSubsystem)).withTimeout(3)
-           .alongWith(new Retract(m_ReactionSubsystem));
+    return new Retract(m_ReactionSubsystem).withTimeout(0.5)
+           .andThen(new IntakeResetArm(m_IntakeSubsystem)).withTimeout(3)
+           .alongWith(new ResetArm(m_ArmSubsystem, m_PizzaBoxSubsystem).withTimeout(3));
   }
 
   public Command autoInitReset() {

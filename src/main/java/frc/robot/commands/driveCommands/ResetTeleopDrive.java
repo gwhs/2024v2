@@ -22,6 +22,7 @@ public class ResetTeleopDrive extends Command {
     teleop.isBackSpeaker = false;
     teleop.isSlow = false;
     teleop.faceAmp = false;
+    teleop.faceSpeaker = false;
   }
 
   // Called every time the scheduler runs while the command is scheduled.

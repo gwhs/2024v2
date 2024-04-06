@@ -15,6 +15,7 @@ import frc.robot.Constants;
 import frc.robot.Util.UtilMath;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
+import java.sql.Driver;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import swervelib.SwerveController;
@@ -36,6 +37,7 @@ public class TeleopDrive extends Command
   public boolean faceAmp = false;
   public boolean isSlow;
   public boolean isHeadingLock;
+  public boolean faceSpeaker = false;
   private final PIDController PID;
   private double currTheta;
 
@@ -70,6 +72,7 @@ public class TeleopDrive extends Command
       isBackSpeaker = false;
       isSlow = false;
       isHeadingLock = false;
+      
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -139,6 +142,30 @@ public class TeleopDrive extends Command
       SmartDashboard.putNumber("faceAmp Goal", -90);
       SmartDashboard.putNumber("faceAmp Result", angVelocity);
     }
+
+    if (faceSpeaker)
+    {
+      if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
+      {
+         PID.setSetpoint(0);
+         angVelocity = PID.calculate(currTheta);
+      }
+      else
+      {
+         PID.setSetpoint(-180);
+         angVelocity = PID.calculate(currTheta);
+      }
+     
+    if(angVelocity > Constants.DriveConstants.MAX_RANGE)
+    {
+            angVelocity = Constants.DriveConstants.MAX_RANGE;
+    }
+    else if(angVelocity < -Constants.DriveConstants.MAX_RANGE)
+    {
+           angVelocity = -Constants.DriveConstants.MAX_RANGE;
+        
+    }
+  }
 
     if(isHeadingLock)
     {

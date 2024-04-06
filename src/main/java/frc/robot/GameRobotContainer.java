@@ -126,8 +126,8 @@ public class GameRobotContainer implements BaseContainer {
       operatorController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
 
       operatorController.leftStick().whileTrue(new LockHeadingToSourceForIntake(closedFieldRel, m_ArmSubsystem, m_PizzaBoxSubsystem));
-      GenericEntry s = Shuffleboard.getTab("Arm").add("Angle", 236).getEntry();
-      operatorController.rightStick().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, ()->s.getDouble(236)));
+      // GenericEntry s = Shuffleboard.getTab("Arm").add("Angle", 236).getEntry();
+      // operatorController.rightStick().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, ()->s.getDouble(236)));
     }
 
     private void configurePathPlannerCommands() {

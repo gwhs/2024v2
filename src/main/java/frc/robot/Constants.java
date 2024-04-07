@@ -119,7 +119,7 @@ public final class Constants
     public static final int ledPortNumber = 9;
   }
   public static final class DriveConstants {
-    public static final double kP = 0.03; 
+    public static final double kP = 0.02; 
     public static final double kI = 0; 
     public static final double kD = 0; 
     public static final double THETA_TOLERANCE = 0.1;

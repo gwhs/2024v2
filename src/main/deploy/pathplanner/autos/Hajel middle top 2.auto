@@ -12,32 +12,25 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "Speaker (S2)"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "Speaker (S2) then Intake"
+                  "name": "Intake"
                 }
               },
               {
-                "type": "sequential",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 2.75
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "S2-A2"
-                      }
-                    }
-                  ]
+                  "pathName": "S2-A2"
                 }
               }
             ]
@@ -88,15 +81,9 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "A1-S2"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "Speaker (S2)"
+            "name": "Speaker (A1)"
           }
         }
       ]

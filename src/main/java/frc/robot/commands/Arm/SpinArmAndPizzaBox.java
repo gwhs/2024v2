@@ -9,6 +9,7 @@ import frc.robot.subsystems.ArmSubsystem;
 
 import java.util.function.DoubleSupplier;
 
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class SpinArmAndPizzaBox extends Command {
@@ -39,6 +40,7 @@ public class SpinArmAndPizzaBox extends Command {
     // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    DataLogManager.log("Command start: SpinArmAndPizzaBox");
     armSubsystem.targetArmAngle(angle);
     pizzaBoxSubsystem.spinPizzaBoxMotor(-5, 100);
   }
@@ -57,6 +59,7 @@ public class SpinArmAndPizzaBox extends Command {
   // Called once the command ends or is interrupted.
   @Override
   public void end(boolean interrupted) {
+    DataLogManager.log("Command End: SpinArmAndPizzaBox");
   }
   
   // Returns true when the command should end.

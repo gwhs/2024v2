@@ -12,32 +12,25 @@
     "data": {
       "commands": [
         {
+          "type": "named",
+          "data": {
+            "name": "Speaker (S1)"
+          }
+        },
+        {
           "type": "parallel",
           "data": {
             "commands": [
               {
                 "type": "named",
                 "data": {
-                  "name": "Speaker (S1) then Intake"
+                  "name": "Intake"
                 }
               },
               {
-                "type": "sequential",
+                "type": "path",
                 "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 3.0
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "S1-A1"
-                      }
-                    }
-                  ]
+                  "pathName": "S1-A1"
                 }
               }
             ]

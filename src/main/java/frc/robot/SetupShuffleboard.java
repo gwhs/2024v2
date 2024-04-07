@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.SystemCheck;
 import frc.robot.Constants.Drivebase;
@@ -16,6 +17,7 @@ import frc.robot.Util.UtilMath;
 import frc.robot.commands.CancelAllCommands;
 import frc.robot.commands.Arm.ResetArm;
 import frc.robot.commands.Arm.ScoreInTrapStutter;
+import frc.robot.commands.Arm.SpinNoteContainerMotor;
 import frc.robot.commands.Arm.SpinToArmAngle;
 import frc.robot.commands.Arm.SwingBackServoTheSecond;
 import frc.robot.commands.Arm.SwingForwardServoTheSecond;
@@ -133,14 +135,24 @@ public class SetupShuffleboard extends SubsystemBase {
     Shuffleboard.getTab("GameTab").add("CLEAR ALL COMMANDS", new CancelAllCommands()).withPosition(7,3);
     Shuffleboard.getTab("GameTab").add("RESET TELEOP DRIVE", new ResetTeleopDrive(teleopDrive)).withPosition(9,0);
     // Shuffleboard.getTab("GameTab").add("Straighten", new StraightenWheelCommand(swerve)).withPosition(9, 1);
+    Shuffleboard.getTab("GameTab").add("Lower Climb Height", Commands.runOnce(()-> climbSubsystem.moveSetGoalForGoingDown())).withPosition(0, 0);
+    Shuffleboard.getTab("GameTab").add("Suck note in", new SpinNoteContainerMotor(pizzaBoxSubsystem, -5, 100)).withPosition(0, 1);
 
     // Shuffleboard.getTab("TEST COMMAND").add("TEST", new LockHeadingToSourceForIntake(teleopDrive, armSubsystem, pizzaBoxSubsystem));
-
+    
     Shuffleboard.getTab("System Check").add("check", new SystemCheck(armSubsystem, climbSubsystem, intakeSubsystem, pizzaBoxSubsystem, reactionSubsystem, swerve, teleopDrive));
  
     DataLogManager.log("rotate in place P: " + Constants.DriveConstants.kP);
     DataLogManager.log("rotate in place I: " + Constants.DriveConstants.kI);
     DataLogManager.log("rotate in place D: " + Constants.DriveConstants.kD);
+
+    Shuffleboard.getTab("LogBooleans").addBoolean("isFaceSpeaker", ()-> teleopDrive.isFaceSpeaker);
+    Shuffleboard.getTab("LogBooleans").addBoolean("isBackSpeaker", ()-> teleopDrive.isBackSpeaker);
+    Shuffleboard.getTab("LogBooleans").addBoolean("faceAmp", ()-> teleopDrive.faceAmp);
+    Shuffleboard.getTab("LogBooleans").addBoolean("isSlow", ()-> teleopDrive.isSlow);
+    Shuffleboard.getTab("LogBooleans").addBoolean("isHeadingLock", ()-> teleopDrive.isHeadingLock);
+    Shuffleboard.getTab("LogBooleans").addBoolean("faceSpeaker", ()-> teleopDrive.faceSpeaker);
+    
 
 
   }

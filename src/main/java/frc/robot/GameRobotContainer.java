@@ -137,7 +137,6 @@ public class GameRobotContainer implements BaseContainer {
       NamedCommands.registerCommand("Intake", new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
 
       NamedCommands.registerCommand("Speaker (underhand)", new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
-      NamedCommands.registerCommand("Speaker (subwoofer)", new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
 
       NamedCommands.registerCommand("Speaker (A1)", new ParallelDeadlineGroup(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 248), 
                                                                                   new rotateinPlace(()-> UtilMath.BackSpeakerTheta(m_drivebase.getPose()), m_drivebase)));
@@ -149,13 +148,6 @@ public class GameRobotContainer implements BaseContainer {
       NamedCommands.registerCommand("Speaker (S1)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 241));
       NamedCommands.registerCommand("Speaker (S2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 236));
       NamedCommands.registerCommand("Speaker (S3)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 241));
-
-      NamedCommands.registerCommand("Speaker (S1) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 241)
-                                    .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
-      NamedCommands.registerCommand("Speaker (S2) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 236)
-                                    .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
-      NamedCommands.registerCommand("Speaker (S3) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 241)
-                                    .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
 
     }
 

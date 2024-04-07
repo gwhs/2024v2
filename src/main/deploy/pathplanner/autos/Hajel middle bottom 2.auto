@@ -81,15 +81,9 @@
           }
         },
         {
-          "type": "path",
-          "data": {
-            "pathName": "A3-S2"
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "Speaker (S2)"
+            "name": "Speaker (A3)"
           }
         }
       ]

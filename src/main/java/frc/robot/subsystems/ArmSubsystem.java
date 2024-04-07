@@ -114,7 +114,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     }
 
     if(encoderGetAngle() >= 332) {
-      speed = -5;
+      speed = -12;
     }
 
     if(isEmergencyStop()) {

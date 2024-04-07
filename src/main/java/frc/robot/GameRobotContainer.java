@@ -81,7 +81,7 @@ public class GameRobotContainer implements BaseContainer {
 
 
         configurePathPlannerCommands();
-        autoChooser = AutoBuilder.buildAutoChooser("Copy of Hajel middle bottom 2");
+        autoChooser = AutoBuilder.buildAutoChooser("Hajel middle bottom 2");
 
 
         m_drivebase.setDefaultCommand(closedFieldRel);

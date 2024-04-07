@@ -166,10 +166,12 @@ public class GameRobotContainer implements BaseContainer {
    */
   public Command getAutonomousCommand()
   {
-    return new WaitCommand(0.02)
-            .andThen(new IntakeResetArm(m_IntakeSubsystem).withTimeout(3)
-              .alongWith(new Retract(m_ReactionSubsystem)))
-            .andThen(autoChooser.getSelected());
+    return autoChooser.getSelected();
+
+    // return new WaitCommand(.1)
+    //         .andThen(new IntakeResetArm(m_IntakeSubsystem).withTimeout(3)
+    //         .alongWith(new Retract(m_ReactionSubsystem)))
+    //         .andThen(autoChooser.getSelected());
   }
 
   public void setMotorBrake(boolean brake)

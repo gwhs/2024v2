@@ -189,17 +189,14 @@ public class GameRobotContainer implements BaseContainer {
     
     d.setDefaultOption("", "");
     d.addOption("beethoven", "beethoven 9th 4th.chrp");
-    d.addOption("star", "star.chrp");
-    d.addOption("banner", "banner.chrp");
     d.addOption("twinkle", "twinkle star.chrp");
     d.addOption("christmas", "christmas.chrp");
     d.addOption("canon", "canon.chrp");
     d.addOption("bach", "bach.chrp");
     d.addOption("5", "5th.chrp");
-    d.addOption("Wall", "WALL-E.chrp");
-    d.addOption("winter", "winter.chrp");
     d.addOption("jupiter", "jupiter.chrp");
     d.addOption("new world", "new world.chrp");
+    d.addOption("good", "good.chrp");
 
     Shuffleboard.getTab("haha").add(d);
     Supplier<String> selected = ()-> d.getSelected();

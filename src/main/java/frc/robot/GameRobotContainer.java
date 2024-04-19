@@ -83,17 +83,18 @@ public class GameRobotContainer implements BaseContainer {
                                           m_drivebase,
                                           () -> MathUtil.applyDeadband(-driverController.getRawAxis(1), OperatorConstants.LEFT_Y_DEADBAND),
                                           () -> MathUtil.applyDeadband(-driverController.getRawAxis(0), OperatorConstants.LEFT_X_DEADBAND),
-                                          () -> driverController.getLeftTriggerAxis() - driverController.getRightTriggerAxis(), () -> true);
+                                          () -> (MathUtil.applyDeadband(driverController.getLeftTriggerAxis(), OperatorConstants.ROTATION_DEADBAND) - MathUtil.applyDeadband(driverController.getRightTriggerAxis(), OperatorConstants.ROTATION_DEADBAND)), 
+                                          () -> true);
 
 
 
         configurePathPlannerCommands();
-        autoChooser = AutoBuilder.buildAutoChooser("2N-S2-A3");
+        autoChooser = AutoBuilder.buildAutoChooser("Hajel middle bottom 2");
 
 
         m_drivebase.setDefaultCommand(closedFieldRel);
 
-        //SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, m_ClimbSubsystem, m_ReactionSubsystem, autoChooser, closedFieldRel);
+        SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, m_ClimbSubsystem, m_ReactionSubsystem, autoChooser, closedFieldRel);
 
         configureBindings();
         tune();
@@ -107,18 +108,21 @@ public class GameRobotContainer implements BaseContainer {
       //RE-ENABLE BUTTONS;
       
       driverController.y().onTrue(new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
-      driverController.a().onTrue(new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem)); 
+      driverController.a().onTrue(new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem, closedFieldRel)); 
       driverController.b().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem, 10));
       driverController.x().whileTrue(new DecreaseSpeed(closedFieldRel));
 
       driverController.rightStick().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
-      //driverController.leftStick().onTrue(new ChangeRobotOrientation(closedFieldRel));
+      // driverController.back().onTrue(new ChangeRobotOrientation(closedFieldRel));
 
-      //driverController.rightBumper().onTrue(new BackSpeaker(closedFieldRel));
+      //driverController.rightBumper().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, ()->UtilMath.overhand.get(UtilMath.distanceFromSpeaker(()->m_drivebase.getPose()))));
       //driverController.leftBumper().onTrue(new FaceSpeaker(closedFieldRel));
 
-      driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
+      //driverController.rightBumper().onTrue(new Aimbot(closedFieldRel, m_ArmSubsystem, m_PizzaBoxSubsystem, m_drivebase));
+      driverController.leftBumper().onTrue(new FaceAmp(closedFieldRel));
 
+      //driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
+      driverController.start().onTrue(new InstantCommand(m_drivebase::setHeading));
 
       /* Operator Controllers */
 
@@ -132,56 +136,29 @@ public class GameRobotContainer implements BaseContainer {
       operatorController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
 
       operatorController.leftStick().whileTrue(new LockHeadingToSourceForIntake(closedFieldRel, m_ArmSubsystem, m_PizzaBoxSubsystem));
-      GenericEntry s = Shuffleboard.getTab("Arm").add("Angle", 236).getEntry();
-      operatorController.rightStick().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, ()->s.getDouble(236)));
+      // GenericEntry s = Shuffleboard.getTab("Arm").add("Angle", 236).getEntry();
+      // operatorController.rightStick().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, ()->s.getDouble(236)));
+      operatorController.rightStick().whileTrue(new FaceSpeaker(closedFieldRel));
     }
 
     private void configurePathPlannerCommands() {
     
-    NamedCommands.registerCommand("Wait (half a second)", new WaitCommand(0.5));
-    NamedCommands.registerCommand("Wait (one second)", new WaitCommand(1));
+      NamedCommands.registerCommand("Intake", new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
 
-    NamedCommands.registerCommand("Intake", new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
+      NamedCommands.registerCommand("Speaker (underhand)", new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
 
-    NamedCommands.registerCommand("Amp", new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem));
+      NamedCommands.registerCommand("Speaker (A1)", new ParallelDeadlineGroup(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 248), 
+                                                                                  new rotateinPlace(()-> UtilMath.BackSpeakerTheta(m_drivebase.getPose()), m_drivebase)));
+      NamedCommands.registerCommand("Speaker (A2)", new ParallelDeadlineGroup(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 245), 
+                                                                                  new rotateinPlace(()-> UtilMath.BackSpeakerTheta(m_drivebase.getPose()), m_drivebase)));
+      NamedCommands.registerCommand("Speaker (A3)", new ParallelDeadlineGroup(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 250), 
+                                                                                  new rotateinPlace(()-> UtilMath.BackSpeakerTheta(m_drivebase.getPose()), m_drivebase)));
 
-    NamedCommands.registerCommand("Speaker (underhand)", new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
-    NamedCommands.registerCommand("Speaker (subwoofer)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 227.22));
+      NamedCommands.registerCommand("Speaker (S1)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 241));
+      NamedCommands.registerCommand("Speaker (S2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 236));
+      NamedCommands.registerCommand("Speaker (S3)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 241));
 
-    NamedCommands.registerCommand("Speaker (A1)", new ParallelDeadlineGroup(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 248)/*, 
-                                                                                 new rotateinPlace(()-> UtilMath.BackSpeakerTheta(m_drivebase.getPose()), m_drivebase)*/));
-    NamedCommands.registerCommand("Speaker (A2)", new ParallelDeadlineGroup(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 248)/*, 
-                                                                                 new rotateinPlace(()-> UtilMath.BackSpeakerTheta(m_drivebase.getPose()), m_drivebase)*/));
-    NamedCommands.registerCommand("Speaker (A3)", new ParallelDeadlineGroup(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 248), 
-                                                                                 new rotateinPlace(()-> UtilMath.BackSpeakerTheta(m_drivebase.getPose()), m_drivebase)));
-
-    NamedCommands.registerCommand("Speaker (A1-A2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 245));
-    NamedCommands.registerCommand("Speaker (A2-A3)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 245));
-
-    NamedCommands.registerCommand("Speaker (A3-A2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 245));
-    NamedCommands.registerCommand("Speaker (A2-A1)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 245));
-
-    NamedCommands.registerCommand("Speaker (S1)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 241));
-    NamedCommands.registerCommand("Speaker (S2)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 236));
-    NamedCommands.registerCommand("Speaker (S3)", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 241));
-
-    NamedCommands.registerCommand("Speaker (S1) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 241)
-                                  .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
-    NamedCommands.registerCommand("Speaker (S2) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 236)
-                                  .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
-    NamedCommands.registerCommand("Speaker (S3) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 241)
-                                  .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
-
-    NamedCommands.registerCommand("Speaker (A1-A2) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 245)
-                                  .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
-    NamedCommands.registerCommand("Speaker (A2-A3) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 245)
-                                  .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
-
-    NamedCommands.registerCommand("Speaker (A3-A2) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 245)
-                                  .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
-    NamedCommands.registerCommand("Speaker (A2-A1) then Intake", new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, 245)
-                                  .andThen(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem)));
-  }
+    }
 
   public void tune() {
     
@@ -214,6 +191,11 @@ public class GameRobotContainer implements BaseContainer {
   public Command getAutonomousCommand()
   {
     return autoChooser.getSelected();
+
+    // return new WaitCommand(.1)
+    //         .andThen(new IntakeResetArm(m_IntakeSubsystem).withTimeout(3)
+    //         .alongWith(new Retract(m_ReactionSubsystem)))
+    //         .andThen(autoChooser.getSelected());
   }
 
   public void setMotorBrake(boolean brake)
@@ -222,12 +204,10 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command teleopInitReset() {
-    return new ResetArm(m_ArmSubsystem, m_PizzaBoxSubsystem).withTimeout(3)
-           .alongWith(new IntakeResetArm(m_IntakeSubsystem)).withTimeout(3);
+    return new Retract(m_ReactionSubsystem).withTimeout(0.5)
+           .andThen(new IntakeResetArm(m_IntakeSubsystem)).withTimeout(3)
+           .alongWith(new ResetArm(m_ArmSubsystem, m_PizzaBoxSubsystem).withTimeout(3));
   }
 
-  public Command autoInitReset() {
-    return new IntakeResetArm(m_IntakeSubsystem).withTimeout(3);
-  }
 }
 

@@ -59,22 +59,21 @@ public class Robot extends TimedRobot  {
    */
   @Override
   public void robotInit() {
-    // Instantiate our RobotContainer.  This will perform all our button bindings, and use the subsystems needed
-    // for the specific robot
-    // LimelightHelpers.setStreamMode_PiPSecondary("limelight");
-
-    // Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5800").withSize(4,3).withPosition(5, 0);
-
     // String logfolder = "/home/lvuser";
     // Logger.addDataReceiver(new WPILOGWriter(logfolder));
     // Logger.addDataReceiver(new NT4Publisher());
     // Logger.start();
 
-    //SignalLogger.enableAutoLogging(true);
-    //SignalLogger.start();
+    SignalLogger.setPath("/home/lvuser/log/");
+    SignalLogger.enableAutoLogging(false);
+    SignalLogger.start();
 
     DataLogManager.start();
     DriverStation.startDataLog(DataLogManager.getLog());
+
+    UtilMath.overhand.put(1.33, 236d); //S2
+    UtilMath.overhand.put(1.79, 240.5);
+    UtilMath.overhand.put(2.45, 245d); //A2 
     
     switch (container){
       case GAME:
@@ -103,11 +102,6 @@ public class Robot extends TimedRobot  {
         m_baseContainer = new ReactionArmContainer();
         break;
     }  
-
-      //UtilMath.treeOverHand.put();
-      
-      //UtilMath.treeUnderHand.put();
-   
   }
 
   /**

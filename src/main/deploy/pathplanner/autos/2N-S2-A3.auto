@@ -2,10 +2,10 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 0.72,
-      "y": 4.44
+      "x": 1.33,
+      "y": 5.54
     },
-    "rotation": -60.0
+    "rotation": 0
   },
   "command": {
     "type": "sequential",
@@ -14,7 +14,32 @@
         {
           "type": "named",
           "data": {
-            "name": "Speaker (S3)"
+            "name": "Speaker (S2)"
+          }
+        },
+        {
+          "type": "parallel",
+          "data": {
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "Intake"
+                }
+              },
+              {
+                "type": "path",
+                "data": {
+                  "pathName": "S2-A2"
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "Speaker (A2)"
           }
         },
         {
@@ -24,7 +49,7 @@
               {
                 "type": "path",
                 "data": {
-                  "pathName": "S3-A3"
+                  "pathName": "A2-A3"
                 }
               },
               {
@@ -37,46 +62,14 @@
           }
         },
         {
-          "type": "parallel",
-          "data": {
-            "commands": [
-              {
-                "type": "named",
-                "data": {
-                  "name": "Speaker (A3-A2) then Intake"
-                }
-              },
-              {
-                "type": "sequential",
-                "data": {
-                  "commands": [
-                    {
-                      "type": "wait",
-                      "data": {
-                        "waitTime": 3.0
-                      }
-                    },
-                    {
-                      "type": "path",
-                      "data": {
-                        "pathName": "A3-A2"
-                      }
-                    }
-                  ]
-                }
-              }
-            ]
-          }
-        },
-        {
           "type": "named",
           "data": {
-            "name": "Speaker (A2)"
+            "name": "Speaker (A3)"
           }
         }
       ]
     }
   },
-  "folder": "2. A+A",
+  "folder": null,
   "choreoAuto": false
 }

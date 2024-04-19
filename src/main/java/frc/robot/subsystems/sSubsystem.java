@@ -9,12 +9,12 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class BestSubsystem extends SubsystemBase {
+public class sSubsystem extends SubsystemBase {
 
   private static Orchestra orchestra = new Orchestra();
 
   /** Creates a new BestSubsystem. */
-  public BestSubsystem() {
+  public sSubsystem() {
     
   }
 

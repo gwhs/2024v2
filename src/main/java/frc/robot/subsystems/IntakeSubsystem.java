@@ -47,23 +47,7 @@ public class IntakeSubsystem extends SubsystemBase {
     UtilMotor.configMotorSupplyCurrent(m_spinIntake, 80);
 
     Shuffleboard.getTab("Intake").addDouble("Encoder Angle", () -> encoderGetAngle());
-
     Shuffleboard.getTab("Intake").addBoolean("Sensor value", () -> isNotePresent());
-    
-    if(DriverStation.isTest()) {
-      Shuffleboard.getTab("Intake").addDouble("Intake Arm Stator Current", () -> m_moveIntakeArm.getStatorCurrent().getValueAsDouble());
-      Shuffleboard.getTab("Intake").addDouble("Intake Arm Rotor Velocity", () -> m_moveIntakeArm.getRotorVelocity().getValueAsDouble());
-      Shuffleboard.getTab("Intake").addDouble("Intake Arm Temperature", () -> m_moveIntakeArm.getDeviceTemp().getValueAsDouble());
-      
-      Shuffleboard.getTab("Intake").addDouble("Spin Intake Stator Current", () -> m_spinIntake.getStatorCurrent().getValueAsDouble());
-      Shuffleboard.getTab("Intake").addDouble("Spin Intake Rotor Velocity", () -> m_spinIntake.getRotorVelocity().getValueAsDouble());
-      Shuffleboard.getTab("Intake").addDouble("Spin Intake Temperature", () -> m_spinIntake.getDeviceTemp().getValueAsDouble());
-    }
-
-    BestSubsystem.join(m_moveIntakeArm);
-    BestSubsystem.join(m_spinIntake);
-
-    //m_Encoder.reset();
 
     // Logger.recordOutput("Intake/EncoderAngle", encoderGetAngle());
     // Logger.recordOutput("Intake/SensorValue", isNotePresent());
@@ -74,6 +58,9 @@ public class IntakeSubsystem extends SubsystemBase {
     // Logger.recordOutput("Intake/ArmMotor/StatorCurrent", m_moveIntakeArm.getStatorCurrent().getValueAsDouble());
     // Logger.recordOutput("Intake/ArmMotor/SupplyCurrent", m_moveIntakeArm.getSupplyCurrent().getValueAsDouble());
     // Logger.recordOutput("Intake/ArmMotor/TorqueCurrent", m_moveIntakeArm.getTorqueCurrent().getValueAsDouble());
+
+    sSubsystem.join(m_moveIntakeArm);
+    sSubsystem.join(m_spinIntake);
   }
 
   // spin the intake motors, velocity is negative to intake note
@@ -87,11 +74,11 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     if (!emergencyStop) {
-      // m_spinIntake.set(-intakeMotorVelocity);
+      m_spinIntake.set(-intakeMotorVelocity);
 
-      intakeMotorVelocity *= 100;
-      spinRequest1 = new VelocityVoltage(-intakeMotorVelocity, 150, true, 0, 0,false, false, false);
-      m_spinIntake.setControl(spinRequest1);
+      // intakeMotorVelocity *= 100;
+      // spinRequest1 = new VelocityVoltage(-intakeMotorVelocity, 150, true, 0, 0,false, false, false);
+      // m_spinIntake.setControl(spinRequest1);
 
       SmartDashboard.putNumber("Intake spin motor speed", intakeMotorVelocity);
     }

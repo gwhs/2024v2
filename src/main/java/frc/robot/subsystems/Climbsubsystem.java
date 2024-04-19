@@ -10,6 +10,7 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ClimbConstants;
@@ -33,6 +34,8 @@ public class Climbsubsystem extends SubsystemBase {
 
   private double leftGoalDistance = 193.94;
   private double rightGoalDistance = 193.4;
+  private double leftDownGoalDistance = 12.3;
+  private double rightDownGoalDistance = 12.3;
 
   private boolean checkForUp = false;
   private boolean emergencyStop = false;
@@ -63,8 +66,8 @@ public class Climbsubsystem extends SubsystemBase {
     leftPIDcontroller.setGoal(getPositionLeft());
     rightPIDcontroller.setGoal(getPositionRight());
 
-    BestSubsystem.join(climberArmLeft);
-    BestSubsystem.join(climberArmRight);
+    sSubsystem.join(climberArmLeft);
+    sSubsystem.join(climberArmRight);
   } 
 
 
@@ -155,8 +158,18 @@ public class Climbsubsystem extends SubsystemBase {
 
   public void downMotor() {
     checkForUp = false;
-    leftPIDcontroller.setGoal(-.3); //-0.3
-    rightPIDcontroller.setGoal(.3); //0.3
+    leftPIDcontroller.setGoal(-leftDownGoalDistance); //-0.3
+    rightPIDcontroller.setGoal(rightDownGoalDistance); //0.3
+  }
+
+  public void moveSetGoalForGoingDown() {
+    checkForUp = true;
+    leftDownGoalDistance += 4;
+    rightDownGoalDistance += 4;
+    leftPIDcontroller.setGoal(-leftDownGoalDistance);
+    rightPIDcontroller.setGoal(rightDownGoalDistance);
+    DataLogManager.log("change left goal to " + leftDownGoalDistance);
+    DataLogManager.log("change right goal to " + rightDownGoalDistance);
   }
 
   @Override

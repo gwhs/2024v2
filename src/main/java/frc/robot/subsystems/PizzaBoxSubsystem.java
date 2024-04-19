@@ -42,20 +42,14 @@ public class PizzaBoxSubsystem extends SubsystemBase {
     m_servo = new Servo(channelServo);
     UtilMotor.configMotor(m_pizzaBox, .5, 0, 0, .12, 15, 80, false);      
     //UtilMotor.configMotorStatorCurrent(m_pizzaBox, 80);
-
-    if(DriverStation.isTest()) {
-      Shuffleboard.getTab("Pizza").addDouble("Pizzabox Stator Current", () -> m_pizzaBox.getStatorCurrent().getValueAsDouble());
-      Shuffleboard.getTab("Pizza").addDouble("Pizzabox Rotor Velocity", () -> m_pizzaBox.getRotorVelocity().getValueAsDouble());
-      Shuffleboard.getTab("Pizza").addDouble("Pizzabox Temperature", () -> m_pizzaBox.getDeviceTemp().getValueAsDouble());
-    }
-
-    BestSubsystem.join(m_pizzaBox);
   }
 
   //Spins "Pizzabox" motor: velocity in rotations/sec and acceleration in rotations/sec^2
   public void spinPizzaBoxMotor(double velocity, double acceleration) {
-    VelocityVoltage spinPizzaBoxMotorRequest = new VelocityVoltage(velocity, acceleration, true, 0, 0, false, false, false);
-    m_pizzaBox.setControl(spinPizzaBoxMotorRequest);
+    // VelocityVoltage spinPizzaBoxMotorRequest = new VelocityVoltage(velocity, acceleration, true, 0, 0, false, false, false);
+    // m_pizzaBox.setControl(spinPizzaBoxMotorRequest);
+
+    m_pizzaBox.set(velocity/100);
   }
   //Sets the position of the Servo motor on the pizza box
   public void setServoAngle(double angle) {

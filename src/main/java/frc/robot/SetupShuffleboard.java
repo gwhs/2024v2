@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.*;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.commands.SystemCheck;
 import frc.robot.Constants.Drivebase;
@@ -16,6 +17,8 @@ import frc.robot.Util.UtilMath;
 import frc.robot.commands.CancelAllCommands;
 import frc.robot.commands.Arm.ResetArm;
 import frc.robot.commands.Arm.ScoreInTrapStutter;
+import frc.robot.commands.Arm.SpinNoteContainerMotor;
+import frc.robot.commands.Arm.SpinToArmAngle;
 import frc.robot.commands.Arm.SwingBackServoTheSecond;
 import frc.robot.commands.Arm.SwingForwardServoTheSecond;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
@@ -71,11 +74,6 @@ public class SetupShuffleboard extends SubsystemBase {
       Shuffleboard.getTab("Climb").addDouble("climb distance right", () -> climbSubsystem.getPositionRight()).withPosition(1, 0);
       Shuffleboard.getTab("Climb").add("motor down", new MotorDown(climbSubsystem, armSubsystem)).withPosition(1, 1);
       Shuffleboard.getTab("Climb").add("motor up", new MotorUp(climbSubsystem, armSubsystem)).withPosition(0, 1);
-      Shuffleboard.getTab("Climb").addBoolean("bot left limit", () -> climbSubsystem.getBotLeftLimit()).withPosition(2, 1);
-      Shuffleboard.getTab("Climb").addBoolean("bot right limit", () -> climbSubsystem.getBotRightLimit()).withPosition(3, 1);
-      Shuffleboard.getTab("Climb").addBoolean("top left limit", () -> climbSubsystem.getTopLeftLimit()).withPosition(2, 0);
-      Shuffleboard.getTab("Climb").addBoolean("top right limit", () -> climbSubsystem.getTopRightLimit()).withPosition(3, 0);
-      
 
       Shuffleboard.getTab("Climb").add("unclimb1", new UnClimb(climbSubsystem, armSubsystem, reactionSubsystem)).withPosition(4, 1);
       Shuffleboard.getTab("Climb").add("unclimb2", new UnClimbPartTwoThatWillBringDownTheMotor(climbSubsystem, swerve, armSubsystem, reactionSubsystem, pizzaBoxSubsystem)).withPosition(5, 1);
@@ -83,16 +81,20 @@ public class SetupShuffleboard extends SubsystemBase {
       Shuffleboard.getTab("Climb").add("STOP CLIMB!!!!", new StopClimb(climbSubsystem)).withSize(2, 1).withPosition(2, 2);
 
       Shuffleboard.getTab("Climb").addDouble("Reaction Bar Angle", ()-> reactionSubsystem.getPos()).withPosition(9, 4);
-  
-      Shuffleboard.getTab("Arm").addDouble("distance from speaker", ()-> UtilMath.distanceFromSpeaker(swerve.getPose()));
 
       Shuffleboard.getTab("Arm").add("stutter trap", new ScoreInTrapStutter(pizzaBoxSubsystem, armSubsystem));
-
-      Shuffleboard.getTab("Pizza Box").add("Swing Servo Forward", new SwingForwardServoTheSecond(pizzaBoxSubsystem));
-      Shuffleboard.getTab("Pizza Box").add("Swing Servo back", new SwingBackServoTheSecond(pizzaBoxSubsystem));
-
-
     }
+
+    // Shuffleboard.getTab("Pizza Box").add("270", new SpinToArmAngle(armSubsystem, 270));
+    // Shuffleboard.getTab("Pizza Box").add("Swing Servo Forward", new SwingForwardServoTheSecond(pizzaBoxSubsystem));
+    // Shuffleboard.getTab("Pizza Box").add("Swing Servo back", new SwingBackServoTheSecond(pizzaBoxSubsystem));
+
+    Shuffleboard.getTab("Arm").addDouble("distance from speaker", ()-> UtilMath.distanceFromSpeaker(swerve.getPose()));
+
+    Shuffleboard.getTab("Climb").addBoolean("bot left limit", () -> climbSubsystem.getBotLeftLimit()).withPosition(2, 1);
+    Shuffleboard.getTab("Climb").addBoolean("bot right limit", () -> climbSubsystem.getBotRightLimit()).withPosition(3, 1);
+    Shuffleboard.getTab("Climb").addBoolean("top left limit", () -> climbSubsystem.getTopLeftLimit()).withPosition(2, 0);
+    Shuffleboard.getTab("Climb").addBoolean("top right limit", () -> climbSubsystem.getTopRightLimit()).withPosition(3, 0);
     
     // Shuffleboard.getTab("GameTab").add("Field", swerve.getField2d())
     //   .withSize(3, 2)
@@ -132,22 +134,26 @@ public class SetupShuffleboard extends SubsystemBase {
       .withPosition(5,3);
     Shuffleboard.getTab("GameTab").add("CLEAR ALL COMMANDS", new CancelAllCommands()).withPosition(7,3);
     Shuffleboard.getTab("GameTab").add("RESET TELEOP DRIVE", new ResetTeleopDrive(teleopDrive)).withPosition(9,0);
-    Shuffleboard.getTab("GameTab").add("Straighten", new StraightenWheelCommand(swerve)).withPosition(9, 1);
+    // Shuffleboard.getTab("GameTab").add("Straighten", new StraightenWheelCommand(swerve)).withPosition(9, 1);
+    Shuffleboard.getTab("GameTab").add("Lower Climb Height", Commands.runOnce(()-> climbSubsystem.moveSetGoalForGoingDown())).withPosition(0, 0);
+    Shuffleboard.getTab("GameTab").add("Suck note in", new SpinNoteContainerMotor(pizzaBoxSubsystem, -5, 100)).withPosition(0, 1);
 
     // Shuffleboard.getTab("TEST COMMAND").add("TEST", new LockHeadingToSourceForIntake(teleopDrive, armSubsystem, pizzaBoxSubsystem));
-
-
-  
-    Shuffleboard.getTab("System Check").add("check", new SystemCheck(armSubsystem, climbSubsystem, intakeSubsystem, pizzaBoxSubsystem, reactionSubsystem, swerve));
+    
+    Shuffleboard.getTab("System Check").add("check", new SystemCheck(armSubsystem, climbSubsystem, intakeSubsystem, pizzaBoxSubsystem, reactionSubsystem, swerve, teleopDrive));
  
     DataLogManager.log("rotate in place P: " + Constants.DriveConstants.kP);
     DataLogManager.log("rotate in place I: " + Constants.DriveConstants.kI);
     DataLogManager.log("rotate in place D: " + Constants.DriveConstants.kD);
 
+    Shuffleboard.getTab("LogBooleans").addBoolean("isFaceSpeaker", ()-> teleopDrive.isFaceSpeaker);
+    Shuffleboard.getTab("LogBooleans").addBoolean("isBackSpeaker", ()-> teleopDrive.isBackSpeaker);
+    Shuffleboard.getTab("LogBooleans").addBoolean("faceAmp", ()-> teleopDrive.faceAmp);
+    Shuffleboard.getTab("LogBooleans").addBoolean("isSlow", ()-> teleopDrive.isSlow);
+    Shuffleboard.getTab("LogBooleans").addBoolean("isHeadingLock", ()-> teleopDrive.isHeadingLock);
+    Shuffleboard.getTab("LogBooleans").addBoolean("faceSpeaker", ()-> teleopDrive.faceSpeaker);
+    
 
-  }
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
+
   }
 }

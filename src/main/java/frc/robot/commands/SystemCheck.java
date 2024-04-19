@@ -15,6 +15,7 @@ import frc.robot.commands.ClimberCommands.ClimbParts.UnClimb;
 import frc.robot.commands.ClimberCommands.ClimbParts.UnClimbPartTwoThatWillBringDownTheMotor;
 import frc.robot.commands.IntakeCommands.PickUpFromGroundAndPassToPizzaBox;
 import frc.robot.commands.ReactionArmCommands.*;
+import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
@@ -28,7 +29,7 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class SystemCheck extends SequentialCommandGroup {
   /** Creates a new SystemCheck. */
-  public SystemCheck(ArmSubsystem a, Climbsubsystem c, IntakeSubsystem i, PizzaBoxSubsystem p, ReactionSubsystem r, SwerveSubsystem s) {
+  public SystemCheck(ArmSubsystem a, Climbsubsystem c, IntakeSubsystem i, PizzaBoxSubsystem p, ReactionSubsystem r, SwerveSubsystem s, TeleopDrive t) {
     
     addCommands(
       //TO-DO: Add condition for different systemcheck if arm/intake is broken
@@ -38,7 +39,7 @@ public class SystemCheck extends SequentialCommandGroup {
       new UnClimbPartTwoThatWillBringDownTheMotor(c, s, a, r, p), new WaitCommand(2),
       new PickUpFromGroundAndPassToPizzaBox(p, a, i), new WaitCommand(2),
       new PickUpFromGroundAndPassToPizzaBox(p, a, i), new WaitCommand(2),
-      new ScoreInAmp(p, a), new WaitCommand(2),
+      new ScoreInAmp(p, a, t), new WaitCommand(2),
       new ScoreInSpeakerUnderHand(p, a), new WaitCommand(2)
 
     );

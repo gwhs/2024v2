@@ -30,7 +30,7 @@ public class PrepClimb extends SequentialCommandGroup {
       Commands.runOnce(()->DataLogManager.log("Command Start: PrepClimb")),
       new SpinToArmAngle(a, Constants.ClimbConstants.CLIMB_ARM_ARNGLE_FOR_SERVO).withTimeout(4),
       new SwingForwardServoTheSecond(p),
-      new WaitCommand(0.5),
+      new WaitCommand(0.7),
       new SpinToArmAngle(a, Constants.ClimbConstants.CLIMB_ARM_ANGLE).withTimeout(1),
       Commands.waitUntil(()->a.checkEncoderAngleForClimb()), 
       new MotorUp(c, a).withTimeout(5),

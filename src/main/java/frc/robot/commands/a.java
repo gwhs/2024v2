@@ -7,7 +7,7 @@ package frc.robot.commands;
 import java.util.function.Supplier;
 
 import edu.wpi.first.wpilibj2.command.InstantCommand;
-import frc.robot.subsystems.BestSubsystem;
+import frc.robot.subsystems.sSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
@@ -22,6 +22,6 @@ public class a extends InstantCommand {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    BestSubsystem.start(s.get());
+    sSubsystem.start(s.get());
   }
 }

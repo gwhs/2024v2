@@ -223,7 +223,7 @@ public class LimeLightSub extends SubsystemBase {
         }
         stds.set(0,0,xyStds);
         stds.set(1,0,xyStds);
-        stds.set(2,0, degStds);
+        stds.set(2,0, 999999);
         
         limelightAcceptedPosePublisher.set(newPose);
         

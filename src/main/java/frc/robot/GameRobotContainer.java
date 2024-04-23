@@ -103,7 +103,7 @@ public class GameRobotContainer implements BaseContainer {
 
 
     private void configureBindings() {
-
+      displayMode();
       /* Driver Controller */
       //RE-ENABLE BUTTONS;
       
@@ -136,8 +136,6 @@ public class GameRobotContainer implements BaseContainer {
       operatorController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
 
       operatorController.leftStick().whileTrue(new LockHeadingToSourceForIntake(closedFieldRel, m_ArmSubsystem, m_PizzaBoxSubsystem));
-      // GenericEntry s = Shuffleboard.getTab("Arm").add("Angle", 236).getEntry();
-      // operatorController.rightStick().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, ()->s.getDouble(236)));
       operatorController.rightStick().whileTrue(new FaceSpeaker(closedFieldRel));
     }
 
@@ -181,6 +179,16 @@ public class GameRobotContainer implements BaseContainer {
     Shuffleboard.getTab("haha").add(new a(selected));
 
     Shuffleboard.getTab("haha").add(new b());
+  }
+
+  public void displayMode() {
+    GenericEntry s = Shuffleboard.getTab("Display").add("Arm Angle", 236).withWidget(BuiltInWidgets.kNumberSlider).withProperties(Map.of("min", 0, "max", 300)).withSize(9,3).withPosition(0,1).getEntry();
+    Shuffleboard.getTab("Display").add("Shoot", 
+      new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, ()->s.getDouble(236)).alongWith(new a("")))
+        .withSize(2,1).withPosition(2,0);
+    Shuffleboard.getTab("display").add("Reload", 
+      new LockHeadingToSourceForIntake(closedFieldRel, m_ArmSubsystem, m_PizzaBoxSubsystem).andThen(new a("")))
+        .withSize(2,1).withPosition(0,0);
   }
 
   /**

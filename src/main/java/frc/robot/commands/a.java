@@ -13,15 +13,27 @@ import frc.robot.subsystems.sSubsystem;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class a extends InstantCommand {
+  private boolean supplier;
+  private String t;
   private Supplier<String> s;
+  
   public a(Supplier<String> str) {
     s = str;
+    supplier = true;
     // Use addRequirements() here to declare subsystem dependencies.
+  }
+
+  public a(String str) {
+    t = str;
+    supplier = false;
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    if (supplier)
     sSubsystem.start(s.get());
+    else 
+      sSubsystem.start(t);
   }
 }

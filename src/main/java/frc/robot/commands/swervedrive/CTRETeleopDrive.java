@@ -48,6 +48,8 @@ public class CTRETeleopDrive extends Command {
     this.PID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
     this.PID.setTolerance(Constants.FaceSpeakerConstants.THETA_TOLERANCE, Constants.FaceSpeakerConstants.STEADY_STATE_TOLERANCE);
     this.PID.enableContinuousInput(-180, 180);
+  
+    addRequirements(drivetrain);
   }
 
   // Called when the command is initially scheduled.

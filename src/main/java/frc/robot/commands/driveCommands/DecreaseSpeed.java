@@ -5,12 +5,12 @@
 package frc.robot.commands.driveCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
+import frc.robot.commands.swervedrive.CTRETeleopDrive;
 
 public class DecreaseSpeed extends Command {
-  public final TeleopDrive drive;
+  public final CTRETeleopDrive drive;
   /** Creates a new decreaseSpeed. */
-  public DecreaseSpeed(TeleopDrive drivebase) {
+  public DecreaseSpeed(CTRETeleopDrive drivebase) {
     // Use addRequirements() here to declare subsystem dependencies.
     drive = drivebase;
   }

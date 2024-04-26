@@ -8,6 +8,9 @@ import com.ctre.phoenix6.mechanisms.swerve.SwerveDrivetrainConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveModuleConstants;
 import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 
+import edu.wpi.first.math.geometry.Pose2d;
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.Notifier;
 import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -21,6 +24,14 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     private static final double kSimLoopPeriod = 0.005; // 5 ms
     private Notifier m_simNotifier = null;
     private double m_lastSimTime;
+    private static CommandSwerveDrivetrain instance;
+
+    public static CommandSwerveDrivetrain getInstance() {
+        if (instance == null) {
+            instance = TunerConstants.DriveTrain;
+        }
+        return instance;
+    }
 
     public CommandSwerveDrivetrain(SwerveDrivetrainConstants driveTrainConstants, double OdometryUpdateFrequency, SwerveModuleConstants... modules) {
         super(driveTrainConstants, OdometryUpdateFrequency, modules);
@@ -52,5 +63,22 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
             updateSimState(deltaTime, RobotController.getBatteryVoltage());
         });
         m_simNotifier.startPeriodic(kSimLoopPeriod);
+    }
+
+    public void setHeading()
+    {
+        double xPos = getState().Pose.getX();
+        double yPos = getState().Pose.getY();
+
+        if(DriverStation.getAlliance().isPresent() &&
+        DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
+        {
+            seedFieldRelative(new Pose2d(xPos, yPos, new Rotation2d(Math.PI)));
+        } else if (DriverStation.getAlliance().isPresent() &&
+                   DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
+        {
+            seedFieldRelative(new Pose2d(xPos, yPos, new Rotation2d(0)));
+        }
+        //resetOdometry(new Pose2d(new Translation2d(), new Rotation2d(Math.PI)));
     }
 }

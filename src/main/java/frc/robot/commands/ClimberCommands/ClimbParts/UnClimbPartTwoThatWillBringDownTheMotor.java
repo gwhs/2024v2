@@ -26,7 +26,7 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class UnClimbPartTwoThatWillBringDownTheMotor extends SequentialCommandGroup {
   /** Creates a new UnClimbPartTwoThatWillBringDownTheMotor. */
-  public UnClimbPartTwoThatWillBringDownTheMotor(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a, ReactionSubsystem r, PizzaBoxSubsystem p) {
+  public UnClimbPartTwoThatWillBringDownTheMotor(Climbsubsystem c, ArmSubsystem a, ReactionSubsystem r, PizzaBoxSubsystem p) {
 
     addCommands(
       Commands.runOnce(()->DataLogManager.log("Command Start: UnClimbPartTwo")),

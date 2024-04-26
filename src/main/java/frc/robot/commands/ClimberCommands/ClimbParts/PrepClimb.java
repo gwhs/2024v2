@@ -25,7 +25,7 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 public class PrepClimb extends SequentialCommandGroup {
   /** Creates a new PrepClimb. */
-  public PrepClimb(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a, ReactionSubsystem r, PizzaBoxSubsystem p) {
+  public PrepClimb(Climbsubsystem c, ArmSubsystem a, ReactionSubsystem r, PizzaBoxSubsystem p) {
     addCommands(
       Commands.runOnce(()->DataLogManager.log("Command Start: PrepClimb")),
       new SpinToArmAngle(a, Constants.ClimbConstants.CLIMB_ARM_ARNGLE_FOR_SERVO).withTimeout(4),

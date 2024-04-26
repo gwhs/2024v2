@@ -38,6 +38,7 @@ import frc.robot.commands.ReactionArmCommands.Extend;
 import frc.robot.commands.ReactionArmCommands.Retract;
 import frc.robot.commands.driveCommands.ResetTeleopDrive;
 import frc.robot.commands.driveCommands.StraightenWheelCommand;
+import frc.robot.commands.swervedrive.CTRETeleopDrive;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.commands.driveCommands.LockHeadingToSourceForIntake;
 import frc.robot.subsystems.ArmSubsystem;
@@ -46,6 +47,7 @@ import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PizzaBoxSubsystem;
 import frc.robot.subsystems.ReactionSubsystem;
 import frc.robot.subsystems.LimeVision.LimeLightSub;
+import frc.robot.subsystems.swervedrive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import swervelib.SwerveDrive;
 
@@ -53,14 +55,15 @@ public class SetupShuffleboard extends SubsystemBase {
   /** Creates a new SetupShuffleboard. */
   // private static UsbCamera usbCamera = new UsbCamera("USB Camera", 1);
   // private static MjpegServer mjpegServer = new MjpegServer("Serve_USB CAMERA", 1181);
+  private static CommandSwerveDrivetrain swerve = CommandSwerveDrivetrain.getInstance();
   
 
   public SetupShuffleboard() {
   }
 
-  public static void setupShuffleboard(SwerveSubsystem swerve, PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, 
+  public static void setupShuffleboard(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, 
                                        IntakeSubsystem intakeSubsystem, LimeLightSub limelightSubsystem, Climbsubsystem climbSubsystem, 
-                                       ReactionSubsystem reactionSubsystem, SendableChooser<Command> chooser, TeleopDrive teleopDrive) {
+                                       ReactionSubsystem reactionSubsystem, SendableChooser<Command> chooser, CTRETeleopDrive teleopDrive) {
     // LimelightHelpers.setStreamMode_PiPSecondary("limelight");
     // Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5800").withSize(4,3).withPosition(5, 0);
     
@@ -68,15 +71,15 @@ public class SetupShuffleboard extends SubsystemBase {
 
     if(DriverStation.isTest())
     {  
-      Shuffleboard.getTab("Climb").add("climb prep", new PrepClimb(climbSubsystem, swerve, armSubsystem, reactionSubsystem, pizzaBoxSubsystem)).withPosition(4, 0);
-      Shuffleboard.getTab("Climb").add("climb & shoot", new ClimbAndShoot(climbSubsystem, swerve, armSubsystem, pizzaBoxSubsystem, reactionSubsystem)).withPosition(5, 0);
+      Shuffleboard.getTab("Climb").add("climb prep", new PrepClimb(climbSubsystem, armSubsystem, reactionSubsystem, pizzaBoxSubsystem)).withPosition(4, 0);
+      Shuffleboard.getTab("Climb").add("climb & shoot", new ClimbAndShoot(climbSubsystem, armSubsystem, pizzaBoxSubsystem, reactionSubsystem)).withPosition(5, 0);
       Shuffleboard.getTab("Climb").addDouble("climb distance left", () -> climbSubsystem.getPositionLeft()).withPosition(0, 0);
       Shuffleboard.getTab("Climb").addDouble("climb distance right", () -> climbSubsystem.getPositionRight()).withPosition(1, 0);
       Shuffleboard.getTab("Climb").add("motor down", new MotorDown(climbSubsystem, armSubsystem)).withPosition(1, 1);
       Shuffleboard.getTab("Climb").add("motor up", new MotorUp(climbSubsystem, armSubsystem)).withPosition(0, 1);
 
       Shuffleboard.getTab("Climb").add("unclimb1", new UnClimb(climbSubsystem, armSubsystem, reactionSubsystem)).withPosition(4, 1);
-      Shuffleboard.getTab("Climb").add("unclimb2", new UnClimbPartTwoThatWillBringDownTheMotor(climbSubsystem, swerve, armSubsystem, reactionSubsystem, pizzaBoxSubsystem)).withPosition(5, 1);
+      Shuffleboard.getTab("Climb").add("unclimb2", new UnClimbPartTwoThatWillBringDownTheMotor(climbSubsystem, armSubsystem, reactionSubsystem, pizzaBoxSubsystem)).withPosition(5, 1);
 
       Shuffleboard.getTab("Climb").add("STOP CLIMB!!!!", new StopClimb(climbSubsystem)).withSize(2, 1).withPosition(2, 2);
 
@@ -89,7 +92,7 @@ public class SetupShuffleboard extends SubsystemBase {
     // Shuffleboard.getTab("Pizza Box").add("Swing Servo Forward", new SwingForwardServoTheSecond(pizzaBoxSubsystem));
     // Shuffleboard.getTab("Pizza Box").add("Swing Servo back", new SwingBackServoTheSecond(pizzaBoxSubsystem));
 
-    Shuffleboard.getTab("Arm").addDouble("distance from speaker", ()-> UtilMath.distanceFromSpeaker(swerve.getPose()));
+    Shuffleboard.getTab("Arm").addDouble("distance from speaker", ()-> UtilMath.distanceFromSpeaker(swerve.getState().Pose));
 
     Shuffleboard.getTab("Climb").addBoolean("bot left limit", () -> climbSubsystem.getBotLeftLimit()).withPosition(2, 1);
     Shuffleboard.getTab("Climb").addBoolean("bot right limit", () -> climbSubsystem.getBotRightLimit()).withPosition(3, 1);
@@ -140,7 +143,7 @@ public class SetupShuffleboard extends SubsystemBase {
 
     // Shuffleboard.getTab("TEST COMMAND").add("TEST", new LockHeadingToSourceForIntake(teleopDrive, armSubsystem, pizzaBoxSubsystem));
     
-    Shuffleboard.getTab("System Check").add("check", new SystemCheck(armSubsystem, climbSubsystem, intakeSubsystem, pizzaBoxSubsystem, reactionSubsystem, swerve, teleopDrive));
+    Shuffleboard.getTab("System Check").add("check", new SystemCheck(armSubsystem, climbSubsystem, intakeSubsystem, pizzaBoxSubsystem, reactionSubsystem, teleopDrive));
  
     DataLogManager.log("rotate in place P: " + Constants.DriveConstants.kP);
     DataLogManager.log("rotate in place I: " + Constants.DriveConstants.kI);

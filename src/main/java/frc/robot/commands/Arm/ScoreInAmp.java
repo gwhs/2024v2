@@ -5,7 +5,7 @@
 package frc.robot.commands.Arm;
 
 import frc.robot.subsystems.PizzaBoxSubsystem;
-import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
+import frc.robot.commands.swervedrive.CTRETeleopDrive;
 import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
@@ -15,7 +15,7 @@ public class ScoreInAmp extends SequentialCommandGroup {
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
 
   //velocity = 100 for testing shooting 
-  public ScoreInAmp(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, TeleopDrive drive) {
+  public ScoreInAmp(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, CTRETeleopDrive drive) {
     addCommands(
         new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.AMP_ANGLE).withTimeout(2),
         new SpinNoteContainerMotor(pizzaBoxSubsystem, 40, 100),

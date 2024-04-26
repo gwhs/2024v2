@@ -5,12 +5,12 @@
 package frc.robot.commands.driveCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
+import frc.robot.commands.swervedrive.CTRETeleopDrive;
 
 public class ResetTeleopDrive extends Command {
   /** Creates a new ResetTeleopDrive. */
-  private TeleopDrive teleop; 
-  public ResetTeleopDrive(TeleopDrive t) {
+  private CTRETeleopDrive teleop; 
+  public ResetTeleopDrive(CTRETeleopDrive t) {
     teleop = t;
     // Use addRequirements() here to declare subsystem dependencies.
   }

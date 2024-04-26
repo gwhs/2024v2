@@ -6,16 +6,17 @@ package frc.robot.commands.driveCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
+import frc.robot.commands.swervedrive.CTRETeleopDrive;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.PizzaBoxSubsystem;
 
 public class LockHeadingToSourceForIntake extends Command {
   /** Creates a new LockHeadingToSourceForIntake. */
-  public final TeleopDrive drive;
+  public final CTRETeleopDrive drive;
   public final ArmSubsystem armSubsystem;
   public final PizzaBoxSubsystem pizzaBoxSubsystem;
-  public LockHeadingToSourceForIntake(TeleopDrive drive, ArmSubsystem armSubsystem, PizzaBoxSubsystem pizzaBoxSubsystem) {
+  public LockHeadingToSourceForIntake(CTRETeleopDrive drive, ArmSubsystem armSubsystem, PizzaBoxSubsystem pizzaBoxSubsystem) {
     // Use addRequirements() here to declare subsystem dependencies.
     this.drive = drive;
     this.armSubsystem = armSubsystem;

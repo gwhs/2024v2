@@ -5,12 +5,12 @@
 package frc.robot.commands.driveCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
+import frc.robot.commands.swervedrive.CTRETeleopDrive;
 
 public class FaceAmp extends Command {
   /** Creates a new FaceAmp. */
-  private final TeleopDrive drive;
-  public FaceAmp(TeleopDrive driveBase) {
+  private final CTRETeleopDrive drive;
+  public FaceAmp(CTRETeleopDrive driveBase) {
     drive = driveBase;
     // Use addRequirements() here to declare subsystem dependencies.
   }

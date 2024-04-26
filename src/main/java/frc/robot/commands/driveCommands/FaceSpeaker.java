@@ -5,12 +5,12 @@
 package frc.robot.commands.driveCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
-import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
+import frc.robot.commands.swervedrive.CTRETeleopDrive;
 
 public class FaceSpeaker extends Command {
   /** Creates a new FaceSpeaker. */
-  private final TeleopDrive drive;
-  public FaceSpeaker(TeleopDrive drivebase) {
+  private final CTRETeleopDrive drive;
+  public FaceSpeaker(CTRETeleopDrive drivebase) {
     // Use addRequirements() here to declare subsystem dependencies.
     drive = drivebase;
   }

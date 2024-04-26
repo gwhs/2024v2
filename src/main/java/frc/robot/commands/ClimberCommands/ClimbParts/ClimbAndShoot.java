@@ -25,7 +25,7 @@ import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class ClimbAndShoot extends SequentialCommandGroup {
   /** Creates a new ClimbAndShoot. */
-  public ClimbAndShoot(Climbsubsystem c, SwerveSubsystem s, ArmSubsystem a, PizzaBoxSubsystem p, ReactionSubsystem r) {
+  public ClimbAndShoot(Climbsubsystem c, ArmSubsystem a, PizzaBoxSubsystem p, ReactionSubsystem r) {
     // Add your commands in the addCommands() call, e.g.
     addCommands (
       Commands.runOnce(()->DataLogManager.log("Command Start: ClimbAndShoot")),

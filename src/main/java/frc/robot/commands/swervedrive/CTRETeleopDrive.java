@@ -163,6 +163,9 @@ public class CTRETeleopDrive extends Command {
     double tempXVelocity = xVelocity;
     double tempYVelocity = yVelocity;
     double tempAngularVelocity = angularVelocity;
+    SmartDashboard.putNumber("xVelocity", tempXVelocity);
+    SmartDashboard.putNumber("yVelocity", tempYVelocity);
+    SmartDashboard.putNumber("angularVelocity", tempAngularVelocity);
     drivetrain.applyRequest(() -> drive.withVelocityX(tempXVelocity) // Drive forward with negative Y (forward)
             .withVelocityY(tempYVelocity) // Drive left with negative X (left)
             .withRotationalRate(tempAngularVelocity) // Drive counterclockwise with negative X (left)

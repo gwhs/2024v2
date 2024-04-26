@@ -122,7 +122,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     }
     SmartDashboard.putNumber("Arm speed", speed);
 
-    VoltageOut armSpinRequest = new VoltageOut(speed, true, false, false, false);
+    VoltageOut armSpinRequest = new VoltageOut(-speed, true, false, false, false);
     m_arm.setControl(armSpinRequest);
   }
 

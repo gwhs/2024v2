@@ -102,15 +102,15 @@ public class GameRobotContainer implements BaseContainer {
 
 
         //m_drivebase.setDefaultCommand(closedFieldRel);
-        // drivetrain.setDefaultCommand(drive);
-        drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
-        drivetrain.applyRequest(() -> new SwerveRequest.FieldCentric()
-        .withDeadband(5 * 0.1).withRotationalDeadband(2 * 0.1) // Add a 10% deadband
-        .withDriveRequestType(DriveRequestType.OpenLoopVoltage).withVelocityX(-driverController.getLeftY() * 5) // Drive forward with
-                                                                                           // negative Y (forward)
-            .withVelocityY(-driverController.getLeftX() * 5) // Drive left with negative X (left)
-            .withRotationalRate(-driverController.getRightX() * 2) // Drive counterclockwise with negative X (left)
-        ));
+        drivetrain.setDefaultCommand(drive);
+        // drivetrain.setDefaultCommand( // Drivetrain will execute this command periodically
+        // drivetrain.applyRequest(() -> new SwerveRequest.FieldCentric()
+        // .withDeadband(5 * 0.1).withRotationalDeadband(2 * 0.1) // Add a 10% deadband
+        // .withDriveRequestType(DriveRequestType.OpenLoopVoltage).withVelocityX(-driverController.getLeftY() * 5) // Drive forward with
+        //                                                                                    // negative Y (forward)
+        //     .withVelocityY(-driverController.getLeftX() * 5) // Drive left with negative X (left)
+        //     .withRotationalRate(-driverController.getRightX() * 2) // Drive counterclockwise with negative X (left)
+        // ));
 
 
         //SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, m_ClimbSubsystem, m_ReactionSubsystem, autoChooser, closedFieldRel);

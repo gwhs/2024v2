@@ -62,7 +62,7 @@ public class SetupShuffleboard extends SubsystemBase {
   }
 
   public static void setupShuffleboard(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, 
-                                       IntakeSubsystem intakeSubsystem, LimeLightSub limelightSubsystem, Climbsubsystem climbSubsystem, 
+                                       IntakeSubsystem intakeSubsystem, /*LimeLightSub limelightSubsystem,*/ Climbsubsystem climbSubsystem, 
                                        ReactionSubsystem reactionSubsystem, SendableChooser<Command> chooser, CTRETeleopDrive teleopDrive) {
     // LimelightHelpers.setStreamMode_PiPSecondary("limelight");
     // Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5800").withSize(4,3).withPosition(5, 0);

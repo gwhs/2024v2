@@ -137,6 +137,7 @@ public class GameRobotContainer implements BaseContainer {
         .withPosition(3, 0);
       Shuffleboard.getTab("GameTab").addBoolean("Intake Running", ()-> !m_IntakeSubsystem.isEmergencyStop())
         .withPosition(4, 0);
+      Shuffleboard.getTab("GameTab").add("Lower Climb Height", Commands.runOnce(()-> m_ClimbSubsystem.moveSetGoalForGoingDown())).withPosition(0, 0);
         
         configureBindings();
         

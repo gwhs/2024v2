@@ -23,7 +23,7 @@ import frc.robot.subsystems.swervedrive.TunerConstants;
 public class CTRETeleopDrive extends Command {
   /** Creates a new CTRETeleopDrive. */
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
-  private double MaxAngularRate = 1.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
+  private double MaxAngularRate = 2.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
 
   private CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance();
 
@@ -64,7 +64,7 @@ public class CTRETeleopDrive extends Command {
     double xVelocity = -driverController.getLeftY() * MaxSpeed;
     double yVelocity = -driverController.getLeftX() * MaxSpeed;
     //double angularVelocity = -driverController.getRightX() * MaxAngularRate;
-    double angularVelocity = MathUtil.applyDeadband(driverController.getLeftTriggerAxis(), OperatorConstants.ROTATION_DEADBAND) - MathUtil.applyDeadband(driverController.getLeftTriggerAxis(), OperatorConstants.ROTATION_DEADBAND);
+    double angularVelocity = (MathUtil.applyDeadband(driverController.getLeftTriggerAxis(), OperatorConstants.ROTATION_DEADBAND) - MathUtil.applyDeadband(driverController.getRightTriggerAxis(), OperatorConstants.ROTATION_DEADBAND)) * MaxAngularRate;
 
     if(DriverStation.getAlliance().isPresent() && 
        DriverStation.getAlliance().get() == DriverStation.Alliance.Red)

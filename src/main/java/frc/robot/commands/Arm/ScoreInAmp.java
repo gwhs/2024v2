@@ -21,7 +21,7 @@ public class ScoreInAmp extends SequentialCommandGroup {
         new SpinNoteContainerMotor(pizzaBoxSubsystem, 40, 100),
         // Commands.waitSeconds(.2),
         new SwingForwardServo(pizzaBoxSubsystem),
-        Commands.waitSeconds(.2),
+        Commands.waitSeconds(.4),
         new SwingBackServo(pizzaBoxSubsystem),
         Commands.runOnce(() -> {
           pizzaBoxSubsystem.hasNote = false;

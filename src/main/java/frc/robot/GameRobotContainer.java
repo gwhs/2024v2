@@ -4,6 +4,7 @@ import java.io.File;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.networktables.GenericEntry;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
@@ -115,14 +116,23 @@ public class GameRobotContainer implements BaseContainer {
 
 
         //SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, m_ClimbSubsystem, m_ReactionSubsystem, autoChooser, closedFieldRel);
-        Shuffleboard.getTab("System Check").add("check", new SystemCheck(m_ArmSubsystem, m_ClimbSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem, drive));
-        Shuffleboard.getTab("GameTab").add("Reset Arm", new ResetArm(m_ArmSubsystem, m_PizzaBoxSubsystem) )
-      .withPosition(3,1);
-    Shuffleboard.getTab("GameTab").add("Reset Intake", new IntakeResetArm(m_IntakeSubsystem))
-      .withPosition(4,1);
+      Shuffleboard.getTab("System Check").add("check", new SystemCheck(m_ArmSubsystem, m_ClimbSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem, drive));
+      Shuffleboard.getTab("GameTab").add("Reset Arm", new ResetArm(m_ArmSubsystem, m_PizzaBoxSubsystem))
+        .withPosition(3,1);
+      Shuffleboard.getTab("GameTab").add("Reset Intake", new IntakeResetArm(m_IntakeSubsystem))
+        .withPosition(4,1);
       Shuffleboard.getTab("GameTab").add("Autonomous Chooser", autoChooser)
-      .withSize(2, 1)
-      .withPosition(0, 2);
+        .withSize(2, 1)
+        .withPosition(0, 2);
+      DataLogManager.log("rotate in place P: " + Constants.DriveConstants.kP);
+      DataLogManager.log("rotate in place I: " + Constants.DriveConstants.kI);
+      DataLogManager.log("rotate in place D: " + Constants.DriveConstants.kD);
+      Shuffleboard.getTab("LogBooleans").addBoolean("isFaceSpeaker", ()-> drive.isFaceSpeaker);
+      Shuffleboard.getTab("LogBooleans").addBoolean("isBackSpeaker", ()-> drive.isBackSpeaker);
+      Shuffleboard.getTab("LogBooleans").addBoolean("faceAmp", ()-> drive.faceAmp);
+      Shuffleboard.getTab("LogBooleans").addBoolean("isSlow", ()-> drive.isSlow);
+      Shuffleboard.getTab("LogBooleans").addBoolean("isHeadingLock", ()-> drive.isHeadingLock);
+      Shuffleboard.getTab("LogBooleans").addBoolean("faceSpeaker", ()-> drive.faceSpeaker);
 
         configureBindings();
         

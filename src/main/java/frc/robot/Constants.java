@@ -99,7 +99,7 @@ public final class Constants
     public static final double ROTATION_TO_DEGREES = 360;
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
     public static double ENCODER_OFFSET = 55.5; //need to check the encoder value 
-    public static final double UP_POSITION = 95;
+    public static final double UP_POSITION = 92;
 
     public static final double SOURCE_INTAKE_ANGLE = 160;
   }

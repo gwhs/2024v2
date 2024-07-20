@@ -23,7 +23,7 @@ import frc.robot.subsystems.swervedrive.TunerConstants;
 public class CTRETeleopDrive extends Command {
   /** Creates a new CTRETeleopDrive. */
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
-  private double MaxAngularRate = 2.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
+  private double MaxAngularRate = 3.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
 
   private CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance();
 

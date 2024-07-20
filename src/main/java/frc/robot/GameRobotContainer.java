@@ -116,6 +116,13 @@ public class GameRobotContainer implements BaseContainer {
 
         //SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, m_ClimbSubsystem, m_ReactionSubsystem, autoChooser, closedFieldRel);
         Shuffleboard.getTab("System Check").add("check", new SystemCheck(m_ArmSubsystem, m_ClimbSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem, drive));
+        Shuffleboard.getTab("GameTab").add("Reset Arm", new ResetArm(m_ArmSubsystem, m_PizzaBoxSubsystem) )
+      .withPosition(3,1);
+    Shuffleboard.getTab("GameTab").add("Reset Intake", new IntakeResetArm(m_IntakeSubsystem))
+      .withPosition(4,1);
+      Shuffleboard.getTab("GameTab").add("Autonomous Chooser", autoChooser)
+      .withSize(2, 1)
+      .withPosition(0, 2);
 
         configureBindings();
         

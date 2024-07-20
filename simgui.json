@@ -9,6 +9,7 @@
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
+      "/Pose": "Field2d",
       "/Shuffleboard/Arm/stutter trap": "Command",
       "/Shuffleboard/Climb/STOP CLIMB!!!!": "Command",
       "/Shuffleboard/Climb/climb & shoot": "Command",
@@ -37,6 +38,10 @@
       "/Shuffleboard/System Check/check": "Command",
       "/Shuffleboard/TEST COMMAND/TEST": "Command",
       "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Module 0": "Mechanism2d",
+      "/SmartDashboard/Module 1": "Mechanism2d",
+      "/SmartDashboard/Module 2": "Mechanism2d",
+      "/SmartDashboard/Module 3": "Mechanism2d",
       "/SmartDashboard/Pigeon 2 (v6) [30]": "Gyro"
     },
     "windows": {

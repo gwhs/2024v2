@@ -126,7 +126,7 @@ public final class Constants
     public static final double STEADY_STATE_TOLERANCE = 0.1;
 
     
-    public static final double MAX_RANGE = 0.4;
+    public static final double MAX_RANGE = 0.3;
   }
 
   public static final class FaceSpeakerConstants

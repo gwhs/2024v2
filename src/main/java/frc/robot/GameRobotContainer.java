@@ -133,7 +133,11 @@ public class GameRobotContainer implements BaseContainer {
       Shuffleboard.getTab("LogBooleans").addBoolean("isSlow", ()-> drive.isSlow);
       Shuffleboard.getTab("LogBooleans").addBoolean("isHeadingLock", ()-> drive.isHeadingLock);
       Shuffleboard.getTab("LogBooleans").addBoolean("faceSpeaker", ()-> drive.faceSpeaker);
-
+      Shuffleboard.getTab("GameTab").addBoolean("Arm Running", ()-> !m_ArmSubsystem.isEmergencyStop())
+        .withPosition(3, 0);
+      Shuffleboard.getTab("GameTab").addBoolean("Intake Running", ()-> !m_IntakeSubsystem.isEmergencyStop())
+        .withPosition(4, 0);
+        
         configureBindings();
         
         drivetrain.registerTelemetry(logger::telemeterize);

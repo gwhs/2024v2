@@ -64,7 +64,7 @@ public class CTRETeleopDrive extends Command {
     double xVelocity = -driverController.getLeftY() * MaxSpeed;
     double yVelocity = -driverController.getLeftX() * MaxSpeed;
     //double angularVelocity = -driverController.getRightX() * MaxAngularRate;
-    double angularVelocity = (MathUtil.applyDeadband(driverController.getLeftTriggerAxis(), OperatorConstants.ROTATION_DEADBAND) - MathUtil.applyDeadband(driverController.getRightTriggerAxis(), OperatorConstants.ROTATION_DEADBAND)) * MaxAngularRate;
+    double angularVelocity = (MathUtil.applyDeadband(driverController.getLeftTriggerAxis(), OperatorConstants.ROTATION_DEADBAND) - MathUtil.applyDeadband(driverController.getRightTriggerAxis(), OperatorConstants.ROTATION_DEADBAND));
 
     if(DriverStation.getAlliance().isPresent() && 
        DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
@@ -165,7 +165,7 @@ public class CTRETeleopDrive extends Command {
     }
     double tempXVelocity = xVelocity;
     double tempYVelocity = yVelocity;
-    double tempAngularVelocity = angularVelocity;
+    double tempAngularVelocity = angularVelocity  * MaxAngularRate;
     SmartDashboard.putNumber("xVelocity", tempXVelocity);
     SmartDashboard.putNumber("yVelocity", tempYVelocity);
     SmartDashboard.putNumber("angularVelocity", tempAngularVelocity);

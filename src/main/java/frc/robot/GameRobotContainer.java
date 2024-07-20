@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Util.UtilMath;
+import frc.robot.commands.SystemCheck;
 import frc.robot.commands.Arm.*;
 import frc.robot.commands.ClimberCommands.ClimbParts.*;
 import frc.robot.commands.IntakeCommands.*;
@@ -114,6 +115,7 @@ public class GameRobotContainer implements BaseContainer {
 
 
         //SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, m_ClimbSubsystem, m_ReactionSubsystem, autoChooser, closedFieldRel);
+        Shuffleboard.getTab("System Check").add("check", new SystemCheck(m_ArmSubsystem, m_ClimbSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem, drive));
 
         configureBindings();
         

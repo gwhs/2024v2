@@ -59,7 +59,7 @@ public class Robot extends TimedRobot  {
    */
   @Override
   public void robotInit() {
-    DriverStation.silenceJoystickConnectionWarning(true);
+    //DriverStation.silenceJoystickConnectionWarning(true);
     // String logfolder = "/home/lvuser";
     // Logger.addDataReceiver(new WPILOGWriter(logfolder));
     // Logger.addDataReceiver(new NT4Publisher());

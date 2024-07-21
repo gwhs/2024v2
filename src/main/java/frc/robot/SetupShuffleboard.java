@@ -120,6 +120,10 @@ public class SetupShuffleboard extends SubsystemBase {
 
     Shuffleboard.getTab("GameTab").addBoolean("Intake Running", ()-> !intakeSubsystem.isEmergencyStop())
       .withPosition(4, 0);
+      //Added Servo To Shuffleboard 7/21/2024 7:23 AM
+    Shuffleboard.getTab("GameTab").add("Flappy Forward", new SwingForwardServoTheSecond(pizzaBoxSubsystem)).withPosition(3, 2);
+
+    Shuffleboard.getTab("GameTab").add("Flappy Backward", new SwingBackServoTheSecond(pizzaBoxSubsystem)).withPosition(5, 2);
 
     Shuffleboard.getTab("GameTab").add("Reset Arm", new ResetArm(armSubsystem, pizzaBoxSubsystem) )
       .withPosition(3,1);

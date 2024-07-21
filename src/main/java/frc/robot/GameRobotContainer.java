@@ -152,7 +152,7 @@ public class GameRobotContainer implements BaseContainer {
       
       driverController.y().onTrue(new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
       driverController.a().onTrue(new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem, drive)); 
-      driverController.b().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem, 10));
+      //driverController.b().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem, 10));
       driverController.x().whileTrue(new DecreaseSpeed(drive));
 
       driverController.rightStick().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
@@ -220,7 +220,7 @@ public class GameRobotContainer implements BaseContainer {
 
   public Command teleopInitReset() {
     return new Retract(m_ReactionSubsystem).withTimeout(0.5)
-           .andThen(new IntakeResetArm(m_IntakeSubsystem)).withTimeout(3)
+           //.andThen(new IntakeResetArm(m_IntakeSubsystem)).withTimeout(3)
            .alongWith(new ResetArm(m_ArmSubsystem, m_PizzaBoxSubsystem).withTimeout(3));
   }
 

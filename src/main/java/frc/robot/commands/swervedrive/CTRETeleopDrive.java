@@ -33,6 +33,7 @@ public class CTRETeleopDrive extends Command {
   public boolean isSlow = false;
   public boolean isHeadingLock = false;
   public boolean faceSpeaker = false;
+  public boolean XYSlow = false;
   private PIDController PID;
   private Pose2d currPose;
 
@@ -57,6 +58,8 @@ public class CTRETeleopDrive extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {}
+  
+
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -76,6 +79,13 @@ public class CTRETeleopDrive extends Command {
     currPose = drivetrain.getState().Pose;
     double currTheta = currPose.getRotation().getDegrees();
     SmartDashboard.putNumber("Robot Rotation", currTheta);
+
+    if (XYSlow){
+        double slowFactor = 0.25;
+        xVelocity *= slowFactor;
+        yVelocity *= slowFactor;
+
+    }
 
     if(isSlow)
     {

@@ -13,6 +13,7 @@ import edu.wpi.first.math.controller.ArmFeedforward;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.State;
+import edu.wpi.first.util.datalog.DataLog;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -52,7 +53,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     //
     //Arm ID Jalen Tolbert
     public static final int ENCODER_DIO_SLOT = 0;
-    public static final int AMP_ANGLE = 300;
+    public static final int AMP_ANGLE = 305;
     public static final int TRAP_ANGLE = 275;
     public static final int SPEAKER_LOW_ANGLE = 160;
     public static final int SPEAKER_HIGH_ANGLE = 236;
@@ -65,7 +66,6 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   private ArmFeedforward armFeedForward;
   public boolean emergencyStop = false;
   private double prevArmAngle;
-  public boolean booster = false;
 
   public ArmSubsystem(int armId, String armCanbus, int channel1)
   {
@@ -114,18 +114,12 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
     }
 
     if(encoderGetAngle() >= 332) {
-      speed = -1;
+      speed = -12;
     }
 
     if(isEmergencyStop()) {
       speed = 0;
     }
-
-    if(booster)
-    {
-      speed = Arm.MAX_VOLT;
-    }
-
     SmartDashboard.putNumber("Arm speed", speed);
 
     VoltageOut armSpinRequest = new VoltageOut(speed, true, false, false, false);
@@ -167,7 +161,10 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   {
     double currentArmAngle = encoderGetAngle();
     if (Math.abs(currentArmAngle - prevArmAngle) >= 50) {
-      emergencyStop = true;
+      DataLogManager.log("Arm Emergency Stop: Arm encoder jumped");
+      DataLogManager.log("Arm Emergency Stop: Current Arm Angle = " + currentArmAngle);
+      DataLogManager.log("Arm Emergency Stop: Arm Prev Angle = " + prevArmAngle);
+     // emergencyStop = true;
     }
     prevArmAngle = currentArmAngle;
 

@@ -47,6 +47,7 @@ public final class Constants
     public static final double LEFT_X_DEADBAND  = 0.1;
     public static final double LEFT_Y_DEADBAND  = 0.1;
     public static final double RIGHT_X_DEADBAND = 0.1;
+    public static final double ROTATION_DEADBAND = 0.2;
     public static final double TURN_CONSTANT = 6;
     public static final int kDriverControllerPort = 0;
     public static final int kOperatorControllerPort = 1;
@@ -123,6 +124,9 @@ public final class Constants
     public static final double kD = 0; 
     public static final double THETA_TOLERANCE = 0.1;
     public static final double STEADY_STATE_TOLERANCE = 0.1;
+
+    
+    public static final double MAX_RANGE = 0.4;
   }
   // ur mom
   public static final class FaceSpeakerConstants

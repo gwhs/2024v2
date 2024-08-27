@@ -15,7 +15,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 public class ReactionSubsystem extends SubsystemBase {
   private TalonFX m_reactionArm;
-  private final double REACTION_BAR_PID_KP = 0.09;
+  private final double REACTION_BAR_PID_KP = 0.1;
   private final double REACTION_BAR_PID_KI = 0;
   private final double REACTION_BAR_PID_KD = 0;
   public PIDController PIDcontroller = new PIDController(REACTION_BAR_PID_KP, REACTION_BAR_PID_KI, REACTION_BAR_PID_KD); 
@@ -44,11 +44,11 @@ public class ReactionSubsystem extends SubsystemBase {
 
   public void spinForward()
   {
-    PIDcontroller.setSetpoint(-2.5);
+    PIDcontroller.setSetpoint(-2.7);
   }
   public void spinBackward()
   {
-    PIDcontroller.setSetpoint(-0.8);
+    PIDcontroller.setSetpoint(-0.7);
   }
   public void stop()
   {

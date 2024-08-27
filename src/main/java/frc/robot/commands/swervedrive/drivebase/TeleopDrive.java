@@ -15,6 +15,7 @@ import frc.robot.Constants;
 import frc.robot.Util.UtilMath;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
+import java.sql.Driver;
 import java.util.function.BooleanSupplier;
 import java.util.function.DoubleSupplier;
 import swervelib.SwerveController;
@@ -34,8 +35,9 @@ public class TeleopDrive extends Command
   public boolean isFaceSpeaker = false;
   public boolean isBackSpeaker = false;
   public boolean faceAmp = false;
-  public boolean isSlow;
-  public boolean isHeadingLock;
+  public boolean isSlow = false;
+  public boolean isHeadingLock = false;
+  public boolean faceSpeaker = false;
   private final PIDController PID;
   private double currTheta;
 
@@ -58,6 +60,7 @@ public class TeleopDrive extends Command
     this.PID.setTolerance(Constants.FaceSpeakerConstants.THETA_TOLERANCE, Constants.FaceSpeakerConstants.STEADY_STATE_TOLERANCE);
     this.PID.enableContinuousInput(-180, 180);
 
+    
     // Use addRequirements() here to declare subsystem dependencies.
     addRequirements(swerve);
   }
@@ -70,14 +73,15 @@ public class TeleopDrive extends Command
       isBackSpeaker = false;
       isSlow = false;
       isHeadingLock = false;
+      
   }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute()
   {
-     double xVelocity   = Math.pow(vX.getAsDouble(), 3);
-     double yVelocity   = Math.pow(vY.getAsDouble(), 3);
+     double xVelocity   = Math.pow(vX.getAsDouble(), 1);
+     double yVelocity   = Math.pow(vY.getAsDouble(), 1);
      double angVelocity = Math.pow(omega.getAsDouble(), 3);
      
     if(DriverStation.getAlliance().isPresent() &&
@@ -103,6 +107,12 @@ public class TeleopDrive extends Command
       double ang = UtilMath.FrontSpeakerTheta(swerve.getPose());
       PID.setSetpoint(ang);
       angVelocity = PID.calculate(currTheta);
+      if(angVelocity > Constants.DriveConstants.MAX_RANGE) {
+        angVelocity = Constants.DriveConstants.MAX_RANGE;
+      }
+      else if(angVelocity < -Constants.DriveConstants.MAX_RANGE) {
+        angVelocity = -Constants.DriveConstants.MAX_RANGE;
+      }
       SmartDashboard.putNumber("isFaceSpeaker Goal", ang);
       SmartDashboard.putNumber("isFaceSpeaker Result", angVelocity);
     }
@@ -111,22 +121,61 @@ public class TeleopDrive extends Command
       double ang = UtilMath.BackSpeakerTheta(swerve.getPose());
       PID.setSetpoint(ang);
       angVelocity = PID.calculate(currTheta);
+      if(angVelocity > Constants.DriveConstants.MAX_RANGE) {
+        angVelocity = Constants.DriveConstants.MAX_RANGE;
+      }
+      else if(angVelocity < -Constants.DriveConstants.MAX_RANGE) {
+        angVelocity = -Constants.DriveConstants.MAX_RANGE;
+      }
       SmartDashboard.putNumber("isBackSpeaker Goal", ang);
       SmartDashboard.putNumber("isBackSpeaker Result", angVelocity);
     }
 
     if (faceAmp) {
-      PID.setSetpoint(90);
+      PID.setSetpoint(-90);
       angVelocity = PID.calculate(currTheta);
-      SmartDashboard.putNumber("faceAmp Goal", 90);
+      if(angVelocity > Constants.DriveConstants.MAX_RANGE) {
+        angVelocity = Constants.DriveConstants.MAX_RANGE;
+      }
+      else if(angVelocity < -Constants.DriveConstants.MAX_RANGE) {
+        angVelocity = -Constants.DriveConstants.MAX_RANGE;
+      }
+      SmartDashboard.putNumber("faceAmp Goal", -90);
       SmartDashboard.putNumber("faceAmp Result", angVelocity);
+    }
+
+    if (faceSpeaker)
+    {
+      double result = 0;
+      if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue){
+        PID.setSetpoint(-180);
+      }
+      else{
+        PID.setSetpoint(0);
+      }
+      result = PID.calculate(currTheta);
+     
+      if(result > Constants.DriveConstants.MAX_RANGE){
+        result = Constants.DriveConstants.MAX_RANGE;
+      }
+      else if(result < -Constants.DriveConstants.MAX_RANGE){
+        result = -Constants.DriveConstants.MAX_RANGE;
+      }
+      angVelocity += result;
     }
 
     if(isHeadingLock)
     {
       double theta = UtilMath.SourceIntakeHeading(swerve.getPose());
       PID.setSetpoint(theta);
+
       double result =  PID.calculate(currTheta);
+      if(result > Constants.DriveConstants.MAX_RANGE) {
+        result = Constants.DriveConstants.MAX_RANGE;
+      }
+      else if(result < -Constants.DriveConstants.MAX_RANGE) {
+        result = -Constants.DriveConstants.MAX_RANGE;
+      }
       angVelocity += result;
       SmartDashboard.putNumber("heading Lock Goal", theta);
       SmartDashboard.putNumber("heading Lock Result", result);

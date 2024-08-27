@@ -17,18 +17,18 @@ public class ScoreInAmp extends SequentialCommandGroup {
   //velocity = 100 for testing shooting 
   public ScoreInAmp(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, TeleopDrive drive) {
     addCommands(
-        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.AMP_ANGLE).withTimeout(3),
+        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.AMP_ANGLE).withTimeout(2),
         new SpinNoteContainerMotor(pizzaBoxSubsystem, 40, 100),
         // Commands.waitSeconds(.2),
         new SwingForwardServo(pizzaBoxSubsystem),
         Commands.waitSeconds(.2),
         new SwingBackServo(pizzaBoxSubsystem),
-        new StopNoteContainerMotor(pizzaBoxSubsystem),
-        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE),
         Commands.runOnce(() -> {
           pizzaBoxSubsystem.hasNote = false;
           drive.faceAmp = false;
-          })
+          }),
+        new StopNoteContainerMotor(pizzaBoxSubsystem),
+        new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.INTAKE_ANGLE).withTimeout(0.1)
     );
   }
 

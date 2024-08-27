@@ -46,8 +46,10 @@ public class PizzaBoxSubsystem extends SubsystemBase {
 
   //Spins "Pizzabox" motor: velocity in rotations/sec and acceleration in rotations/sec^2
   public void spinPizzaBoxMotor(double velocity, double acceleration) {
-    VelocityVoltage spinPizzaBoxMotorRequest = new VelocityVoltage(velocity, acceleration, true, 0, 0, false, false, false);
-    m_pizzaBox.setControl(spinPizzaBoxMotorRequest);
+    // VelocityVoltage spinPizzaBoxMotorRequest = new VelocityVoltage(velocity, acceleration, true, 0, 0, false, false, false);
+    // m_pizzaBox.setControl(spinPizzaBoxMotorRequest);
+
+    m_pizzaBox.set(velocity/100);
   }
   //Sets the position of the Servo motor on the pizza box
   public void setServoAngle(double angle) {

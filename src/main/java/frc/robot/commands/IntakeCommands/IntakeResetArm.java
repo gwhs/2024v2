@@ -6,6 +6,7 @@ package frc.robot.commands.IntakeCommands;
 
 import frc.robot.Constants;
 import frc.robot.subsystems.IntakeSubsystem;
+import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 
@@ -21,6 +22,7 @@ public class IntakeResetArm extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
+    DataLogManager.log("Command Start: Reset Intake Arm");
     Command i = CommandScheduler.getInstance().requiring(intakeSubsystem);
     if(i != null)
     {
@@ -29,7 +31,7 @@ public class IntakeResetArm extends Command {
 
     intakeSubsystem.stopArmMotor();
     intakeSubsystem.stopIntakeMotors();
-    new SpinIntakePID(intakeSubsystem, Constants.IntakeConstants.UP_POSITION).schedule();
+    new SpinIntakePID(intakeSubsystem, Constants.IntakeConstants.UP_POSITION).withTimeout(3).schedule();
   }
 
   // Called every time the scheduler runs while the command is scheduled.
@@ -42,7 +44,7 @@ public class IntakeResetArm extends Command {
   // runs once when isFinished is called
   @Override
   public void end(boolean interrupted) {
-    
+    DataLogManager.log("Command End: Reset Intake Arm");
   }
 
   // Returns true when the command should end.

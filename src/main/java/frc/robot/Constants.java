@@ -83,20 +83,22 @@ public final class Constants
   public static final int TOP_RIGHT_LIMIT_ID = 4;
   public static final int TOP_LEFT_LIMIT_ID = 5;
 
+  public static final int CLIMB_ARM_ANGLE = 255;
+  public static final int CLIMB_ARM_ARNGLE_FOR_SERVO = 330;
   }
-  
+  // hi this is a comment
 
   public static final class IntakeConstants {
     public static final int INTAKE_LOWER_INTAKE_ID = 55;
     public static final int INTAKE_SPIN_MOTOR_ID = 20;
     public static final int INTAKE_ENCODER_CHANNEL_ID = 9; 
     public static final int INTAKE_NOTESENSOR_CHANNEL_ID = 8;
-    public static final double TOLERANCE = 4; // in degrees--- TO-DO: Tune Tolerance, intake is not lowering enough.
-    public static final double MAX_ARM_ANGLE = 85; //need to check max arm angle
+    public static final double TOLERANCE = 2; // in degrees--- TO-DO: Tune Tolerance, intake is not lowering enough.
+    public static final double MAX_ARM_ANGLE = 95; //need to check max arm angle
     public static final double ROTATION_TO_DEGREES = 360;
     public static final double ENCODER_RAW_TO_ROTATION = 8132.;
-    public static double ENCODER_OFFSET = 1; //need to check the encoder value 
-    public static final double UP_POSITION = 79;
+    public static double ENCODER_OFFSET = 55.5; //need to check the encoder value 
+    public static final double UP_POSITION = 95;
 
     public static final double SOURCE_INTAKE_ANGLE = 160;
   }
@@ -116,13 +118,13 @@ public final class Constants
     public static final int ledPortNumber = 9;
   }
   public static final class DriveConstants {
-    public static final double kP = 0.04; 
-    public static final double kI = 0.055; 
-    public static final double kD = 0.000; 
+    public static final double kP = 0.02; 
+    public static final double kI = 0; 
+    public static final double kD = 0; 
     public static final double THETA_TOLERANCE = 0.1;
     public static final double STEADY_STATE_TOLERANCE = 0.1;
   }
-
+  // ur mom
   public static final class FaceSpeakerConstants
   {
     public static final double kP = 0.03;

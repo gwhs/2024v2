@@ -2,7 +2,7 @@
   "version": 1.0,
   "startingPose": {
     "position": {
-      "x": 1.37,
+      "x": 1.33,
       "y": 5.54
     },
     "rotation": 0.0
@@ -43,7 +43,7 @@
               {
                 "type": "named",
                 "data": {
-                  "name": "Speaker (A2-A1) then Intake"
+                  "name": null
                 }
               },
               {

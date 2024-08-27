@@ -8,6 +8,8 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import edu.wpi.first.wpilibj2.command.WaitCommand;
+import frc.robot.Constants;
 import frc.robot.commands.Arm.*;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
 import frc.robot.commands.ReactionArmCommands.Extend;
@@ -27,10 +29,13 @@ public class ClimbAndShoot extends SequentialCommandGroup {
     // Add your commands in the addCommands() call, e.g.
     addCommands (
       Commands.runOnce(()->DataLogManager.log("Command Start: ClimbAndShoot")),
-      new SpinToArmAngle(a, 260).withTimeout(1),
+      new SpinToArmAngle(a, Constants.ClimbConstants.CLIMB_ARM_ANGLE).withTimeout(0.5),
       Commands.waitUntil(()->a.checkEncoderAngleForClimb()),
-      new MotorDown(c).alongWith(new Extend(r)).withTimeout(3),
+      new MotorDown(c, a).alongWith(new Extend(r)).withTimeout(3),
       new ScoreInTrapStutter(p, a),
+      new SpinNoteContainerMotor(p, -5, 100),
+      new WaitCommand(1.6),
+      new StopNoteContainerMotor(p),
       Commands.runOnce(()->DataLogManager.log("Command End: ClimbAndShoot"))
       );
 

@@ -45,9 +45,6 @@ public class SwerveSubsystem extends SubsystemBase
    */
   public        double      maximumSpeed = Units.feetToMeters(14.5); //14.5
 
-  private StructArrayPublisher<SwerveModuleState> swerveStatePublisher = NetworkTableInstance.getDefault()
-    .getStructArrayTopic("Swerve State", SwerveModuleState.struct).publish();
-
   /**
    * Initialize {@link SwerveDrive} with the directory provided.
    *
@@ -70,7 +67,7 @@ public class SwerveSubsystem extends SubsystemBase
     System.out.println("}");
 
     // Configure the Telemetry before creating the SwerveDrive to avoid unnecessary objects being created.
-    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.NONE;
+    SwerveDriveTelemetry.verbosity = TelemetryVerbosity.HIGH;
     // 3/8/2024 changed from HIGH to NONE to see if prevent loop overrun
     try
     {
@@ -81,7 +78,7 @@ public class SwerveSubsystem extends SubsystemBase
     {
       throw new RuntimeException(e);
     }
-    swerveDrive.setHeadingCorrection(false); // Heading correction should only be used while controlling the robot via angle.
+    swerveDrive.setHeadingCorrection(true); // Heading correction should only be used while controlling the robot via angle.
     swerveDrive.setCosineCompensator(!SwerveDriveTelemetry.isSimulation); // Disables cosine compensation for simulations since it causes discrepancies not seen in real life.
     setupPathPlanner();
 
@@ -97,11 +94,6 @@ public class SwerveSubsystem extends SubsystemBase
         TalonFX driveMotorTalon = (TalonFX)driveMotor.getMotor();
         TalonFX angleMotorTalon = (TalonFX) angleMotor.getMotor();
 
-        Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Drive Motor StatorCurrent", () -> driveMotorTalon.getStatorCurrent().getValueAsDouble());
-        Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Angle Motor StatorCurrent", () -> angleMotorTalon.getStatorCurrent().getValueAsDouble());
-
-        Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Drive Motor Temp", () -> driveMotorTalon.getDeviceTemp().getValueAsDouble());
-        Shuffleboard.getTab("Drive Train").addDouble("Drive Train Module " + i + " Angle Motor Temp", () -> angleMotorTalon.getDeviceTemp().getValueAsDouble());
       }
     }
   }
@@ -130,13 +122,13 @@ public class SwerveSubsystem extends SubsystemBase
         new HolonomicPathFollowerConfig( // HolonomicPathFollowerConfig, this should likely live in your Constants class
                                          new PIDConstants(1,0,0),
                                          // Translation PID constants
-                                         new PIDConstants(7.75,0,0),
+                                         new PIDConstants(9,0,0),
                                          // Rotation PID constants
                                          4.5,
                                          // Max module speed, in m/s
                                          swerveDrive.swerveDriveConfiguration.getDriveBaseRadiusMeters(),
                                          // Drive base radius in meters. Distance from robot center to furthest module.
-                                         new ReplanningConfig()
+                                         new ReplanningConfig(true, true)
                                          // Default path replanning config. See the API for the options here
         ),
         () -> {
@@ -326,7 +318,6 @@ public class SwerveSubsystem extends SubsystemBase
   @Override
   public void periodic()
   {
-    swerveStatePublisher.set(swerveDrive.getStates());
   }
 
   @Override
@@ -549,7 +540,19 @@ public class SwerveSubsystem extends SubsystemBase
 
   public void setHeading()
   {
-    resetOdometry(new Pose2d(new Translation2d(), new Rotation2d(Math.PI)));
+    double xPos = getPose().getX();
+    double yPos = getPose().getY();
+
+    if(DriverStation.getAlliance().isPresent() &&
+     DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
+    {
+      resetOdometry(new Pose2d(xPos, yPos, new Rotation2d(Math.PI)));
+    } else if (DriverStation.getAlliance().isPresent() &&
+     DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
+    {
+      resetOdometry(new Pose2d(xPos, yPos, new Rotation2d(0)));
+    }
+    //resetOdometry(new Pose2d(new Translation2d(), new Rotation2d(Math.PI)));
   }
 
 }

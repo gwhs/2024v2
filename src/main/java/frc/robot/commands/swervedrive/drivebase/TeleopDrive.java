@@ -33,6 +33,7 @@ public class TeleopDrive extends Command
   private final SwerveController controller;
   public boolean isFaceSpeaker = false;
   public boolean isBackSpeaker = false;
+  public boolean faceAmp = false;
   public boolean isSlow;
   public boolean isHeadingLock;
   private final PIDController PID;
@@ -55,7 +56,6 @@ public class TeleopDrive extends Command
 
     this.PID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
     this.PID.setTolerance(Constants.FaceSpeakerConstants.THETA_TOLERANCE, Constants.FaceSpeakerConstants.STEADY_STATE_TOLERANCE);
-    this.PID.setPID(Constants.FaceSpeakerConstants.kP, Constants.FaceSpeakerConstants.kI, Constants.FaceSpeakerConstants.kD);
     this.PID.enableContinuousInput(-180, 180);
 
     // Use addRequirements() here to declare subsystem dependencies.
@@ -79,28 +79,16 @@ public class TeleopDrive extends Command
      double xVelocity   = Math.pow(vX.getAsDouble(), 3);
      double yVelocity   = Math.pow(vY.getAsDouble(), 3);
      double angVelocity = Math.pow(omega.getAsDouble(), 3);
+     
     if(DriverStation.getAlliance().isPresent() &&
-     DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
+     DriverStation.getAlliance().get() == DriverStation.Alliance.Red && driveMode.getAsBoolean())
     {
       xVelocity *= -1;
       yVelocity *= -1;
     }
     
-   
-    
     currTheta = swerve.getHeading().getDegrees();
-
-    // Drive using raw values.
-    if(isFaceSpeaker)
-    {
-      PID.setSetpoint(UtilMath.FrontSpeakerTheta(swerve.getPose()));
-      angVelocity = PID.calculate(currTheta);
-    }
-    else if(isBackSpeaker)
-    {
-      PID.setSetpoint(UtilMath.BackSpeakerTheta(swerve.getPose()));
-      angVelocity = PID.calculate(currTheta);
-    }
+    SmartDashboard.putNumber("Robot Rotation", currTheta);
 
     if(isSlow)
     {
@@ -110,14 +98,39 @@ public class TeleopDrive extends Command
       angVelocity *= slowFactor;
     }
 
-    if(isHeadingLock)
+    if(isFaceSpeaker)
     {
-       PID.setSetpoint(UtilMath.SourceIntakeHeading(swerve.getPose()));
-       double result =  PID.calculate(currTheta)/4;
-       angVelocity += result;
-       SmartDashboard.putNumber("heading Lock Result", result);
+      double ang = UtilMath.FrontSpeakerTheta(swerve.getPose());
+      PID.setSetpoint(ang);
+      angVelocity = PID.calculate(currTheta);
+      SmartDashboard.putNumber("isFaceSpeaker Goal", ang);
+      SmartDashboard.putNumber("isFaceSpeaker Result", angVelocity);
+    }
+    else if(isBackSpeaker)
+    {
+      double ang = UtilMath.BackSpeakerTheta(swerve.getPose());
+      PID.setSetpoint(ang);
+      angVelocity = PID.calculate(currTheta);
+      SmartDashboard.putNumber("isBackSpeaker Goal", ang);
+      SmartDashboard.putNumber("isBackSpeaker Result", angVelocity);
     }
 
+    if (faceAmp) {
+      PID.setSetpoint(90);
+      angVelocity = PID.calculate(currTheta);
+      SmartDashboard.putNumber("faceAmp Goal", 90);
+      SmartDashboard.putNumber("faceAmp Result", angVelocity);
+    }
+
+    if(isHeadingLock)
+    {
+      double theta = UtilMath.SourceIntakeHeading(swerve.getPose());
+      PID.setSetpoint(theta);
+      double result =  PID.calculate(currTheta);
+      angVelocity += result;
+      SmartDashboard.putNumber("heading Lock Goal", theta);
+      SmartDashboard.putNumber("heading Lock Result", result);
+    }
 
     swerve.drive(new Translation2d(xVelocity * swerve.maximumSpeed, yVelocity * swerve.maximumSpeed),
                 angVelocity * controller.config.maxAngularVelocity,

@@ -21,13 +21,6 @@ import edu.wpi.first.wpilibj.TimedRobot;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Util.UtilMath;
-import frc.robot.testcontainers.ArmContainer;
-import frc.robot.testcontainers.ClimbContainer;
-import frc.robot.testcontainers.DriveContainer;
-import frc.robot.testcontainers.IntakeContainer;
-import frc.robot.testcontainers.VisionContainer;
-import frc.robot.testcontainers.LEDContainer;
-import frc.robot.testcontainers.ReactionArmContainer;
 
 /**
  * The VM is configured to automatically run this class, and to call the functions corresponding to
@@ -38,13 +31,6 @@ import frc.robot.testcontainers.ReactionArmContainer;
 public class Robot extends TimedRobot  {
 
   public static final String GAME = "Game"; 
-  public static final String INTAKE = "Intake";
-  public static final String DRIVE = "Drive";
-  public static final String ARM = "Arm";
-  public static final String CLIMB = "Climb";
-  public static final String VISION = "Vision";
-  public static final String LED = "LED";
-  public static final String REACTION = "REACTION";
   
   // change this to match the subsystem container you want to use, or GAME for complete robot
   public static final String container = GAME;
@@ -79,28 +65,6 @@ public class Robot extends TimedRobot  {
     switch (container){
       case GAME:
         m_baseContainer = new GameRobotContainer();
-        break;
-      case INTAKE:
-        m_baseContainer = new IntakeContainer();
-        break;
-      default:
-      case DRIVE:
-        m_baseContainer = new DriveContainer();
-        break;
-      case CLIMB:
-        m_baseContainer = new ClimbContainer();
-        break;
-      case ARM:
-        m_baseContainer = new ArmContainer();
-        break;
-      case VISION:
-        m_baseContainer = new VisionContainer();
-        break;
-      case LED:
-        m_baseContainer = new LEDContainer();
-        break;
-      case REACTION:
-        m_baseContainer = new ReactionArmContainer();
         break;
     }  
   }

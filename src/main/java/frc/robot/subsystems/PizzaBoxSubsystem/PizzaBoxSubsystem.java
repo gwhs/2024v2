@@ -2,9 +2,9 @@ package frc.robot.subsystems.PizzaBoxSubsystem;
 
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
-public class PizzaBoxMain extends SubsystemBase {
+public class PizzaBoxSubsystem extends SubsystemBase {
   
-  public PizzaBoxMain() {}
+  public PizzaBoxSubsystem() {}
 
   @Override
   public void periodic() {

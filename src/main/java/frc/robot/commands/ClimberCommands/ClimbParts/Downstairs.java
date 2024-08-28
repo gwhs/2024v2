@@ -23,7 +23,6 @@ import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PizzaBoxSubsystem;
 import frc.robot.subsystems.ReactionSubsystem;
-import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBox;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 public class Downstairs extends SequentialCommandGroup {

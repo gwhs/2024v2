@@ -72,7 +72,7 @@ public class GameRobotContainer implements BaseContainer {
         //                                                                  getDriveTrainName()));
         m_IntakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, "rio");
 
-        m_ArmSubsystem = new ArmSubsystem(ArmSubsystem.Arm.ARM_ID, "CAN_Network", 
+        m_ArmSubsystem = new ArmSubsystem(ArmSubsystem.Arm.ARM_ID, "rio", 
                         ArmSubsystem.Arm.ENCODER_DIO_SLOT);
 
         m_PizzaBoxSubsystem = new PizzaBoxSubsystem(PizzaBoxSubsystem.PIZZABOX_ID, 

@@ -15,7 +15,7 @@ public class SwingBackServo extends Command{
   }
 
   public void initialize() {   
-    pizzaBoxSubsystem.setServoAngle(50);
+    pizzaBoxSubsystem.SetPBServo(50);
   }
   
   @Override
@@ -28,7 +28,7 @@ public class SwingBackServo extends Command{
 
   @Override
   public boolean isFinished() {
-    double motorAng = pizzaBoxSubsystem.getServoAngle();
+    double motorAng = pizzaBoxSubsystem.PBServoAngle();
   
     return Math.abs(motorAng - 50) < .001;
   } 

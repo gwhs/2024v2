@@ -3,10 +3,8 @@
 // the WPILib BSD license file in the root directory of this project.
 
 package frc.robot.commands.Arm;
-
 import frc.robot.subsystems.PizzaBoxSubsystem;
 import frc.robot.subsystems.ArmSubsystem;
-
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class SpinArmAndPizzaBox extends Command {
@@ -34,7 +32,7 @@ public class SpinArmAndPizzaBox extends Command {
 
   @Override
   public void execute() {
-    if(armSubsystem.encoderGetAngle() > PizzaBoxSubsystem.PizzaBox.START_SPIN_DEGREE)
+    if(armSubsystem.encoderGetAngle() > PizzaBoxSubsystem.START_SPIN_DEGREE)
     {
       pizzaBoxSubsystem.spinPizzaBoxMotor(vel, 500);
     }

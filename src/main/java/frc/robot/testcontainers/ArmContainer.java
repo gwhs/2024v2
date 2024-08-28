@@ -20,8 +20,8 @@ public class ArmContainer implements BaseContainer {
         ArmSubsystem arm = new ArmSubsystem(ArmSubsystem.Arm.ARM_ID, "CAN_Network", 
                         ArmSubsystem.Arm.ENCODER_DIO_SLOT);
 
-        PizzaBoxSubsystem pizzaBox = new PizzaBoxSubsystem(PizzaBoxSubsystem.PizzaBox.PIZZABOX_ID, 
-                    "rio", PizzaBoxSubsystem.PizzaBox.SERVO_PWN_SLOT);
+        PizzaBoxSubsystem pizzaBox = new PizzaBoxSubsystem(PizzaBoxSubsystem.PIZZABOX_ID, 
+                    "rio", PizzaBoxSubsystem.SERVO_PWN_SLOT);
                         
         private IntakeSubsystem intakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, "rio");
         

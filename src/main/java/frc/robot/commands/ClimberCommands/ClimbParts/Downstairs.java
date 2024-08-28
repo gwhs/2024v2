@@ -16,22 +16,21 @@ import frc.robot.Constants;
 import frc.robot.commands.Arm.SpinToArmAngle;
 import frc.robot.commands.Arm.SwingForwardServoTheSecond;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorUp;
-import frc.robot.commands.IntakeCommands.IntakePickUpFromGroundPID;
 import frc.robot.commands.ReactionArmCommands.Extend;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
+//import frc.robot.subsystems.IntakeSubsystem;
 import frc.robot.subsystems.PizzaBoxSubsystem;
 import frc.robot.subsystems.ReactionSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 public class Downstairs extends SequentialCommandGroup {
   /** Creates a new PrepClimb. */
-  public Downstairs(ArmSubsystem a, ReactionSubsystem r, IntakeSubsystem i) {
+  public Downstairs(ArmSubsystem a, ReactionSubsystem r) {
     addCommands(
       new SpinToArmAngle(a,  ArmSubsystem.Arm.ARM_MAX_ANGLE)
       
-      .alongWith((new IntakePickUpFromGroundPID(i, 0.6, 0.0)))
+      //.alongWith((new IntakePickUpFromGroundPID(i, 0.6, 0.0)))
       .alongWith((new Extend(r)))
 
 

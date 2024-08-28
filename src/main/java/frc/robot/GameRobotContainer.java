@@ -15,7 +15,6 @@ import frc.robot.Util.UtilMath;
 import frc.robot.commands.SystemCheck;
 import frc.robot.commands.Arm.*;
 import frc.robot.commands.ClimberCommands.ClimbParts.*;
-import frc.robot.commands.IntakeCommands.*;
 import frc.robot.commands.ReactionArmCommands.Extend;
 import frc.robot.commands.ReactionArmCommands.Retract;
 import frc.robot.commands.driveCommands.*;
@@ -41,7 +40,7 @@ public class GameRobotContainer implements BaseContainer {
     private final SendableChooser<Command> autoChooser;
   
     //private final SwerveSubsystem m_drivebase;
-    private final IntakeSubsystem m_IntakeSubsystem;
+    //private final IntakeSubsystem m_IntakeSubsystem;
     private final ArmSubsystem m_ArmSubsystem;
     private final PizzaBoxSubsystem m_PizzaBoxSubsystem;
     //private final LEDSubsystem m_ledsubsystem;
@@ -70,7 +69,7 @@ public class GameRobotContainer implements BaseContainer {
     public GameRobotContainer() {
         // m_drivebase = new SwerveSubsystem(new File(Filesystem.getDeployDirectory(),
         //                                                                  getDriveTrainName()));
-        m_IntakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, "rio");
+        //m_IntakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, "rio");
 
         m_ArmSubsystem = new ArmSubsystem(ArmSubsystem.Arm.ARM_ID, "CAN_Network", 
                         ArmSubsystem.Arm.ENCODER_DIO_SLOT);
@@ -116,11 +115,11 @@ public class GameRobotContainer implements BaseContainer {
 
 
         //SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, m_ClimbSubsystem, m_ReactionSubsystem, autoChooser, closedFieldRel);
-      Shuffleboard.getTab("System Check").add("check", new SystemCheck(m_ArmSubsystem, m_ClimbSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem, drive));
+      //Shuffleboard.getTab("System Check").add("check", new SystemCheck(m_ArmSubsystem, m_ClimbSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem, drive));
       Shuffleboard.getTab("GameTab").add("Reset Arm", new ResetArm(m_ArmSubsystem, m_PizzaBoxSubsystem))
         .withPosition(3,1);
-      Shuffleboard.getTab("GameTab").add("Reset Intake", new IntakeResetArm(m_IntakeSubsystem))
-        .withPosition(4,1);
+      // Shuffleboard.getTab("GameTab").add("Reset Intake", new IntakeResetArm(m_IntakeSubsystem))
+      //   .withPosition(4,1);
       Shuffleboard.getTab("GameTab").add("Autonomous Chooser", autoChooser)
         .withSize(2, 1)
         .withPosition(0, 2);
@@ -135,8 +134,8 @@ public class GameRobotContainer implements BaseContainer {
       Shuffleboard.getTab("LogBooleans").addBoolean("faceSpeaker", ()-> drive.faceSpeaker);
       Shuffleboard.getTab("GameTab").addBoolean("Arm Running", ()-> !m_ArmSubsystem.isEmergencyStop())
         .withPosition(3, 0);
-      Shuffleboard.getTab("GameTab").addBoolean("Intake Running", ()-> !m_IntakeSubsystem.isEmergencyStop())
-        .withPosition(4, 0);
+      // Shuffleboard.getTab("GameTab").addBoolean("Intake Running", ()-> !m_IntakeSubsystem.isEmergencyStop())
+      //   .withPosition(4, 0);
         
         configureBindings();
         
@@ -175,7 +174,7 @@ public class GameRobotContainer implements BaseContainer {
       operatorController.start().onTrue(new StopClimb(m_ClimbSubsystem));
 
       operatorController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem, m_PizzaBoxSubsystem));
-      operatorController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
+      // operatorController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
 
       operatorController.leftStick().whileTrue(new LockHeadingToSourceForIntake(drive, m_ArmSubsystem, m_PizzaBoxSubsystem));
       // GenericEntry s = Shuffleboard.getTab("Arm").add("Angle", 236).getEntry();
@@ -185,7 +184,7 @@ public class GameRobotContainer implements BaseContainer {
 
     private void configurePathPlannerCommands() {
     
-      NamedCommands.registerCommand("Intake", new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
+      //NamedCommands.registerCommand("Intake", new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem));
 
       NamedCommands.registerCommand("Speaker (underhand)", new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
 

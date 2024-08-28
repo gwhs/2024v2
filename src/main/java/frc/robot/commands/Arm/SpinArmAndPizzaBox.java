@@ -42,7 +42,7 @@ public class SpinArmAndPizzaBox extends Command {
   public void initialize() {
     DataLogManager.log("Command start: SpinArmAndPizzaBox");
     armSubsystem.targetArmAngle(angle);
-    pizzaBoxSubsystem.spinPizzaBoxMotor(-5, 100);
+    pizzaBoxSubsystem.SpinPBMotor(-5, 100);
   }
 
   @Override
@@ -50,9 +50,9 @@ public class SpinArmAndPizzaBox extends Command {
     if (angleUpdate != null) {
       armSubsystem.targetArmAngle(angleUpdate.getAsDouble());
     }
-    if(armSubsystem.encoderGetAngle() > PizzaBoxSubsystem.PizzaBox.START_SPIN_DEGREE)
+    if(armSubsystem.encoderGetAngle() > PizzaBoxSubsystem.START_SPIN_DEGREE)
     {
-      pizzaBoxSubsystem.spinPizzaBoxMotor(vel, 500);
+      pizzaBoxSubsystem.SpinPBMotor(vel, 500);
     }
   }
 

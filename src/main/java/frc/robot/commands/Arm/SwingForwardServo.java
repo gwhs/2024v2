@@ -14,7 +14,7 @@ public class SwingForwardServo extends Command{
     addRequirements(pizzaBoxSubsystem);
   }
   public void initialize() {
-    pizzaBoxSubsystem.setServoAngle(180);
+    pizzaBoxSubsystem.SetPBServo(180);
   }
   
   @Override
@@ -27,7 +27,7 @@ public class SwingForwardServo extends Command{
 
   @Override
   public boolean isFinished() {
-    double motorAng = pizzaBoxSubsystem.getServoAngle();
+    double motorAng = pizzaBoxSubsystem.PBServoAngle();
     return Math.abs(motorAng - 180) < .001;
   }
 }

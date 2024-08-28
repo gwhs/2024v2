@@ -15,7 +15,7 @@ public class SwingBackServoTheSecond extends Command{
   }
 
   public void initialize() {   
-    pizzaBoxSubsystem.setServoAngleTheSecond(0);
+    pizzaBoxSubsystem.SetPBServo2(0);
   }
   
   @Override

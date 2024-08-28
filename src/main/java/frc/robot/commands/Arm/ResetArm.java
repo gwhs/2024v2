@@ -33,10 +33,10 @@ public class ResetArm extends Command{
     }
     
     armSubsystem.stopArmMotor();
-    pizzaBoxSubsystem.stopPizzaBoxMotor();
+    pizzaBoxSubsystem.StopPBMotor();
     armSubsystem.targetArmAngle(ArmSubsystem.Arm.INTAKE_ANGLE);
-    pizzaBoxSubsystem.setServoAngle(50);
-    pizzaBoxSubsystem.setServoAngleTheSecond(0);
+    pizzaBoxSubsystem.SetPBServo(50);
+    pizzaBoxSubsystem.SetPBServo2(0);
   }
   
 

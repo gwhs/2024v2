@@ -17,7 +17,7 @@ public class ScoreInTrap extends SequentialCommandGroup {
     addCommands(
         new SpinToArmAngle(armSubsystem, ArmSubsystem.Arm.TRAP_ANGLE).withTimeout(3),
         new SpinNoteContainerMotor(pizzaBoxSubsystem, 26, 50),
-        Commands.waitUntil(()->pizzaBoxSubsystem.isAtVelocity(.1)),
+        Commands.waitUntil(()->pizzaBoxSubsystem.AtVelocity(.1)),
         new SwingForwardServo(pizzaBoxSubsystem),
         Commands.waitSeconds(.5),
         new SwingBackServo(pizzaBoxSubsystem),

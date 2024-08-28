@@ -14,7 +14,7 @@ public class SwingForwardServoTheSecond extends Command{
     addRequirements(pizzaBoxSubsystem);
   }
   public void initialize() {
-    pizzaBoxSubsystem.setServoAngleTheSecond(200);
+    pizzaBoxSubsystem.SetPBServo2(200);
   }
   
   @Override

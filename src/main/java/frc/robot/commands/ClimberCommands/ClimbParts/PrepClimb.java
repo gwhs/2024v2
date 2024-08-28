@@ -20,7 +20,7 @@ import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
 import frc.robot.subsystems.PizzaBoxSubsystem;
 import frc.robot.subsystems.ReactionSubsystem;
-import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBox;
+import frc.robot.subsystems.PizzaBoxSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 public class PrepClimb extends SequentialCommandGroup {

@@ -25,7 +25,7 @@ public class SpinNoteContainerMotor extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    pizzaBoxSubsystem.spinPizzaBoxMotor(velocity, acceleration);
+    pizzaBoxSubsystem.SpinPBMotor(velocity, acceleration);
   }
 
   // Called every time the scheduler runs while the command is scheduled.

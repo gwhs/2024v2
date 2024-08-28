@@ -31,7 +31,7 @@ public class IntakePassNoteToPizzaBox extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    pizzaBoxSubsystem.spinPizzaBoxMotor(-60, 100);
+    pizzaBoxSubsystem.SpinPBMotor(-60, 100);
     currentSensorValue = true;
     intakeSubsystem.spinIntakeMotor(0.8, 100);
     //pizzaBoxSubsystem.spinPizzaBoxMotor(-60, 100);
@@ -47,7 +47,7 @@ public class IntakePassNoteToPizzaBox extends Command {
   // runs once when isFinished is called
   @Override
   public void end(boolean interrupted) {
-    pizzaBoxSubsystem.stopPizzaBoxMotor();
+    pizzaBoxSubsystem.StopPBMotor();
     intakeSubsystem.stopIntakeMotors();
   }
 

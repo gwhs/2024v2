@@ -21,6 +21,7 @@ import frc.robot.commands.driveCommands.*;
 import frc.robot.commands.swervedrive.CTRETeleopDrive;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.subsystems.swervedrive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
@@ -40,7 +41,7 @@ public class GameRobotContainer implements BaseContainer {
     private final SendableChooser<Command> autoChooser;
   
     //private final SwerveSubsystem m_drivebase;
-    //private final IntakeSubsystem m_IntakeSubsystem;
+    private final IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
     private final ArmSubsystem m_ArmSubsystem;
     private final PizzaBoxSubsystem m_PizzaBoxSubsystem;
     //private final LEDSubsystem m_ledsubsystem;

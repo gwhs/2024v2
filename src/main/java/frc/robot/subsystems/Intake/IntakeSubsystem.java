@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.Intake;
 
+import java.util.Map;
+
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.MathUtil;
@@ -12,6 +14,10 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -27,7 +33,17 @@ public class IntakeSubsystem extends SubsystemBase {
   private ProfiledPIDController pidController = new ProfiledPIDController(IntakeContants.kP, IntakeContants.kI, IntakeContants.kD, constraints);
 
   /** Creates a new IntakeSubsystem. */
-  public IntakeSubsystem() {}
+  public IntakeSubsystem() {
+    // put commands to shuffleboard for testing
+    ShuffleboardTab tab = Shuffleboard.getTab("Testing");
+    ShuffleboardLayout intakeCommandsLayout = tab.getLayout("Intake Commands", BuiltInLayouts.kList)
+      .withSize(2,2)
+      .withProperties(Map.of("Label position", "HIDDEN"));
+    
+    intakeCommandsLayout.add(deployIntake());
+    intakeCommandsLayout.add(retractIntake());
+
+  }
 
   public double getIntakeArmAngle() {
     return Units.rotationsToDegrees(encoder.getAbsolutePosition()) - IntakeContants.ENCODER_OFFSET;
@@ -51,13 +67,15 @@ public class IntakeSubsystem extends SubsystemBase {
       m_intakeSpin.set(0.8);
     }))
     .until(() -> noteSensor.get())
-    .andThen(retractIntake());
+    .andThen(retractIntake())
+    .withName("Intake: deploy intake");
   }
 
   public Command retractIntake() {
     return this.runOnce(() -> {
       pidController.setGoal(IntakeConstants.UP_POSITION);
     })
-    .andThen(Commands.idle().until(() -> pidController.atGoal()));
+    .andThen(Commands.idle().until(() -> pidController.atGoal()))
+    .withName("Intake: retract intake");
   }
 }

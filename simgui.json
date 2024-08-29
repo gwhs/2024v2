@@ -37,6 +37,8 @@
       "/Shuffleboard/GameTab/Toggle Camera Mode": "Command",
       "/Shuffleboard/System Check/check": "Command",
       "/Shuffleboard/TEST COMMAND/TEST": "Command",
+      "/Shuffleboard/Testing/Intake Commands/Intake: deploy intake": "Command",
+      "/Shuffleboard/Testing/Intake Commands/Intake: retract intake": "Command",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Module 0": "Mechanism2d",
       "/SmartDashboard/Module 1": "Mechanism2d",

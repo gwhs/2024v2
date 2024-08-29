@@ -10,10 +10,11 @@ public class PizzaBoxSubsystem extends SubsystemBase {
   private TalonFX m_PizzaBoxMotor;
   private Servo PBservo;
   private Servo PBFlapServo;
+
   public PizzaBoxSubsystem() {
-    m_PizzaBoxMotor = new TalonFX(PizzaBoxConstants.PizzaBoxID,PizzaBoxConstants.PizzaBoxCAN);
-    PBservo = new Servo(PizzaBoxConstants.servoPWD);
-    PBFlapServo = new Servo(PizzaBoxConstants.flapPWD);
+    m_PizzaBoxMotor = new TalonFX(PizzaBoxConstants.PIZZA_BOX_ID,PizzaBoxConstants.PIZZA_BOX_CAN);
+    PBservo = new Servo(PizzaBoxConstants.SERVO_PWD);
+    PBFlapServo = new Servo(PizzaBoxConstants.FLAP_PWD);
 
   }
 

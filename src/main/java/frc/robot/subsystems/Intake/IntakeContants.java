@@ -15,7 +15,7 @@ public class IntakeContants {
     public static final int INTAKE_ENCODER_CHANNEL_ID = 9;
     public static final int INTAKE_NOTE_SENSOR_CHANNEL_ID = 8;
 
-    public static final double kP = 5;
+    public static final double kP = 0.03;
     public static final double kI = 0;
     public static final double kD = 0;
 

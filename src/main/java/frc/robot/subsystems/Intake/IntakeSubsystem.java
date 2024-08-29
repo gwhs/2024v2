@@ -57,6 +57,7 @@ public class IntakeSubsystem extends SubsystemBase {
   public Command retractIntake() {
     return this.runOnce(() -> {
       pidController.setGoal(IntakeConstants.UP_POSITION);
-    });
+    })
+    .andThen(Commands.idle().until(() -> pidController.atGoal()));
   }
 }

@@ -1,5 +1,6 @@
 package frc.robot.subsystems.PizzaBoxSubsystem;
-
+// TODO: add all the other functions as commands
+// ADD ALL COMMANDS TO SHUFFLEBOARD
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.Servo;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -28,5 +29,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
 
   public Command slurp_command(TalonFX m) {
     return this.runOnce(() -> PizzaBoxFuncs.Slurp(m));
+
+  
   }
 }

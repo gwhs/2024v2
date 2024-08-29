@@ -3,6 +3,7 @@ package frc.robot.subsystems.PizzaBoxSubsystem;
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.Servo;
 
+
 /*
  * This is the basic idea for a function in this file,
  * please follow it so that it is readable at a glance and no hypnoanalyses are needed just to figure out what a function does:
@@ -37,7 +38,7 @@ public static String reset(Servo s, Servo s2, TalonFX f) {
 
   public static double motorSpeed(TalonFX motor) {
 
-    return m.getRotorVelocity().getValue();
+    return motor.getRotorVelocity().getValue();
   }
 
   public static String stopFlap(Servo servo) {

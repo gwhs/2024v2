@@ -7,7 +7,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // COMMANDS NEED TO BE RUN WITH LAMBDAS
 public class PizzaBoxSubsystem extends SubsystemBase {
   
-  private TalonFX m_PizzaBoxMotor = new TalonFX(PizzaBoxConstants.PizzaBoxID,PizzaBoxConstants.PizzaBoxCAN);
+  private TalonFX m_PizzaBoxMotor;
   private Servo PBservo;
   private Servo PBFlapServo;
   public PizzaBoxSubsystem() {
@@ -17,26 +17,15 @@ public class PizzaBoxSubsystem extends SubsystemBase {
 
   }
 
-  
-
-  @Override
-  public void periodic() {
-    
-  }
-
-  public String reset(Servo s, Servo s2, TalonFX f) {
-    s.set(PizzaBoxConstants.stop);
-    s2.set(PizzaBoxConstants.stop);
-    f.set(PizzaBoxConstants.stop);
-  
-    return "RESETING ANGLE (NO TOUCHY THE PIZZABOX)";
-  }
-
   public Command reset_command(Servo s, Servo s2, TalonFX f) {
-    s.set(PizzaBoxConstants.stop);
-    s2.set(PizzaBoxConstants.stop);
-    f.set(PizzaBoxConstants.stop);
+    return this.runOnce(() -> PizzaBoxFuncs.reset(PBservo,PBFlapServo,m_PizzaBoxMotor));
+  }
 
-    return this.runOnce(() -> reset(PBservo,PBFlapServo,m_PizzaBoxMotor));
+  public Command spit_command(TalonFX m) {
+    return this.runOnce(() -> PizzaBoxFuncs.Spit(m));
+  }
+
+  public Command slurp_command(TalonFX m) {
+    return this.runOnce(() -> PizzaBoxFuncs.Slurp(m));
   }
 }

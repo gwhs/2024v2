@@ -147,7 +147,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
  }
 
  //gets the angle from the encoder(it's *potentially* offset from the motor by: [add value])
-  public double encoderGetAngle() {
+  public static double encoderGetAngle() {
 
     return m_encoder.getAbsolutePosition()*Arm.ROTATION_TO_DEGREES - Arm.ENCODER_OFFSET;
   }

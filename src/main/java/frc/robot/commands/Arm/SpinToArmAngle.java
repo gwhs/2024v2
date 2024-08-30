@@ -4,8 +4,8 @@
 
 package frc.robot.commands.Arm;
 
-import frc.robot.subsystems.ArmSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
+import frc.robot.subsystems.ArmSubsystem;
 
 public class SpinToArmAngle extends Command {
 

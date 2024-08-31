@@ -62,7 +62,7 @@ public class ArmSubsystem extends ProfiledPIDSubsystem {
   }
 
   private TalonFX m_arm;
-  private DutyCycleEncoder m_encoder;
+  private static DutyCycleEncoder m_encoder;
   private ArmFeedforward armFeedForward;
   public boolean emergencyStop = false;
   private double prevArmAngle;

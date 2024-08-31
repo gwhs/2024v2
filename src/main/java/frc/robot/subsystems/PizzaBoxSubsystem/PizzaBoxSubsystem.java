@@ -16,7 +16,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
   private Servo PBservo;
   private Servo PBFlapServo;
   public boolean hasNote = false;
-  public PizzaBoxSubsystem(int f, String g, int h, int v) {
+  public PizzaBoxSubsystem() {
 
     m_PizzaBoxMotor = new TalonFX(PizzaBoxConstants.PIZZA_BOX_ID,PizzaBoxConstants.PIZZA_BOX_CAN);
     PBservo = new Servo(PizzaBoxConstants.SERVO_PWD);

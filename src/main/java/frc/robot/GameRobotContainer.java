@@ -17,7 +17,6 @@ import frc.robot.subsystems.*;
 import frc.robot.subsystems.swervedrive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.swervedrive.Telemetry;
 import frc.robot.subsystems.swervedrive.TunerConstants;
-import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBoxConstants;
 import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBoxSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
@@ -64,7 +63,7 @@ public class GameRobotContainer implements BaseContainer {
         m_ArmSubsystem = new ArmSubsystem(ArmSubsystem.Arm.ARM_ID, "rio", 
                         ArmSubsystem.Arm.ENCODER_DIO_SLOT);
 
-        m_PizzaBoxSubsystem = new PizzaBoxSubsystem(PizzaBoxConstants.PIZZA_BOX_ID, "rio", PizzaBoxConstants.SERVO_PWD, PizzaBoxConstants.FLAP_PWD);
+        m_PizzaBoxSubsystem = new PizzaBoxSubsystem();
 
         //m_ledsubsystem = new LEDSubsystem(Constants.LEDConstants.ledPortNumber);
 

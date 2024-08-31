@@ -43,7 +43,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
   public Command stopFlap() {
     return this.run(() -> PBFlapServo.set(PizzaBoxConstants.STOP));
   }
-public Command stopKicker(Servo servo) {
+  public Command stopKicker(Servo servo) {
     return this.run(() -> PBservo.set(PizzaBoxConstants.STOP));
   }
 

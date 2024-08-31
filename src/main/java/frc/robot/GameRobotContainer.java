@@ -12,7 +12,6 @@ import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Util.UtilMath;
-import frc.robot.commands.SystemCheck;
 import frc.robot.commands.Arm.*;
 import frc.robot.commands.ClimberCommands.ClimbParts.*;
 import frc.robot.commands.ReactionArmCommands.Extend;

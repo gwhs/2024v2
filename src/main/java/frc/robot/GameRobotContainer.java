@@ -21,7 +21,7 @@ import frc.robot.commands.driveCommands.*;
 import frc.robot.commands.swervedrive.CTRETeleopDrive;
 import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.Intake.IntakeSubsystem;
+import frc.robot.subsystems.IntakeSubsystem.IntakeSubsystem;
 import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.subsystems.swervedrive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;

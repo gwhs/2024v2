@@ -6,19 +6,15 @@ package frc.robot.commands.ClimberCommands.ClimbParts;
 
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Commands;
-import edu.wpi.first.wpilibj2.command.PrintCommand;
 import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
-import edu.wpi.first.wpilibj2.command.WaitCommand;
 import frc.robot.Constants;
 import frc.robot.commands.Arm.*;
 import frc.robot.commands.ClimberCommands.ActuallyMovesMotors.MotorDown;
 import frc.robot.commands.ReactionArmCommands.Extend;
-import frc.robot.commands.ReactionArmCommands.Retract;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
-import frc.robot.subsystems.PizzaBoxSubsystem;
+import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBoxSubsystem;
 import frc.robot.subsystems.ReactionSubsystem;
-import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:

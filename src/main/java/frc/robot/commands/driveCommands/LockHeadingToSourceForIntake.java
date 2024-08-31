@@ -8,7 +8,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.Constants;
 import frc.robot.commands.swervedrive.CTRETeleopDrive;
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.PizzaBoxSubsystem;
+import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBoxSubsystem;
 
 public class LockHeadingToSourceForIntake extends Command {
   /** Creates a new LockHeadingToSourceForIntake. */
@@ -26,7 +26,7 @@ public class LockHeadingToSourceForIntake extends Command {
   @Override
   public void initialize() {
     drive.isHeadingLock = true;
-    pizzaBoxSubsystem.SpinPBMotor(-50, 100);
+    pizzaBoxSubsystem.slurp_command();
     armSubsystem.targetArmAngle(Constants.IntakeConstants.SOURCE_INTAKE_ANGLE);
   }
 
@@ -39,7 +39,7 @@ public class LockHeadingToSourceForIntake extends Command {
   @Override
   public void end(boolean interrupted) {
     drive.isHeadingLock = false;
-    pizzaBoxSubsystem.StopPBMotor();
+    pizzaBoxSubsystem.stopMotor();
     armSubsystem.targetArmAngle(90);
   }
 

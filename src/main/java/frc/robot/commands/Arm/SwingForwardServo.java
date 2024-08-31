@@ -1,5 +1,5 @@
 package frc.robot.commands.Arm;
-import frc.robot.subsystems.PizzaBoxSubsystem;
+import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBoxSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
@@ -14,7 +14,7 @@ public class SwingForwardServo extends Command{
     addRequirements(pizzaBoxSubsystem);
   }
   public void initialize() {
-    pizzaBoxSubsystem.SetPBServo(180);
+    pizzaBoxSubsystem.setKicker(180);
   }
   
   @Override
@@ -27,7 +27,7 @@ public class SwingForwardServo extends Command{
 
   @Override
   public boolean isFinished() {
-    double motorAng = pizzaBoxSubsystem.PBServoAngle();
+    double motorAng = pizzaBoxSubsystem.kickerAngle();
     return Math.abs(motorAng - 180) < .001;
   }
 }

@@ -9,7 +9,7 @@ import frc.robot.commands.Arm.ScoreInTrapStutter;
 import frc.robot.commands.ClimberCommands.AutoClimb.ClimbUp;
 import frc.robot.subsystems.ArmSubsystem;
 import frc.robot.subsystems.Climbsubsystem;
-import frc.robot.subsystems.PizzaBoxSubsystem;
+import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBoxSubsystem;
 import frc.robot.subsystems.ReactionSubsystem;
 import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 

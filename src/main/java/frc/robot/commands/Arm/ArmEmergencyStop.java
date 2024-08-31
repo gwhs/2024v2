@@ -1,7 +1,7 @@
 package frc.robot.commands.Arm;
 
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.PizzaBoxSubsystem;
+import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBoxSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 

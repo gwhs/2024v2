@@ -5,7 +5,7 @@
 package frc.robot.commands.Arm;
 
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.PizzaBoxSubsystem;
+import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBoxSubsystem;
 
 import java.util.function.DoubleSupplier;
 
@@ -20,7 +20,7 @@ public class ScoreInSpeakerAdjustable extends SequentialCommandGroup {
     addCommands(
       new SpinArmAndPizzaBox(pizzaBoxSubsystem, armSubsystem, angle, 100).withTimeout(2),
       new SpinNoteContainerMotor(pizzaBoxSubsystem, 100, 100),
-      Commands.waitUntil(()->pizzaBoxSubsystem.AtVelocity(90)).withTimeout(0.5),
+      Commands.waitUntil(()->PizzaBoxSubsystem.AtVelocity(90)).withTimeout(0.5),
       new SwingForwardServo(pizzaBoxSubsystem),
       Commands.waitSeconds(.2),
       new SwingBackServo(pizzaBoxSubsystem),
@@ -37,7 +37,7 @@ public class ScoreInSpeakerAdjustable extends SequentialCommandGroup {
     addCommands(
       new SpinArmAndPizzaBox(pizzaBoxSubsystem, armSubsystem, angleSupplier, 100).withTimeout(2),
       new SpinNoteContainerMotor(pizzaBoxSubsystem, 100, 100),
-      Commands.waitUntil(()->pizzaBoxSubsystem.AtVelocity(90)).withTimeout(0.5),
+      Commands.waitUntil(()->PizzaBoxSubsystem.AtVelocity(90)).withTimeout(0.5),
       new SwingForwardServo(pizzaBoxSubsystem),
       Commands.waitSeconds(.2),
       new SwingBackServo(pizzaBoxSubsystem),

@@ -1,5 +1,5 @@
 package frc.robot.commands.Arm;
-import frc.robot.subsystems.PizzaBoxSubsystem;
+import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBoxSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 
@@ -14,7 +14,7 @@ public class SwingForwardServoTheSecond extends Command{
     addRequirements(pizzaBoxSubsystem);
   }
   public void initialize() {
-    pizzaBoxSubsystem.SetPBServo2(200);
+    pizzaBoxSubsystem.setFlap(200);
   }
   
   @Override

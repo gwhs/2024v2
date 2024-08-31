@@ -6,8 +6,6 @@ package frc.robot.commands.ReactionArmCommands;
 
 import edu.wpi.first.wpilibj2.command.Command;
 import frc.robot.subsystems.ReactionSubsystem;
-import frc.robot.Constants;
-
 public class Retract extends Command {
   /** Creates a new Retract. */
 private final ReactionSubsystem m_Subsystem;

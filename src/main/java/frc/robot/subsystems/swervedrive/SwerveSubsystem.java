@@ -4,7 +4,6 @@
 
 package frc.robot.subsystems.swervedrive;
 
-import com.ctre.phoenix6.hardware.TalonFX;
 import com.pathplanner.lib.auto.*;
 import com.pathplanner.lib.commands.*;
 import com.pathplanner.lib.path.*;
@@ -15,9 +14,7 @@ import edu.wpi.first.math.kinematics.*;
 import edu.wpi.first.math.numbers.*;
 import edu.wpi.first.math.trajectory.*;
 import edu.wpi.first.math.util.*;
-import edu.wpi.first.networktables.*;
 import edu.wpi.first.wpilibj.*;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.sysid.SysIdRoutine.*;
@@ -28,7 +25,6 @@ import swervelib.SwerveDrive;
 import swervelib.SwerveDriveTest;
 import swervelib.SwerveModule;
 import swervelib.math.SwerveMath;
-import swervelib.motors.SwerveMotor;
 import swervelib.parser.*;
 import swervelib.telemetry.SwerveDriveTelemetry;
 import swervelib.telemetry.SwerveDriveTelemetry.TelemetryVerbosity;
@@ -87,12 +83,8 @@ public class SwerveSubsystem extends SubsystemBase
       // Log motor data
       SwerveModule[] sm_array = swerveDrive.getModules();
       for(int i = 0; i < sm_array.length; i++){
-        SwerveModule sm = sm_array[i];
-        SwerveMotor driveMotor = sm.getDriveMotor();
-        SwerveMotor angleMotor = sm.getAngleMotor();
 
-        TalonFX driveMotorTalon = (TalonFX)driveMotor.getMotor();
-        TalonFX angleMotorTalon = (TalonFX) angleMotor.getMotor();
+
 
       }
     }

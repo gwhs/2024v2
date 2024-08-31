@@ -4,28 +4,25 @@
 
 package frc.robot.commands.Arm;
 
-import frc.robot.subsystems.PizzaBoxSubsystem;
+import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBoxSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class SpinNoteContainerMotor extends Command {
 
-  private double velocity;
-  private double acceleration;
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
   private final PizzaBoxSubsystem pizzaBoxSubsystem;
 
   public SpinNoteContainerMotor(PizzaBoxSubsystem pizzaBoxSubsystem, double velocity, double acceleration) {
     this.pizzaBoxSubsystem = pizzaBoxSubsystem;
-    this.velocity = velocity;
-    this.acceleration = acceleration;
+    
     addRequirements(pizzaBoxSubsystem);
   }
 
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    pizzaBoxSubsystem.SpinPBMotor(velocity, acceleration);
+    pizzaBoxSubsystem.spit_command();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

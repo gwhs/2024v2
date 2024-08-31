@@ -4,7 +4,7 @@
 
 package frc.robot.commands.Arm;
 
-import frc.robot.subsystems.PizzaBoxSubsystem;
+import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBoxSubsystem;
 import edu.wpi.first.wpilibj2.command.Command;
 
 public class StopNoteContainerMotor extends Command {
@@ -19,7 +19,7 @@ public class StopNoteContainerMotor extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    pizzaBoxSubsystem.StopPBMotor();
+    pizzaBoxSubsystem.slurp_command();
   }
 
   // Called every time the scheduler runs while the command is scheduled.

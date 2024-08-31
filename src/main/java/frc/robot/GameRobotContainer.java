@@ -1,35 +1,25 @@
 package frc.robot;
 
-import java.io.File;
-
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.networktables.GenericEntry;
 import edu.wpi.first.wpilibj.DataLogManager;
-import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
-import frc.robot.Util.UtilMath;
 import frc.robot.commands.SystemCheck;
 import frc.robot.commands.Arm.*;
 import frc.robot.commands.ClimberCommands.ClimbParts.*;
 import frc.robot.commands.IntakeCommands.*;
-import frc.robot.commands.ReactionArmCommands.Extend;
 import frc.robot.commands.ReactionArmCommands.Retract;
 import frc.robot.commands.driveCommands.*;
 import frc.robot.commands.swervedrive.CTRETeleopDrive;
-import frc.robot.commands.swervedrive.drivebase.TeleopDrive;
 import frc.robot.subsystems.*;
-import frc.robot.subsystems.LimeVision.LimeLightSub;
 import frc.robot.subsystems.swervedrive.CommandSwerveDrivetrain;
-import frc.robot.subsystems.swervedrive.SwerveSubsystem;
 import frc.robot.subsystems.swervedrive.Telemetry;
 import frc.robot.subsystems.swervedrive.TunerConstants;
+import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBoxConstants;
+import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBoxSubsystem;
 
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
 
@@ -58,8 +48,7 @@ public class GameRobotContainer implements BaseContainer {
     private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance(); // My drivetrain
 
     private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController);
-    private final SwerveRequest.SwerveDriveBrake brake = new SwerveRequest.SwerveDriveBrake();
-    private final SwerveRequest.PointWheelsAt point = new SwerveRequest.PointWheelsAt();
+ 
     private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
 
     public String getDriveTrainName(){
@@ -75,8 +64,7 @@ public class GameRobotContainer implements BaseContainer {
         m_ArmSubsystem = new ArmSubsystem(ArmSubsystem.Arm.ARM_ID, "rio", 
                         ArmSubsystem.Arm.ENCODER_DIO_SLOT);
 
-        m_PizzaBoxSubsystem = new PizzaBoxSubsystem(PizzaBoxSubsystem.PIZZABOX_ID, 
-                    "rio", PizzaBoxSubsystem.SERVO_PWN_SLOT, PizzaBoxSubsystem.SERVO2_PWN_SLOT);
+        m_PizzaBoxSubsystem = new PizzaBoxSubsystem(PizzaBoxConstants.PIZZA_BOX_ID, "rio", PizzaBoxConstants.SERVO_PWD, PizzaBoxConstants.FLAP_PWD);
 
         //m_ledsubsystem = new LEDSubsystem(Constants.LEDConstants.ledPortNumber);
 

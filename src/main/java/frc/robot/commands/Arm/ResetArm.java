@@ -1,7 +1,7 @@
 package frc.robot.commands.Arm;
 
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.PizzaBoxSubsystem;
+import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBoxSubsystem;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -33,10 +33,10 @@ public class ResetArm extends Command{
     }
     
     armSubsystem.stopArmMotor();
-    pizzaBoxSubsystem.StopPBMotor();
+    pizzaBoxSubsystem.stopMotor();
     armSubsystem.targetArmAngle(ArmSubsystem.Arm.INTAKE_ANGLE);
-    pizzaBoxSubsystem.SetPBServo(50);
-    pizzaBoxSubsystem.SetPBServo2(0);
+    pizzaBoxSubsystem.setKicker(50);
+    pizzaBoxSubsystem.setFlap(0);
   }
   
 

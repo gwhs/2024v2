@@ -5,7 +5,7 @@
 package frc.robot.commands.IntakeCommands;
 
 import frc.robot.subsystems.IntakeSubsystem;
-import frc.robot.subsystems.PizzaBoxSubsystem;
+import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBoxSubsystem;
 import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj2.command.Command;
 
@@ -31,7 +31,7 @@ public class IntakePassNoteToPizzaBox extends Command {
   // Called when the command is initially scheduled.
   @Override
   public void initialize() {
-    pizzaBoxSubsystem.SpinPBMotor(-60, 100);
+    pizzaBoxSubsystem.slurp_command();
     currentSensorValue = true;
     intakeSubsystem.spinIntakeMotor(0.8, 100);
     //pizzaBoxSubsystem.spinPizzaBoxMotor(-60, 100);
@@ -47,7 +47,7 @@ public class IntakePassNoteToPizzaBox extends Command {
   // runs once when isFinished is called
   @Override
   public void end(boolean interrupted) {
-    pizzaBoxSubsystem.StopPBMotor();
+    pizzaBoxSubsystem.stopMotor();
     intakeSubsystem.stopIntakeMotors();
   }
 

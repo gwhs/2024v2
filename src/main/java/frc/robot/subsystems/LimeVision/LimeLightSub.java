@@ -68,21 +68,15 @@ public class LimeLightSub extends SubsystemBase {
   boolean verbose = true;//If we want to print values
   public boolean wantData = true;//If we want to accept limelight post esitmator
 
-  // may be useful later
-  private double kCameraHeight =
-      LimeLightConstants.CAMERA_HEIGHT; // LimelightConstants.kCameraHeight;
-  private double kTargetHeight =
-      LimeLightConstants.TARGET_HEIGHT; // LimelightConstants.kTargetHeight;
+
 
   private LimeLightComms limelight_comm;
   private SwerveSubsystem drivebase;
-  private String limelight_networktable_name;
 
   /** Creates a new LimeLightSub. */
   public LimeLightSub(String limelight_networktable_name, SwerveSubsystem drivebase) {
     limelight_comm = new LimeLightComms(limelight_networktable_name);
     limelight_comm.set_entry_double("ledMode", 3);
-    this.limelight_networktable_name = limelight_networktable_name;
     if(verbose){
       Shuffleboard.getTab("Limelight").addDouble("Tag Count", ()->getBlueBotPose()[7]);
       Shuffleboard.getTab("Limelight").addDouble("Average Distance", ()->getBlueBotPose()[9]);

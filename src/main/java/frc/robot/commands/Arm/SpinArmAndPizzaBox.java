@@ -5,7 +5,8 @@
 package frc.robot.commands.Arm;
 
 import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.PizzaBoxSubsystem;
+import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBoxConstants;
+import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBoxSubsystem;
 
 import java.util.function.DoubleSupplier;
 
@@ -16,7 +17,7 @@ public class SpinArmAndPizzaBox extends Command {
   private PizzaBoxSubsystem pizzaBoxSubsystem;
   private ArmSubsystem armSubsystem;
   private double angle;
-  private double vel;
+
   private DoubleSupplier angleUpdate;
 
   @SuppressWarnings({"PMD.UnusedPrivateField", "PMD.SingularField"})
@@ -26,14 +27,14 @@ public class SpinArmAndPizzaBox extends Command {
     this.pizzaBoxSubsystem = pizzaBoxSubsystem;
     this.armSubsystem = armSubsystem;
     this.angle = angle;
-    this.vel = vel;
+
   }
 
   public SpinArmAndPizzaBox(PizzaBoxSubsystem pizzaBoxSubsystem, ArmSubsystem armSubsystem, DoubleSupplier angle, double vel) {
     this.pizzaBoxSubsystem = pizzaBoxSubsystem;
     this.armSubsystem = armSubsystem;
     this.angle = angle.getAsDouble();
-    this.vel = vel;
+
     angleUpdate = angle;
   }
 
@@ -42,7 +43,7 @@ public class SpinArmAndPizzaBox extends Command {
   public void initialize() {
     DataLogManager.log("Command start: SpinArmAndPizzaBox");
     armSubsystem.targetArmAngle(angle);
-    pizzaBoxSubsystem.SpinPBMotor(-5, 100);
+    pizzaBoxSubsystem.slurp_command();
   }
 
   @Override
@@ -50,9 +51,9 @@ public class SpinArmAndPizzaBox extends Command {
     if (angleUpdate != null) {
       armSubsystem.targetArmAngle(angleUpdate.getAsDouble());
     }
-    if(armSubsystem.encoderGetAngle() > PizzaBoxSubsystem.START_SPIN_DEGREE)
+    if(armSubsystem.encoderGetAngle() > PizzaBoxConstants.START_SPIN_DEGREE)
     {
-      pizzaBoxSubsystem.SpinPBMotor(vel, 500);
+      pizzaBoxSubsystem.slurp_command();
     }
   }
 

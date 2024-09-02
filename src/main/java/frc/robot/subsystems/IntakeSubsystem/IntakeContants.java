@@ -19,8 +19,8 @@ public class IntakeContants {
     public static final double kI = 0;
     public static final double kD = 0;
 
-    public static final double kVel = 100;
-    public static final double kAcc = 100;
+    public static final double kVel = 300;
+    public static final double kAcc = 300;
 
     public static final double ENCODER_OFFSET = 0;
 

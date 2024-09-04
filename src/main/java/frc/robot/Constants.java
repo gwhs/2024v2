@@ -86,6 +86,8 @@ public final class Constants
 
   public static final int CLIMB_ARM_ANGLE = 255;
   public static final int CLIMB_ARM_ARNGLE_FOR_SERVO = 330;
+
+public static final String CLIMB_ID = null;
   }
   
 
@@ -102,6 +104,7 @@ public final class Constants
     public static final double UP_POSITION = 92;
 
     public static final double SOURCE_INTAKE_ANGLE = 160;
+    public static final String CLIMB_CAN = null;
   }
 
   public static final class ReactionConstants {

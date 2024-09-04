@@ -38,10 +38,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
     return this.run(() -> m_PizzaBoxMotor.set(.00));
   }
 
-  public static double motorSpeed(TalonFX motor) {
-    return motor.getRotorVelocity().getValue();
-  }
-
+  
   public Command stopFlap() {
     return this.run(() -> PBFlapServo.set(PizzaBoxConstants.STOP));
   }

@@ -12,9 +12,9 @@ import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.Util.UtilMath;
-import frc.robot.commands.SystemCheck;
+//import frc.robot.commands.SystemCheck;
 import frc.robot.commands.Arm.*;
-import frc.robot.commands.ClimberCommands.ClimbParts.*;
+//import frc.robot.commands.ClimberCommands.ClimbParts.*;
 import frc.robot.commands.IntakeCommands.*;
 import frc.robot.commands.ReactionArmCommands.Extend;
 import frc.robot.commands.ReactionArmCommands.Retract;
@@ -45,7 +45,7 @@ public class GameRobotContainer implements BaseContainer {
     private final ArmSubsystem m_ArmSubsystem;
     private final PizzaBoxSubsystem m_PizzaBoxSubsystem;
     //private final LEDSubsystem m_ledsubsystem;
-    private final Climbsubsystem m_ClimbSubsystem;
+    //private final Climbsubsystem m_ClimbSubsystem;
     private final ReactionSubsystem m_ReactionSubsystem;
     //private final LimeLightSub m_LimelightSubsystem;
 
@@ -80,11 +80,11 @@ public class GameRobotContainer implements BaseContainer {
 
         //m_ledsubsystem = new LEDSubsystem(Constants.LEDConstants.ledPortNumber);
 
-         m_ClimbSubsystem = new Climbsubsystem( Constants.ClimbConstants.MOTOR_LEFT_ID, 
-                                                Constants.ClimbConstants.MOTOR_RIGHT_ID, 
-                                                Constants.ClimbConstants.MOTOR_LEFT_INVERTED, 
-                                                Constants.ClimbConstants.MOTOR_RIGHT_INVERTED, 
-                                                        "rio");
+         //m_ClimbSubsystem = new Climbsubsystem( Constants.ClimbConstants.MOTOR_LEFT_ID, 
+                                              //  Constants.ClimbConstants.MOTOR_RIGHT_ID, 
+                                              //  Constants.ClimbConstants.MOTOR_LEFT_INVERTED, 
+                                               // Constants.ClimbConstants.MOTOR_RIGHT_INVERTED, 
+                                                       // "rio");
         
         //m_LimelightSubsystem  = new LimeLightSub("limelight", m_drivebase); 
 
@@ -116,7 +116,7 @@ public class GameRobotContainer implements BaseContainer {
 
 
         //SetupShuffleboard.setupShuffleboard(m_drivebase, m_PizzaBoxSubsystem, m_ArmSubsystem, m_IntakeSubsystem, m_LimelightSubsystem, m_ClimbSubsystem, m_ReactionSubsystem, autoChooser, closedFieldRel);
-      Shuffleboard.getTab("System Check").add("check", new SystemCheck(m_ArmSubsystem, m_ClimbSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem, drive));
+      //Shuffleboard.getTab("System Check").add("check", new SystemCheck(m_ArmSubsystem, m_ClimbSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem, drive));
       Shuffleboard.getTab("GameTab").add("Reset Arm", new ResetArm(m_ArmSubsystem, m_PizzaBoxSubsystem))
         .withPosition(3,1);
       Shuffleboard.getTab("GameTab").add("Reset Intake", new IntakeResetArm(m_IntakeSubsystem))
@@ -168,11 +168,11 @@ public class GameRobotContainer implements BaseContainer {
 
       /* Operator Controllers */
 
-      operatorController.y().onTrue(new PrepClimb(m_ClimbSubsystem, m_ArmSubsystem, m_ReactionSubsystem, m_PizzaBoxSubsystem));
-      operatorController.b().onTrue(new ClimbAndShoot(m_ClimbSubsystem, m_ArmSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem));
-      operatorController.a().onTrue(new UnClimb(m_ClimbSubsystem, m_ArmSubsystem, m_ReactionSubsystem));
-      operatorController.x().onTrue(new UnClimbPartTwoThatWillBringDownTheMotor(m_ClimbSubsystem, m_ArmSubsystem, m_ReactionSubsystem, m_PizzaBoxSubsystem));
-      operatorController.start().onTrue(new StopClimb(m_ClimbSubsystem));
+      //operatorController.y().onTrue(new PrepClimb(m_ClimbSubsystem, m_ArmSubsystem, m_ReactionSubsystem, m_PizzaBoxSubsystem));
+      //operatorController.b().onTrue(new ClimbAndShoot(m_ClimbSubsystem, m_ArmSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem));
+      // operatorController.a().onTrue(new UnClimb(m_ClimbSubsystem, m_ArmSubsystem, m_ReactionSubsystem));
+      // operatorController.x().onTrue(new UnClimbPartTwoThatWillBringDownTheMotor(m_ClimbSubsystem, m_ArmSubsystem, m_ReactionSubsystem, m_PizzaBoxSubsystem));
+      // operatorController.start().onTrue(new StopClimb(m_ClimbSubsystem));
 
       operatorController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem, m_PizzaBoxSubsystem));
       operatorController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));

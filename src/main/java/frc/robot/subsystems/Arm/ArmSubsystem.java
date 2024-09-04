@@ -4,10 +4,13 @@ import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import frc.robot.Constants.IntakeConstants;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.math.util.Units;
 
 public class ArmSubsystem extends SubsystemBase {
   
@@ -20,19 +23,25 @@ public class ArmSubsystem extends SubsystemBase {
   }
   
   public double getArmEncoderAngle() {
-    return m_armEncoder.getAbsolutePosition()*ArmConstants.ARM_ROTATION_TO_DEGREES - ArmConstants.ARM_ENCODER_OFFSET;
+    return Units.rotationsToDegrees(m_armEncoder.getAbsolutePosition()) - ArmConstants.ARM_ENCODER_OFFSET;
+
   }
 
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    double pidOutput = pidController.calculate(getArmEncoderAngle());
+    double pidOutput = pidController.calculate(Units.degreesToRadians(getArmEncoderAngle()));
 
     pidOutput = MathUtil.clamp(pidOutput, -1, 1);
     m_armMotor.set(pidOutput);
   }
 
-  // public Command spinArm(double targetAngle) {
-  //   return this.runOnce((-> ))
-  // }
+  public Command spinArm(double targetAngle) {
+    return this.runOnce(() -> {
+      pidController.setGoal(Units.degreesToRadians(targetAngle));
+    })
+    .alongWith(Commands.run(() -> {
+      m_armMotor.set(0.8);
+    }));
+  }
 }

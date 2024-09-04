@@ -199,17 +199,17 @@ public class LimeLightSub extends SubsystemBase {
     if(hasTarget()){
        
         double xyStds= 0;
-        double degStds = 0;
+        
         Matrix<N3, N1> stds = new Matrix<N3, N1>(Nat.N3(), Nat.N1());
         LimelightHelpers.PoseEstimate limelightMeasurement = LimelightHelpers.getBotPoseEstimate_wpiBlue("limelight");
 
         if(limelightMeasurement.tagCount >= 2 ){ //Checks if Limelight sees 2 Apriltag
             xyStds = 0.5; 
-            degStds = 6 * Math.PI / 180;
+            
         }
         else if ((temp[9] < distancefromLimeLight) && (distance < distancefromAprilTag)) { //Checks if within distance of apriltag and limelight
             xyStds = 1.0;
-            degStds = 12 * Math.PI / 180;
+            
         }
         else{
           limelightRejectedPosePublisher.set(newPose);

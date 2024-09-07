@@ -12,7 +12,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 // COMMANDS NEED TO BE RUN WITH LAMBDAS
 public class PizzaBoxSubsystem extends SubsystemBase {
   
-  private static TalonFX m_PizzaBoxMotor;
+  private TalonFX m_PizzaBoxMotor;
   private Servo PBservo;
   private Servo PBFlapServo;
   public boolean hasNote = false;
@@ -74,7 +74,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
     return PBservo.getAngle();
   }
 
-  public static boolean AtVelocity(double d) {
+  public boolean AtVelocity(double d) {
 
     if (m_PizzaBoxMotor.getVelocity().getValueAsDouble() == d) {
       return true;

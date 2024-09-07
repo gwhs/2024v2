@@ -74,7 +74,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
     return PBservo.getAngle();
   }
 
-  public boolean AtVelocity(double d) {
+  public boolean atVelocity(double d) {
 
     if (m_PizzaBoxMotor.getVelocity().getValueAsDouble() == d) {
       return true;

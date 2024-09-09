@@ -55,33 +55,33 @@ public class PizzaBoxSubsystem extends SubsystemBase {
   }
 
   public Command stopMotor() {
-    return this.run(() -> m_PizzaBoxMotor.set(.00));
+    return this.runOnce(() -> m_PizzaBoxMotor.set(.00));
   }
 
   
   public Command stopFlap() {
-    return this.run(() -> PBFlapServo.set(PizzaBoxConstants.STOP));
+    return this.runOnce(() -> PBFlapServo.set(PizzaBoxConstants.STOP));
   }
   public Command stopKicker() {
-    return this.run(() -> PBservo.set(PizzaBoxConstants.STOP));
+    return this.runOnce(() -> PBservo.set(PizzaBoxConstants.STOP));
   }
 
   public Command speedyArm_Command(DoubleSupplier f) {
     if (f.getAsDouble() > 99 && f.getAsDouble() < 261) {
-      return this.run(() -> m_PizzaBoxMotor.set(1));
+      return this.runOnce(() -> m_PizzaBoxMotor.set(1));
     }
      else {
-      return this.run(() -> m_PizzaBoxMotor.set(-0.8));
+      return this.runOnce(() -> m_PizzaBoxMotor.set(-0.8));
      }
 
   }
 
   public Command setKicker() {
-    return this.run(() -> PBservo.set(0));
+    return this.runOnce(() -> PBservo.set(0));
   }  
 
   public Command setFlap() {
-    return this.run(() -> PBFlapServo.set(0));
+    return this.runOnce(() -> PBFlapServo.set(0));
   }
 
 

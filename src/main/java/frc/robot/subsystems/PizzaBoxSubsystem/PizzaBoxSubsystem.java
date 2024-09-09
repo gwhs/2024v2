@@ -1,9 +1,14 @@
 package frc.robot.subsystems.PizzaBoxSubsystem;
 
+import java.util.Map;
 import java.util.function.DoubleSupplier;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -21,7 +26,22 @@ public class PizzaBoxSubsystem extends SubsystemBase {
     m_PizzaBoxMotor = new TalonFX(PizzaBoxConstants.PIZZA_BOX_ID,PizzaBoxConstants.PIZZA_BOX_CAN);
     PBservo = new Servo(PizzaBoxConstants.SERVO_PWD);
     PBFlapServo = new Servo(PizzaBoxConstants.FLAP_PWD);
+    
 
+
+    ShuffleboardTab tab = Shuffleboard.getTab("Testing");
+    ShuffleboardLayout pizzaCommandsLayout = tab.getLayout("PizzaBox Commands", BuiltInLayouts.kList)
+      .withSize(2,2)
+      .withProperties(Map.of("Label Position", "HIDDEN"));
+
+    pizzaCommandsLayout.add(spit_command());
+    pizzaCommandsLayout.add(slurp_command());
+    pizzaCommandsLayout.add(stopMotor());
+    pizzaCommandsLayout.add(stopFlap());
+    pizzaCommandsLayout.add(stopKicker());
+    pizzaCommandsLayout.add(setFlap());
+    pizzaCommandsLayout.add(setKicker());
+    pizzaCommandsLayout.add(speedyArm_Command(() -> 50));
   }
 
   
@@ -42,7 +62,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
   public Command stopFlap() {
     return this.run(() -> PBFlapServo.set(PizzaBoxConstants.STOP));
   }
-  public Command stopKicker(Servo servo) {
+  public Command stopKicker() {
     return this.run(() -> PBservo.set(PizzaBoxConstants.STOP));
   }
 
@@ -56,12 +76,12 @@ public class PizzaBoxSubsystem extends SubsystemBase {
 
   }
 
-  public Command setKicker(double f) {
-    return this.run(() -> PBservo.set(f));
+  public Command setKicker() {
+    return this.run(() -> PBservo.set(0));
   }  
 
-  public Command setFlap(double f) {
-    return this.run(() -> PBFlapServo.set(f));
+  public Command setFlap() {
+    return this.run(() -> PBFlapServo.set(0));
   }
 
 

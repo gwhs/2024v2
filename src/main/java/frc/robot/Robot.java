@@ -45,12 +45,6 @@ public class Robot extends TimedRobot  {
    */
   @Override
   public void robotInit() {
-    //DriverStation.silenceJoystickConnectionWarning(true);
-    // String logfolder = "/home/lvuser";
-    // Logger.addDataReceiver(new WPILOGWriter(logfolder));
-    // Logger.addDataReceiver(new NT4Publisher());
-    // Logger.start();
-
     SignalLogger.setPath("/home/lvuser/log/");
     SignalLogger.enableAutoLogging(false);
     SignalLogger.start();

@@ -45,7 +45,7 @@ public class ArmSubsystem extends SubsystemBase {
  public Command spinArm(double targetAngle) {
    return this.runOnce(() -> {
      pidController.setGoal(Units.degreesToRadians(targetAngle));
-   });
+   }).andThen(Commands.waitUntil(() -> pidController.atGoal()));
  }
 }
 

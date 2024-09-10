@@ -6,14 +6,12 @@ package frc.robot.subsystems.IntakeSubsystem;
 
 import java.util.Map;
 
-import com.ctre.phoenix6.hardware.TalonFX;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
-import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.DigitalInput;
-import edu.wpi.first.wpilibj.DutyCycleEncoder;
+import edu.wpi.first.networktables.NetworkTableEntry;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -24,16 +22,22 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private TalonFX m_intakeArm = new TalonFX(IntakeContants.INTAKE_ARM_ID, IntakeContants.INTAKE_ARM_CAN);
-  private TalonFX m_intakeSpin = new TalonFX(IntakeContants.INTAKE_SPIN_ID, IntakeContants.INTAKE_SPIN_CAN);
-  private DutyCycleEncoder encoder = new DutyCycleEncoder(IntakeContants.INTAKE_ENCODER_CHANNEL_ID);
-  private DigitalInput noteSensor = new DigitalInput(IntakeContants.INTAKE_NOTE_SENSOR_CHANNEL_ID);
+  private final IntakeIO intakeIO;
 
   private TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(IntakeContants.kVel, IntakeContants.kAcc);
   private ProfiledPIDController pidController = new ProfiledPIDController(IntakeContants.kP, IntakeContants.kI, IntakeContants.kD, constraints);
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
+    if(RobotBase.isSimulation()) {
+      intakeIO = new IntakeIOSim();
+      NetworkTableInstance.getDefault().getEntry("Intake/Mode").setString("Simulation");
+    }
+    else {
+      intakeIO = new IntakeIOReal();
+      NetworkTableInstance.getDefault().getEntry("Intake/Mode").setString("Real");
+    }
+    
     // put commands to shuffleboard for testing
     ShuffleboardTab tab = Shuffleboard.getTab("Testing");
     ShuffleboardLayout intakeCommandsLayout = tab.getLayout("Intake Commands", BuiltInLayouts.kList)
@@ -45,18 +49,23 @@ public class IntakeSubsystem extends SubsystemBase {
 
   }
 
-  public double getIntakeArmAngle() {
-    return Units.rotationsToDegrees(encoder.getAbsolutePosition()) - IntakeContants.ENCODER_OFFSET;
-  }
-
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    double pidOutput = pidController.calculate(getIntakeArmAngle());
+    double pidOutput = pidController.calculate(intakeIO.getIntakeArmAngle());
 
     pidOutput = MathUtil.clamp(pidOutput, -1, 1);
 
-    m_intakeArm.set(pidOutput);
+    intakeIO.setArmSpeed(pidOutput);
+
+    intakeIO.update();
+
+    /* Logging */
+    NetworkTableInstance.getDefault().getEntry("Intake/PID Output").setNumber(pidOutput);
+    NetworkTableInstance.getDefault().getEntry("Intake/PID Goal").setNumber(pidController.getGoal().position);
+    NetworkTableInstance.getDefault().getEntry("Intake/PID Profiled Goal").setNumber(pidController.getSetpoint().position);
+    NetworkTableInstance.getDefault().getEntry("Intake/Intake Measured Arm Angle").setNumber(intakeIO.getIntakeArmAngle());
+    NetworkTableInstance.getDefault().getEntry("Intake/Intake Spin Speed").setNumber(intakeIO.getSpinSpeed());
   }
 
   public Command deployIntake() {
@@ -64,9 +73,9 @@ public class IntakeSubsystem extends SubsystemBase {
       pidController.setGoal(IntakeContants.DOWN_POSITION);
     })
     .alongWith(Commands.run(() -> {
-      m_intakeSpin.set(0.8);
+      intakeIO.setSpinSpeed(0.8);
     }))
-    .until(() -> noteSensor.get())
+    .until(() -> intakeIO.getNoteSensor())
     .andThen(retractIntake())
     .withName("Intake: deploy intake");
   }
@@ -74,6 +83,7 @@ public class IntakeSubsystem extends SubsystemBase {
   public Command retractIntake() {
     return this.runOnce(() -> {
       pidController.setGoal(IntakeConstants.UP_POSITION);
+      intakeIO.setSpinSpeed(0);
     })
     .andThen(Commands.idle().until(() -> pidController.atGoal()))
     .withName("Intake: retract intake");

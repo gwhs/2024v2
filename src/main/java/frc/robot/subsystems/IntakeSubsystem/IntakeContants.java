@@ -7,7 +7,7 @@ package frc.robot.subsystems.IntakeSubsystem;
 /** Add your docs here. */
 public class IntakeContants {
     public static final int INTAKE_ARM_ID = 55;
-    public static final String INTAKE_ARM_CAN = "rio";
+    public static final String INTAKE_ARM_CAN = "CAN_Network";
 
     public static final int INTAKE_SPIN_ID = 20;
     public static final String INTAKE_SPIN_CAN = "rio";

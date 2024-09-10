@@ -25,4 +25,12 @@ public class ClimbConstants {
   public static final double CLIMB_PID_KI = 0;
   public static final double CLIMB_PID_KD = 0;
 
+  public static final double MAX_ACCELERATION = 150.0;
+  public static final double MAX_VELOCITY = 300.0;
+
+  public static final double LEFT_UP_POSITION = -193.94;
+  public static final double LEFT_DOWN_POSITION = -12.3;
+  public static final double RIGHT_UP_POSITION = 193.4;
+  public static final double RIGHT_DOWN_POSITION = 12.3;
+
 }

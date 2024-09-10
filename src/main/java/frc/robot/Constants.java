@@ -87,7 +87,7 @@ public final class Constants
   public static final int CLIMB_ARM_ANGLE = 255;
   public static final int CLIMB_ARM_ARNGLE_FOR_SERVO = 330;
 
-public static final String CLIMB_ID = null;
+
   }
   
 

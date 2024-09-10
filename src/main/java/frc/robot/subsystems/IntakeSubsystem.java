@@ -36,8 +36,8 @@ public class IntakeSubsystem extends SubsystemBase {
    */
   public IntakeSubsystem(int lowerIntakeId, int spinIntakeId, String can) {
 
-    m_moveIntakeArm = new TalonFX(lowerIntakeId, can);
-    m_spinIntake = new TalonFX(spinIntakeId, can);
+    m_moveIntakeArm = new TalonFX(lowerIntakeId, "CAN_Network");
+    m_spinIntake = new TalonFX(spinIntakeId, "rio");
     m_Encoder = new DutyCycleEncoder(Constants.IntakeConstants.INTAKE_ENCODER_CHANNEL_ID);
     m_noteSensor = new DigitalInput(Constants.IntakeConstants.INTAKE_NOTESENSOR_CHANNEL_ID);
 

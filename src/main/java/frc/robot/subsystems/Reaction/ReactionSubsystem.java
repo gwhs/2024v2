@@ -19,7 +19,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ReactionSubsystem extends SubsystemBase {
-  private TalonFX m_reactionArm = new TalonFX(ReactionConstants.reactionID, ReactionConstants.reactionCAN);
+  private TalonFX m_reactionArm = new TalonFX(ReactionConstants.REACTION_ID, ReactionConstants.REACTION_CAN);
   private PIDController pidController = new PIDController(ReactionConstants.kP, ReactionConstants.kI, ReactionConstants.kD);
   private StatusSignal<Double> reactionBarArmPosition = m_reactionArm.getPosition();
 
@@ -48,13 +48,13 @@ public class ReactionSubsystem extends SubsystemBase {
 
   public Command extendReactionBar(){
     return this.runOnce(() -> {
-       pidController.setSetpoint(ReactionConstants.extendedPosition);
+       pidController.setSetpoint(ReactionConstants.EXTENDED_POSITION);
     });
   }
 
   public Command retractReactionBar(){
     return this.runOnce(()->{
-      pidController.setSetpoint(ReactionConstants.retractedPosition);
+      pidController.setSetpoint(ReactionConstants.RETRACTED_POSITION);
     });
   }
 

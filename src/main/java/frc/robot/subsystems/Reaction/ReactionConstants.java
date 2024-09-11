@@ -7,7 +7,7 @@ package frc.robot.subsystems.Reaction;
 /** Add your docs here. */
 public class ReactionConstants {
     public static final int REACTION_ID = 32;
-    public static final String REACTION_CAN = "CAN_Network";
+    public static final String REACTION_CAN = "rio";
 
     public static final double kP = 0.1;
     public static final double kI = 0;

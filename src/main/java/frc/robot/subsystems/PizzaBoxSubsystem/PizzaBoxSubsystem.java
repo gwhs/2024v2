@@ -47,41 +47,51 @@ public class PizzaBoxSubsystem extends SubsystemBase {
   
 
   public Command spit_command() {
-    return this.runOnce(() -> m_PizzaBoxMotor.set(1));
+    return this.runOnce(() -> m_PizzaBoxMotor.set(1))
+    .withName("Spit");
   }
 
   public Command slurp_command() {
-    return this.runOnce(() -> m_PizzaBoxMotor.set(-1));
+    return this.runOnce(() -> m_PizzaBoxMotor.set(-1))
+    .withName("Slurp");
   }
 
   public Command stopMotor() {
-    return this.runOnce(() -> m_PizzaBoxMotor.set(.00));
+    return this.runOnce(() -> m_PizzaBoxMotor.set(.00))
+    .withName("STOP MOTOR");
   }
 
   
   public Command stopFlap() {
-    return this.runOnce(() -> PBFlapServo.set(PizzaBoxConstants.STOP));
+    return this.runOnce(() -> PBFlapServo.set(PizzaBoxConstants.RESET_FLAP))
+    .withName("STOP FLAP");
   }
   public Command stopKicker() {
-    return this.runOnce(() -> PBservo.set(PizzaBoxConstants.STOP));
+    return this.runOnce(() -> PBservo.set(PizzaBoxConstants.RESET_KICKER))
+    .withName("STOP KICKER");
   }
 
   public Command speedyArm_Command(DoubleSupplier f) {
     if (f.getAsDouble() > 99 && f.getAsDouble() < 261) {
-      return this.runOnce(() -> m_PizzaBoxMotor.set(1));
+      return this.runOnce(() -> m_PizzaBoxMotor.set(1))
+      .withName("GAS GAS GAS");
+      
     }
      else {
-      return this.runOnce(() -> m_PizzaBoxMotor.set(-0.8));
+      return this.runOnce(() -> m_PizzaBoxMotor.set(-0.8))
+      .withName("!GAS GAS GAS");
      }
 
   }
 
   public Command setKicker() {
-    return this.runOnce(() -> PBservo.set(0));
+    return this.runOnce(() -> PBservo.set(180))
+    .withName("SET KICKER");
   }  
 
   public Command setFlap() {
-    return this.runOnce(() -> PBFlapServo.set(0));
+    return this.runOnce(() -> PBFlapServo.set(200))
+    .withName("SET FLAP");
   }
 
 

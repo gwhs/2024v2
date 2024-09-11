@@ -55,7 +55,7 @@ public class ReactionSubsystem extends SubsystemBase {
   public Command retractReactionBar(){
     return this.runOnce(()->{
       pidController.setSetpoint(ReactionConstants.RETRACTED_POSITION);
-    }).withName("Extend Reaction Bar");
+    }).withName("Retract Reaction Bar");
   }
 
 }

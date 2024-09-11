@@ -11,9 +11,11 @@ public class PizzaBoxConstants {
     // important stuff end
 
     public final static double STOP = .00;
-    public final static double RESET_KICKER = 50;
-    public final static double RESET_FLAP = 0;
-    public final static double SERVO_NORM = .50; //this is what the servos go to angle wise when reseting. 0.50 is just an example
+    public final static int RESET_KICKER = 50;
+    public final static int RESET_FLAP = 0;
     public final static double START_SPIN_DEGREE = 50;
+    public final static int KICKER_OUT = 180;
+    public final static int FLAP_OUT = 200;
+
     
 }

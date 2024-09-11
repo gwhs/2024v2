@@ -13,8 +13,6 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
-
-// COMMANDS NEED TO BE RUN WITH LAMBDAS
 public class PizzaBoxSubsystem extends SubsystemBase {
   
   private TalonFX m_PizzaBoxMotor;
@@ -85,12 +83,12 @@ public class PizzaBoxSubsystem extends SubsystemBase {
   }
 
   public Command setKicker() {
-    return this.runOnce(() -> PBservo.set(180))
+    return this.runOnce(() -> PBservo.set(PizzaBoxConstants.KICKER_OUT))
     .withName("SET KICKER");
   }  
 
   public Command setFlap() {
-    return this.runOnce(() -> PBFlapServo.set(200))
+    return this.runOnce(() -> PBFlapServo.set(PizzaBoxConstants.FLAP_OUT))
     .withName("SET FLAP");
   }
 

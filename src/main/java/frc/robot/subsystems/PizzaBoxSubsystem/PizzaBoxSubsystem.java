@@ -2,9 +2,7 @@ package frc.robot.subsystems.PizzaBoxSubsystem;
 
 import java.util.Map;
 import java.util.function.DoubleSupplier;
-
-import com.ctre.phoenix6.hardware.TalonFX;
-import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -14,16 +12,18 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 
 public class PizzaBoxSubsystem extends SubsystemBase {
-  
-  private TalonFX m_PizzaBoxMotor;
-  private Servo PBservo;
-  private Servo PBFlapServo;
+  private final PizzaBoxIO pizzaBoxIO;
   public boolean hasNote = false;
-  public PizzaBoxSubsystem() {
 
-    m_PizzaBoxMotor = new TalonFX(PizzaBoxConstants.PIZZA_BOX_ID,PizzaBoxConstants.PIZZA_BOX_CAN);
-    PBservo = new Servo(PizzaBoxConstants.SERVO_PWD);
-    PBFlapServo = new Servo(PizzaBoxConstants.FLAP_PWD);
+
+  public PizzaBoxSubsystem() {
+    if(RobotBase.isSimulation()) {
+      pizzaBoxIO = new PizzaBoxIOSim();
+    }
+    else {
+      pizzaBoxIO = new PizzaBoxIOReal();
+    }
+    
     
 
 
@@ -45,66 +45,66 @@ public class PizzaBoxSubsystem extends SubsystemBase {
   
 
   public Command spit_command() {
-    return this.runOnce(() -> m_PizzaBoxMotor.set(1))
+    return this.runOnce(() -> pizzaBoxIO.setMotor(1))
     .withName("Spit");
   }
 
   public Command slurp_command() {
-    return this.runOnce(() -> m_PizzaBoxMotor.set(-1))
+    return this.runOnce(() -> pizzaBoxIO.setMotor(-1))
     .withName("Slurp");
   }
 
   public Command stopMotor() {
-    return this.runOnce(() -> m_PizzaBoxMotor.set(.00))
+    return this.runOnce(() -> pizzaBoxIO.setMotor(.00))
     .withName("STOP MOTOR");
   }
 
   
   public Command stopFlap() {
-    return this.runOnce(() -> PBFlapServo.set(PizzaBoxConstants.RESET_FLAP))
+    return this.runOnce(() -> pizzaBoxIO.setFlap(PizzaBoxConstants.RESET_FLAP))
     .withName("STOP FLAP");
   }
   public Command stopKicker() {
-    return this.runOnce(() -> PBservo.set(PizzaBoxConstants.RESET_KICKER))
+    return this.runOnce(() -> pizzaBoxIO.setKicker(PizzaBoxConstants.RESET_KICKER))
     .withName("STOP KICKER");
   }
 
   public Command speedyArm_Command(DoubleSupplier f) {
     if (f.getAsDouble() > 99 && f.getAsDouble() < 261) {
-      return this.runOnce(() -> m_PizzaBoxMotor.set(1))
+      return this.runOnce(() -> pizzaBoxIO.setMotor(1))
       .withName("GAS GAS GAS");
       
     }
      else {
-      return this.runOnce(() -> m_PizzaBoxMotor.set(-0.8))
+      return this.runOnce(() -> pizzaBoxIO.setMotor(-0.8))
       .withName("!GAS GAS GAS");
      }
 
   }
 
   public Command setKicker() {
-    return this.runOnce(() -> PBservo.set(PizzaBoxConstants.KICKER_OUT))
+    return this.runOnce(() -> pizzaBoxIO.setKicker(PizzaBoxConstants.KICKER_OUT))
     .withName("SET KICKER");
   }  
 
   public Command setFlap() {
-    return this.runOnce(() -> PBFlapServo.set(PizzaBoxConstants.FLAP_OUT))
+    return this.runOnce(() -> pizzaBoxIO.setFlap(PizzaBoxConstants.FLAP_OUT))
     .withName("SET FLAP");
   }
 
 
   public double flapAngle(){
-    return PBFlapServo.getAngle();
+    return pizzaBoxIO.getFlapAngle();
   }
 
   public double kickerAngle() {
 
-    return PBservo.getAngle();
+    return pizzaBoxIO.getKickerAngle();
   }
 
   public boolean atVelocity(double d) {
 
-    if (m_PizzaBoxMotor.getVelocity().getValueAsDouble() == d) {
+    if (pizzaBoxIO.MotorSpeed(d)) {
       return true;
     }
     else {

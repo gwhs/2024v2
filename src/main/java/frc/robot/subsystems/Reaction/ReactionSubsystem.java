@@ -49,13 +49,13 @@ public class ReactionSubsystem extends SubsystemBase {
   public Command extendReactionBar(){
     return this.runOnce(() -> {
        pidController.setSetpoint(ReactionConstants.EXTENDED_POSITION);
-    });
+    }).withName("Extend Reaction Bar");
   }
 
   public Command retractReactionBar(){
     return this.runOnce(()->{
       pidController.setSetpoint(ReactionConstants.RETRACTED_POSITION);
-    });
+    }).withName("Extend Reaction Bar");
   }
 
 }

@@ -9,10 +9,12 @@ import java.util.Map;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj2.command.Command;
@@ -30,6 +32,11 @@ public class ClimbSubsytem extends SubsystemBase {
     private ProfiledPIDController rightpidController = new ProfiledPIDController(ClimbConstants.CLIMB_PID_KP, ClimbConstants.CLIMB_PID_KI, ClimbConstants.CLIMB_PID_KD, constraints);
 
     public ClimbSubsytem() {
+
+        leftpidController.setGoal(m_leftClimbMotor.getPosition().getValueAsDouble());
+        rightpidController.setGoal(m_rightClimbMotor.getPosition().getValueAsDouble());
+;
+
         ShuffleboardTab tab = Shuffleboard.getTab("Testing");
         ShuffleboardLayout climbCommandsLayout = tab.getLayout("TestingCommands", BuiltInLayouts.kList)
             .withSize(2, 2)
@@ -38,32 +45,45 @@ public class ClimbSubsytem extends SubsystemBase {
         climbCommandsLayout.add(motorUp());
         climbCommandsLayout.add(motorDown());
 
-}
+        SmartDashboard.putData("LeftPIDController", leftpidController);
+        SmartDashboard.putData("RightPIDController", rightpidController);
+    }
 
     @Override
     public void periodic() {
-        double rightpidOutput = rightpidController.calculate(m_rightClimbMotor.getPosition().getValue());
-        double leftpidOutput = leftpidController.calculate(m_leftClimbMotor.getPosition().getValue());
+        double rightpidOutput = rightpidController.calculate(m_rightClimbMotor.getPosition().getValueAsDouble());
+        double leftpidOutput = leftpidController.calculate(m_leftClimbMotor.getPosition().getValueAsDouble());
+
+        rightpidOutput = MathUtil.clamp(rightpidOutput, -1, 1);
+        leftpidOutput = MathUtil.clamp(leftpidOutput, -1, 1);
+
 
         m_leftClimbMotor.set(leftpidOutput);
         m_rightClimbMotor.set(rightpidOutput);
+
+        NetworkTableInstance.getDefault().getEntry("Climb/Left PID Output").setNumber(leftpidOutput);
+        NetworkTableInstance.getDefault().getEntry("Climb/Right PID Output").setNumber(rightpidOutput);
+        NetworkTableInstance.getDefault().getEntry("Climb/Left PID Goal").setNumber(leftpidController.getGoal().position);
+        NetworkTableInstance.getDefault().getEntry("Climb/Right PID Goal").setNumber(rightpidController.getGoal().position);
+        NetworkTableInstance.getDefault().getEntry("Climb/Left motor Position").setNumber(m_leftClimbMotor.getPosition().getValueAsDouble());
+        NetworkTableInstance.getDefault().getEntry("Climb/Right motor Position").setNumber(m_rightClimbMotor.getPosition().getValueAsDouble());
+
+
+
     }
 
     public Command motorUp() {
         return this.runOnce(()   -> {
             leftpidController.setGoal(ClimbConstants.LEFT_UP_POSITION);
             rightpidController.setGoal(ClimbConstants.RIGHT_UP_POSITION);
-        }).withName("Climb Up");
-
-            
-
-        };
+        }).withName("Motor Up");
+    }
     
 
     public Command motorDown() {
         return this.runOnce(()   -> {
             leftpidController.setGoal(ClimbConstants.LEFT_DOWN_POSITION);
             rightpidController.setGoal(ClimbConstants.RIGHT_DOWN_POSITION);
-        }).withName("Climb Down");
-        };
+        }).withName("Motor Down");
     }
+}

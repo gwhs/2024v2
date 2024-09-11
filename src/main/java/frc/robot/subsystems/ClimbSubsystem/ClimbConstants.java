@@ -21,7 +21,7 @@ public class ClimbConstants {
   public static final int TOP_RIGHT_LIMIT_ID = 4;
   public static final int TOP_LEFT_LIMIT_ID = 5;
 
-  public static final double CLIMB_PID_KP = 2.5;
+  public static final double CLIMB_PID_KP = 0.5;
   public static final double CLIMB_PID_KI = 0;
   public static final double CLIMB_PID_KD = 0;
 

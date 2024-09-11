@@ -53,13 +53,17 @@ public class ClimbSubsytem extends SubsystemBase {
         return this.runOnce(()   -> {
             leftpidController.setGoal(ClimbConstants.LEFT_UP_POSITION);
             rightpidController.setGoal(ClimbConstants.RIGHT_UP_POSITION);
-        });
-    }
+        }).withName("Climb Up");
+
+            
+
+        };
+    
 
     public Command motorDown() {
         return this.runOnce(()   -> {
             leftpidController.setGoal(ClimbConstants.LEFT_DOWN_POSITION);
             rightpidController.setGoal(ClimbConstants.RIGHT_DOWN_POSITION);
-        });
+        }).withName("Climb Down");
+        };
     }
-}

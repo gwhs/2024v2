@@ -104,7 +104,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
 
   public boolean atVelocity(double d) {
 
-    if (pizzaBoxIO.MotorSpeed(d)) {
+    if (pizzaBoxIO.AtMotorSpeed(d)) {
       return true;
     }
     else {

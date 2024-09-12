@@ -1,43 +1,59 @@
 package frc.robot.subsystems.PizzaBoxSubsystem;
 
-import com.ctre.phoenix6.hardware.TalonFX;
-
-import edu.wpi.first.wpilibj.Servo;
+import edu.wpi.first.math.system.plant.DCMotor;
+import edu.wpi.first.wpilibj.simulation.FlywheelSim;
+import edu.wpi.first.wpilibj.simulation.PWMSim;
 
 public class PizzaBoxIOSim implements PizzaBoxIO{
- private TalonFX m_PizzaBoxMotor = new TalonFX(PizzaBoxConstants.PIZZA_BOX_ID,PizzaBoxConstants.PIZZA_BOX_CAN);
-    private Servo PBservo = new Servo(PizzaBoxConstants.SERVO_PWD);
-    private Servo PBFlapServo = new Servo(PizzaBoxConstants.FLAP_PWD);
 
-    public void setMotor(double speed) {
-        m_PizzaBoxMotor.set(speed);
-    }
+
+    private FlywheelSim motor = new FlywheelSim(DCMotor.getKrakenX60Foc(1), 1, 0.005);
+    private PWMSim flap = new PWMSim(1);
+    private PWMSim kicker = new PWMSim(0);
+
+
     public void setFlap(double speed) {
-        PBFlapServo.set(speed);
+        flap.setSpeed(speed);
     }
-    public void setKicker(double speed) {
-        PBservo.set(speed);
-    }
-    
-    
-    
-    
-    public boolean MotorSpeed(double speed) {
 
-        if(m_PizzaBoxMotor.getVelocity().getValueAsDouble() == speed) {
+    
+    public void setMotor(double speed) {
+        motor.setInputVoltage(speed);
+    }
+
+    
+    public void setKicker(double speed) {
+        kicker.setSpeed(speed);
+    
+    }
+
+    
+    public boolean AtMotorSpeed(double speed) {
+        if (motor.getAngularVelocityRadPerSec() == speed) {
             return true;
         }
-        return false;
-        
+       else{
+         return false;
+    }
     }
 
+    
     public double getFlapAngle() {
-       return PBFlapServo.getAngle();
+        return flap.getPosition();
     }
 
+    
     public double getKickerAngle() {
-       return PBservo.getAngle();
+        return kicker.getPosition();
     }
+
+
+    
+    public void update() {
+       motor.update(.020);
+       
+    }
+
     
     
 }

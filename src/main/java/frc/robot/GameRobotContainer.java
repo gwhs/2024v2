@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.swervedrive.CTRETeleopDrive;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.Reaction.ReactionSubsystem;
 import frc.robot.subsystems.swervedrive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.swervedrive.Telemetry;
 import frc.robot.subsystems.swervedrive.TunerConstants;
@@ -23,7 +24,7 @@ public class GameRobotContainer implements BaseContainer {
     private final ArmSubsystem m_ArmSubsystem;
     private final PizzaBoxSubsystem m_PizzaBoxSubsystem;
     private final Climbsubsystem m_ClimbSubsystem;
-    private final ReactionSubsystem m_ReactionSubsystem;
+    private final ReactionSubsystem m_ReactionSubsystem = new ReactionSubsystem();
     private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance(); // My drivetrain
 
     private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController);
@@ -43,8 +44,6 @@ public class GameRobotContainer implements BaseContainer {
                                                 Constants.ClimbConstants.MOTOR_LEFT_INVERTED, 
                                                 Constants.ClimbConstants.MOTOR_RIGHT_INVERTED, 
                                                         "rio");
-        
-        m_ReactionSubsystem = new ReactionSubsystem(Constants.ReactionConstants.reactionID, Constants.ReactionConstants.reactionCAN);
 
         autoChooser = AutoBuilder.buildAutoChooser("Hajel middle bottom 2");
 

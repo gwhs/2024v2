@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.Filesystem;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
@@ -138,9 +139,11 @@ public class GameRobotContainer implements BaseContainer {
       Shuffleboard.getTab("GameTab").addBoolean("Intake Running", ()-> !m_IntakeSubsystem.isEmergencyStop())
         .withPosition(4, 0);
         
-        configureBindings();
+      configureBindings();
         
-        drivetrain.registerTelemetry(logger::telemeterize);
+      drivetrain.registerTelemetry(logger::telemeterize);
+
+      SmartDashboard.putData(CommandScheduler.getInstance());
     }
 
 

@@ -123,7 +123,6 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public boolean isEmergencyStop() {
-    //return !(m_Encoder.isConnected() && !emergencyStop);
-    return true;
+    return !(m_Encoder.isConnected() && !emergencyStop);
   }
 }

@@ -34,8 +34,8 @@ public class PizzaBoxSubsystem extends SubsystemBase {
       .withSize(2,2)
       .withProperties(Map.of("Label Position", "HIDDEN"));
 
-    pizzaCommandsLayout.add(spit_command());
-    pizzaCommandsLayout.add(slurp_command());
+    pizzaCommandsLayout.add(spit_command(.69));
+    pizzaCommandsLayout.add(slurp_command(-.69));
     pizzaCommandsLayout.add(stopMotor());
     pizzaCommandsLayout.add(stopFlap());
     pizzaCommandsLayout.add(stopKicker());
@@ -46,13 +46,13 @@ public class PizzaBoxSubsystem extends SubsystemBase {
 
   
 
-  public Command spit_command() {
-    return this.runOnce(() -> pizzaBoxIO.setMotor(1))
+  public Command spit_command(double speed) {
+    return this.runOnce(() -> pizzaBoxIO.setMotor(speed))
     .withName("Spit");
   }
 
-  public Command slurp_command() {
-    return this.runOnce(() -> pizzaBoxIO.setMotor(-1))
+  public Command slurp_command(double speed) {
+    return this.runOnce(() -> pizzaBoxIO.setMotor(speed))
     .withName("Slurp");
   }
 
@@ -93,7 +93,6 @@ public class PizzaBoxSubsystem extends SubsystemBase {
     return this.runOnce(() -> pizzaBoxIO.setFlap(PizzaBoxConstants.FLAP_OUT))
     .withName("SET FLAP");
   }
-
 
   public double flapAngle(){
     return pizzaBoxIO.getFlapAngle();

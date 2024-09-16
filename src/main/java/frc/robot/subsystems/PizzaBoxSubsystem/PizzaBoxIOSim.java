@@ -28,7 +28,7 @@ public class PizzaBoxIOSim implements PizzaBoxIO{
     }
 
     
-    public boolean AtMotorSpeed(double speed) {
+    public boolean atMotorSpeed(double speed) {
         if (motor.getAngularVelocityRadPerSec() == speed) {
             return true;
         }
@@ -47,8 +47,13 @@ public class PizzaBoxIOSim implements PizzaBoxIO{
         return kicker.getPosition();
     }
 
+    public double motorSpeed() {
+        return motor.getAngularVelocityRadPerSec();
+    }
 
-    
+
+
+
     public void update() {
        motor.update(.020);
        

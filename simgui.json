@@ -69,6 +69,21 @@
           "visible": true
         }
       },
+      "/Shuffleboard/Testing/PizzaBox Commands/STOP MOTOR": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/PizzaBox Commands/Slurp": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/PizzaBox Commands/Spit": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Field": {
         "bottom": 1476,
         "height": 8.210550308227539,

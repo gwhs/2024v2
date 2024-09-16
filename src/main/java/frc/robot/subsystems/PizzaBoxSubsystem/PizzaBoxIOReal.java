@@ -22,7 +22,7 @@ public class PizzaBoxIOReal implements PizzaBoxIO {
     
     
     
-    public boolean AtMotorSpeed(double speed) {
+    public boolean atMotorSpeed(double speed) {
 
         if(m_PizzaBoxMotor.getVelocity().getValueAsDouble() == speed) {
             return true;
@@ -38,7 +38,11 @@ public class PizzaBoxIOReal implements PizzaBoxIO {
     public double getKickerAngle() {
        return PBservo.getAngle();
     }
-    @Override
+
+    public double motorSpeed() {
+        return m_PizzaBoxMotor.getVelocity().getValueAsDouble();
+    }
+    
     public void update() {
         
     }

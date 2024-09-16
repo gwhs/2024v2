@@ -2,6 +2,8 @@ package frc.robot.subsystems.PizzaBoxSubsystem;
 
 import java.util.Map;
 import java.util.function.DoubleSupplier;
+
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -104,11 +106,17 @@ public class PizzaBoxSubsystem extends SubsystemBase {
 
   public boolean atVelocity(double d) {
 
-    if (pizzaBoxIO.AtMotorSpeed(d)) {
+    if (pizzaBoxIO.atMotorSpeed(d)) {
       return true;
     }
     else {
       return false;
     }
+  }
+
+  @Override
+  public void periodic() {
+    NetworkTableInstance.getDefault().getEntry("PizzaBox: Motor Speed").setNumber(pizzaBoxIO.motorSpeed());
+    pizzaBoxIO.update();
   }
 }

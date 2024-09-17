@@ -19,13 +19,14 @@ import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 
 public class ArmSubsystem extends SubsystemBase {
   private TalonFX m_armMotor = new TalonFX(ArmConstants.ARM_MOTOR_ID, ArmConstants.ARM_MOTOR_CAN);
- private DutyCycleEncoder m_armEncoder = m_armEncoder = new DutyCycleEncoder(ArmConstants.ARM_ENCODER_CHANNEL);
+ private DutyCycleEncoder m_armEncoder = new DutyCycleEncoder(ArmConstants.ARM_ENCODER_CHANNEL);
  private Constraints constraints = new Constraints(ArmConstants.ARM_VEL, ArmConstants.ARM_ACC);
- private ProfiledPIDController pidController = new ProfiledPIDController(ArmConstants.ARM_kP, ArmConstants.ARM_kI, ArmConstants.ARM_kP, constraints);
+ private ProfiledPIDController pidController = new ProfiledPIDController(ArmConstants.ARM_kP, ArmConstants.ARM_kI, ArmConstants.ARM_kD, constraints);
 
 
  public ArmSubsystem() {
@@ -33,11 +34,13 @@ public class ArmSubsystem extends SubsystemBase {
     ShuffleboardLayout armCommandsLayout = tab.getLayout("Arm Commands", BuiltInLayouts.kList)
         .withSize(2,2)
         .withProperties(Map.of("Label position", "HIDDEN"));
+
+    armCommandsLayout.add(spinArm(120).withName("spinArm120"));
+    armCommandsLayout.add(spinArm(60).withName(("spinArm60")));
+    pidController.setGoal(Units.degreesToRadians(90));
  }
   public double getArmEncoderAngle() {
    return Units.rotationsToDegrees(m_armEncoder.getAbsolutePosition()) - ArmConstants.ARM_ENCODER_OFFSET;
-
-
  }
 
 
@@ -48,7 +51,10 @@ public class ArmSubsystem extends SubsystemBase {
 
 
    pidOutput = MathUtil.clamp(pidOutput, -1, 1);
-   m_armMotor.set(pidOutput);
+   m_armMotor.set(-pidOutput);
+   NetworkTableInstance.getDefault().getEntry("Arm/ArmAngle").setNumber(getArmEncoderAngle());
+   NetworkTableInstance.getDefault().getEntry("Arm/pidOutput").setNumber(pidOutput);
+   NetworkTableInstance.getDefault().getEntry("Arm/armGoal").setNumber(Units.radiansToDegrees(pidController.getGoal().position));
  }
 
 

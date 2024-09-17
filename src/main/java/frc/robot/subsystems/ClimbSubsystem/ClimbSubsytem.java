@@ -23,8 +23,7 @@ import frc.robot.Constants.IntakeConstants;
 
 /** Add your docs here. */
 public class ClimbSubsytem extends SubsystemBase {
-    private TalonFX m_leftClimbMotor = new TalonFX(ClimbConstants.LEFT_CLIMB_MOTOR_ID, "rio");
-    private TalonFX m_rightClimbMotor = new TalonFX(ClimbConstants.RIGHT_CLIMB_MOTOR_ID, "rio");
+    private ClimbIO climbIO;
     private Constraints constraints = new Constraints(ClimbConstants.MAX_VELOCITY, ClimbConstants.MAX_ACCELERATION);
 
 
@@ -33,8 +32,8 @@ public class ClimbSubsytem extends SubsystemBase {
 
     public ClimbSubsytem() {
 
-        leftpidController.setGoal(m_leftClimbMotor.getPosition().getValueAsDouble());
-        rightpidController.setGoal(m_rightClimbMotor.getPosition().getValueAsDouble());
+        leftpidController.setGoal(climbIO.getLeftMotorPosition());
+        rightpidController.setGoal(climbIO.getRightMotorPosition());
 ;
 
         ShuffleboardTab tab = Shuffleboard.getTab("Testing");
@@ -47,26 +46,32 @@ public class ClimbSubsytem extends SubsystemBase {
 
         SmartDashboard.putData("LeftPIDController", leftpidController);
         SmartDashboard.putData("RightPIDController", rightpidController);
+
+            
     }
+
+
 
     @Override
     public void periodic() {
-        double rightpidOutput = rightpidController.calculate(m_rightClimbMotor.getPosition().getValueAsDouble());
-        double leftpidOutput = leftpidController.calculate(m_leftClimbMotor.getPosition().getValueAsDouble());
+        double rightpidOutput = rightpidController.calculate(climbIO.getRightMotorPosition());
+        double leftpidOutput = rightpidController.calculate(climbIO.getLeftMotorPosition());
 
         rightpidOutput = MathUtil.clamp(rightpidOutput, -1, 1);
         leftpidOutput = MathUtil.clamp(leftpidOutput, -1, 1);
 
-
-        m_leftClimbMotor.set(leftpidOutput);
-        m_rightClimbMotor.set(rightpidOutput);
+        climbIO.setLeftMotorSpeed(leftpidOutput);
+        climbIO.setRightMotorSpeed(rightpidOutput);
+        //m_leftClimbMotor.set(leftpidOutput);
+        //m_rightClimbMotor.set(rightpidOutput);
+        
 
         NetworkTableInstance.getDefault().getEntry("Climb/Left PID Output").setNumber(leftpidOutput);
         NetworkTableInstance.getDefault().getEntry("Climb/Right PID Output").setNumber(rightpidOutput);
         NetworkTableInstance.getDefault().getEntry("Climb/Left PID Goal").setNumber(leftpidController.getGoal().position);
         NetworkTableInstance.getDefault().getEntry("Climb/Right PID Goal").setNumber(rightpidController.getGoal().position);
-        NetworkTableInstance.getDefault().getEntry("Climb/Left motor Position").setNumber(m_leftClimbMotor.getPosition().getValueAsDouble());
-        NetworkTableInstance.getDefault().getEntry("Climb/Right motor Position").setNumber(m_rightClimbMotor.getPosition().getValueAsDouble());
+        NetworkTableInstance.getDefault().getEntry("Climb/Left motor Position").setNumber(climbIO.getLeftMotorPosition());
+        NetworkTableInstance.getDefault().getEntry("Climb/Right motor Position").setNumber(climbIO.getRightMotorPosition());
 
 
 

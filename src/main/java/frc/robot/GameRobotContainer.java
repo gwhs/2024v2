@@ -10,6 +10,7 @@ import frc.robot.subsystems.Reaction.ReactionSubsystem;
 import frc.robot.subsystems.swervedrive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.swervedrive.Telemetry;
 import frc.robot.subsystems.swervedrive.TunerConstants;
+import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBoxSubsystem;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
@@ -22,7 +23,7 @@ public class GameRobotContainer implements BaseContainer {
   
     private final IntakeSubsystem m_IntakeSubsystem;
     private final ArmSubsystem m_ArmSubsystem;
-    private final PizzaBoxSubsystem m_PizzaBoxSubsystem;
+    private final PizzaBoxSubsystem m_PizzaBoxSubsystem = new PizzaBoxSubsystem();
     private final Climbsubsystem m_ClimbSubsystem;
     private final ReactionSubsystem m_ReactionSubsystem = new ReactionSubsystem();
     private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance(); // My drivetrain
@@ -35,9 +36,6 @@ public class GameRobotContainer implements BaseContainer {
 
         m_ArmSubsystem = new ArmSubsystem(ArmSubsystem.Arm.ARM_ID, "rio", 
                         ArmSubsystem.Arm.ENCODER_DIO_SLOT);
-
-        m_PizzaBoxSubsystem = new PizzaBoxSubsystem(PizzaBoxSubsystem.PIZZABOX_ID, 
-                    "rio", PizzaBoxSubsystem.SERVO_PWN_SLOT, PizzaBoxSubsystem.SERVO2_PWN_SLOT);
 
          m_ClimbSubsystem = new Climbsubsystem( Constants.ClimbConstants.MOTOR_LEFT_ID, 
                                                 Constants.ClimbConstants.MOTOR_RIGHT_ID, 

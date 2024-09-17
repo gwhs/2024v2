@@ -26,5 +26,11 @@
     },
   ],
   "java.test.defaultConfig": "WPIlibUnitTests",
-  "C_Cpp.errorSquiggles": "enabled"
+  "C_Cpp.errorSquiggles": "enabled",
+  "cSpell.words": [
+    "CONSTS",
+    "Funcs",
+    "functionname",
+    "PIZZABOX"
+  ]
 }

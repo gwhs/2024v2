@@ -37,8 +37,6 @@
       "/Shuffleboard/GameTab/Toggle Camera Mode": "Command",
       "/Shuffleboard/System Check/check": "Command",
       "/Shuffleboard/TEST COMMAND/TEST": "Command",
-      "/Shuffleboard/Testing/Intake Commands/Intake: deploy intake": "Command",
-      "/Shuffleboard/Testing/Intake Commands/Intake: retract intake": "Command",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Module 0": "Mechanism2d",
       "/SmartDashboard/Module 1": "Mechanism2d",
@@ -59,6 +57,21 @@
         "right": 2961,
         "top": 79,
         "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/PizzaBox Commands/STOP MOTOR": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/PizzaBox Commands/Slurp": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/PizzaBox Commands/Spit": {
         "window": {
           "visible": true
         }

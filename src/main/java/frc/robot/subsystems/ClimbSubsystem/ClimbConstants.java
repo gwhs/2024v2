@@ -6,10 +6,7 @@ package frc.robot.subsystems.ClimbSubsystem;
 
 /** Add your docs here. */
 public class ClimbConstants {
-    public static final double CLIMBER_RATIO = 36;
-
-  public static final double CLIMB_DISTANCE = 5.5 * CLIMBER_RATIO; //distance we want it to go times the ratio
-  public static final double CLIMB_MOTOR_SPEED = 0.1 * CLIMBER_RATIO;
+  public static final double CLIMBER_RATIO = 36;
 
   public static final int LEFT_CLIMB_MOTOR_ID = 21;
   public static final boolean LEFT_CLIMB_MOTOR_INVERTED = false;

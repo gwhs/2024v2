@@ -1,19 +1,19 @@
 package frc.robot.subsystems.PizzaBoxSubsystem;
 
 public interface PizzaBoxIO {
-	public void setFlap(double angle);
+  public void setFlap(double angle);
 
-	public void setMotor(double speed);
+  public void setMotor(double speed);
 
-	public void setKicker(double angle);
+  public void setKicker(double angle);
 
-	public boolean atMotorSpeed(double speed);
+  public boolean atMotorSpeed(double speed);
 
-	public double getFlapAngle();
+  public double getFlapAngle();
 
-	public double getKickerAngle();
+  public double getKickerAngle();
 
-	public double motorSpeed();
+  public double motorSpeed();
 
-	public void update();
+  public void update();
 }

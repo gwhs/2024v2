@@ -21,4 +21,8 @@ public class ClimbIOReal implements ClimbIO {
   public void setRightMotorSpeed(double speed) {
     m_rightClimbMotor.set(speed);
   }
+
+  @Override
+  public void update() {
+  }
 }

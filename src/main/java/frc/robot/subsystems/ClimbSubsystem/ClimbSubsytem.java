@@ -8,6 +8,7 @@ import java.util.Map;
 
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -29,6 +30,14 @@ public class ClimbSubsytem extends SubsystemBase {
       ClimbConstants.CLIMB_PID_KI, ClimbConstants.CLIMB_PID_KD, constraints);
 
   public ClimbSubsytem() {
+
+    if (RobotBase.isSimulation()) {
+      climbIO = new ClimbIOSim();
+    }
+    else {
+      climbIO = new ClimbIOReal();
+      
+    }
 
     leftpidController.setGoal(climbIO.getLeftMotorPosition());
     rightpidController.setGoal(climbIO.getRightMotorPosition());
@@ -56,8 +65,7 @@ public class ClimbSubsytem extends SubsystemBase {
 
     climbIO.setLeftMotorSpeed(leftpidOutput);
     climbIO.setRightMotorSpeed(rightpidOutput);
-    // m_leftClimbMotor.set(leftpidOutput);
-    // m_rightClimbMotor.set(rightpidOutput);
+    climbIO.update();
 
     NetworkTableInstance.getDefault().getEntry("Climb/Left PID Output").setNumber(leftpidOutput);
     NetworkTableInstance.getDefault().getEntry("Climb/Right PID Output").setNumber(rightpidOutput);

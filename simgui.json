@@ -37,12 +37,16 @@
       "/Shuffleboard/GameTab/Toggle Camera Mode": "Command",
       "/Shuffleboard/System Check/check": "Command",
       "/Shuffleboard/TEST COMMAND/TEST": "Command",
+      "/Shuffleboard/Testing/TestingCommands/Motor Down": "Command",
+      "/Shuffleboard/Testing/TestingCommands/Motor Up": "Command",
       "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/LeftPIDController": "ProfiledPIDController",
       "/SmartDashboard/Module 0": "Mechanism2d",
       "/SmartDashboard/Module 1": "Mechanism2d",
       "/SmartDashboard/Module 2": "Mechanism2d",
       "/SmartDashboard/Module 3": "Mechanism2d",
-      "/SmartDashboard/Pigeon 2 (v6) [30]": "Gyro"
+      "/SmartDashboard/Pigeon 2 (v6) [30]": "Gyro",
+      "/SmartDashboard/RightPIDController": "ProfiledPIDController"
     },
     "windows": {
       "/Shuffleboard/GameTab/Autonomous Chooser": {
@@ -57,6 +61,16 @@
         "right": 2961,
         "top": 79,
         "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/TestingCommands/Motor Down": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/TestingCommands/Motor Up": {
         "window": {
           "visible": true
         }

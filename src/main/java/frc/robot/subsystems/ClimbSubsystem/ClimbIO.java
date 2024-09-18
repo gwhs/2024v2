@@ -10,4 +10,6 @@ public interface ClimbIO {
 
   public void setRightMotorSpeed(double speed);
 
+  public void update();
+
 }

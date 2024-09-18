@@ -20,7 +20,7 @@ public class ReactionIOSim {
 
 
     public double getReactionBarPosition(){
-        return reactionMotorSim.getAngularPositionRad();
+        return reactionMotorSim.getAngularPositionRotations();
     }
 
     public void setReactionBarSpeed(double speed){

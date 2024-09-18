@@ -19,10 +19,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ReactionSubsystem extends SubsystemBase {
-  private TalonFX m_reactionArm = new TalonFX(ReactionConstants.REACTION_ID, ReactionConstants.REACTION_CAN);
   private PIDController pidController = new PIDController(ReactionConstants.kP, ReactionConstants.kI, ReactionConstants.kD);
   private StatusSignal<Double> reactionBarArmPosition = m_reactionArm.getPosition();
-
+  private ReactionIO reactionIO;
   
   /** Creates a new ReactionSubsystem. */
   public ReactionSubsystem() {

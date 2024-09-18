@@ -4,5 +4,14 @@
 
 package frc.robot.subsystems.Reaction;
 
+import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.hardware.TalonFX;
+
 /** Add your docs here. */
-public class ReactionIOReal {}
+public class ReactionIOReal {
+    private TalonFX m_reactionArm = new TalonFX(ReactionConstants.REACTION_ID, ReactionConstants.REACTION_CAN);
+    
+    public StatusSignal<Double> getReactionBarPosition(){
+        return m_reactionArm.getPosition();
+    }
+}

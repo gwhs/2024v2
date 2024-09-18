@@ -38,8 +38,10 @@ public class RobotVisualizer {
   }
 
   public void update() {
-    double intakeArmAngle = getIntakeArmAngle();
-    double armAngle = getArmAngle();
+    //TO DO: When intake subsystem is finished, replace this method to return actual intake arm angle
+    double intakeArmAngle = SmartDashboard.getNumber("Robot Visualizer/Pretend Intake Angle", 0);
+    //TO DO: When arm subsystem is finished, replace this method to return actual arm angle
+    double armAngle = SmartDashboard.getNumber("Robot Visualizer/Pretend Arm Angle", 90);
 
     //TO DO: Update arm angles in stick figures; 90 degrees is straight down. 180 degrees is perpendicular to floor and above intake
 
@@ -50,15 +52,5 @@ public class RobotVisualizer {
 
 
     SmartDashboard.putData("Robot Visualizer/panel", panel);
-  }
-
-  private double getIntakeArmAngle() {
-    //TO DO: When intake subsystem is finished, replace this method to return actual intake arm angle
-    return SmartDashboard.getNumber("Robot Visualizer/Pretend Intake Angle", 0);
-  }
-
-  private double getArmAngle() {
-    //TO DO: When arm subsystem is finished, replace this method to return actual arm angle
-    return SmartDashboard.getNumber("Robot Visualizer/Pretend Arm Angle", 90);
   }
 }

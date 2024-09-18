@@ -27,4 +27,8 @@ public interface BaseContainer
     default Command autoInitReset() {
        return Commands.none();
     }
+
+    default void periodic() {
+
+    }
 }

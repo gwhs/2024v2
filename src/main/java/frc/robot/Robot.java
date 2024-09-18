@@ -77,6 +77,8 @@ public class Robot extends TimedRobot  {
     //     LimelightHelpers.setStreamMode_PiPSecondary("limelight");
     // Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5800").withSize(4,3).withPosition(5, 0);
     CommandScheduler.getInstance().run();
+
+    m_baseContainer.periodic();
     
   }
 

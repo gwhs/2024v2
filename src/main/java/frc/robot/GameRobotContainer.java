@@ -4,6 +4,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Util.RobotVisualizer;
 import frc.robot.commands.swervedrive.CTRETeleopDrive;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Reaction.ReactionSubsystem;
@@ -31,6 +32,8 @@ public class GameRobotContainer implements BaseContainer {
     private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController);
     private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
 
+    private final RobotVisualizer robotVisualizer;
+
     public GameRobotContainer() {
         m_IntakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, "rio");
 
@@ -49,6 +52,8 @@ public class GameRobotContainer implements BaseContainer {
         configureBindings();
         
         drivetrain.registerTelemetry(logger::telemeterize);
+
+        robotVisualizer = new RobotVisualizer(m_ArmSubsystem, m_IntakeSubsystem);
     }
 
 
@@ -100,6 +105,10 @@ public class GameRobotContainer implements BaseContainer {
     return autoChooser.getSelected();
   }
 
+  @Override
+  public void periodic() {
+    robotVisualizer.update();
+  }
 
 }
 

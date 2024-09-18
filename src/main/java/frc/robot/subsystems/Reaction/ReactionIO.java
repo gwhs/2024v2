@@ -9,6 +9,6 @@ import com.ctre.phoenix6.StatusSignal;
 /** Add your docs here. */
 public interface ReactionIO {
     public StatusSignal<Double> getReactionBarPosition();
-    public void setReactionBarSpeed();
-    
+    public void setReactionBarSpeed(double pidOutput);
+    public void update();
 }

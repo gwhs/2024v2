@@ -7,7 +7,6 @@ package frc.robot.subsystems.Reaction;
 import java.util.Map;
 
 import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.hardware.TalonFX;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -19,9 +18,9 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 public class ReactionSubsystem extends SubsystemBase {
-  private PIDController pidController = new PIDController(ReactionConstants.kP, ReactionConstants.kI, ReactionConstants.kD);
-  private StatusSignal<Double> reactionBarArmPosition = m_reactionArm.getPosition();
   private ReactionIO reactionIO;
+  private PIDController pidController = new PIDController(ReactionConstants.kP, ReactionConstants.kI, ReactionConstants.kD);
+  private StatusSignal<Double> reactionBarArmPosition = reactionIO.getReactionBarPosition();
   
   /** Creates a new ReactionSubsystem. */
   public ReactionSubsystem() {
@@ -41,7 +40,7 @@ public class ReactionSubsystem extends SubsystemBase {
 
     pidOutput = MathUtil.clamp(pidOutput, -1, 1);
 
-    m_reactionArm.set(pidOutput);
+    reactionIO.setReactionBarSpeed(pidOutput);
 
   }
 

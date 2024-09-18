@@ -14,4 +14,8 @@ public class ReactionIOReal {
     public StatusSignal<Double> getReactionBarPosition(){
         return m_reactionArm.getPosition();
     }
+
+    public void setReactionBarSpeed(double pidOutput){
+        m_reactionArm.set(pidOutput);
+    }
 }

@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.Reaction;
 
+import edu.wpi.first.wpilibj.simulation.DCMotorSim;
+
 /** Add your docs here. */
 public class ReactionIOSim {
     

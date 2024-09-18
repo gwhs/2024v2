@@ -11,11 +11,15 @@ import com.ctre.phoenix6.hardware.TalonFX;
 public class ReactionIOReal {
     private TalonFX m_reactionArm = new TalonFX(ReactionConstants.REACTION_ID, ReactionConstants.REACTION_CAN);
     
-    public StatusSignal<Double> getReactionBarPosition(){
-        return m_reactionArm.getPosition();
+    public double getReactionBarPosition(){
+        return m_reactionArm.getPosition().getValueAsDouble();
     }
 
     public void setReactionBarSpeed(double pidOutput){
         m_reactionArm.set(pidOutput);
+    }
+
+    public void update(){
+        
     }
 }

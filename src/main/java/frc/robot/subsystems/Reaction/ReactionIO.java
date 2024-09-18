@@ -4,11 +4,10 @@
 
 package frc.robot.subsystems.Reaction;
 
-import com.ctre.phoenix6.StatusSignal;
 
 /** Add your docs here. */
 public interface ReactionIO {
-    public StatusSignal<Double> getReactionBarPosition();
+    public double getReactionBarPosition();
     public void setReactionBarSpeed(double pidOutput);
     public void update();
 }

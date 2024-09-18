@@ -20,7 +20,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 public class ReactionSubsystem extends SubsystemBase {
   private ReactionIO reactionIO;
   private PIDController pidController = new PIDController(ReactionConstants.kP, ReactionConstants.kI, ReactionConstants.kD);
-  private StatusSignal<Double> reactionBarArmPosition = reactionIO.getReactionBarPosition();
+  private double reactionBarArmPosition = reactionIO.getReactionBarPosition();
   
   /** Creates a new ReactionSubsystem. */
   public ReactionSubsystem() {
@@ -35,13 +35,14 @@ public class ReactionSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    reactionBarArmPosition.refresh();
-    double pidOutput = pidController.calculate(reactionBarArmPosition.getValueAsDouble());
+    reactionBarArmPosition = reactionIO.getReactionBarPosition();
+    double pidOutput = pidController.calculate(reactionBarArmPosition);
 
     pidOutput = MathUtil.clamp(pidOutput, -1, 1);
 
     reactionIO.setReactionBarSpeed(pidOutput);
 
+    reactionIO.update();
   }
 
   public Command extendReactionBar(){

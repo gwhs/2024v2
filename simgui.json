@@ -37,6 +37,16 @@
       "/Shuffleboard/GameTab/Toggle Camera Mode": "Command",
       "/Shuffleboard/System Check/check": "Command",
       "/Shuffleboard/TEST COMMAND/TEST": "Command",
+      "/Shuffleboard/Testing/PizzaBox Commands/!GAS GAS GAS": "Command",
+      "/Shuffleboard/Testing/PizzaBox Commands/SET FLAP": "Command",
+      "/Shuffleboard/Testing/PizzaBox Commands/SET KICKER": "Command",
+      "/Shuffleboard/Testing/PizzaBox Commands/STOP FLAP": "Command",
+      "/Shuffleboard/Testing/PizzaBox Commands/STOP KICKER": "Command",
+      "/Shuffleboard/Testing/PizzaBox Commands/STOP MOTOR": "Command",
+      "/Shuffleboard/Testing/PizzaBox Commands/Slurp": "Command",
+      "/Shuffleboard/Testing/PizzaBox Commands/Spit": "Command",
+      "/Shuffleboard/Testing/Reaction Commands/Extend Reaction Bar": "Command",
+      "/Shuffleboard/Testing/Reaction Commands/Retract Reaction Bar": "Command",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/Module 0": "Mechanism2d",
       "/SmartDashboard/Module 1": "Mechanism2d",
@@ -57,6 +67,21 @@
         "right": 2961,
         "top": 79,
         "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/PizzaBox Commands/STOP MOTOR": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/PizzaBox Commands/Slurp": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/PizzaBox Commands/Spit": {
         "window": {
           "visible": true
         }

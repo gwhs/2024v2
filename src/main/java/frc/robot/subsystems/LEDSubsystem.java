@@ -10,7 +10,6 @@ public class LEDSubsystem extends SubsystemBase {
 
   private AddressableLED m_led;
   private AddressableLEDBuffer m_ledBuffer;
-  private int m_rainbowFirstPixelHue;
 
   // Store what the last hue of the first pixel is
   // private int m_rainbowFirstPixelHue;

@@ -22,7 +22,7 @@ public class IntakeContants {
     public static final double kVel = 300;
     public static final double kAcc = 300;
 
-    public static final double ENCODER_OFFSET = 0;
+    public static final double ENCODER_OFFSET = 170;
 
     public static final double UP_POSITION = 92;
     public static final double DOWN_POSITION = 0;

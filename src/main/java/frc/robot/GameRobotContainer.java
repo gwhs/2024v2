@@ -13,6 +13,8 @@ import frc.robot.subsystems.swervedrive.Telemetry;
 import frc.robot.subsystems.swervedrive.TunerConstants;
 import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBoxSubsystem;
 
+import java.util.function.DoubleSupplier;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 
 public class GameRobotContainer implements BaseContainer {
@@ -96,6 +98,56 @@ public class GameRobotContainer implements BaseContainer {
    */
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
+  }
+
+  public Command deployIntake() {
+    // TODO
+    return Commands.none();
+  }
+
+  public Command retractIntake() {
+    // TODO
+    return Commands.none();
+  }
+
+  public Command retractIntakePassToPB() {
+    // TODO
+    return Commands.none();
+  }
+
+  public Command scoreSpeaker(DoubleSupplier armAngle) {
+    // TODO
+    return Commands.none();
+  }
+
+  public Command scoreAmp() {
+    // TODO
+    return Commands.none();
+  }
+
+  public Command sourceIntake() {
+    // TODO
+    return Commands.none();
+  }
+
+  public Command prepClimb() {
+    // TODO
+    return Commands.none();
+  }
+
+  public Command climbAndShoot() {
+    // TODO
+    return Commands.none();
+  }
+
+  public Command unclimbPartOne() {
+    // TODO
+    return Commands.none();
+  }
+
+  public Command unclimbPartTwo() {
+    // TODO
+    return Commands.none();
   }
 
 

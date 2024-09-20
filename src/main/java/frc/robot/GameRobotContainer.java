@@ -1,5 +1,9 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
+import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
+import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -12,86 +16,96 @@ import frc.robot.subsystems.swervedrive.Telemetry;
 import frc.robot.subsystems.swervedrive.TunerConstants;
 import frc.robot.subsystems.PizzaBoxSubsystem.PizzaBoxSubsystem;
 
+import java.util.Map;
 import java.util.function.DoubleSupplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
 public class GameRobotContainer implements BaseContainer {
 
-    CommandXboxController driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
-    CommandXboxController operatorController = new CommandXboxController(OperatorConstants.kOperatorControllerPort);
+  CommandXboxController driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
+  CommandXboxController operatorController = new CommandXboxController(OperatorConstants.kOperatorControllerPort);
 
-    private final SendableChooser<Command> autoChooser;
-  
-    private final IntakeSubsystem m_IntakeSubsystem;
-    private final ArmSubsystem m_ArmSubsystem;
-    private final PizzaBoxSubsystem m_PizzaBoxSubsystem = new PizzaBoxSubsystem();
-    private final Climbsubsystem m_ClimbSubsystem;
-    private final ReactionSubsystem m_ReactionSubsystem = new ReactionSubsystem();
-    private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance(); // My drivetrain
+  private final SendableChooser<Command> autoChooser;
 
-    private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController);
-    private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
+  private final IntakeSubsystem m_IntakeSubsystem;
+  private final ArmSubsystem m_ArmSubsystem;
+  private final PizzaBoxSubsystem m_PizzaBoxSubsystem = new PizzaBoxSubsystem();
+  private final Climbsubsystem m_ClimbSubsystem;
+  private final ReactionSubsystem m_ReactionSubsystem = new ReactionSubsystem();
+  private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance(); // My drivetrain
 
-    public GameRobotContainer() {
-        m_IntakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, "rio");
+  private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController);
+  private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
 
-        m_ArmSubsystem = new ArmSubsystem(ArmSubsystem.Arm.ARM_ID, "rio", 
-                        ArmSubsystem.Arm.ENCODER_DIO_SLOT);
+  public GameRobotContainer() {
+    m_IntakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,
+        Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, "rio");
 
-         m_ClimbSubsystem = new Climbsubsystem( Constants.ClimbConstants.MOTOR_LEFT_ID, 
-                                                Constants.ClimbConstants.MOTOR_RIGHT_ID, 
-                                                Constants.ClimbConstants.MOTOR_LEFT_INVERTED, 
-                                                Constants.ClimbConstants.MOTOR_RIGHT_INVERTED, 
-                                                        "rio");
+    m_ArmSubsystem = new ArmSubsystem(ArmSubsystem.Arm.ARM_ID, "rio",
+        ArmSubsystem.Arm.ENCODER_DIO_SLOT);
 
-        autoChooser = AutoBuilder.buildAutoChooser("Hajel middle bottom 2");
+    m_ClimbSubsystem = new Climbsubsystem(Constants.ClimbConstants.MOTOR_LEFT_ID,
+        Constants.ClimbConstants.MOTOR_RIGHT_ID,
+        Constants.ClimbConstants.MOTOR_LEFT_INVERTED,
+        Constants.ClimbConstants.MOTOR_RIGHT_INVERTED,
+        "rio");
 
-        drivetrain.setDefaultCommand(drive);
-        configureBindings();
-        
-        drivetrain.registerTelemetry(logger::telemeterize);
-    }
+    autoChooser = AutoBuilder.buildAutoChooser("Hajel middle bottom 2");
+
+    drivetrain.setDefaultCommand(drive);
+    configureBindings();
+
+    drivetrain.registerTelemetry(logger::telemeterize);
+
+    /*
+     * Put composite commands to shuffleboard
+     */
+    ShuffleboardTab testingTab = Shuffleboard.getTab("Testing");
+    ShuffleboardLayout testingLayout = testingTab.getLayout("Commands", BuiltInLayouts.kList)
+        .withSize(2, 5)
+        .withProperties(Map.of("Label Position", "HIDDEN"));
+
+    testingLayout.add(deployIntake());
+    testingLayout.add(retractIntake());
+    testingLayout.add(retractIntakePassToPB());
+    testingLayout.add(scoreSpeaker(() -> 160));
+    testingLayout.add(scoreSpeaker(() -> 230));
+    testingLayout.add(scoreAmp());
+    testingLayout.add(sourceIntake());
+    testingLayout.add(prepClimb());
+    testingLayout.add(climbAndScore());
+    testingLayout.add(unclimbPartOne());
+    testingLayout.add(unclimbPartTwo());
+
+    /*
+     * Put Command Scheduler and subsystems to shuffleboard
+     */
+    testingTab.add(CommandScheduler.getInstance()).withSize(3, 2);
+    testingTab.add(m_PizzaBoxSubsystem);
+    testingTab.add(m_ReactionSubsystem);
+    testingTab.add(m_IntakeSubsystem);
+    testingTab.add(m_ArmSubsystem);
+    testingTab.add(m_ClimbSubsystem);
+  }
+
+  private void configureBindings() {
+    /* Reset Robot */
 
 
-    private void configureBindings() {
 
-      /* Driver Controller */
-      //RE-ENABLE BUTTONS;
-      
-      // driverController.y().onTrue(new ScoreInSpeakerUnderHand(m_PizzaBoxSubsystem, m_ArmSubsystem));
-      // driverController.a().onTrue(new ScoreInAmp(m_PizzaBoxSubsystem, m_ArmSubsystem, drive)); 
-      // //driverController.b().onTrue(new PickUpFromGroundAndPassToPizzaBox(m_PizzaBoxSubsystem,m_ArmSubsystem, m_IntakeSubsystem, 10));
-      // driverController.x().whileTrue(new DecreaseSpeed(drive));
+    /* Driver Controller */
 
-      // driverController.rightStick().onTrue(new ScoreInSpeakerHigh(m_PizzaBoxSubsystem, m_ArmSubsystem));
-      // // driverController.back().onTrue(new ChangeRobotOrientation(closedFieldRel));
 
-      // //driverController.rightBumper().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, ()->UtilMath.overhand.get(UtilMath.distanceFromSpeaker(()->m_drivebase.getPose()))));
-      // //driverController.leftBumper().onTrue(new FaceSpeaker(closedFieldRel));
 
-      // //driverController.rightBumper().onTrue(new Aimbot(closedFieldRel, m_ArmSubsystem, m_PizzaBoxSubsystem, m_drivebase));
-      // driverController.leftBumper().onTrue(new FaceAmp(drive));
+    /* Operator Controllers */
 
-      // //driverController.start().onTrue(new InstantCommand(m_drivebase::zeroGyro));
-      // driverController.start().onTrue(new InstantCommand(drivetrain::setHeading));
 
-      // /* Operator Controllers */
 
-      // operatorController.y().onTrue(new PrepClimb(m_ClimbSubsystem, m_ArmSubsystem, m_ReactionSubsystem, m_PizzaBoxSubsystem));
-      // operatorController.b().onTrue(new ClimbAndShoot(m_ClimbSubsystem, m_ArmSubsystem, m_PizzaBoxSubsystem, m_ReactionSubsystem));
-      // operatorController.a().onTrue(new UnClimb(m_ClimbSubsystem, m_ArmSubsystem, m_ReactionSubsystem));
-      // operatorController.x().onTrue(new UnClimbPartTwoThatWillBringDownTheMotor(m_ClimbSubsystem, m_ArmSubsystem, m_ReactionSubsystem, m_PizzaBoxSubsystem));
-      // operatorController.start().onTrue(new StopClimb(m_ClimbSubsystem));
+    /* Other Triggers */
 
-      // operatorController.rightBumper().onTrue(new ArmEmergencyStop(m_ArmSubsystem, m_PizzaBoxSubsystem));
-      // operatorController.leftBumper().onTrue(new IntakeEmergencyStop(m_IntakeSubsystem));
-
-      // operatorController.leftStick().whileTrue(new LockHeadingToSourceForIntake(drive, m_ArmSubsystem, m_PizzaBoxSubsystem));
-      // // GenericEntry s = Shuffleboard.getTab("Arm").add("Angle", 236).getEntry();
-      // // operatorController.rightStick().onTrue(new ScoreInSpeakerAdjustable(m_PizzaBoxSubsystem, m_ArmSubsystem, ()->s.getDouble(236)));
-      // operatorController.rightStick().whileTrue(new FaceSpeaker(drive));
-    }
+    
+  }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
@@ -104,54 +118,61 @@ public class GameRobotContainer implements BaseContainer {
 
   public Command deployIntake() {
     // TODO
-    return Commands.none();
+    return Commands.none()
+        .withName("Deploy Intake");
   }
 
   public Command retractIntake() {
     // TODO
-    return Commands.none();
+    return Commands.none()
+        .withName("Retract Intake");
   }
 
   public Command retractIntakePassToPB() {
     // TODO
-    return Commands.none();
+    return Commands.none()
+        .withName("Retract Intake and Pass to PB");
   }
 
   public Command scoreSpeaker(DoubleSupplier armAngle) {
     // TODO
-    return Commands.none();
+    return Commands.none()
+        .withName("Score Speaker at " + armAngle.getAsDouble());
   }
 
   public Command scoreAmp() {
     // TODO
-    return Commands.none();
+    return Commands.none()
+        .withName("Score Amp");
   }
 
   public Command sourceIntake() {
     // TODO
-    return Commands.none();
+    return Commands.none()
+        .withName("Source Intake");
   }
 
   public Command prepClimb() {
     // TODO
-    return Commands.none();
+    return Commands.none()
+        .withName("Prep Climb");
   }
 
-  public Command climbAndShoot() {
+  public Command climbAndScore() {
     // TODO
-    return Commands.none();
+    return Commands.none()
+        .withName("Climb and Score");
   }
 
   public Command unclimbPartOne() {
     // TODO
-    return Commands.none();
+    return Commands.none()
+        .withName("Unclimb Part One");
   }
 
   public Command unclimbPartTwo() {
     // TODO
-    return Commands.none();
+    return Commands.none()
+        .withName("Unclimb Part Two");
   }
-
-
 }
-

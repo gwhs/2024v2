@@ -35,6 +35,7 @@
       "/Shuffleboard/GameTab/Retract Reaction Bar": "Command",
       "/Shuffleboard/GameTab/Suck note in": "Command",
       "/Shuffleboard/GameTab/Toggle Camera Mode": "Command",
+      "/Shuffleboard/Simulation/Note Sensor": "Command",
       "/Shuffleboard/System Check/check": "Command",
       "/Shuffleboard/TEST COMMAND/TEST": "Command",
       "/SmartDashboard/Field": "Field2d",
@@ -61,17 +62,12 @@
           "visible": true
         }
       },
-      "/Shuffleboard/Testing/PizzaBox Commands/STOP MOTOR": {
+      "/Shuffleboard/Simulation/Note Sensor": {
         "window": {
           "visible": true
         }
       },
-      "/Shuffleboard/Testing/PizzaBox Commands/Slurp": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/Shuffleboard/Testing/PizzaBox Commands/Spit": {
+      "/Shuffleboard/Testing/Intake Commands/Intake: deploy intake": {
         "window": {
           "visible": true
         }

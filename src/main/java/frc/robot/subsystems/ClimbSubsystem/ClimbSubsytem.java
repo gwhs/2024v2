@@ -58,7 +58,7 @@ public class ClimbSubsytem extends SubsystemBase {
   @Override
   public void periodic() {
     double rightpidOutput = rightpidController.calculate(climbIO.getRightMotorPosition());
-    double leftpidOutput = rightpidController.calculate(climbIO.getLeftMotorPosition());
+    double leftpidOutput = leftpidController.calculate(climbIO.getLeftMotorPosition());
 
     rightpidOutput = MathUtil.clamp(rightpidOutput, -1, 1);
     leftpidOutput = MathUtil.clamp(leftpidOutput, -1, 1);

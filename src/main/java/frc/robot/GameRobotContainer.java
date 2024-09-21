@@ -27,21 +27,21 @@ public class GameRobotContainer implements BaseContainer {
   CommandXboxController driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
   CommandXboxController operatorController = new CommandXboxController(OperatorConstants.kOperatorControllerPort);
 
-    private final SendableChooser<Command> autoChooser;
-  
-    private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
-    private final ArmSubsystem m_ArmSubsystem;
-    private final PizzaBoxSubsystem m_PizzaBoxSubsystem = new PizzaBoxSubsystem();
-    private final Climbsubsystem m_ClimbSubsystem;
-    private final ReactionSubsystem m_ReactionSubsystem = new ReactionSubsystem();
-    private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance(); // My drivetrain
+  private final SendableChooser<Command> autoChooser;
+
+  private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
+  private final ArmSubsystem m_ArmSubsystem;
+  private final PizzaBoxSubsystem m_PizzaBoxSubsystem = new PizzaBoxSubsystem();
+  private final Climbsubsystem m_ClimbSubsystem;
+  private final ReactionSubsystem m_ReactionSubsystem = new ReactionSubsystem();
+  private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance(); // My drivetrain
 
   private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController);
   private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
 
-    public GameRobotContainer() {
-        m_ArmSubsystem = new ArmSubsystem(ArmSubsystem.Arm.ARM_ID, "rio", 
-                        ArmSubsystem.Arm.ENCODER_DIO_SLOT);
+  public GameRobotContainer() {
+    m_ArmSubsystem = new ArmSubsystem(ArmSubsystem.Arm.ARM_ID, "rio",
+        ArmSubsystem.Arm.ENCODER_DIO_SLOT);
 
     m_ClimbSubsystem = new Climbsubsystem(Constants.ClimbConstants.MOTOR_LEFT_ID,
         Constants.ClimbConstants.MOTOR_RIGHT_ID,

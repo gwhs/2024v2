@@ -11,6 +11,7 @@ import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.swervedrive.CTRETeleopDrive;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Reaction.ReactionSubsystem;
+import frc.robot.subsystems.IntakeSubsystem.IntakeSubsystem;
 import frc.robot.subsystems.Arm.ArmSubsystem;
 import frc.robot.subsystems.swervedrive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.swervedrive.Telemetry;
@@ -27,22 +28,19 @@ public class GameRobotContainer implements BaseContainer {
   CommandXboxController driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
   CommandXboxController operatorController = new CommandXboxController(OperatorConstants.kOperatorControllerPort);
 
-    private final SendableChooser<Command> autoChooser;
-  
-    private final IntakeSubsystem m_IntakeSubsystem;
-    private final ArmSubsystem m_ArmSubsystem = new ArmSubsystem();
-    private final PizzaBoxSubsystem m_PizzaBoxSubsystem = new PizzaBoxSubsystem();
-    private final Climbsubsystem m_ClimbSubsystem;
-    private final ReactionSubsystem m_ReactionSubsystem = new ReactionSubsystem();
-    private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance(); // My drivetrain
+  private final SendableChooser<Command> autoChooser;
+
+  private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
+  private final ArmSubsystem m_ArmSubsystem = new ArmSubsystem();
+  private final PizzaBoxSubsystem m_PizzaBoxSubsystem = new PizzaBoxSubsystem();
+  private final Climbsubsystem m_ClimbSubsystem;
+  private final ReactionSubsystem m_ReactionSubsystem = new ReactionSubsystem();
+  private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance(); // My drivetrain
 
   private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController);
   private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
 
   public GameRobotContainer() {
-    m_IntakeSubsystem = new IntakeSubsystem(Constants.IntakeConstants.INTAKE_LOWER_INTAKE_ID,
-        Constants.IntakeConstants.INTAKE_SPIN_MOTOR_ID, "rio");
-
          m_ClimbSubsystem = new Climbsubsystem( Constants.ClimbConstants.MOTOR_LEFT_ID, 
                                                 Constants.ClimbConstants.MOTOR_RIGHT_ID, 
                                                 Constants.ClimbConstants.MOTOR_LEFT_INVERTED, 

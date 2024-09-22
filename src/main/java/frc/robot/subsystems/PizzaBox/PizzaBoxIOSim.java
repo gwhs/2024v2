@@ -1,4 +1,4 @@
-package frc.robot.subsystems.PizzaBoxSubsystem;
+package frc.robot.subsystems.PizzaBox;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;

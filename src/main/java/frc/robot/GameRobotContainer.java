@@ -12,6 +12,7 @@ import frc.robot.commands.swervedrive.CTRETeleopDrive;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Reaction.ReactionSubsystem;
 import frc.robot.subsystems.IntakeSubsystem.IntakeSubsystem;
+import frc.robot.subsystems.Arm.ArmSubsystem;
 import frc.robot.subsystems.swervedrive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.swervedrive.Telemetry;
 import frc.robot.subsystems.swervedrive.TunerConstants;
@@ -30,7 +31,7 @@ public class GameRobotContainer implements BaseContainer {
   private final SendableChooser<Command> autoChooser;
 
   private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
-  private final ArmSubsystem m_ArmSubsystem;
+  private final ArmSubsystem m_ArmSubsystem = new ArmSubsystem();;
   private final PizzaBoxSubsystem m_PizzaBoxSubsystem = new PizzaBoxSubsystem();
   private final Climbsubsystem m_ClimbSubsystem;
   private final ReactionSubsystem m_ReactionSubsystem = new ReactionSubsystem();
@@ -40,14 +41,11 @@ public class GameRobotContainer implements BaseContainer {
   private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
 
   public GameRobotContainer() {
-    m_ArmSubsystem = new ArmSubsystem(ArmSubsystem.Arm.ARM_ID, "rio",
-        ArmSubsystem.Arm.ENCODER_DIO_SLOT);
-
-    m_ClimbSubsystem = new Climbsubsystem(Constants.ClimbConstants.MOTOR_LEFT_ID,
-        Constants.ClimbConstants.MOTOR_RIGHT_ID,
-        Constants.ClimbConstants.MOTOR_LEFT_INVERTED,
-        Constants.ClimbConstants.MOTOR_RIGHT_INVERTED,
-        "rio");
+         m_ClimbSubsystem = new Climbsubsystem( Constants.ClimbConstants.MOTOR_LEFT_ID, 
+                                                Constants.ClimbConstants.MOTOR_RIGHT_ID, 
+                                                Constants.ClimbConstants.MOTOR_LEFT_INVERTED, 
+                                                Constants.ClimbConstants.MOTOR_RIGHT_INVERTED, 
+                                                        "rio");
 
     autoChooser = AutoBuilder.buildAutoChooser("Hajel middle bottom 2");
 

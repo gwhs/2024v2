@@ -31,7 +31,7 @@ public class GameRobotContainer implements BaseContainer {
   private final SendableChooser<Command> autoChooser;
 
   private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
-  private final ArmSubsystem m_ArmSubsystem = new ArmSubsystem();;
+  private final ArmSubsystem m_ArmSubsystem = new ArmSubsystem();
   private final PizzaBoxSubsystem m_PizzaBoxSubsystem = new PizzaBoxSubsystem();
   private final Climbsubsystem m_ClimbSubsystem;
   private final ReactionSubsystem m_ReactionSubsystem = new ReactionSubsystem();

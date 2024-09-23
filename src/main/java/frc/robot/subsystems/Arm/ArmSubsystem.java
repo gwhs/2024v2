@@ -25,13 +25,12 @@ public class ArmSubsystem extends SubsystemBase {
   public ArmSubsystem() {
      if(RobotBase.isSimulation()) {
       armIO = new ArmIOSim();
-      NetworkTableInstance.getDefault().getEntry("Arm/Mode").setString("Simulation");
+      NetworkTableInstance.getDefault().getEntry("/Arm/Mode").setString("Simulation");
     }
     else {
       armIO = new ArmIOReal();
-      NetworkTableInstance.getDefault().getEntry("Arm/Mode").setString("Real");
+      NetworkTableInstance.getDefault().getEntry("/Arm/Mode").setString("Real");
     }
-    armIO = new ArmIOReal();
     ShuffleboardTab tab = Shuffleboard.getTab("Testing");
     ShuffleboardLayout armCommandsLayout = tab.getLayout("Arm Commands", BuiltInLayouts.kList)
         .withSize(2, 2)
@@ -49,9 +48,9 @@ public class ArmSubsystem extends SubsystemBase {
 
     pidOutput = MathUtil.clamp(pidOutput, -1, 1);
     armIO.setArmSpeed(-pidOutput);
-    NetworkTableInstance.getDefault().getEntry("Arm/ArmAngle").setNumber(armIO.getArmEncoderAngle());
-    NetworkTableInstance.getDefault().getEntry("Arm/pidOutput").setNumber(pidOutput);
-    NetworkTableInstance.getDefault().getEntry("Arm/armGoal")
+    NetworkTableInstance.getDefault().getEntry("/Arm/ArmAngle").setNumber(armIO.getArmEncoderAngle());
+    NetworkTableInstance.getDefault().getEntry("/Arm/pidOutput").setNumber(pidOutput);
+    NetworkTableInstance.getDefault().getEntry("/Arm/armGoal")
         .setNumber(Units.radiansToDegrees(pidController.getGoal().position));
     armIO.update();
   }

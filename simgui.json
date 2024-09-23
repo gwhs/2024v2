@@ -63,6 +63,11 @@
           "visible": true
         }
       },
+      "/Shuffleboard/Testing/Arm Commands/spinArm120": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Field": {
         "bottom": 1476,
         "height": 8.210550308227539,
@@ -77,6 +82,15 @@
     }
   },
   "NetworkTables Info": {
+    "Server": {
+      "Publishers": {
+        "open": true
+      },
+      "Subscribers": {
+        "open": true
+      },
+      "open": true
+    },
     "visible": true
   },
   "NetworkTables View": {

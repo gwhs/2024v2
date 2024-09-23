@@ -22,7 +22,7 @@ public class ArmIOSim implements ArmIO{
     }
 
     public void setArmSpeed(double speed) {
-        speed +=10;
+        speed *=10;
         armSim.setInputVoltage(speed);
     }
 

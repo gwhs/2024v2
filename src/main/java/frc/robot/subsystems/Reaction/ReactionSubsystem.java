@@ -16,6 +16,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class ReactionSubsystem extends SubsystemBase {
   private ReactionIO reactionIO;
@@ -43,6 +44,8 @@ public class ReactionSubsystem extends SubsystemBase {
     reactionIO.setReactionBarSpeed(pidOutput);
 
     reactionIO.update();
+
+    NetworkTableInstance.getDefault().getEntry("").setNumber();
   }
 
   public Command extendReactionBar(){

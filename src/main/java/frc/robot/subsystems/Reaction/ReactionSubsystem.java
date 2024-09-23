@@ -6,10 +6,10 @@ package frc.robot.subsystems.Reaction;
 
 import java.util.Map;
 
-import com.ctre.phoenix6.StatusSignal;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -19,12 +19,16 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.networktables.NetworkTableInstance;
 
 public class ReactionSubsystem extends SubsystemBase {
-  private ReactionIO reactionIO;
+  private ReactionIO reactionIO ;
   private PIDController pidController = new PIDController(ReactionConstants.kP, ReactionConstants.kI, ReactionConstants.kD);
-  private double reactionBarArmPosition = reactionIO.getReactionBarPosition();
   
   /** Creates a new ReactionSubsystem. */
   public ReactionSubsystem() {
+    reactionIO = new ReactionIOReal();
+    if(RobotBase.isSimulation()){
+      reactionIO = new ReactionIOSim();
+    }
+      
     ShuffleboardTab tab = Shuffleboard.getTab("Testing");
     ShuffleboardLayout reactionCommandsLayout = tab.getLayout("Reaction Commands", BuiltInLayouts.kList)
       .withSize(2, 2)
@@ -36,7 +40,7 @@ public class ReactionSubsystem extends SubsystemBase {
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
-    reactionBarArmPosition = reactionIO.getReactionBarPosition();
+    double reactionBarArmPosition = reactionIO.getReactionBarPosition();
     double pidOutput = pidController.calculate(reactionBarArmPosition);
 
     pidOutput = MathUtil.clamp(pidOutput, -1, 1);

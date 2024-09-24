@@ -68,6 +68,11 @@
           "visible": true
         }
       },
+      "/Shuffleboard/Testing/Arm Commands/spinArm60": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Field": {
         "bottom": 1476,
         "height": 8.210550308227539,

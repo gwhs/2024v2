@@ -10,11 +10,11 @@ public class ArmIOSim implements ArmIO{
             DCMotor.getFalcon500Foc(1),
             100,
             SingleJointedArmSim.estimateMOI(.15,5),
-            .15,
+            .05,
             Units.degreesToRadians(0),
-            Units.degreesToRadians(95),
+            Units.degreesToRadians(350),
             true,
-            Units.degreesToRadians(120));
+            Units.degreesToRadians(90));
 
 
     public double getArmEncoderAngle() {

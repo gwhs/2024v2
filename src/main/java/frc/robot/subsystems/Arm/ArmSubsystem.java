@@ -47,7 +47,7 @@ public class ArmSubsystem extends SubsystemBase {
     double pidOutput = pidController.calculate(Units.degreesToRadians(armIO.getArmEncoderAngle()));
 
     pidOutput = MathUtil.clamp(pidOutput, -1, 1);
-    armIO.setArmSpeed(-pidOutput);
+    armIO.setArmSpeed(pidOutput);
     NetworkTableInstance.getDefault().getEntry("/Arm/ArmAngle").setNumber(armIO.getArmEncoderAngle());
     NetworkTableInstance.getDefault().getEntry("/Arm/pidOutput").setNumber(pidOutput);
     NetworkTableInstance.getDefault().getEntry("/Arm/armGoal")

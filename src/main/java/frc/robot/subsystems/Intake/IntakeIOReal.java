@@ -5,8 +5,14 @@
 package frc.robot.subsystems.Intake;
 
 import com.ctre.phoenix6.BaseStatusSignal;
+import com.ctre.phoenix6.StatusCode;
 import com.ctre.phoenix6.StatusSignal;
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
+import com.ctre.phoenix6.configs.TalonFXConfigurator;
 import com.ctre.phoenix6.hardware.TalonFX;
+import com.ctre.phoenix6.signals.InvertedValue;
+import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.DigitalInput;
@@ -19,6 +25,25 @@ public class IntakeIOReal implements IntakeIO {
   private DigitalInput noteSensor = new DigitalInput(IntakeContants.INTAKE_NOTE_SENSOR_CHANNEL_ID);
 
   StatusSignal<Double> spinVelocity = m_intakeSpin.getVelocity();
+
+  public IntakeIOReal() {
+    MotorOutputConfigs motorOutput = new MotorOutputConfigs();
+    CurrentLimitsConfigs currentConfig = new CurrentLimitsConfigs();
+
+    currentConfig.withStatorCurrentLimitEnable(true);
+    currentConfig.withStatorCurrentLimit(60);
+    motorOutput.NeutralMode = NeutralModeValue.Coast;
+    motorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+
+    TalonFXConfigurator intakeArmConfigurator = m_intakeArm.getConfigurator();
+    intakeArmConfigurator.apply(motorOutput);
+    intakeArmConfigurator.apply(currentConfig);
+
+    TalonFXConfigurator intakeSpinConfigurator = m_intakeArm.getConfigurator();
+    intakeSpinConfigurator.apply(motorOutput);
+    intakeSpinConfigurator.apply(currentConfig);
+
+  }
 
   public double getIntakeArmAngle() {
     return Units.rotationsToDegrees(encoder.getAbsolutePosition()) - IntakeContants.ENCODER_OFFSET;
@@ -42,7 +67,6 @@ public class IntakeIOReal implements IntakeIO {
 
   public void update() {
     BaseStatusSignal.refreshAll(
-      spinVelocity
-    );
+        spinVelocity);
   }
 }

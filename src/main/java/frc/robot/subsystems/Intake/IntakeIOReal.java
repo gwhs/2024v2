@@ -35,7 +35,7 @@ public class IntakeIOReal implements IntakeIO {
     currentConfig.withStatorCurrentLimitEnable(true);
     currentConfig.withStatorCurrentLimit(60);
     motorOutput.NeutralMode = NeutralModeValue.Coast;
-    motorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    motorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     TalonFXConfigurator intakeArmConfigurator = m_intakeArm.getConfigurator();
     intakeArmConfigurator.apply(motorOutput);

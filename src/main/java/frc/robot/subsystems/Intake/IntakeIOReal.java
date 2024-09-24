@@ -27,6 +27,9 @@ public class IntakeIOReal implements IntakeIO {
   StatusSignal<Double> spinVelocity = m_intakeSpin.getVelocity();
 
   public IntakeIOReal() {
+    /*
+     * Motor configs for intake arm motor
+     */
     MotorOutputConfigs motorOutput = new MotorOutputConfigs();
     CurrentLimitsConfigs currentConfig = new CurrentLimitsConfigs();
 
@@ -38,6 +41,16 @@ public class IntakeIOReal implements IntakeIO {
     TalonFXConfigurator intakeArmConfigurator = m_intakeArm.getConfigurator();
     intakeArmConfigurator.apply(motorOutput);
     intakeArmConfigurator.apply(currentConfig);
+
+    /*
+     * Motor configs for intake spin motor
+     */
+    motorOutput = new MotorOutputConfigs();
+    currentConfig = new CurrentLimitsConfigs();
+
+    currentConfig.withStatorCurrentLimitEnable(true);
+    currentConfig.withStatorCurrentLimit(60);
+    motorOutput.NeutralMode = NeutralModeValue.Coast;
 
     TalonFXConfigurator intakeSpinConfigurator = m_intakeArm.getConfigurator();
     intakeSpinConfigurator.apply(motorOutput);

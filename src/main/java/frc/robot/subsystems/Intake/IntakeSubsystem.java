@@ -37,6 +37,8 @@ public class IntakeSubsystem extends SubsystemBase {
       intakeIO = new IntakeIOReal();
       NetworkTableInstance.getDefault().getEntry("Intake/Mode").setString("Real");
     }
+
+    pidController.setGoal(IntakeContants.UP_POSITION);
     
     // put commands to shuffleboard for testing
     ShuffleboardTab tab = Shuffleboard.getTab("Testing");

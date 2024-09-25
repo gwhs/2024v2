@@ -38,6 +38,8 @@
       "/Shuffleboard/Simulation/Note Sensor": "Command",
       "/Shuffleboard/System Check/check": "Command",
       "/Shuffleboard/TEST COMMAND/TEST": "Command",
+      "/Shuffleboard/Testing/Arm Commands/spinArm120": "Command",
+      "/Shuffleboard/Testing/Arm Commands/spinArm60": "Command",
       "/Shuffleboard/Testing/TestingCommands/Motor Down": "Command",
       "/Shuffleboard/Testing/TestingCommands/Motor Up": "Command",
       "/SmartDashboard/Field": "Field2d",
@@ -90,6 +92,15 @@
     }
   },
   "NetworkTables Info": {
+    "Server": {
+      "Publishers": {
+        "open": true
+      },
+      "Subscribers": {
+        "open": true
+      },
+      "open": true
+    },
     "visible": true
   },
   "NetworkTables View": {

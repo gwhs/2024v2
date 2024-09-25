@@ -63,6 +63,9 @@ public class ClimbSubsytem extends SubsystemBase {
     rightpidOutput = MathUtil.clamp(rightpidOutput, -1, 1);
     leftpidOutput = MathUtil.clamp(leftpidOutput, -1, 1);
 
+//start higher
+    // if limit goes up and limit switch activates, stop motor
+
     climbIO.setLeftMotorSpeed(leftpidOutput);
     climbIO.setRightMotorSpeed(rightpidOutput);
     climbIO.update();

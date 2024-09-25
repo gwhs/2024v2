@@ -12,4 +12,13 @@ public interface ClimbIO {
 
   public void update();
 
+  public boolean getTopLeftLimitSwitch(); 
+
+  public boolean getTopRightLimitSwitch(); 
+  
+  public boolean getBottomLeftLimitSwitch(); 
+
+  public boolean getBottomRightLimitSwitch(); 
+
+
 }

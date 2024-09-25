@@ -17,26 +17,16 @@ public class ArmIOReal implements ArmIO {
   public ArmIOReal()
   {
     MotorOutputConfigs motorOutput = new MotorOutputConfigs();
-    TalonFXConfiguration configs = new TalonFXConfiguration();
     
     CurrentLimitsConfigs currentConfig = new CurrentLimitsConfigs();
     currentConfig.withStatorCurrentLimitEnable(true);
     currentConfig.withStatorCurrentLimit(60);
 
-    motorOutput.NeutralMode = NeutralModeValue.Brake;
+    motorOutput.NeutralMode = NeutralModeValue.Coast;
 
-    StatusCode motorStatus = StatusCode.StatusCodeNotInitialized;
-    for (int i = 0; i > 5; i++)
-    {
-      motorStatus = m_armMotor.getConfigurator().apply(configs);
-      motorStatus = m_armMotor.getConfigurator().apply(motorOutput);
-      motorStatus = m_armMotor.getConfigurator().apply(currentConfig);
-      if (motorStatus.isOK()) break;
-    }
-    if (!motorStatus.isOK())
-    {
-      System.out.println("Could not apply configs, error code: " + motorStatus.toString());
-    }
+    m_armMotor.getConfigurator().apply(currentConfig);
+    m_armMotor.getConfigurator().apply(currentConfig);
+
   }
 
   public double getArmEncoderAngle() {

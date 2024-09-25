@@ -35,6 +35,7 @@
       "/Shuffleboard/GameTab/Retract Reaction Bar": "Command",
       "/Shuffleboard/GameTab/Suck note in": "Command",
       "/Shuffleboard/GameTab/Toggle Camera Mode": "Command",
+      "/Shuffleboard/Simulation/Note Sensor": "Command",
       "/Shuffleboard/System Check/check": "Command",
       "/Shuffleboard/TEST COMMAND/TEST": "Command",
       "/Shuffleboard/Testing/Arm Commands/spinArm120": "Command",
@@ -63,12 +64,12 @@
           "visible": true
         }
       },
-      "/Shuffleboard/Testing/Arm Commands/spinArm120": {
+      "/Shuffleboard/Simulation/Note Sensor": {
         "window": {
           "visible": true
         }
       },
-      "/Shuffleboard/Testing/Arm Commands/spinArm60": {
+      "/Shuffleboard/Testing/Intake Commands/Intake: deploy intake": {
         "window": {
           "visible": true
         }

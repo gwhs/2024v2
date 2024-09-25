@@ -15,7 +15,7 @@ public class ReactionIOSim implements ReactionIO{
         new DCMotorSim(
             DCMotor.getFalcon500Foc(1), 
             1, 
-            0.5);
+            .03);
 
 
     public double getReactionBarPosition(){

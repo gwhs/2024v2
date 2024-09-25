@@ -34,6 +34,7 @@ public class ArmSubsystem extends SubsystemBase {
     armCommandsLayout.add(spinArm(120).withName("spinArm120"));
     armCommandsLayout.add(spinArm(60).withName(("spinArm60")));
     pidController.setGoal(Units.degreesToRadians(90));
+    armCommandsLayout.add(spinArm(200).withName("spinArm200"));
   }
 
   public double getArmEncoderAngle() {

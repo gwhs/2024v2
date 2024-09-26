@@ -35,7 +35,7 @@ public class ClimbIOReal implements ClimbIO {
 
   @Override
   public boolean getTopLeftLimitSwitch() {
-    return getTopLeftLimitSwitch();
+    return topLeft.get();
   }
 
   @Override

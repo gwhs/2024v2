@@ -9,7 +9,6 @@ import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.swervedrive.CTRETeleopDrive;
-import frc.robot.subsystems.*;
 import frc.robot.subsystems.Arm.ArmSubsystem;
 import frc.robot.subsystems.Climb.ClimbSubsytem;
 import frc.robot.subsystems.Reaction.ReactionSubsystem;

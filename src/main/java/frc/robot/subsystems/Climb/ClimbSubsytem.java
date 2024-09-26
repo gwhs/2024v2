@@ -43,7 +43,7 @@ public class ClimbSubsytem extends SubsystemBase {
     rightpidController.setGoal(climbIO.getRightMotorPosition());
 
     ShuffleboardTab tab = Shuffleboard.getTab("Testing");
-    ShuffleboardLayout climbCommandsLayout = tab.getLayout("TestingCommands", BuiltInLayouts.kList)
+    ShuffleboardLayout climbCommandsLayout = tab.getLayout("Climb Commands", BuiltInLayouts.kList)
         .withSize(2, 2)
         .withProperties(Map.of("Label position", "HIDDEN"));
 
@@ -63,8 +63,21 @@ public class ClimbSubsytem extends SubsystemBase {
     rightpidOutput = MathUtil.clamp(rightpidOutput, -1, 1);
     leftpidOutput = MathUtil.clamp(leftpidOutput, -1, 1);
 
-//start higher
-    // if limit goes up and limit switch activates, stop motor
+    boolean isGoingUp = MathUtil.isNear(ClimbConstants.LEFT_UP_POSITION, leftpidController.getGoal().position, 1);
+
+    if(isGoingUp && climbIO.getTopLeftLimitSwitch()) {
+      leftpidOutput = 0;
+    }
+
+    // TODO: going up and top right limit switch
+
+
+    // TODO: going down and bottom left limit switch
+
+
+    // TODO: going down and bottom right limit switch
+
+
 
     climbIO.setLeftMotorSpeed(leftpidOutput);
     climbIO.setRightMotorSpeed(rightpidOutput);
@@ -76,6 +89,9 @@ public class ClimbSubsytem extends SubsystemBase {
     NetworkTableInstance.getDefault().getEntry("Climb/Right PID Goal").setNumber(rightpidController.getGoal().position);
     NetworkTableInstance.getDefault().getEntry("Climb/Left motor Position").setNumber(climbIO.getLeftMotorPosition());
     NetworkTableInstance.getDefault().getEntry("Climb/Right motor Position").setNumber(climbIO.getRightMotorPosition());
+
+    //TODO: log limit switches
+    NetworkTableInstance.getDefault().getEntry("Climb/Top left limit switch").setBoolean(climbIO.getTopLeftLimitSwitch());
 
   }
 

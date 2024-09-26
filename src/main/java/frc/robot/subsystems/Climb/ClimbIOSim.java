@@ -1,4 +1,4 @@
-package frc.robot.subsystems.ClimbSubsystem;
+package frc.robot.subsystems.Climb;
 
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;

@@ -1,4 +1,4 @@
-package frc.robot.subsystems.ClimbSubsystem;
+package frc.robot.subsystems.Climb;
 
 public interface ClimbIO {
 

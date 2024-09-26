@@ -1,4 +1,4 @@
-package frc.robot.subsystems.ClimbSubsystem;
+package frc.robot.subsystems.Climb;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 

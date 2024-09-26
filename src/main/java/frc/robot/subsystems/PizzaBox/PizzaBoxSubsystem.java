@@ -1,4 +1,4 @@
-package frc.robot.subsystems.PizzaBoxSubsystem;
+package frc.robot.subsystems.PizzaBox;
 
 import java.util.Map;
 import java.util.function.DoubleSupplier;

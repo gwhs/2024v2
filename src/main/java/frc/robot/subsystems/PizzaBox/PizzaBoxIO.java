@@ -1,4 +1,4 @@
-package frc.robot.subsystems.PizzaBoxSubsystem;
+package frc.robot.subsystems.PizzaBox;
 
 public interface PizzaBoxIO {
   public void setFlap(double angle);

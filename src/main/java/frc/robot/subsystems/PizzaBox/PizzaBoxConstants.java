@@ -1,4 +1,4 @@
-package frc.robot.subsystems.PizzaBoxSubsystem;
+package frc.robot.subsystems.PizzaBox;
 
 public class PizzaBoxConstants {
   // important stuff start

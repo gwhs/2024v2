@@ -39,10 +39,10 @@ public class GameRobotContainer implements BaseContainer {
   private final ReactionSubsystem m_ReactionSubsystem = new ReactionSubsystem();
   private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance(); // My drivetrain
 
-    private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController);
-    private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
+  private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController);
+  private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
 
-    private final RobotVisualizer robotVisualizer;
+  private final RobotVisualizer robotVisualizer;
 
   public GameRobotContainer() {
 
@@ -89,19 +89,12 @@ public class GameRobotContainer implements BaseContainer {
   private void configureBindings() {
     /* Reset Robot */
 
-
-
     /* Driver Controller */
-
-
 
     /* Operator Controllers */
 
-
-
     /* Other Triggers */
 
-    
   }
 
   /**
@@ -117,7 +110,7 @@ public class GameRobotContainer implements BaseContainer {
   public void periodic() {
     robotVisualizer.update();
   }
-  
+
   public Command deployIntake() {
     // TODO
     return Commands.none()

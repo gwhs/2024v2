@@ -9,10 +9,10 @@ import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismRoot2d;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import frc.robot.subsystems.ArmSubsystem;
-import frc.robot.subsystems.IntakeSubsystem;
 import edu.wpi.first.wpilibj.util.Color;
 import edu.wpi.first.wpilibj.util.Color8Bit;
+import frc.robot.subsystems.Arm.ArmSubsystem;
+import frc.robot.subsystems.Intake.IntakeSubsystem;
 
 /** Add your docs here. */
 public class RobotVisualizer {

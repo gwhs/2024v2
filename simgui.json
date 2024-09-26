@@ -4,6 +4,11 @@
       "window": {
         "visible": false
       }
+    },
+    "Timing": {
+      "window": {
+        "visible": false
+      }
     }
   },
   "NTProvider": {
@@ -51,14 +56,10 @@
       "/SmartDashboard/Module 2": "Mechanism2d",
       "/SmartDashboard/Module 3": "Mechanism2d",
       "/SmartDashboard/Pigeon 2 (v6) [30]": "Gyro",
-      "/SmartDashboard/RightPIDController": "ProfiledPIDController"
+      "/SmartDashboard/RightPIDController": "ProfiledPIDController",
+      "/SmartDashboard/Robot Visualizer/panel": "Mechanism2d"
     },
     "windows": {
-      "/Shuffleboard/GameTab/Autonomous Chooser": {
-        "window": {
-          "visible": true
-        }
-      },
       "/Shuffleboard/GameTab/Field": {
         "bottom": 1476,
         "height": 8.210550308227539,
@@ -91,7 +92,9 @@
         "left": 150,
         "right": 2961,
         "top": 79,
-        "width": 16.541748046875,
+        "width": 16.541748046875
+      },
+      "/SmartDashboard/Robot Visualizer/panel": {
         "window": {
           "visible": true
         }

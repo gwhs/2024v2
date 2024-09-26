@@ -8,6 +8,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
+import frc.robot.Util.RobotVisualizer;
 import frc.robot.commands.swervedrive.CTRETeleopDrive;
 import frc.robot.subsystems.*;
 import frc.robot.subsystems.Arm.ArmSubsystem;
@@ -41,6 +42,8 @@ public class GameRobotContainer implements BaseContainer {
   private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController);
   private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
 
+  private final RobotVisualizer robotVisualizer;
+
   public GameRobotContainer() {
 
     autoChooser = AutoBuilder.buildAutoChooser("Hajel middle bottom 2");
@@ -49,6 +52,8 @@ public class GameRobotContainer implements BaseContainer {
     configureBindings();
 
     drivetrain.registerTelemetry(logger::telemeterize);
+
+    robotVisualizer = new RobotVisualizer(m_ArmSubsystem, m_IntakeSubsystem);
 
     /*
      * Put composite commands to shuffleboard
@@ -84,19 +89,12 @@ public class GameRobotContainer implements BaseContainer {
   private void configureBindings() {
     /* Reset Robot */
 
-
-
     /* Driver Controller */
-
-
 
     /* Operator Controllers */
 
-
-
     /* Other Triggers */
 
-    
   }
 
   /**
@@ -106,6 +104,11 @@ public class GameRobotContainer implements BaseContainer {
    */
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
+  }
+
+  @Override
+  public void periodic() {
+    robotVisualizer.update();
   }
 
   public Command deployIntake() {

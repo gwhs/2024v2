@@ -42,6 +42,8 @@
       "/Shuffleboard/Testing/Arm Commands/spinArm60": "Command",
       "/Shuffleboard/Testing/TestingCommands/Motor Down": "Command",
       "/Shuffleboard/Testing/TestingCommands/Motor Up": "Command",
+      "/Shuffleboard/Testing/Reaction Commands/Extend Reaction Bar": "Command",
+      "/Shuffleboard/Testing/Reaction Commands/Retract Reaction Bar": "Command",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/LeftPIDController": "ProfiledPIDController",
       "/SmartDashboard/Module 0": "Mechanism2d",
@@ -74,6 +76,11 @@
         }
       },
       "/Shuffleboard/Testing/Intake Commands/Intake: deploy intake": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/Reaction Commands/Extend Reaction Bar": {
         "window": {
           "visible": true
         }

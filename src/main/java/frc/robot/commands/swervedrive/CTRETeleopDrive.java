@@ -64,10 +64,10 @@ public class CTRETeleopDrive extends Command {
   // Called every time the scheduler runs while the command is scheduled.
   @Override
   public void execute() {
-    double xVelocity = -driverController.getLeftY() * MaxSpeed;
-    double yVelocity = -driverController.getLeftX() * MaxSpeed;
-    //double angularVelocity = -driverController.getRightX() * MaxAngularRate;
-    double angularVelocity = (MathUtil.applyDeadband(driverController.getLeftTriggerAxis(), OperatorConstants.ROTATION_DEADBAND) - MathUtil.applyDeadband(driverController.getRightTriggerAxis(), OperatorConstants.ROTATION_DEADBAND));
+    double xVelocity = -driverController.getLeftY();
+    double yVelocity = -driverController.getLeftX();
+    double angularVelocity = -driverController.getRightX();
+    // double angularVelocity = (MathUtil.applyDeadband(driverController.getLeftTriggerAxis(), OperatorConstants.ROTATION_DEADBAND) - MathUtil.applyDeadband(driverController.getRightTriggerAxis(), OperatorConstants.ROTATION_DEADBAND));
 
     if(DriverStation.getAlliance().isPresent() && 
        DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
@@ -173,19 +173,18 @@ public class CTRETeleopDrive extends Command {
       SmartDashboard.putNumber("heading Lock Goal", theta);
       SmartDashboard.putNumber("heading Lock Result", result);
     }
-    double tempXVelocity = xVelocity;
-    double tempYVelocity = yVelocity;
-    double tempAngularVelocity = angularVelocity  * MaxAngularRate;
-    SmartDashboard.putNumber("xVelocity", tempXVelocity);
-    SmartDashboard.putNumber("yVelocity", tempYVelocity);
-    SmartDashboard.putNumber("angularVelocity", tempAngularVelocity);
-    // drivetrain.applyRequest(() -> drive.withVelocityX(tempXVelocity) // Drive forward with negative Y (forward)
-    //         .withVelocityY(tempYVelocity) // Drive left with negative X (left)
-    //         .withRotationalRate(tempAngularVelocity) // Drive counterclockwise with negative X (left)
-    //     );
-    drivetrain.setControl(drive.withVelocityX(tempXVelocity) // Drive forward with negative Y (forward)
-             .withVelocityY(tempYVelocity) // Drive left with negative X (left)
-             .withRotationalRate(tempAngularVelocity)); // Drive counterclockwise with negative X (left)
+
+    xVelocity = xVelocity * MaxSpeed;
+    yVelocity = yVelocity * MaxSpeed;
+    angularVelocity = angularVelocity  * MaxAngularRate;
+    
+    SmartDashboard.putNumber("xVelocity", xVelocity);
+    SmartDashboard.putNumber("yVelocity", yVelocity);
+    SmartDashboard.putNumber("angularVelocity", angularVelocity);
+
+    drivetrain.setControl(drive.withVelocityX(xVelocity) // Drive forward with negative Y (forward)
+             .withVelocityY(yVelocity) // Drive left with negative X (left)
+             .withRotationalRate(angularVelocity)); // Drive counterclockwise with negative X (left)
   }
 
   // Called once the command ends or is interrupted.

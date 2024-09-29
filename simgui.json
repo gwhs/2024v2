@@ -39,12 +39,41 @@
       "/Shuffleboard/System Check/check": "Command",
       "/Shuffleboard/TEST COMMAND/TEST": "Command",
       "/Shuffleboard/Testing/Arm Commands/spinArm120": "Command",
+      "/Shuffleboard/Testing/Arm Commands/spinArm200": "Command",
       "/Shuffleboard/Testing/Arm Commands/spinArm60": "Command",
-      "/Shuffleboard/Testing/TestingCommands/Motor Down": "Command",
-      "/Shuffleboard/Testing/TestingCommands/Motor Up": "Command",
+      "/Shuffleboard/Testing/ArmSubsystem": "Subsystem",
+      "/Shuffleboard/Testing/ClimbSubsytem": "Subsystem",
+      "/Shuffleboard/Testing/Commands/Climb and Score": "Command",
+      "/Shuffleboard/Testing/Commands/Deploy Intake": "Command",
+      "/Shuffleboard/Testing/Commands/Prep Climb": "Command",
+      "/Shuffleboard/Testing/Commands/Retract Intake": "Command",
+      "/Shuffleboard/Testing/Commands/Retract Intake and Pass to PB": "Command",
+      "/Shuffleboard/Testing/Commands/Score Amp": "Command",
+      "/Shuffleboard/Testing/Commands/Score Speaker at 160.0": "Command",
+      "/Shuffleboard/Testing/Commands/Score Speaker at 230.0": "Command",
+      "/Shuffleboard/Testing/Commands/Source Intake": "Command",
+      "/Shuffleboard/Testing/Commands/Unclimb Part One": "Command",
+      "/Shuffleboard/Testing/Commands/Unclimb Part Two": "Command",
+      "/Shuffleboard/Testing/Intake Commands/Intake: deploy intake": "Command",
+      "/Shuffleboard/Testing/Intake Commands/Intake: retract intake": "Command",
+      "/Shuffleboard/Testing/IntakeSubsystem": "Subsystem",
+      "/Shuffleboard/Testing/PizzaBox Commands/!GAS GAS GAS": "Command",
+      "/Shuffleboard/Testing/PizzaBox Commands/SET FLAP": "Command",
+      "/Shuffleboard/Testing/PizzaBox Commands/SET KICKER": "Command",
+      "/Shuffleboard/Testing/PizzaBox Commands/STOP FLAP": "Command",
+      "/Shuffleboard/Testing/PizzaBox Commands/STOP KICKER": "Command",
+      "/Shuffleboard/Testing/PizzaBox Commands/STOP MOTOR": "Command",
+      "/Shuffleboard/Testing/PizzaBox Commands/Slurp": "Command",
+      "/Shuffleboard/Testing/PizzaBox Commands/Spit": "Command",
+      "/Shuffleboard/Testing/PizzaBoxSubsystem": "Subsystem",
       "/Shuffleboard/Testing/Reaction Commands/Extend Reaction Bar": "Command",
       "/Shuffleboard/Testing/Reaction Commands/Retract Reaction Bar": "Command",
+      "/Shuffleboard/Testing/ReactionSubsystem": "Subsystem",
+      "/Shuffleboard/Testing/Scheduler": "Scheduler",
+      "/Shuffleboard/Testing/TestingCommands/Motor Down": "Command",
+      "/Shuffleboard/Testing/TestingCommands/Motor Up": "Command",
       "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/IntakeSubsystem": "Subsystem",
       "/SmartDashboard/LeftPIDController": "ProfiledPIDController",
       "/SmartDashboard/Module 0": "Mechanism2d",
       "/SmartDashboard/Module 1": "Mechanism2d",
@@ -54,36 +83,13 @@
       "/SmartDashboard/RightPIDController": "ProfiledPIDController"
     },
     "windows": {
-      "/Shuffleboard/GameTab/Autonomous Chooser": {
-        "window": {
-          "visible": true
-        }
-      },
       "/Shuffleboard/GameTab/Field": {
         "bottom": 1476,
         "height": 8.210550308227539,
         "left": 150,
         "right": 2961,
         "top": 79,
-        "width": 16.541748046875,
-        "window": {
-          "visible": true
-        }
-      },
-      "/Shuffleboard/Simulation/Note Sensor": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/Shuffleboard/Testing/Intake Commands/Intake: deploy intake": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/Shuffleboard/Testing/Reaction Commands/Extend Reaction Bar": {
-        "window": {
-          "visible": true
-        }
+        "width": 16.541748046875
       },
       "/SmartDashboard/Field": {
         "bottom": 1476,
@@ -91,10 +97,7 @@
         "left": 150,
         "right": 2961,
         "top": 79,
-        "width": 16.541748046875,
-        "window": {
-          "visible": true
-        }
+        "width": 16.541748046875
       }
     }
   },
@@ -107,8 +110,7 @@
         "open": true
       },
       "open": true
-    },
-    "visible": true
+    }
   },
   "NetworkTables View": {
     "visible": false

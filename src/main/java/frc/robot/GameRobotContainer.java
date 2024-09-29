@@ -87,7 +87,7 @@ public class GameRobotContainer implements BaseContainer {
 
 
     /* Driver Controller */
-
+    driverController.start().onTrue(Commands.runOnce(drivetrain::seedFieldRelative));
 
 
     /* Operator Controllers */

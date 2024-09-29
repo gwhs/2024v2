@@ -19,13 +19,12 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants.IntakeConstants;
 
 public class IntakeSubsystem extends SubsystemBase {
   private final IntakeIO intakeIO;
 
-  private TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(IntakeContants.kVel, IntakeContants.kAcc);
-  private ProfiledPIDController pidController = new ProfiledPIDController(IntakeContants.kP, IntakeContants.kI, IntakeContants.kD, constraints);
+  private TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(IntakeConstants.kVel, IntakeConstants.kAcc);
+  private ProfiledPIDController pidController = new ProfiledPIDController(IntakeConstants.kP, IntakeConstants.kI, IntakeConstants.kD, constraints);
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
@@ -38,7 +37,7 @@ public class IntakeSubsystem extends SubsystemBase {
       NetworkTableInstance.getDefault().getEntry("Intake/Mode").setString("Real");
     }
 
-    pidController.setGoal(IntakeContants.UP_POSITION);
+    pidController.setGoal(IntakeConstants.UP_POSITION);
     
     // put commands to shuffleboard for testing
     ShuffleboardTab tab = Shuffleboard.getTab("Testing");
@@ -73,7 +72,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
   public Command deployIntake() {
     return this.runOnce(() -> {
-      pidController.setGoal(IntakeContants.DOWN_POSITION);
+      pidController.setGoal(IntakeConstants.DOWN_POSITION);
     })
     .alongWith(Commands.run(() -> {
       intakeIO.setSpinSpeed(0.8);

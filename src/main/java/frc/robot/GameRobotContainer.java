@@ -7,9 +7,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.swervedrive.CTRETeleopDrive;
-import frc.robot.subsystems.*;
 import frc.robot.subsystems.Arm.ArmSubsystem;
 import frc.robot.subsystems.Reaction.ReactionSubsystem;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
@@ -20,14 +18,13 @@ import frc.robot.subsystems.swervedrive.Telemetry;
 import frc.robot.subsystems.swervedrive.TunerConstants;
 
 import java.util.Map;
-import java.util.function.DoubleSupplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
 public class GameRobotContainer implements BaseContainer {
 
-  CommandXboxController driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
-  CommandXboxController operatorController = new CommandXboxController(OperatorConstants.kOperatorControllerPort);
+  CommandXboxController driverController = new CommandXboxController(0);
+  CommandXboxController operatorController = new CommandXboxController(1);
 
   private final SendableChooser<Command> autoChooser;
 
@@ -36,7 +33,7 @@ public class GameRobotContainer implements BaseContainer {
   private final PizzaBoxSubsystem m_PizzaBoxSubsystem = new PizzaBoxSubsystem();
   private final ClimbSubsytem m_ClimbSubsystem = new ClimbSubsytem();
   private final ReactionSubsystem m_ReactionSubsystem = new ReactionSubsystem();
-  private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance(); // My drivetrain
+  private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance();
 
   private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController);
   private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
@@ -61,8 +58,8 @@ public class GameRobotContainer implements BaseContainer {
     testingLayout.add(deployIntake());
     testingLayout.add(retractIntake());
     testingLayout.add(retractIntakePassToPB());
-    testingLayout.add(scoreSpeaker(() -> 160));
-    testingLayout.add(scoreSpeaker(() -> 230));
+    testingLayout.add(scoreSpeaker(160));
+    testingLayout.add(scoreSpeaker(230));
     testingLayout.add(scoreAmp());
     testingLayout.add(sourceIntake());
     testingLayout.add(prepClimb());
@@ -126,10 +123,10 @@ public class GameRobotContainer implements BaseContainer {
         .withName("Retract Intake and Pass to PB");
   }
 
-  public Command scoreSpeaker(DoubleSupplier armAngle) {
+  public Command scoreSpeaker(double armAngle) {
     // TODO
     return Commands.none()
-        .withName("Score Speaker at " + armAngle.getAsDouble());
+        .withName("Score Speaker at " + armAngle);
   }
 
   public Command scoreAmp() {

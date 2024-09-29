@@ -14,8 +14,6 @@ import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants;
-import frc.robot.Constants.OperatorConstants;
 import frc.robot.Util.UtilMath;
 import frc.robot.subsystems.swervedrive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.swervedrive.TunerConstants;
@@ -24,6 +22,8 @@ public class CTRETeleopDrive extends Command {
   /** Creates a new CTRETeleopDrive. */
   private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
   private double MaxAngularRate = 3.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
+
+  public static final double PID_MAX = 0.35;
 
   private CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance();
 
@@ -48,8 +48,8 @@ public class CTRETeleopDrive extends Command {
     // Use addRequirements() here to declare subsystem dependencies.
     driverController = driver;
 
-    this.PID = new PIDController(Constants.DriveConstants.kP, Constants.DriveConstants.kI, Constants.DriveConstants.kD);
-    this.PID.setTolerance(Constants.FaceSpeakerConstants.THETA_TOLERANCE, Constants.FaceSpeakerConstants.STEADY_STATE_TOLERANCE);
+    this.PID = new PIDController(0.02, 0, 0);
+    this.PID.setTolerance(0.1);
     this.PID.enableContinuousInput(-180, 180);
   
     addRequirements(drivetrain);
@@ -99,13 +99,7 @@ public class CTRETeleopDrive extends Command {
     {
       double ang = UtilMath.FrontSpeakerTheta(currPose);
       PID.setSetpoint(ang);
-      angularVelocity = PID.calculate(currTheta);
-      if(angularVelocity > Constants.DriveConstants.MAX_RANGE) {
-        angularVelocity = Constants.DriveConstants.MAX_RANGE;
-      }
-      else if(angularVelocity < -Constants.DriveConstants.MAX_RANGE) {
-        angularVelocity = -Constants.DriveConstants.MAX_RANGE;
-      }
+      angularVelocity = MathUtil.clamp(PID.calculate(currTheta), -PID_MAX, PID_MAX);
       SmartDashboard.putNumber("isFaceSpeaker Goal", ang);
       SmartDashboard.putNumber("isFaceSpeaker Result", angularVelocity);
     }
@@ -113,26 +107,14 @@ public class CTRETeleopDrive extends Command {
     {
       double ang = UtilMath.BackSpeakerTheta(currPose);
       PID.setSetpoint(ang);
-      angularVelocity = PID.calculate(currTheta);
-      if(angularVelocity > Constants.DriveConstants.MAX_RANGE) {
-        angularVelocity = Constants.DriveConstants.MAX_RANGE;
-      }
-      else if(angularVelocity < -Constants.DriveConstants.MAX_RANGE) {
-        angularVelocity = -Constants.DriveConstants.MAX_RANGE;
-      }
+      angularVelocity = MathUtil.clamp(PID.calculate(currTheta), -PID_MAX, PID_MAX);
       SmartDashboard.putNumber("isBackSpeaker Goal", ang);
       SmartDashboard.putNumber("isBackSpeaker Result", angularVelocity);
     }
 
     if (faceAmp) {
       PID.setSetpoint(-90);
-      angularVelocity = PID.calculate(currTheta);
-      if(angularVelocity > Constants.DriveConstants.MAX_RANGE) {
-        angularVelocity = Constants.DriveConstants.MAX_RANGE;
-      }
-      else if(angularVelocity < -Constants.DriveConstants.MAX_RANGE) {
-        angularVelocity = -Constants.DriveConstants.MAX_RANGE;
-      }
+      angularVelocity = MathUtil.clamp(PID.calculate(currTheta), -PID_MAX, PID_MAX);
       SmartDashboard.putNumber("faceAmp Goal", -90);
       SmartDashboard.putNumber("faceAmp Result", angularVelocity);
     }
@@ -146,14 +128,7 @@ public class CTRETeleopDrive extends Command {
       else{
         PID.setSetpoint(0);
       }
-      result = PID.calculate(currTheta);
-     
-      if(result > Constants.DriveConstants.MAX_RANGE){
-        result = Constants.DriveConstants.MAX_RANGE;
-      }
-      else if(result < -Constants.DriveConstants.MAX_RANGE){
-        result = -Constants.DriveConstants.MAX_RANGE;
-      }
+      result = MathUtil.clamp(PID.calculate(currTheta), -PID_MAX, PID_MAX);
       angularVelocity += result;
     }
 
@@ -162,13 +137,7 @@ public class CTRETeleopDrive extends Command {
       double theta = UtilMath.SourceIntakeHeading(currPose);
       PID.setSetpoint(theta);
 
-      double result =  PID.calculate(currTheta);
-      if(result > Constants.DriveConstants.MAX_RANGE) {
-        result = Constants.DriveConstants.MAX_RANGE;
-      }
-      else if(result < -Constants.DriveConstants.MAX_RANGE) {
-        result = -Constants.DriveConstants.MAX_RANGE;
-      }
+      double result = MathUtil.clamp(PID.calculate(currTheta), -PID_MAX, PID_MAX);
       angularVelocity += result;
       SmartDashboard.putNumber("heading Lock Goal", theta);
       SmartDashboard.putNumber("heading Lock Result", result);

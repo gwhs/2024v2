@@ -18,10 +18,10 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 public class IntakeIOReal implements IntakeIO {
-  private TalonFX m_intakeArm = new TalonFX(IntakeContants.INTAKE_ARM_ID, IntakeContants.INTAKE_ARM_CAN);
-  private TalonFX m_intakeSpin = new TalonFX(IntakeContants.INTAKE_SPIN_ID, IntakeContants.INTAKE_SPIN_CAN);
-  private DutyCycleEncoder encoder = new DutyCycleEncoder(IntakeContants.INTAKE_ENCODER_CHANNEL_ID);
-  private DigitalInput noteSensor = new DigitalInput(IntakeContants.INTAKE_NOTE_SENSOR_CHANNEL_ID);
+  private TalonFX m_intakeArm = new TalonFX(IntakeConstants.INTAKE_ARM_ID, IntakeConstants.INTAKE_ARM_CAN);
+  private TalonFX m_intakeSpin = new TalonFX(IntakeConstants.INTAKE_SPIN_ID, IntakeConstants.INTAKE_SPIN_CAN);
+  private DutyCycleEncoder encoder = new DutyCycleEncoder(IntakeConstants.INTAKE_ENCODER_CHANNEL_ID);
+  private DigitalInput noteSensor = new DigitalInput(IntakeConstants.INTAKE_NOTE_SENSOR_CHANNEL_ID);
 
   StatusSignal<Double> spinVelocity = m_intakeSpin.getVelocity();
 
@@ -35,6 +35,7 @@ public class IntakeIOReal implements IntakeIO {
     currentConfig.withStatorCurrentLimitEnable(true);
     currentConfig.withStatorCurrentLimit(60);
     motorOutput.NeutralMode = NeutralModeValue.Coast;
+    motorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
     TalonFXConfigurator intakeArmConfigurator = m_intakeArm.getConfigurator();
     intakeArmConfigurator.apply(motorOutput);
@@ -49,6 +50,7 @@ public class IntakeIOReal implements IntakeIO {
     currentConfig.withStatorCurrentLimitEnable(true);
     currentConfig.withStatorCurrentLimit(60);
     motorOutput.NeutralMode = NeutralModeValue.Coast;
+    motorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     TalonFXConfigurator intakeSpinConfigurator = m_intakeArm.getConfigurator();
     intakeSpinConfigurator.apply(motorOutput);
@@ -57,7 +59,7 @@ public class IntakeIOReal implements IntakeIO {
   }
 
   public double getIntakeArmAngle() {
-    return Units.rotationsToDegrees(encoder.getAbsolutePosition()) - IntakeContants.ENCODER_OFFSET;
+    return Units.rotationsToDegrees(encoder.getAbsolutePosition()) - IntakeConstants.ENCODER_OFFSET;
   }
 
   public void setArmSpeed(double speed) {

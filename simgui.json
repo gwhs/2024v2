@@ -40,24 +40,23 @@
       "/Shuffleboard/GameTab/Retract Reaction Bar": "Command",
       "/Shuffleboard/GameTab/Suck note in": "Command",
       "/Shuffleboard/GameTab/Toggle Camera Mode": "Command",
+      "/Shuffleboard/Simulation/Note Sensor": "Command",
       "/Shuffleboard/System Check/check": "Command",
       "/Shuffleboard/TEST COMMAND/TEST": "Command",
-      "/Shuffleboard/Testing/PizzaBox Commands/!GAS GAS GAS": "Command",
-      "/Shuffleboard/Testing/PizzaBox Commands/SET FLAP": "Command",
-      "/Shuffleboard/Testing/PizzaBox Commands/SET KICKER": "Command",
-      "/Shuffleboard/Testing/PizzaBox Commands/STOP FLAP": "Command",
-      "/Shuffleboard/Testing/PizzaBox Commands/STOP KICKER": "Command",
-      "/Shuffleboard/Testing/PizzaBox Commands/STOP MOTOR": "Command",
-      "/Shuffleboard/Testing/PizzaBox Commands/Slurp": "Command",
-      "/Shuffleboard/Testing/PizzaBox Commands/Spit": "Command",
+      "/Shuffleboard/Testing/Arm Commands/spinArm120": "Command",
+      "/Shuffleboard/Testing/Arm Commands/spinArm60": "Command",
+      "/Shuffleboard/Testing/TestingCommands/Motor Down": "Command",
+      "/Shuffleboard/Testing/TestingCommands/Motor Up": "Command",
       "/Shuffleboard/Testing/Reaction Commands/Extend Reaction Bar": "Command",
       "/Shuffleboard/Testing/Reaction Commands/Retract Reaction Bar": "Command",
       "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/LeftPIDController": "ProfiledPIDController",
       "/SmartDashboard/Module 0": "Mechanism2d",
       "/SmartDashboard/Module 1": "Mechanism2d",
       "/SmartDashboard/Module 2": "Mechanism2d",
       "/SmartDashboard/Module 3": "Mechanism2d",
       "/SmartDashboard/Pigeon 2 (v6) [30]": "Gyro",
+      "/SmartDashboard/RightPIDController": "ProfiledPIDController",
       "/SmartDashboard/Robot Visualizer/panel": "Mechanism2d"
     },
     "windows": {
@@ -71,6 +70,24 @@
         "window": {
           "visible": true
         }
+<<<<<<< HEAD
+=======
+      },
+      "/Shuffleboard/Simulation/Note Sensor": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/Intake Commands/Intake: deploy intake": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/Reaction Commands/Extend Reaction Bar": {
+        "window": {
+          "visible": true
+        }
+>>>>>>> afd8766a0a5f07933485c55dfcfb2fdf04a6ab37
       },
       "/SmartDashboard/Field": {
         "bottom": 1476,
@@ -91,6 +108,18 @@
     }
   },
   "NetworkTables Info": {
+<<<<<<< HEAD
+=======
+    "Server": {
+      "Publishers": {
+        "open": true
+      },
+      "Subscribers": {
+        "open": true
+      },
+      "open": true
+    },
+>>>>>>> afd8766a0a5f07933485c55dfcfb2fdf04a6ab37
     "visible": true
   },
   "NetworkTables View": {

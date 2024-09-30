@@ -1,4 +1,4 @@
-package frc.robot.subsystems.PizzaBoxSubsystem;
+package frc.robot.subsystems.PizzaBox;
 
 import com.ctre.phoenix6.hardware.TalonFX;
 

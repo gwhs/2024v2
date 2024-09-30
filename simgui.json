@@ -67,7 +67,10 @@
         "left": 150,
         "right": 2961,
         "top": 79,
-        "width": 16.541748046875
+        "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
       },
       "/SmartDashboard/Field": {
         "bottom": 1476,
@@ -75,7 +78,10 @@
         "left": 150,
         "right": 2961,
         "top": 79,
-        "width": 16.541748046875
+        "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
       },
       "/SmartDashboard/Robot Visualizer/panel": {
         "window": {
@@ -83,5 +89,11 @@
         }
       }
     }
+  },
+  "NetworkTables Info": {
+    "visible": true
+  },
+  "NetworkTables View": {
+    "visible": false
   }
 }

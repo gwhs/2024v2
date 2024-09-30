@@ -26,8 +26,8 @@ public class RobotVisualizer {
 
   // TO DO: use MechanismRoot2d and MechanismLigament2d to form stick figures that represent the arm
 
-  MechanismRoot2d root = panel.getRoot("armSim", 0.7, 0); 
-  MechanismLigament2d m_arm = root.append(new MechanismLigament2d("arm", 0.5, 90));
+  MechanismRoot2d root = panel.getRoot("armSim", 0.3, 0.1); 
+  MechanismLigament2d m_arm = root.append(new MechanismLigament2d("arm", 0.3, 45));
   
   // TO DO: use MechanismRoot2d and MechanismLigament2d to form stick figures that represent the intake
   MechanismLigament2d m_spinner = m_arm.append(new MechanismLigament2d("spinner", 0.5, 90, 6, new Color8Bit(Color.kPurple)));
@@ -37,7 +37,7 @@ public class RobotVisualizer {
     this.armSubsystem = armSubsystem;
     this.intakeSubsystem = intakeSubsystem;
 
-    SmartDashboard.putNumber("Robot Visualizer/Pretend Intake Angle", 0);
+    SmartDashboard.putNumber("Robot Visualizer/Pretend Intake Angle", 30);
     SmartDashboard.putNumber("Robot Visualizer/Pretend Arm Angle", 90);
   }
 

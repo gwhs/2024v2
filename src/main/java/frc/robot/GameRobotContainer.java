@@ -85,6 +85,7 @@ public class GameRobotContainer implements BaseContainer {
 
     /* Driver Controller */
     driverController.start().onTrue(Commands.runOnce(drivetrain::seedFieldRelative));
+    driverController.a().onTrue(deployIntake());
 
 
     /* Operator Controllers */
@@ -106,14 +107,12 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command deployIntake() {
-    // TODO
-    return Commands.none()
+    return m_IntakeSubsystem.deployIntake()
         .withName("Deploy Intake");
   }
 
   public Command retractIntake() {
-    // TODO
-    return Commands.none()
+    return m_IntakeSubsystem.retractIntake()
         .withName("Retract Intake");
   }
 

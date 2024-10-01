@@ -9,6 +9,7 @@ import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.swervedrive.CTRETeleopDrive;
+import frc.robot.subsystems.Arm.ArmConstants;
 import frc.robot.subsystems.Arm.ArmSubsystem;
 import frc.robot.subsystems.Reaction.ReactionSubsystem;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
@@ -121,7 +122,7 @@ public class GameRobotContainer implements BaseContainer {
   public Command retractIntakePassToPB() {
     return Commands.sequence(
         Commands.parallel(
-            m_ArmSubsystem.spinArm(63),
+            m_ArmSubsystem.spinArm(ArmConstants.INTAKE_ANGLE),
             m_IntakeSubsystem.retractIntake()).withTimeout(3),
         Commands.parallel(
             m_IntakeSubsystem.intakeNote(),
@@ -130,7 +131,7 @@ public class GameRobotContainer implements BaseContainer {
         Commands.waitSeconds(1),
         Commands.parallel(
             m_IntakeSubsystem.stopIntake(),
-            m_PizzaBoxSubsystem.slurp_command(0)))
+            m_PizzaBoxSubsystem.stopMotor()))
         .withName("Retract Intake and Pass to PB")
         .withInterruptBehavior(InterruptionBehavior.kCancelIncoming);
   }

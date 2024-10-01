@@ -24,19 +24,21 @@ import edu.wpi.first.wpilibj2.command.button.Trigger;
 public class IntakeSubsystem extends SubsystemBase {
   private final IntakeIO intakeIO;
 
-  private TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(IntakeConstants.kVel, IntakeConstants.kAcc);
-  private ProfiledPIDController pidController = new ProfiledPIDController(IntakeConstants.kP, IntakeConstants.kI, IntakeConstants.kD, constraints);
+  private TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(IntakeConstants.kVel,
+      IntakeConstants.kAcc);
+  private ProfiledPIDController pidController = new ProfiledPIDController(IntakeConstants.kP, IntakeConstants.kI,
+      IntakeConstants.kD, constraints);
 
-  public final Trigger isDeployed = new Trigger(() -> MathUtil.isNear(IntakeConstants.DOWN_POSITION, pidController.getGoal().position, 1));
+  public final Trigger isDeployed = new Trigger(
+      () -> MathUtil.isNear(IntakeConstants.DOWN_POSITION, pidController.getGoal().position, 1));
   public final Trigger noteTriggered;
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
-    if(RobotBase.isSimulation()) {
+    if (RobotBase.isSimulation()) {
       intakeIO = new IntakeIOSim();
       NetworkTableInstance.getDefault().getEntry("Intake/Mode").setString("Simulation");
-    }
-    else {
+    } else {
       intakeIO = new IntakeIOReal();
       NetworkTableInstance.getDefault().getEntry("Intake/Mode").setString("Real");
     }
@@ -45,13 +47,13 @@ public class IntakeSubsystem extends SubsystemBase {
     pidController.setTolerance(1);
 
     noteTriggered = new Trigger(() -> intakeIO.getNoteSensor()).debounce(0.03);
-    
+
     // put commands to shuffleboard for testing
     ShuffleboardTab tab = Shuffleboard.getTab("Testing");
     ShuffleboardLayout intakeCommandsLayout = tab.getLayout("Intake Commands", BuiltInLayouts.kList)
-      .withSize(2,2)
-      .withProperties(Map.of("Label position", "HIDDEN"));
-    
+        .withSize(2, 2)
+        .withProperties(Map.of("Label position", "HIDDEN"));
+
     intakeCommandsLayout.add(deployIntake());
     intakeCommandsLayout.add(retractIntake());
 
@@ -72,8 +74,10 @@ public class IntakeSubsystem extends SubsystemBase {
     /* Logging */
     NetworkTableInstance.getDefault().getEntry("Intake/PID Output").setNumber(pidOutput);
     NetworkTableInstance.getDefault().getEntry("Intake/PID Goal").setNumber(pidController.getGoal().position);
-    NetworkTableInstance.getDefault().getEntry("Intake/PID Profiled Goal").setNumber(pidController.getSetpoint().position);
-    NetworkTableInstance.getDefault().getEntry("Intake/Intake Measured Arm Angle").setNumber(intakeIO.getIntakeArmAngle());
+    NetworkTableInstance.getDefault().getEntry("Intake/PID Profiled Goal")
+        .setNumber(pidController.getSetpoint().position);
+    NetworkTableInstance.getDefault().getEntry("Intake/Intake Measured Arm Angle")
+        .setNumber(intakeIO.getIntakeArmAngle());
     NetworkTableInstance.getDefault().getEntry("Intake/Intake Spin Speed").setNumber(intakeIO.getSpinSpeed());
 
     NetworkTableInstance.getDefault().getEntry("Intake/Intake Deployed").setBoolean(isDeployed.getAsBoolean());
@@ -83,13 +87,12 @@ public class IntakeSubsystem extends SubsystemBase {
   public Command deployIntake() {
     return this.runOnce(() -> {
       pidController.setGoal(IntakeConstants.DOWN_POSITION);
-    })
-    .alongWith(Commands.run(() -> {
       intakeIO.setSpinSpeed(0.8);
-    }))
-    .until(() -> intakeIO.getNoteSensor())
-    .andThen(retractIntake())
-    .withName("Intake: deploy intake");
+    })
+        .andThen(
+            Commands.waitUntil(noteTriggered),
+            retractIntake())
+        .withName("Intake: deploy intake");
   }
 
   public Command retractIntake() {
@@ -97,8 +100,8 @@ public class IntakeSubsystem extends SubsystemBase {
       pidController.setGoal(IntakeConstants.UP_POSITION);
       intakeIO.setSpinSpeed(0);
     })
-    .andThen(Commands.idle().until(() -> pidController.atGoal()))
-    .withName("Intake: retract intake");
+        .andThen(Commands.waitUntil(() -> pidController.atGoal()))
+        .withName("Intake: retract intake");
   }
 
   public Command intakeNote() {

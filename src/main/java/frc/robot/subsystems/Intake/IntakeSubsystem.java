@@ -19,12 +19,16 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class IntakeSubsystem extends SubsystemBase {
   private final IntakeIO intakeIO;
 
   private TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(IntakeConstants.kVel, IntakeConstants.kAcc);
   private ProfiledPIDController pidController = new ProfiledPIDController(IntakeConstants.kP, IntakeConstants.kI, IntakeConstants.kD, constraints);
+
+  public final Trigger isDeployed = new Trigger(() -> MathUtil.isNear(IntakeConstants.DOWN_POSITION, pidController.getGoal().position, 1)).debounce(0.5);
+  public final Trigger noteTriggered;
 
   /** Creates a new IntakeSubsystem. */
   public IntakeSubsystem() {
@@ -38,6 +42,9 @@ public class IntakeSubsystem extends SubsystemBase {
     }
 
     pidController.setGoal(IntakeConstants.UP_POSITION);
+    pidController.setTolerance(1);
+
+    noteTriggered = new Trigger(() -> intakeIO.getNoteSensor());
     
     // put commands to shuffleboard for testing
     ShuffleboardTab tab = Shuffleboard.getTab("Testing");
@@ -68,6 +75,9 @@ public class IntakeSubsystem extends SubsystemBase {
     NetworkTableInstance.getDefault().getEntry("Intake/PID Profiled Goal").setNumber(pidController.getSetpoint().position);
     NetworkTableInstance.getDefault().getEntry("Intake/Intake Measured Arm Angle").setNumber(intakeIO.getIntakeArmAngle());
     NetworkTableInstance.getDefault().getEntry("Intake/Intake Spin Speed").setNumber(intakeIO.getSpinSpeed());
+
+    NetworkTableInstance.getDefault().getEntry("Intake/Intake Deployed").setBoolean(isDeployed.getAsBoolean());
+    NetworkTableInstance.getDefault().getEntry("Intake/Note Sensor").setBoolean(intakeIO.getNoteSensor());
   }
 
   public Command deployIntake() {
@@ -89,5 +99,17 @@ public class IntakeSubsystem extends SubsystemBase {
     })
     .andThen(Commands.idle().until(() -> pidController.atGoal()))
     .withName("Intake: retract intake");
+  }
+
+  public Command intakeNote() {
+    return this.run(() -> {
+      intakeIO.setSpinSpeed(1);
+    });
+  }
+
+  public Command stopIntake() {
+    return this.runOnce(() -> {
+      intakeIO.setSpinSpeed(0);
+    });
   }
 }

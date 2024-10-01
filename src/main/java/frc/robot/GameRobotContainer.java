@@ -6,6 +6,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.commands.swervedrive.CTRETeleopDrive;
 import frc.robot.subsystems.Arm.ArmSubsystem;
@@ -81,20 +82,18 @@ public class GameRobotContainer implements BaseContainer {
   private void configureBindings() {
     /* Reset Robot */
 
-
-
     /* Driver Controller */
     driverController.start().onTrue(Commands.runOnce(drivetrain::seedFieldRelative));
-    driverController.a().onTrue(deployIntake());
+    driverController.a()
+        .onTrue(deployIntake())
+        .onFalse(retractIntake());
 
+    m_IntakeSubsystem.noteTriggered.debounce(0.1).onTrue(retractIntakePassToPB());
 
     /* Operator Controllers */
 
-
-
     /* Other Triggers */
 
-    
   }
 
   /**
@@ -117,9 +116,20 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command retractIntakePassToPB() {
-    // TODO
-    return Commands.none()
-        .withName("Retract Intake and Pass to PB");
+    return Commands.sequence(
+        Commands.parallel(
+            m_ArmSubsystem.spinArm(63),
+            m_IntakeSubsystem.retractIntake()).withTimeout(3),
+        Commands.parallel(
+            m_IntakeSubsystem.intakeNote(),
+            m_PizzaBoxSubsystem.slurp_command(0.5)),
+        Commands.waitUntil(m_IntakeSubsystem.noteTriggered.negate()),
+        Commands.waitSeconds(1),
+        Commands.parallel(
+            m_IntakeSubsystem.stopIntake(),
+            m_PizzaBoxSubsystem.slurp_command(0)))
+        .withName("Retract Intake and Pass to PB")
+        .withInterruptBehavior(InterruptionBehavior.kCancelIncoming);
   }
 
   public Command scoreSpeaker(double armAngle) {

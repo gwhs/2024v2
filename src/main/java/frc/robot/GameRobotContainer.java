@@ -88,7 +88,7 @@ public class GameRobotContainer implements BaseContainer {
         .onTrue(deployIntake())
         .onFalse(retractIntake());
 
-    m_IntakeSubsystem.noteTriggered.debounce(0.1).onTrue(retractIntakePassToPB());
+    m_IntakeSubsystem.noteTriggered.onTrue(retractIntakePassToPB());
 
     /* Operator Controllers */
 

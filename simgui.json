@@ -94,6 +94,11 @@
           "visible": true
         }
       },
+      "/Shuffleboard/Simulation/Note Sensor": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Field": {
         "bottom": 1476,
         "height": 8.210550308227539,
@@ -116,8 +121,7 @@
         "open": true
       },
       "open": true
-    },
-    "visible": true
+    }
   },
   "NetworkTables View": {
     "visible": false

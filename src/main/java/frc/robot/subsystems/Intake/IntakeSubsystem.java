@@ -102,7 +102,7 @@ public class IntakeSubsystem extends SubsystemBase {
   }
 
   public Command intakeNote() {
-    return this.run(() -> {
+    return this.runOnce(() -> {
       intakeIO.setSpinSpeed(1);
     });
   }

@@ -44,7 +44,7 @@ public class IntakeSubsystem extends SubsystemBase {
     pidController.setGoal(IntakeConstants.UP_POSITION);
     pidController.setTolerance(1);
 
-    noteTriggered = new Trigger(() -> intakeIO.getNoteSensor()).debounce(0.1);
+    noteTriggered = new Trigger(() -> intakeIO.getNoteSensor()).debounce(0.03);
     
     // put commands to shuffleboard for testing
     ShuffleboardTab tab = Shuffleboard.getTab("Testing");

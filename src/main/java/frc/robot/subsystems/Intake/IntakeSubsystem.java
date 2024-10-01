@@ -27,7 +27,7 @@ public class IntakeSubsystem extends SubsystemBase {
   private TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(IntakeConstants.kVel, IntakeConstants.kAcc);
   private ProfiledPIDController pidController = new ProfiledPIDController(IntakeConstants.kP, IntakeConstants.kI, IntakeConstants.kD, constraints);
 
-  public final Trigger isDeployed = new Trigger(() -> MathUtil.isNear(IntakeConstants.DOWN_POSITION, pidController.getGoal().position, 1)).debounce(0.5);
+  public final Trigger isDeployed = new Trigger(() -> MathUtil.isNear(IntakeConstants.DOWN_POSITION, pidController.getGoal().position, 1));
   public final Trigger noteTriggered;
 
   /** Creates a new IntakeSubsystem. */

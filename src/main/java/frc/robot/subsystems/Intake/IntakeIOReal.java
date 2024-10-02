@@ -48,7 +48,7 @@ public class IntakeIOReal implements IntakeIO {
     currentConfig = new CurrentLimitsConfigs();
 
     currentConfig.withStatorCurrentLimitEnable(true);
-    currentConfig.withStatorCurrentLimit(60);
+    currentConfig.withStatorCurrentLimit(100);
     motorOutput.NeutralMode = NeutralModeValue.Coast;
     motorOutput.Inverted = InvertedValue.Clockwise_Positive;
 

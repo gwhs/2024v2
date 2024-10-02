@@ -1,5 +1,6 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -8,6 +9,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.swervedrive.CTRETeleopDrive;
 import frc.robot.subsystems.Arm.ArmConstants;
 import frc.robot.subsystems.Arm.ArmSubsystem;
@@ -39,6 +41,8 @@ public class GameRobotContainer implements BaseContainer {
 
   private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController);
   private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
+
+  public final Trigger teleopEnabled = new Trigger(() -> DriverStation.isTeleopEnabled());
 
   public GameRobotContainer() {
 
@@ -82,6 +86,7 @@ public class GameRobotContainer implements BaseContainer {
 
   private void configureBindings() {
     /* Reset Robot */
+    teleopEnabled.onTrue(retractIntake());
 
     /* Driver Controller */
     driverController.start().onTrue(Commands.runOnce(drivetrain::seedFieldRelative));

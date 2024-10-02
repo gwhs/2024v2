@@ -18,7 +18,7 @@ public class ClimbIOReal implements ClimbIO {
     currentConfig.withStatorCurrentLimitEnable(true);
     currentConfig.withStatorCurrentLimit(60);
     motorOutput.NeutralMode = NeutralModeValue.Brake;
-    motorOutput.Inverted = InvertedValue.Clockwise_Positive;
+    motorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
     TalonFXConfigurator leftClimbConfigurator = m_leftClimbMotor.getConfigurator();
     leftClimbConfigurator.apply(motorOutput);

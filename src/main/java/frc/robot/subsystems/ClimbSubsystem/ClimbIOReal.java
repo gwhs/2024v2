@@ -1,10 +1,15 @@
 package frc.robot.subsystems.ClimbSubsystem;
 
+import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.hardware.TalonFX;
 
 public class ClimbIOReal implements ClimbIO {
   private TalonFX m_leftClimbMotor = new TalonFX(ClimbConstants.LEFT_CLIMB_MOTOR_ID, "rio");
   private TalonFX m_rightClimbMotor = new TalonFX(ClimbConstants.RIGHT_CLIMB_MOTOR_ID, "rio");
+
+  public ClimbIOReal() {
+    MotorOutputConfigs motorOutput = new Motor
+  }
 
   public double getRightMotorPosition() {
     return m_rightClimbMotor.getPosition().getValueAsDouble();

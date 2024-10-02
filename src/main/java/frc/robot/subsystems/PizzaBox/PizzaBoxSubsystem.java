@@ -29,7 +29,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
         .withProperties(Map.of("Label Position", "HIDDEN"));
 
     pizzaCommandsLayout.add(spit_command(.69));
-    pizzaCommandsLayout.add(slurp_command(-.69));
+    pizzaCommandsLayout.add(slurp_command(.69));
     pizzaCommandsLayout.add(stopMotor());
     pizzaCommandsLayout.add(stopFlap());
     pizzaCommandsLayout.add(stopKicker());
@@ -44,7 +44,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
   }
 
   public Command slurp_command(double speed) {
-    return this.runOnce(() -> pizzaBoxIO.setMotor(speed))
+    return this.runOnce(() -> pizzaBoxIO.setMotor(-speed))
         .withName("Slurp");
   }
 

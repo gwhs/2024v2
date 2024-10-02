@@ -36,6 +36,8 @@ public class ArmSubsystem extends SubsystemBase {
         .withSize(2, 2)
         .withProperties(Map.of("Label position", "HIDDEN"));
 
+    pidController.setTolerance(Units.degreesToRadians(3));
+
     armCommandsLayout.add(spinArm(120).withName("spinArm120"));
     armCommandsLayout.add(spinArm(60).withName(("spinArm60")));
     pidController.setGoal(Units.degreesToRadians(90));

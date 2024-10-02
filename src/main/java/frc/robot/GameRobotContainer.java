@@ -1,13 +1,17 @@
 package frc.robot;
 
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.swervedrive.CTRETeleopDrive;
+import frc.robot.subsystems.Arm.ArmConstants;
 import frc.robot.subsystems.Arm.ArmSubsystem;
 import frc.robot.subsystems.Reaction.ReactionSubsystem;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
@@ -37,6 +41,8 @@ public class GameRobotContainer implements BaseContainer {
 
   private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController);
   private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
+
+  public final Trigger teleopEnabled = new Trigger(() -> DriverStation.isTeleopEnabled());
 
   public GameRobotContainer() {
 
@@ -80,20 +86,23 @@ public class GameRobotContainer implements BaseContainer {
 
   private void configureBindings() {
     /* Reset Robot */
-
-
+    teleopEnabled.onTrue(retractIntake());
 
     /* Driver Controller */
     driverController.start().onTrue(Commands.runOnce(drivetrain::seedFieldRelative));
+    driverController.a()
+        .onTrue(deployIntake())
+        .onFalse(retractIntake());
 
+    (driverController.b().and(m_IntakeSubsystem.isDeployed)).debounce(0.1).onTrue(retractIntake());
+    (driverController.b().and(m_IntakeSubsystem.isDeployed.negate())).debounce(0.1).onTrue(deployIntake());
+
+    m_IntakeSubsystem.noteTriggered.onTrue(retractIntakePassToPB());
 
     /* Operator Controllers */
 
-
-
     /* Other Triggers */
 
-    
   }
 
   /**
@@ -106,21 +115,30 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command deployIntake() {
-    // TODO
-    return Commands.none()
+    return m_IntakeSubsystem.deployIntake()
         .withName("Deploy Intake");
   }
 
   public Command retractIntake() {
-    // TODO
-    return Commands.none()
+    return m_IntakeSubsystem.retractIntake()
         .withName("Retract Intake");
   }
 
   public Command retractIntakePassToPB() {
-    // TODO
-    return Commands.none()
-        .withName("Retract Intake and Pass to PB");
+    return Commands.sequence(
+        Commands.parallel(
+            m_ArmSubsystem.spinArm(ArmConstants.INTAKE_ANGLE),
+            m_IntakeSubsystem.retractIntake()).withTimeout(3),
+        Commands.parallel(
+            m_IntakeSubsystem.intakeNote(),
+            m_PizzaBoxSubsystem.slurp_command(0.5)),
+        Commands.waitUntil(m_IntakeSubsystem.noteTriggered.negate()),
+        Commands.waitSeconds(1),
+        Commands.parallel(
+            m_IntakeSubsystem.stopIntake(),
+            m_PizzaBoxSubsystem.stopMotor()))
+        .withName("Retract Intake and Pass to PB")
+        .withInterruptBehavior(InterruptionBehavior.kCancelIncoming);
   }
 
   public Command scoreSpeaker(double armAngle) {

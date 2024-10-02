@@ -35,7 +35,7 @@ public class IntakeIOReal implements IntakeIO {
     currentConfig.withStatorCurrentLimitEnable(true);
     currentConfig.withStatorCurrentLimit(60);
     motorOutput.NeutralMode = NeutralModeValue.Coast;
-    motorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
+    motorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
     TalonFXConfigurator intakeArmConfigurator = m_intakeArm.getConfigurator();
     intakeArmConfigurator.apply(motorOutput);
@@ -48,11 +48,11 @@ public class IntakeIOReal implements IntakeIO {
     currentConfig = new CurrentLimitsConfigs();
 
     currentConfig.withStatorCurrentLimitEnable(true);
-    currentConfig.withStatorCurrentLimit(60);
+    currentConfig.withStatorCurrentLimit(100);
     motorOutput.NeutralMode = NeutralModeValue.Coast;
     motorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-    TalonFXConfigurator intakeSpinConfigurator = m_intakeArm.getConfigurator();
+    TalonFXConfigurator intakeSpinConfigurator = m_intakeSpin.getConfigurator();
     intakeSpinConfigurator.apply(motorOutput);
     intakeSpinConfigurator.apply(currentConfig);
 
@@ -63,7 +63,7 @@ public class IntakeIOReal implements IntakeIO {
   }
 
   public void setArmSpeed(double speed) {
-    m_intakeArm.set(-speed);
+    m_intakeArm.set(speed);
   }
 
   public void setSpinSpeed(double speed) {

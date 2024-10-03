@@ -121,7 +121,7 @@ public class IntakeIOReal implements IntakeIO {
         spinAppliedVoltage).isOK());
 
     armConnected.set(BaseStatusSignal.refreshAll(
-      armPosition,
+        armPosition,
         armVelocity,
         armTemp,
         armSupplyCurrent,

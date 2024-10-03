@@ -6,9 +6,7 @@ package frc.robot.subsystems.Intake;
 
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
-import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
-import com.ctre.phoenix6.configs.MotorOutputConfigs;
-import com.ctre.phoenix6.configs.TalonFXConfigurator;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
 import com.ctre.phoenix6.hardware.TalonFX;
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
@@ -20,76 +18,69 @@ import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
 public class IntakeIOReal implements IntakeIO {
-  private TalonFX m_intakeArm = new TalonFX(IntakeConstants.INTAKE_ARM_ID, IntakeConstants.INTAKE_ARM_CAN);
-  private TalonFX m_intakeSpin = new TalonFX(IntakeConstants.INTAKE_SPIN_ID, IntakeConstants.INTAKE_SPIN_CAN);
-  private DutyCycleEncoder encoder = new DutyCycleEncoder(IntakeConstants.INTAKE_ENCODER_CHANNEL_ID);
-  private DigitalInput noteSensor = new DigitalInput(IntakeConstants.INTAKE_NOTE_SENSOR_CHANNEL_ID);
+  /*
+   * Hardware
+   */
+  private final TalonFX m_intakeArm = new TalonFX(IntakeConstants.INTAKE_ARM_ID, IntakeConstants.INTAKE_ARM_CAN);
+  private final TalonFX m_intakeSpin = new TalonFX(IntakeConstants.INTAKE_SPIN_ID, IntakeConstants.INTAKE_SPIN_CAN);
+  private final DutyCycleEncoder encoder = new DutyCycleEncoder(IntakeConstants.INTAKE_ENCODER_CHANNEL_ID);
+  private final DigitalInput noteSensor = new DigitalInput(IntakeConstants.INTAKE_NOTE_SENSOR_CHANNEL_ID);
 
-  StatusSignal<Double> spinVelocity = m_intakeSpin.getVelocity();
-  StatusSignal<Double> spinTemp = m_intakeSpin.getDeviceTemp();
-  StatusSignal<Double> spinSupplyCurrent = m_intakeSpin.getSupplyCurrent();
-  StatusSignal<Double> spinStatorCurrent = m_intakeSpin.getStatorCurrent();
-  StatusSignal<Double> spinAppliedVoltage = m_intakeSpin.getMotorVoltage();
+  /*
+   * Status Signals from CTRE motors
+   */
+  private final StatusSignal<Double> spinVelocity = m_intakeSpin.getVelocity();
+  private final StatusSignal<Double> spinTemp = m_intakeSpin.getDeviceTemp();
+  private final StatusSignal<Double> spinSupplyCurrent = m_intakeSpin.getSupplyCurrent();
+  private final StatusSignal<Double> spinStatorCurrent = m_intakeSpin.getStatorCurrent();
+  private final StatusSignal<Double> spinAppliedVoltage = m_intakeSpin.getMotorVoltage();
 
-  StatusSignal<Double> armPosition = m_intakeArm.getPosition();
-  StatusSignal<Double> armVelocity = m_intakeArm.getVelocity();
-  StatusSignal<Double> armTemp = m_intakeArm.getDeviceTemp();
-  StatusSignal<Double> armSupplyCurrent = m_intakeArm.getSupplyCurrent();
-  StatusSignal<Double> armStatorCurrent = m_intakeArm.getStatorCurrent();
-  StatusSignal<Double> armAppliedVoltage = m_intakeArm.getMotorVoltage();
+  private final StatusSignal<Double> armPosition = m_intakeArm.getPosition();
+  private final StatusSignal<Double> armVelocity = m_intakeArm.getVelocity();
+  private final StatusSignal<Double> armTemp = m_intakeArm.getDeviceTemp();
+  private final StatusSignal<Double> armSupplyCurrent = m_intakeArm.getSupplyCurrent();
+  private final StatusSignal<Double> armStatorCurrent = m_intakeArm.getStatorCurrent();
+  private final StatusSignal<Double> armAppliedVoltage = m_intakeArm.getMotorVoltage();
 
-  DoublePublisher nt_intakeSpin_temp = NetworkTableInstance.getDefault().getDoubleTopic("Intake/Spin Motor/Temp")
-      .publish();
-  DoublePublisher nt_intakeSpin_supplyCurrent = NetworkTableInstance.getDefault()
-      .getDoubleTopic("Intake/Spin Motor/Supply Current").publish();
-  DoublePublisher nt_intakeSpin_statorCurrent = NetworkTableInstance.getDefault()
-      .getDoubleTopic("Intake/Spin Motor/Stator Current").publish();
-  DoublePublisher nt_intakeSpin_appliedVoltage = NetworkTableInstance.getDefault()
-      .getDoubleTopic("Intake/Spin Motor/Applied Voltage").publish();
+  /*
+   * Set up for logging values to network table
+   */
+  private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
 
-  DoublePublisher nt_intakeArm_position = NetworkTableInstance.getDefault().getDoubleTopic("Intake/Arm Motor/Position")
-      .publish();
-  DoublePublisher nt_intakeArm_velocity = NetworkTableInstance.getDefault().getDoubleTopic("Intake/Arm Motor/Velocity")
-      .publish();
-  DoublePublisher nt_intakeArm_temp = NetworkTableInstance.getDefault().getDoubleTopic("Intake/Arm Motor/Temp")
-      .publish();
-  DoublePublisher nt_intakeArm_supplyCurrent = NetworkTableInstance.getDefault()
-      .getDoubleTopic("Intake/Arm Motor/Supply Current").publish();
-  DoublePublisher nt_intakeArm_statorCurrent = NetworkTableInstance.getDefault()
-      .getDoubleTopic("Intake/Arm Motor/Stator Current").publish();
-  DoublePublisher nt_intakeArm_appliedVoltage = NetworkTableInstance.getDefault()
-      .getDoubleTopic("Intake/Arm Motor/Applied Voltage").publish();
+  private final DoublePublisher nt_spinTemp = nt.getDoubleTopic("Intake/Spin Motor/Temp").publish();
+  private final DoublePublisher nt_spinSupplyCurrent = nt.getDoubleTopic("Intake/Spin Motor/Supply Current").publish();
+  private final DoublePublisher nt_spinStatorCurrent = nt.getDoubleTopic("Intake/Spin Motor/Stator Current").publish();
+  private final DoublePublisher nt_spinAppliedVoltage = nt.getDoubleTopic("Intake/Spin Motor/Voltage").publish();
+
+  private final DoublePublisher nt_armPosition = nt.getDoubleTopic("Intake/Arm Motor/Position").publish();
+  private final DoublePublisher nt_armVelocity = nt.getDoubleTopic("Intake/Arm Motor/Velocity").publish();
+  private final DoublePublisher nt_armTemp = nt.getDoubleTopic("Intake/Arm Motor/Temp").publish();
+  private final DoublePublisher nt_armSupplyCurrent = nt.getDoubleTopic("Intake/Arm Motor/Supply Current").publish();
+  private final DoublePublisher nt_armStatorCurrent = nt.getDoubleTopic("Intake/Arm Motor/Stator Current").publish();
+  private final DoublePublisher nt_armAppliedVoltage = nt.getDoubleTopic("Intake/Arm Motor/Voltage").publish();
 
   public IntakeIOReal() {
     /*
      * Motor configs for intake arm motor
      */
-    MotorOutputConfigs motorOutput = new MotorOutputConfigs();
-    CurrentLimitsConfigs currentConfig = new CurrentLimitsConfigs();
+    TalonFXConfiguration config = new TalonFXConfiguration();
+    config.CurrentLimits.StatorCurrentLimit = 60.0;
+    config.CurrentLimits.StatorCurrentLimitEnable = true;
+    config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+    config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-    currentConfig.withStatorCurrentLimitEnable(true);
-    currentConfig.withStatorCurrentLimit(60);
-    motorOutput.NeutralMode = NeutralModeValue.Coast;
-    motorOutput.Inverted = InvertedValue.Clockwise_Positive;
-
-    TalonFXConfigurator intakeArmConfigurator = m_intakeArm.getConfigurator();
-    intakeArmConfigurator.apply(motorOutput);
-    intakeArmConfigurator.apply(currentConfig);
+    m_intakeArm.getConfigurator().apply(config);
 
     /*
      * Motor configs for intake spin motor
      */
-    motorOutput = new MotorOutputConfigs();
-    currentConfig = new CurrentLimitsConfigs();
+    config = new TalonFXConfiguration();
+    config.CurrentLimits.StatorCurrentLimit = 100.0;
+    config.CurrentLimits.StatorCurrentLimitEnable = true;
+    config.MotorOutput.NeutralMode = NeutralModeValue.Coast;
+    config.MotorOutput.Inverted = InvertedValue.Clockwise_Positive;
 
-    currentConfig.withStatorCurrentLimitEnable(true);
-    currentConfig.withStatorCurrentLimit(100);
-    motorOutput.NeutralMode = NeutralModeValue.Coast;
-    motorOutput.Inverted = InvertedValue.Clockwise_Positive;
-
-    TalonFXConfigurator intakeSpinConfigurator = m_intakeSpin.getConfigurator();
-    intakeSpinConfigurator.apply(motorOutput);
-    intakeSpinConfigurator.apply(currentConfig);
+    m_intakeSpin.getConfigurator().apply(config);
 
   }
 
@@ -114,6 +105,9 @@ public class IntakeIOReal implements IntakeIO {
   }
 
   public void update() {
+    /*
+     * Refresh all status signals
+     */
     BaseStatusSignal.refreshAll(
         spinVelocity,
         spinTemp,
@@ -128,16 +122,19 @@ public class IntakeIOReal implements IntakeIO {
         armStatorCurrent,
         armAppliedVoltage);
 
-    nt_intakeSpin_temp.set(spinTemp.getValueAsDouble());
-    nt_intakeSpin_supplyCurrent.set(spinSupplyCurrent.getValueAsDouble());
-    nt_intakeSpin_statorCurrent.set(spinStatorCurrent.getValueAsDouble());
-    nt_intakeSpin_appliedVoltage.set(spinAppliedVoltage.getValueAsDouble());
+    /*
+     * Log status signal values to network table
+     */
+    nt_spinTemp.set(spinTemp.getValueAsDouble());
+    nt_spinSupplyCurrent.set(spinSupplyCurrent.getValueAsDouble());
+    nt_spinStatorCurrent.set(spinStatorCurrent.getValueAsDouble());
+    nt_spinAppliedVoltage.set(spinAppliedVoltage.getValueAsDouble());
 
-    nt_intakeArm_position.set(armPosition.getValueAsDouble());
-    nt_intakeArm_velocity.set(armVelocity.getValueAsDouble());
-    nt_intakeArm_temp.set(armTemp.getValueAsDouble());
-    nt_intakeArm_supplyCurrent.set(armSupplyCurrent.getValueAsDouble());
-    nt_intakeArm_statorCurrent.set(armStatorCurrent.getValueAsDouble());
-    nt_intakeArm_appliedVoltage.set(armAppliedVoltage.getValueAsDouble());
+    nt_armPosition.set(armPosition.getValueAsDouble());
+    nt_armVelocity.set(armVelocity.getValueAsDouble());
+    nt_armTemp.set(armTemp.getValueAsDouble());
+    nt_armSupplyCurrent.set(armSupplyCurrent.getValueAsDouble());
+    nt_armStatorCurrent.set(armStatorCurrent.getValueAsDouble());
+    nt_armAppliedVoltage.set(armAppliedVoltage.getValueAsDouble());
   }
 }

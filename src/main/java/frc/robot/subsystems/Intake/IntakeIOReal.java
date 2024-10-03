@@ -14,6 +14,8 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.DoublePublisher;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
@@ -24,6 +26,39 @@ public class IntakeIOReal implements IntakeIO {
   private DigitalInput noteSensor = new DigitalInput(IntakeConstants.INTAKE_NOTE_SENSOR_CHANNEL_ID);
 
   StatusSignal<Double> spinVelocity = m_intakeSpin.getVelocity();
+  StatusSignal<Double> spinTemp = m_intakeSpin.getDeviceTemp();
+  StatusSignal<Double> spinSupplyCurrent = m_intakeSpin.getSupplyCurrent();
+  StatusSignal<Double> spinStatorCurrent = m_intakeSpin.getStatorCurrent();
+  StatusSignal<Double> spinAppliedVoltage = m_intakeSpin.getMotorVoltage();
+
+  StatusSignal<Double> armPosition = m_intakeArm.getPosition();
+  StatusSignal<Double> armVelocity = m_intakeArm.getVelocity();
+  StatusSignal<Double> armTemp = m_intakeArm.getDeviceTemp();
+  StatusSignal<Double> armSupplyCurrent = m_intakeArm.getSupplyCurrent();
+  StatusSignal<Double> armStatorCurrent = m_intakeArm.getStatorCurrent();
+  StatusSignal<Double> armAppliedVoltage = m_intakeArm.getMotorVoltage();
+
+  DoublePublisher nt_intakeSpin_temp = NetworkTableInstance.getDefault().getDoubleTopic("Intake/Spin Motor/Temp")
+      .publish();
+  DoublePublisher nt_intakeSpin_supplyCurrent = NetworkTableInstance.getDefault()
+      .getDoubleTopic("Intake/Spin Motor/Supply Current").publish();
+  DoublePublisher nt_intakeSpin_statorCurrent = NetworkTableInstance.getDefault()
+      .getDoubleTopic("Intake/Spin Motor/Stator Current").publish();
+  DoublePublisher nt_intakeSpin_appliedVoltage = NetworkTableInstance.getDefault()
+      .getDoubleTopic("Intake/Spin Motor/Applied Voltage").publish();
+
+  DoublePublisher nt_intakeArm_position = NetworkTableInstance.getDefault().getDoubleTopic("Intake/Arm Motor/Position")
+      .publish();
+  DoublePublisher nt_intakeArm_velocity = NetworkTableInstance.getDefault().getDoubleTopic("Intake/Arm Motor/Velocity")
+      .publish();
+  DoublePublisher nt_intakeArm_temp = NetworkTableInstance.getDefault().getDoubleTopic("Intake/Arm Motor/Temp")
+      .publish();
+  DoublePublisher nt_intakeArm_supplyCurrent = NetworkTableInstance.getDefault()
+      .getDoubleTopic("Intake/Arm Motor/Supply Current").publish();
+  DoublePublisher nt_intakeArm_statorCurrent = NetworkTableInstance.getDefault()
+      .getDoubleTopic("Intake/Arm Motor/Stator Current").publish();
+  DoublePublisher nt_intakeArm_appliedVoltage = NetworkTableInstance.getDefault()
+      .getDoubleTopic("Intake/Arm Motor/Applied Voltage").publish();
 
   public IntakeIOReal() {
     /*
@@ -80,6 +115,29 @@ public class IntakeIOReal implements IntakeIO {
 
   public void update() {
     BaseStatusSignal.refreshAll(
-        spinVelocity);
+        spinVelocity,
+        spinTemp,
+        spinSupplyCurrent,
+        spinStatorCurrent,
+        spinAppliedVoltage,
+
+        armPosition,
+        armVelocity,
+        armTemp,
+        armSupplyCurrent,
+        armStatorCurrent,
+        armAppliedVoltage);
+
+    nt_intakeSpin_temp.set(spinTemp.getValueAsDouble());
+    nt_intakeSpin_supplyCurrent.set(spinSupplyCurrent.getValueAsDouble());
+    nt_intakeSpin_statorCurrent.set(spinStatorCurrent.getValueAsDouble());
+    nt_intakeSpin_appliedVoltage.set(spinAppliedVoltage.getValueAsDouble());
+
+    nt_intakeArm_position.set(armPosition.getValueAsDouble());
+    nt_intakeArm_velocity.set(armVelocity.getValueAsDouble());
+    nt_intakeArm_temp.set(armTemp.getValueAsDouble());
+    nt_intakeArm_supplyCurrent.set(armSupplyCurrent.getValueAsDouble());
+    nt_intakeArm_statorCurrent.set(armStatorCurrent.getValueAsDouble());
+    nt_intakeArm_appliedVoltage.set(armAppliedVoltage.getValueAsDouble());
   }
 }

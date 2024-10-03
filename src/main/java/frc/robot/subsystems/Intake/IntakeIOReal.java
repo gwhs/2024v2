@@ -13,6 +13,7 @@ import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.DoublePublisher;
+import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
@@ -45,19 +46,19 @@ public class IntakeIOReal implements IntakeIO {
   /*
    * Set up for logging values to network table
    */
-  private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
+  private final NetworkTable nt = NetworkTableInstance.getDefault().getTable("Intake");
 
-  private final DoublePublisher nt_spinTemp = nt.getDoubleTopic("Intake/Spin Motor/Temp").publish();
-  private final DoublePublisher nt_spinSupplyCurrent = nt.getDoubleTopic("Intake/Spin Motor/Supply Current").publish();
-  private final DoublePublisher nt_spinStatorCurrent = nt.getDoubleTopic("Intake/Spin Motor/Stator Current").publish();
-  private final DoublePublisher nt_spinAppliedVoltage = nt.getDoubleTopic("Intake/Spin Motor/Voltage").publish();
+  private final DoublePublisher nt_spinTemp = nt.getDoubleTopic("Spin Motor/Temp").publish();
+  private final DoublePublisher nt_spinSupplyCurrent = nt.getDoubleTopic("Spin Motor/Supply Current").publish();
+  private final DoublePublisher nt_spinStatorCurrent = nt.getDoubleTopic("Spin Motor/Stator Current").publish();
+  private final DoublePublisher nt_spinAppliedVoltage = nt.getDoubleTopic("Spin Motor/Voltage").publish();
 
-  private final DoublePublisher nt_armPosition = nt.getDoubleTopic("Intake/Arm Motor/Position").publish();
-  private final DoublePublisher nt_armVelocity = nt.getDoubleTopic("Intake/Arm Motor/Velocity").publish();
-  private final DoublePublisher nt_armTemp = nt.getDoubleTopic("Intake/Arm Motor/Temp").publish();
-  private final DoublePublisher nt_armSupplyCurrent = nt.getDoubleTopic("Intake/Arm Motor/Supply Current").publish();
-  private final DoublePublisher nt_armStatorCurrent = nt.getDoubleTopic("Intake/Arm Motor/Stator Current").publish();
-  private final DoublePublisher nt_armAppliedVoltage = nt.getDoubleTopic("Intake/Arm Motor/Voltage").publish();
+  private final DoublePublisher nt_armPosition = nt.getDoubleTopic("Arm Motor/Position").publish();
+  private final DoublePublisher nt_armVelocity = nt.getDoubleTopic("Arm Motor/Velocity").publish();
+  private final DoublePublisher nt_armTemp = nt.getDoubleTopic("Arm Motor/Temp").publish();
+  private final DoublePublisher nt_armSupplyCurrent = nt.getDoubleTopic("Arm Motor/Supply Current").publish();
+  private final DoublePublisher nt_armStatorCurrent = nt.getDoubleTopic("Arm Motor/Stator Current").publish();
+  private final DoublePublisher nt_armAppliedVoltage = nt.getDoubleTopic("Arm Motor/Voltage").publish();
 
   public IntakeIOReal() {
     /*

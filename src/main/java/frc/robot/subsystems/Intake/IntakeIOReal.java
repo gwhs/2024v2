@@ -12,6 +12,7 @@ import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.NeutralModeValue;
 
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.networktables.BooleanPublisher;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
@@ -47,6 +48,9 @@ public class IntakeIOReal implements IntakeIO {
    * Set up for logging values to network table
    */
   private final NetworkTable nt = NetworkTableInstance.getDefault().getTable("Intake");
+
+  private final BooleanPublisher armConnected = nt.getBooleanTopic("Arm Connected").publish();
+  private final BooleanPublisher spinConnected = nt.getBooleanTopic("Spin Connected").publish();
 
   private final DoublePublisher nt_spinTemp = nt.getDoubleTopic("Spin Motor/Temp").publish();
   private final DoublePublisher nt_spinSupplyCurrent = nt.getDoubleTopic("Spin Motor/Supply Current").publish();
@@ -109,19 +113,20 @@ public class IntakeIOReal implements IntakeIO {
     /*
      * Refresh all status signals
      */
-    BaseStatusSignal.refreshAll(
+    spinConnected.set(BaseStatusSignal.refreshAll(
         spinVelocity,
         spinTemp,
         spinSupplyCurrent,
         spinStatorCurrent,
-        spinAppliedVoltage,
+        spinAppliedVoltage).isOK());
 
-        armPosition,
+    armConnected.set(BaseStatusSignal.refreshAll(
+      armPosition,
         armVelocity,
         armTemp,
         armSupplyCurrent,
         armStatorCurrent,
-        armAppliedVoltage);
+        armAppliedVoltage).isOK());
 
     /*
      * Log status signal values to network table

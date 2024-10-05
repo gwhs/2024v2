@@ -30,4 +30,6 @@ public class ClimbConstants {
   public static final double RIGHT_UP_POSITION = 193.4;
   public static final double RIGHT_DOWN_POSITION = 12.3;
 
+
+
 }

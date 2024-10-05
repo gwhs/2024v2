@@ -20,10 +20,7 @@ import frc.robot.subsystems.ClimbSubsystem.ClimbSubsytem;
 import frc.robot.subsystems.swervedrive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.swervedrive.Telemetry;
 import frc.robot.subsystems.swervedrive.TunerConstants;
-
 import java.util.Map;
-import java.util.function.DoubleSupplier;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 
 public class GameRobotContainer implements BaseContainer {
@@ -143,20 +140,23 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command scoreSpeaker(double armAngle) {
-    m_ArmSubsystem.spinArm(armAngle);
-    m_PizzaBoxSubsystem.spit_command(armAngle);
+    m_ArmSubsystem.spinArm(armAngle); // this function should be blocking otherwise this command won't work
+    m_PizzaBoxSubsystem.spit_command(0.7); // arm angle is used as an example here
     return Commands.none()
         .withName("Score Speaker at " + armAngle);
   }
 
   public Command scoreAmp() {
-    // TODO
+    // this function should take a double for the arm angle
+    m_ArmSubsystem.spinArm(90);
+    m_PizzaBoxSubsystem.spit_command(0.5);
     return Commands.none()
         .withName("Score Amp");
   }
 
   public Command sourceIntake() {
-    // TODO
+    m_ArmSubsystem.spinArm(25);
+    m_PizzaBoxSubsystem.slurp_command(1);
     return Commands.none()
         .withName("Source Intake");
   }

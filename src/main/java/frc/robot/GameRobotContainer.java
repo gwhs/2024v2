@@ -22,6 +22,7 @@ import frc.robot.subsystems.swervedrive.Telemetry;
 import frc.robot.subsystems.swervedrive.TunerConstants;
 
 import java.util.Map;
+import java.util.function.DoubleSupplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
@@ -142,7 +143,8 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command scoreSpeaker(double armAngle) {
-    // TODO
+    m_ArmSubsystem.spinArm(armAngle);
+    m_PizzaBoxSubsystem.spit_command(armAngle);
     return Commands.none()
         .withName("Score Speaker at " + armAngle);
   }

@@ -160,34 +160,28 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command prepClimb() {
-    // TODO
-    
+    Commands.sequence(
+      m_ArmSubsystem.spinArm(200),
+      Commands.parallel(
+        m_ClimbSubsystem.motorUp(),
+        m_ReactionSubsystem.extendReactionBar()));
     return Commands.none()
-        .withName("Prep Climb");
+        .withName("Prep Climb"); 
   }
 
   public Command climbAndScore() {
-    Commands.parallel(
-                      m_ArmSubsystem.spinArm(200)),
-      
-                  Commands.waitUntil(m_ArmSubsystem.spinArm(200)),
-                  Commands.parallel(
-                      m_ClimbSubsystem.motorUp(),
-                      m_ReactionSubsystem.extendReactionBar()),
+    Commands.sequence(
+      m_ClimbSubsystem.motorDown(),
+      Commands.parallel(
+      m_PizzaBoxSubsystem.setFlap(),
+      m_ArmSubsystem.spinArm(160)),
+        Commands.sequence(
+        m_PizzaBoxSubsystem.spit_command(1.0)
+        ));
     return Commands.none()
         .withName("Climb and Score");   
-          }
-          
-      }
-
-      //
-
-    
-
-
-    
   }
-
+          
   public Command unclimbPartOne() {
     // TODO
     return Commands.none()

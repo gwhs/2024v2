@@ -46,6 +46,13 @@
       "/SmartDashboard/Module 3": "Mechanism2d",
       "/SmartDashboard/RightPIDController": "ProfiledPIDController",
       "/SmartDashboard/Robot Visualizer/panel": "Mechanism2d"
+    },
+    "windows": {
+      "/SmartDashboard/Robot Visualizer/panel": {
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables Info": {

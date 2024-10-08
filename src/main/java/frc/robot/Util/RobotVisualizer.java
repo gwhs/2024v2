@@ -24,14 +24,18 @@ public class RobotVisualizer {
   // Robot Constants
   public static final double ROBOT_LENGTH = Units.inchesToMeters(28);
 
-  // TO DO: use MechanismRoot2d and MechanismLigament2d to form stick figures that represent the arm
-
-  MechanismRoot2d root = panel.getRoot("armSim", 0.4, 0.1); 
-  MechanismLigament2d m_arm = root.append(new MechanismLigament2d("arm", 0.3, 90));
+  // Code for the stick figure of each subsystems
+  // Code for superstructure 
+  MechanismRoot2d root = panel.getRoot("superStructure", 0.44, 0); 
+  MechanismLigament2d m_superStructure = root.append(new MechanismLigament2d("superStructureL", 1.03, 90));
   
-  // TO DO: use MechanismRoot2d and MechanismLigament2d to form stick figures that represent the intake
-  MechanismLigament2d m_spinner = m_arm.append(new MechanismLigament2d("spinner", 0.2, 270, 12, new Color8Bit(Color.kPurple)));
+  // Code for arm
+  MechanismLigament2d m_arm = m_superStructure.append(new MechanismLigament2d("arm", 0.38, 90));
 
+  // TO DO: use MechanismRoot2d and MechanismLigament2d to form stick figures that represent the intake
+  // Example of attaching to roots/ligaments: MechanismLigament2d m_spinner = m_arm.append(new MechanismLigament2d("spinner", 0.2, 270, 12, new Color8Bit(Color.kPurple)));
+  MechanismRoot2d root1 = panel.getRoot("intakeJoint", 0.57, 0.15);
+  MechanismLigament2d m_intakeJoint = root1.append(new MechanismLigament2d("intakeArm1", 0.34, 90));
 
   public RobotVisualizer(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
     this.armSubsystem = armSubsystem;
@@ -52,7 +56,7 @@ public class RobotVisualizer {
 
 
     //TO DO: Update intake arm angles in stick figures; 0 degree is deployed n, 92 degrees is retracted position
-    m_spinner.setAngle(-intakeArmAngle-90);
+    m_intakeJoint.setAngle(intakeArmAngle);
 
 
     SmartDashboard.putData("Robot Visualizer/panel", panel);

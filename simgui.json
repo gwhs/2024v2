@@ -99,6 +99,21 @@
           "visible": true
         }
       },
+      "/Shuffleboard/Testing/Commands/Climb and Score": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/Commands/Prep Climb": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/Commands/Unclimb Part Two": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Field": {
         "bottom": 1476,
         "height": 8.210550308227539,

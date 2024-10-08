@@ -89,4 +89,10 @@ public class ClimbSubsytem extends SubsystemBase {
       rightpidController.setGoal(ClimbConstants.RIGHT_DOWN_POSITION);
     }).withName("Motor Down");
   }
+  public Command motorHalfWay() {
+    return this.runOnce(() -> {
+      leftpidController.setGoal(ClimbConstants.LEFT_UP_POSITION/2);
+      rightpidController.setGoal(ClimbConstants.RIGHT_UP_POSITION/2);
+    }).withName("Motor half way");
+  }
 }

@@ -58,7 +58,7 @@ public class GameRobotContainer implements BaseContainer {
     /*
      * Put composite commands to shuffleboard
      */
-    ShuffleboardTab testingTab = Shuffleboard.getTab("Testing");
+    ShuffleboardTab testingTab = Shuffleboard.getTab("Whole Robot Testing");
     ShuffleboardLayout testingLayout = testingTab.getLayout("Commands", BuiltInLayouts.kList)
         .withSize(2, 5)
         .withProperties(Map.of("Label Position", "HIDDEN"));

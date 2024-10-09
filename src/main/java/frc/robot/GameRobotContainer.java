@@ -163,6 +163,7 @@ public class GameRobotContainer implements BaseContainer {
     return Commands.sequence(
         m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_FLAP).alongWith(m_ClimbSubsystem.motorHalfWay()),
         m_PizzaBoxSubsystem.setFlap(),
+        Commands.waitSeconds(0.5),
         m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_CLIMB),
         m_ClimbSubsystem.motorUp())
         .withName("Prep Climb");

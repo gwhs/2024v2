@@ -114,6 +114,16 @@
           "visible": true
         }
       },
+      "/Shuffleboard/Testing/TestingCommands/Motor Down": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/TestingCommands/Motor Up": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Field": {
         "bottom": 1476,
         "height": 8.210550308227539,

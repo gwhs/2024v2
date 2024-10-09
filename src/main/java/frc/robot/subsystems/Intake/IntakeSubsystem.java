@@ -56,8 +56,6 @@ public class IntakeSubsystem extends SubsystemBase {
 
     intakeCommandsLayout.add(deployIntake());
     intakeCommandsLayout.add(retractIntake());
-
-    SmartDashboard.putData(this);
   }
 
   @Override

@@ -54,6 +54,7 @@
       "/Shuffleboard/Testing/Commands/Source Intake": "Command",
       "/Shuffleboard/Testing/Commands/Unclimb Part One": "Command",
       "/Shuffleboard/Testing/Commands/Unclimb Part Two": "Command",
+      "/Shuffleboard/Testing/Commands/scoreAmp": "Command",
       "/Shuffleboard/Testing/Intake Commands/Intake: deploy intake": "Command",
       "/Shuffleboard/Testing/Intake Commands/Intake: retract intake": "Command",
       "/Shuffleboard/Testing/IntakeSubsystem": "Subsystem",
@@ -99,13 +100,31 @@
           "visible": true
         }
       },
+      "/Shuffleboard/Testing/Commands/Score Speaker at 160.0": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/Commands/Source Intake": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/Commands/scoreAmp": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Field": {
         "bottom": 1476,
         "height": 8.210550308227539,
         "left": 150,
         "right": 2961,
         "top": 79,
-        "width": 16.541748046875
+        "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
       }
     }
   },

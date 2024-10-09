@@ -63,7 +63,6 @@ public class GameRobotContainer implements BaseContainer {
     testingLayout.add(retractIntake());
     testingLayout.add(retractIntakePassToPB());
     testingLayout.add(scoreSpeaker(160));
-    testingLayout.add(scoreSpeaker(230));
     testingLayout.add(scoreAmp());
     testingLayout.add(sourceIntake());
     testingLayout.add(prepClimb());
@@ -140,24 +139,25 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command scoreSpeaker(double armAngle) {
-    m_ArmSubsystem.spinArm(armAngle); // this function should be blocking otherwise this command won't work
-    m_PizzaBoxSubsystem.spit_command(0.7); // arm angle is used as an example here
-    return Commands.none()
+    
+    return Commands.sequence(
+      m_ArmSubsystem.spinArm(armAngle),
+      m_PizzaBoxSubsystem.spit_command(0.7))
         .withName("Score Speaker at " + armAngle);
   }
 
   public Command scoreAmp() {
-    // this function should take a double for the arm angle
-    m_ArmSubsystem.spinArm(90);
-    m_PizzaBoxSubsystem.spit_command(0.5);
-    return Commands.none()
-        .withName("Score Amp");
+    return Commands.sequence(
+      m_ArmSubsystem.spinArm(ArmConstants.AMP_ANGLE),
+    m_PizzaBoxSubsystem.spit_command(0.5))
+    .withName("scoreAmp");
   }
 
   public Command sourceIntake() {
-    m_ArmSubsystem.spinArm(25);
-    m_PizzaBoxSubsystem.slurp_command(1);
-    return Commands.none()
+    
+    return Commands.sequence(
+      m_ArmSubsystem.spinArm(25),
+      m_PizzaBoxSubsystem.slurp_command(1))
         .withName("Source Intake");
   }
 

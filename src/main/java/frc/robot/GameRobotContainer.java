@@ -142,22 +142,33 @@ public class GameRobotContainer implements BaseContainer {
     
     return Commands.sequence(
       m_ArmSubsystem.spinArm(armAngle),
-      m_PizzaBoxSubsystem.spit_command(0.7))
+      m_PizzaBoxSubsystem.spit_command(0.7),
+      m_PizzaBoxSubsystem.setKicker(),
+      Commands.waitSeconds(0.5),
+      m_PizzaBoxSubsystem.stopKicker(),
+      m_PizzaBoxSubsystem.stopMotor(),
+      m_ArmSubsystem.spinArm(0)
+    )
         .withName("Score Speaker at " + armAngle);
   }
 
   public Command scoreAmp() {
     return Commands.sequence(
       m_ArmSubsystem.spinArm(ArmConstants.AMP_ANGLE),
-    m_PizzaBoxSubsystem.spit_command(0.5))
+      m_PizzaBoxSubsystem.spit_command(0.5),
+      m_PizzaBoxSubsystem.setKicker(),
+      Commands.waitSeconds(0.5),
+      m_PizzaBoxSubsystem.stopKicker(),
+      m_PizzaBoxSubsystem.stopMotor(),
+      m_ArmSubsystem.spinArm(90))
     .withName("scoreAmp");
   }
 
   public Command sourceIntake() {
     
     return Commands.sequence(
-      m_ArmSubsystem.spinArm(25),
-      m_PizzaBoxSubsystem.slurp_command(1))
+      m_ArmSubsystem.spinArm(25))
+      // m_PizzaBoxSubsystem.speedyArm_Command()
         .withName("Source Intake");
   }
 

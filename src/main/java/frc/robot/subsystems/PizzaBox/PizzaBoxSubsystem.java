@@ -49,7 +49,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
   }
 
   public Command stopMotor() {
-    return this.runOnce(() -> pizzaBoxIO.setMotor(.00))
+    return this.runOnce(() -> pizzaBoxIO.setMotor(.0))
         .withName("STOP MOTOR");
   }
 

@@ -5,6 +5,8 @@
 package frc.robot.subsystems.AprilTagCam;
 
 import org.photonvision.PhotonCamera;
+import org.photonvision.PhotonPoseEstimator;
+
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -14,7 +16,15 @@ import edu.wpi.first.apriltag.AprilTagFields;
 public class AprilTagCam {
     AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
 
-    PhotonCamera cam = new PhotonCamera("test");
-    
+    PhotonCamera cam;
+
+    public AprilTagCam(String str){
+        cam = new PhotonCamera(str);
+    }
+
+    public void getValue(){
+        var list =  cam.getAllUnReadResults();
+       
+    }
 
 }

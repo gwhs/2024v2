@@ -163,7 +163,7 @@ public class GameRobotContainer implements BaseContainer {
 
   public Command prepClimb() {
     return Commands.sequence(
-        m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_FLAP).alongWith(m_ClimbSubsystem.motorHalfWay()),
+        m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_FLAP).alongWith(Commands.waitUntil(()->m_ArmSubsystem.getArmAngle() >= 200).andThen(m_ClimbSubsystem.motorHalfWay())),
         m_PizzaBoxSubsystem.setFlap(),
         Commands.waitSeconds(0.5),
         m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_CLIMB),
@@ -185,7 +185,7 @@ public class GameRobotContainer implements BaseContainer {
   public Command unclimbPartOne() {
   
     return Commands.sequence(
-      m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_CLIMB).alongWith(m_ClimbSubsystem.motorHalfWay()),
+      m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_CLIMB),
       m_ClimbSubsystem.motorUp()
     )
         .withName("Unclimb Part One");
@@ -193,10 +193,11 @@ public class GameRobotContainer implements BaseContainer {
 
   public Command unclimbPartTwo() {
     return Commands.sequence(
-      
-      m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_CLIMB),
+      m_ClimbSubsystem.motorHalfWay(),
+      m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_FLAP),
       m_PizzaBoxSubsystem.stopFlap(),
-      m_ClimbSubsystem.motorDown())
+      m_ClimbSubsystem.motorDown(),
+      m_ArmSubsystem.spinArm(90))
         .withName("Unclimb Part Two");
   }
 }

@@ -35,14 +35,16 @@ public class RobotVisualizer {
   MechanismLigament2d m_arm = m_superStructure.append(new MechanismLigament2d("arm", 0.38, -90));
 
   //code for pizzaBox
+  // need to figure out how to append into center of arm
   MechanismLigament2d m_pizzaBox = m_arm.append(new MechanismLigament2d("pizzaBox", 0.38, -90));
 
   // TO DO: use MechanismRoot2d and MechanismLigament2d to form stick figures that represent the intake
   // Example of attaching to roots/ligaments: MechanismLigament2d m_spinner = m_arm.append(new MechanismLigament2d("spinner", 0.2, 270, 12, new Color8Bit(Color.kPurple)));
   
   // code for intakes
+  // needs fixing
   MechanismRoot2d root1 = panel.getRoot("intakeJoint", 0.57, 0.15);
-  MechanismLigament2d m_intakeJoint = root1.append(new MechanismLigament2d("intakeArm", 0.34 , 20));
+  MechanismLigament2d m_intakeJoint = root1.append( new MechanismLigament2d("intakeArm", 0.34 , 20));
 
   //code for climber
   MechanismRoot2d root2 = panel.getRoot("climber", 0.57, 0.15);

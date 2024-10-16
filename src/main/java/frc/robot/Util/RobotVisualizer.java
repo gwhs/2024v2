@@ -4,6 +4,8 @@
 
 package frc.robot.Util;
 
+import org.opencv.core.RotatedRect;
+
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
@@ -40,9 +42,7 @@ public class RobotVisualizer {
   
   // code for intakes
   MechanismRoot2d root1 = panel.getRoot("intakeJoint", 0.57, 0.15);
-  MechanismLigament2d m_intakeJoint = root1.append(new MechanismLigament2d("intakeArm1", 0.34, 90));
-
-  MechanismLigament2d m_intakeJoint2 = m_intakeJoint.append(new MechanismLigament2d("intakeArm2", 0.23, -135)); 
+  MechanismLigament2d m_intakeJoint = root1.append(new MechanismLigament2d("intakeArm", 0.34 , 20));
 
   //code for climber
   MechanismRoot2d root2 = panel.getRoot("climber", 0.57, 0.15);
@@ -56,22 +56,19 @@ public class RobotVisualizer {
     this.armSubsystem = armSubsystem;
     this.intakeSubsystem = intakeSubsystem;
 
-    SmartDashboard.putNumber("Robot Visualizer/Pretend Intake Angle", 90);
+    SmartDashboard.putNumber("Robot Visualizer/Pretend Intake Angle", 225);
     SmartDashboard.putNumber("Robot Visualizer/Pretend Arm Angle", 90);
   }
 
   public void update() {
-    //TO DO: When intake subsystem is finished, replace this method to return actual intake arm angle
-    double intakeArmAngle = SmartDashboard.getNumber("Robot Visualizer/Pretend Intake Angle", 90);
-    //TO DO: When arm subsystem is finished, replace this method to return actual arm angle
+    double intakeArmAngle = SmartDashboard.getNumber("Robot Visualizer/Pretend Intake Angle", -180);
     double armAngle = SmartDashboard.getNumber("Robot Visualizer/Pretend Arm Angle", 90);
-
+  
     //TO DO: Update arm angles in stick figures; 90 degrees is straight down. 180 degrees is perpendicular to floor and above intake
     m_arm.setAngle(-armAngle);
 
     //TO DO: Update intake arm angles in stick figures; 0 degree is deployed n, 92 degrees is retracted position
-    m_intakeJoint.setAngle(intakeArmAngle);
-
+    m_intakeJoint.setAngle(-intakeArmAngle);
 
     SmartDashboard.putData("Robot Visualizer/panel", panel);
   }

@@ -7,12 +7,12 @@ public class ClimbIOSim implements ClimbIO {
 
   private DCMotorSim rightMotorSim = new DCMotorSim(
       DCMotor.getFalcon500Foc(1),
-      1, 0.5);
+      1, 0.001);
 
 
   private DCMotorSim leftMotorSim = new DCMotorSim(
       DCMotor.getFalcon500Foc(1),
-      1, 0.5);
+      1, 0.001);
 
 
   @Override

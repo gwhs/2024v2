@@ -65,7 +65,6 @@ public class GameRobotContainer implements BaseContainer {
     testingLayout.add(retractIntake());
     testingLayout.add(retractIntakePassToPB());
     testingLayout.add(scoreSpeaker(160));
-    testingLayout.add(scoreSpeaker(230));
     testingLayout.add(scoreAmp());
     testingLayout.add(sourceIntake());
     testingLayout.add(prepClimb());
@@ -145,12 +144,12 @@ public class GameRobotContainer implements BaseContainer {
     
     return Commands.sequence(
       m_ArmSubsystem.spinArm(armAngle),
-      m_PizzaBoxSubsystem.spit_command(0.7),
+      m_PizzaBoxSubsystem.speedyArm_Command((() -> m_ArmSubsystem.getArmAngle())),
       m_PizzaBoxSubsystem.setKicker(),
       Commands.waitSeconds(0.5),
       m_PizzaBoxSubsystem.stopKicker(),
       m_PizzaBoxSubsystem.stopMotor(),
-      m_ArmSubsystem.spinArm(0)
+      m_ArmSubsystem.spinArm(90)
     )
         .withName("Score Speaker at " + armAngle);
   }

@@ -63,4 +63,9 @@ public class ArmSubsystem extends SubsystemBase {
       pidController.setGoal(Units.degreesToRadians(targetAngle));
     }).andThen(Commands.waitUntil(() -> pidController.atGoal()));
   }
+
+  public double getArmAngle() {
+    return armIO.getArmEncoderAngle();
+  }
+
 }

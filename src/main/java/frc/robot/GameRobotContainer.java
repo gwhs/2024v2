@@ -67,7 +67,7 @@ public class GameRobotContainer implements BaseContainer {
     testingLayout.add(retractIntake());
     testingLayout.add(retractIntakePassToPB());
     testingLayout.add(scoreSpeaker(160));
-    testingLayout.add(scoreSpeaker(230));
+    testingLayout.add(scoreSpeaker(236));
     testingLayout.add(scoreAmp());
     testingLayout.add(sourceIntake());
     testingLayout.add(prepClimb());
@@ -144,20 +144,36 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command scoreSpeaker(double armAngle) {
-    // TODO
-    return Commands.none()
+    
+    return Commands.sequence(
+      m_ArmSubsystem.spinArm(armAngle),
+      m_PizzaBoxSubsystem.speedyArm_Command((() -> m_ArmSubsystem.getArmAngle())),
+      m_PizzaBoxSubsystem.setKicker(),
+      Commands.waitSeconds(0.5),
+      m_PizzaBoxSubsystem.stopKicker(),
+      m_PizzaBoxSubsystem.stopMotor(),
+      m_ArmSubsystem.spinArm(90)
+    )
         .withName("Score Speaker at " + armAngle);
   }
 
   public Command scoreAmp() {
-    // TODO
-    return Commands.none()
-        .withName("Score Amp");
+    return Commands.sequence(
+      m_ArmSubsystem.spinArm(ArmConstants.AMP_ANGLE),
+      m_PizzaBoxSubsystem.spit_command(0.5),
+      m_PizzaBoxSubsystem.setKicker(),
+      Commands.waitSeconds(0.5),
+      m_PizzaBoxSubsystem.stopKicker(),
+      m_PizzaBoxSubsystem.stopMotor(),
+      m_ArmSubsystem.spinArm(90))
+    .withName("scoreAmp");
   }
 
   public Command sourceIntake() {
-    // TODO
-    return Commands.none()
+    
+    return Commands.sequence(
+      m_ArmSubsystem.spinArm(25))
+      // m_PizzaBoxSubsystem.speedyArm_Command()
         .withName("Source Intake");
   }
 

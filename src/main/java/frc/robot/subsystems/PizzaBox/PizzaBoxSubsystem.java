@@ -2,7 +2,6 @@ package frc.robot.subsystems.PizzaBox;
 
 import java.util.Map;
 import java.util.function.DoubleSupplier;
-
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
@@ -49,7 +48,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
   }
 
   public Command stopMotor() {
-    return this.runOnce(() -> pizzaBoxIO.setMotor(.00))
+    return this.runOnce(() -> pizzaBoxIO.setMotor(.0))
         .withName("STOP MOTOR");
   }
 
@@ -69,8 +68,8 @@ public class PizzaBoxSubsystem extends SubsystemBase {
           .withName("GAS GAS GAS");
 
     } else {
-      return this.runOnce(() -> pizzaBoxIO.setMotor(-0.8))
-          .withName("!GAS GAS GAS");
+      return this.runOnce(() -> pizzaBoxIO.setMotor(0.8))
+          .withName("GAS GAS GAS");
     }
 
   }
@@ -94,7 +93,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
     return pizzaBoxIO.getKickerAngle();
   }
 
-  public boolean atVelocity(double d) {
+  public Boolean atVelocity(double d) {
 
     if (pizzaBoxIO.atMotorSpeed(d)) {
       return true;

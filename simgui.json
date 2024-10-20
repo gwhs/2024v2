@@ -54,10 +54,12 @@
       "/Shuffleboard/Testing/Commands/Source Intake": "Command",
       "/Shuffleboard/Testing/Commands/Unclimb Part One": "Command",
       "/Shuffleboard/Testing/Commands/Unclimb Part Two": "Command",
+      "/Shuffleboard/Testing/Commands/scoreAmp": "Command",
       "/Shuffleboard/Testing/Intake Commands/Intake: deploy intake": "Command",
       "/Shuffleboard/Testing/Intake Commands/Intake: retract intake": "Command",
       "/Shuffleboard/Testing/IntakeSubsystem": "Subsystem",
       "/Shuffleboard/Testing/PizzaBox Commands/!GAS GAS GAS": "Command",
+      "/Shuffleboard/Testing/PizzaBox Commands/GAS GAS GAS": "Command",
       "/Shuffleboard/Testing/PizzaBox Commands/SET FLAP": "Command",
       "/Shuffleboard/Testing/PizzaBox Commands/SET KICKER": "Command",
       "/Shuffleboard/Testing/PizzaBox Commands/STOP FLAP": "Command",
@@ -94,7 +96,7 @@
           "visible": true
         }
       },
-      "/Shuffleboard/Simulation/Note Sensor": {
+      "/Shuffleboard/Testing/Commands/Score Speaker at 160.0": {
         "window": {
           "visible": true
         }
@@ -105,7 +107,10 @@
         "left": 150,
         "right": 2961,
         "top": 79,
-        "width": 16.541748046875
+        "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
       }
     }
   },

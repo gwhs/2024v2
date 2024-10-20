@@ -44,6 +44,10 @@ public class ArmSubsystem extends SubsystemBase {
     armCommandsLayout.add(spinArm(200).withName("spinArm200"));
   }
 
+  public double getArmAngle() {
+    return armIO.getArmEncoderAngle();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run
@@ -63,9 +67,4 @@ public class ArmSubsystem extends SubsystemBase {
       pidController.setGoal(Units.degreesToRadians(targetAngle));
     }).andThen(Commands.waitUntil(() -> pidController.atGoal()));
   }
-
-  public double getArmAngle() {
-    return armIO.getArmEncoderAngle();
-  }
-
 }

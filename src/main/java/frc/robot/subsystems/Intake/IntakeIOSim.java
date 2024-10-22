@@ -4,6 +4,8 @@
 
 package frc.robot.subsystems.Intake;
 
+import edu.wpi.first.wpilibj.DutyCycleEncoder;
+
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -56,4 +58,7 @@ public class IntakeIOSim implements IntakeIO {
       intakeSpinSim.update(0.02);
     }
 
+    public boolean isEncoderConnected() {
+      return true;
+    }
 }

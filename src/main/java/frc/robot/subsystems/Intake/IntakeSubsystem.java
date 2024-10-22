@@ -64,8 +64,10 @@ public class IntakeSubsystem extends SubsystemBase {
     double pidOutput = pidController.calculate(intakeIO.getIntakeArmAngle());
 
     pidOutput = MathUtil.clamp(pidOutput, -1, 1);
-
-    intakeIO.setArmSpeed(pidOutput);
+    
+    if(intakeIO.isEncoderConnected()) {
+      intakeIO.setArmSpeed(pidOutput);
+    }
 
     intakeIO.update();
 

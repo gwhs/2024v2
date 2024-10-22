@@ -11,4 +11,5 @@ public interface IntakeIO {
   public boolean getNoteSensor();
   public double getSpinSpeed();
   public void update();
+  public boolean isEncoderConnected();
 }

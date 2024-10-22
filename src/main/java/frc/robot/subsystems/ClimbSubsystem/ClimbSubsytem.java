@@ -55,6 +55,14 @@ public class ClimbSubsytem extends SubsystemBase {
 
   }
 
+  public double getLeftMotorPosition() {
+    return climbIO.getLeftMotorPosition();
+  }
+
+  public double getRightMotorPosition() {
+    return climbIO.getRightMotorPosition();
+  }
+
   @Override
   public void periodic() {
     double rightpidOutput = rightpidController.calculate(climbIO.getRightMotorPosition());

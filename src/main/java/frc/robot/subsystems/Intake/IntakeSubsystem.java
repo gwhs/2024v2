@@ -58,6 +58,14 @@ public class IntakeSubsystem extends SubsystemBase {
     intakeCommandsLayout.add(retractIntake());
   }
 
+  public double getIntakeArmAngle() {
+    return intakeIO.getIntakeArmAngle();
+  }
+  
+  public double getSpinSpeed() {
+    return intakeIO.getSpinSpeed();
+  }
+
   @Override
   public void periodic() {
     // This method will be called once per scheduler run

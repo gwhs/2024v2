@@ -1,16 +1,20 @@
 package frc.robot;
 
+import edu.wpi.first.networktables.DoublePublisher;
+import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj2.command.*;
+import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
-import frc.robot.Constants.OperatorConstants;
+import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.Util.RobotVisualizer;
 import frc.robot.commands.swervedrive.CTRETeleopDrive;
-import frc.robot.subsystems.*;
+import frc.robot.subsystems.Arm.ArmConstants;
 import frc.robot.subsystems.Arm.ArmSubsystem;
 import frc.robot.subsystems.Reaction.ReactionSubsystem;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
@@ -21,14 +25,13 @@ import frc.robot.subsystems.swervedrive.Telemetry;
 import frc.robot.subsystems.swervedrive.TunerConstants;
 
 import java.util.Map;
-import java.util.function.DoubleSupplier;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 
 public class GameRobotContainer implements BaseContainer {
 
-  CommandXboxController driverController = new CommandXboxController(OperatorConstants.kDriverControllerPort);
-  CommandXboxController operatorController = new CommandXboxController(OperatorConstants.kOperatorControllerPort);
+  private final CommandXboxController driverController = new CommandXboxController(0);
+  private final CommandXboxController operatorController = new CommandXboxController(1);
 
   private final SendableChooser<Command> autoChooser;
 
@@ -37,10 +40,12 @@ public class GameRobotContainer implements BaseContainer {
   private final PizzaBoxSubsystem m_PizzaBoxSubsystem = new PizzaBoxSubsystem();
   private final ClimbSubsytem m_ClimbSubsystem = new ClimbSubsytem();
   private final ReactionSubsystem m_ReactionSubsystem = new ReactionSubsystem();
-  private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance(); // My drivetrain
+  private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance();
 
   private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController);
   private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
+
+  public final Trigger teleopEnabled = new Trigger(() -> DriverStation.isTeleopEnabled());
 
   private final RobotVisualizer robotVisualizer;
 
@@ -58,7 +63,7 @@ public class GameRobotContainer implements BaseContainer {
     /*
      * Put composite commands to shuffleboard
      */
-    ShuffleboardTab testingTab = Shuffleboard.getTab("Testing");
+    ShuffleboardTab testingTab = Shuffleboard.getTab("Whole Robot Testing");
     ShuffleboardLayout testingLayout = testingTab.getLayout("Commands", BuiltInLayouts.kList)
         .withSize(2, 5)
         .withProperties(Map.of("Label Position", "HIDDEN"));
@@ -66,8 +71,8 @@ public class GameRobotContainer implements BaseContainer {
     testingLayout.add(deployIntake());
     testingLayout.add(retractIntake());
     testingLayout.add(retractIntakePassToPB());
-    testingLayout.add(scoreSpeaker(() -> 160));
-    testingLayout.add(scoreSpeaker(() -> 230));
+    testingLayout.add(scoreSpeaker(160));
+    testingLayout.add(scoreSpeaker(230));
     testingLayout.add(scoreAmp());
     testingLayout.add(sourceIntake());
     testingLayout.add(prepClimb());
@@ -88,8 +93,18 @@ public class GameRobotContainer implements BaseContainer {
 
   private void configureBindings() {
     /* Reset Robot */
+    teleopEnabled.onTrue(retractIntake());
 
     /* Driver Controller */
+    driverController.start().onTrue(Commands.runOnce(drivetrain::seedFieldRelative));
+    driverController.a()
+        .onTrue(deployIntake())
+        .onFalse(retractIntake());
+
+    (driverController.b().and(m_IntakeSubsystem.isDeployed)).debounce(0.1).onTrue(retractIntake());
+    (driverController.b().and(m_IntakeSubsystem.isDeployed.negate())).debounce(0.1).onTrue(deployIntake());
+
+    m_IntakeSubsystem.noteTriggered.onTrue(retractIntakePassToPB());
 
     /* Operator Controllers */
 
@@ -112,27 +127,36 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command deployIntake() {
-    // TODO
-    return Commands.none()
+    return m_IntakeSubsystem.deployIntake()
         .withName("Deploy Intake");
   }
 
   public Command retractIntake() {
-    // TODO
-    return Commands.none()
+    return m_IntakeSubsystem.retractIntake()
         .withName("Retract Intake");
   }
 
   public Command retractIntakePassToPB() {
-    // TODO
-    return Commands.none()
-        .withName("Retract Intake and Pass to PB");
+    return Commands.sequence(
+        Commands.parallel(
+            m_ArmSubsystem.spinArm(ArmConstants.INTAKE_ANGLE),
+            m_IntakeSubsystem.retractIntake()).withTimeout(3),
+        Commands.parallel(
+            m_IntakeSubsystem.intakeNote(),
+            m_PizzaBoxSubsystem.slurp_command(0.5)),
+        Commands.waitUntil(m_IntakeSubsystem.noteTriggered.negate()),
+        Commands.waitSeconds(1),
+        Commands.parallel(
+            m_IntakeSubsystem.stopIntake(),
+            m_PizzaBoxSubsystem.stopMotor()))
+        .withName("Retract Intake and Pass to PB")
+        .withInterruptBehavior(InterruptionBehavior.kCancelIncoming);
   }
 
-  public Command scoreSpeaker(DoubleSupplier armAngle) {
+  public Command scoreSpeaker(double armAngle) {
     // TODO
     return Commands.none()
-        .withName("Score Speaker at " + armAngle.getAsDouble());
+        .withName("Score Speaker at " + armAngle);
   }
 
   public Command scoreAmp() {

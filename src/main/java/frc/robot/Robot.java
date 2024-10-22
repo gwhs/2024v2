@@ -4,18 +4,15 @@
 
 package frc.robot;
 
+import com.ctre.phoenix6.CANBus;
 import com.ctre.phoenix6.SignalLogger;
 
+import edu.wpi.first.networktables.DoublePublisher;
+import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DataLogManager;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.TimedRobot;
-
-// import org.littletonrobotics.junction.LoggedRobot;
-// import org.littletonrobotics.junction.Logger;
-// import org.littletonrobotics.junction.networktables.NT4Publisher;
-// import org.littletonrobotics.junction.wpilog.WPILOGWriter;
-
-
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import frc.robot.Util.UtilMath;
@@ -36,6 +33,15 @@ public class Robot extends TimedRobot  {
   private Command m_autonomousCommand;
 
   private BaseContainer m_baseContainer;
+
+    /*
+   * Logging stuff
+   */
+  private final NetworkTableInstance nt = NetworkTableInstance.getDefault();
+  private final DoublePublisher nt_rioCANUtilization = nt.getDoubleTopic("CAN Utilization/rio").publish();
+  private final DoublePublisher nt_canivorCANUtilization = nt.getDoubleTopic("CAN Utilization/Canivore").publish();
+  private final DoublePublisher nt_batteryVoltage = nt.getDoubleTopic("Robot/Battery Voltage").publish();
+  private final DoublePublisher nt_brownOutBoltage = nt.getDoubleTopic("Robot/Brown Out Voltage").publish();
 
   /**
    * This function is run when the robot is first started up and should be used for any
@@ -59,6 +65,8 @@ public class Robot extends TimedRobot  {
         m_baseContainer = new GameRobotContainer();
         break;
     }  
+
+    nt_brownOutBoltage.set(RobotController.getBrownoutVoltage());
   }
 
   /**
@@ -74,9 +82,12 @@ public class Robot extends TimedRobot  {
     // commands, running already-scheduled commands, removing finished or interrupted commands,
     // and running subsystem periodic() methods.  This must be called from the robot's periodic
     // block in order for anything in the Command-based framework to work.
-    //     LimelightHelpers.setStreamMode_PiPSecondary("limelight");
-    // Shuffleboard.getTab("GameTab").addCamera("Vision", "limelight", "http://limelight.local:5800").withSize(4,3).withPosition(5, 0);
     CommandScheduler.getInstance().run();
+
+    nt_rioCANUtilization.set(RobotController.getCANStatus().percentBusUtilization);
+    nt_canivorCANUtilization.set(CANBus.getStatus("CAN_Network").BusUtilization);
+
+    nt_batteryVoltage.set(RobotController.getBatteryVoltage());
 
     m_baseContainer.periodic();
     
@@ -94,10 +105,8 @@ public class Robot extends TimedRobot  {
   /** This autonomous runs the autonomous command selected by your {@link CttreRobotContainer} class. */
   @Override
   public void autonomousInit() {
-    m_baseContainer.autoInitReset().schedule();
     m_autonomousCommand = m_baseContainer.getAutonomousCommand();
    
-
     // schedule the autonomous command (example)
     if (m_autonomousCommand != null) {
       m_autonomousCommand.schedule();
@@ -116,11 +125,7 @@ public class Robot extends TimedRobot  {
     // this line or comment it out.
     if (m_autonomousCommand != null) {
       m_autonomousCommand.cancel();
-    }
-
-    m_baseContainer.teleopInitReset().schedule();
-
-  
+    }  
   }
 
   /** This function is called periodically during operator control. */

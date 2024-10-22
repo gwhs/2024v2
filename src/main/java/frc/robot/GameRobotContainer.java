@@ -176,7 +176,7 @@ public class GameRobotContainer implements BaseContainer {
         m_ReactionSubsystem.extendReactionBar(),
         m_ClimbSubsystem.motorDown(),
         m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_TRAP),
-        m_PizzaBoxSubsystem.spit_command(1.0),
+        m_PizzaBoxSubsystem.spit_command(0.8),
         Commands.waitSeconds(2),
         m_PizzaBoxSubsystem.spit_command(0.0))
         .withName("Climb and Score");

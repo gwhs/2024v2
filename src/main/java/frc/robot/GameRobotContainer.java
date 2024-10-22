@@ -162,26 +162,42 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command prepClimb() {
-    // TODO
-    return Commands.none()
+    return Commands.sequence(
+        m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_FLAP).alongWith(Commands.waitUntil(()->m_ArmSubsystem.getArmAngle() >= 200).andThen(m_ClimbSubsystem.motorHalfWay())),
+        m_PizzaBoxSubsystem.setFlap(),
+        Commands.waitSeconds(0.5),
+        m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_CLIMB),
+        m_ClimbSubsystem.motorUp())
         .withName("Prep Climb");
   }
 
   public Command climbAndScore() {
-    // TODO
-    return Commands.none()
+    return Commands.sequence(
+        m_ReactionSubsystem.extendReactionBar(),
+        m_ClimbSubsystem.motorDown(),
+        m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_TRAP),
+        m_PizzaBoxSubsystem.spit_command(0.8),
+        Commands.waitSeconds(2),
+        m_PizzaBoxSubsystem.spit_command(0.0))
         .withName("Climb and Score");
   }
 
   public Command unclimbPartOne() {
-    // TODO
-    return Commands.none()
+  
+    return Commands.sequence(
+      m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_CLIMB),
+      m_ClimbSubsystem.motorUp()
+    )
         .withName("Unclimb Part One");
   }
 
   public Command unclimbPartTwo() {
-    // TODO
-    return Commands.none()
+    return Commands.sequence(
+      m_ClimbSubsystem.motorHalfWay(),
+      m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_FLAP),
+      m_PizzaBoxSubsystem.stopFlap(),
+      m_ClimbSubsystem.motorDown(),
+      m_ArmSubsystem.spinArm(90))
         .withName("Unclimb Part Two");
   }
 }

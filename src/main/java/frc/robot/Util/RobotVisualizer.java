@@ -78,8 +78,8 @@ public class RobotVisualizer {
     m_arm.setAngle(armAngle+90);
 
     //TO DO: Update intake arm angles in stick figures; 0 degree is deployed n, 92 degrees is retracted position
-    m_intakeArm1.setAngle(intakeArmAngle);
-    m_intakeArm2.setAngle(-intakeArmAngle-5);
+    m_intakeArm1.setAngle(intakeArmAngle-20);
+    m_intakeArm2.setAngle(-intakeArmAngle-7);
 
     SmartDashboard.putData("Robot Visualizer/panel", panel);
   }

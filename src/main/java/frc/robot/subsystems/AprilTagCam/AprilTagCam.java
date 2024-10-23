@@ -7,6 +7,7 @@ package frc.robot.subsystems.AprilTagCam;
 import java.util.List;
 
 import org.photonvision.PhotonCamera;
+import org.photonvision.targeting.PhotonPipelineResult;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -26,9 +27,10 @@ public class AprilTagCam {
 
         // write an if statement that allows to find if the the list is empty or not
         var results = cam.getAllUnreadResults(); 
-        if(results.isEmpty()){
-            return; 
-        }  
+        for( PhotonPipelineResult robotPose : results ){
+            System.out.println(robotPose);
+        }   
+    
        
     }
 

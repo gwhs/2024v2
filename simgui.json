@@ -72,6 +72,23 @@
       "/Shuffleboard/Testing/Scheduler": "Scheduler",
       "/Shuffleboard/Testing/TestingCommands/Motor Down": "Command",
       "/Shuffleboard/Testing/TestingCommands/Motor Up": "Command",
+      "/Shuffleboard/Whole Robot Testing/ArmSubsystem": "Subsystem",
+      "/Shuffleboard/Whole Robot Testing/ClimbSubsytem": "Subsystem",
+      "/Shuffleboard/Whole Robot Testing/Commands/Climb and Score": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Deploy Intake": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Prep Climb": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Retract Intake": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Retract Intake and Pass to PB": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Score Amp": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Score Speaker at 160.0": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Score Speaker at 230.0": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Source Intake": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Unclimb Part One": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Unclimb Part Two": "Command",
+      "/Shuffleboard/Whole Robot Testing/IntakeSubsystem": "Subsystem",
+      "/Shuffleboard/Whole Robot Testing/PizzaBoxSubsystem": "Subsystem",
+      "/Shuffleboard/Whole Robot Testing/ReactionSubsystem": "Subsystem",
+      "/Shuffleboard/Whole Robot Testing/Scheduler": "Scheduler",
       "/SmartDashboard/Field": "Field2d",
       "/SmartDashboard/IntakeSubsystem": "Subsystem",
       "/SmartDashboard/LeftPIDController": "ProfiledPIDController",
@@ -99,13 +116,26 @@
           "visible": true
         }
       },
+      "/Shuffleboard/Testing/Intake Commands/Intake: deploy intake": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/Intake Commands/Intake: retract intake": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Field": {
         "bottom": 1476,
         "height": 8.210550308227539,
         "left": 150,
         "right": 2961,
         "top": 79,
-        "width": 16.541748046875
+        "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
       }
     }
   },

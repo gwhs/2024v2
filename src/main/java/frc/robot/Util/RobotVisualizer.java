@@ -50,7 +50,7 @@ public class RobotVisualizer {
   // needs fixing
   MechanismRoot2d root1 = panel.getRoot("intakeJoint", 0.57, 0.15);
   MechanismLigament2d m_intakeArm1 = root1.append(new MechanismLigament2d("intakeArm", 0.34 , 80));
-  MechanismLigament2d m_intakeArm2 = m_intakeArm1.append(new MechanismLigament2d("intake arm 2", 0.23, 215));
+  MechanismLigament2d m_intakeArm2 = m_intakeArm1.append(new MechanismLigament2d("intake arm 2", 0.23, -135));
 
   //code for climber
   
@@ -65,20 +65,21 @@ public class RobotVisualizer {
 
 
     //Code for testing angles as variables in advantage scope, change if want to change default angles
-    SmartDashboard.putNumber("Robot Visualizer/Pretend Intake Angle", 225);
-    SmartDashboard.putNumber("Robot Visualizer/Pretend Arm Angle", 270);
+    SmartDashboard.putNumber("Robot Visualizer/Pretend Intake Angle", 40);
+    SmartDashboard.putNumber("Robot Visualizer/Pretend Arm Angle", 90);
   }
 
 
   public void update() {
-    double intakeArmAngle = SmartDashboard.getNumber("Robot Visualizer/Pretend Intake Angle", 90);
-    double armAngle = SmartDashboard.getNumber("Robot Visualizer/Pretend Arm Angle", 270);
+    double intakeArmAngle = SmartDashboard.getNumber("Robot Visualizer/Pretend Intake Angle", 0);
+    double armAngle = SmartDashboard.getNumber("Robot Visualizer/Pretend Arm Angle", 0);
   
     //TO DO: Update arm angles in stick figures; 90 degrees is straight down. 180 degrees is perpendicular to floor and above intake
-    m_arm.setAngle(armAngle);
+    m_arm.setAngle(armAngle+90);
 
     //TO DO: Update intake arm angles in stick figures; 0 degree is deployed n, 92 degrees is retracted position
-    m_intakeArm1.setAngle(intakeArmAngle);
+    m_intakeArm1.setAngle(intakeArmAngle+50);
+    m_intakeArm2.setAngle(intakeArmAngle-10);
 
     SmartDashboard.putData("Robot Visualizer/panel", panel);
   }

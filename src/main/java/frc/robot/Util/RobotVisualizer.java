@@ -65,7 +65,7 @@ public class RobotVisualizer {
 
 
     //Code for testing angles as variables in advantage scope, change if want to change default angles
-    SmartDashboard.putNumber("Robot Visualizer/Pretend Intake Angle", 40);
+    SmartDashboard.putNumber("Robot Visualizer/Pretend Intake Angle", 50);
     SmartDashboard.putNumber("Robot Visualizer/Pretend Arm Angle", 90);
   }
 
@@ -78,8 +78,8 @@ public class RobotVisualizer {
     m_arm.setAngle(armAngle+90);
 
     //TO DO: Update intake arm angles in stick figures; 0 degree is deployed n, 92 degrees is retracted position
-    m_intakeArm1.setAngle(intakeArmAngle+50);
-    m_intakeArm2.setAngle(intakeArmAngle-10);
+    m_intakeArm1.setAngle(intakeArmAngle);
+    m_intakeArm2.setAngle(-intakeArmAngle-20);
 
     SmartDashboard.putData("Robot Visualizer/panel", panel);
   }

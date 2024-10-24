@@ -4,4 +4,5 @@ public interface ArmIO {
     public double getArmEncoderAngle();
     public void setArmSpeed(double speed);
     public void update();
+    public boolean isEncoderConnected();
 }

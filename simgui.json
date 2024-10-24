@@ -146,6 +146,16 @@
           "visible": true
         }
       },
+      "/Shuffleboard/Testing/Intake Commands/Intake: deploy intake": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/Intake Commands/Intake: retract intake": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Field": {
         "bottom": 1476,
         "height": 8.210550308227539,

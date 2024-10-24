@@ -26,6 +26,7 @@ public class IntakeIOSim implements IntakeIO {
 
     private FlywheelSim intakeSpinSim = new FlywheelSim(DCMotor.getKrakenX60Foc(1), 1, 0.005);
     Command noteSensor = Commands.run(()->{}).ignoringDisable(true).withName("Simulate Note Sensor Triggered");
+    private boolean encoderConnected = true;
 
     public IntakeIOSim() {
       Shuffleboard.getTab("Simulation").add("Note Sensor", noteSensor);
@@ -54,6 +55,14 @@ public class IntakeIOSim implements IntakeIO {
     public void update() {
       intakeArmSim.update(0.02);
       intakeSpinSim.update(0.02);
+    }
+
+    public void disconnectEncoder() {
+      encoderConnected = false;
+    }
+
+    public void connectEncoder() {
+      encoderConnected = true;
     }
 
 }

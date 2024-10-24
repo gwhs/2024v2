@@ -3,6 +3,7 @@ package frc.robot;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.RobotBase;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -16,6 +17,9 @@ import frc.robot.commands.swervedrive.CTRETeleopDrive;
 import frc.robot.subsystems.Arm.ArmConstants;
 import frc.robot.subsystems.Arm.ArmSubsystem;
 import frc.robot.subsystems.Reaction.ReactionSubsystem;
+import frc.robot.subsystems.Intake.IntakeIO;
+import frc.robot.subsystems.Intake.IntakeIOReal;
+import frc.robot.subsystems.Intake.IntakeIOSim;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.PizzaBox.PizzaBoxSubsystem;
 import frc.robot.subsystems.ClimbSubsystem.ClimbSubsytem;
@@ -34,7 +38,7 @@ public class GameRobotContainer implements BaseContainer {
 
   private final SendableChooser<Command> autoChooser;
 
-  private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
+  private final IntakeSubsystem m_IntakeSubsystem;
   private final ArmSubsystem m_ArmSubsystem = new ArmSubsystem();
   private final PizzaBoxSubsystem m_PizzaBoxSubsystem = new PizzaBoxSubsystem();
   private final ClimbSubsytem m_ClimbSubsystem = new ClimbSubsytem();
@@ -47,6 +51,13 @@ public class GameRobotContainer implements BaseContainer {
   public final Trigger teleopEnabled = new Trigger(() -> DriverStation.isTeleopEnabled());
 
   public GameRobotContainer() {
+    if(RobotBase.isReal()) {
+      m_IntakeSubsystem = new IntakeSubsystem(new IntakeIOReal());
+    }
+    else {
+      m_IntakeSubsystem = new IntakeSubsystem(new IntakeIOSim());
+    }
+
 
     autoChooser = AutoBuilder.buildAutoChooser("Hajel middle bottom 2");
 

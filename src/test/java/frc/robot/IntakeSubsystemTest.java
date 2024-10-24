@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Intake.IntakeConstants;
+import frc.robot.subsystems.Intake.IntakeIOSim;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
 
 import org.junit.jupiter.api.AfterEach;
@@ -22,7 +23,8 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class IntakeSubsystemTest {
-  static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private static final IntakeIOSim intakeIO = new IntakeIOSim();
+  private static final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(intakeIO);
 
   @BeforeEach
   void setup() {
@@ -76,6 +78,42 @@ public class IntakeSubsystemTest {
     waitForUpdate(3);
 
     assertEquals(0, intakeSubsystem.getSpinSpeed(), 0.01);
+  }
+
+  @Test
+  void encoderDisconnected() {
+    deployCommand();
+    retractCommand();
+    intakeCommand();
+    stopIntakeCommand();
+
+    intakeIO.disconnectEncoder();
+
+    intakeSubsystem.deployIntake().schedule();
+
+    waitForUpdate(2);
+
+    assertEquals(IntakeConstants.UP_POSITION, intakeSubsystem.getIntakeArmAngle(), 0.1);
+    assertEquals(0, intakeSubsystem.getSpinSpeed(), 0.01);
+
+    intakeSubsystem.retractIntake().schedule();
+
+    waitForUpdate(2);
+
+    assertEquals(IntakeConstants.UP_POSITION, intakeSubsystem.getIntakeArmAngle(), 0.1);
+    assertEquals(0, intakeSubsystem.getSpinSpeed(), 0.01);
+
+    intakeSubsystem.intakeNote().schedule();
+
+    waitForUpdate(2);
+
+    assertEquals(0, intakeSubsystem.getSpinSpeed(), 0.01);
+
+    intakeIO.connectEncoder();
+    deployCommand();
+    retractCommand();
+    intakeCommand();
+    stopIntakeCommand();
   }
 
 

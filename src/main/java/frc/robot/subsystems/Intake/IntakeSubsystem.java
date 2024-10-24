@@ -34,14 +34,8 @@ public class IntakeSubsystem extends SubsystemBase {
   public final Trigger noteTriggered;
 
   /** Creates a new IntakeSubsystem. */
-  public IntakeSubsystem() {
-    if (RobotBase.isSimulation()) {
-      intakeIO = new IntakeIOSim();
-      NetworkTableInstance.getDefault().getEntry("Intake/Mode").setString("Simulation");
-    } else {
-      intakeIO = new IntakeIOReal();
-      NetworkTableInstance.getDefault().getEntry("Intake/Mode").setString("Real");
-    }
+  public IntakeSubsystem(IntakeIO intakeIO) {
+    this.intakeIO = intakeIO;
 
     pidController.setGoal(IntakeConstants.UP_POSITION);
     pidController.setTolerance(2);

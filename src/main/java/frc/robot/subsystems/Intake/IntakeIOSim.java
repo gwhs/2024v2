@@ -60,8 +60,9 @@ public class IntakeIOSim implements IntakeIO {
     }
 
     public boolean isEncoderConnected() {
-      return true;
+      return encoderConnected;
     }
+    
     public void disconnectEncoder() {
       encoderConnected = false;
     }

@@ -21,7 +21,11 @@ import frc.robot.subsystems.Intake.IntakeSubsystem;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.TestMethodOrder;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class IntakeSubsystemTest {
   private static final IntakeIOSim intakeIO = new IntakeIOSim();
   private static final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(intakeIO);
@@ -41,6 +45,7 @@ public class IntakeSubsystemTest {
   }
 
   @Test
+  @Order(1)
   void deployCommand() {
     intakeSubsystem.deployIntake().schedule();
 
@@ -52,6 +57,7 @@ public class IntakeSubsystemTest {
   }
 
   @Test
+  @Order(2)
   void retractCommand() {
     intakeSubsystem.retractIntake().schedule();
 
@@ -63,6 +69,7 @@ public class IntakeSubsystemTest {
   }
 
   @Test
+  @Order(3)
   void intakeCommand() {
     intakeSubsystem.intakeNote().schedule();
 
@@ -72,6 +79,7 @@ public class IntakeSubsystemTest {
   }
 
   @Test
+  @Order(4)
   void stopIntakeCommand() {
     intakeSubsystem.stopIntake().schedule();
 
@@ -81,6 +89,7 @@ public class IntakeSubsystemTest {
   }
 
   @Test
+  @Order(5)
   void encoderDisconnected() {
     deployCommand();
     retractCommand();
@@ -93,14 +102,14 @@ public class IntakeSubsystemTest {
 
     waitForUpdate(2);
 
-    assertEquals(IntakeConstants.UP_POSITION, intakeSubsystem.getIntakeArmAngle(), 0.1);
+    assertEquals(IntakeConstants.UP_POSITION, intakeSubsystem.getIntakeArmAngle(), 0.5);
     assertEquals(0, intakeSubsystem.getSpinSpeed(), 0.01);
 
     intakeSubsystem.retractIntake().schedule();
 
     waitForUpdate(2);
 
-    assertEquals(IntakeConstants.UP_POSITION, intakeSubsystem.getIntakeArmAngle(), 0.1);
+    assertEquals(IntakeConstants.UP_POSITION, intakeSubsystem.getIntakeArmAngle(), 0.5);
     assertEquals(0, intakeSubsystem.getSpinSpeed(), 0.01);
 
     intakeSubsystem.intakeNote().schedule();

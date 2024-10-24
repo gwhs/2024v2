@@ -11,6 +11,7 @@ import org.photonvision.targeting.PhotonPipelineResult;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 
 
 /** Add your docs here. */
@@ -19,9 +20,10 @@ public class AprilTagCam {
 
     PhotonCamera cam;
 
-    public AprilTagCam(String str){
+    public AprilTagCam(String str, SwerveDrivePoseEstimator estimator ){
         cam = new PhotonCamera(str);
-    }
+        
+    }   
 
     public void updatePoseEstim(){
 

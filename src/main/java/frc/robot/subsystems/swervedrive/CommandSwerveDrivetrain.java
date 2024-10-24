@@ -22,6 +22,8 @@ import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
 
+import org.photonvision.targeting.PhotonPipelineResult;
+
 /**
  * Class that extends the Phoenix SwerveDrivetrain class and implements subsystem
  * so it can be used in command-based projects easily.
@@ -115,4 +117,9 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
             () -> DriverStation.getAlliance().orElse(Alliance.Blue)==Alliance.Red, // Assume the path needs to be flipped for Red vs Blue, this is normally the case
             this); // Subsystem for requirements
     }
+
+    public void addVisionMeasurent(double sd, PhotonPipelineResult robotPose){
+        Pose2d curPose = robotPose ; 
+        double time =  robotPose.getTimestampSeconds(); 
+    } 
 }

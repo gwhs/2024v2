@@ -65,7 +65,12 @@ public class IntakeSubsystem extends SubsystemBase {
 
     pidOutput = MathUtil.clamp(pidOutput, -1, 1);
 
-    intakeIO.setArmSpeed(pidOutput);
+    if (intakeIO.isEncoderConnected()) {
+      intakeIO.setArmSpeed(pidOutput);
+    }
+    else {
+      intakeIO.setArmSpeed(0);
+    }
 
     intakeIO.update();
 
@@ -98,6 +103,7 @@ public class IntakeSubsystem extends SubsystemBase {
         .andThen(
             Commands.waitUntil(noteTriggered),
             retractIntake())
+        .onlyIf(() -> intakeIO.isEncoderConnected())
         .withName("Intake: deploy intake");
   }
 
@@ -107,18 +113,21 @@ public class IntakeSubsystem extends SubsystemBase {
       intakeIO.setSpinSpeed(0);
     })
         .andThen(Commands.waitUntil(() -> pidController.atGoal()))
+        .onlyIf(() -> intakeIO.isEncoderConnected())
         .withName("Intake: retract intake");
   }
 
   public Command intakeNote() {
     return this.runOnce(() -> {
       intakeIO.setSpinSpeed(1);
-    });
+    })
+        .onlyIf(() -> intakeIO.isEncoderConnected());
   }
 
   public Command stopIntake() {
     return this.runOnce(() -> {
       intakeIO.setSpinSpeed(0);
-    });
+    })
+        .onlyIf(() -> intakeIO.isEncoderConnected());
   }
 }

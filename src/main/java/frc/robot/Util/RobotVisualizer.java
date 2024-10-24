@@ -4,8 +4,6 @@
 
 package frc.robot.Util;
 
-import org.opencv.core.RotatedRect;
-
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.smartdashboard.Mechanism2d;
 import edu.wpi.first.wpilibj.smartdashboard.MechanismLigament2d;
@@ -62,23 +60,18 @@ public class RobotVisualizer {
   public RobotVisualizer(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
     this.armSubsystem = armSubsystem;
     this.intakeSubsystem = intakeSubsystem;
-
-
-    //Code for testing angles as variables in advantage scope, change if want to change default angles
-    SmartDashboard.putNumber("Robot Visualizer/Pretend Intake Angle", 50);
-    SmartDashboard.putNumber("Robot Visualizer/Pretend Arm Angle", 90);
   }
 
 
   public void update() {
-    double intakeArmAngle = SmartDashboard.getNumber("Robot Visualizer/Pretend Intake Angle", 0);
-    double armAngle = SmartDashboard.getNumber("Robot Visualizer/Pretend Arm Angle", 0);
+    double intakeArmAngle = intakeSubsystem.getArmAngle();
+    double armAngle = armSubsystem.getArmAngle();
   
     //TO DO: Update arm angles in stick figures; 90 degrees is straight down. 180 degrees is perpendicular to floor and above intake
     m_arm.setAngle(armAngle+90);
 
     //TO DO: Update intake arm angles in stick figures; 0 degree is deployed n, 92 degrees is retracted position
-    m_intakeArm1.setAngle(intakeArmAngle-20);
+    m_intakeArm1.setAngle(intakeArmAngle+20);
     m_intakeArm2.setAngle(-intakeArmAngle-7);
 
     SmartDashboard.putData("Robot Visualizer/panel", panel);

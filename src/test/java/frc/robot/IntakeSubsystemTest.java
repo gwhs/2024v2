@@ -20,6 +20,7 @@ import frc.robot.subsystems.Intake.IntakeSubsystem;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -27,12 +28,16 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class IntakeSubsystemTest {
-  private static final IntakeIOSim intakeIO = new IntakeIOSim();
-  private static final IntakeSubsystem intakeSubsystem = new IntakeSubsystem(intakeIO);
+  private static IntakeIOSim intakeIO = new IntakeIOSim();
+  private static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
 
   @BeforeEach
   void setup() {
     assert HAL.initialize(500, 0);
+
+    intakeSubsystem = new IntakeSubsystem();
+    intakeIO = new IntakeIOSim();
+    intakeSubsystem.replaceIntakeSimIO(intakeIO);
 
     DriverStationSim.setEnabled(true);
     DriverStationSim.notifyNewData();

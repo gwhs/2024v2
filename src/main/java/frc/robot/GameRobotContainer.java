@@ -38,7 +38,7 @@ public class GameRobotContainer implements BaseContainer {
 
   private final SendableChooser<Command> autoChooser;
 
-  private final IntakeSubsystem m_IntakeSubsystem;
+  private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();;
   private final ArmSubsystem m_ArmSubsystem = new ArmSubsystem();
   private final PizzaBoxSubsystem m_PizzaBoxSubsystem = new PizzaBoxSubsystem();
   private final ClimbSubsytem m_ClimbSubsystem = new ClimbSubsytem();
@@ -51,15 +51,7 @@ public class GameRobotContainer implements BaseContainer {
   public final Trigger teleopEnabled = new Trigger(() -> DriverStation.isTeleopEnabled());
 
   public GameRobotContainer() {
-    if(RobotBase.isReal()) {
-      m_IntakeSubsystem = new IntakeSubsystem(new IntakeIOReal());
-    }
-    else {
-      m_IntakeSubsystem = new IntakeSubsystem(new IntakeIOSim());
-    }
-
-
-    autoChooser = AutoBuilder.buildAutoChooser("Hajel middle bottom 2");
+     autoChooser = AutoBuilder.buildAutoChooser("Hajel middle bottom 2");
 
     drivetrain.setDefaultCommand(drive);
     configureBindings();

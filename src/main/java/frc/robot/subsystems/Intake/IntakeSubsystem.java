@@ -4,17 +4,11 @@
 
 package frc.robot.subsystems.Intake;
 
-import java.util.Map;
-
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -22,7 +16,7 @@ import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 
 public class IntakeSubsystem extends SubsystemBase {
-  private final IntakeIO intakeIO;
+  private IntakeIO intakeIO;
 
   private TrapezoidProfile.Constraints constraints = new TrapezoidProfile.Constraints(IntakeConstants.kVel,
       IntakeConstants.kAcc);
@@ -34,22 +28,21 @@ public class IntakeSubsystem extends SubsystemBase {
   public final Trigger noteTriggered;
 
   /** Creates a new IntakeSubsystem. */
-  public IntakeSubsystem(IntakeIO intakeIO) {
-    this.intakeIO = intakeIO;
+  public IntakeSubsystem() {
+    if(RobotBase.isReal()) {
+      intakeIO = new IntakeIOReal();
+    }
+    else {
+      intakeIO = new IntakeIOSim();
+    }
 
     pidController.setGoal(IntakeConstants.UP_POSITION);
     pidController.setTolerance(2);
 
     noteTriggered = new Trigger(() -> intakeIO.getNoteSensor()).debounce(0.01);
 
-    // put commands to shuffleboard for testing
-    ShuffleboardTab tab = Shuffleboard.getTab("Testing");
-    ShuffleboardLayout intakeCommandsLayout = tab.getLayout("Intake Commands", BuiltInLayouts.kList)
-        .withSize(2, 2)
-        .withProperties(Map.of("Label position", "HIDDEN"));
-
-    intakeCommandsLayout.add(deployIntake());
-    intakeCommandsLayout.add(retractIntake());
+    SmartDashboard.putData(deployIntake());
+    SmartDashboard.putData(retractIntake());
   }
 
   public double getIntakeArmAngle() {
@@ -87,6 +80,10 @@ public class IntakeSubsystem extends SubsystemBase {
 
     NetworkTableInstance.getDefault().getEntry("Intake/Intake Deployed").setBoolean(isDeployed.getAsBoolean());
     NetworkTableInstance.getDefault().getEntry("Intake/Note Sensor").setBoolean(intakeIO.getNoteSensor());
+  }
+
+  public void replaceIntakeSimIO(IntakeIOSim intakeIO) {
+    this.intakeIO = intakeIO;
   }
 
   public Command deployIntake() {

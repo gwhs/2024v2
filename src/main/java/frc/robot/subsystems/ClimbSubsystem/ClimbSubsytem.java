@@ -9,10 +9,6 @@ import java.util.Map;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
@@ -42,13 +38,8 @@ public class ClimbSubsytem extends SubsystemBase {
     leftpidController.setGoal(climbIO.getLeftMotorPosition());
     rightpidController.setGoal(climbIO.getRightMotorPosition());
 
-    ShuffleboardTab tab = Shuffleboard.getTab("Testing");
-    ShuffleboardLayout climbCommandsLayout = tab.getLayout("TestingCommands", BuiltInLayouts.kList)
-        .withSize(2, 2)
-        .withProperties(Map.of("Label position", "HIDDEN"));
-
-    climbCommandsLayout.add(motorUp());
-    climbCommandsLayout.add(motorDown());
+    SmartDashboard.putData(motorUp());
+    SmartDashboard.putData(motorDown());
 
     SmartDashboard.putData("LeftPIDController", leftpidController);
     SmartDashboard.putData("RightPIDController", rightpidController);

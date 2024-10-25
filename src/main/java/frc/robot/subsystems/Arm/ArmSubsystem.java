@@ -8,10 +8,7 @@ import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -31,17 +28,13 @@ public class ArmSubsystem extends SubsystemBase {
       armIO = new ArmIOReal();
       NetworkTableInstance.getDefault().getEntry("/Arm/Mode").setString("Real");
     }
-    ShuffleboardTab tab = Shuffleboard.getTab("Testing");
-    ShuffleboardLayout armCommandsLayout = tab.getLayout("Arm Commands", BuiltInLayouts.kList)
-        .withSize(2, 2)
-        .withProperties(Map.of("Label position", "HIDDEN"));
 
     pidController.setTolerance(Units.degreesToRadians(3));
 
-    armCommandsLayout.add(spinArm(120).withName("spinArm120"));
-    armCommandsLayout.add(spinArm(60).withName(("spinArm60")));
+    SmartDashboard.putData(spinArm(120).withName("spinArm120"));
+    SmartDashboard.putData(spinArm(60).withName(("spinArm60")));
     pidController.setGoal(Units.degreesToRadians(90));
-    armCommandsLayout.add(spinArm(200).withName("spinArm200"));
+    SmartDashboard.putData(spinArm(200).withName("spinArm200"));
   }
 
   public double getArmAngle() {

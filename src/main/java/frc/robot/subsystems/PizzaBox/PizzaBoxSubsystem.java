@@ -5,10 +5,7 @@ import java.util.function.DoubleSupplier;
 
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -23,19 +20,14 @@ public class PizzaBoxSubsystem extends SubsystemBase {
       pizzaBoxIO = new PizzaBoxIOReal();
     }
 
-    ShuffleboardTab tab = Shuffleboard.getTab("Testing");
-    ShuffleboardLayout pizzaCommandsLayout = tab.getLayout("PizzaBox Commands", BuiltInLayouts.kList)
-        .withSize(2, 2)
-        .withProperties(Map.of("Label Position", "HIDDEN"));
-
-    pizzaCommandsLayout.add(spit_command(.69));
-    pizzaCommandsLayout.add(slurp_command(.69));
-    pizzaCommandsLayout.add(stopMotor());
-    pizzaCommandsLayout.add(stopFlap());
-    pizzaCommandsLayout.add(stopKicker());
-    pizzaCommandsLayout.add(setFlap());
-    pizzaCommandsLayout.add(setKicker());
-    pizzaCommandsLayout.add(speedyArm_Command(() -> 50));
+    SmartDashboard.putData(spit_command(.69));
+    SmartDashboard.putData(slurp_command(.69));
+    SmartDashboard.putData(stopMotor());
+    SmartDashboard.putData(stopFlap());
+    SmartDashboard.putData(stopKicker());
+    SmartDashboard.putData(setFlap());
+    SmartDashboard.putData(setKicker());
+    SmartDashboard.putData(speedyArm_Command(() -> 50));
   }
 
   public Command spit_command(double speed) {

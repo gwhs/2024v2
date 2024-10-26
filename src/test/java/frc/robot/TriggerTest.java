@@ -17,6 +17,7 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.math.util.Units;
+import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
@@ -132,6 +133,13 @@ public class TriggerTest {
     intakeIO.noteSensorFalse();
 
     waitForUpdate(5);
+
+    try{
+      Thread.sleep(5000);
+    }
+    catch (Exception e) {
+      e.printStackTrace();
+    }
 
     assertEquals(0, pizzaBoxSubsystem.getSpeed(), 0.1);
     assertEquals(0, intakeSubsystem.getSpinSpeed(), 0.1);

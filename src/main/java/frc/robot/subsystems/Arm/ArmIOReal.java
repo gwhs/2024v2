@@ -28,7 +28,7 @@ public class ArmIOReal implements ArmIO {
   }
 
   public double getArmEncoderAngle() {
-    return Units.rotationsToDegrees(m_armEncoder.getAbsolutePosition()) - ArmConstants.ARM_ENCODER_OFFSET;
+    return Units.rotationsToDegrees(m_armEncoder.get()) - ArmConstants.ARM_ENCODER_OFFSET;
   }
 
   public void setArmSpeed(double speed) {

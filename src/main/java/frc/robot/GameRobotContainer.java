@@ -1,5 +1,7 @@
 package frc.robot;
 
+import static edu.wpi.first.units.Units.*;
+
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
@@ -12,7 +14,10 @@ import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.autonomous.S1Leave;
+import frc.robot.commands.autonomous.S3Leave;
 import frc.robot.commands.swervedrive.CTRETeleopDrive;
+import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm.ArmConstants;
 import frc.robot.subsystems.Arm.ArmSubsystem;
 import frc.robot.subsystems.Reaction.ReactionSubsystem;
@@ -20,8 +25,6 @@ import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.PizzaBox.PizzaBoxSubsystem;
 import frc.robot.subsystems.ClimbSubsystem.ClimbSubsytem;
 import frc.robot.subsystems.swervedrive.CommandSwerveDrivetrain;
-import frc.robot.subsystems.swervedrive.Telemetry;
-import frc.robot.subsystems.swervedrive.TunerConstants;
 
 import java.util.Map;
 
@@ -32,26 +35,24 @@ public class GameRobotContainer implements BaseContainer {
   private final CommandXboxController driverController = new CommandXboxController(0);
   private final CommandXboxController operatorController = new CommandXboxController(1);
 
-  private final SendableChooser<Command> autoChooser;
+  private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
   private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
   private final ArmSubsystem m_ArmSubsystem = new ArmSubsystem();
   private final PizzaBoxSubsystem m_PizzaBoxSubsystem = new PizzaBoxSubsystem();
   private final ClimbSubsytem m_ClimbSubsystem = new ClimbSubsytem();
   private final ReactionSubsystem m_ReactionSubsystem = new ReactionSubsystem();
-  private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance();
+  private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
-  private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController);
-  private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
+  private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController, drivetrain);
+  private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12Volts.in(MetersPerSecond));
 
   public final Trigger teleopEnabled = new Trigger(() -> DriverStation.isTeleopEnabled());
 
   public GameRobotContainer() {
-
-    autoChooser = AutoBuilder.buildAutoChooser("Hajel middle bottom 2");
-
     drivetrain.setDefaultCommand(drive);
     configureBindings();
+    configureAutonomous();
 
     drivetrain.registerTelemetry(logger::telemeterize);
 
@@ -105,6 +106,14 @@ public class GameRobotContainer implements BaseContainer {
 
     /* Other Triggers */
 
+  }
+
+  private void configureAutonomous() {
+    autoChooser.setDefaultOption("S3-Leave", new S3Leave(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
+
+    autoChooser.addOption("S1-Leave", new S1Leave(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
+    
+    //TODO: add more autonomous routines
   }
 
   /**

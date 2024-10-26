@@ -5,9 +5,11 @@
 package frc.robot;
 
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.parallel.Isolated;
 
 import edu.wpi.first.hal.HAL;
 
+@Isolated
 public class RunTimeErrorTest {
   @Test
   void createRobotContainer() {

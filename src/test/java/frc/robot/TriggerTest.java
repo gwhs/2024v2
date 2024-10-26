@@ -8,6 +8,13 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.lang.reflect.Field;
 
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
+
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.DriverStationSim;
@@ -19,13 +26,6 @@ import frc.robot.subsystems.Intake.IntakeConstants;
 import frc.robot.subsystems.Intake.IntakeIOSim;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.PizzaBox.PizzaBoxSubsystem;
-
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.TestMethodOrder;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TriggerTest {
@@ -126,7 +126,7 @@ public class TriggerTest {
 
     assertEquals(IntakeConstants.UP_POSITION, intakeSubsystem.getIntakeArmAngle(), 0.1);
     assertEquals(ArmConstants.INTAKE_ANGLE, armSubsystem.getArmAngle(), 1);
-    assertEquals(-25, pizzaBoxSubsystem.getSpeed(), 1);
+    assertEquals(-25.4, pizzaBoxSubsystem.getSpeed(), 1);
     assertEquals(79, intakeSubsystem.getSpinSpeed(), 1);
 
     intakeIO.noteSensorFalse();

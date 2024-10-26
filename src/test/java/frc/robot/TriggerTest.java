@@ -117,7 +117,7 @@ public class TriggerTest {
 
     assertEquals(IntakeConstants.DOWN_POSITION, intakeSubsystem.getIntakeArmAngle(), 0.1);
     assertEquals(true, intakeSubsystem.isDeployed.getAsBoolean());
-    assertEquals(true, intakeSubsystem.getSpinSpeed() > 50);
+    assertEquals(64, intakeSubsystem.getSpinSpeed(), 1);
     assertEquals(0, pizzaBoxSubsystem.getSpeed(), 0.1);
 
     intakeIO.noteSensorTrue();

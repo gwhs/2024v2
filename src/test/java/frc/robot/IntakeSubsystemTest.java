@@ -19,14 +19,10 @@ import frc.robot.subsystems.Intake.IntakeSubsystem;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
-import org.junit.jupiter.api.TestMethodOrder;
 
-@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class IntakeSubsystemTest {
-  private static IntakeIOSim intakeIO;
-  private static IntakeSubsystem intakeSubsystem;
+  private IntakeIOSim intakeIO;
+  private IntakeSubsystem intakeSubsystem;
 
   @BeforeEach
   void setup() {
@@ -52,7 +48,6 @@ public class IntakeSubsystemTest {
   }
 
   @Test
-  @Order(1)
   void deployCommand() {
     intakeSubsystem.deployIntake().schedule();
 
@@ -64,7 +59,6 @@ public class IntakeSubsystemTest {
   }
 
   @Test
-  @Order(2)
   void retractCommand() {
     intakeSubsystem.retractIntake().schedule();
 
@@ -76,7 +70,6 @@ public class IntakeSubsystemTest {
   }
 
   @Test
-  @Order(3)
   void intakeCommand() {
     intakeSubsystem.intakeNote().schedule();
 
@@ -86,7 +79,6 @@ public class IntakeSubsystemTest {
   }
 
   @Test
-  @Order(4)
   void stopIntakeCommand() {
     intakeSubsystem.stopIntake().schedule();
 
@@ -96,7 +88,6 @@ public class IntakeSubsystemTest {
   }
 
   @Test
-  @Order(5)
   void encoderDisconnected() {
     deployCommand();
     retractCommand();

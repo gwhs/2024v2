@@ -13,8 +13,12 @@ import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
+import frc.robot.subsystems.Arm.ArmConstants;
+import frc.robot.subsystems.Arm.ArmSubsystem;
 import frc.robot.subsystems.Intake.IntakeConstants;
+import frc.robot.subsystems.Intake.IntakeIOSim;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
+import frc.robot.subsystems.PizzaBox.PizzaBoxSubsystem;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -25,14 +29,42 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TriggerTest {
-  private static GameRobotContainer gameRobotContainer;
-  private static XboxControllerSim driverControllerSim = new XboxControllerSim(0);
-  private static XboxControllerSim operatorControllerSim = new XboxControllerSim(1);
+  private GameRobotContainer gameRobotContainer;
+  private XboxControllerSim driverControllerSim;
+  private XboxControllerSim operatorControllerSim;
+
+  private IntakeSubsystem intakeSubsystem;
+  private ArmSubsystem armSubsystem;
+  private PizzaBoxSubsystem pizzaBoxSubsystem;
+
+  private IntakeIOSim intakeIO;
 
   @BeforeEach
   void setup() {
     assert HAL.initialize(500, 0);
     gameRobotContainer = new GameRobotContainer();
+    driverControllerSim = new XboxControllerSim(0);
+    operatorControllerSim = new XboxControllerSim(1);
+
+    try {
+      Field intakeSubsystemField = GameRobotContainer.class.getDeclaredField("m_IntakeSubsystem");
+      intakeSubsystemField.setAccessible(true);
+      intakeSubsystem = (IntakeSubsystem) intakeSubsystemField.get(gameRobotContainer);
+
+      Field armSubsystemField = GameRobotContainer.class.getDeclaredField("m_ArmSubsystem");
+      armSubsystemField.setAccessible(true);
+      armSubsystem = (ArmSubsystem) armSubsystemField.get(gameRobotContainer);
+
+      Field pizzaBoxSubsystemField = GameRobotContainer.class.getDeclaredField("m_PizzaBoxSubsystem");
+      pizzaBoxSubsystemField.setAccessible(true);
+      pizzaBoxSubsystem = (PizzaBoxSubsystem) pizzaBoxSubsystemField.get(gameRobotContainer);
+
+      Field intakeIOField = IntakeSubsystem.class.getDeclaredField("intakeIO");
+      intakeIOField.setAccessible(true);
+      intakeIO = (IntakeIOSim) intakeIOField.get(intakeSubsystem);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
     DriverStationSim.setEnabled(true);
     DriverStationSim.notifyNewData();
@@ -46,40 +78,64 @@ public class TriggerTest {
 
   @Test
   @Order(1)
-  void deployIntakeButton() {
-    try {
-      Field intakeSubsystemField = GameRobotContainer.class.getDeclaredField("m_IntakeSubsystem");
-      intakeSubsystemField.setAccessible(true);
-      IntakeSubsystem intakeSubsystem = (IntakeSubsystem) intakeSubsystemField.get(gameRobotContainer);
+  void deployAndRetractIntakeButton() {
+    driverControllerSim.setBButton(true);
+    driverControllerSim.notifyNewData();
+    waitForUpdate(1);
+    driverControllerSim.setBButton(false);
+    driverControllerSim.notifyNewData();
 
-      driverControllerSim.setBButton(true);
-      driverControllerSim.notifyNewData();
-      waitForUpdate(0.5);
-      driverControllerSim.setBButton(false);
-      driverControllerSim.notifyNewData();
+    waitForUpdate(3);
 
-      waitForUpdate(2);
+    assertEquals(IntakeConstants.DOWN_POSITION, intakeSubsystem.getIntakeArmAngle(), 0.1);
+    assertEquals(true, intakeSubsystem.isDeployed.getAsBoolean());
+    assertEquals(true, intakeSubsystem.getSpinSpeed() > 50);
 
-      assertEquals(IntakeConstants.DOWN_POSITION, intakeSubsystem.getIntakeArmAngle(), 0.1);
-      assertEquals(true, intakeSubsystem.isDeployed.getAsBoolean());
-      assertEquals(true, intakeSubsystem.getSpinSpeed() > 50);
+    driverControllerSim.setBButton(true);
+    driverControllerSim.notifyNewData();
+    waitForUpdate(1);
+    driverControllerSim.setBButton(false);
+    driverControllerSim.notifyNewData();
 
-      driverControllerSim.setBButton(true);
-      driverControllerSim.notifyNewData();
-      waitForUpdate(0.5);
-      driverControllerSim.setBButton(false);
-      driverControllerSim.notifyNewData();
+    waitForUpdate(3);
 
-      waitForUpdate(2);
+    assertEquals(IntakeConstants.UP_POSITION, intakeSubsystem.getIntakeArmAngle(), 0.1);
+    assertEquals(false, intakeSubsystem.isDeployed.getAsBoolean());
+    assertEquals(0, intakeSubsystem.getSpinSpeed(), 0.01);
+  }
 
-      assertEquals(IntakeConstants.UP_POSITION, intakeSubsystem.getIntakeArmAngle(), 0.1);
-      assertEquals(false, intakeSubsystem.isDeployed.getAsBoolean());
-      assertEquals(0, intakeSubsystem.getSpinSpeed(), 0.01);
+  @Test
+  @Order(2)
+  void pickNoteFromGroundTest() {
+    driverControllerSim.setBButton(true);
+    driverControllerSim.notifyNewData();
+    waitForUpdate(1);
+    driverControllerSim.setBButton(false);
+    driverControllerSim.notifyNewData();
 
-    } catch (Exception e) {
-      e.printStackTrace();
-    }
+    waitForUpdate(3);
 
+    assertEquals(IntakeConstants.DOWN_POSITION, intakeSubsystem.getIntakeArmAngle(), 0.1);
+    assertEquals(true, intakeSubsystem.isDeployed.getAsBoolean());
+    assertEquals(true, intakeSubsystem.getSpinSpeed() > 50);
+    assertEquals(0, pizzaBoxSubsystem.getSpeed(), 0.1);
+
+    intakeIO.noteSensorTrue();
+
+    waitForUpdate(2.5);
+
+    assertEquals(IntakeConstants.UP_POSITION, intakeSubsystem.getIntakeArmAngle(), 0.1);
+    assertEquals(ArmConstants.INTAKE_ANGLE, armSubsystem.getArmAngle(), 1);
+    assertEquals(-25, pizzaBoxSubsystem.getSpeed(), 1);
+    assertEquals(79, intakeSubsystem.getSpinSpeed(), 1);
+
+    intakeIO.noteSensorFalse();
+
+    waitForUpdate(5);
+
+    assertEquals(0, pizzaBoxSubsystem.getSpeed(), 0.1);
+    assertEquals(0, intakeSubsystem.getSpinSpeed(), 0.1);
+    
   }
 
   private static void waitForUpdate(double seconds) {

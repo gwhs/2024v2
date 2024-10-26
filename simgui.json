@@ -89,15 +89,49 @@
       "/Shuffleboard/Whole Robot Testing/PizzaBoxSubsystem": "Subsystem",
       "/Shuffleboard/Whole Robot Testing/ReactionSubsystem": "Subsystem",
       "/Shuffleboard/Whole Robot Testing/Scheduler": "Scheduler",
+      "/SmartDashboard/!GAS GAS GAS": "Command",
+      "/SmartDashboard/ArmSubsystem": "Subsystem",
+      "/SmartDashboard/Climb and Score": "Command",
+      "/SmartDashboard/ClimbSubsytem": "Subsystem",
+      "/SmartDashboard/Deploy Intake": "Command",
+      "/SmartDashboard/Extend Reaction Bar": "Command",
       "/SmartDashboard/Field": "Field2d",
+      "/SmartDashboard/Intake: deploy intake": "Command",
+      "/SmartDashboard/Intake: retract intake": "Command",
       "/SmartDashboard/IntakeSubsystem": "Subsystem",
       "/SmartDashboard/LeftPIDController": "ProfiledPIDController",
       "/SmartDashboard/Module 0": "Mechanism2d",
       "/SmartDashboard/Module 1": "Mechanism2d",
       "/SmartDashboard/Module 2": "Mechanism2d",
       "/SmartDashboard/Module 3": "Mechanism2d",
+      "/SmartDashboard/Motor Down": "Command",
+      "/SmartDashboard/Motor Up": "Command",
+      "/SmartDashboard/Note Sensor": "Command",
       "/SmartDashboard/Pigeon 2 (v6) [30]": "Gyro",
-      "/SmartDashboard/RightPIDController": "ProfiledPIDController"
+      "/SmartDashboard/PizzaBoxSubsystem": "Subsystem",
+      "/SmartDashboard/Prep Climb": "Command",
+      "/SmartDashboard/ReactionSubsystem": "Subsystem",
+      "/SmartDashboard/Retract Intake": "Command",
+      "/SmartDashboard/Retract Intake and Pass to PB": "Command",
+      "/SmartDashboard/Retract Reaction Bar": "Command",
+      "/SmartDashboard/RightPIDController": "ProfiledPIDController",
+      "/SmartDashboard/SET FLAP": "Command",
+      "/SmartDashboard/SET KICKER": "Command",
+      "/SmartDashboard/STOP FLAP": "Command",
+      "/SmartDashboard/STOP KICKER": "Command",
+      "/SmartDashboard/STOP MOTOR": "Command",
+      "/SmartDashboard/Scheduler": "Scheduler",
+      "/SmartDashboard/Score Amp": "Command",
+      "/SmartDashboard/Score Speaker at 160.0": "Command",
+      "/SmartDashboard/Score Speaker at 230.0": "Command",
+      "/SmartDashboard/Slurp": "Command",
+      "/SmartDashboard/Source Intake": "Command",
+      "/SmartDashboard/Spit": "Command",
+      "/SmartDashboard/Unclimb Part One": "Command",
+      "/SmartDashboard/Unclimb Part Two": "Command",
+      "/SmartDashboard/spinArm120": "Command",
+      "/SmartDashboard/spinArm200": "Command",
+      "/SmartDashboard/spinArm60": "Command"
     },
     "windows": {
       "/Shuffleboard/GameTab/Field": {
@@ -107,6 +141,16 @@
         "right": 2961,
         "top": 79,
         "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/Intake Commands/Intake: deploy intake": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Testing/Intake Commands/Intake: retract intake": {
         "window": {
           "visible": true
         }
@@ -146,16 +190,6 @@
           "visible": true
         }
       },
-      "/Shuffleboard/Testing/Intake Commands/Intake: deploy intake": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/Shuffleboard/Testing/Intake Commands/Intake: retract intake": {
-        "window": {
-          "visible": true
-        }
-      },
       "/SmartDashboard/Field": {
         "bottom": 1476,
         "height": 8.210550308227539,
@@ -163,6 +197,11 @@
         "right": 2961,
         "top": 79,
         "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Intake: deploy intake": {
         "window": {
           "visible": true
         }

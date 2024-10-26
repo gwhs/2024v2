@@ -6,9 +6,12 @@ package frc.robot;
 
 import org.junit.jupiter.api.Test;
 
+import edu.wpi.first.hal.HAL;
+
 public class RunTimeErrorTest {
   @Test
   void createRobotContainer() {
+    assert HAL.initialize(500, 0);
     new GameRobotContainer();
   }
 }

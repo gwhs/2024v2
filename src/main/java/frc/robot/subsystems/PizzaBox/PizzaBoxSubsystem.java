@@ -30,6 +30,10 @@ public class PizzaBoxSubsystem extends SubsystemBase {
     SmartDashboard.putData(speedyArm_Command(() -> 50));
   }
 
+  public double getSpeed() {
+    return pizzaBoxIO.motorSpeed();
+  }
+
   public Command spit_command(double speed) {
     return this.runOnce(() -> pizzaBoxIO.setMotor(speed))
         .withName("Spit");

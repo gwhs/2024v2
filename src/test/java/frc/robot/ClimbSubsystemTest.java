@@ -18,11 +18,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public class ClimbSubsystemTest {
-  static ClimbSubsytem climbSubsystem = new ClimbSubsytem();
+  private ClimbSubsytem climbSubsystem;
 
   @BeforeEach
   void setup() {
     assert HAL.initialize(500, 0);
+
+    climbSubsystem = new ClimbSubsytem();
 
     DriverStationSim.setEnabled(true);
     DriverStationSim.notifyNewData();
@@ -60,8 +62,8 @@ public class ClimbSubsystemTest {
 
     waitForUpdate(4);
 
-    assertEquals(ClimbConstants.LEFT_UP_POSITION/2, climbSubsystem.getLeftMotorPosition(), 0.5);
-    assertEquals(ClimbConstants.RIGHT_UP_POSITION/2, climbSubsystem.getRightMotorPosition(), 0.5);
+    assertEquals(ClimbConstants.LEFT_UP_POSITION / 2, climbSubsystem.getLeftMotorPosition(), 0.5);
+    assertEquals(ClimbConstants.RIGHT_UP_POSITION / 2, climbSubsystem.getRightMotorPosition(), 0.5);
   }
 
   private static void waitForUpdate(double seconds) {

@@ -28,11 +28,11 @@ public class IntakeIOSim implements IntakeIO {
       Units.degreesToRadians(IntakeConstants.UP_POSITION));
 
     private FlywheelSim intakeSpinSim = new FlywheelSim(DCMotor.getKrakenX60Foc(1), 1, 0.005);
-    Command noteSensor = Commands.run(()->{}).ignoringDisable(true).withName("Simulate Note Sensor Triggered");
+    private boolean noteSensor = false;
     private boolean encoderConnected = true;
 
     public IntakeIOSim() {
-      SmartDashboard.putData("Note Sensor", noteSensor);
+      SmartDashboard.putData("Note Sensor", Commands.runOnce(() -> noteSensor = !noteSensor).ignoringDisable(true));
     }
 
     public double getIntakeArmAngle() {
@@ -48,7 +48,7 @@ public class IntakeIOSim implements IntakeIO {
     }
 
     public boolean getNoteSensor() {
-      return noteSensor.isScheduled();
+      return noteSensor;
     }
 
     public double getSpinSpeed() {
@@ -70,6 +70,14 @@ public class IntakeIOSim implements IntakeIO {
 
     public void connectEncoder() {
       encoderConnected = true;
+    }
+
+    public void noteSensorTrue() {
+      noteSensor = true;
+    }
+
+    public void noteSensorFalse() {
+      noteSensor = false;
     }
 
 }

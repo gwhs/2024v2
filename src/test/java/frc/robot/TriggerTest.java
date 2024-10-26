@@ -6,32 +6,33 @@ package frc.robot;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.lang.reflect.Field;
+
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.simulation.DriverStationSim;
 import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import frc.robot.subsystems.ClimbSubsystem.ClimbConstants;
-import frc.robot.subsystems.ClimbSubsystem.ClimbSubsytem;
+import frc.robot.subsystems.Intake.IntakeConstants;
+import frc.robot.subsystems.Intake.IntakeSubsystem;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
+import org.junit.jupiter.api.TestMethodOrder;
 
+@TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class TriggerTest {
-  private static GameRobotContainer gameRobotContainer = new GameRobotContainer();
+  private static GameRobotContainer gameRobotContainer;
   private static XboxControllerSim driverControllerSim = new XboxControllerSim(0);
   private static XboxControllerSim operatorControllerSim = new XboxControllerSim(1);
-  
 
   @BeforeEach
   void setup() {
     assert HAL.initialize(500, 0);
     gameRobotContainer = new GameRobotContainer();
-    driverControllerSim = new XboxControllerSim(0);
-    operatorControllerSim = new XboxControllerSim(1);
 
     DriverStationSim.setEnabled(true);
     DriverStationSim.notifyNewData();
@@ -44,7 +45,41 @@ public class TriggerTest {
   }
 
   @Test
-  void motorUpCommand() {
+  @Order(1)
+  void deployIntakeButton() {
+    try {
+      Field intakeSubsystemField = GameRobotContainer.class.getDeclaredField("m_IntakeSubsystem");
+      intakeSubsystemField.setAccessible(true);
+      IntakeSubsystem intakeSubsystem = (IntakeSubsystem) intakeSubsystemField.get(gameRobotContainer);
+
+      driverControllerSim.setBButton(true);
+      driverControllerSim.notifyNewData();
+      waitForUpdate(0.5);
+      driverControllerSim.setBButton(false);
+      driverControllerSim.notifyNewData();
+
+      waitForUpdate(2);
+
+      assertEquals(IntakeConstants.DOWN_POSITION, intakeSubsystem.getIntakeArmAngle(), 0.1);
+      assertEquals(true, intakeSubsystem.isDeployed.getAsBoolean());
+      assertEquals(true, intakeSubsystem.getSpinSpeed() > 50);
+
+      driverControllerSim.setBButton(true);
+      driverControllerSim.notifyNewData();
+      waitForUpdate(0.5);
+      driverControllerSim.setBButton(false);
+      driverControllerSim.notifyNewData();
+
+      waitForUpdate(2);
+
+      assertEquals(IntakeConstants.UP_POSITION, intakeSubsystem.getIntakeArmAngle(), 0.1);
+      assertEquals(false, intakeSubsystem.isDeployed.getAsBoolean());
+      assertEquals(0, intakeSubsystem.getSpinSpeed(), 0.01);
+
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
+
   }
 
   private static void waitForUpdate(double seconds) {

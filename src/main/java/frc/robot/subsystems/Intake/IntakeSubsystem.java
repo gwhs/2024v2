@@ -82,10 +82,6 @@ public class IntakeSubsystem extends SubsystemBase {
     NetworkTableInstance.getDefault().getEntry("Intake/Note Sensor").setBoolean(intakeIO.getNoteSensor());
   }
 
-  public void replaceIntakeSimIO(IntakeIOSim intakeIO) {
-    this.intakeIO = intakeIO;
-  }
-
   public Command deployIntake() {
     return this.runOnce(() -> {
       pidController.setGoal(IntakeConstants.DOWN_POSITION);

@@ -6,21 +6,18 @@ package frc.robot;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import java.lang.reflect.Field;
+
 import edu.wpi.first.hal.HAL;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.Timer;
 import edu.wpi.first.wpilibj.simulation.DriverStationSim;
-import edu.wpi.first.wpilibj.simulation.XboxControllerSim;
-import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.CommandScheduler;
-import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.subsystems.Intake.IntakeConstants;
 import frc.robot.subsystems.Intake.IntakeIOSim;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
 
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Order;
@@ -28,16 +25,21 @@ import org.junit.jupiter.api.TestMethodOrder;
 
 @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
 public class IntakeSubsystemTest {
-  private static IntakeIOSim intakeIO = new IntakeIOSim();
-  private static IntakeSubsystem intakeSubsystem = new IntakeSubsystem();
+  private static IntakeIOSim intakeIO;
+  private static IntakeSubsystem intakeSubsystem;
 
   @BeforeEach
   void setup() {
     assert HAL.initialize(500, 0);
 
-    intakeSubsystem = new IntakeSubsystem();
-    intakeIO = new IntakeIOSim();
-    intakeSubsystem.replaceIntakeSimIO(intakeIO);
+    try {
+      intakeSubsystem = new IntakeSubsystem();
+      Field intakeIOField = IntakeSubsystem.class.getDeclaredField("intakeIO");
+      intakeIOField.setAccessible(true);
+      intakeIO = (IntakeIOSim) intakeIOField.get(intakeSubsystem);
+    } catch (Exception e) {
+      e.printStackTrace();
+    }
 
     DriverStationSim.setEnabled(true);
     DriverStationSim.notifyNewData();
@@ -129,7 +131,6 @@ public class IntakeSubsystemTest {
     intakeCommand();
     stopIntakeCommand();
   }
-
 
   private static void waitForUpdate(double seconds) {
     try {

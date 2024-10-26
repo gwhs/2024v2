@@ -77,6 +77,9 @@ public class CTRETeleopDrive extends Command {
     }
     
     currPose = drivetrain.getState().Pose;
+    if(currPose == null) {
+      currPose = new Pose2d();
+    }
     double currTheta = currPose.getRotation().getDegrees();
     SmartDashboard.putNumber("Robot Rotation", currTheta);
 

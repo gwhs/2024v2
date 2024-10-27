@@ -10,12 +10,14 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
 import frc.robot.commands.autonomous.S1Leave;
 import frc.robot.commands.autonomous.S3Leave;
+import frc.robot.commands.autonomous.S3_C5;
 import frc.robot.commands.swervedrive.CTRETeleopDrive;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm.ArmConstants;
@@ -100,7 +102,7 @@ public class GameRobotContainer implements BaseContainer {
     (driverController.b().and(m_IntakeSubsystem.isDeployed)).debounce(0.1).onTrue(retractIntake());
     (driverController.b().and(m_IntakeSubsystem.isDeployed.negate())).debounce(0.1).onTrue(deployIntake());
 
-    m_IntakeSubsystem.noteTriggered.onTrue(retractIntakePassToPB());
+    teleopEnabled.and(m_IntakeSubsystem.noteTriggered).onTrue(retractIntakePassToPB());
 
     /* Operator Controllers */
 
@@ -112,8 +114,11 @@ public class GameRobotContainer implements BaseContainer {
     autoChooser.setDefaultOption("S3-Leave", new S3Leave(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
 
     autoChooser.addOption("S1-Leave", new S1Leave(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
+    autoChooser.addOption("S3-C5", new S3_C5(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
     
     //TODO: add more autonomous routines
+
+    SmartDashboard.putData("autonomous", autoChooser);
   }
 
   /**

@@ -7,10 +7,9 @@ package frc.robot.subsystems.Intake;
 import edu.wpi.first.math.system.plant.DCMotor;
 import edu.wpi.first.math.system.plant.LinearSystemId;
 import edu.wpi.first.math.util.Units;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.simulation.FlywheelSim;
 import edu.wpi.first.wpilibj.simulation.SingleJointedArmSim;
-import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Commands;
 
 public class IntakeIOSim implements IntakeIO {
@@ -27,11 +26,10 @@ public class IntakeIOSim implements IntakeIO {
   private FlywheelSim intakeSpinSim = new FlywheelSim(
       LinearSystemId.createFlywheelSystem(DCMotor.getKrakenX60Foc(1), 0.0001, 1),
       DCMotor.getKrakenX60Foc(1));
-  Command noteSensor = Commands.run(() -> {
-  }).ignoringDisable(true).withName("Simulate Note Sensor Triggered");
+  private boolean noteSensor = false;
 
   public IntakeIOSim() {
-    Shuffleboard.getTab("Simulation").add("Note Sensor", noteSensor);
+    SmartDashboard.putData("Simulation/Note Sensor", Commands.runOnce(() -> noteSensor = !noteSensor));
   }
 
   public double getIntakeArmAngle() {
@@ -47,7 +45,7 @@ public class IntakeIOSim implements IntakeIO {
   }
 
   public boolean getNoteSensor() {
-    return noteSensor.isScheduled();
+    return noteSensor;
   }
 
   public double getSpinSpeed() {

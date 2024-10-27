@@ -48,7 +48,7 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     private final SwerveRequest.SysIdSwerveSteerGains m_steerCharacterization = new SwerveRequest.SysIdSwerveSteerGains();
     private final SwerveRequest.SysIdSwerveRotation m_rotationCharacterization = new SwerveRequest.SysIdSwerveRotation();
 
-    private final SwerveRequest.ApplyChassisSpeeds AutoRequest = new SwerveRequest.ApplyChassisSpeeds();
+    private final SwerveRequest.ApplyChassisSpeeds m_applyRobotSpeeds = new SwerveRequest.ApplyChassisSpeeds();
 
     /*
      * SysId routine for characterizing translation. This is used to find PID gains
@@ -261,47 +261,31 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     }
 
     private void configurePathPlanner() {
-        // Load the RobotConfig from the GUI settings. You should probably
-        // store this in your Constants file
-        RobotConfig config;
         try {
-            config = RobotConfig.fromGUISettings();
-
-            // Configure AutoBuilder last
+            var config = RobotConfig.fromGUISettings();
             AutoBuilder.configure(
-                    () -> this.getState().Pose, // Robot pose supplier
-                    this::seedFieldRelative, // Method to reset odometry (will be called if your auto has a starting
-                                             // pose)
-                    () -> this.getState().Speeds, // ChassisSpeeds supplier. MUST BE ROBOT RELATIVE
-                    (speeds, feedforwards) -> this.setControl(AutoRequest.withSpeeds(speeds)), // Method that will drive
-                                                                                               // the
-                                                                                               // robot given ROBOT
-                    // RELATIVE ChassisSpeeds. Also optionally outputs
-                    // individual module feedforwards
-                    new PPHolonomicDriveController( // PPHolonomicController is the built in path following controller
-                                                    // for
-                                                    // holonomic drive trains
-                            new PIDConstants(10.0, 0.0, 0.0), // Translation PID constants
-                            new PIDConstants(10.0, 0.0, 0.0) // Rotation PID constants
-                    ),
-                    config, // The robot configuration
-                    () -> {
-                        // Boolean supplier that controls when the path will be mirrored for the red
-                        // alliance
-                        // This will flip the path being followed to the red side of the field.
-                        // THE ORIGIN WILL REMAIN ON THE BLUE SIDE
-
-                        var alliance = DriverStation.getAlliance();
-                        if (alliance.isPresent()) {
-                            return alliance.get() == DriverStation.Alliance.Red;
-                        }
-                        return false;
-                    },
-                    this // Reference to this subsystem to set requirements
+                () -> getState().Pose,   // Supplier of current robot pose
+                this::seedFieldRelative, // Consumer for seeding pose against auto
+                () -> getState().Speeds, // Supplier of current robot speeds
+                // Consumer of ChassisSpeeds and feedforwards to drive the robot
+                (speeds, feedforwards) -> setControl(
+                    m_applyRobotSpeeds.withSpeeds(speeds)
+                        .withWheelForceFeedforwardsX(feedforwards.robotRelativeForcesXNewtons())
+                        .withWheelForceFeedforwardsY(feedforwards.robotRelativeForcesYNewtons())
+                ),
+                new PPHolonomicDriveController(
+                    // PID constants for translation
+                    new PIDConstants(10, 0, 0),
+                    // PID constants for rotation
+                    new PIDConstants(10, 0, 0)
+                ),
+                config,
+                // Assume the path needs to be flipped for Red vs Blue, this is normally the case
+                () -> DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red,
+                this // Subsystem for requirements
             );
-        } catch (Exception e) {
-            // Handle exception as needed
-            e.printStackTrace();
+        } catch (Exception ex) {
+            DriverStation.reportError("Failed to load PathPlanner config and configure AutoBuilder", ex.getStackTrace());
         }
     }
 }

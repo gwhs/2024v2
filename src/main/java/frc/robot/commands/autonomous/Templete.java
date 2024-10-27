@@ -16,8 +16,8 @@ import frc.robot.subsystems.Arm.ArmSubsystem;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.PizzaBox.PizzaBoxSubsystem;
 
-public class S1Leave extends PathPlannerAuto {
-  public S1Leave(GameRobotContainer robotContainer, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, PizzaBoxSubsystem pizzaBoxSubsystem) {
+public class Templete extends PathPlannerAuto {
+  public Templete(GameRobotContainer robotContainer, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, PizzaBoxSubsystem pizzaBoxSubsystem) {
     super(Commands.run(()->{}));
 
     /* All your code should go inside this try-catch block */
@@ -30,17 +30,15 @@ public class S1Leave extends PathPlannerAuto {
         S3Leave.getPoint(0).position, 
         S3Leave.getIdealStartingState().rotation());
 
-      /* TODO: Autonomous Routine's first actions */
+      /* TODO: When autonomous begins */
       isRunning().onTrue(
         Commands.sequence(
-          // TODO: Reset robot odometry with starting position so robot knows where it is
+          AutoBuilder.resetOdom(startingPose)
+          ));
 
-          // TODO: Score pre-load note to speaker
+      /* TODO: Other triggers */
 
-          // TODO: Follow Path
-          )
-          // TODO: Name of command
-          .withName(""));
+
     } 
     catch (Exception e) {
       DriverStation.reportError("Path Not Found: " + e.getMessage(), e.getStackTrace());

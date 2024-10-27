@@ -97,7 +97,9 @@
       "/SmartDashboard/Module 2": "Mechanism2d",
       "/SmartDashboard/Module 3": "Mechanism2d",
       "/SmartDashboard/Pigeon 2 (v6) [30]": "Gyro",
-      "/SmartDashboard/RightPIDController": "ProfiledPIDController"
+      "/SmartDashboard/RightPIDController": "ProfiledPIDController",
+      "/SmartDashboard/Simulation/Note Sensor": "Command",
+      "/SmartDashboard/autonomous": "String Chooser"
     },
     "windows": {
       "/Shuffleboard/GameTab/Field": {
@@ -111,6 +113,11 @@
           "visible": true
         }
       },
+      "/Shuffleboard/Simulation/Note Sensor": {
+        "window": {
+          "visible": true
+        }
+      },
       "/SmartDashboard/Field": {
         "bottom": 1476,
         "height": 8.210550308227539,
@@ -118,6 +125,16 @@
         "right": 2961,
         "top": 79,
         "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/Simulation/Note Sensor": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/SmartDashboard/autonomous": {
         "window": {
           "visible": true
         }

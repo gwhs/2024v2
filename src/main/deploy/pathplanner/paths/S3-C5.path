@@ -25,7 +25,7 @@
       },
       "nextControl": {
         "x": 3.5977208764973287,
-        "y": 1.4725591789540224
+        "y": 1.4725591789540227
       },
       "isLocked": false,
       "linkedName": null
@@ -53,12 +53,6 @@
   "constraintZones": [],
   "pointTowardsZones": [],
   "eventMarkers": [
-    {
-      "name": "deployIntake",
-      "waypointRelativePos": 1.1750741839762622,
-      "endWaypointRelativePos": null,
-      "command": null
-    },
     {
       "name": "atC5",
       "waypointRelativePos": 2.0,

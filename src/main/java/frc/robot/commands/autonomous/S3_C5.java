@@ -42,13 +42,8 @@ public class S3_C5 extends PathPlannerAuto {
           Commands.sequence(
               AutoBuilder.resetOdom(startingPose),
               robotContainer.scoreSpeaker(160),
-              AutoBuilder.followPath(S3C5))
+              AutoBuilder.followPath(S3C5).alongWith(robotContainer.deployIntake()))
               .withName("S3; Score Preload; S3->C5"));
-
-      /*
-       * Deploy intake when event marker "deployIntake" is triggered
-       */
-      event("deployIntake").onTrue(robotContainer.deployIntake());
 
       /*
        * Branching off at C5 note depending if intake successfully intake a note

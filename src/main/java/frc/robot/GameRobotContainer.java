@@ -1,7 +1,6 @@
 package frc.robot;
 
-import edu.wpi.first.networktables.DoublePublisher;
-import edu.wpi.first.networktables.NetworkTableInstance;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -30,7 +29,7 @@ import com.pathplanner.lib.auto.AutoBuilder;
 public class GameRobotContainer implements BaseContainer {
 
   private final CommandXboxController driverController = new CommandXboxController(0);
-  private final CommandXboxController operatorController = new CommandXboxController(1);
+
 
   private final SendableChooser<Command> autoChooser;
 
@@ -160,7 +159,7 @@ public class GameRobotContainer implements BaseContainer {
   public Command scoreAmp() {
     return Commands.sequence(
       m_ArmSubsystem.spinArm(ArmConstants.AMP_ANGLE),
-      m_PizzaBoxSubsystem.spit_command(0.5),
+      m_PizzaBoxSubsystem.spit_command(1),
       m_PizzaBoxSubsystem.setKicker(),
       Commands.waitSeconds(0.5),
       m_PizzaBoxSubsystem.stopKicker(),

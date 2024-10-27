@@ -18,7 +18,7 @@ import frc.robot.subsystems.PizzaBox.PizzaBoxSubsystem;
 
 public class S3Leave extends PathPlannerAuto {
   public S3Leave(GameRobotContainer robotContainer, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, PizzaBoxSubsystem pizzaBoxSubsystem) {
-    super(Commands.run(()->{}));
+    super(Commands.run(() -> {}));
 
     /* All your code should go inside this try-catch block */
     try {

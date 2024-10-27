@@ -18,7 +18,7 @@ import frc.robot.subsystems.PizzaBox.PizzaBoxSubsystem;
 
 public class S1_A1 extends PathPlannerAuto {
   public S1_A1(GameRobotContainer robotContainer, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, PizzaBoxSubsystem pizzaBoxSubsystem) {
-    super(Commands.run(()->{}));
+    super(Commands.run(() -> {}));
 
     /* All your code should go inside this try-catch block */
     try {

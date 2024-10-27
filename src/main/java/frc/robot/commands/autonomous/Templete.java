@@ -17,8 +17,10 @@ import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.PizzaBox.PizzaBoxSubsystem;
 
 public class Templete extends PathPlannerAuto {
-  public Templete(GameRobotContainer robotContainer, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, PizzaBoxSubsystem pizzaBoxSubsystem) {
-    super(Commands.run(()->{}));
+  public Templete(GameRobotContainer robotContainer, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem,
+      PizzaBoxSubsystem pizzaBoxSubsystem) {
+    super(Commands.run(() -> {
+    }));
 
     /* All your code should go inside this try-catch block */
     try {
@@ -27,20 +29,17 @@ public class Templete extends PathPlannerAuto {
 
       /* TODO: Get starting position of starting path */
       Pose2d startingPose = new Pose2d(
-        S3Leave.getPoint(0).position, 
-        S3Leave.getIdealStartingState().rotation());
+          S3Leave.getPoint(0).position,
+          S3Leave.getIdealStartingState().rotation());
 
       /* TODO: When autonomous begins */
       isRunning().onTrue(
-        Commands.sequence(
-          AutoBuilder.resetOdom(startingPose)
-          ));
+          Commands.sequence(
+              AutoBuilder.resetOdom(startingPose)));
 
       /* TODO: Other triggers */
 
-
-    } 
-    catch (Exception e) {
+    } catch (Exception e) {
       DriverStation.reportError("Path Not Found: " + e.getMessage(), e.getStackTrace());
     }
   }

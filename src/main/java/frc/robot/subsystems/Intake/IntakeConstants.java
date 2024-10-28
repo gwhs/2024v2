@@ -5,7 +5,7 @@
 package frc.robot.subsystems.Intake;
 
 /** Add your docs here. */
-public class IntakeContants {
+public class IntakeConstants {
     public static final int INTAKE_ARM_ID = 55;
     public static final String INTAKE_ARM_CAN = "CAN_Network";
 

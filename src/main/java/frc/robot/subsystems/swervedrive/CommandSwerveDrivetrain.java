@@ -75,23 +75,6 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         m_simNotifier.startPeriodic(kSimLoopPeriod);
     }
 
-    public void setHeading()
-    {
-        double xPos = getState().Pose.getX();
-        double yPos = getState().Pose.getY();
-
-        if(DriverStation.getAlliance().isPresent() &&
-        DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
-        {
-            seedFieldRelative(new Pose2d(xPos, yPos, new Rotation2d(Math.PI)));
-        } else if (DriverStation.getAlliance().isPresent() &&
-                   DriverStation.getAlliance().get() == DriverStation.Alliance.Blue)
-        {
-            seedFieldRelative(new Pose2d(xPos, yPos, new Rotation2d(0)));
-        }
-        //resetOdometry(new Pose2d(new Translation2d(), new Rotation2d(Math.PI)));
-    }
-
     public ChassisSpeeds getCurrentRobotChassisSpeeds() {
         return m_kinematics.toChassisSpeeds(getState().ModuleStates);
     }

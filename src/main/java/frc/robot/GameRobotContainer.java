@@ -159,8 +159,15 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command scoreSpeaker(double armAngle) {
-    // TODO
-    return Commands.none()
+    return Commands.sequence(
+      m_ArmSubsystem.spinArm(armAngle).withTimeout(2),
+      m_PizzaBoxSubsystem.spit_command(1),
+      Commands.waitUntil(() -> m_PizzaBoxSubsystem.getVelocity() >= 80).withTimeout(2),
+      m_PizzaBoxSubsystem.setKicker(),
+      Commands.waitSeconds(0.5),
+      m_PizzaBoxSubsystem.stopKicker(),
+      m_ArmSubsystem.spinArm(90).alongWith(m_PizzaBoxSubsystem.stopMotor())
+    )
         .withName("Score Speaker at " + armAngle);
   }
 

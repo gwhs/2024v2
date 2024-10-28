@@ -103,6 +103,10 @@ public class PizzaBoxSubsystem extends SubsystemBase {
     }
   }
 
+  public double getVelocity() {
+    return pizzaBoxIO.motorSpeed();
+  }
+
   @Override
   public void periodic() {
     NetworkTableInstance.getDefault().getEntry("PizzaBox: Motor Speed").setNumber(pizzaBoxIO.motorSpeed());

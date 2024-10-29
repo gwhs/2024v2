@@ -54,8 +54,8 @@ public class RobotVisualizer {
   
   
   // code for reaction bar
-  MechanismRoot2d root3 = panel.getRoot("reactionBar", 0, 0);
-  MechanismLigament2d m_reactionBar = root3.append(new MechanismLigament2d("reactionBar", 0.47, 135));
+  // MechanismRoot2d root3 = panel.getRoot("reactionBar", 0, 0);
+  // MechanismLigament2d m_reactionBar = root3.append(new MechanismLigament2d("reactionBar", 0.47, 135));
 
   public RobotVisualizer(ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem) {
     this.armSubsystem = armSubsystem;

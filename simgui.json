@@ -75,11 +75,6 @@
           "visible": true
         }
       },
-      "/Shuffleboard/Simulation/Note Sensor": {
-        "window": {
-          "visible": true
-        }
-      },
       "/Shuffleboard/Testing/Arm Commands/spinArm120": {
         "window": {
           "visible": true

@@ -64,18 +64,23 @@ public class ClimbSubsytem extends SubsystemBase {
     leftpidOutput = MathUtil.clamp(leftpidOutput, -1, 1);
 
     boolean isGoingUp = MathUtil.isNear(ClimbConstants.LEFT_UP_POSITION, leftpidController.getGoal().position, 1);
+    boolean isGoingDown = MathUtil.isNear(ClimbConstants.LEFT_DOWN_POSITION, leftpidController.getGoal().position, 1);
 
     if(isGoingUp && climbIO.getTopLeftLimitSwitch()) {
       leftpidOutput = 0;
     }
-
     // TODO: going up and top right limit switch
-
-
+    if(isGoingUp && climbIO.getTopRightLimitSwitch()) {
+      rightpidOutput = 0;
+    }
     // TODO: going down and bottom left limit switch
-
-
+    if(isGoingDown && climbIO.getBottomLeftLimitSwitch()) {
+      leftpidOutput= 0;
+    }
     // TODO: going down and bottom right limit switch
+     if(isGoingDown && climbIO.getBottomRightLimitSwitch()) {
+      rightpidOutput = 0;
+    }
 
 
 

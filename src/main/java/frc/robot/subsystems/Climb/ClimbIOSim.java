@@ -53,21 +53,18 @@ public class ClimbIOSim implements ClimbIO {
 
   @Override
   public boolean getTopRightLimitSwitch() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getTopRightLimitSwitch'");
+    return getRightMotorPosition() <= ClimbConstants.RIGHT_UP_POSITION;
   }
 
 
   @Override
   public boolean getBottomLeftLimitSwitch() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getBottomLeftLimitSwitch'");
+    return getLeftMotorPosition() >= ClimbConstants.LEFT_DOWN_POSITION;
   }
 
 
   @Override
   public boolean getBottomRightLimitSwitch() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getBottomRightLimitSwitch'");
+   return getRightMotorPosition() >= ClimbConstants.RIGHT_DOWN_POSITION;
   }
-}
+} 

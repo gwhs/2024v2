@@ -88,6 +88,8 @@ public class Robot extends TimedRobot  {
     nt_canivorCANUtilization.set(new CANBus("CAN_Network").getStatus().BusUtilization);
 
     nt_batteryVoltage.set(RobotController.getBatteryVoltage());
+
+    m_baseContainer.periodic();
     
   }
 

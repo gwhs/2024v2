@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.RobotController;
 import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Subsystem;
+import frc.robot.subsystems.AprilTagCam.AprilTagCam;
 
 import org.photonvision.targeting.PhotonPipelineResult;
 
@@ -35,6 +36,8 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     private final SwerveRequest.ApplyChassisSpeeds AutoRequest = new SwerveRequest.ApplyChassisSpeeds();
 
     private static CommandSwerveDrivetrain instance;
+
+    private final AprilTagCam testCam = new AprilTagCam("cam", null );
 
     public static CommandSwerveDrivetrain getInstance() {
         if (instance == null) {
@@ -118,8 +121,16 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
             this); // Subsystem for requirements
     }
 
-    public void addVisionMeasurent(double sd, PhotonPipelineResult robotPose){
-        Pose2d curPose = robotPose ; 
-        double time =  robotPose.getTimestampSeconds(); 
-    } 
+    public void periodic(){
+       testCam.updatePoseEstim();
+    }
+
+
+
 }
+
+    // public void addVisionMeasurent(double sd, PhotonPipelineResult robotPose){
+    //     Pose2d curPose = robotPose ; 
+    //     double time =  robotPose.getTimestampSeconds(); 
+    // } 
+

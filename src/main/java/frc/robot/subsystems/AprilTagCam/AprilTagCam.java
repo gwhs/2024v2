@@ -19,18 +19,30 @@ public class AprilTagCam {
     AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
 
     PhotonCamera cam;
+    SwerveDrivePoseEstimator m_estimator;
 
+    // 
     public AprilTagCam(String str, SwerveDrivePoseEstimator estimator ){
         cam = new PhotonCamera(str);
+        m_estimator = estimator; 
         
     }   
 
     public void updatePoseEstim(){
 
+        System.out.println("Spillard  hajel ");
+
         // write an if statement that allows to find if the the list is empty or not
+        // getting the unread results target pose 
+        // we need to get the robot pose from the target pose 
+        //
+        // we need to give the info of where the robot is to the drive train so it knows where to move 
+
         var results = cam.getAllUnreadResults(); 
-        for( PhotonPipelineResult robotPose : results ){
-            System.out.println(robotPose);
+        for( PhotonPipelineResult targetPose : results ){
+            System.out.println(targetPose);
+            // 2dPose robotPose = new 2dPose();
+
         }   
     
        

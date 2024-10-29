@@ -10,6 +10,7 @@ import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Constants.OperatorConstants;
 import frc.robot.commands.swervedrive.CTRETeleopDrive;
 import frc.robot.subsystems.*;
+import frc.robot.subsystems.AprilTagCam.AprilTagCam;
 import frc.robot.subsystems.Arm.ArmSubsystem;
 import frc.robot.subsystems.Reaction.ReactionSubsystem;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
@@ -40,6 +41,8 @@ public class GameRobotContainer implements BaseContainer {
 
   private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController);
   private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
+
+  private final AprilTagCam testCam = new AprilTagCam("cam", null );
 
   public GameRobotContainer() {
 

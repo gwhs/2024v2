@@ -23,7 +23,7 @@ public class S1Leave extends PathPlannerAuto {
     /* All your code should go inside this try-catch block */
     try {
       /* TODO: Load all paths needed */
-      PathPlannerPath S3Leave = PathPlannerPath.fromPathFile("S3-C5");
+      PathPlannerPath S1A1 = PathPlannerPath.fromPathFile("S1-A1");
 
       /* TODO: Get starting position of starting path */
       Pose2d startingPose = new Pose2d(

@@ -54,7 +54,7 @@ public class ArmSubsystem extends SubsystemBase {
   public void periodic() {
     // This method will be called once per scheduler run
     var setpoint = pidController.getSetpoint();
-    double armFeedforwardOutput = armFeedforward.calculate(setpoint.position, setpoint.velocity);
+    double armFeedforwardOutput = armFeedforward.calculate(setpoint.position, setpoint.velocity) / 12;
     double pidOutput = pidController.calculate(Units.degreesToRadians(armIO.getArmEncoderAngle()));
     double speed = pidOutput + armFeedforwardOutput;
 
@@ -64,7 +64,7 @@ public class ArmSubsystem extends SubsystemBase {
     NetworkTableInstance.getDefault().getEntry("/Arm/pidOutput").setNumber(pidOutput);
     NetworkTableInstance.getDefault().getEntry("/Arm/armGoal")
         .setNumber(Units.radiansToDegrees(pidController.getGoal().position));
-    NetworkTableInstance.getDefault().getEntry("/Arm/armSpeed").setNumber(armFeedforwardOutput);
+    NetworkTableInstance.getDefault().getEntry("/Arm/FeedforwardOutput").setNumber(armFeedforwardOutput);
     NetworkTableInstance.getDefault().getEntry("/Arm/armSpeed").setNumber(speed);
     armIO.update();
   }

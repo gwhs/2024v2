@@ -13,6 +13,6 @@ public class ReactionConstants {
     public static final double kI = 0;
     public static final double kD = 0;
     
-    public static final double RETRACTED_POSITION = 0;
+    public static final double RETRACTED_POSITION = -1;
     public static final double EXTENDED_POSITION = -2.5;
 }

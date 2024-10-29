@@ -18,4 +18,8 @@ public interface BaseContainer
     default String getDrivetrainName() {
         return "none";
     }
+
+    default void periodic() {
+
+    }
 }

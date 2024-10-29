@@ -12,6 +12,10 @@ public class ArmConstants {
    public static final double ARM_ACC = 360 * Math.PI / 180;
    public static final int ARM_ROTATION_TO_DEGREES = 360;
    public static final double ARM_ENCODER_OFFSET = 18.6;
+   public static final double ARM_kS = 0;
+   public static final double ARM_kG = 0;
+   public static final double ARM_kV = 0;
+   public static final double ARM_kA = 0;
 
    public static final double INTAKE_ANGLE = 63;
 }

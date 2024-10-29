@@ -23,17 +23,19 @@ public class S1_A1 extends PathPlannerAuto {
     /* All your code should go inside this try-catch block */
     try {
       /* TODO: Load all paths needed */
-      PathPlannerPath S3Leave = PathPlannerPath.fromPathFile("S3-C5");
+      PathPlannerPath S1A1 = PathPlannerPath.fromPathFile("S1-A1");
 
       /* TODO: Get starting position of starting path */
       Pose2d startingPose = new Pose2d(
-        S3Leave.getPoint(0).position, 
-        S3Leave.getIdealStartingState().rotation());
+        S1A1.getPoint(0).position, 
+        S1A1.getIdealStartingState().rotation());
 
       /* TODO: When autonomous begins */
       isRunning().onTrue(
         Commands.sequence(
-          AutoBuilder.resetOdom(startingPose)
+          AutoBuilder.resetOdom(startingPose),
+          robotContainer.scoreSpeaker(160),
+          AutoBuilder.followPath(S1A1).alongWith(robotContainer.deployIntake())
           ));
 
       /* TODO: event marker "deployIntake" */

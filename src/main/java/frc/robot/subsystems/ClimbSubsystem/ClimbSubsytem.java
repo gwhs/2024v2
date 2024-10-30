@@ -6,6 +6,12 @@ package frc.robot.subsystems.ClimbSubsystem;
 
 import java.util.Map;
 
+import com.ctre.phoenix6.configs.MotionMagicConfigs;
+import com.ctre.phoenix6.configs.Slot0Configs;
+import com.ctre.phoenix6.configs.TalonFXConfiguration;
+
+import edu.wpi.first.math.MathUtil;
+import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -14,8 +20,6 @@ import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
-import edu.wpi.first.math.MathUtil;
-import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
@@ -60,11 +64,14 @@ public class ClimbSubsytem extends SubsystemBase {
     double rightpidOutput = rightpidController.calculate(climbIO.getRightMotorPosition());
     double leftpidOutput = leftpidController.calculate(climbIO.getLeftMotorPosition());
 
+
     rightpidOutput = MathUtil.clamp(rightpidOutput, -1, 1);
     leftpidOutput = MathUtil.clamp(leftpidOutput, -1, 1);
 
     climbIO.setLeftMotorSpeed(leftpidOutput);
     climbIO.setRightMotorSpeed(rightpidOutput);
+
+    
     climbIO.update();
 
     NetworkTableInstance.getDefault().getEntry("Climb/Left PID Output").setNumber(leftpidOutput);
@@ -78,15 +85,15 @@ public class ClimbSubsytem extends SubsystemBase {
 
   public Command motorUp() {
     return this.runOnce(() -> {
-      leftpidController.setGoal(ClimbConstants.LEFT_UP_POSITION);
-      rightpidController.setGoal(ClimbConstants.RIGHT_UP_POSITION);
+      climbIO.setPositionLeft(ClimbConstants.LEFT_UP_POSITION);
+      climbIO.setPositionRight(ClimbConstants.RIGHT_UP_POSITION);
     }).withName("Motor Up");
   }
 
   public Command motorDown() {
     return this.runOnce(() -> {
-      leftpidController.setGoal(ClimbConstants.LEFT_DOWN_POSITION);
-      rightpidController.setGoal(ClimbConstants.RIGHT_DOWN_POSITION);
+      climbIO.setPositionLeft(ClimbConstants.LEFT_DOWN_POSITION);
+      climbIO.setPositionLeft(ClimbConstants.RIGHT_DOWN_POSITION);
     }).withName("Motor Down");
   }
 }

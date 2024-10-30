@@ -59,6 +59,9 @@ public class ArmSubsystem extends SubsystemBase {
     NetworkTableInstance.getDefault().getEntry("/Arm/pidOutput").setNumber(pidOutput);
     NetworkTableInstance.getDefault().getEntry("/Arm/armGoal")
         .setNumber(Units.radiansToDegrees(pidController.getGoal().position));
+
+    
+
     armIO.update();
   }
 

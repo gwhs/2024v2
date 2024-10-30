@@ -174,7 +174,7 @@ public class GameRobotContainer implements BaseContainer {
   public Command climbAndScore() {
     return Commands.sequence(
         m_ReactionSubsystem.extendReactionBar(),
-        m_ClimbSubsystem.motorDown(),
+        m_ClimbSubsystem.motorDown().withTimeout(3),
         m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_TRAP),
         m_PizzaBoxSubsystem.spit_command(0.8),
         Commands.waitSeconds(2),
@@ -193,11 +193,12 @@ public class GameRobotContainer implements BaseContainer {
 
   public Command unclimbPartTwo() {
     return Commands.sequence(
-      m_ClimbSubsystem.motorHalfWay(),
+      m_ClimbSubsystem.motorDown().withTimeout(3),
       m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_FLAP),
       m_PizzaBoxSubsystem.stopFlap(),
-      m_ClimbSubsystem.motorDown(),
-      m_ArmSubsystem.spinArm(90))
+      Commands.waitSeconds(1),
+      m_ArmSubsystem.spinArm(90),
+      m_ReactionSubsystem.retractReactionBar())
         .withName("Unclimb Part Two");
   }
 }

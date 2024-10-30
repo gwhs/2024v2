@@ -15,6 +15,7 @@ import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Util.RobotVisualizer;
 import frc.robot.commands.autonomous.S1Leave;
 import frc.robot.commands.autonomous.S3Leave;
 import frc.robot.commands.autonomous.S3_C5;
@@ -51,12 +52,16 @@ public class GameRobotContainer implements BaseContainer {
 
   public final Trigger teleopEnabled = new Trigger(() -> DriverStation.isTeleopEnabled());
 
+  private final RobotVisualizer robotVisualizer;
+
   public GameRobotContainer() {
     drivetrain.setDefaultCommand(drive);
     configureBindings();
     configureAutonomous();
 
     drivetrain.registerTelemetry(logger::telemeterize);
+
+    robotVisualizer = new RobotVisualizer(m_ArmSubsystem, m_IntakeSubsystem);
 
     /*
      * Put composite commands to shuffleboard
@@ -129,6 +134,11 @@ public class GameRobotContainer implements BaseContainer {
    */
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
+  }
+
+  @Override
+  public void periodic() {
+    robotVisualizer.update();
   }
 
   public Command deployIntake() {

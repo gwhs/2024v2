@@ -4,6 +4,8 @@
 
 package frc.robot.commands.autonomous;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
 import com.pathplanner.lib.path.PathPlannerPath;
@@ -34,14 +36,25 @@ public class S1_A1 extends PathPlannerAuto {
       isRunning().onTrue(
         Commands.sequence(
           AutoBuilder.resetOdom(startingPose),
-          robotContainer.scoreSpeaker(160),
+          robotContainer.scoreSpeaker(236),
           AutoBuilder.followPath(S1A1).alongWith(robotContainer.deployIntake())
           ));
 
-      /* TODO: event marker "deployIntake" */
-
       /* TODO: event marker "atA1" */
+      event("atA1").and(intakeSubsystem.noteTriggered).onTrue(
+        Commands.sequence(
+          robotContainer.retractIntakePassToPB(),
+          robotContainer.scoreSpeaker(236)
+        )
+      );
 
+      event("atA1").and(intakeSubsystem.noteTriggered.negate()).onTrue(
+        Commands.sequence(
+          robotContainer.retractIntake()
+          .withName("At A1 without note; stay")
+        )
+      );
+      
 
     } 
     catch (Exception e) {

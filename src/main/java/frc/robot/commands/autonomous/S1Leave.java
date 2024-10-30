@@ -36,7 +36,7 @@ public class S1Leave extends PathPlannerAuto {
           // TODO: Reset robot odometry with starting position so robot knows where it is
           AutoBuilder.resetOdom(startingPose),
           // TODO: Score pre-load note to speaker
-          robotContainer.scoreSpeaker(160),
+          robotContainer.scoreSpeaker(236),
           // TODO: Follow Path
           AutoBuilder.followPath(S1Leave)
           )

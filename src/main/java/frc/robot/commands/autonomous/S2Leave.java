@@ -38,9 +38,10 @@ public class S2Leave extends PathPlannerAuto {
           // TODO: Score pre-load note to speaker
           robotContainer.scoreSpeaker(236),
           // TODO: Follow Path
-          AutoBuilder.followPath(S2Leave2).alongWith(robotContainer.deployIntake()))
+          AutoBuilder.followPath(S2Leave2).alongWith(robotContainer.deployIntake())),
+          Commands.waitSeconds(10)
           // TODO: Name of command
-          .withName("S3; Score Preload; S3->C5"));   
+          .withName("S2Leave; Score Preload;"));
     } 
 
     catch (Exception e) {

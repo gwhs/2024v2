@@ -40,19 +40,16 @@ public class ClimbIOReal implements ClimbIO {
 
   @Override
   public boolean getTopRightLimitSwitch() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getTopRightLimitSwitch'");
+    return topRight.get();
   }
 
   @Override
   public boolean getBottomLeftLimitSwitch() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getBottomLeftLimitSwitch'");
+      return bottomRight.get();
   }
 
   @Override
   public boolean getBottomRightLimitSwitch() {
-    // TODO Auto-generated method stub
-    throw new UnsupportedOperationException("Unimplemented method 'getBottomRightLimitSwitch'");
+      return bottomLeft.get();
   }
 }

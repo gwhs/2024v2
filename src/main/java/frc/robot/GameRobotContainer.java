@@ -29,34 +29,29 @@ import com.pathplanner.lib.auto.AutoBuilder;
 public class GameRobotContainer implements BaseContainer {
 
   private final CommandXboxController driverController = new CommandXboxController(0);
-
-
+  private final CommandXboxController operatorController = new CommandXboxController(1);
   private final SendableChooser<Command> autoChooser;
-
   private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
   private final ArmSubsystem m_ArmSubsystem = new ArmSubsystem();
   private final PizzaBoxSubsystem m_PizzaBoxSubsystem = new PizzaBoxSubsystem();
   private final ClimbSubsytem m_ClimbSubsystem = new ClimbSubsytem();
   private final ReactionSubsystem m_ReactionSubsystem = new ReactionSubsystem();
   private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance();
-
   private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController);
   private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
-
   public final Trigger teleopEnabled = new Trigger(() -> DriverStation.isTeleopEnabled());
 
   public GameRobotContainer() {
 
-    autoChooser = AutoBuilder.buildAutoChooser("Hajel middle bottom 2");
+    autoChooser = AutoBuilder.buildAutoChooser("Hajel middle bottom 2"); //what is this name?
 
     drivetrain.setDefaultCommand(drive);
     configureBindings();
 
     drivetrain.registerTelemetry(logger::telemeterize);
 
-    /*
-     * Put composite commands to shuffleboard
-     */
+    
+     //Put composite commands to shuffleboard
     ShuffleboardTab testingTab = Shuffleboard.getTab("Whole Robot Testing");
     ShuffleboardLayout testingLayout = testingTab.getLayout("Commands", BuiltInLayouts.kList)
         .withSize(2, 5)
@@ -86,10 +81,10 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   private void configureBindings() {
-    /* Reset Robot */
+    // Reset Robot
     teleopEnabled.onTrue(retractIntake());
 
-    /* Driver Controller */
+    // Driver Controller
     driverController.start().onTrue(Commands.runOnce(drivetrain::seedFieldRelative));
     driverController.a()
         .onTrue(deployIntake())
@@ -100,17 +95,14 @@ public class GameRobotContainer implements BaseContainer {
 
     m_IntakeSubsystem.noteTriggered.onTrue(retractIntakePassToPB());
 
-    /* Operator Controllers */
-
-    /* Other Triggers */
+   
 
   }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
    * @return the command to run in autonomous
-   */
+   **/
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
   }
@@ -147,6 +139,7 @@ public class GameRobotContainer implements BaseContainer {
     return Commands.sequence(
       m_ArmSubsystem.spinArm(armAngle),
       m_PizzaBoxSubsystem.speedyArm_Command((() -> m_ArmSubsystem.getArmAngle())),
+      Commands.waitUntil(() -> m_PizzaBoxSubsystem.atVelocity(80)),
       m_PizzaBoxSubsystem.setKicker(),
       Commands.waitSeconds(0.5),
       m_PizzaBoxSubsystem.stopKicker(),

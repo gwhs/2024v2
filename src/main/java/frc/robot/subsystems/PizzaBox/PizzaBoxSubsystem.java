@@ -48,7 +48,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
   }
 
   public Command stopMotor() {
-    return this.runOnce(() -> pizzaBoxIO.setMotor(.0))
+    return this.runOnce(() -> pizzaBoxIO.setMotor(0))
         .withName("STOP MOTOR");
   }
 
@@ -64,11 +64,11 @@ public class PizzaBoxSubsystem extends SubsystemBase {
 
   public Command speedyArm_Command(DoubleSupplier f) {
     if (f.getAsDouble() > 99 && f.getAsDouble() < 261) {
-      return this.runOnce(() -> pizzaBoxIO.setMotor(80))
+      return this.runOnce(() -> pizzaBoxIO.setMotor(1))
           .withName("GAS GAS GAS");
 
     } else {
-      return this.runOnce(() -> pizzaBoxIO.setMotor(0.8))
+      return this.runOnce(() -> pizzaBoxIO.setMotor(1))
           .withName("GAS GAS GAS");
     }
 
@@ -104,7 +104,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
 
   @Override
   public void periodic() {
-    NetworkTableInstance.getDefault().getEntry("PizzaBox: Motor Speed").setNumber(pizzaBoxIO.motorSpeed());
+    NetworkTableInstance.getDefault().getEntry("PizzaBox: Motor Speed").setNumber(pizzaBoxIO.getMotorSpeed());
     pizzaBoxIO.update();
   }
 }

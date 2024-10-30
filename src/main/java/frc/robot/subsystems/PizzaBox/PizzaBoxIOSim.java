@@ -15,7 +15,8 @@ public class PizzaBoxIOSim implements PizzaBoxIO {
   }
 
   public void setMotor(double speed) {
-    motor.setInputVoltage(speed);
+   
+    motor.setInputVoltage(speed * 12);
   }
 
   public void setKicker(double angle) {
@@ -24,7 +25,7 @@ public class PizzaBoxIOSim implements PizzaBoxIO {
   }
 
   public boolean atMotorSpeed(double speed) {
-    if (motor.getAngularVelocityRadPerSec() == speed) {
+    if (motor.getAngularVelocityRadPerSec() >= speed) {
       return true;
     } else {
       return false;
@@ -39,13 +40,15 @@ public class PizzaBoxIOSim implements PizzaBoxIO {
     return kicker.getPosition();
   }
 
-  public double motorSpeed() {
-    return motor.getAngularVelocityRadPerSec();
+  public double getMotorSpeed() {
+    return motor.getAngularVelocityRPM() / 60;
   }
 
   public void update() {
     motor.update(.020);
 
   }
+
+  
 
 }

@@ -38,7 +38,7 @@ public class PizzaBoxIOReal implements PizzaBoxIO {
     return PBservo.getAngle();
   }
 
-  public double motorSpeed() {
+  public double getMotorSpeed() {
     return m_PizzaBoxMotor.getVelocity().getValueAsDouble();
   }
 

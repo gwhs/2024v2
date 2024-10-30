@@ -113,14 +113,12 @@
         "left": 150,
         "right": 2961,
         "top": 79,
-        "width": 16.541748046875
-      },
-      "/Shuffleboard/Whole Robot Testing/Commands/Score Speaker at 236.0": {
+        "width": 16.541748046875,
         "window": {
           "visible": true
         }
       },
-      "/Shuffleboard/Whole Robot Testing/Commands/scoreAmp": {
+      "/Shuffleboard/Whole Robot Testing/Commands/Score Speaker at 236.0": {
         "window": {
           "visible": true
         }
@@ -131,7 +129,10 @@
         "left": 150,
         "right": 2961,
         "top": 79,
-        "width": 16.541748046875
+        "width": 16.541748046875,
+        "window": {
+          "visible": true
+        }
       }
     }
   },
@@ -144,7 +145,8 @@
         "open": true
       },
       "open": true
-    }
+    },
+    "visible": true
   },
   "NetworkTables View": {
     "visible": false

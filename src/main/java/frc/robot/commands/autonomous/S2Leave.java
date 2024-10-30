@@ -23,25 +23,26 @@ public class S2Leave extends PathPlannerAuto {
     /* All your code should go inside this try-catch block */
     try {
       /* TODO: Load all paths needed */
-      PathPlannerPath S3Leave = PathPlannerPath.fromPathFile("S3-C5");
+      PathPlannerPath S2Leave2 = PathPlannerPath.fromPathFile("S2Leave2");
 
       /* TODO: Get starting position of starting path */
       Pose2d startingPose = new Pose2d(
-        S3Leave.getPoint(0).position, 
-        S3Leave.getIdealStartingState().rotation());
+        S2Leave2.getPoint(0).position, 
+        S2Leave2.getIdealStartingState().rotation());
 
       /* TODO: Autonomous Routine's first actions */
       isRunning().onTrue(
         Commands.sequence(
           // TODO: Reset robot odometry with starting position so robot knows where it is
-
+          AutoBuilder.resetOdom(startingPose),
           // TODO: Score pre-load note to speaker
-
+          robotContainer.scoreSpeaker(236),
           // TODO: Follow Path
-          )
+          AutoBuilder.followPath(S2Leave2).alongWith(robotContainer.deployIntake()))
           // TODO: Name of command
-          .withName(""));
+          .withName("S3; Score Preload; S3->C5"));   
     } 
+
     catch (Exception e) {
       DriverStation.reportError("Path Not Found: " + e.getMessage(), e.getStackTrace());
     }

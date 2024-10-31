@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.GameRobotContainer;
+import frc.robot.Util.NoteSimulator;
 import frc.robot.subsystems.Arm.ArmConstants;
 import frc.robot.subsystems.Arm.ArmSubsystem;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
@@ -38,7 +39,7 @@ public class S3_C5_C4_optimized extends PathPlannerAuto {
 
       isRunning().onTrue(
           Commands.sequence(
-              AutoBuilder.resetOdom(startingPose),
+              AutoBuilder.resetOdom(startingPose).alongWith(NoteSimulator.intakeNote()),
               robotContainer.scoreSpeaker(160),
               AutoBuilder.followPath(S3C5).deadlineFor(
                   robotContainer.deployIntake().alongWith(armSubsystem.spinArm(ArmConstants.INTAKE_ANGLE)))));

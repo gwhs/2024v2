@@ -24,6 +24,7 @@
       "/Shuffleboard/Testing/Intake Commands/Intake: retract intake": "Command",
       "/Shuffleboard/Testing/IntakeSubsystem": "Subsystem",
       "/Shuffleboard/Testing/PizzaBox Commands/!GAS GAS GAS": "Command",
+      "/Shuffleboard/Testing/PizzaBox Commands/RunCommand": "Command",
       "/Shuffleboard/Testing/PizzaBox Commands/SET FLAP": "Command",
       "/Shuffleboard/Testing/PizzaBox Commands/SET KICKER": "Command",
       "/Shuffleboard/Testing/PizzaBox Commands/STOP FLAP": "Command",

@@ -116,6 +116,7 @@ public class GameRobotContainer implements BaseContainer {
     autoChooser.addOption("S2-Leave", new S1Leave(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
     autoChooser.addOption("S3-C5", new S3_C5(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
     autoChooser.addOption("S3-C5-C4", new S3_C5_C4(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
+    autoChooser.addOption("S3-C5-C4_optimized", new S3_C5_C4_optimized(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
     
     //TODO: add more autonomous routines
 
@@ -165,13 +166,13 @@ public class GameRobotContainer implements BaseContainer {
 
   public Command scoreSpeaker(double armAngle) {
     return Commands.sequence(
-      m_ArmSubsystem.spinArm(armAngle).withTimeout(2),
+      m_ArmSubsystem.spinArm(armAngle).deadlineFor(m_PizzaBoxSubsystem.speedyArm_Command(() -> m_ArmSubsystem.getArmAngle())).withTimeout(2),
       m_PizzaBoxSubsystem.spit_command(1),
       Commands.waitUntil(() -> m_PizzaBoxSubsystem.getVelocity() >= 80).withTimeout(2),
       m_PizzaBoxSubsystem.setKicker(),
       Commands.waitSeconds(0.5),
       m_PizzaBoxSubsystem.stopKicker(),
-      m_ArmSubsystem.spinArm(90).alongWith(m_PizzaBoxSubsystem.stopMotor()).withTimeout(0.1)
+      m_ArmSubsystem.spinArm(90).alongWith(m_PizzaBoxSubsystem.stopMotor()).withTimeout(0)
     )
         .withName("Score Speaker at " + armAngle);
   }

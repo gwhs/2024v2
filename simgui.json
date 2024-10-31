@@ -72,6 +72,23 @@
       "/Shuffleboard/Whole Robot Testing/PizzaBoxSubsystem": "Subsystem",
       "/Shuffleboard/Whole Robot Testing/ReactionSubsystem": "Subsystem",
       "/Shuffleboard/Whole Robot Testing/Scheduler": "Scheduler",
+      "/Shuffleboard/Whole Robot Testing/ArmSubsystem": "Subsystem",
+      "/Shuffleboard/Whole Robot Testing/ClimbSubsytem": "Subsystem",
+      "/Shuffleboard/Whole Robot Testing/Commands/Climb and Score": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Deploy Intake": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Prep Climb": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Retract Intake": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Retract Intake and Pass to PB": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Score Amp": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Score Speaker at 160.0": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Score Speaker at 230.0": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Source Intake": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Unclimb Part One": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Unclimb Part Two": "Command",
+      "/Shuffleboard/Whole Robot Testing/IntakeSubsystem": "Subsystem",
+      "/Shuffleboard/Whole Robot Testing/PizzaBoxSubsystem": "Subsystem",
+      "/Shuffleboard/Whole Robot Testing/ReactionSubsystem": "Subsystem",
+      "/Shuffleboard/Whole Robot Testing/Scheduler": "Scheduler",
       "/SmartDashboard/LeftPIDController": "ProfiledPIDController",
       "/SmartDashboard/Module 0": "Mechanism2d",
       "/SmartDashboard/Module 1": "Mechanism2d",
@@ -94,27 +111,37 @@
           "visible": true
         }
       },
-      "/Shuffleboard/Testing/Arm Commands/spinArm120": {
+      "/Shuffleboard/Testing/TestingCommands/Motor Down": {
         "window": {
           "visible": true
         }
       },
-      "/Shuffleboard/Testing/Arm Commands/spinArm200": {
+      "/Shuffleboard/Testing/TestingCommands/Motor Up": {
         "window": {
           "visible": true
         }
       },
-      "/Shuffleboard/Testing/Arm Commands/spinArm60": {
+      "/Shuffleboard/Whole Robot Testing/Commands/Climb and Score": {
         "window": {
           "visible": true
         }
       },
-      "/Shuffleboard/Testing/Intake Commands/Intake: deploy intake": {
+      "/Shuffleboard/Whole Robot Testing/Commands/Deploy Intake": {
         "window": {
           "visible": true
         }
       },
-      "/Shuffleboard/Testing/Intake Commands/Intake: retract intake": {
+      "/Shuffleboard/Whole Robot Testing/Commands/Prep Climb": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Whole Robot Testing/Commands/Unclimb Part One": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Whole Robot Testing/Commands/Unclimb Part Two": {
         "window": {
           "visible": true
         }

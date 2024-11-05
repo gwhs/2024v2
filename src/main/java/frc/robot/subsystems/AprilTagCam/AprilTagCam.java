@@ -51,7 +51,7 @@ public class AprilTagCam {
         for( PhotonPipelineResult targetPose : results ){
             
             System.out.println(targetPose);
-
+             System.out.println(targetPose);
             
 
             Optional<EstimatedRobotPose> optionalEstimPose = (estim.update(targetPose)); 

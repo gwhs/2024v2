@@ -65,12 +65,12 @@ public class PizzaBoxSubsystem extends SubsystemBase {
   public Command speedyArm_Command(DoubleSupplier f) {
     if (f.getAsDouble() > 99 && f.getAsDouble() < 261) {
       return this.runOnce(() -> pizzaBoxIO.setMotor(1))
-          .withName("GAS GAS GAS");
+          .withName("Speedy Arm Command");
 
-    } else {
-      return this.runOnce(() -> pizzaBoxIO.setMotor(1))
-          .withName("GAS GAS GAS");
-    }
+    } 
+      return this.runOnce(() -> pizzaBoxIO.setMotor(0))
+          .withName("Speedy Arm Command");
+    
 
   }
 

@@ -1,6 +1,5 @@
 package frc.robot;
 
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -164,8 +163,8 @@ public class GameRobotContainer implements BaseContainer {
   public Command scoreAmp() {
     return Commands.sequence(
       m_ArmSubsystem.spinArm(ArmConstants.AMP_ANGLE),
-      m_PizzaBoxSubsystem.spit_command(1),
       m_PizzaBoxSubsystem.setKicker(),
+      m_PizzaBoxSubsystem.spit_command(1),
       Commands.waitSeconds(0.5),
       m_PizzaBoxSubsystem.stopKicker(),
       m_PizzaBoxSubsystem.stopMotor(),

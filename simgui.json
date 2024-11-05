@@ -75,27 +75,12 @@
           "visible": true
         }
       },
-      "/Shuffleboard/Testing/Arm Commands/spinArm120": {
+      "/Shuffleboard/Testing/TestingCommands/Motor Down": {
         "window": {
           "visible": true
         }
       },
-      "/Shuffleboard/Testing/Arm Commands/spinArm200": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/Shuffleboard/Testing/Arm Commands/spinArm60": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/Shuffleboard/Testing/Intake Commands/Intake: deploy intake": {
-        "window": {
-          "visible": true
-        }
-      },
-      "/Shuffleboard/Testing/Intake Commands/Intake: retract intake": {
+      "/Shuffleboard/Testing/TestingCommands/Motor Up": {
         "window": {
           "visible": true
         }

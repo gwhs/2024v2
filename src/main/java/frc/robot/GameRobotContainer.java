@@ -1,6 +1,5 @@
 package frc.robot;
 
-
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -46,7 +45,7 @@ public class GameRobotContainer implements BaseContainer {
 
   public GameRobotContainer() {
 
-    autoChooser = AutoBuilder.buildAutoChooser("Hajel middle bottom 2"); //what is this name?
+    autoChooser = AutoBuilder.buildAutoChooser("Hajel middle bottom 2"); // what is this name?
 
     drivetrain.setDefaultCommand(drive);
     configureBindings();
@@ -101,16 +100,33 @@ public class GameRobotContainer implements BaseContainer {
 
     m_IntakeSubsystem.noteTriggered.onTrue(retractIntakePassToPB());
 
+<<<<<<< HEAD
     driverController.a().whileTrue(Commands.startEnd(
       () -> drive.faceAmp = true,
       () -> drive.faceAmp = false));
 
     driverController.a().and(driverController.rightTrigger()).onTrue(scoreAmp());
+=======
+    driverController.y().whileTrue(Commands.startEnd(
+        () -> drive.faceSpeaker = true,
+        () -> drive.faceSpeaker = false));
+>>>>>>> 3a23c4b8336bfd5c27366f25c50b027d34abca8d
 
-  }
+    driverController.y().and(driverController.rightTrigger()).onTrue(scoreSpeaker(160)).onFalse(Commands.parallel(m_ArmSubsystem.spinArm(60),(m_PizzaBoxSubsystem.spit_command(0.0))));
+
+  
+  //source intake
+    driverController.x().whileTrue(Commands.startEnd(
+      () -> drive.isHeadingLock = true,
+      () -> drive.isHeadingLock = false));
+
+    driverController.x().and(driverController.rightTrigger()).onTrue(sourceIntake());
+   }
+   
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
+   * 
    * @return the command to run in autonomous
    **/
   public Command getAutonomousCommand() {
@@ -150,43 +166,42 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command scoreSpeaker(double armAngle) {
-    
+
     return Commands.sequence(
-      m_ArmSubsystem.spinArm(armAngle),
-      m_PizzaBoxSubsystem.speedyArm_Command((() -> m_ArmSubsystem.getArmAngle())),
-      Commands.waitUntil(() -> m_PizzaBoxSubsystem.atVelocity(80)),
-      m_PizzaBoxSubsystem.setKicker(),
-      Commands.waitSeconds(0.5),
-      m_PizzaBoxSubsystem.stopKicker(),
-      m_PizzaBoxSubsystem.stopMotor(),
-      m_ArmSubsystem.spinArm(90)
-    )
+        m_ArmSubsystem.spinArm(armAngle),
+        m_PizzaBoxSubsystem.speedyArm_Command((() -> m_ArmSubsystem.getArmAngle())),
+        Commands.waitUntil(() -> m_PizzaBoxSubsystem.atVelocity(80)),
+        m_PizzaBoxSubsystem.setKicker(),
+        Commands.waitSeconds(0.5),
+        m_PizzaBoxSubsystem.stopKicker(),
+        m_PizzaBoxSubsystem.stopMotor(),
+        m_ArmSubsystem.spinArm(90))
         .withName("Score Speaker at " + armAngle);
   }
 
   public Command scoreAmp() {
     return Commands.sequence(
-      m_ArmSubsystem.spinArm(ArmConstants.AMP_ANGLE),
-      m_PizzaBoxSubsystem.spit_command(1),
-      m_PizzaBoxSubsystem.setKicker(),
-      Commands.waitSeconds(0.5),
-      m_PizzaBoxSubsystem.stopKicker(),
-      m_PizzaBoxSubsystem.stopMotor(),
-      m_ArmSubsystem.spinArm(90))
-    .withName("scoreAmp");
+        m_ArmSubsystem.spinArm(ArmConstants.AMP_ANGLE),
+        m_PizzaBoxSubsystem.spit_command(1),
+        m_PizzaBoxSubsystem.setKicker(),
+        Commands.waitSeconds(0.5),
+        m_PizzaBoxSubsystem.stopKicker(),
+        m_PizzaBoxSubsystem.stopMotor(),
+        m_ArmSubsystem.spinArm(90))
+        .withName("scoreAmp");
   }
 
   public Command sourceIntake() {
-    
     return Commands.sequence(
-      m_ArmSubsystem.spinArm(25))
-      // m_PizzaBoxSubsystem.speedyArm_Command()
+        m_ArmSubsystem.spinArm(160)).alongWith(m_PizzaBoxSubsystem.slurp_command(0.9))
+        // m_PizzaBoxSubsystem.speedyArm_Command()
         .withName("Source Intake");
   }
 
   public Command prepClimb() {
     return Commands.sequence(
-        m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_FLAP).alongWith(Commands.waitUntil(()->m_ArmSubsystem.getArmAngle() >= 200).andThen(m_ClimbSubsystem.motorHalfWay())),
+        m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_FLAP).alongWith(
+            Commands.waitUntil(() -> m_ArmSubsystem.getArmAngle() >= 200).andThen(m_ClimbSubsystem.motorHalfWay())),
         m_PizzaBoxSubsystem.setFlap(),
         Commands.waitSeconds(0.5),
         m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_CLIMB),
@@ -206,22 +221,21 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command unclimbPartOne() {
-  
+
     return Commands.sequence(
-      m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_CLIMB),
-      m_ClimbSubsystem.motorUp()
-    )
+        m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_CLIMB),
+        m_ClimbSubsystem.motorUp())
         .withName("Unclimb Part One");
   }
 
   public Command unclimbPartTwo() {
     return Commands.sequence(
-      m_ClimbSubsystem.motorDown().withTimeout(3),
-      m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_FLAP),
-      m_PizzaBoxSubsystem.stopFlap(),
-      Commands.waitSeconds(1),
-      m_ArmSubsystem.spinArm(90),
-      m_ReactionSubsystem.retractReactionBar())
+        m_ClimbSubsystem.motorDown().withTimeout(3),
+        m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_FLAP),
+        m_PizzaBoxSubsystem.stopFlap(),
+        Commands.waitSeconds(1),
+        m_ArmSubsystem.spinArm(90),
+        m_ReactionSubsystem.retractReactionBar())
         .withName("Unclimb Part Two");
   }
 }

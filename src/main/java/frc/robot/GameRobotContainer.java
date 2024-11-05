@@ -1,7 +1,5 @@
 package frc.robot;
 
-import edu.wpi.first.networktables.DoublePublisher;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
@@ -32,26 +30,22 @@ public class GameRobotContainer implements BaseContainer {
 
   private final CommandXboxController driverController = new CommandXboxController(0);
   private final CommandXboxController operatorController = new CommandXboxController(1);
-
   private final SendableChooser<Command> autoChooser;
-
   private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
   private final ArmSubsystem m_ArmSubsystem = new ArmSubsystem();
   private final PizzaBoxSubsystem m_PizzaBoxSubsystem = new PizzaBoxSubsystem();
   private final ClimbSubsytem m_ClimbSubsystem = new ClimbSubsytem();
   private final ReactionSubsystem m_ReactionSubsystem = new ReactionSubsystem();
   private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance();
-
   private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController);
   private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
-
   public final Trigger teleopEnabled = new Trigger(() -> DriverStation.isTeleopEnabled());
 
   private final RobotVisualizer robotVisualizer;
 
   public GameRobotContainer() {
 
-    autoChooser = AutoBuilder.buildAutoChooser("Hajel middle bottom 2");
+    autoChooser = AutoBuilder.buildAutoChooser("Hajel middle bottom 2"); //what is this name?
 
     drivetrain.setDefaultCommand(drive);
     configureBindings();
@@ -72,7 +66,7 @@ public class GameRobotContainer implements BaseContainer {
     testingLayout.add(retractIntake());
     testingLayout.add(retractIntakePassToPB());
     testingLayout.add(scoreSpeaker(160));
-    testingLayout.add(scoreSpeaker(230));
+    testingLayout.add(scoreSpeaker(236));
     testingLayout.add(scoreAmp());
     testingLayout.add(sourceIntake());
     testingLayout.add(prepClimb());
@@ -92,10 +86,10 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   private void configureBindings() {
-    /* Reset Robot */
+    // Reset Robot
     teleopEnabled.onTrue(retractIntake());
 
-    /* Driver Controller */
+    // Driver Controller
     driverController.start().onTrue(Commands.runOnce(drivetrain::seedFieldRelative));
     driverController.a()
         .onTrue(deployIntake())
@@ -106,17 +100,14 @@ public class GameRobotContainer implements BaseContainer {
 
     m_IntakeSubsystem.noteTriggered.onTrue(retractIntakePassToPB());
 
-    /* Operator Controllers */
-
-    /* Other Triggers */
+   
 
   }
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
    * @return the command to run in autonomous
-   */
+   **/
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
   }
@@ -154,20 +145,39 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command scoreSpeaker(double armAngle) {
-    // TODO
-    return Commands.none()
+    
+    return Commands.sequence(
+      Commands.parallel(
+      m_ArmSubsystem.spinArm(armAngle)
+        .withTimeout(2),
+      m_PizzaBoxSubsystem.speedyArm_Command((() -> m_ArmSubsystem.getArmAngle()))),
+      Commands.waitUntil(() -> m_PizzaBoxSubsystem.atVelocity(80)),
+      m_PizzaBoxSubsystem.setKicker(),
+      Commands.waitSeconds(0.5),
+      m_PizzaBoxSubsystem.stopKicker(),
+      m_PizzaBoxSubsystem.stopMotor(),
+      m_ArmSubsystem.spinArm(90)
+    )
         .withName("Score Speaker at " + armAngle);
   }
 
   public Command scoreAmp() {
-    // TODO
-    return Commands.none()
-        .withName("Score Amp");
+    return Commands.sequence(
+      m_ArmSubsystem.spinArm(ArmConstants.AMP_ANGLE),
+      m_PizzaBoxSubsystem.setKicker(),
+      m_PizzaBoxSubsystem.spit_command(1),
+      Commands.waitSeconds(0.5),
+      m_PizzaBoxSubsystem.stopKicker(),
+      m_PizzaBoxSubsystem.stopMotor(),
+      m_ArmSubsystem.spinArm(90))
+    .withName("scoreAmp");
   }
 
   public Command sourceIntake() {
-    // TODO
-    return Commands.none()
+    
+    return Commands.sequence(
+      m_ArmSubsystem.spinArm(25))
+      // m_PizzaBoxSubsystem.speedyArm_Command()
         .withName("Source Intake");
   }
 

@@ -13,7 +13,7 @@ public interface PizzaBoxIO {
 
   public double getKickerAngle();
 
-  public double motorSpeed();
+  public double getMotorSpeed();
 
   public void update();
 }

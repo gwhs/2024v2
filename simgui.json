@@ -1,4 +1,16 @@
 {
+  "HALProvider": {
+    "Other Devices": {
+      "window": {
+        "visible": false
+      }
+    },
+    "Timing": {
+      "window": {
+        "visible": false
+      }
+    }
+  },
   "NTProvider": {
     "types": {
       "/FMSInfo": "FMSInfo",
@@ -20,10 +32,12 @@
       "/Shuffleboard/Testing/Commands/Source Intake": "Command",
       "/Shuffleboard/Testing/Commands/Unclimb Part One": "Command",
       "/Shuffleboard/Testing/Commands/Unclimb Part Two": "Command",
+      "/Shuffleboard/Testing/Commands/scoreAmp": "Command",
       "/Shuffleboard/Testing/Intake Commands/Intake: deploy intake": "Command",
       "/Shuffleboard/Testing/Intake Commands/Intake: retract intake": "Command",
       "/Shuffleboard/Testing/IntakeSubsystem": "Subsystem",
       "/Shuffleboard/Testing/PizzaBox Commands/!GAS GAS GAS": "Command",
+      "/Shuffleboard/Testing/PizzaBox Commands/GAS GAS GAS": "Command",
       "/Shuffleboard/Testing/PizzaBox Commands/SET FLAP": "Command",
       "/Shuffleboard/Testing/PizzaBox Commands/SET KICKER": "Command",
       "/Shuffleboard/Testing/PizzaBox Commands/STOP FLAP": "Command",
@@ -38,6 +52,23 @@
       "/Shuffleboard/Testing/Scheduler": "Scheduler",
       "/Shuffleboard/Testing/TestingCommands/Motor Down": "Command",
       "/Shuffleboard/Testing/TestingCommands/Motor Up": "Command",
+      "/Shuffleboard/Whole Robot Testing/ArmSubsystem": "Subsystem",
+      "/Shuffleboard/Whole Robot Testing/ClimbSubsytem": "Subsystem",
+      "/Shuffleboard/Whole Robot Testing/Commands/Climb and Score": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Deploy Intake": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Prep Climb": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Retract Intake": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Retract Intake and Pass to PB": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Score Speaker at 160.0": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Score Speaker at 236.0": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Source Intake": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Unclimb Part One": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/Unclimb Part Two": "Command",
+      "/Shuffleboard/Whole Robot Testing/Commands/scoreAmp": "Command",
+      "/Shuffleboard/Whole Robot Testing/IntakeSubsystem": "Subsystem",
+      "/Shuffleboard/Whole Robot Testing/PizzaBoxSubsystem": "Subsystem",
+      "/Shuffleboard/Whole Robot Testing/ReactionSubsystem": "Subsystem",
+      "/Shuffleboard/Whole Robot Testing/Scheduler": "Scheduler",
       "/Shuffleboard/Whole Robot Testing/ArmSubsystem": "Subsystem",
       "/Shuffleboard/Whole Robot Testing/ClimbSubsytem": "Subsystem",
       "/Shuffleboard/Whole Robot Testing/Commands/Climb and Score": "Command",

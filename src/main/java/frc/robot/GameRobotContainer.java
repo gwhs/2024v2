@@ -101,7 +101,11 @@ public class GameRobotContainer implements BaseContainer {
 
     m_IntakeSubsystem.noteTriggered.onTrue(retractIntakePassToPB());
 
-   
+    driverController.a().whileTrue(Commands.startEnd(
+      () -> drive.faceAmp = true,
+      () -> drive.faceAmp = false));
+
+    driverController.a().and(driverController.rightTrigger()).onTrue(scoreAmp());
 
   }
 

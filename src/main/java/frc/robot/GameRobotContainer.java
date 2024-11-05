@@ -148,7 +148,8 @@ public class GameRobotContainer implements BaseContainer {
     
     return Commands.sequence(
       Commands.parallel(
-      m_ArmSubsystem.spinArm(armAngle),
+      m_ArmSubsystem.spinArm(armAngle)
+        .withTimeout(2),
       m_PizzaBoxSubsystem.speedyArm_Command((() -> m_ArmSubsystem.getArmAngle()))),
       Commands.waitUntil(() -> m_PizzaBoxSubsystem.atVelocity(80)),
       m_PizzaBoxSubsystem.setKicker(),

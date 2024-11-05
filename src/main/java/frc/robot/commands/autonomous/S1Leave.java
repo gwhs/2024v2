@@ -36,12 +36,14 @@ public class S1Leave extends PathPlannerAuto {
           // TODO: Reset robot odometry with starting position so robot knows where it is
           AutoBuilder.resetOdom(startingPose),
           // TODO: Score pre-load note to speaker
-          robotContainer.scoreSpeaker(160),
+          robotContainer.scoreSpeaker(236),
+          Commands.waitSeconds(10),
           // TODO: Follow Path
           AutoBuilder.followPath(S1A1)
           )
           // TODO: Name of command
-          .withName("S1-A1"));
+          .withName("S1; Score Preload; Wait 10s; S1->A1"));
+        
     } 
     catch (Exception e) {
       DriverStation.reportError("Path Not Found: " + e.getMessage(), e.getStackTrace());

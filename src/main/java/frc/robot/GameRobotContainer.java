@@ -15,9 +15,7 @@ import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
-import frc.robot.commands.autonomous.S1Leave;
-import frc.robot.commands.autonomous.S3Leave;
-import frc.robot.commands.autonomous.S3_C5;
+import frc.robot.commands.autonomous.*;
 import frc.robot.Util.RobotVisualizer;
 import frc.robot.commands.swervedrive.CTRETeleopDrive;
 import frc.robot.generated.TunerConstants;
@@ -121,7 +119,8 @@ public class GameRobotContainer implements BaseContainer {
     autoChooser.addOption("S1-Leave", new S1Leave(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
     autoChooser.addOption("S2-Leave", new S1Leave(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
     autoChooser.addOption("S3-C5", new S3_C5(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
-    
+    autoChooser.addOption("S1-A1", new S1_A1(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
+
     //TODO: add more autonomous routines
 
     SmartDashboard.putData("autonomous", autoChooser);

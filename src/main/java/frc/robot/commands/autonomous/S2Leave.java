@@ -26,8 +26,8 @@ public class S2Leave extends PathPlannerAuto {
       PathPlannerPath S3Leave = PathPlannerPath.fromPathFile("S3-C5");
 
       /* TODO: Get starting position of starting path */
-      Pose2d startingPose = new Pose2d(
-        S3Leave.getPoint(0).position, 
+      Pose2d startingPosition = new Pose2d(
+        S3Leave.getPoint (0).position, 
         S3Leave.getIdealStartingState().rotation());
 
       /* TODO: Autonomous Routine's first actions */

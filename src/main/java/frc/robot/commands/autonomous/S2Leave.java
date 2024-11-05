@@ -6,6 +6,7 @@ package frc.robot.commands.autonomous;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.events.EventTrigger;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -30,6 +31,7 @@ public class S2Leave extends PathPlannerAuto {
         S2Leave2.getPoint(0).position, 
         S2Leave2.getIdealStartingState().rotation());
 
+      new EventTrigger("wait10Seconds").whileTrue(Commands.waitSeconds(10));  
       /* TODO: Autonomous Routine's first actions */
       isRunning().onTrue(
         Commands.sequence(
@@ -37,11 +39,12 @@ public class S2Leave extends PathPlannerAuto {
           AutoBuilder.resetOdom(startingPose),
           // TODO: Score pre-load note to speaker
           robotContainer.scoreSpeaker(236),
+          Commands.waitSeconds(10),
           // TODO: Follow Path
-          AutoBuilder.followPath(S2Leave2).alongWith(robotContainer.deployIntake())),
-          Commands.waitSeconds(10)
+          AutoBuilder.followPath(S2Leave2).alongWith(robotContainer.deployIntake())
+          
           // TODO: Name of command
-          .withName("S2Leave; Score Preload;"));
+          .withName("S2Leave; Score Preload;")));
     } 
 
     catch (Exception e) {

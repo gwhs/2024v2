@@ -104,6 +104,11 @@
         "window": {
           "visible": true
         }
+      },
+      "/SmartDashboard/autonomous": {
+        "window": {
+          "visible": true
+        }
       }
     }
   },

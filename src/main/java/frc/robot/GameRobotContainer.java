@@ -11,6 +11,7 @@ import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.Util.RobotVisualizer;
 import frc.robot.commands.swervedrive.CTRETeleopDrive;
 import frc.robot.subsystems.Arm.ArmConstants;
 import frc.robot.subsystems.Arm.ArmSubsystem;
@@ -41,6 +42,8 @@ public class GameRobotContainer implements BaseContainer {
   private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
   public final Trigger teleopEnabled = new Trigger(() -> DriverStation.isTeleopEnabled());
 
+  private final RobotVisualizer robotVisualizer;
+
   public GameRobotContainer() {
 
     autoChooser = AutoBuilder.buildAutoChooser("Hajel middle bottom 2"); //what is this name?
@@ -50,8 +53,11 @@ public class GameRobotContainer implements BaseContainer {
 
     drivetrain.registerTelemetry(logger::telemeterize);
 
-    
-     //Put composite commands to shuffleboard
+    robotVisualizer = new RobotVisualizer(m_ArmSubsystem, m_IntakeSubsystem);
+
+    /*
+     * Put composite commands to shuffleboard
+     */
     ShuffleboardTab testingTab = Shuffleboard.getTab("Whole Robot Testing");
     ShuffleboardLayout testingLayout = testingTab.getLayout("Commands", BuiltInLayouts.kList)
         .withSize(2, 5)
@@ -105,6 +111,11 @@ public class GameRobotContainer implements BaseContainer {
    **/
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
+  }
+
+  @Override
+  public void periodic() {
+    robotVisualizer.update();
   }
 
   public Command deployIntake() {
@@ -170,26 +181,43 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command prepClimb() {
-    // TODO
-    return Commands.none()
+    return Commands.sequence(
+        m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_FLAP).alongWith(Commands.waitUntil(()->m_ArmSubsystem.getArmAngle() >= 200).andThen(m_ClimbSubsystem.motorHalfWay())),
+        m_PizzaBoxSubsystem.setFlap(),
+        Commands.waitSeconds(0.5),
+        m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_CLIMB),
+        m_ClimbSubsystem.motorUp())
         .withName("Prep Climb");
   }
 
   public Command climbAndScore() {
-    // TODO
-    return Commands.none()
+    return Commands.sequence(
+        m_ReactionSubsystem.extendReactionBar(),
+        m_ClimbSubsystem.motorDown().withTimeout(3),
+        m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_TRAP),
+        m_PizzaBoxSubsystem.spit_command(0.8),
+        Commands.waitSeconds(2),
+        m_PizzaBoxSubsystem.spit_command(0.0))
         .withName("Climb and Score");
   }
 
   public Command unclimbPartOne() {
-    // TODO
-    return Commands.none()
+  
+    return Commands.sequence(
+      m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_CLIMB),
+      m_ClimbSubsystem.motorUp()
+    )
         .withName("Unclimb Part One");
   }
 
   public Command unclimbPartTwo() {
-    // TODO
-    return Commands.none()
+    return Commands.sequence(
+      m_ClimbSubsystem.motorDown().withTimeout(3),
+      m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_FLAP),
+      m_PizzaBoxSubsystem.stopFlap(),
+      Commands.waitSeconds(1),
+      m_ArmSubsystem.spinArm(90),
+      m_ReactionSubsystem.retractReactionBar())
         .withName("Unclimb Part Two");
   }
 }

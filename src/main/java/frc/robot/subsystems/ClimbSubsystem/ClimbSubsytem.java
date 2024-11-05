@@ -17,6 +17,7 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /** Add your docs here. */
@@ -33,10 +34,9 @@ public class ClimbSubsytem extends SubsystemBase {
 
     if (RobotBase.isSimulation()) {
       climbIO = new ClimbIOSim();
-    }
-    else {
+    } else {
       climbIO = new ClimbIOReal();
-      
+
     }
 
     leftpidController.setGoal(climbIO.getLeftMotorPosition());
@@ -80,13 +80,23 @@ public class ClimbSubsytem extends SubsystemBase {
     return this.runOnce(() -> {
       leftpidController.setGoal(ClimbConstants.LEFT_UP_POSITION);
       rightpidController.setGoal(ClimbConstants.RIGHT_UP_POSITION);
-    }).withName("Motor Up");
+    }).andThen(Commands.waitUntil(() -> leftpidController.atGoal() && rightpidController.atGoal()))
+        .withName("Motor Up");
   }
 
   public Command motorDown() {
     return this.runOnce(() -> {
       leftpidController.setGoal(ClimbConstants.LEFT_DOWN_POSITION);
       rightpidController.setGoal(ClimbConstants.RIGHT_DOWN_POSITION);
-    }).withName("Motor Down");
+    }).andThen(Commands.waitUntil(() -> leftpidController.atGoal() && rightpidController.atGoal()))
+        .withName("Motor Down");
+  }
+
+  public Command motorHalfWay() {
+    return this.runOnce(() -> {
+      leftpidController.setGoal(ClimbConstants.LEFT_UP_POSITION / 2);
+      rightpidController.setGoal(ClimbConstants.RIGHT_UP_POSITION / 2);
+    }).andThen(Commands.waitUntil(() -> leftpidController.atGoal() && rightpidController.atGoal()))
+        .withName("Motor half way");
   }
 }

@@ -49,8 +49,7 @@ public class Robot extends TimedRobot  {
    */
   @Override
   public void robotInit() {
-    SignalLogger.setPath("/home/lvuser/log/");
-    SignalLogger.enableAutoLogging(false);
+    // SignalLogger.setPath("/home/lvuser/log/");
     SignalLogger.start();
 
     DataLogManager.start();
@@ -88,6 +87,8 @@ public class Robot extends TimedRobot  {
     nt_canivorCANUtilization.set(CANBus.getStatus("CAN_Network").BusUtilization);
 
     nt_batteryVoltage.set(RobotController.getBatteryVoltage());
+
+    m_baseContainer.periodic();
     
   }
 

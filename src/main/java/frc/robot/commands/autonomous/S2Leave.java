@@ -45,7 +45,16 @@ public class S2Leave extends PathPlannerAuto {
           
           // TODO: Name of command
           .withName("S2Leave; Score Preload;")));
+
+      event("atA2").onTrue(
+        Commands.sequence(
+          robotContainer.retractIntakePassToPB(),
+          robotContainer.scoreSpeaker(236)
+          .withName("at A2 with note;")
+          ));            
     } 
+
+  
 
     catch (Exception e) {
       DriverStation.reportError("Path Not Found: " + e.getMessage(), e.getStackTrace());

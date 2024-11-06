@@ -100,19 +100,16 @@ public class GameRobotContainer implements BaseContainer {
 
     m_IntakeSubsystem.noteTriggered.onTrue(retractIntakePassToPB());
 
-<<<<<<< HEAD
     driverController.a().whileTrue(Commands.startEnd(
       () -> drive.faceAmp = true,
       () -> drive.faceAmp = false));
 
-    driverController.a().and(driverController.rightTrigger()).onTrue(scoreAmp());
-=======
+    driverController.a().and(driverController.rightTrigger()).onTrue(scoreAmp()).onFalse(resetArm());
     driverController.y().whileTrue(Commands.startEnd(
         () -> drive.faceSpeaker = true,
         () -> drive.faceSpeaker = false));
->>>>>>> 3a23c4b8336bfd5c27366f25c50b027d34abca8d
 
-    driverController.y().and(driverController.rightTrigger()).onTrue(scoreSpeaker(160)).onFalse(Commands.parallel(m_ArmSubsystem.spinArm(60),(m_PizzaBoxSubsystem.spit_command(0.0))));
+    driverController.y().and(driverController.rightTrigger()).onTrue(scoreSpeaker(160)).onFalse(resetArm());
 
   
   //source intake
@@ -120,7 +117,7 @@ public class GameRobotContainer implements BaseContainer {
       () -> drive.isHeadingLock = true,
       () -> drive.isHeadingLock = false));
 
-    driverController.x().and(driverController.rightTrigger()).onTrue(sourceIntake());
+    driverController.x().and(driverController.rightTrigger()).onTrue(sourceIntake()).onFalse(resetArm());
    }
    
 
@@ -142,7 +139,9 @@ public class GameRobotContainer implements BaseContainer {
     return m_IntakeSubsystem.deployIntake()
         .withName("Deploy Intake");
   }
-
+  public Command resetArm() {
+    return m_ArmSubsystem.spinArm(90).alongWith(m_PizzaBoxSubsystem.spit_command(0),m_PizzaBoxSubsystem.stopKicker());
+  }
   public Command retractIntake() {
     return m_IntakeSubsystem.retractIntake()
         .withName("Retract Intake");

@@ -140,7 +140,7 @@ public class GameRobotContainer implements BaseContainer {
         .withName("Deploy Intake");
   }
   public Command resetArm() {
-    return m_ArmSubsystem.spinArm(90).alongWith(m_PizzaBoxSubsystem.spit_command(0),m_PizzaBoxSubsystem.stopKicker());
+    return m_ArmSubsystem.spinArm(90).alongWith(m_PizzaBoxSubsystem.spit_command(0).andThen(m_PizzaBoxSubsystem.setKicker()));
   }
   public Command retractIntake() {
     return m_IntakeSubsystem.retractIntake()

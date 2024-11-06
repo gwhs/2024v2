@@ -91,9 +91,9 @@ public class GameRobotContainer implements BaseContainer {
 
     // Driver Controller
     driverController.start().onTrue(Commands.runOnce(drivetrain::seedFieldRelative));
-    driverController.a()
-        .onTrue(deployIntake())
-        .onFalse(retractIntake());
+    //driverController.a()
+       // .onTrue(deployIntake())
+       // .onFalse(retractIntake());
 
     (driverController.b().and(m_IntakeSubsystem.isDeployed)).debounce(0.1).onTrue(retractIntake());
     (driverController.b().and(m_IntakeSubsystem.isDeployed.negate())).debounce(0.1).onTrue(deployIntake());

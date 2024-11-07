@@ -21,6 +21,7 @@ import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 
 /** Add your docs here. */
@@ -58,14 +59,24 @@ public class ClimbSubsytem extends SubsystemBase {
   public Command motorUp() {
     return this.runOnce(() -> {
       climbIO.setPositionLeft(ClimbConstants.LEFT_UP_POSITION);
-      climbIO.setPositionRight(ClimbConstants.RIGHT_UP_POSITION);
-    }).withName("Motor Up");
+      climbIO.setPositionLeft(ClimbConstants.RIGHT_UP_POSITION);
+    }).andThen(Commands.waitUntil(() -> leftpidController.atGoal() && rightpidController.atGoal()))
+        .withName("Motor Up");
   }
 
   public Command motorDown() {
     return this.runOnce(() -> {
       climbIO.setPositionLeft(ClimbConstants.LEFT_DOWN_POSITION);
       climbIO.setPositionLeft(ClimbConstants.RIGHT_DOWN_POSITION);
-    }).withName("Motor Down");
+    }).andThen(Commands.waitUntil(() -> leftpidController.atGoal() && rightpidController.atGoal()))
+        .withName("Motor Down");
+  }
+
+  public Command motorHalfWay() {
+    return this.runOnce(() -> {
+      climbIO.setPositionLeft(ClimbConstants.LEFT_UP_POSITION/2);
+      climbIO.setPositionLeft(ClimbConstants.RIGHT_UP_POSITION/2);
+    }).andThen(Commands.waitUntil(() -> leftpidController.atGoal() && rightpidController.atGoal()))
+        .withName("Motor half way");
   }
 }

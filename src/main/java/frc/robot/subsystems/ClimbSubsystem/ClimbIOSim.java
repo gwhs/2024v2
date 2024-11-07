@@ -14,7 +14,7 @@ public class ClimbIOSim implements ClimbIO {
 
   private DCMotorSim leftMotorSim = new DCMotorSim(
       DCMotor.getFalcon500Foc(1),
-      1, 0.5);
+      1, 0.001);
   private Constraints constraints = new Constraints(ClimbConstants.MAX_VELOCITY, ClimbConstants.MAX_ACCELERATION);
   private ProfiledPIDController leftpidController = new ProfiledPIDController(ClimbConstants.CLIMB_PID_KP,
       ClimbConstants.CLIMB_PID_KI, ClimbConstants.CLIMB_PID_KD, constraints);

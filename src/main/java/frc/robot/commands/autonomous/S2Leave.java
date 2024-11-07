@@ -24,12 +24,17 @@ public class S2Leave extends PathPlannerAuto {
     /* All your code should go inside this try-catch block */
     try {
       /* TODO: Load all paths needed */
-      PathPlannerPath S2Leave2 = PathPlannerPath.fromPathFile("S2Leave2");
+      PathPlannerPath S2A2 = PathPlannerPath.fromPathFile("S2-A2");
+      PathPlannerPath A2A3 = PathPlannerPath.fromPathFile("A2-A3");
 
       /* TODO: Get starting position of starting path */
       Pose2d startingPose = new Pose2d(
-        S2Leave2.getPoint(0).position, 
-        S2Leave2.getIdealStartingState().rotation());
+        S2A2.getPoint(0).position, 
+        S2A2.getIdealStartingState().rotation());
+
+      Pose2d nextPose = new Pose2d(
+        A2A3.getPoint(0).position, 
+        A2A3.getIdealStartingState().rotation());        
 
       new EventTrigger("wait10Seconds").whileTrue(Commands.waitSeconds(10));  
       /* TODO: Autonomous Routine's first actions */
@@ -41,20 +46,28 @@ public class S2Leave extends PathPlannerAuto {
           robotContainer.scoreSpeaker(236),
           Commands.waitSeconds(10),
           // TODO: Follow Path
-          AutoBuilder.followPath(S2Leave2).alongWith(robotContainer.deployIntake())
+          AutoBuilder.followPath(S2A2).alongWith(robotContainer.deployIntake())
           
           // TODO: Name of command
-          .withName("S2Leave; Score Preload;")));
+          .withName("S2A2; Score Preload;")));
 
       event("atA2").onTrue(
         Commands.sequence(
           robotContainer.retractIntakePassToPB(),
           robotContainer.scoreSpeaker(236)
-          .withName("at A2 with note;")
-          ));            
+          .withName("at A2 with note"),
+          Commands.waitSeconds(5),
+          AutoBuilder.resetOdom(nextPose),         
+          AutoBuilder.followPath(A2A3).alongWith(robotContainer.deployIntake())
+          ));
+          
+      event("atA3").onTrue(
+        Commands.sequence(
+          robotContainer.retractIntake(),
+          robotContainer.scoreSpeaker(236)
+          .withName("at A3 with note")
+        ));
     } 
-
-  
 
     catch (Exception e) {
       DriverStation.reportError("Path Not Found: " + e.getMessage(), e.getStackTrace());

@@ -12,11 +12,11 @@ import edu.wpi.first.wpilibj.DriverStation;
 
 /** Add your docs here. */
 public class UtilMath {
+
     public static final double BLUE_SPEAKER_X = -0.0381; //in meters
     public static final double BLUE_SPEAKER_Y = 5.5479; //in meters
     public static final double RED_SPEAKER_X = 16.5793; //in meters
     public static final double RED_SPEAKER_Y = 5.5479; //in meters
-    
     public static final int RED_SOURCE_HEADING_ANGLE = -120;
     public static final int BLUE_SOURCE_HEADING_ANGLE = -60;
 

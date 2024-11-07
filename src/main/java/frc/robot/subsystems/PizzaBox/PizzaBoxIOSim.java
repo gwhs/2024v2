@@ -40,7 +40,7 @@ public class PizzaBoxIOSim implements PizzaBoxIO {
   }
 
   public double motorSpeed() {
-    return motor.getAngularVelocityRadPerSec();
+    return motor.getAngularVelocityRPM() / 60;
   }
 
   public void update() {

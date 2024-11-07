@@ -50,8 +50,7 @@ public class ClimbSubsytem extends SubsystemBase {
     climbCommandsLayout.add(motorUp());
     climbCommandsLayout.add(motorDown());
 
-    SmartDashboard.putData("LeftPIDController", leftpidController);
-    SmartDashboard.putData("RightPIDController", rightpidController);
+    
 
   }
 
@@ -73,7 +72,8 @@ public class ClimbSubsytem extends SubsystemBase {
     NetworkTableInstance.getDefault().getEntry("Climb/Right PID Goal").setNumber(rightpidController.getGoal().position);
     NetworkTableInstance.getDefault().getEntry("Climb/Left motor Position").setNumber(climbIO.getLeftMotorPosition());
     NetworkTableInstance.getDefault().getEntry("Climb/Right motor Position").setNumber(climbIO.getRightMotorPosition());
-
+    /* SD Logging */
+    
   }
 
   public Command motorUp() {

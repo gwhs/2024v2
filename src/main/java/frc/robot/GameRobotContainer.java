@@ -1,13 +1,7 @@
 package frc.robot;
 
-import edu.wpi.first.networktables.DoublePublisher;
-import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.DriverStation;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.*;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -23,9 +17,6 @@ import frc.robot.subsystems.ClimbSubsystem.ClimbSubsytem;
 import frc.robot.subsystems.swervedrive.CommandSwerveDrivetrain;
 import frc.robot.subsystems.swervedrive.Telemetry;
 import frc.robot.subsystems.swervedrive.TunerConstants;
-
-import java.util.Map;
-
 import com.pathplanner.lib.auto.AutoBuilder;
 
 public class GameRobotContainer implements BaseContainer {
@@ -60,35 +51,7 @@ public class GameRobotContainer implements BaseContainer {
 
     robotVisualizer = new RobotVisualizer(m_ArmSubsystem, m_IntakeSubsystem);
 
-    /*
-     * Put composite commands to shuffleboard
-     */
-    ShuffleboardTab testingTab = Shuffleboard.getTab("Whole Robot Testing");
-    ShuffleboardLayout testingLayout = testingTab.getLayout("Commands", BuiltInLayouts.kList)
-        .withSize(2, 5)
-        .withProperties(Map.of("Label Position", "HIDDEN"));
 
-    testingLayout.add(deployIntake());
-    testingLayout.add(retractIntake());
-    testingLayout.add(retractIntakePassToPB());
-    testingLayout.add(scoreSpeaker(160));
-    testingLayout.add(scoreSpeaker(230));
-    testingLayout.add(scoreAmp());
-    testingLayout.add(sourceIntake());
-    testingLayout.add(prepClimb());
-    testingLayout.add(climbAndScore());
-    testingLayout.add(unclimbPartOne());
-    testingLayout.add(unclimbPartTwo());
-
-    /*
-     * Put Command Scheduler and subsystems to shuffleboard
-     */
-    testingTab.add(CommandScheduler.getInstance()).withSize(3, 2);
-    testingTab.add(m_PizzaBoxSubsystem);
-    testingTab.add(m_ReactionSubsystem);
-    testingTab.add(m_IntakeSubsystem);
-    testingTab.add(m_ArmSubsystem);
-    testingTab.add(m_ClimbSubsystem);
   }
 
   private void configureBindings() {

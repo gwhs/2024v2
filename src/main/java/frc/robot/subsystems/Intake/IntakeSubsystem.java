@@ -76,7 +76,7 @@ public class IntakeSubsystem extends SubsystemBase {
         .setNumber(pidController.getSetpoint().position);
     NetworkTableInstance.getDefault().getEntry("Intake/Intake Measured Arm Angle")
         .setNumber(intakeIO.getIntakeArmAngle());
-    NetworkTableInstance.getDefault().getEntry("Intake/Intake Spin Speed").setNumber(intakeIO.getSpinSpeed());
+    NetworkTableInstance.getDefault().getEntry("Intake/Intake Sp in Speed").setNumber(intakeIO.getSpinSpeed());
 
     NetworkTableInstance.getDefault().getEntry("Intake/Intake Deployed").setBoolean(isDeployed.getAsBoolean());
     NetworkTableInstance.getDefault().getEntry("Intake/Note Sensor").setBoolean(intakeIO.getNoteSensor());

@@ -77,11 +77,44 @@
           "visible": true
         }
       },
-      "/Shuffleboard/Testing/Arm Commands/spinArm120": {
+      "/Shuffleboard/Testing/TestingCommands/Motor Down": {
         "window": {
           "visible": true
         }
       },
+<<<<<<< HEAD
+=======
+      "/Shuffleboard/Testing/TestingCommands/Motor Up": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Whole Robot Testing/Commands/Climb and Score": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Whole Robot Testing/Commands/Deploy Intake": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Whole Robot Testing/Commands/Prep Climb": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Whole Robot Testing/Commands/Unclimb Part One": {
+        "window": {
+          "visible": true
+        }
+      },
+      "/Shuffleboard/Whole Robot Testing/Commands/Unclimb Part Two": {
+        "window": {
+          "visible": true
+        }
+      },
+>>>>>>> af23aa0837b298b3b3c03daf37b186dfdbfae84d
       "/SmartDashboard/Field": {
         "bottom": 1476,
         "height": 8.210550308227539,

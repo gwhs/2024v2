@@ -53,7 +53,9 @@ public class S1_A1_A2 extends PathPlannerAuto {
       //TODO: atA2, score at A2
       event("atA2").onTrue(
         Commands.sequence(
-
+          robotContainer.retractIntakePassToPB(),
+          robotContainer.scoreSpeaker(0)
+            .withName("At A2, score note")
         )
       );
 

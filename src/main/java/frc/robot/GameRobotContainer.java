@@ -115,13 +115,10 @@ public class GameRobotContainer implements BaseContainer {
     autoChooser.addOption("S1-Leave", new S1Leave(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
     autoChooser.addOption("S2-Leave", new S1Leave(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
     autoChooser.addOption("S3-C5", new S3_C5(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
-<<<<<<< HEAD
     autoChooser.addOption("S1-A1", new S1_A1(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
-
-=======
+    autoChooser.addOption("S1-A1-A2", new S1_A1_A2(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
     autoChooser.addOption("S3-C5-C4", new S3_C5_C4(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
     
->>>>>>> af23aa0837b298b3b3c03daf37b186dfdbfae84d
     //TODO: add more autonomous routines
 
     SmartDashboard.putData("autonomous", autoChooser);

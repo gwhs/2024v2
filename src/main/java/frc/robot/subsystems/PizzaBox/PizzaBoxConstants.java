@@ -12,7 +12,7 @@ public class PizzaBoxConstants {
   public final static int RESET_KICKER = 0;
   public final static int RESET_FLAP = 0;
   public final static double START_SPIN_DEGREE = 50;
-  public final static int KICKER_OUT = 1;
+  public final static double KICKER_OUT = .5;
   public final static double FLAP_OUT = 1;
 
 }

@@ -140,7 +140,7 @@ public class GameRobotContainer implements BaseContainer {
         .withName("Deploy Intake");
   }
   public Command resetArm() {
-    return m_ArmSubsystem.spinArm(90).alongWith(m_PizzaBoxSubsystem.spit_command(0).andThen(m_PizzaBoxSubsystem.setKicker()));
+    return m_ArmSubsystem.spinArm(90).alongWith(m_PizzaBoxSubsystem.spit_command(0).andThen(m_PizzaBoxSubsystem.stopKicker()));
   }
   public Command retractIntake() {
     return m_IntakeSubsystem.retractIntake()
@@ -167,9 +167,9 @@ public class GameRobotContainer implements BaseContainer {
   public Command scoreSpeaker(double armAngle) {
 
     return Commands.sequence(
-        m_ArmSubsystem.spinArm(armAngle),
+        m_ArmSubsystem.spinArm(armAngle).withTimeout(1.5),
         m_PizzaBoxSubsystem.speedyArm_Command((() -> m_ArmSubsystem.getArmAngle())),
-        Commands.waitUntil(() -> m_PizzaBoxSubsystem.atVelocity(80)),
+        Commands.waitUntil(() -> m_PizzaBoxSubsystem.atVelocity(80)).withTimeout(1),
         m_PizzaBoxSubsystem.setKicker(),
         Commands.waitSeconds(0.5),
         m_PizzaBoxSubsystem.stopKicker(),
@@ -192,7 +192,7 @@ public class GameRobotContainer implements BaseContainer {
 
   public Command sourceIntake() {
     return Commands.sequence(
-        m_ArmSubsystem.spinArm(160)).alongWith(m_PizzaBoxSubsystem.slurp_command(0.9))
+        m_ArmSubsystem.spinArm(160)).alongWith(m_PizzaBoxSubsystem.slurp_command(0.5))
         // m_PizzaBoxSubsystem.speedyArm_Command()
         .withName("Source Intake");
   }

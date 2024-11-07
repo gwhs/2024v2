@@ -6,8 +6,8 @@ package frc.robot.subsystems.AprilTagCam;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.function.Consumer;
 
-import org.photonvision.EstimatedRobotPose;
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
 import org.photonvision.PhotonPoseEstimator;
@@ -15,9 +15,12 @@ import org.photonvision.targeting.PhotonPipelineResult;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.numbers.N1;
+import edu.wpi.first.math.numbers.N3;
 
 
 /** Add your docs here. */
@@ -25,13 +28,13 @@ public class AprilTagCam {
     AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
 
     PhotonCamera cam;
-    SwerveDrivePoseEstimator m_estimator;
-    PhotonPoseEstimator estim; 
+    PhotonPoseEstimator estim;
+    Consumer<AprilTagHelp> addVisionMeasurement;
 
     // 
-    public AprilTagCam(String str, SwerveDrivePoseEstimator estimator ){
+    public AprilTagCam(String str, Consumer<AprilTagHelp> addVisionMeasurement){
         cam = new PhotonCamera(str);
-        m_estimator = estimator; 
+        this.addVisionMeasurement = addVisionMeasurement;
         estim = new PhotonPoseEstimator(aprilTagFieldLayout, PhotonPoseEstimator.PoseStrategy.AVERAGE_BEST_TARGETS, null);
         
     }   
@@ -47,25 +50,30 @@ public class AprilTagCam {
         // using this we can get pose3D and turn it into pose2d
         // we need to give the info of where the robot is to the drive train so it knows where to move 
 
-        var results = cam.getAllUnreadResults(); 
-        for( PhotonPipelineResult targetPose : results ){
+        List<PhotonPipelineResult> results = cam.getAllUnreadResults(); 
+        if(results.isEmpty()){
+            return;
+        }
+        for(PhotonPipelineResult targetPose : results ){
             
             System.out.println(targetPose);
-             System.out.println(targetPose);
+            System.out.println(targetPose);
             
 
             Optional<EstimatedRobotPose> optionalEstimPose = (estim.update(targetPose)); 
+            
+            if(optionalEstimPose.isEmpty()){
+                return;
+            }
+            
             Pose3d estimPose3d ; 
+            estimPose3d = optionalEstimPose.get().estimatedPose;
 
-            if(!optionalEstimPose.isEmpty()){
-                estimPose3d = optionalEstimPose.get().estimatedPose;
-            }
-            else{
-                return; 
-            }
             Pose2d pos = estimPose3d.toPose2d(); // yay :0 im so happy
             double timestamp = targetPose.getTimestampSeconds();
+            Matrix<N3, N1> sd;
             
+            addVisionMeasurement.accept(new AprilTagHelp(pos, timestamp, sd));
             
         }   
     

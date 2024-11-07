@@ -121,8 +121,12 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
     }
 
     public void addVisionMeasurent(AprilTagHelp helper){
-    
         
+        Pose2d pos = helper.pos;
+        Matrix<N3, N1> sd = helper.sd;
+        double timestamp = helper.timestamp;
+
+        super.addVisionMeasurement(pos, timestamp, sd);
 
     } 
 

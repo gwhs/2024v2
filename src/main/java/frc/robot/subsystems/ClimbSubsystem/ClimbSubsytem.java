@@ -31,10 +31,9 @@ public class ClimbSubsytem extends SubsystemBase {
 
     if (RobotBase.isSimulation()) {
       climbIO = new ClimbIOSim();
-    }
-    else {
+    } else {
       climbIO = new ClimbIOReal();
-      
+
     }
 
     ShuffleboardTab tab = Shuffleboard.getTab("Testing");
@@ -48,7 +47,7 @@ public class ClimbSubsytem extends SubsystemBase {
   }
 
   @Override
-  public void periodic() {  
+  public void periodic() {
     climbIO.update();
 
     NetworkTableInstance.getDefault().getEntry("Climb/Left motor Position").setNumber(climbIO.getLeftMotorPosition());

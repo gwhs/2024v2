@@ -98,7 +98,7 @@ public class GameRobotContainer implements BaseContainer {
     // (driverController.b().and(m_IntakeSubsystem.isDeployed)).debounce(0.1).onTrue(retractIntake());
     // (driverController.b().and(m_IntakeSubsystem.isDeployed.negate())).debounce(0.1).onTrue(deployIntake());
 
-    m_IntakeSubsystem.noteTriggered.onTrue(retractIntakePassToPB());
+    //m_IntakeSubsystem.noteTriggered.onTrue(retractIntakePassToPB());
 
     driverController.a().whileTrue(Commands.startEnd(
       () -> drive.faceAmp = true,

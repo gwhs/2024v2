@@ -87,6 +87,14 @@ public class IntakeSubsystem extends SubsystemBase {
     NetworkTableInstance.getDefault().getEntry("Intake/Note Sensor").setBoolean(intakeIO.getNoteSensor());
     NetworkTableInstance.getDefault().getEntry("Intake/Encoder Connected").setBoolean(intakeIO.isEncoderConnected());
   }
+
+  public double getArmAngle() {
+    return intakeIO.getIntakeArmAngle();
+  }
+
+  public double getSpinSpeed() {
+    return intakeIO.getSpinSpeed();
+  }
   public Command deployIntake() {
     return this.runOnce(() -> {
       pidController.setGoal(IntakeConstants.DOWN_POSITION);

@@ -85,8 +85,8 @@ public class IntakeSubsystem extends SubsystemBase {
 
     NetworkTableInstance.getDefault().getEntry("Intake/Intake Deployed").setBoolean(isDeployed.getAsBoolean());
     NetworkTableInstance.getDefault().getEntry("Intake/Note Sensor").setBoolean(intakeIO.getNoteSensor());
+    NetworkTableInstance.getDefault().getEntry("Intake/Encoder").setBoolean(intakeIO.isEncoderConnected());
   }
-
   public Command deployIntake() {
     return this.runOnce(() -> {
       pidController.setGoal(IntakeConstants.DOWN_POSITION);

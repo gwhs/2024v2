@@ -109,6 +109,10 @@ public class IntakeIOReal implements IntakeIO {
     return spinVelocity.getValueAsDouble();
   }
 
+  public boolean isEncoderConnected() {
+    return encoder.isConnected();
+  }
+
   public void update() {
     /*
      * Refresh all status signals

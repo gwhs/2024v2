@@ -64,7 +64,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     pidOutput = MathUtil.clamp(pidOutput, -1, 1);
 
-    intakeIO.setArmSpeed(0);
+    intakeIO.setArmSpeed(pidOutput);
 
     intakeIO.update();
 

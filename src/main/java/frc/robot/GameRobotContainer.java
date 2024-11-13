@@ -45,7 +45,7 @@ public class GameRobotContainer implements BaseContainer {
 
   public GameRobotContainer() {
 
-    autoChooser = AutoBuilder.buildAutoChooser("Hajel middle bottom 2"); // what is this name?
+    autoChooser = AutoBuilder.buildAutoChooser("Hajel middle bottom 2");  
 
     drivetrain.setDefaultCommand(drive);
     configureBindings();
@@ -102,12 +102,12 @@ public class GameRobotContainer implements BaseContainer {
 
     driverController.a().whileTrue(Commands.startEnd(
       () -> drive.faceAmp = true,
-      () -> drive.faceAmp = false));
+      () -> drive.faceAmp = false).withName("Face Amp"));
 
     driverController.a().and(driverController.rightTrigger()).onTrue(scoreAmp()).onFalse(resetToDrivePosition());
     driverController.y().whileTrue(Commands.startEnd(
         () -> drive.faceSpeaker = true,
-        () -> drive.faceSpeaker = false));
+        () -> drive.faceSpeaker = false).withName("Face Speaker"));
 
     driverController.y().and(driverController.rightTrigger()).onTrue(scoreSpeaker(160)).onFalse(resetToDrivePosition());
 
@@ -115,7 +115,7 @@ public class GameRobotContainer implements BaseContainer {
   //source intake
     driverController.x().whileTrue(Commands.startEnd(
       () -> drive.isHeadingLock = true,
-      () -> drive.isHeadingLock = false));
+      () -> drive.isHeadingLock = false).withName("Source Intake"));
 
     driverController.x().and(driverController.rightTrigger()).onTrue(sourceIntake()).onFalse(resetToDrivePosition());
    }
@@ -141,7 +141,8 @@ public class GameRobotContainer implements BaseContainer {
         .withName("Deploy Intake");
   }
   public Command resetToDrivePosition() {
-    return m_ArmSubsystem.spinArm(90).alongWith(m_PizzaBoxSubsystem.spit_command(0).andThen(m_PizzaBoxSubsystem.stopKicker()));
+    return m_ArmSubsystem.spinArm(90).alongWith(m_PizzaBoxSubsystem.spit_command(0).andThen(m_PizzaBoxSubsystem.stopKicker())
+    .withName("Reset to Drive Position"));
   }
   public Command retractIntake() {
     return m_IntakeSubsystem.retractIntake()
@@ -194,7 +195,6 @@ public class GameRobotContainer implements BaseContainer {
   public Command sourceIntake() {
     return Commands.sequence(
         m_ArmSubsystem.spinArm(160)).alongWith(m_PizzaBoxSubsystem.slurp_command(0.5))
-        // m_PizzaBoxSubsystem.speedyArm_Command()
         .withName("Source Intake");
   }
 

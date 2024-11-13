@@ -59,11 +59,18 @@ public class ArmSubsystem extends SubsystemBase {
     double speed = pidOutput + armFeedforwardOutput;
 
     pidOutput = MathUtil.clamp(pidOutput, -1, 1);
-    armIO.setArmSpeed(speed);
+    if (armIO.isEncoderConnected()) {
+      armIO.setArmSpeed(speed);
+    }
+    else {
+      armIO.setArmSpeed(0);
+    }
+
     NetworkTableInstance.getDefault().getEntry("/Arm/ArmAngle").setNumber(armIO.getArmEncoderAngle());
     NetworkTableInstance.getDefault().getEntry("/Arm/pidOutput").setNumber(pidOutput);
     NetworkTableInstance.getDefault().getEntry("/Arm/armGoal")
         .setNumber(Units.radiansToDegrees(pidController.getGoal().position));
+    NetworkTableInstance.getDefault().getEntry("/Arm/EncoderConnected").setBoolean(armIO.isEncoderConnected());
     NetworkTableInstance.getDefault().getEntry("/Arm/FeedforwardOutput").setNumber(armFeedforwardOutput);
     NetworkTableInstance.getDefault().getEntry("/Arm/armSpeed").setNumber(speed);
     armIO.update();
@@ -72,6 +79,7 @@ public class ArmSubsystem extends SubsystemBase {
   public Command spinArm(double targetAngle) {
     return this.runOnce(() -> {
       pidController.setGoal(Units.degreesToRadians(targetAngle));
-    }).andThen(Commands.waitUntil(() -> pidController.atGoal()));
+    }).andThen(Commands.waitUntil(() -> pidController.atGoal()))
+    .onlyIf(() -> armIO.isEncoderConnected());
   }
 }

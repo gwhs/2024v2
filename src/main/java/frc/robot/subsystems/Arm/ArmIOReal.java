@@ -40,4 +40,8 @@ public class ArmIOReal implements ArmIO {
     
   }
 
+  public boolean isEncoderConnected() {
+    return m_armEncoder.isConnected();
+  }
+
 }

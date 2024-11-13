@@ -54,7 +54,12 @@ public class ArmSubsystem extends SubsystemBase {
     double pidOutput = pidController.calculate(Units.degreesToRadians(armIO.getArmEncoderAngle()));
 
     pidOutput = MathUtil.clamp(pidOutput, -1, 1);
-    armIO.setArmSpeed(pidOutput);
+    if (armIO.isEncoderConnected()) {
+      armIO.setArmSpeed(pidOutput);
+    }
+    else {
+      armIO.setArmSpeed(0);
+    }
 
     NetworkTableInstance.getDefault().getEntry("/Arm/ArmAngle").setNumber(armIO.getArmEncoderAngle());
     NetworkTableInstance.getDefault().getEntry("/Arm/pidOutput").setNumber(pidOutput);
@@ -62,13 +67,6 @@ public class ArmSubsystem extends SubsystemBase {
         .setNumber(Units.radiansToDegrees(pidController.getGoal().position));
     NetworkTableInstance.getDefault().getEntry("/Arm/EncoderConnected").setBoolean(armIO.isEncoderConnected());
     armIO.update();
-
-    if (armIO.isEncoderConnected()) {
-      armIO.setArmSpeed(pidOutput);
-    }
-    else {
-      armIO.setArmSpeed(0);
-    }
   }
 
   public Command spinArm(double targetAngle) {

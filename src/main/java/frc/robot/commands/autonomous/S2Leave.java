@@ -44,7 +44,6 @@ public class S2Leave extends PathPlannerAuto {
           AutoBuilder.resetOdom(startingPose),
           // TODO: Score pre-load note to speaker
           robotContainer.scoreSpeaker(236),
-          Commands.waitSeconds(10),
           // TODO: Follow Path
           AutoBuilder.followPath(S2A2).alongWith(robotContainer.deployIntake())
           
@@ -56,7 +55,6 @@ public class S2Leave extends PathPlannerAuto {
           robotContainer.retractIntakePassToPB(),
           robotContainer.scoreSpeaker(236)
           .withName("at A2 with note"),
-          Commands.waitSeconds(5),
           AutoBuilder.resetOdom(nextPose),         
           AutoBuilder.followPath(A2A3).alongWith(robotContainer.deployIntake())
           ));

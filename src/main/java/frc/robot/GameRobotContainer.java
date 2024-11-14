@@ -104,12 +104,12 @@ public class GameRobotContainer implements BaseContainer {
       () -> drive.faceAmp = true,
       () -> drive.faceAmp = false).withName("Face Amp"));
 
-    driverController.a().and(driverController.rightTrigger()).onTrue(scoreAmp()).onFalse(resetToDrivePosition());
+    driverController.a().and(driverController.rightTrigger()).onTrue(scoreAmp()).onFalse(resetArm());
     driverController.y().whileTrue(Commands.startEnd(
         () -> drive.faceSpeaker = true,
         () -> drive.faceSpeaker = false).withName("Face Speaker"));
 
-    driverController.y().and(driverController.rightTrigger()).onTrue(scoreSpeaker(160)).onFalse(resetToDrivePosition());
+    driverController.y().and(driverController.rightTrigger()).onTrue(scoreSpeaker(160)).onFalse(resetArm());
 
   
   //source intake
@@ -117,7 +117,7 @@ public class GameRobotContainer implements BaseContainer {
       () -> drive.isHeadingLock = true,
       () -> drive.isHeadingLock = false).withName("Source Intake"));
 
-    driverController.x().and(driverController.rightTrigger()).onTrue(sourceIntake()).onFalse(resetToDrivePosition());
+    driverController.x().and(driverController.rightTrigger()).onTrue(sourceIntake()).onFalse(resetArm());
    }
    
 
@@ -140,9 +140,11 @@ public class GameRobotContainer implements BaseContainer {
     return m_IntakeSubsystem.deployIntake()
         .withName("Deploy Intake");
   }
-  public Command resetToDrivePosition() {
-    return m_ArmSubsystem.spinArm(90).alongWith(m_PizzaBoxSubsystem.spit_command(0).andThen(m_PizzaBoxSubsystem.stopKicker())
-    .withName("Reset to Drive Position"));
+  public Command resetArm() {
+    return Commands.parallel(
+      m_ArmSubsystem.spinArm(90),
+      m_PizzaBoxSubsystem.spit_command(0).andThen(m_PizzaBoxSubsystem.stopKicker())
+    .withName("Reset Arm"));
   }
   public Command retractIntake() {
     return m_IntakeSubsystem.retractIntake()

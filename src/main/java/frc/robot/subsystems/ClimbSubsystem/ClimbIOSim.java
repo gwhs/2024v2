@@ -10,7 +10,7 @@ public class ClimbIOSim implements ClimbIO {
 
   private DCMotorSim rightMotorSim = new DCMotorSim(
       DCMotor.getFalcon500Foc(1),
-      1, 0.5);
+      1, 0.001);
 
   private DCMotorSim leftMotorSim = new DCMotorSim(
       DCMotor.getFalcon500Foc(1),
@@ -54,8 +54,8 @@ public class ClimbIOSim implements ClimbIO {
     rightMotorSim.update(.020);
     leftMotorSim.update(.020);
 
-    double pidOutputLeft = leftpidController.calculate(Units.rotationsToRadians(getLeftMotorPosition()));
-    double pidOutputRight = rightpidController.calculate(Units.rotationsToRadians(getRightMotorPosition()));
+    double pidOutputLeft = leftpidController.calculate(getLeftMotorPosition());
+    double pidOutputRight = rightpidController.calculate(getRightMotorPosition());
 
     setLeftMotorSpeed(pidOutputLeft);
     setRightMotorSpeed(pidOutputRight);

@@ -58,7 +58,7 @@ public class ClimbIOSim implements ClimbIO {
     double pidOutputRight = rightpidController.calculate(Units.rotationsToRadians(getRightMotorPosition()));
 
     setLeftMotorSpeed(pidOutputLeft);
-    setLeftMotorSpeed(pidOutputRight);
+    setRightMotorSpeed(pidOutputRight);
 
   }
 }

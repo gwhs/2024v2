@@ -40,14 +40,10 @@ public class ClimbIOReal implements ClimbIO {
     motorOutput.Inverted = InvertedValue.CounterClockwise_Positive;
 
     TalonFXConfigurator leftClimbConfigurator = m_leftClimbMotor.getConfigurator();
-    leftClimbConfigurator.apply(motorOutput);
-    leftClimbConfigurator.apply(currentConfig);
     leftClimbConfigurator.apply(talonFXConfigs);
 
 
     TalonFXConfigurator rightClimbConfigurator = m_rightClimbMotor.getConfigurator();
-    rightClimbConfigurator.apply(motorOutput);
-    rightClimbConfigurator.apply(currentConfig);
     rightClimbConfigurator.apply(talonFXConfigs);
 
   }

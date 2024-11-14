@@ -64,7 +64,7 @@ public class ClimbSubsytem extends SubsystemBase {
   public Command motorUp() {
     return this.runOnce(() -> {
       climbIO.setPositionLeft(ClimbConstants.LEFT_UP_POSITION);
-      climbIO.setPositionLeft(ClimbConstants.RIGHT_UP_POSITION);
+      climbIO.setPositionRight(ClimbConstants.RIGHT_UP_POSITION);
     }).andThen(Commands.waitUntil(() -> isMotorAtGoal(ClimbConstants.LEFT_UP_POSITION, ClimbConstants.RIGHT_UP_POSITION)))
         .withName("Motor Up");
   }
@@ -72,7 +72,7 @@ public class ClimbSubsytem extends SubsystemBase {
   public Command motorDown() {
     return this.runOnce(() -> {
       climbIO.setPositionLeft(ClimbConstants.LEFT_DOWN_POSITION);
-      climbIO.setPositionLeft(ClimbConstants.RIGHT_DOWN_POSITION);
+      climbIO.setPositionRight(ClimbConstants.RIGHT_DOWN_POSITION);
     }).andThen(Commands.waitUntil(() -> isMotorAtGoal(ClimbConstants.LEFT_UP_POSITION/2, ClimbConstants.RIGHT_UP_POSITION/2)))
         .withName("Motor Down");
   }
@@ -80,7 +80,7 @@ public class ClimbSubsytem extends SubsystemBase {
   public Command motorHalfWay() {
     return this.runOnce(() -> {
       climbIO.setPositionLeft(ClimbConstants.LEFT_UP_POSITION/2);
-      climbIO.setPositionLeft(ClimbConstants.RIGHT_UP_POSITION/2);
+      climbIO.setPositionRight(ClimbConstants.RIGHT_UP_POSITION/2);
     }).andThen(Commands.waitUntil(() -> isMotorAtGoal(ClimbConstants.LEFT_DOWN_POSITION, ClimbConstants.RIGHT_DOWN_POSITION)))
         .withName("Motor half way");
   }

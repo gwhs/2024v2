@@ -26,6 +26,9 @@ public class Templete extends PathPlannerAuto {
     try {
       /* TODO: Load all paths needed */
       PathPlannerPath S3Leave = PathPlannerPath.fromPathFile("S3-C5");
+      PathPlannerPath S3Return = PathPlannerPath.fromPathFile("C5-S3");
+      PathPlannerPath S3LeaveC4 = PathPlannerPath.fromPathFile("S3-C4");
+      PathPlannerPath S3ReturnC4 = PathPlannerPath.fromPathFile("C4-S3");
 
       /* TODO: Get starting position of starting path */
       Pose2d startingPose = new Pose2d(
@@ -38,7 +41,14 @@ public class Templete extends PathPlannerAuto {
               AutoBuilder.resetOdom(startingPose)));
 
       /* TODO: Other triggers */
-
+        /* Branch: Robot at C5 and successfully intake note*/
+      event("atC5").and(intakeSubsystem.noteTriggered).onTrue(
+        Commands.sequence(
+          AutoBuilder.followPath(S3Return).alongWith(robotContainer.retractIntakePassToPB()),
+          robotContainer.scoreSpeaker(160),
+          AutoBuilder.followPath(S3LeaveC4).alongWith(robotContainer.deployIntake())
+        )
+      );
     } catch (Exception e) {
       DriverStation.reportError("Path Not Found: " + e.getMessage(), e.getStackTrace());
     }

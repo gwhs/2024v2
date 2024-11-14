@@ -130,6 +130,10 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
 
     } 
 
+    public void filterResults(){
+        
+    }
+
 }
 
    

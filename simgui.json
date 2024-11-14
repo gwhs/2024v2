@@ -46,6 +46,13 @@
       "/SmartDashboard/Robot Visualizer/panel": "Mechanism2d",
       "/SmartDashboard/Simulation/Note Sensor": "Command",
       "/SmartDashboard/autonomous": "String Chooser"
+    },
+    "windows": {
+      "/SmartDashboard/autonomous": {
+        "window": {
+          "visible": true
+        }
+      }
     }
   },
   "NetworkTables Info": {

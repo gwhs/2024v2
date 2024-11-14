@@ -47,6 +47,11 @@ public class ClimbSubsytem extends SubsystemBase {
 
   }
 
+  public boolean isMotorAtGoal(double leftMotorGoal, double rightMotorGoal) {
+    return MathUtil.isNear(leftMotorGoal, climbIO.getLeftMotorPosition(), 5) && MathUtil.isNear(rightMotorGoal, climbIO.getRightMotorPosition(), 5);
+  }
+
+
   @Override
   public void periodic() {
     climbIO.update();
@@ -60,7 +65,7 @@ public class ClimbSubsytem extends SubsystemBase {
     return this.runOnce(() -> {
       climbIO.setPositionLeft(ClimbConstants.LEFT_UP_POSITION);
       climbIO.setPositionLeft(ClimbConstants.RIGHT_UP_POSITION);
-    }).andThen(Commands.waitUntil(() -> leftpidController.atGoal() && rightpidController.atGoal()))
+    }).andThen(Commands.waitUntil(() -> isMotorAtGoal(ClimbConstants.LEFT_UP_POSITION, ClimbConstants.RIGHT_UP_POSITION)))
         .withName("Motor Up");
   }
 
@@ -68,7 +73,7 @@ public class ClimbSubsytem extends SubsystemBase {
     return this.runOnce(() -> {
       climbIO.setPositionLeft(ClimbConstants.LEFT_DOWN_POSITION);
       climbIO.setPositionLeft(ClimbConstants.RIGHT_DOWN_POSITION);
-    }).andThen(Commands.waitUntil(() -> leftpidController.atGoal() && rightpidController.atGoal()))
+    }).andThen(Commands.waitUntil(() -> isMotorAtGoal(ClimbConstants.LEFT_UP_POSITION/2, ClimbConstants.RIGHT_UP_POSITION/2)))
         .withName("Motor Down");
   }
 
@@ -76,7 +81,7 @@ public class ClimbSubsytem extends SubsystemBase {
     return this.runOnce(() -> {
       climbIO.setPositionLeft(ClimbConstants.LEFT_UP_POSITION/2);
       climbIO.setPositionLeft(ClimbConstants.RIGHT_UP_POSITION/2);
-    }).andThen(Commands.waitUntil(() -> leftpidController.atGoal() && rightpidController.atGoal()))
+    }).andThen(Commands.waitUntil(() -> isMotorAtGoal(ClimbConstants.LEFT_DOWN_POSITION, ClimbConstants.RIGHT_DOWN_POSITION)))
         .withName("Motor half way");
   }
 }

@@ -33,6 +33,7 @@ public class AprilTagCam {
     PhotonPoseEstimator estim;
     Consumer<AprilTagHelp> addVisionMeasurement;
     private final PhotonPoseEstimator photonEstimator;
+    AprilTagHelp helper; 
 
      Optional<EstimatedRobotPose> optionalEstimPose; 
 
@@ -77,16 +78,19 @@ public class AprilTagCam {
             double timestamp = targetPose.getTimestampSeconds();
             Matrix<N3, N1> sd = findSD(optionalEstimPose, null );
 
+            helper = new AprilTagHelp(pos, timestamp, sd) ; 
             
-            
-            addVisionMeasurement.accept(new AprilTagHelp(pos, timestamp, sd));
+            addVisionMeasurement.accept(helper);
             
         }   
     
     }
 
     public void filterResults(){
-        
+        Matrix<N3, N1> sd = helper.getSD(); 
+        if(false){
+
+        }
     }
 
     private Matrix<N3, N1> findSD( Optional<EstimatedRobotPose> optionalEstimPose, List<PhotonTrackedTarget> targets ){

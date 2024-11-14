@@ -20,4 +20,8 @@ public class AprilTagHelp {
         this.timestamp = timestamp;
     }
 
+    public Matrix<N3, N1> getSD(){
+        return sd; 
+    }
+
 }

@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 2.5539374447669423,
-        "y": 4.352972122314352
+        "x": 2.576,
+        "y": 4.399
       },
       "prevControl": null,
       "nextControl": {
-        "x": 2.388388169421654,
-        "y": 3.3402000849078815
+        "x": 2.4711253525071153,
+        "y": 3.5573617813902296
       },
       "isLocked": false,
       "linkedName": null
@@ -31,7 +31,14 @@
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "atC5",
+      "waypointRelativePos": 1.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 9.0,

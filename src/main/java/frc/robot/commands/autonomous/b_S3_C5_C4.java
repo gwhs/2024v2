@@ -71,15 +71,12 @@ public class b_S3_C5_C4 extends PathPlannerAuto {
           robotContainer.retractIntake(),
           robotContainer.scoreSpeaker(236)
           .withName("at A3 with note"), 
-          AutoBuilder.resetOdom(nextPose), 
           AutoBuilder.followPath(A3C5).alongWith(robotContainer.deployIntake())
         ));
 
         event("atC5").and(intakeSubsystem.noteTriggered).onTrue(
           Commands.sequence(
-            AutoBuilder.followPath(C5S3).alongWith(robotContainer.retractIntakePassToPB()),
-            robotContainer.scoreSpeaker(160),
-            AutoBuilder.followPath(S3C4).alongWith(robotContainer.deployIntake())
+            robotContainer.scoreSpeaker(160)
           )
         );
   
@@ -95,7 +92,7 @@ public class b_S3_C5_C4 extends PathPlannerAuto {
           Commands.sequence(
             AutoBuilder.followPath(C4S3).alongWith(robotContainer.retractIntakePassToPB()),
             robotContainer.scoreSpeaker(160),
-            AutoBuilder.followPath(S3Center)
+            AutoBuilder.followPath(S3C4)
           )
         );
   

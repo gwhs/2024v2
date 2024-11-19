@@ -12,6 +12,7 @@ import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj2.command.Commands;
 import frc.robot.GameRobotContainer;
+import frc.robot.subsystems.Arm.ArmConstants;
 import frc.robot.subsystems.Arm.ArmSubsystem;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.PizzaBox.PizzaBoxSubsystem;
@@ -36,17 +37,25 @@ public class S1_A1_A2 extends PathPlannerAuto {
       /* TODO: When autonomous begins */
       isRunning().onTrue(
           Commands.sequence(
-              AutoBuilder.resetOdom(startingPose)),
-              robotContainer.scoreSpeaker(160),
-              AutoBuilder.followPath(S1A1).alongWith(robotContainer.deployIntake()));
+            AutoBuilder.resetOdom(startingPose),
+            robotContainer.scoreSpeaker(160),
+            AutoBuilder.followPath(S1A1).alongWith(robotContainer.deployIntake())
+          )
+      );
       
       event("atA1").and(intakeSubsystem.noteTriggered).onTrue(
         Commands.sequence(
-          AutoBuilder.followPath("S1A1").alongwith(robotContainer.retractIntakePassToPB()),
+          AutoBuilder.followPath(S1A1).alongWith(robotContainer.retractIntakePassToPB()),
           robotContainer.scoreSpeaker(236),
-          AutoBuilder.followPath("A1A2").alongwith(robotContainer.deployIntake();)
+          AutoBuilder.followPath(A1A2).alongWith(robotContainer.deployIntake())
         )
-      )
+      );
+
+      event("atA1").and(intakeSubsystem.noteTriggered.negate()).onTrue(
+        Commands.sequence(
+          AutoBuilder.followPath(A1A2)
+        )
+      );
       /* TODO: Other triggers */
 
     } catch (Exception e) {

@@ -120,6 +120,7 @@ public class GameRobotContainer implements BaseContainer {
     autoChooser.addOption("S3-C5-C4", new S3_C5_C4(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
     autoChooser.addOption("S3-C5-C4_optimized", new S3_C5_C4_optimized(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
     autoChooser.addOption("S1-A1", new S1_A1(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
+    autoChooser.addOption("S1-A1-A2", new S1_A1_A2(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
     
     //TODO: add more autonomous routines
 

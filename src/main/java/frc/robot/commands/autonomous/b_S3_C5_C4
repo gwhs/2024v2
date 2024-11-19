@@ -17,8 +17,8 @@ import frc.robot.subsystems.Arm.ArmSubsystem;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.PizzaBox.PizzaBoxSubsystem;
 
-public class S2Leave extends PathPlannerAuto {
-  public S2Leave(GameRobotContainer robotContainer, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, PizzaBoxSubsystem pizzaBoxSubsystem) {
+public class b_S3_C5_C4 extends PathPlannerAuto {
+  public b_S3_C5_C4(GameRobotContainer robotContainer, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, PizzaBoxSubsystem pizzaBoxSubsystem) {
     super(Commands.run(() -> {}));
 
     /* All your code should go inside this try-catch block */
@@ -26,6 +26,13 @@ public class S2Leave extends PathPlannerAuto {
       /* TODO: Load all paths needed */
       PathPlannerPath S2A2 = PathPlannerPath.fromPathFile("S2-A2");
       PathPlannerPath A2A3 = PathPlannerPath.fromPathFile("A2-A3");
+      PathPlannerPath A3C5 = PathPlannerPath.fromPathFile("A3-C5");
+      //paths that might not be necessary because we've diverged to A3-C5
+      PathPlannerPath S3C5 = PathPlannerPath.fromPathFile("S3-C5");
+      PathPlannerPath C5S3 = PathPlannerPath.fromPathFile("C5-S3");
+      PathPlannerPath S3C4 = PathPlannerPath.fromPathFile("S3-C4");
+      PathPlannerPath C4S3 = PathPlannerPath.fromPathFile("C4-S3");
+      PathPlannerPath C5C4 = PathPlannerPath.fromPathFile("C5-C4");
 
       /* TODO: Get starting position of starting path */
       Pose2d startingPose = new Pose2d(
@@ -63,8 +70,41 @@ public class S2Leave extends PathPlannerAuto {
         Commands.sequence(
           robotContainer.retractIntake(),
           robotContainer.scoreSpeaker(236)
-          .withName("at A3 with note")
+          .withName("at A3 with note"), 
+          AutoBuilder.resetOdom(nextPose), 
+          AutoBuilder.followPath(A3C5).alongWith(robotContainer.deployIntake())
         ));
+
+        event("atC5").and(intakeSubsystem.noteTriggered).onTrue(
+          Commands.sequence(
+            AutoBuilder.followPath(C5S3).alongWith(robotContainer.retractIntakePassToPB()),
+            robotContainer.scoreSpeaker(160),
+            AutoBuilder.followPath(S3C4).alongWith(robotContainer.deployIntake())
+          )
+        );
+  
+        /* Branch: Robot at C5 and failed to intake note*/
+        event("atC5").and(intakeSubsystem.noteTriggered.negate()).onTrue(
+          Commands.sequence(
+            AutoBuilder.followPath(C5C4)
+          )
+        );
+  
+        /* Branch: Robot at C4 and successfully intake note*/
+        event("atC4").and(intakeSubsystem.noteTriggered).onTrue(
+          Commands.sequence(
+            AutoBuilder.followPath(C4S3).alongWith(robotContainer.retractIntakePassToPB()),
+            robotContainer.scoreSpeaker(160),
+            AutoBuilder.followPath(S3Center)
+          )
+        );
+  
+        /* Branch: Robot at C4 and failed to intake note*/
+        event("atC4").and(intakeSubsystem.noteTriggered.negate()).onTrue(
+          Commands.sequence(
+            robotContainer.retractIntake()
+          )
+        );
     } 
 
     catch (Exception e) {

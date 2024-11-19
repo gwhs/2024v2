@@ -6,6 +6,7 @@ package frc.robot.commands.autonomous;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.commands.PathPlannerAuto;
+import com.pathplanner.lib.events.EventTrigger;
 import com.pathplanner.lib.path.PathPlannerPath;
 
 import edu.wpi.first.math.geometry.Pose2d;
@@ -16,40 +17,57 @@ import frc.robot.subsystems.Arm.ArmSubsystem;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.PizzaBox.PizzaBoxSubsystem;
 
-public class Templete extends PathPlannerAuto {
-  public Templete(GameRobotContainer robotContainer, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem,
-      PizzaBoxSubsystem pizzaBoxSubsystem) {
-    super(Commands.run(() -> {
-    }));
+public class S2Leave extends PathPlannerAuto {
+  public S2Leave(GameRobotContainer robotContainer, ArmSubsystem armSubsystem, IntakeSubsystem intakeSubsystem, PizzaBoxSubsystem pizzaBoxSubsystem) {
+    super(Commands.run(() -> {}));
 
     /* All your code should go inside this try-catch block */
     try {
       /* TODO: Load all paths needed */
-      PathPlannerPath S3Leave = PathPlannerPath.fromPathFile("S3-C5");
-      PathPlannerPath S3Return = PathPlannerPath.fromPathFile("C5-S3");
-      PathPlannerPath S3LeaveC4 = PathPlannerPath.fromPathFile("S3-C4");
-      PathPlannerPath S3ReturnC4 = PathPlannerPath.fromPathFile("C4-S3");
+      PathPlannerPath S2A2 = PathPlannerPath.fromPathFile("S2-A2");
+      PathPlannerPath A2A3 = PathPlannerPath.fromPathFile("A2-A3");
 
       /* TODO: Get starting position of starting path */
       Pose2d startingPose = new Pose2d(
-          S3Leave.getPoint(0).position,
-          S3Leave.getIdealStartingState().rotation());
+        S2A2.getPoint(0).position, 
+        S2A2.getIdealStartingState().rotation());
 
-      /* TODO: When autonomous begins */
+      Pose2d nextPose = new Pose2d(
+        A2A3.getPoint(0).position, 
+        A2A3.getIdealStartingState().rotation());        
+
+      new EventTrigger("wait10Seconds").whileTrue(Commands.waitSeconds(10));  
+      /* TODO: Autonomous Routine's first actions */
       isRunning().onTrue(
-          Commands.sequence(
-              AutoBuilder.resetOdom(startingPose)));
-
-      /* TODO: Other triggers */
-        /* Branch: Robot at C5 and successfully intake note*/
-      event("atC5").and(intakeSubsystem.noteTriggered).onTrue(
         Commands.sequence(
-          AutoBuilder.followPath(S3Return).alongWith(robotContainer.retractIntakePassToPB()),
-          robotContainer.scoreSpeaker(160),
-          AutoBuilder.followPath(S3LeaveC4).alongWith(robotContainer.deployIntake())
-        )
-      );
-    } catch (Exception e) {
+          // TODO: Reset robot odometry with starting position so robot knows where it is
+          AutoBuilder.resetOdom(startingPose),
+          // TODO: Score pre-load note to speaker
+          robotContainer.scoreSpeaker(236),
+          // TODO: Follow Path
+          AutoBuilder.followPath(S2A2).alongWith(robotContainer.deployIntake())
+          
+          // TODO: Name of command
+          .withName("S2A2; Score Preload;")));
+
+      event("atA2").onTrue(
+        Commands.sequence(
+          robotContainer.retractIntakePassToPB(),
+          robotContainer.scoreSpeaker(236)
+          .withName("at A2 with note"),
+          AutoBuilder.resetOdom(nextPose),         
+          AutoBuilder.followPath(A2A3).alongWith(robotContainer.deployIntake())
+          ));
+          
+      event("atA3").onTrue(
+        Commands.sequence(
+          robotContainer.retractIntake(),
+          robotContainer.scoreSpeaker(236)
+          .withName("at A3 with note")
+        ));
+    } 
+
+    catch (Exception e) {
       DriverStation.reportError("Path Not Found: " + e.getMessage(), e.getStackTrace());
     }
   }

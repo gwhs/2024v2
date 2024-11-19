@@ -5,4 +5,5 @@ public interface ArmIO {
     public void setArmSpeed(double speed);
     public void update();
     public boolean isEncoderConnected();
+    public boolean isOutOfBounds();
 }

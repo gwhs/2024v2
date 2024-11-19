@@ -32,4 +32,20 @@ public class ArmIOSim implements ArmIO {
     public boolean isEncoderConnected() {
         return true;
     }
+    public boolean isOutOfBounds() {
+        if (isEncoderConnected() == false) {
+          return false;
+        }
+        if (getArmEncoderAngle() >= ArmConstants.ARM_ANGLE_MAX) {
+          return true;
+        }
+        if (getArmEncoderAngle() <= ArmConstants.ARM_ANGLE_MIN) {
+          return true;
+        }
+        // 1) encoder disconnnected - return false
+        // 2) encoder is above max angle - return true
+        // 3) encoder is below min angle - return true
+        // 4) encoder in within max and min - return false
+        return false;
+    }
 }

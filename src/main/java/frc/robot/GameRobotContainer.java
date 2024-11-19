@@ -106,10 +106,12 @@ public class GameRobotContainer implements BaseContainer {
 
     m_IntakeSubsystem.noteTriggered.onTrue(retractIntakePassToPB());
 
+    driverController.x()
+      .onTrue(m_ArmSubsystem.spinArm(160));
     /* Operator Controllers */
 
     /* Other Triggers */
-
+// create button on simulation that sets arm angle above 180 and another button below 0
   }
 
   

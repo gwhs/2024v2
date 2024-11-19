@@ -44,4 +44,21 @@ public class ArmIOReal implements ArmIO {
     return m_armEncoder.isConnected();
   }
 
+  public boolean isOutOfBounds() {
+    if (isEncoderConnected() == false) {
+      return false;
+    }
+    if (getArmEncoderAngle() >= ArmConstants.ARM_ANGLE_MAX) {
+      return true;
+    }
+    if (getArmEncoderAngle() <= ArmConstants.ARM_ANGLE_MIN) {
+      return true;
+    }
+    // 1) encoder disconnnected - return false
+    // 2) encoder is above max angle - return true
+    // 3) encoder is below min angle - return true
+    // 4) encoder in within max and min - return false
+    return false;
+  }
+
 }

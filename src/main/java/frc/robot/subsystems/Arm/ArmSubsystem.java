@@ -59,12 +59,12 @@ public class ArmSubsystem extends SubsystemBase {
     double speed = pidOutput + armFeedforwardOutput;
 
     pidOutput = MathUtil.clamp(pidOutput, -1, 1);
-    if (armIO.isEncoderConnected()) {
-      armIO.setArmSpeed(speed);
+
+    if (armIO.isOutOfBounds() == true) {
+      speed = 0;
     }
-    else {
-      armIO.setArmSpeed(0);
-    }
+    armIO.setArmSpeed(speed);
+    
 
     NetworkTableInstance.getDefault().getEntry("/Arm/ArmAngle").setNumber(armIO.getArmEncoderAngle());
     NetworkTableInstance.getDefault().getEntry("/Arm/pidOutput").setNumber(pidOutput);

@@ -27,6 +27,7 @@ public class S1_A1_A2 extends PathPlannerAuto {
       /* TODO: Load all paths needed */
       PathPlannerPath S1_A1 = PathPlannerPath.fromPathFile("S1-A1");
       PathPlannerPath A1_A2 = PathPlannerPath.fromPathFile("A1-A2");
+      PathPlannerPath A1_S1 = PathPlannerPath.fromPathFile("A1-S1");
 
       /* TODO: Get starting position of starting path */
       Pose2d startingPose = new Pose2d(
@@ -37,25 +38,58 @@ public class S1_A1_A2 extends PathPlannerAuto {
       isRunning().onTrue(
           Commands.sequence(
               AutoBuilder.resetOdom(startingPose),
-              robotContainer.scoreSpeaker(236),
+              robotContainer.scoreSpeaker(160),
               AutoBuilder.followPath(S1_A1).alongWith(robotContainer.deployIntake()))
               .withName("S1; Score Preload; S1->A1"));
 
       /* TODO: At A1/Score at A1, then go to A2 */
-      event("atA1").onTrue(
+      
+      /* event("atA1").onTrue(
          Commands.sequence(
           robotContainer.retractIntakePassToPB(),
           robotContainer.scoreSpeaker(0),
           AutoBuilder.followPath(A1_A2)
             .withName("A1, score note, A1->A2")
-         ));
+         )); */
       
       //TODO: atA2, score at A2
-      event("atA2").onTrue(
+
+     /*  event("atA2").onTrue(
         Commands.sequence(
           robotContainer.retractIntakePassToPB(),
           robotContainer.scoreSpeaker(0)
             .withName("At A2, score note")
+        )
+      ); */
+      event("atA1").and(intakeSubsystem.noteTriggered).onTrue(
+        Commands.sequence(
+          robotContainer.retractIntakePassToPB()),
+          robotContainer.scoreSpeaker(160),
+          AutoBuilder.followPath(A1_A2)
+          
+          );
+
+        
+      
+
+      event("atA1").and(intakeSubsystem.noteTriggered.negate()).onTrue(
+        Commands.sequence(
+          AutoBuilder.followPath(A1_A2)
+
+
+        )
+      );
+
+      event("atA2").and(intakeSubsystem.noteTriggered).onTrue(
+        Commands.sequence(
+          robotContainer.scoreSpeaker(160)
+        
+        )
+      );
+
+      event("atA2").and(intakeSubsystem.noteTriggered.negate()).onTrue(
+        Commands.sequence(
+          robotContainer.retractIntake()
         )
       );
 

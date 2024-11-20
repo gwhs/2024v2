@@ -86,11 +86,11 @@ public class AprilTagCam {
     
     }
 
-    public void filterResults(){
-        Matrix<N3, N1> sd = helper.getSD(); 
+    public boolean filterResults(Optional<EstimatedRobotPose> poseEstim){
         if(false){
 
         }
+        return true; 
     }
 
     private Matrix<N3, N1> findSD( Optional<EstimatedRobotPose> optionalEstimPose, List<PhotonTrackedTarget> targets ){
@@ -132,12 +132,13 @@ public class AprilTagCam {
             }
       
 
-        return null;
+        
 
     }
     
         
     
+    }
 }
 
 

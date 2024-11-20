@@ -66,7 +66,12 @@ public class IntakeSubsystem extends SubsystemBase {
 
     pidOutput = MathUtil.clamp(pidOutput, -1, 1);
 
-    intakeIO.setArmSpeed(pidOutput);
+    if (intakeIO.isEncoderConnected()) {
+      intakeIO.setArmSpeed(pidOutput);
+    }
+    else {
+      intakeIO.setArmSpeed(0);
+    }
 
     intakeIO.update();
 
@@ -81,6 +86,7 @@ public class IntakeSubsystem extends SubsystemBase {
 
     NetworkTableInstance.getDefault().getEntry("Intake/Intake Deployed").setBoolean(isDeployed.getAsBoolean());
     NetworkTableInstance.getDefault().getEntry("Intake/Note Sensor").setBoolean(intakeIO.getNoteSensor());
+    NetworkTableInstance.getDefault().getEntry("Intake/Encoder Connected").setBoolean(intakeIO.isEncoderConnected());
   }
 
   public double getArmAngle() {
@@ -90,7 +96,6 @@ public class IntakeSubsystem extends SubsystemBase {
   public double getSpinSpeed() {
     return intakeIO.getSpinSpeed();
   }
-
   public Command deployIntake() {
     return this.runOnce(() -> {
       pidController.setGoal(IntakeConstants.DOWN_POSITION);
@@ -99,6 +104,7 @@ public class IntakeSubsystem extends SubsystemBase {
         .andThen(
             Commands.waitUntil(noteTriggered),
             retractIntake())
+        .onlyIf(() -> intakeIO.isEncoderConnected())
         .withName("Intake: deploy intake");
   }
 
@@ -108,18 +114,21 @@ public class IntakeSubsystem extends SubsystemBase {
       intakeIO.setSpinSpeed(0);
     })
         .andThen(Commands.waitUntil(() -> pidController.atGoal()))
+        .onlyIf(() -> intakeIO.isEncoderConnected())
         .withName("Intake: retract intake");
   }
 
   public Command intakeNote() {
     return this.runOnce(() -> {
       intakeIO.setSpinSpeed(1);
-    });
+    })
+        .onlyIf(() -> intakeIO.isEncoderConnected());
   }
 
   public Command stopIntake() {
     return this.runOnce(() -> {
       intakeIO.setSpinSpeed(0);
-    });
+    })
+        .onlyIf(() -> intakeIO.isEncoderConnected());
   }
 }

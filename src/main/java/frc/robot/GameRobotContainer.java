@@ -95,7 +95,7 @@ public class GameRobotContainer implements BaseContainer {
     teleopEnabled.onTrue(retractIntake());
 
     /* Driver Controller */
-    driverController.start().onTrue(Commands.runOnce(drivetrain::seedFieldRelative));
+    driverController.start().onTrue(Commands.runOnce(drivetrain::seedFieldCentric));
     driverController.a()
         .onTrue(deployIntake())
         .onFalse(retractIntake());
@@ -126,7 +126,7 @@ public class GameRobotContainer implements BaseContainer {
 
     SmartDashboard.putData("autonomous", autoChooser);
   }
-
+  
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *

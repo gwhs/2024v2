@@ -14,6 +14,7 @@ import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import dev.doglog.DogLog;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
@@ -34,6 +35,8 @@ public class AprilTagCam {
     private final PhotonPoseEstimator photonEstimator;
     AprilTagHelp helper; 
 
+    private final String ntKey;
+
      Optional<EstimatedRobotPose> optionalEstimPose; 
 
     // 
@@ -42,6 +45,7 @@ public class AprilTagCam {
         this.addVisionMeasurement = addVisionMeasurement;
         photonEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PhotonPoseEstimator.PoseStrategy.AVERAGE_BEST_TARGETS, null);
         
+        ntKey = "/Vision/" + str + "/";
     }   
 
     public void updatePoseEstim(){
@@ -78,6 +82,10 @@ public class AprilTagCam {
             Matrix<N3, N1> sd = findSD(optionalEstimPose, null );
 
             helper = new AprilTagHelp(pos, timestamp, sd) ; 
+
+            DogLog.log(ntKey + "/Accepted Pose/", pos);
+            DogLog.log(ntKey + "/Accepted Time Stamp/", timestamp);
+            DogLog.log(ntKey + "/Accepted Stdev/", sd);
             
             addVisionMeasurement.accept(helper);
             

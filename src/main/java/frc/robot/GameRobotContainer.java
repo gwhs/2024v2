@@ -3,6 +3,7 @@ package frc.robot;
 import static edu.wpi.first.units.Units.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -30,6 +31,9 @@ import frc.robot.subsystems.swervedrive.CommandSwerveDrivetrain;
 import java.util.Collections;
 import java.util.Map;
 
+import dev.doglog.DogLog;
+import dev.doglog.DogLogOptions;
+
 public class GameRobotContainer implements BaseContainer {
 
   private final CommandXboxController driverController = new CommandXboxController(0);
@@ -54,6 +58,9 @@ public class GameRobotContainer implements BaseContainer {
   private final RobotVisualizer robotVisualizer;
 
   public GameRobotContainer() {
+    DogLog.setOptions(new DogLogOptions().withNtPublish(true));
+    DogLog.setPdh(new PowerDistribution());
+    
     drivetrain.setDefaultCommand(drive);
     configureBindings();
     configureAutonomous();

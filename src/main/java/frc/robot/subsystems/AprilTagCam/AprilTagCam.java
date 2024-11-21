@@ -83,9 +83,9 @@ public class AprilTagCam {
 
             helper = new AprilTagHelp(pos, timestamp, sd) ; 
 
-            DogLog.log(ntKey + "/Accepted Pose/", pos);
-            DogLog.log(ntKey + "/Accepted Time Stamp/", timestamp);
-            DogLog.log(ntKey + "/Accepted Stdev/", sd);
+            DogLog.log(ntKey + "Accepted Pose/", pos);
+            DogLog.log(ntKey + "Accepted Time Stamp/", timestamp);
+            DogLog.log(ntKey + "Accepted Stdev/", sd);
             
             addVisionMeasurement.accept(helper);
             

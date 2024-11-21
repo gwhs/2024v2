@@ -70,8 +70,8 @@ public class GameRobotContainer implements BaseContainer {
     testingLayout.add(deployIntake());
     testingLayout.add(retractIntake());
     testingLayout.add(retractIntakePassToPB());
-    // testingLayout.add(scoreSpeaker(160));
-    testingLayout.add(scoreSpeaker(230));
+    testingLayout.add(scoreSpeaker(160));
+    // testingLayout.add(scoreSpeaker(230));
     testingLayout.add(scoreAmp());
     testingLayout.add(sourceIntake());
     testingLayout.add(prepClimb());
@@ -170,8 +170,8 @@ public class GameRobotContainer implements BaseContainer {
   public Command scoreSpeaker(double armAngle) {
     return Commands.sequence(
       Commands.parallel(
-      m_ArmSubsystem.spinArm(160),
-      m_PizzaBoxSubsystem.speedyArm_Command(() -> 1.0)),
+      m_ArmSubsystem.spinArm(armAngle),
+      m_PizzaBoxSubsystem.speedyArm_Command(() -> m_ArmSubsystem.getArmAngle())),
       m_PizzaBoxSubsystem.setKicker(),
       Commands.waitSeconds(0.4),
       m_PizzaBoxSubsystem.stopMotor(),

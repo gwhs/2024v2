@@ -2,13 +2,18 @@ package frc.robot.subsystems.ClimbSubsystem;
 
 import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.system.plant.DCMotor;
+<<<<<<< HEAD
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.math.util.Units;
+=======
+import edu.wpi.first.math.system.plant.LinearSystemId;
+>>>>>>> 2025-beta
 import edu.wpi.first.wpilibj.simulation.DCMotorSim;
 
 public class ClimbIOSim implements ClimbIO {
 
   private DCMotorSim rightMotorSim = new DCMotorSim(
+<<<<<<< HEAD
       DCMotor.getFalcon500Foc(1),
       1, 0.001);
 
@@ -29,6 +34,14 @@ public class ClimbIOSim implements ClimbIO {
   public void setPositionRight(double position) {
       rightpidController.setGoal(position);
   }
+=======
+      LinearSystemId.createDCMotorSystem(DCMotor.getFalcon500(1), 0.0001, 1),
+      DCMotor.getFalcon500(1));
+
+  private DCMotorSim leftMotorSim = new DCMotorSim(
+      LinearSystemId.createDCMotorSystem(DCMotor.getFalcon500(1), 0.0001, 1),
+      DCMotor.getFalcon500(1));
+>>>>>>> 2025-beta
 
   @Override
   public double getRightMotorPosition() {

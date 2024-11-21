@@ -8,46 +8,53 @@
       },
       "prevControl": null,
       "nextControl": {
-        "x": 7.103668951245854,
-        "y": 1.1515386498989422
+        "x": 7.407238423743967,
+        "y": 1.2467829017891177
       },
       "isLocked": false,
       "linkedName": "C5"
     },
     {
       "anchor": {
-        "x": 2.777811351684463,
-        "y": 2.12942393685016
+        "x": 7.124773319314081,
+        "y": 2.1734809838134894
       },
       "prevControl": {
-        "x": 3.47097410376164,
-        "y": 1.6739408289977709
+        "x": 7.033490468422039,
+        "y": 1.8337734613466217
       },
       "nextControl": {
-        "x": 2.1089113238808523,
-        "y": 2.568963803344048
+        "x": 7.189649473797113,
+        "y": 2.4149164505111016
       },
       "isLocked": false,
       "linkedName": null
     },
     {
       "anchor": {
-        "x": 0.7365015087811937,
-        "y": 4.391019014596169
+        "x": 8.284942222836145,
+        "y": 2.4525089479517073
       },
       "prevControl": {
-        "x": 1.195184661640595,
-        "y": 3.920394759805718
+        "x": 7.754687624575932,
+        "y": 2.6680510661944457
       },
       "nextControl": null,
       "isLocked": false,
-      "linkedName": "S3"
+      "linkedName": "C4"
     }
   ],
   "rotationTargets": [],
   "constraintZones": [],
   "pointTowardsZones": [],
-  "eventMarkers": [],
+  "eventMarkers": [
+    {
+      "name": "atC4",
+      "waypointRelativePos": 2.0,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
   "globalConstraints": {
     "maxVelocity": 4.0,
     "maxAcceleration": 9.0,
@@ -58,7 +65,7 @@
   },
   "goalEndState": {
     "velocity": 0,
-    "rotation": 119.99999999999999
+    "rotation": 0.0
   },
   "reversed": false,
   "folder": null,

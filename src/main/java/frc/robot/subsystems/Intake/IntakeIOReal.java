@@ -4,6 +4,12 @@
 
 package frc.robot.subsystems.Intake;
 
+import static edu.wpi.first.units.Units.Amp;
+import static edu.wpi.first.units.Units.Degrees;
+import static edu.wpi.first.units.Units.DegreesPerSecond;
+import static edu.wpi.first.units.Units.Fahrenheit;
+import static edu.wpi.first.units.Units.Volt;
+
 import com.ctre.phoenix6.BaseStatusSignal;
 import com.ctre.phoenix6.StatusSignal;
 import com.ctre.phoenix6.configs.TalonFXConfiguration;
@@ -16,6 +22,8 @@ import edu.wpi.first.networktables.BooleanPublisher;
 import edu.wpi.first.networktables.DoublePublisher;
 import edu.wpi.first.networktables.NetworkTable;
 import edu.wpi.first.networktables.NetworkTableInstance;
+import edu.wpi.first.units.CurrentUnit;
+import edu.wpi.first.units.measure.*;
 import edu.wpi.first.wpilibj.DigitalInput;
 import edu.wpi.first.wpilibj.DutyCycleEncoder;
 
@@ -31,18 +39,18 @@ public class IntakeIOReal implements IntakeIO {
   /*
    * Status Signals from CTRE motors
    */
-  private final StatusSignal<Double> spinVelocity = m_intakeSpin.getVelocity();
-  private final StatusSignal<Double> spinTemp = m_intakeSpin.getDeviceTemp();
-  private final StatusSignal<Double> spinSupplyCurrent = m_intakeSpin.getSupplyCurrent();
-  private final StatusSignal<Double> spinStatorCurrent = m_intakeSpin.getStatorCurrent();
-  private final StatusSignal<Double> spinAppliedVoltage = m_intakeSpin.getMotorVoltage();
+  private final StatusSignal<AngularVelocity> spinVelocity = m_intakeSpin.getVelocity();
+  private final StatusSignal<Temperature> spinTemp = m_intakeSpin.getDeviceTemp();
+  private final StatusSignal<Current> spinSupplyCurrent = m_intakeSpin.getSupplyCurrent();
+  private final StatusSignal<Current> spinStatorCurrent = m_intakeSpin.getStatorCurrent();
+  private final StatusSignal<Voltage> spinAppliedVoltage = m_intakeSpin.getMotorVoltage();
 
-  private final StatusSignal<Double> armPosition = m_intakeArm.getPosition();
-  private final StatusSignal<Double> armVelocity = m_intakeArm.getVelocity();
-  private final StatusSignal<Double> armTemp = m_intakeArm.getDeviceTemp();
-  private final StatusSignal<Double> armSupplyCurrent = m_intakeArm.getSupplyCurrent();
-  private final StatusSignal<Double> armStatorCurrent = m_intakeArm.getStatorCurrent();
-  private final StatusSignal<Double> armAppliedVoltage = m_intakeArm.getMotorVoltage();
+  private final StatusSignal<Angle> armPosition = m_intakeArm.getPosition();
+  private final StatusSignal<AngularVelocity> armVelocity = m_intakeArm.getVelocity();
+  private final StatusSignal<Temperature> armTemp = m_intakeArm.getDeviceTemp();
+  private final StatusSignal<Current> armSupplyCurrent = m_intakeArm.getSupplyCurrent();
+  private final StatusSignal<Current> armStatorCurrent = m_intakeArm.getStatorCurrent();
+  private final StatusSignal<Voltage> armAppliedVoltage = m_intakeArm.getMotorVoltage();
 
   /*
    * Set up for logging values to network table
@@ -90,7 +98,7 @@ public class IntakeIOReal implements IntakeIO {
   }
 
   public double getIntakeArmAngle() {
-    return Units.rotationsToDegrees(encoder.getAbsolutePosition()) - IntakeConstants.ENCODER_OFFSET;
+    return Units.rotationsToDegrees(encoder.get()) - IntakeConstants.ENCODER_OFFSET;
   }
 
   public void setArmSpeed(double speed) {
@@ -107,6 +115,10 @@ public class IntakeIOReal implements IntakeIO {
 
   public double getSpinSpeed() {
     return spinVelocity.getValueAsDouble();
+  }
+
+  public boolean isEncoderConnected() {
+    return encoder.isConnected();
   }
 
   public void update() {
@@ -131,16 +143,16 @@ public class IntakeIOReal implements IntakeIO {
     /*
      * Log status signal values to network table
      */
-    nt_spinTemp.set(spinTemp.getValueAsDouble());
-    nt_spinSupplyCurrent.set(spinSupplyCurrent.getValueAsDouble());
-    nt_spinStatorCurrent.set(spinStatorCurrent.getValueAsDouble());
-    nt_spinAppliedVoltage.set(spinAppliedVoltage.getValueAsDouble());
+    nt_spinTemp.set(spinTemp.getValue().in(Fahrenheit));
+    nt_spinSupplyCurrent.set(spinSupplyCurrent.getValue().in(Amp));
+    nt_spinStatorCurrent.set(spinStatorCurrent.getValue().in(Amp));
+    nt_spinAppliedVoltage.set(spinAppliedVoltage.getValue().in(Volt));
 
-    nt_armPosition.set(armPosition.getValueAsDouble());
-    nt_armVelocity.set(armVelocity.getValueAsDouble());
-    nt_armTemp.set(armTemp.getValueAsDouble());
-    nt_armSupplyCurrent.set(armSupplyCurrent.getValueAsDouble());
-    nt_armStatorCurrent.set(armStatorCurrent.getValueAsDouble());
-    nt_armAppliedVoltage.set(armAppliedVoltage.getValueAsDouble());
+    nt_armPosition.set(armPosition.getValue().in(Degrees));
+    nt_armVelocity.set(armVelocity.getValue().in(DegreesPerSecond));
+    nt_armTemp.set(armTemp.getValue().in(Fahrenheit));
+    nt_armSupplyCurrent.set(armSupplyCurrent.getValue().in(Amp));
+    nt_armStatorCurrent.set(armStatorCurrent.getValue().in(Amp));
+    nt_armAppliedVoltage.set(armAppliedVoltage.getValue().in(Volt));
   }
 }

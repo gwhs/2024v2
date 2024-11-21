@@ -1,19 +1,23 @@
 package frc.robot;
 
-import edu.wpi.first.networktables.DoublePublisher;
-import edu.wpi.first.networktables.NetworkTableInstance;
+import static edu.wpi.first.units.Units.*;
+
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
+import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
 import edu.wpi.first.wpilibj2.command.Command.InterruptionBehavior;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import edu.wpi.first.wpilibj2.command.button.Trigger;
+import frc.robot.commands.autonomous.*;
+import frc.robot.Util.NoteSimulator;
 import frc.robot.Util.RobotVisualizer;
 import frc.robot.commands.swervedrive.CTRETeleopDrive;
+import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm.ArmConstants;
 import frc.robot.subsystems.AprilTagCam.AprilTagCam;
 import frc.robot.subsystems.Arm.ArmSubsystem;
@@ -22,29 +26,26 @@ import frc.robot.subsystems.Intake.IntakeSubsystem;
 import frc.robot.subsystems.PizzaBox.PizzaBoxSubsystem;
 import frc.robot.subsystems.ClimbSubsystem.ClimbSubsytem;
 import frc.robot.subsystems.swervedrive.CommandSwerveDrivetrain;
-import frc.robot.subsystems.swervedrive.Telemetry;
-import frc.robot.subsystems.swervedrive.TunerConstants;
 
+import java.util.Collections;
 import java.util.Map;
-
-import com.pathplanner.lib.auto.AutoBuilder;
 
 public class GameRobotContainer implements BaseContainer {
 
   private final CommandXboxController driverController = new CommandXboxController(0);
   private final CommandXboxController operatorController = new CommandXboxController(1);
 
-  private final SendableChooser<Command> autoChooser;
+  private final SendableChooser<Command> autoChooser = new SendableChooser<Command>();
 
   private final IntakeSubsystem m_IntakeSubsystem = new IntakeSubsystem();
   private final ArmSubsystem m_ArmSubsystem = new ArmSubsystem();
   private final PizzaBoxSubsystem m_PizzaBoxSubsystem = new PizzaBoxSubsystem();
   private final ClimbSubsytem m_ClimbSubsystem = new ClimbSubsytem();
   private final ReactionSubsystem m_ReactionSubsystem = new ReactionSubsystem();
-  private final CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance();
+  private final CommandSwerveDrivetrain drivetrain = TunerConstants.createDrivetrain();
 
-  private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController);
-  private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12VoltsMps);
+  private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController, drivetrain);
+  private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12Volts.in(MetersPerSecond));
 
   private final AprilTagCam testCam = new AprilTagCam("cam", null );
 
@@ -53,11 +54,9 @@ public class GameRobotContainer implements BaseContainer {
   private final RobotVisualizer robotVisualizer;
 
   public GameRobotContainer() {
-
-    autoChooser = AutoBuilder.buildAutoChooser("Hajel middle bottom 2");
-
     drivetrain.setDefaultCommand(drive);
     configureBindings();
+    configureAutonomous();
 
     drivetrain.registerTelemetry(logger::telemeterize);
 
@@ -99,7 +98,7 @@ public class GameRobotContainer implements BaseContainer {
     teleopEnabled.onTrue(retractIntake());
 
     /* Driver Controller */
-    driverController.start().onTrue(Commands.runOnce(drivetrain::seedFieldRelative));
+    driverController.start().onTrue(Commands.runOnce(drivetrain::seedFieldCentric));
     driverController.a()
         .onTrue(deployIntake())
         .onFalse(retractIntake());
@@ -107,7 +106,7 @@ public class GameRobotContainer implements BaseContainer {
     (driverController.b().and(m_IntakeSubsystem.isDeployed)).debounce(0.1).onTrue(retractIntake());
     (driverController.b().and(m_IntakeSubsystem.isDeployed.negate())).debounce(0.1).onTrue(deployIntake());
 
-    m_IntakeSubsystem.noteTriggered.onTrue(retractIntakePassToPB());
+    teleopEnabled.and(m_IntakeSubsystem.noteTriggered).onTrue(retractIntakePassToPB());
 
     /* Operator Controllers */
 
@@ -115,6 +114,20 @@ public class GameRobotContainer implements BaseContainer {
 
   }
 
+  private void configureAutonomous() {
+    autoChooser.setDefaultOption("S3-Leave", new S3Leave(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
+
+    autoChooser.addOption("S1-Leave", new S1Leave(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
+    autoChooser.addOption("S2-Leave", new S1Leave(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
+    autoChooser.addOption("S3-C5", new S3_C5(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
+    autoChooser.addOption("S3-C5-C4", new S3_C5_C4(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
+    autoChooser.addOption("S3-C5-C4_optimized", new S3_C5_C4_optimized(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
+    
+    //TODO: add more autonomous routines
+
+    SmartDashboard.putData("autonomous", autoChooser);
+  }
+  
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -127,6 +140,7 @@ public class GameRobotContainer implements BaseContainer {
   @Override
   public void periodic() {
     robotVisualizer.update();
+    NoteSimulator.update(drivetrain.getState().Pose, m_ArmSubsystem.getArmAngle());
   }
 
   public Command deployIntake() {
@@ -148,7 +162,7 @@ public class GameRobotContainer implements BaseContainer {
             m_IntakeSubsystem.intakeNote(),
             m_PizzaBoxSubsystem.slurp_command(0.5)),
         Commands.waitUntil(m_IntakeSubsystem.noteTriggered.negate()),
-        Commands.waitSeconds(1),
+        Commands.waitSeconds(1).alongWith(NoteSimulator.intakeNote()),
         Commands.parallel(
             m_IntakeSubsystem.stopIntake(),
             m_PizzaBoxSubsystem.stopMotor()))
@@ -157,8 +171,15 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command scoreSpeaker(double armAngle) {
-    // TODO
-    return Commands.none()
+    return Commands.sequence(
+      m_ArmSubsystem.spinArm(armAngle).deadlineFor(m_PizzaBoxSubsystem.speedyArm_Command(() -> m_ArmSubsystem.getArmAngle())).withTimeout(2),
+      m_PizzaBoxSubsystem.spit_command(1),
+      Commands.waitUntil(() -> m_PizzaBoxSubsystem.getVelocity() >= 80).withTimeout(2),
+      m_PizzaBoxSubsystem.setKicker().alongWith(Commands.defer(()->NoteSimulator.launchNote(10, drivetrain.getState().Speeds, drivetrain.getState().Pose, armAngle), Collections.emptySet())),
+      Commands.waitSeconds(0.5),
+      m_PizzaBoxSubsystem.stopKicker(),
+      m_ArmSubsystem.spinArm(90).alongWith(m_PizzaBoxSubsystem.stopMotor()).withTimeout(0)
+    )
         .withName("Score Speaker at " + armAngle);
   }
 
@@ -175,26 +196,43 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command prepClimb() {
-    // TODO
-    return Commands.none()
+    return Commands.sequence(
+        m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_FLAP).alongWith(Commands.waitUntil(()->m_ArmSubsystem.getArmAngle() >= 200).andThen(m_ClimbSubsystem.motorHalfWay())),
+        m_PizzaBoxSubsystem.setFlap(),
+        Commands.waitSeconds(0.5),
+        m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_CLIMB),
+        m_ClimbSubsystem.motorUp())
         .withName("Prep Climb");
   }
 
   public Command climbAndScore() {
-    // TODO
-    return Commands.none()
+    return Commands.sequence(
+        m_ReactionSubsystem.extendReactionBar(),
+        m_ClimbSubsystem.motorDown().withTimeout(3),
+        m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_TRAP),
+        m_PizzaBoxSubsystem.spit_command(0.8),
+        Commands.waitSeconds(2),
+        m_PizzaBoxSubsystem.spit_command(0.0))
         .withName("Climb and Score");
   }
 
   public Command unclimbPartOne() {
-    // TODO
-    return Commands.none()
+  
+    return Commands.sequence(
+      m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_CLIMB),
+      m_ClimbSubsystem.motorUp()
+    )
         .withName("Unclimb Part One");
   }
 
   public Command unclimbPartTwo() {
-    // TODO
-    return Commands.none()
+    return Commands.sequence(
+      m_ClimbSubsystem.motorDown().withTimeout(3),
+      m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_FLAP),
+      m_PizzaBoxSubsystem.stopFlap(),
+      Commands.waitSeconds(1),
+      m_ArmSubsystem.spinArm(90),
+      m_ReactionSubsystem.retractReactionBar())
         .withName("Unclimb Part Two");
   }
 }

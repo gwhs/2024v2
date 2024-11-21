@@ -64,14 +64,14 @@ public class PizzaBoxSubsystem extends SubsystemBase {
   }
 
   public Command speedyArm_Command(DoubleSupplier f) {
-    if (f.getAsDouble() > 99 && f.getAsDouble() < 261) {
-      return this.runOnce(() -> pizzaBoxIO.setMotor(1))
-          .withName("GAS GAS GAS");
-
-    } else {
-      return this.runOnce(() -> pizzaBoxIO.setMotor(-0.8))
-          .withName("!GAS GAS GAS");
-    }
+    return this.run(() -> {
+      if(f.getAsDouble() <= 100 || f.getAsDouble() >= 270) {
+        pizzaBoxIO.setMotor(-0.05);
+      }
+      else {
+        pizzaBoxIO.setMotor(1);
+      }
+    });
 
   }
 
@@ -101,6 +101,10 @@ public class PizzaBoxSubsystem extends SubsystemBase {
     } else {
       return false;
     }
+  }
+
+  public double getVelocity() {
+    return pizzaBoxIO.motorSpeed();
   }
 
   @Override

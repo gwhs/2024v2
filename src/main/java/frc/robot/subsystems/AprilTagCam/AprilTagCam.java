@@ -30,7 +30,6 @@ public class AprilTagCam {
     AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
 
     PhotonCamera cam;
-    PhotonPoseEstimator estim;
     Consumer<AprilTagHelp> addVisionMeasurement;
     private final PhotonPoseEstimator photonEstimator;
     AprilTagHelp helper; 
@@ -41,7 +40,7 @@ public class AprilTagCam {
     public AprilTagCam(String str, Consumer<AprilTagHelp> addVisionMeasurement){
         cam = new PhotonCamera(str);
         this.addVisionMeasurement = addVisionMeasurement;
-        estim = new PhotonPoseEstimator(aprilTagFieldLayout, PhotonPoseEstimator.PoseStrategy.AVERAGE_BEST_TARGETS, null);
+        photonEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PhotonPoseEstimator.PoseStrategy.AVERAGE_BEST_TARGETS, null);
         
     }   
 
@@ -65,7 +64,7 @@ public class AprilTagCam {
             System.out.println(targetPose);
             System.out.println(targetPose);
             
-            optionalEstimPose = (estim.update(targetPose)); 
+            optionalEstimPose = photonEstimator.update(targetPose); 
             
             if(optionalEstimPose.isEmpty()){
                 return;

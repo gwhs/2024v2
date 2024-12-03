@@ -70,15 +70,9 @@ public class ArmSubsystem extends SubsystemBase {
     NetworkTableInstance.getDefault().getEntry("/Arm/pidOutput").setNumber(pidOutput);
     NetworkTableInstance.getDefault().getEntry("/Arm/armGoal")
         .setNumber(Units.radiansToDegrees(pidController.getGoal().position));
-<<<<<<< HEAD
-
-    
-
-=======
     NetworkTableInstance.getDefault().getEntry("/Arm/EncoderConnected").setBoolean(armIO.isEncoderConnected());
     NetworkTableInstance.getDefault().getEntry("/Arm/FeedforwardOutput").setNumber(armFeedforwardOutput);
     NetworkTableInstance.getDefault().getEntry("/Arm/armSpeed").setNumber(speed);
->>>>>>> 2025-beta
     armIO.update();
   }
 

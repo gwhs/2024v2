@@ -63,9 +63,9 @@ public class S1_A1_A2 extends PathPlannerAuto {
       ); */
       event("atA1").and(intakeSubsystem.noteTriggered).onTrue(
         Commands.sequence(
-          robotContainer.retractIntakePassToPB()),
+          robotContainer.retractIntakePassToPB(),
           robotContainer.scoreSpeaker(160),
-          AutoBuilder.followPath(A1_A2)
+          AutoBuilder.followPath(A1_A2))
           
           );
 
@@ -82,8 +82,9 @@ public class S1_A1_A2 extends PathPlannerAuto {
 
       event("atA2").and(intakeSubsystem.noteTriggered).onTrue(
         Commands.sequence(
+          robotContainer.retractIntakePassToPB(),
           robotContainer.scoreSpeaker(160)
-        
+      
         )
       );
 

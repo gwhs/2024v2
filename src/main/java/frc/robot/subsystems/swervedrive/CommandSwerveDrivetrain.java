@@ -145,18 +145,6 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         }
     }
     
-    private final SwerveRequest.ApplyChassisSpeeds AutoRequest = new SwerveRequest.ApplyChassisSpeeds();
-
-    private static CommandSwerveDrivetrain instance;
-
-    private final AprilTagCam testCam = new AprilTagCam("cam", null );
-
-    public static CommandSwerveDrivetrain getInstance() {
-        if (instance == null) {
-            instance = TunerConstants.DriveTrain;
-        }
-        configureAutoBuilder();
-    }
 
     /**
      * Constructs a CTRE SwerveDrivetrain using the specified constants.
@@ -302,33 +290,6 @@ public class CommandSwerveDrivetrain extends SwerveDrivetrain implements Subsyst
         m_simNotifier.startPeriodic(kSimLoopPeriod);
     }
 
-    public ChassisSpeeds getCurrentRobotChassisSpeeds() {
-        return m_kinematics.toChassisSpeeds(getState().ModuleStates);
-    }
-
-    private void configurePathPlanner() {
-        double driveBaseRadius = 0;
-        for (var moduleLocation : m_moduleLocations) {
-            driveBaseRadius = Math.max(driveBaseRadius, moduleLocation.getNorm());
-        }
-
-        AutoBuilder.configureHolonomic(
-            ()->this.getState().Pose, // Supplier of current robot pose
-            this::seedFieldRelative,  // Consumer for seeding pose against auto
-            this::getCurrentRobotChassisSpeeds,
-            (speeds)->this.setControl(AutoRequest.withSpeeds(speeds)), // Consumer of ChassisSpeeds to drive the robot
-            new HolonomicPathFollowerConfig(new PIDConstants(10, 0, 0),
-                                            new PIDConstants(10, 0, 0),
-                                            TunerConstants.kSpeedAt12VoltsMps,
-                                            driveBaseRadius,
-                                            new ReplanningConfig()),
-            () -> DriverStation.getAlliance().orElse(Alliance.Blue)==Alliance.Red, // Assume the path needs to be flipped for Red vs Blue, this is normally the case
-            this); // Subsystem for requirements
-    }
-
-    public void periodic(){
-       testCam.updatePoseEstim();
-    }
 
     public void addVisionMeasurent(AprilTagHelp helper){
         

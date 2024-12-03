@@ -18,8 +18,6 @@ import dev.doglog.DogLog;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
-import edu.wpi.first.math.VecBuilder;
-import edu.wpi.first.math.estimator.SwerveDrivePoseEstimator;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.numbers.N1;
@@ -93,59 +91,74 @@ public class AprilTagCam {
     
     }
 
-    public boolean filterResults(Optional<EstimatedRobotPose> poseEstim){
-        if(false){
+    
+    public boolean filterResults(Pose3d estimPose3d){
 
+        //If vision’s pose estimation is outside of the field
+        //If vision’s pose estimation is above/below the ground
+        double upperZBound = 2.0;
+        double lowerZBound = -2.0;
+        if(estimPose3d.getZ()>upperZBound||estimPose3d.getZ()<lowerZBound){ //change if we find out that z starts from camera height
+            DogLog.log(ntKey + "Filtered because Z is out of bounds: (" + upperZBound + "," + lowerZBound + ")", estimPose3d);
+            return false;
         }
+
+   
+
         return true; 
     }
 
     private Matrix<N3, N1> findSD( Optional<EstimatedRobotPose> optionalEstimPose, List<PhotonTrackedTarget> targets ){
-        if(optionalEstimPose.isEmpty()) {
-            return null;
-        }
-        else {
-            // Pose present. Start running Heuristic
-            var estStdDevs = AprilTagCamConstants.kSingleTagStdDevs;
-            int numTags = 0;
-            double avgDist = 0;
 
-            // Precalculation - see how many tags we found, and calculate an average-distance metric
-            for (var tgt : targets) {
-                var tagPose = photonEstimator.getFieldTags().getTagPose(tgt.getFiducialId());
-                if (tagPose.isEmpty()) continue;
-                numTags++;
-                avgDist +=
-                        tagPose
-                                .get()
-                                .toPose2d()
-                                .getTranslation()
-                                .getDistance(optionalEstimPose.get().estimatedPose.toPose2d().getTranslation());
-            }
+        return null;
+    //     if(optionalEstimPose.isEmpty()) {
+    //         return null;
+    //     }
+    //     else {
+    //         // Pose present. Start running Heuristic
+    //         var estStdDevs = AprilTagCamConstants.kSingleTagStdDevs;
+    //         int numTags = 0;
+    //         double avgDist = 0;
 
-            if (numTags == 0) {
-                // No tags visible. Default to single-tag std devs
-                return null;
-            } else {
-                // One or more tags visible, run the full heuristic.
-                avgDist /= numTags;
-                // Decrease std devs if multiple targets are visible
-                if (numTags > 1) estStdDevs = AprilTagCamConstants.kMultiTagStdDevs;
-                // Increase std devs based on (average) distance
-                if (numTags == 1 && avgDist > 4)
-                    estStdDevs = VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
-                else estStdDevs = estStdDevs.times(1 + (avgDist * avgDist / 30));
-                return estStdDevs;
-            }
+    //         // Precalculation - see how many tags we found, and calculate an average-distance metric
+    //         for (var tgt : targets) {
+    //             var tagPose = photonEstimator.getFieldTags().getTagPose(tgt.getFiducialId());
+    //             if (tagPose.isEmpty()) continue;
+    //             numTags++;
+    //             avgDist +=
+    //                     tagPose
+    //                             .get()
+    //                             .toPose2d()
+    //                             .getTranslation()
+    //                             .getDistance(optionalEstimPose.get().estimatedPose.toPose2d().getTranslation());
+    //         }
+
+    //         if (numTags == 0) {
+    //             // No tags visible. Default to single-tag std devs
+    //             return null;
+    //         } else {
+    //             // One or more tags visible, run the full heuristic.
+    //             avgDist /= numTags;
+    //             // Decrease std devs if multiple targets are visible
+    //             if (numTags > 1) estStdDevs = AprilTagCamConstants.kMultiTagStdDevs;
+    //             // Increase std devs based on (average) distance
+    //             if (numTags == 1 && avgDist > 4)
+    //                 estStdDevs = VecBuilder.fill(Double.MAX_VALUE, Double.MAX_VALUE, Double.MAX_VALUE);
+    //             else estStdDevs = estStdDevs.times(1 + (avgDist * avgDist / 30));
+    //             return estStdDevs;
+    //         }
       
 
         
 
-    }
+    // }
     
         
     
     }
+
+
+    
 }
 
 

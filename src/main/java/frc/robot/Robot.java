@@ -52,8 +52,8 @@ public class Robot extends TimedRobot  {
     // SignalLogger.setPath("/home/lvuser/log/");
     SignalLogger.start();
 
-    DataLogManager.start();
-    DriverStation.startDataLog(DataLogManager.getLog());
+    // DataLogManager.start();
+    // DriverStation.startDataLog(DataLogManager.getLog());
 
     UtilMath.overhand.put(1.33, 236d); //S2
     UtilMath.overhand.put(1.79, 240.5);

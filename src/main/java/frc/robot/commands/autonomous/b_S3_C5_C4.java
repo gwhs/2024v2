@@ -61,7 +61,6 @@ public class b_S3_C5_C4 extends PathPlannerAuto {
         Commands.sequence(
           robotContainer.retractIntakePassToPB(),
           robotContainer.scoreSpeaker(236),
-          AutoBuilder.resetOdom(nextPose),         
           AutoBuilder.followPath(A2A3).alongWith(robotContainer.deployIntake())
           ).withName("at A2 with note"));
           
@@ -74,24 +73,28 @@ public class b_S3_C5_C4 extends PathPlannerAuto {
 
         event("atC5").and(intakeSubsystem.noteTriggered).onTrue(
           Commands.sequence(
-            robotContainer.scoreSpeaker(160)));
+            robotContainer.scoreSpeaker(160))
+            .withName("at C5 score w/ note"));
   
         /* Branch: Robot at C5 and failed to intake note*/
         event("atC5").and(intakeSubsystem.noteTriggered.negate()).onTrue(
           Commands.sequence(
-            AutoBuilder.followPath(C5C4)));
+            AutoBuilder.followPath(C5C4)
+            ).withName("at C5 w/o note"));
   
         /* Branch: Robot at C4 and successfully intake note*/
         event("atC4").and(intakeSubsystem.noteTriggered).onTrue(
           Commands.sequence(
             AutoBuilder.followPath(C4S3).alongWith(robotContainer.retractIntakePassToPB()),
             robotContainer.scoreSpeaker(160),
-            AutoBuilder.followPath(S3C4)));
+            AutoBuilder.followPath(S3C4))
+            .withName("at C4 w/ note"));
   
         /* Branch: Robot at C4 and failed to intake note*/
         event("atC4").and(intakeSubsystem.noteTriggered.negate()).onTrue(
           Commands.sequence(
-            robotContainer.retractIntake()));
+            robotContainer.retractIntake())
+            .withName("at C4 w/o note"));
     } 
 
     catch (Exception e) {

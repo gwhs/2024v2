@@ -60,48 +60,38 @@ public class b_S3_C5_C4 extends PathPlannerAuto {
       event("atA2").onTrue(
         Commands.sequence(
           robotContainer.retractIntakePassToPB(),
-          robotContainer.scoreSpeaker(236)
-          .withName("at A2 with note"),
+          robotContainer.scoreSpeaker(236),
           AutoBuilder.resetOdom(nextPose),         
           AutoBuilder.followPath(A2A3).alongWith(robotContainer.deployIntake())
-          ));
+          ).withName("at A2 with note"));
           
       event("atA3").onTrue(
         Commands.sequence(
           robotContainer.retractIntake(),
-          robotContainer.scoreSpeaker(236)
-          .withName("at A3 with note"), 
+          robotContainer.scoreSpeaker(236),
           AutoBuilder.followPath(A3C5).alongWith(robotContainer.deployIntake())
-        ));
+        ).withName("at A3 with note"));
 
         event("atC5").and(intakeSubsystem.noteTriggered).onTrue(
           Commands.sequence(
-            robotContainer.scoreSpeaker(160)
-          )
-        );
+            robotContainer.scoreSpeaker(160)));
   
         /* Branch: Robot at C5 and failed to intake note*/
         event("atC5").and(intakeSubsystem.noteTriggered.negate()).onTrue(
           Commands.sequence(
-            AutoBuilder.followPath(C5C4)
-          )
-        );
+            AutoBuilder.followPath(C5C4)));
   
         /* Branch: Robot at C4 and successfully intake note*/
         event("atC4").and(intakeSubsystem.noteTriggered).onTrue(
           Commands.sequence(
             AutoBuilder.followPath(C4S3).alongWith(robotContainer.retractIntakePassToPB()),
             robotContainer.scoreSpeaker(160),
-            AutoBuilder.followPath(S3C4)
-          )
-        );
+            AutoBuilder.followPath(S3C4)));
   
         /* Branch: Robot at C4 and failed to intake note*/
         event("atC4").and(intakeSubsystem.noteTriggered.negate()).onTrue(
           Commands.sequence(
-            robotContainer.retractIntake()
-          )
-        );
+            robotContainer.retractIntake()));
     } 
 
     catch (Exception e) {

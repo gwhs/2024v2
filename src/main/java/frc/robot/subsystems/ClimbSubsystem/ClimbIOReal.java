@@ -52,7 +52,7 @@ public class ClimbIOReal implements ClimbIO {
     m_leftClimbMotor.setControl(m_requestLeft.withPosition(position));
   }
   public void setPositionRight(double position) {
-    m_leftClimbMotor.setControl(m_requestRight.withPosition(position));
+    m_rightClimbMotor.setControl(m_requestRight.withPosition(position));
   }
 
   public double getRightMotorPosition() {

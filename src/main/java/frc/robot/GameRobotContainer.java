@@ -78,7 +78,7 @@ public class GameRobotContainer implements BaseContainer {
     testingLayout.add(retractIntake());
     testingLayout.add(retractIntakePassToPB());
     testingLayout.add(scoreSpeaker(160));
-    testingLayout.add(scoreSpeaker(230));
+    // testingLayout.add(scoreSpeaker(230));
     testingLayout.add(scoreAmp());
     testingLayout.add(sourceIntake());
     testingLayout.add(prepClimb());
@@ -110,7 +110,7 @@ public class GameRobotContainer implements BaseContainer {
     (driverController.b().and(m_IntakeSubsystem.isDeployed)).debounce(0.1).onTrue(retractIntake());
     (driverController.b().and(m_IntakeSubsystem.isDeployed.negate())).debounce(0.1).onTrue(deployIntake());
 
-    teleopEnabled.and(m_IntakeSubsystem.noteTriggered).onTrue(retractIntakePassToPB());
+   // teleopEnabled.and(m_IntakeSubsystem.noteTriggered).onTrue(retractIntakePassToPB());
 
     /* Operator Controllers */
 

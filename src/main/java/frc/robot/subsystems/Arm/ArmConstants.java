@@ -22,4 +22,5 @@ public class ArmConstants {
    public static final double ARM_ANGLE_CLIMB = 255;
    public static final double ARM_ANGLE_TRAP = 275;
    public static final double ARM_ANGLE_FLAP = 330;
+   public static final double ARM_ANGLE_SPEAKER = 160;
 }

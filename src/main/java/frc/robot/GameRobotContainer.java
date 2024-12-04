@@ -55,7 +55,7 @@ public class GameRobotContainer implements BaseContainer {
   private final RobotVisualizer robotVisualizer;
 
   public GameRobotContainer() {
-    DogLog.setOptions(new DogLogOptions().withNtPublish(true));
+    DogLog.setOptions(new DogLogOptions().withNtPublish(true).withCaptureNt(true).withCaptureDs(true));
     DogLog.setPdh(new PowerDistribution());
 
     drivetrain.setDefaultCommand(drive);

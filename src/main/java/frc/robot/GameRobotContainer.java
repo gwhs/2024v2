@@ -3,6 +3,7 @@ package frc.robot;
 import static edu.wpi.first.units.Units.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.PowerDistribution;
 import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
@@ -29,6 +30,9 @@ import frc.robot.subsystems.swervedrive.CommandSwerveDrivetrain;
 import java.util.Collections;
 import java.util.Map;
 
+import dev.doglog.DogLog;
+import dev.doglog.DogLogOptions;
+
 public class GameRobotContainer implements BaseContainer {
 
   private final CommandXboxController driverController = new CommandXboxController(0);
@@ -51,6 +55,9 @@ public class GameRobotContainer implements BaseContainer {
   private final RobotVisualizer robotVisualizer;
 
   public GameRobotContainer() {
+    DogLog.setOptions(new DogLogOptions().withNtPublish(true).withCaptureNt(true).withCaptureDs(true));
+    DogLog.setPdh(new PowerDistribution());
+
     drivetrain.setDefaultCommand(drive);
     configureBindings();
     configureAutonomous();
@@ -70,8 +77,8 @@ public class GameRobotContainer implements BaseContainer {
     testingLayout.add(deployIntake());
     testingLayout.add(retractIntake());
     testingLayout.add(retractIntakePassToPB());
-    // testingLayout.add(scoreSpeaker(160));
-    testingLayout.add(scoreSpeaker(230));
+    testingLayout.add(scoreSpeaker(160));
+    // testingLayout.add(scoreSpeaker(230));
     testingLayout.add(scoreAmp());
     testingLayout.add(sourceIntake());
     testingLayout.add(prepClimb());
@@ -118,13 +125,14 @@ public class GameRobotContainer implements BaseContainer {
     autoChooser.addOption("S2-Leave", new S1Leave(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
     autoChooser.addOption("S3-C5", new S3_C5(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
     autoChooser.addOption("S3-C5-C4", new S3_C5_C4(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
-    autoChooser.addOption("S3-C5-C4_optimized", new S3_C5_C4_optimized(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
-    
-    //TODO: add more autonomous routines
+    autoChooser.addOption("S3-C5-C4_optimized",
+        new S3_C5_C4_optimized(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
+
+    // TODO: add more autonomous routines
 
     SmartDashboard.putData("autonomous", autoChooser);
   }
-  
+
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
    *
@@ -169,17 +177,18 @@ public class GameRobotContainer implements BaseContainer {
 
   public Command scoreSpeaker(double armAngle) {
     return Commands.sequence(
-      Commands.parallel(
-      m_ArmSubsystem.spinArm(160),
-      m_PizzaBoxSubsystem.speedyArm_Command(() -> 1.0)),
-      m_PizzaBoxSubsystem.setKicker(),
-      Commands.waitSeconds(0.4),
-      m_PizzaBoxSubsystem.stopMotor(),
-      m_PizzaBoxSubsystem.stopKicker(),
-      m_ArmSubsystem.spinArm(90)
-    )
-    .withName("Score Speaker @ " + armAngle);
-    
+        m_ArmSubsystem.spinArm(armAngle)
+            .deadlineFor(m_PizzaBoxSubsystem.speedyArm_Command(() -> m_ArmSubsystem.getArmAngle())).withTimeout(2),
+        m_PizzaBoxSubsystem.spit_command(1),
+        Commands.waitUntil(() -> m_PizzaBoxSubsystem.getVelocity() >= 80).withTimeout(2),
+        m_PizzaBoxSubsystem.setKicker()
+            .alongWith(Commands.defer(
+                () -> NoteSimulator.launchNote(10, drivetrain.getState().Speeds, drivetrain.getState().Pose, armAngle),
+                Collections.emptySet())),
+        Commands.waitSeconds(0.5),
+        m_PizzaBoxSubsystem.stopKicker(),
+        m_ArmSubsystem.spinArm(90).alongWith(m_PizzaBoxSubsystem.stopMotor()).withTimeout(0))
+        .withName("Score Speaker at " + armAngle);
   }
 
   public Command scoreAmp() {
@@ -196,7 +205,8 @@ public class GameRobotContainer implements BaseContainer {
 
   public Command prepClimb() {
     return Commands.sequence(
-        m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_FLAP).alongWith(Commands.waitUntil(()->m_ArmSubsystem.getArmAngle() >= 200).andThen(m_ClimbSubsystem.motorHalfWay())),
+        m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_FLAP).alongWith(
+            Commands.waitUntil(() -> m_ArmSubsystem.getArmAngle() >= 200).andThen(m_ClimbSubsystem.motorHalfWay())),
         m_PizzaBoxSubsystem.setFlap(),
         Commands.waitSeconds(0.5),
         m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_CLIMB),
@@ -216,22 +226,21 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command unclimbPartOne() {
-  
+
     return Commands.sequence(
-      m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_CLIMB),
-      m_ClimbSubsystem.motorUp()
-    )
+        m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_CLIMB),
+        m_ClimbSubsystem.motorUp())
         .withName("Unclimb Part One");
   }
 
   public Command unclimbPartTwo() {
     return Commands.sequence(
-      m_ClimbSubsystem.motorDown().withTimeout(3),
-      m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_FLAP),
-      m_PizzaBoxSubsystem.stopFlap(),
-      Commands.waitSeconds(1),
-      m_ArmSubsystem.spinArm(90),
-      m_ReactionSubsystem.retractReactionBar())
+        m_ClimbSubsystem.motorDown().withTimeout(3),
+        m_ArmSubsystem.spinArm(ArmConstants.ARM_ANGLE_FLAP),
+        m_PizzaBoxSubsystem.stopFlap(),
+        Commands.waitSeconds(1),
+        m_ArmSubsystem.spinArm(90),
+        m_ReactionSubsystem.retractReactionBar())
         .withName("Unclimb Part Two");
   }
 }

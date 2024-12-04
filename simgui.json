@@ -24,6 +24,7 @@
       "/Shuffleboard/Testing/Intake Commands/Intake: retract intake": "Command",
       "/Shuffleboard/Testing/IntakeSubsystem": "Subsystem",
       "/Shuffleboard/Testing/PizzaBox Commands/!GAS GAS GAS": "Command",
+      "/Shuffleboard/Testing/PizzaBox Commands/RunCommand": "Command",
       "/Shuffleboard/Testing/PizzaBox Commands/SET FLAP": "Command",
       "/Shuffleboard/Testing/PizzaBox Commands/SET KICKER": "Command",
       "/Shuffleboard/Testing/PizzaBox Commands/STOP FLAP": "Command",
@@ -61,7 +62,9 @@
       "/SmartDashboard/Module 2": "Mechanism2d",
       "/SmartDashboard/Module 3": "Mechanism2d",
       "/SmartDashboard/RightPIDController": "ProfiledPIDController",
-      "/SmartDashboard/Robot Visualizer/panel": "Mechanism2d"
+      "/SmartDashboard/Robot Visualizer/panel": "Mechanism2d",
+      "/SmartDashboard/Simulation/Note Sensor": "Command",
+      "/SmartDashboard/autonomous": "String Chooser"
     },
     "windows": {
       "/Shuffleboard/GameTab/Field": {

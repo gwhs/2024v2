@@ -38,14 +38,14 @@ public class S1_A1 extends PathPlannerAuto {
           AutoBuilder.resetOdom(startingPose),
           robotContainer.scoreSpeaker(236),
           AutoBuilder.followPath(S1A1).alongWith(robotContainer.deployIntake())
-          ));
+          ).withName("S1-A1: Score preload and follow S1A1"));
 
       /* TODO: event marker "atA1" */
       event("atA1").and(intakeSubsystem.noteTriggered).onTrue(
         Commands.sequence(
           robotContainer.retractIntakePassToPB(),
           robotContainer.scoreSpeaker(236)
-        )
+        ).withName("At A1 with note")
       );
 
       event("atA1").and(intakeSubsystem.noteTriggered.negate()).onTrue(

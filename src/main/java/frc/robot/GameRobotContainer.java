@@ -51,7 +51,7 @@ public class GameRobotContainer implements BaseContainer {
   private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController, drivetrain);
   private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12Volts.in(MetersPerSecond));
 
-  private final AprilTagCam testCam = new AprilTagCam("cam", null );
+  private final AprilTagCam testCam = new AprilTagCam("cam", drivetrain::addVisionMeasurent );
 
   public final Trigger teleopEnabled = new Trigger(() -> DriverStation.isTeleopEnabled());
 
@@ -148,6 +148,8 @@ public class GameRobotContainer implements BaseContainer {
   public void periodic() {
     robotVisualizer.update();
     NoteSimulator.update(drivetrain.getState().Pose, m_ArmSubsystem.getArmAngle());
+
+    testCam.updatePoseEstim(); 
   }
 
   public Command deployIntake() {

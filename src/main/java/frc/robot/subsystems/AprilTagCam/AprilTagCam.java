@@ -95,6 +95,13 @@ public class AprilTagCam {
     public boolean filterResults(Pose3d estimPose3d){
 
         //If vision’s pose estimation is outside of the field
+
+
+        // if(estimPose3d.getX()>upperZBound||estimPose3d.getZ()<lowerZBound){ //change if we find out that z starts from camera height
+        //     DogLog.log(ntKey + "Filtered because Z is out of bounds: (" + upperZBound + "," + lowerZBound + ")", estimPose3d);
+        //     return false;
+        // }
+
         //If vision’s pose estimation is above/below the ground
         double upperZBound = 2.0;
         double lowerZBound = -2.0;
@@ -110,7 +117,7 @@ public class AprilTagCam {
 
     private Matrix<N3, N1> findSD( Optional<EstimatedRobotPose> optionalEstimPose, List<PhotonTrackedTarget> targets ){
 
-        return null;
+        return AprilTagCamConstants.kSingleTagStdDevs;
     //     if(optionalEstimPose.isEmpty()) {
     //         return null;
     //     }

@@ -11,10 +11,6 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -47,16 +43,10 @@ public class IntakeSubsystem extends SubsystemBase {
     pidController.setGoal(IntakeConstants.UP_POSITION);
     pidController.setTolerance(2);
 
-    noteTriggered = new Trigger(() -> intakeIO.getNoteSensor()).debounce(0.01);
+    noteTriggered = new Trigger(() -> intakeIO.getNoteSensor()).debounce(0.1);
 
-    // put commands to shuffleboard for testing
-    ShuffleboardTab tab = Shuffleboard.getTab("Testing");
-    ShuffleboardLayout intakeCommandsLayout = tab.getLayout("Intake Commands", BuiltInLayouts.kList)
-        .withSize(2, 2)
-        .withProperties(Map.of("Label position", "HIDDEN"));
-
-    intakeCommandsLayout.add(deployIntake());
-    intakeCommandsLayout.add(retractIntake());
+    SmartDashboard.putData("Command Testing/Deploy Intake", deployIntake());
+    SmartDashboard.putData("Command Testing/Retract Intake", retractIntake());
   }
 
   @Override

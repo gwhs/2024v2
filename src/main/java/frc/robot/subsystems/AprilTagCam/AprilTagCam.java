@@ -7,6 +7,7 @@ package frc.robot.subsystems.AprilTagCam;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Consumer;
+import java.util.function.Supplier;
 
 import org.photonvision.EstimatedRobotPose;
 import org.photonvision.PhotonCamera;
@@ -20,6 +21,7 @@ import edu.wpi.first.apriltag.AprilTagFields;
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
+import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.numbers.N1;
 import edu.wpi.first.math.numbers.N3;
 
@@ -28,27 +30,36 @@ import edu.wpi.first.math.numbers.N3;
 public class AprilTagCam {
     AprilTagFieldLayout aprilTagFieldLayout = AprilTagFields.k2024Crescendo.loadAprilTagLayoutField();
 
-    PhotonCamera cam;
-    Consumer<AprilTagHelp> addVisionMeasurement;
+    private final PhotonCamera cam;
+    private final Consumer<AprilTagHelp> addVisionMeasurement;
     private final PhotonPoseEstimator photonEstimator;
-    AprilTagHelp helper; 
+    private final Transform3d robotToCam;
+    private final Supplier<Pose2d> currRobotPose;
+    private AprilTagHelp helper; 
 
     private final String ntKey;
 
      Optional<EstimatedRobotPose> optionalEstimPose; 
 
     // 
-    public AprilTagCam(String str, Consumer<AprilTagHelp> addVisionMeasurement){
+    public AprilTagCam(String str, Transform3d robotToCam, Consumer<AprilTagHelp> addVisionMeasurement, Supplier<Pose2d> currRobotPose){
         cam = new PhotonCamera(str);
         this.addVisionMeasurement = addVisionMeasurement;
-        photonEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PhotonPoseEstimator.PoseStrategy.AVERAGE_BEST_TARGETS, null);
+        this.robotToCam = robotToCam;
+        this.currRobotPose = currRobotPose;
+
+        photonEstimator = new PhotonPoseEstimator(aprilTagFieldLayout, PhotonPoseEstimator.PoseStrategy.AVERAGE_BEST_TARGETS, robotToCam);
         
         ntKey = "/Vision/" + str + "/";
     }   
 
     public void updatePoseEstim(){
 
-        System.out.println("Spillard  hajel ");
+        Pose2d robotPose = currRobotPose.get();
+        Pose3d robotPose3d = new Pose3d(robotPose);
+        Pose3d cameraPose3d = robotPose3d.plus(robotToCam);
+        DogLog.log(ntKey + "Camera Pose/", cameraPose3d);
+        
 
         // write an if statement that allows to find if the the list is empty or not
         // getting the unread results target pose 

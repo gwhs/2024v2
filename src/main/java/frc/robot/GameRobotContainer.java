@@ -21,6 +21,7 @@ import frc.robot.commands.swervedrive.CTRETeleopDrive;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.Arm.ArmConstants;
 import frc.robot.subsystems.AprilTagCam.AprilTagCam;
+import frc.robot.subsystems.AprilTagCam.AprilTagCamConstants;
 import frc.robot.subsystems.Arm.ArmSubsystem;
 import frc.robot.subsystems.Reaction.ReactionSubsystem;
 import frc.robot.subsystems.Intake.IntakeSubsystem;
@@ -51,7 +52,7 @@ public class GameRobotContainer implements BaseContainer {
   private final CTRETeleopDrive drive = new CTRETeleopDrive(driverController, drivetrain);
   private final Telemetry logger = new Telemetry(TunerConstants.kSpeedAt12Volts.in(MetersPerSecond));
 
-  private final AprilTagCam testCam = new AprilTagCam("cam", drivetrain::addVisionMeasurent );
+  private final AprilTagCam testCam = new AprilTagCam("cam", AprilTagCamConstants.BackLeftCamLocation, drivetrain::addVisionMeasurent, ()->drivetrain.getState().Pose);
 
   public final Trigger teleopEnabled = new Trigger(() -> DriverStation.isTeleopEnabled());
 

@@ -4,10 +4,6 @@ import static edu.wpi.first.units.Units.*;
 
 import edu.wpi.first.wpilibj.DriverStation;
 import edu.wpi.first.wpilibj.PowerDistribution;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SendableChooser;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.*;
@@ -28,7 +24,6 @@ import frc.robot.subsystems.ClimbSubsystem.ClimbSubsytem;
 import frc.robot.subsystems.swervedrive.CommandSwerveDrivetrain;
 
 import java.util.Collections;
-import java.util.Map;
 
 import dev.doglog.DogLog;
 import dev.doglog.DogLogOptions;
@@ -66,35 +61,19 @@ public class GameRobotContainer implements BaseContainer {
 
     robotVisualizer = new RobotVisualizer(m_ArmSubsystem, m_IntakeSubsystem);
 
-    /*
-     * Put composite commands to shuffleboard
-     */
-    ShuffleboardTab testingTab = Shuffleboard.getTab("Whole Robot Testing");
-    ShuffleboardLayout testingLayout = testingTab.getLayout("Commands", BuiltInLayouts.kList)
-        .withSize(2, 5)
-        .withProperties(Map.of("Label Position", "HIDDEN"));
+    SmartDashboard.putData("Robot Commands/Deploy Intake", deployIntake());
+    SmartDashboard.putData("Robot Commands/Retract Intake", retractIntake());
+    SmartDashboard.putData("Robot Commands/Retract Intake and Pass to PB", retractIntakePassToPB());
+    SmartDashboard.putData("Robot Commands/Score Speaker 160", scoreSpeaker(160));
+    SmartDashboard.putData("Robot Commands/Score Speaker 230", scoreSpeaker(230));
+    SmartDashboard.putData("Robot Commands/Score Amp", scoreAmp());
+    SmartDashboard.putData("Robot Commands/Source Intake", sourceIntake());
+    SmartDashboard.putData("Robot Commands/Prep Climb", prepClimb());
+    SmartDashboard.putData("Robot Commands/Climb and Score", climbAndScore());
+    SmartDashboard.putData("Robot Commands/Unclimb Part One", unclimbPartOne());
+    SmartDashboard.putData("Robot Commands/Unclimb Part Two", unclimbPartTwo());
 
-    testingLayout.add(deployIntake());
-    testingLayout.add(retractIntake());
-    testingLayout.add(retractIntakePassToPB());
-    testingLayout.add(scoreSpeaker(160));
-    testingLayout.add(scoreSpeaker(230));
-    testingLayout.add(scoreAmp());
-    testingLayout.add(sourceIntake());
-    testingLayout.add(prepClimb());
-    testingLayout.add(climbAndScore());
-    testingLayout.add(unclimbPartOne());
-    testingLayout.add(unclimbPartTwo());
-
-    /*
-     * Put Command Scheduler and subsystems to shuffleboard
-     */
-    testingTab.add(CommandScheduler.getInstance()).withSize(3, 2);
-    testingTab.add(m_PizzaBoxSubsystem);
-    testingTab.add(m_ReactionSubsystem);
-    testingTab.add(m_IntakeSubsystem);
-    testingTab.add(m_ArmSubsystem);
-    testingTab.add(m_ClimbSubsystem);
+    SmartDashboard.putData("Command Scheduler", CommandScheduler.getInstance());
   }
 
   private void configureBindings() {

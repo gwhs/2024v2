@@ -15,6 +15,8 @@ import org.photonvision.PhotonPoseEstimator;
 import org.photonvision.targeting.PhotonPipelineResult;
 import org.photonvision.targeting.PhotonTrackedTarget;
 
+import com.ctre.phoenix6.Utils;
+
 import dev.doglog.DogLog;
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
@@ -88,6 +90,7 @@ public class AprilTagCam {
 
             Pose2d pos = estimPose3d.toPose2d(); // yay :0 im so happy
             double timestamp = targetPose.getTimestampSeconds();
+            timestamp = Utils.fpgaToCurrentTime(timestamp);
             Matrix<N3, N1> sd = findSD(optionalEstimPose, null );
 
             helper = new AprilTagHelp(pos, timestamp, sd) ; 

@@ -64,7 +64,7 @@ public class S3_C5 extends PathPlannerAuto {
               .withName("At C5 without Note; Stay"));
 
     } catch (Exception e) {
-      DriverStation.reportError("Path Not Found: " + e.getMessage(), e.getStackTrace());
+      DriverStation.reportError ("Path Not Found: " + e.getMessage(), e.getStackTrace());
     }
   }
 }

@@ -23,25 +23,34 @@ public class S1_A1 extends PathPlannerAuto {
     /* All your code should go inside this try-catch block */
     try {
       /* TODO: Load all paths needed */
-      PathPlannerPath S3Leave = PathPlannerPath.fromPathFile("S3-C5");
+      PathPlannerPath S1_A1 = PathPlannerPath.fromPathFile("S1-A1");
+      PathPlannerPath A1_S1 = PathPlannerPath.fromPathFile("A1-S1");
 
       /* TODO: Get starting position of starting path */
       Pose2d startingPose = new Pose2d(
-        S3Leave.getPoint(0).position, 
-        S3Leave.getIdealStartingState().rotation());
+        S1_A1.getPoint(0).position, 
+        S1_A1.getIdealStartingState().rotation());
 
       /* TODO: When autonomous begins */
       isRunning().onTrue(
         Commands.sequence(
-          AutoBuilder.resetOdom(startingPose)
-          ));
-
-      /* TODO: event marker "deployIntake" */
-
+            AutoBuilder.resetOdom(startingPose),
+           robotContainer.scoreSpeaker(236),
+           AutoBuilder.followPath(S1_A1).alongWith(robotContainer.deployIntake()))
+           .withName("S1; Score Preload; S1->A1"));
+      
       /* TODO: event marker "atA1" */
+      event("atA1").onTrue(
+         Commands.sequence(
+            AutoBuilder.followPath(A1_S1).alongWith(robotContainer.retractIntakePassToPB()),
+            robotContainer.scoreSpeaker(240)
+            //AutoBuilder.followPath(S1_A1)
+            )
+            .withName("At A1 with Note; A1-> Score")
+            .withInterruptBehavior(InterruptionBehavior.kCancelIncoming));
+      
 
-
-    } 
+    }
     catch (Exception e) {
       DriverStation.reportError("Path Not Found: " + e.getMessage(), e.getStackTrace());
     }

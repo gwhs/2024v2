@@ -37,22 +37,43 @@
       "/Shuffleboard/Whole Robot Testing/PizzaBoxSubsystem": "Subsystem",
       "/Shuffleboard/Whole Robot Testing/ReactionSubsystem": "Subsystem",
       "/Shuffleboard/Whole Robot Testing/Scheduler": "Scheduler",
+      "/SmartDashboard/Command Scheduler": "Scheduler",
+      "/SmartDashboard/Command Testing/Climb Motor Down": "Command",
+      "/SmartDashboard/Command Testing/Climb Motor Up": "Command",
+      "/SmartDashboard/Command Testing/Deploy Flap": "Command",
+      "/SmartDashboard/Command Testing/Deploy Intake": "Command",
+      "/SmartDashboard/Command Testing/Extend Kicker": "Command",
+      "/SmartDashboard/Command Testing/Extend Reaction Bar": "Command",
+      "/SmartDashboard/Command Testing/Pizza box Slurp": "Command",
+      "/SmartDashboard/Command Testing/Pizza box Spit": "Command",
+      "/SmartDashboard/Command Testing/Reset Flap": "Command",
+      "/SmartDashboard/Command Testing/Reset Kicker": "Command",
+      "/SmartDashboard/Command Testing/Retract Intake": "Command",
+      "/SmartDashboard/Command Testing/Retract Reaction Bar": "Command",
+      "/SmartDashboard/Command Testing/Sping Arm 120": "Command",
+      "/SmartDashboard/Command Testing/Sping Arm 200": "Command",
+      "/SmartDashboard/Command Testing/Sping Arm 60": "Command",
+      "/SmartDashboard/Command Testing/Stop Pizza box": "Command",
       "/SmartDashboard/LeftPIDController": "ProfiledPIDController",
       "/SmartDashboard/Module 0": "Mechanism2d",
       "/SmartDashboard/Module 1": "Mechanism2d",
       "/SmartDashboard/Module 2": "Mechanism2d",
       "/SmartDashboard/Module 3": "Mechanism2d",
       "/SmartDashboard/RightPIDController": "ProfiledPIDController",
+      "/SmartDashboard/Robot Commands/Climb and Score": "Command",
+      "/SmartDashboard/Robot Commands/Deploy Intake": "Command",
+      "/SmartDashboard/Robot Commands/Prep Climb": "Command",
+      "/SmartDashboard/Robot Commands/Retract Intake": "Command",
+      "/SmartDashboard/Robot Commands/Retract Intake and Pass to PB": "Command",
+      "/SmartDashboard/Robot Commands/Score Amp": "Command",
+      "/SmartDashboard/Robot Commands/Score Speaker 160": "Command",
+      "/SmartDashboard/Robot Commands/Score Speaker 230": "Command",
+      "/SmartDashboard/Robot Commands/Source Intake": "Command",
+      "/SmartDashboard/Robot Commands/Unclimb Part One": "Command",
+      "/SmartDashboard/Robot Commands/Unclimb Part Two": "Command",
       "/SmartDashboard/Robot Visualizer/panel": "Mechanism2d",
       "/SmartDashboard/Simulation/Note Sensor": "Command",
       "/SmartDashboard/autonomous": "String Chooser"
-    },
-    "windows": {
-      "/SmartDashboard/autonomous": {
-        "window": {
-          "visible": true
-        }
-      }
     }
   },
   "NetworkTables Info": {

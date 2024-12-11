@@ -80,7 +80,7 @@ public class S1_A1_A2 extends PathPlannerAuto {
         )
       );
 
-      event("atA2").and(intakeSubsystem.noteTriggered).onTrue(
+      event("agitA2").and(intakeSubsystem.noteTriggered).onTrue(
         Commands.sequence(
           robotContainer.retractIntakePassToPB(),
           robotContainer.scoreSpeaker(160)

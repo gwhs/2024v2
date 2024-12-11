@@ -16,3 +16,4 @@ public class ReactionConstants {
     public static final double RETRACTED_POSITION = 0;
     public static final double EXTENDED_POSITION = -2.5;
 }
+

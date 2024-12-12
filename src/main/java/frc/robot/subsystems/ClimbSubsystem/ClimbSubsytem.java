@@ -15,10 +15,6 @@ import edu.wpi.first.math.controller.ProfiledPIDController;
 import edu.wpi.first.math.trajectory.TrapezoidProfile.Constraints;
 import edu.wpi.first.networktables.NetworkTableInstance;
 import edu.wpi.first.wpilibj.RobotBase;
-import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
-import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
-import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
 import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
@@ -37,16 +33,10 @@ public class ClimbSubsytem extends SubsystemBase {
 
     }
 
-    ShuffleboardTab tab = Shuffleboard.getTab("Testing");
-    ShuffleboardLayout climbCommandsLayout = tab.getLayout("TestingCommands", BuiltInLayouts.kList)
-        .withSize(2, 2)
-        .withProperties(Map.of("Label position", "HIDDEN"));
-
-    climbCommandsLayout.add(motorUp());
-    climbCommandsLayout.add(motorDown());
+    SmartDashboard.putData("Command Testing/Climb Motor Up", motorUp());
+    SmartDashboard.putData("Command Testing/Climb Motor Down", motorDown());
 
   }
-
   public boolean isMotorAtGoal(double leftMotorGoal, double rightMotorGoal) {
     return MathUtil.isNear(leftMotorGoal, climbIO.getLeftMotorPosition(), 5) && MathUtil.isNear(rightMotorGoal, climbIO.getRightMotorPosition(), 5);
   }

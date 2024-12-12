@@ -52,8 +52,8 @@ public class Robot extends TimedRobot  {
     // SignalLogger.setPath("/home/lvuser/log/");
     SignalLogger.start();
 
-    DataLogManager.start();
-    DriverStation.startDataLog(DataLogManager.getLog());
+    // DataLogManager.start();
+    // DriverStation.startDataLog(DataLogManager.getLog());
 
     UtilMath.overhand.put(1.33, 236d); //S2
     UtilMath.overhand.put(1.79, 240.5);
@@ -84,7 +84,7 @@ public class Robot extends TimedRobot  {
     CommandScheduler.getInstance().run();
 
     nt_rioCANUtilization.set(RobotController.getCANStatus().percentBusUtilization);
-    nt_canivorCANUtilization.set(CANBus.getStatus("CAN_Network").BusUtilization);
+    nt_canivorCANUtilization.set(new CANBus("CAN_Network").getStatus().BusUtilization);
 
     nt_batteryVoltage.set(RobotController.getBatteryVoltage());
 

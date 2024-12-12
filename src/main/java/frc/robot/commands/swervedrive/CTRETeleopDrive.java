@@ -4,8 +4,10 @@
 
 package frc.robot.commands.swervedrive;
 
-import com.ctre.phoenix6.mechanisms.swerve.SwerveModule.DriveRequestType;
-import com.ctre.phoenix6.mechanisms.swerve.SwerveRequest;
+import static edu.wpi.first.units.Units.*;
+
+import com.ctre.phoenix6.swerve.SwerveModule.DriveRequestType;
+import com.ctre.phoenix6.swerve.SwerveRequest;
 
 import edu.wpi.first.math.MathUtil;
 import edu.wpi.first.math.controller.PIDController;
@@ -15,17 +17,17 @@ import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
 import frc.robot.Util.UtilMath;
+import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.swervedrive.CommandSwerveDrivetrain;
-import frc.robot.subsystems.swervedrive.TunerConstants;
 
 public class CTRETeleopDrive extends Command {
   /** Creates a new CTRETeleopDrive. */
-  private double MaxSpeed = TunerConstants.kSpeedAt12VoltsMps; // kSpeedAt12VoltsMps desired top speed
+  private double MaxSpeed = TunerConstants.kSpeedAt12Volts.in(MetersPerSecond); // kSpeedAt12VoltsMps desired top speed
   private double MaxAngularRate = 3.5 * Math.PI; // 3/4 of a rotation per second max angular velocity
 
   public static final double PID_MAX = 0.35;
 
-  private CommandSwerveDrivetrain drivetrain = CommandSwerveDrivetrain.getInstance();
+  private CommandSwerveDrivetrain drivetrain;
 
   public boolean isFaceSpeaker = false;
   public boolean isBackSpeaker = false;
@@ -44,22 +46,22 @@ public class CTRETeleopDrive extends Command {
 
   private CommandXboxController driverController;
 
-  public CTRETeleopDrive(CommandXboxController driver) {
+  public CTRETeleopDrive(CommandXboxController driver, CommandSwerveDrivetrain drivetrain) {
     // Use addRequirements() here to declare subsystem dependencies.
     driverController = driver;
+    this.drivetrain = drivetrain;
 
     this.PID = new PIDController(0.02, 0, 0);
     this.PID.setTolerance(0.1);
     this.PID.enableContinuousInput(-180, 180);
-  
+
     addRequirements(drivetrain);
   }
 
   // Called when the command is initially scheduled.
   @Override
-  public void initialize() {}
-  
-
+  public void initialize() {
+  }
 
   // Called every time the scheduler runs while the command is scheduled.
   @Override
@@ -67,44 +69,43 @@ public class CTRETeleopDrive extends Command {
     double xVelocity = -driverController.getLeftY();
     double yVelocity = -driverController.getLeftX();
     double angularVelocity = -driverController.getRightX();
-    // double angularVelocity = (MathUtil.applyDeadband(driverController.getLeftTriggerAxis(), OperatorConstants.ROTATION_DEADBAND) - MathUtil.applyDeadband(driverController.getRightTriggerAxis(), OperatorConstants.ROTATION_DEADBAND));
+    // double angularVelocity =
+    // (MathUtil.applyDeadband(driverController.getLeftTriggerAxis(),
+    // OperatorConstants.ROTATION_DEADBAND) -
+    // MathUtil.applyDeadband(driverController.getRightTriggerAxis(),
+    // OperatorConstants.ROTATION_DEADBAND));
 
-    if(DriverStation.getAlliance().isPresent() && 
-       DriverStation.getAlliance().get() == DriverStation.Alliance.Red)
-    {
-      xVelocity *= -1;
-      yVelocity *= -1;
-    }
-    
+    // if (DriverStation.getAlliance().isPresent() &&
+    //     DriverStation.getAlliance().get() == DriverStation.Alliance.Red) {
+    //   xVelocity *= -1;
+    //   yVelocity *= -1;
+    // }
+
     currPose = drivetrain.getState().Pose;
     double currTheta = currPose.getRotation().getDegrees();
     SmartDashboard.putNumber("Robot Rotation", currTheta);
 
-    if (XYSlow){
-        double slowFactor = 0.25;
-        xVelocity *= slowFactor;
-        yVelocity *= slowFactor;
+    if (XYSlow) {
+      double slowFactor = 0.25;
+      xVelocity *= slowFactor;
+      yVelocity *= slowFactor;
 
     }
 
-    if(isSlow)
-    {
+    if (isSlow) {
       double slowFactor = 0.25;
       xVelocity *= slowFactor;
       yVelocity *= slowFactor;
       angularVelocity *= slowFactor;
     }
 
-    if(isFaceSpeaker)
-    {
+    if (isFaceSpeaker) {
       double ang = UtilMath.FrontSpeakerTheta(currPose);
       PID.setSetpoint(ang);
       angularVelocity = MathUtil.clamp(PID.calculate(currTheta), -PID_MAX, PID_MAX);
       SmartDashboard.putNumber("isFaceSpeaker Goal", ang);
       SmartDashboard.putNumber("isFaceSpeaker Result", angularVelocity);
-    }
-    else if(isBackSpeaker)
-    {
+    } else if (isBackSpeaker) {
       double ang = UtilMath.BackSpeakerTheta(currPose);
       PID.setSetpoint(ang);
       angularVelocity = MathUtil.clamp(PID.calculate(currTheta), -PID_MAX, PID_MAX);
@@ -119,21 +120,18 @@ public class CTRETeleopDrive extends Command {
       SmartDashboard.putNumber("faceAmp Result", angularVelocity);
     }
 
-    if (faceSpeaker)
-    {
+    if (faceSpeaker) {
       double result = 0;
-      if(DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue){
+      if (DriverStation.getAlliance().isPresent() && DriverStation.getAlliance().get() == DriverStation.Alliance.Blue) {
         PID.setSetpoint(-180);
-      }
-      else{
+      } else {
         PID.setSetpoint(0);
       }
       result = MathUtil.clamp(PID.calculate(currTheta), -PID_MAX, PID_MAX);
       angularVelocity += result;
     }
 
-    if(isHeadingLock)
-    {
+    if (isHeadingLock) {
       double theta = UtilMath.SourceIntakeHeading(currPose);
       PID.setSetpoint(theta);
 
@@ -145,20 +143,21 @@ public class CTRETeleopDrive extends Command {
 
     xVelocity = xVelocity * MaxSpeed;
     yVelocity = yVelocity * MaxSpeed;
-    angularVelocity = angularVelocity  * MaxAngularRate;
-    
+    angularVelocity = angularVelocity * MaxAngularRate;
+
     SmartDashboard.putNumber("xVelocity", xVelocity);
     SmartDashboard.putNumber("yVelocity", yVelocity);
     SmartDashboard.putNumber("angularVelocity", angularVelocity);
 
     drivetrain.setControl(drive.withVelocityX(xVelocity) // Drive forward with negative Y (forward)
-             .withVelocityY(yVelocity) // Drive left with negative X (left)
-             .withRotationalRate(angularVelocity)); // Drive counterclockwise with negative X (left)
+        .withVelocityY(yVelocity) // Drive left with negative X (left)
+        .withRotationalRate(angularVelocity)); // Drive counterclockwise with negative X (left)
   }
 
   // Called once the command ends or is interrupted.
   @Override
-  public void end(boolean interrupted) {}
+  public void end(boolean interrupted) {
+  }
 
   // Returns true when the command should end.
   @Override

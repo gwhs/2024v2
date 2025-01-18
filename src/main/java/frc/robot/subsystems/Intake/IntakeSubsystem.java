@@ -15,7 +15,6 @@ import edu.wpi.first.wpilibj.shuffleboard.BuiltInLayouts;
 import edu.wpi.first.wpilibj.shuffleboard.Shuffleboard;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardLayout;
 import edu.wpi.first.wpilibj.shuffleboard.ShuffleboardTab;
-import edu.wpi.first.wpilibj.smartdashboard.SmartDashboard;
 import edu.wpi.first.wpilibj2.command.Command;
 import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
@@ -46,7 +45,7 @@ public class IntakeSubsystem extends SubsystemBase {
     pidController.setGoal(IntakeConstants.UP_POSITION);
     pidController.setTolerance(2);
 
-    noteTriggered = new Trigger(() -> intakeIO.getNoteSensor()).debounce(0.01);
+    noteTriggered = new Trigger(() -> intakeIO.getNoteSensor()).debounce(0.05);
 
     // put commands to shuffleboard for testing
     ShuffleboardTab tab = Shuffleboard.getTab("Testing");

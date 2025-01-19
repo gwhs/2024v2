@@ -77,25 +77,40 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   private void configureBindings() {
-    /* Reset Robot */
+    // Reset Robot
     teleopEnabled.onTrue(retractIntake());
 
     /* Driver Controller */
     driverController.start().onTrue(Commands.runOnce(drivetrain::seedFieldCentric));
-    driverController.a()
-        .onTrue(deployIntake())
-        .onFalse(retractIntake());
+    // driverController.a()
+    //     .onTrue(deployIntake())
+    //     .onFalse(retractIntake());
 
-    (driverController.b().and(m_IntakeSubsystem.isDeployed)).debounce(0.1).onTrue(retractIntake());
-    (driverController.b().and(m_IntakeSubsystem.isDeployed.negate())).debounce(0.1).onTrue(deployIntake());
+    // (driverController.b().and(m_IntakeSubsystem.isDeployed)).debounce(0.1).onTrue(retractIntake());
+    // (driverController.b().and(m_IntakeSubsystem.isDeployed.negate())).debounce(0.1).onTrue(deployIntake());
 
-    teleopEnabled.and(m_IntakeSubsystem.noteTriggered).onTrue(retractIntakePassToPB());
+    //m_IntakeSubsystem.noteTriggered.onTrue(retractIntakePassToPB());
 
-    /* Operator Controllers */
+    driverController.a().whileTrue(Commands.startEnd(
+      () -> drive.faceAmp = true,
+      () -> drive.faceAmp = false).withName("Face Amp"));
 
-    /* Other Triggers */
+    driverController.a().and(driverController.rightTrigger()).onTrue(scoreAmp()).onFalse(resetArm());
+    driverController.y().whileTrue(Commands.startEnd(
+        () -> drive.faceSpeaker = true,
+        () -> drive.faceSpeaker = false).withName("Face Speaker"));
 
-  }
+    driverController.y().and(driverController.rightTrigger()).onTrue(scoreSpeaker(160)).onFalse(resetArm());
+
+  
+  //source intake
+    driverController.x().whileTrue(Commands.startEnd(
+      () -> drive.isHeadingLock = true,
+      () -> drive.isHeadingLock = false).withName("Source Intake"));
+
+    driverController.x().and(driverController.rightTrigger()).onTrue(sourceIntake()).onFalse(resetArm());
+   }
+   
 
   private void configureAutonomous() {
     autoChooser.setDefaultOption("S3-Leave", new S3Leave(this, m_ArmSubsystem, m_IntakeSubsystem, m_PizzaBoxSubsystem));
@@ -114,9 +129,9 @@ public class GameRobotContainer implements BaseContainer {
 
   /**
    * Use this to pass the autonomous command to the main {@link Robot} class.
-   *
+   * 
    * @return the command to run in autonomous
-   */
+   **/
   public Command getAutonomousCommand() {
     return autoChooser.getSelected();
   }
@@ -131,7 +146,12 @@ public class GameRobotContainer implements BaseContainer {
     return m_IntakeSubsystem.deployIntake()
         .withName("Deploy Intake");
   }
-
+  public Command resetArm() {
+    return Commands.parallel(
+      m_ArmSubsystem.spinArm(90),
+      m_PizzaBoxSubsystem.spit_command(0).andThen(m_PizzaBoxSubsystem.stopKicker())
+    .withName("Reset Arm"));
+  }
   public Command retractIntake() {
     return m_IntakeSubsystem.retractIntake()
         .withName("Retract Intake");
@@ -171,14 +191,20 @@ public class GameRobotContainer implements BaseContainer {
   }
 
   public Command scoreAmp() {
-    // TODO
-    return Commands.none()
-        .withName("Score Amp");
+    return Commands.sequence(
+        m_ArmSubsystem.spinArm(ArmConstants.AMP_ANGLE),
+        m_PizzaBoxSubsystem.spit_command(1),
+        m_PizzaBoxSubsystem.setKicker(),
+        Commands.waitSeconds(0.5),
+        m_PizzaBoxSubsystem.stopKicker(),
+        m_PizzaBoxSubsystem.stopMotor(),
+        m_ArmSubsystem.spinArm(90))
+        .withName("scoreAmp");
   }
 
   public Command sourceIntake() {
-    // TODO
-    return Commands.none()
+    return Commands.sequence(
+        m_ArmSubsystem.spinArm(160)).alongWith(m_PizzaBoxSubsystem.slurp_command(0.5))
         .withName("Source Intake");
   }
 

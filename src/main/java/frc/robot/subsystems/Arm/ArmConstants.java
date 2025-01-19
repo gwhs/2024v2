@@ -18,6 +18,7 @@ public class ArmConstants {
    public static final double ARM_kA = 0;
 
    public static final double INTAKE_ANGLE = 63;
+   public static final double AMP_ANGLE = 305;
 
    public static final double ARM_ANGLE_CLIMB = 255;
    public static final double ARM_ANGLE_TRAP = 275;

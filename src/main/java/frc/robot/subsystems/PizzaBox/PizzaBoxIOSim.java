@@ -29,7 +29,7 @@ public class PizzaBoxIOSim implements PizzaBoxIO {
   }
 
   public boolean atMotorSpeed(double speed) {
-    if (motor.getAngularVelocityRadPerSec() == speed) {
+    if (motor.getAngularVelocityRadPerSec() >= speed) {
       return true;
     } else {
       return false;
@@ -52,5 +52,7 @@ public class PizzaBoxIOSim implements PizzaBoxIO {
     motor.update(.020);
 
   }
+
+  
 
 }

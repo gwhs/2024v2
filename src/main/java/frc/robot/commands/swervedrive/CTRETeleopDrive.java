@@ -32,7 +32,7 @@ public class CTRETeleopDrive extends Command {
   public boolean isFaceSpeaker = false;
   public boolean isBackSpeaker = false;
   public boolean faceAmp = false;
-  public boolean isSlow = false;
+  public boolean isSlow = true;
   public boolean isHeadingLock = false;
   public boolean faceSpeaker = false;
   public boolean XYSlow = false;

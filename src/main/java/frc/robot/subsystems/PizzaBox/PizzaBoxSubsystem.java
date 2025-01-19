@@ -94,7 +94,7 @@ public class PizzaBoxSubsystem extends SubsystemBase {
   }
 
   public double getVelocity() {
-    return pizzaBoxIO.motorSpeed();
+    return pizzaBoxIO.getMotorSpeed();
   }
 
   @Override

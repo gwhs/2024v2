@@ -44,13 +44,14 @@ public class PizzaBoxIOSim implements PizzaBoxIO {
     return kicker.getPosition();
   }
 
-  public double motorSpeed() {
-    return motor.getAngularVelocity().in(RotationsPerSecond);
-  }
-
   public void update() {
     motor.update(.020);
 
+  }
+
+  @Override
+  public double getMotorSpeed() {
+    return motor.getAngularVelocity().in(RotationsPerSecond);
   }
 
   
